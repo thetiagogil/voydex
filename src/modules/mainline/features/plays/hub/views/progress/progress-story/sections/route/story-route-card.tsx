@@ -20,8 +20,8 @@ import {
   type StoryRouteEntry,
 } from "../../data/story-route-model";
 import {
-  foldEarlierChapters,
-  getEarlierChapterIds,
+  foldChapters,
+  getCurrentChapterKey,
   type StoryRouteItem,
 } from "../../data/story-route-chapters";
 import type { StoryMilestone, StoryScope } from "../../types";
@@ -52,8 +52,8 @@ const isItemDone = (item: StoryRouteItem) =>
 /*
  * Story as one route in one card (#108, #199): every chapter in order down
  * one line, the places on the way to each milestone between them, side
- * content as optional stops where it sits (`buildStoryRoute`). The chapters
- * before the one you're in fold into their signs, which open them again. Milestones recorded together cascade: each stop waits as it
+ * content as optional stops where it sits (`buildStoryRoute`). Every chapter
+ * folds into its sign; only the one you're in starts open. Milestones recorded together cascade: each stop waits as it
  * was, then its marker stamps down, one after another in Story order; one
  * un-recorded pops back to its number.
  */
@@ -115,60 +115,53 @@ export const StoryRouteCard = ({
     [scope, waitingMilestoneIds],
   );
   /* The chapters before the one you're in fold into their signs. */
-  const earlier = useMemo(() => getEarlierChapterIds(scope), [scope]);
-  /* The earlier chapters opened again. */
-  const [unfolded, setUnfolded] = useState<ReadonlySet<number>>(new Set());
-  /* The chapter of what's open in the detail never folds away under it. */
-  const selectedSectionId = useMemo(() => {
+  /*
+   * Every chapter folds from its sign. The one you're in starts open and
+   * the rest folded; a chapter you open or fold stays as you left it.
+   */
+  const currentChapterKey = getCurrentChapterKey(scope);
+  const [chapterOpen, setChapterOpen] = useState<ReadonlyMap<string, boolean>>(
+    new Map(),
+  );
+  const isChapterOpen = (signKey: string) =>
+    chapterOpen.get(signKey) ?? signKey === currentChapterKey;
+
+  const toggleChapter = (signKey: string) =>
+    setChapterOpen((current) =>
+      new Map(current).set(signKey, !isChapterOpen(signKey)),
+    );
+
+  /* Picking a milestone (from a stamp, say) opens its chapter. */
+  const [seenSelectedKey, setSeenSelectedKey] = useState(selectedKey);
+
+  if (selectedKey !== seenSelectedKey) {
+    setSeenSelectedKey(selectedKey);
+
     const milestoneId = Number(
       /^(?:stop|place)-(\d+)/.exec(selectedKey ?? "")?.[1],
     );
-
-    return (
-      scope.sections.find((section) =>
-        section.milestones.some((milestone) => milestone.id === milestoneId),
-      )?.id ?? null
+    const section = scope.sections.find((candidate) =>
+      candidate.milestones.some((milestone) => milestone.id === milestoneId),
     );
-  }, [scope, selectedKey]);
-  const open = useMemo(
-    () =>
-      selectedSectionId === null
-        ? unfolded
-        : new Set([...unfolded, selectedSectionId]),
-    [selectedSectionId, unfolded],
-  );
 
-  const toggleChapter = (sectionId: number) =>
-    setUnfolded((current) => {
-      const next = new Set(current);
-
-      if (!next.delete(sectionId)) {
-        next.add(sectionId);
-      }
-
-      return next;
-    });
+    if (section && !isChapterOpen(`sign-${section.id}`)) {
+      setChapterOpen((current) =>
+        new Map(current).set(`sign-${section.id}`, true),
+      );
+    }
+  }
 
   const renderEntry = (item: StoryRouteItem) => {
     if (item.kind === "chapter" || item.kind === "sign") {
       const sign = item.kind === "chapter" ? item.sign : item;
-      const sectionId = sign.sectionId;
 
       return (
         <StoryRouteSign
           count={sign.count}
-          expanded={
-            sectionId !== null && earlier.has(sectionId)
-              ? item.kind === "sign"
-              : undefined
-          }
+          expanded={item.kind === "sign"}
           finished={sign.finished}
           name={sign.name}
-          onToggle={
-            sectionId !== null && earlier.has(sectionId)
-              ? () => toggleChapter(sectionId)
-              : undefined
-          }
+          onToggle={() => toggleChapter(sign.key)}
         />
       );
     }
@@ -313,13 +306,13 @@ export const StoryRouteCard = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [blocks, open]);
+  }, [blocks, chapterOpen, currentChapterKey]);
 
   const route = (entries: StoryRouteEntry[], label: string, key: string) => (
     <div key={key} data-route-key={key}>
       <StoryRoute
         label={label}
-        items={foldEarlierChapters(entries, earlier, open)}
+        items={foldChapters(entries, isChapterOpen)}
         getKey={(item) => item.key}
         isQuiet={(item) => item.optional}
         isTravelled={(item, next) => isItemDone(item) && isItemDone(next)}

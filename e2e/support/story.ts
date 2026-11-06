@@ -8,3 +8,14 @@ export const storyDetail = (page: Page, name: string) =>
   page
     .getByRole("dialog", { name })
     .or(page.getByRole("region", { exact: true, name }));
+
+/* Opens every folded chapter on the Story route, so any stop can be reached. */
+export const openAllChapters = async (page: Page) => {
+  const folded = page.locator('button[aria-expanded="false"]', {
+    hasText: /Show\s*$/,
+  });
+
+  while ((await folded.count()) > 0) {
+    await folded.first().click();
+  }
+};

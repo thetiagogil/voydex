@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openAllChapters } from "../support/story";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -15,6 +16,7 @@ test.describe("Battle forms", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
+    await openAllChapters(page);
     /* The stop, not the stamp (whose name goes on with a comma). */
     await page.getByRole("button", { name: /^Champion Steven(?!,)/ }).click();
     /* The panel beside the route (the sheet on a phone) holds the report. */

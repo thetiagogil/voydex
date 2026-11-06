@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openAllChapters } from "../support/story";
 import { forTheAnswer } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -15,6 +16,7 @@ const openBattle = async (
   await page.goto(`/mainline/plays/${playId}/progress/story`, {
     waitUntil: "networkidle",
   });
+  await openAllChapters(page);
   const stopButton = page.getByRole("button", { name: stop }).first();
   await expect(stopButton).toBeVisible(forTheAnswer);
   await stopButton.click();
@@ -118,6 +120,7 @@ test.describe("Story battles", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
+    await openAllChapters(page);
 
     /* Ranks Y to V come before Mega Evolution, F to B after it, A in the Finale. */
     const route = page.getByRole("region", { name: "Main game route" });

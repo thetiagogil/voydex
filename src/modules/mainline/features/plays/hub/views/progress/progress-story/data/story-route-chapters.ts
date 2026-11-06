@@ -3,7 +3,7 @@ import type { StoryRouteEntry } from "./story-route-model";
 
 type StoryRouteSignEntry = Extract<StoryRouteEntry, { kind: "sign" }>;
 
-/* A chapter behind you, folded into its sign until you open it again. */
+/* A chapter folded into its sign until you open it again. */
 export type StoryRouteChapterFold = {
   key: string;
   kind: "chapter";
@@ -14,65 +14,36 @@ export type StoryRouteChapterFold = {
 export type StoryRouteItem = StoryRouteEntry | StoryRouteChapterFold;
 
 /*
- * The chapters before the one you're in (#199): the one holding your next
- * objective, with chapters played in any order counting as one step, so a
- * path beside yours is never behind you. None once the Story has no next
- * objective.
+ * The chapter you're in (#199): the one holding your next objective, by its
+ * sign's key; null once the Story has no next objective.
  */
-export const getEarlierChapterIds = (scope: StoryScope): Set<number> => {
+export const getCurrentChapterKey = (scope: StoryScope): string | null => {
   const nextId = scope.nextMilestone?.id;
-  const story = scope.sections.filter(
-    (section) => section.chapterKind !== "side-content",
-  );
-  const steps = new Map<number, number>();
-  let step = 0;
-
-  story.forEach((section, index) => {
-    const previous = story[index - 1];
-
-    if (index > 0 && !(section.playsInAnyOrder && previous?.playsInAnyOrder)) {
-      step += 1;
-    }
-
-    steps.set(section.id, step);
-  });
-
-  const current = story.find((section) =>
-    section.milestones.some((milestone) => milestone.id === nextId),
+  const current = scope.sections.find(
+    (section) =>
+      section.chapterKind !== "side-content" &&
+      section.milestones.some((milestone) => milestone.id === nextId),
   );
 
-  if (!current) {
-    return new Set();
-  }
-
-  const currentStep = steps.get(current.id) ?? 0;
-
-  return new Set(
-    story
-      .filter((section) => (steps.get(section.id) ?? 0) < currentStep)
-      .map((section) => section.id),
-  );
+  return current ? `sign-${current.id}` : null;
 };
 
 /*
- * A route with each earlier chapter folded into its sign: the chapter's
- * milestones and the places on the way to them stay out of sight until it
- * is in `open`.
+ * A route with each folded chapter folded into its sign: its milestones and
+ * the places on the way to them stay out of sight until it opens. Any
+ * chapter folds and opens from its sign; whether one is open is
+ * `isOpen(its sign's key)`.
  */
-export const foldEarlierChapters = (
+export const foldChapters = (
   entries: StoryRouteEntry[],
-  earlier: ReadonlySet<number>,
-  open: ReadonlySet<number>,
+  isOpen: (signKey: string) => boolean,
 ): StoryRouteItem[] => {
   const items: StoryRouteItem[] = [];
   let folding = false;
 
   for (const entry of entries) {
     if (entry.kind === "sign") {
-      folding =
-        entry.sectionId !== null &&
-        earlier.has(entry.sectionId) &&
-        !open.has(entry.sectionId);
+      folding = !isOpen(entry.key);
 
       items.push(
         folding

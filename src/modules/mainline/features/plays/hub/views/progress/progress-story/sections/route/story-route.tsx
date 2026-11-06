@@ -76,7 +76,8 @@ export const StoryRoute = <TItem,>({
           aria-hidden
           className="pointer-events-none absolute inset-0 size-full overflow-visible"
         >
-          {points.slice(1).map((to, index) => {
+          {/* Points from before a chapter folded or opened wait for the next measure. */}
+          {points.slice(1, items.length).map((to, index) => {
             const from = points[index];
             const travelled = isTravelled(items[index], items[index + 1]);
             const quiet = isQuiet(items[index]) || isQuiet(items[index + 1]);
