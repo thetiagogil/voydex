@@ -1,15 +1,12 @@
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import {
-  getMilestoneBadgeTypeId,
+  getMilestoneBadge,
   getPlayStampLabel,
   getPlayStampStates,
   getTypedStampKind,
+  type MilestoneBadge,
   type PlayStamp,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
-import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 export type MainlinePlayBadgeCaseMilestone = Pick<
   OverviewMilestone,
@@ -37,25 +34,26 @@ export type BadgeCase = {
 };
 
 /*
- * Each gym's (or Alola trial's) badge type, so its marker and moment wear the
- * badge.
+ * Each gym's badge (or Alola trial's Z-Crystal), so its marker and moment
+ * wear it.
  */
-export const getBadgeTypeByMilestoneId = (
+export const getBadgeByMilestoneId = (
   rows: MainlinePlayBadgeCaseRows,
-): Map<number, PokemonTypeSlug> => {
+): Map<number, MilestoneBadge> => {
   const typeSlugById = new Map(rows.types.map((type) => [type.id, type.slug]));
 
   return new Map(
-    rows.milestones.flatMap((milestone): [number, PokemonTypeSlug][] => {
-      const typeSlug = typeSlugById.get(
-        getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
-      );
+    rows.milestones.flatMap((milestone): [number, MilestoneBadge][] => {
+      const badge = getMilestoneBadge({
+        badgeRefs: milestone.badge_refs,
+        milestoneTypeSlug: milestone.milestone_type_slug,
+        typeSlugById,
+      });
 
       return getTypedStampKind(milestone.milestone_type_slug, true) &&
         milestone.milestone_id !== null &&
-        typeSlug &&
-        isPokemonTypeSlug(typeSlug)
-        ? [[milestone.milestone_id, typeSlug]]
+        badge
+        ? [[milestone.milestone_id, badge]]
         : [];
     }),
   );
@@ -70,11 +68,11 @@ export const getBadgeTypeByMilestoneId = (
 export const buildMainlinePlayBadgeCase = (
   rows: MainlinePlayBadgeCaseRows,
 ): BadgeCase | null => {
-  const badgeTypeByMilestoneId = getBadgeTypeByMilestoneId(rows);
+  const badgeByMilestoneId = getBadgeByMilestoneId(rows);
   const getKind = (milestone: MainlinePlayBadgeCaseMilestone) =>
     getTypedStampKind(
       milestone.milestone_type_slug,
-      badgeTypeByMilestoneId.has(milestone.milestone_id ?? -1),
+      badgeByMilestoneId.has(milestone.milestone_id ?? -1),
     );
   const typed = rows.milestones.filter((milestone) => getKind(milestone));
 
@@ -102,7 +100,7 @@ export const buildMainlinePlayBadgeCase = (
     const milestoneId = milestone.milestone_id ?? 0;
 
     return {
-      badgeType: badgeTypeByMilestoneId.get(milestoneId) ?? null,
+      badge: badgeByMilestoneId.get(milestoneId) ?? null,
       completedAt: milestone.completed_at,
       kind,
       label: getPlayStampLabel(kind, name),

@@ -154,7 +154,7 @@ export const StoryDetail = ({
   ) : null;
   const marker = milestone ? (
     <MilestoneMarker
-      badgeType={milestone.badgeType}
+      badge={milestone.badge}
       sequence={milestone.sequence}
       size="lg"
       state={

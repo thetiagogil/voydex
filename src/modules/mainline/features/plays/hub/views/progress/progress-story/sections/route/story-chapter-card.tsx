@@ -116,7 +116,7 @@ export const StoryChapterCard = ({
             {milestones.map((milestone) => (
               <li key={milestone.id}>
                 <MilestoneMarker
-                  badgeType={milestone.badgeType}
+                  badge={milestone.badge}
                   sequence={milestone.sequence}
                   size="sm"
                   state={

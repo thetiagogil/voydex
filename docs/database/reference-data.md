@@ -322,7 +322,7 @@ sources remain authoritative for game-specific mechanics and availability.
   reaches each beat (Silph Co. and the Marsh Badge before the Soul Badge, Bill's
   Sea Cottage, the Safari Zone and the Pokémon Mansion as their own beats), and
   Cerulean Cave is post-game. Source: Bulbapedia's Red / Blue walkthrough and
-  location pages. `550_story_places.sql` pins them.
+  location pages. `560_story_places.sql` pins them.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

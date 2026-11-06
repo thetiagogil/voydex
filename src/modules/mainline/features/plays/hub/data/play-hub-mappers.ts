@@ -239,7 +239,7 @@ export const buildMainlinePlayTeamRosterData = (
     moments: params.moments ?? {
       byPokemonId: {},
       context: {
-        badgeTypeByMilestoneId: [],
+        badgeByMilestoneId: [],
         trophyMilestoneIds: [],
         typeByFormId: [],
       },

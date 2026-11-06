@@ -1,4 +1,5 @@
 import type {
+  PublicBadge,
   PublicMoment,
   PublicPokemon,
   PublicSamplePlay,
@@ -70,7 +71,11 @@ export const samplePlayStory: {
     },
     {
       detail: "The eighth badge, from Raihan",
-      moment: { kind: "badge", type: "dragon" },
+      moment: {
+        kind: "badge",
+        spriteSlug: "galar-dragon-badge",
+        type: "dragon",
+      },
       title: "Dragon Badge",
       when: "Aug 12",
     },
@@ -88,18 +93,19 @@ export const samplePlayTeam: readonly PublicPokemon[] = [
 ];
 
 /* Galar's eight gym badges, in order, by their gyms' types. */
-export const samplePlayBadges: readonly {
-  name: string;
-  type: PublicTypeSlug;
-}[] = [
-  { name: "Grass Badge", type: "grass" },
-  { name: "Water Badge", type: "water" },
-  { name: "Fire Badge", type: "fire" },
-  { name: "Fighting Badge", type: "fighting" },
-  { name: "Fairy Badge", type: "fairy" },
-  { name: "Rock Badge", type: "rock" },
-  { name: "Dark Badge", type: "dark" },
-  { name: "Dragon Badge", type: "dragon" },
+export const samplePlayBadges: readonly (PublicBadge & { name: string })[] = [
+  { name: "Grass Badge", spriteSlug: "galar-grass-badge", type: "grass" },
+  { name: "Water Badge", spriteSlug: "galar-water-badge", type: "water" },
+  { name: "Fire Badge", spriteSlug: "galar-fire-badge", type: "fire" },
+  {
+    name: "Fighting Badge",
+    spriteSlug: "galar-fighting-badge",
+    type: "fighting",
+  },
+  { name: "Fairy Badge", spriteSlug: "galar-fairy-badge", type: "fairy" },
+  { name: "Rock Badge", spriteSlug: "galar-rock-badge", type: "rock" },
+  { name: "Dark Badge", spriteSlug: "galar-dark-badge", type: "dark" },
+  { name: "Dragon Badge", spriteSlug: "galar-dragon-badge", type: "dragon" },
 ];
 
 type SamplePokedexEntry = PublicPokemon & {
@@ -148,7 +154,7 @@ export const samplePlayHistory: readonly SampleRecord[] = [
     description: "Defeated Raihan at Hammerlocke Stadium.",
     headline: [{ bold: "Dragon Badge" }],
     kicker: "Milestone · Aug 12, 2025 · 9:48 PM",
-    moment: { kind: "badge", type: "dragon" },
+    moment: { kind: "badge", spriteSlug: "galar-dragon-badge", type: "dragon" },
   },
   {
     headline: [

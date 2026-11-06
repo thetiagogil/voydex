@@ -1,5 +1,5 @@
 import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { appIcons, type AppIconComponent } from "@/shared/components/app-icon";
 
 const milestoneIconByTypeSlug: Record<string, AppIconComponent> = {
@@ -43,14 +43,14 @@ export const isTrophyMilestone = (typeSlug: string | null | undefined) =>
 
 /* A recorded milestone's medallion: its badge, a gold trophy, or calm blue. */
 export const getMilestoneMedallion = ({
-  badgeType,
+  badge,
   icon,
   isTrophy,
 }: {
-  badgeType: PokemonTypeSlug | null | undefined;
+  badge: MilestoneBadge | null | undefined;
   icon: AppIconComponent;
   isTrophy: boolean;
 }): MedallionContent =>
-  badgeType
-    ? { kind: "badge", type: badgeType }
+  badge
+    ? { ...badge, kind: "badge" }
     : { icon, kind: isTrophy ? "gold" : "calm" };

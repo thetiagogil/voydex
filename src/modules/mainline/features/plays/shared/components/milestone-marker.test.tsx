@@ -6,7 +6,7 @@ import { MilestoneMarker } from "./milestone-marker";
 const render = (props: Partial<Parameters<typeof MilestoneMarker>[0]> = {}) =>
   renderToStaticMarkup(
     <MilestoneMarker
-      badgeType={null}
+      badge={null}
       sequence={4}
       state="todo"
       typeSlug="gym"
@@ -34,6 +34,35 @@ describe("MilestoneMarker", () => {
 
   it("pops a number back when it was just un-recorded", () => {
     expect(render({ popIn: true })).toContain("animate-marker-in");
+  });
+
+  it("wears a recorded gym's badge picture, its type icon held back", () => {
+    const markup = render({
+      badge: {
+        imageUrl: "https://assets.test/badges/boulder-badge.webp",
+        type: "rock",
+      },
+      state: "done",
+    });
+
+    expect(markup).toContain(
+      'src="https://assets.test/badges/boulder-badge.webp"',
+    );
+    expect(markup).not.toContain("/icons/types/rock.svg");
+    expect(markup).toContain(
+      "--mf:color-mix(in oklab, var(--t) 16%, var(--surface))",
+    );
+  });
+
+  it("wears the type icon for a badge without a picture", () => {
+    const markup = render({
+      badge: { imageUrl: null, type: "water" },
+      state: "done",
+    });
+
+    expect(markup).not.toContain("<img");
+    expect(markup).toContain("/icons/types/water.svg");
+    expect(markup).toContain("--mf:var(--t)");
   });
 
   it("never moves on load", () => {

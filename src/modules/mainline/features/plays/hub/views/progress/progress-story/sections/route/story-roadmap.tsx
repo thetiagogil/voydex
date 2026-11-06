@@ -193,7 +193,7 @@ export const StoryRoadmap = ({
     /* A recorded stop on the way is a sticker, tinted in its badge's type. */
     const sticker =
       state === "done" && !item.optional
-        ? getPokemonTypeCssVariables(milestone.badgeType)
+        ? getPokemonTypeCssVariables(milestone.badge?.type ?? null)
         : null;
 
     return (
@@ -227,7 +227,7 @@ export const StoryRoadmap = ({
         }}
         marker={
           <MilestoneMarker
-            badgeType={milestone.badgeType}
+            badge={milestone.badge}
             popIn={motion !== null}
             sequence={milestone.sequence}
             /* An optional stop is a detour off the route: a step smaller. */

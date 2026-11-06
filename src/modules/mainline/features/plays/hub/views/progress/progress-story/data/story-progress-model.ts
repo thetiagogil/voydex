@@ -6,16 +6,12 @@ import {
   numberJourneyMilestones,
   pickNextMilestone,
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import { getMilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   parsePlayTeamSnapshot,
   type PlayTeamSnapshotMember,
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
-import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import type {
   MainlinePlayProgressStoryData,
@@ -312,10 +308,8 @@ export const buildStoryProgressModel = ({
   const formSlugByDecisionFormId = new Map(
     decisionForms.map((form) => [form.id, form.slug]),
   );
-  const badgeTypeById = new Map(
-    badgeTypes.flatMap((type): [number, PokemonTypeSlug][] =>
-      isPokemonTypeSlug(type.slug) ? [[type.id, type.slug]] : [],
-    ),
+  const badgeTypeSlugById = new Map(
+    badgeTypes.map((type) => [type.id, type.slug]),
   );
   const snapshotMembersByMilestoneId = new Map<
     number,
@@ -361,10 +355,11 @@ export const buildStoryProgressModel = ({
           const place = toPlace(milestone.location_id, milestone.location_name);
 
           return {
-            badgeType:
-              badgeTypeById.get(
-                getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
-              ) ?? null,
+            badge: getMilestoneBadge({
+              badgeRefs: milestone.badge_refs,
+              milestoneTypeSlug: milestone.milestone_type_slug,
+              typeSlugById: badgeTypeSlugById,
+            }),
             battlePlaces: parseBattlePlaces(milestone.opponent_refs, place),
             blockingPrerequisites,
             categoryId,

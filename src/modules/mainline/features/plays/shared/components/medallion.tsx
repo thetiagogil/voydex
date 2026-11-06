@@ -1,21 +1,23 @@
 import type { CSSProperties } from "react";
 
-import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
+import { BadgeArt } from "./badge-art";
+
 /*
  * Every moment wears one medallion: a round token with a white ring on a
- * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its type, a
- * League or trial trophy in gold, any other milestone in the calm blue, a
- * Pokémon on its type tint, a note warm, a status neutral, and where the
- * Play began in the accent.
+ * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its
+ * type (its picture, or its type's icon), a League or trial trophy in gold,
+ * any other milestone in the calm blue, a Pokémon on its type tint, a note
+ * warm, a status neutral, and where the Play began in the accent.
  */
 export type MedallionContent =
-  | { kind: "badge"; type: PokemonTypeSlug }
+  | (MilestoneBadge & { kind: "badge" })
   | { kind: "calm" | "gold"; icon: AppIconComponent }
   | {
       imageUrl: string;
@@ -45,7 +47,10 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
     case "badge":
       return {
         ...getPokemonTypeCssVariables(content.type),
-        "--mf": "var(--t)",
+        /* A picture sits on its type's wash, a type icon on the full colour. */
+        "--mf": content.imageUrl
+          ? "color-mix(in oklab, var(--t) 16%, var(--surface))"
+          : "var(--t)",
       } as CSSProperties;
     case "calm":
       return {
@@ -121,7 +126,7 @@ export const Medallion = ({
       )}
     >
       {content.kind === "badge" ? (
-        <PokemonTypeIcon type={content.type} className="size-[48%]" />
+        <BadgeArt badge={content} iconClassName="size-[48%]" />
       ) : content.kind === "pokemon" ? (
         <FallbackImage
           src={content.imageUrl}
