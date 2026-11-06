@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { StoryMilestone } from "../types";
-import { foldWalkedPlaces } from "./story-route-folds";
+import { foldPlaces } from "./story-route-folds";
 import type { StoryRouteEntry } from "./story-route-model";
 
 const milestone = (id: number, isCompleted: boolean) =>
@@ -27,14 +27,15 @@ const place = (
   toward: milestone(toward, false),
 });
 
-const read = (items: ReturnType<typeof foldWalkedPlaces>) =>
+const read = (items: ReturnType<typeof foldPlaces>) =>
   items.map((item) =>
     item.kind === "fold"
       ? `fold(${item.places.map((entry) => entry.place.id).join(",")})`
       : item.key,
   );
 
-describe("foldWalkedPlaces", () => {
+describe("foldPlaces", () => {
+  /* Milestone 13 is the next objective. */
   const route = [
     place(1, 11, true),
     stop(11, true),
@@ -46,8 +47,8 @@ describe("foldWalkedPlaces", () => {
     stop(13, false),
   ];
 
-  it("folds two or more walked places before a recorded milestone", () => {
-    expect(read(foldWalkedPlaces(route, new Set()))).toEqual([
+  it("folds two or more places in a row, but not the way to the next objective", () => {
+    expect(read(foldPlaces(route, new Set(), 13))).toEqual([
       "place-11-1",
       "stop-11",
       "fold(2,3)",
@@ -58,11 +59,23 @@ describe("foldWalkedPlaces", () => {
     ]);
   });
 
-  it("keeps a stretch open by its fold's key or one of its places", () => {
+  it("folds the way ahead too, past the next objective", () => {
     expect(
-      read(foldWalkedPlaces(route, new Set(["fold-place-12-2"]))),
-    ).toContain("place-12-3");
-    expect(read(foldWalkedPlaces(route, new Set(["place-12-3"])))).toContain(
+      read(
+        foldPlaces(
+          [...route, place(6, 14, false), place(7, 14, false), stop(14, false)],
+          new Set(),
+          13,
+        ),
+      ).slice(-2),
+    ).toEqual(["fold(6,7)", "stop-14"]);
+  });
+
+  it("keeps a stretch open by its fold's key or one of its places", () => {
+    expect(read(foldPlaces(route, new Set(["fold-place-12-2"]), 13))).toContain(
+      "place-12-3",
+    );
+    expect(read(foldPlaces(route, new Set(["place-12-3"]), 13))).toContain(
       "place-12-2",
     );
   });

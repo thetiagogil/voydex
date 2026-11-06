@@ -3,91 +3,93 @@ export type StoryPlaceEncounterRow = {
   formId: number;
   formName: string;
   formSlug: string;
-  /* Only in this game of the pair; null in both. */
-  gameName: string | null;
   /* Null where the level isn't known (a gift's, say). */
   levelMax: number | null;
   levelMin: number | null;
   wayName: string;
+  /* The way's place in Voydex's order (tall grass first). */
+  waySortOrder: number;
 };
 
-/* A Pokémon found at a place, its rows folded into one line. */
+/* A Pokémon found at a place one way, its rows folded into one. */
 export type StoryPlacePokemon = {
   formId: number;
-  /* The one game it's only in ("Red only"); null when it's in every game. */
-  onlyIn: string | null;
   /* "Lv. 2–5"; null where no level is known. */
   levels: string | null;
   name: string;
   slug: string;
-  ways: string[];
 };
 
+/* The Pokémon met one way at a place (in the tall grass, by fishing). */
+export type StoryPlacePokemonGroup = {
+  pokemon: StoryPlacePokemon[];
+  way: string;
+};
+
+const formatLevels = (min: number | null, max: number | null) =>
+  min === null || max === null
+    ? null
+    : min === max
+      ? `Lv. ${min}`
+      : `Lv. ${min}–${max}`;
+
 /*
- * The Pokémon found at a place (#199): one line each, however many ways or
- * games it's met in, with its whole level range and the ways in the order
- * first met. A Pokémon met in only one game of the pair says which.
+ * The Pokémon found at a place (#199), grouped by how you meet them in the
+ * ways' order: one line each in a group, however many rows it has there,
+ * with its whole level range for that way.
  */
 export const groupStoryPlacePokemon = (
   rows: StoryPlaceEncounterRow[],
-): StoryPlacePokemon[] => {
-  const byForm = new Map<
-    number,
+): StoryPlacePokemonGroup[] => {
+  const groups = new Map<
+    string,
     {
-      games: Set<string | null>;
-      max: number | null;
-      min: number | null;
-      name: string;
-      slug: string;
-      ways: string[];
+      sortOrder: number;
+      forms: Map<
+        number,
+        { max: number | null; min: number | null; name: string; slug: string }
+      >;
     }
   >();
 
   for (const row of rows) {
-    const current = byForm.get(row.formId);
+    const group = groups.get(row.wayName) ?? {
+      forms: new Map(),
+      sortOrder: row.waySortOrder,
+    };
+    const form = group.forms.get(row.formId);
 
-    if (!current) {
-      byForm.set(row.formId, {
-        games: new Set([row.gameName]),
+    groups.set(row.wayName, group);
+
+    if (!form) {
+      group.forms.set(row.formId, {
         max: row.levelMax,
         min: row.levelMin,
         name: row.formName,
         slug: row.formSlug,
-        ways: [row.wayName],
       });
       continue;
     }
 
-    current.games.add(row.gameName);
-    current.max =
-      current.max === null || row.levelMax === null
-        ? (current.max ?? row.levelMax)
-        : Math.max(current.max, row.levelMax);
-    current.min =
-      current.min === null || row.levelMin === null
-        ? (current.min ?? row.levelMin)
-        : Math.min(current.min, row.levelMin);
-
-    if (!current.ways.includes(row.wayName)) {
-      current.ways.push(row.wayName);
-    }
+    form.max =
+      form.max === null || row.levelMax === null
+        ? (form.max ?? row.levelMax)
+        : Math.max(form.max, row.levelMax);
+    form.min =
+      form.min === null || row.levelMin === null
+        ? (form.min ?? row.levelMin)
+        : Math.min(form.min, row.levelMin);
   }
 
-  return [...byForm.entries()].map(([formId, form]) => {
-    const games = [...form.games];
-
-    return {
-      formId,
-      levels:
-        form.min === null || form.max === null
-          ? null
-          : form.min === form.max
-            ? `Lv. ${form.min}`
-            : `Lv. ${form.min}–${form.max}`,
-      name: form.name,
-      onlyIn: games.length === 1 && games[0] ? `${games[0]} only` : null,
-      slug: form.slug,
-      ways: form.ways,
-    };
-  });
+  return [...groups.entries()]
+    .sort(([, a], [, b]) => a.sortOrder - b.sortOrder)
+    .map(([way, group]) => ({
+      pokemon: [...group.forms.entries()].map(([formId, form]) => ({
+        formId,
+        levels: formatLevels(form.min, form.max),
+        name: form.name,
+        slug: form.slug,
+      })),
+      way,
+    }));
 };

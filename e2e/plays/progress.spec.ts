@@ -149,12 +149,18 @@ test.describe("Progress", () => {
     });
     const route = page.getByRole("region", { name: "Main game route" });
 
+    /*
+     * The way to the next objective is open; the stretch after it (Route 1
+     * to Viridian Forest, on to Boulder Badge) is folded into one line.
+     */
+    await route
+      .getByRole("button", { name: /^Show Route 1, .* 5 places/ })
+      .click();
+
     /* Each place between Receive Pokédex and Boulder Badge is its own stop. */
     for (const place of ["Route 22", "Route 2", "Viridian Forest"]) {
       await expect(
-        route
-          .getByRole("button", { name: new RegExp(`^${place}( |$)`) })
-          .first(),
+        route.getByRole("button", { name: new RegExp(`^${place}( |$)`) }),
       ).toBeVisible();
     }
     /* A milestone stands for its own town. */
@@ -162,20 +168,27 @@ test.describe("Progress", () => {
       route.getByRole("button", { name: /^Boulder Badge Pewter City/ }),
     ).toBeVisible();
 
-    /*
-     * The rival's first fight sits on Route 22, not under Boulder Badge; the
-     * route comes back to Route 22 for the fight before the League.
-     */
-    const route22 = route.getByRole("button", { name: /^Route 22 1 battle/ });
-    await expect(route22).toHaveCount(2);
-    await route22.first().click();
+    /* The rival's first fight sits on Route 22, not under Boulder Badge. */
+    await route.getByRole("button", { name: /^Route 22 1 battle/ }).click();
     const routeDetail = storyDetail(page, "Route 22");
     await expect(routeDetail).toContainText("On the way to Boulder Badge");
     await expect(
       routeDetail.getByRole("button", { name: /^Blue/ }),
     ).toBeVisible();
-    await expect(routeDetail).toContainText("Pokémon found here");
-    await expect(routeDetail).toContainText("Spearow");
+    /* Its Pokémon, by how you meet them, as sprites with their names a sheet away. */
+    await expect(
+      routeDetail.getByRole("region", { name: "Tall grass" }),
+    ).toBeVisible();
+    await expect(
+      routeDetail.getByRole("img", { name: "Spearow" }),
+    ).toBeVisible();
+    await routeDetail.getByRole("button", { name: "See details" }).click();
+    const details = page.getByRole("dialog", { name: "Pokémon at Route 22" });
+    await expect(
+      details.getByRole("region", { name: "Fishing" }),
+    ).toContainText("Magikarp");
+    await page.keyboard.press("Escape");
+    await expect(details).toBeHidden();
     await expectAccessible(page);
 
     await route
@@ -186,17 +199,25 @@ test.describe("Progress", () => {
     await expect(badge.getByRole("button", { name: /^Blue/ })).toHaveCount(0);
   });
 
-  test("opens a place with the Pokémon found there @phone", async ({
+  test("lists only the Play's own game's Pokémon at a place @phone", async ({
     page,
   }, testInfo) => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await page
-      .getByRole("button", { exact: true, name: "Viridian Forest" })
-      .click();
-    const detail = storyDetail(page, "Viridian Forest");
-    await expect(detail).toContainText("Pikachu");
+    await page.getByRole("button", { exact: true, name: "Route 24" }).click();
+    const detail = storyDetail(page, "Route 24");
+
+    /* A Red Play: Weedle and Oddish, never Blue's Caterpie or Bellsprout. */
+    await expect(detail).toContainText("Tall grass");
+    await expect(
+      detail
+        .getByText(/Weedle/)
+        .or(detail.getByRole("img", { name: "Weedle" }))
+        .first(),
+    ).toBeVisible();
+    await expect(detail.getByRole("img", { name: "Caterpie" })).toHaveCount(0);
+    await expect(detail.getByText("Caterpie")).toHaveCount(0);
 
     /* On a phone it's a sheet, and Escape closes it. */
     if (testInfo.project.name === "phone") {

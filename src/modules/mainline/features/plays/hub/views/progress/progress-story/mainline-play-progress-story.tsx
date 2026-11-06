@@ -499,6 +499,7 @@ export const MainlinePlayProgressStory = ({
               onAction={openEditor}
               onOpenChange={() => setSelection(null)}
               open
+              playId={playId}
               returnsFocus={!isEditorOpen}
               scope={activeScope}
               target={panelTarget}
@@ -519,6 +520,7 @@ export const MainlinePlayProgressStory = ({
         onAction={openEditor}
         onOpenChange={setIsDetailSheetOpen}
         open={isDetailSheetOpen && usesDetailSheet}
+        playId={playId}
         returnsFocus={!isEditorOpen}
         scope={activeScope}
         target={sheetTarget}

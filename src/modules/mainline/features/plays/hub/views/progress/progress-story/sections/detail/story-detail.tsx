@@ -55,6 +55,7 @@ export const StoryDetail = ({
   onAction,
   onOpenChange,
   open,
+  playId,
   returnsFocus,
   scope,
   target,
@@ -66,6 +67,7 @@ export const StoryDetail = ({
   onAction: (milestone: StoryMilestone, choice: StoryMilestoneChoice) => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
+  playId: string;
   /*
    * False while what it opened (the editor, a confirm) holds focus, so
    * closing the sheet behind it never pulls focus out from under it.
@@ -176,10 +178,11 @@ export const StoryDetail = ({
   ) : target.kind === "place" ? (
     <StoryPlaceDetail
       battles={battles}
+      compact={layout === "panel"}
       onBattleSelect={showBattle}
       place={target.place}
+      playId={playId}
       toward={target.toward?.name ?? null}
-      versionGroupId={scope.id}
     />
   ) : null;
   const footer = milestone ? (

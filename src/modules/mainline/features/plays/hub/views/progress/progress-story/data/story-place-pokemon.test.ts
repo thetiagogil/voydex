@@ -11,59 +11,64 @@ const row = (
   formId: 1600,
   formName: "Pidgey",
   formSlug: "pidgey",
-  gameName: null,
   levelMax: 5,
   levelMin: 2,
-  wayName: "Walking",
+  wayName: "Tall grass",
+  waySortOrder: 1,
   ...overrides,
 });
 
 describe("groupStoryPlacePokemon", () => {
-  it("folds a Pokémon's rows into one line with its whole level range and ways", () => {
+  it("groups by how you meet them, in the ways' order", () => {
     expect(
       groupStoryPlacePokemon([
+        row({
+          formId: 12900,
+          formName: "Magikarp",
+          wayName: "Fishing",
+          waySortOrder: 7,
+        }),
         row({}),
-        row({ levelMax: 7, levelMin: 6, wayName: "Surfing" }),
-        row({ wayName: "Walking" }),
+        row({ formId: 1900, formName: "Rattata" }),
+      ]).map((group) => [
+        group.way,
+        group.pokemon.map((pokemon) => pokemon.name),
       ]),
     ).toEqual([
-      {
-        formId: 1600,
-        levels: "Lv. 2–7",
-        name: "Pidgey",
-        onlyIn: null,
-        slug: "pidgey",
-        ways: ["Walking", "Surfing"],
-      },
+      ["Tall grass", ["Pidgey", "Rattata"]],
+      ["Fishing", ["Magikarp"]],
     ]);
   });
 
-  it("says which game a Pokémon is only in", () => {
-    const [ekans, oddish] = groupStoryPlacePokemon([
-      row({ formId: 2300, formName: "Ekans", gameName: "Red" }),
-      row({ formId: 4300, formName: "Oddish", gameName: "Blue" }),
-    ]);
-
-    expect(ekans.onlyIn).toBe("Red only");
-    expect(oddish.onlyIn).toBe("Blue only");
-  });
-
-  it("is in every game when its rows are in both, or in neither in particular", () => {
+  it("folds a Pokémon's rows in one way into its whole level range", () => {
     expect(
-      groupStoryPlacePokemon([
-        row({ gameName: "Red" }),
-        row({ gameName: "Blue" }),
-      ])[0].onlyIn,
-    ).toBeNull();
+      groupStoryPlacePokemon([row({}), row({ levelMax: 7, levelMin: 6 })])[0]
+        .pokemon,
+    ).toEqual([
+      { formId: 1600, levels: "Lv. 2–7", name: "Pidgey", slug: "pidgey" },
+    ]);
+  });
+
+  it("lists a Pokémon met two ways in both, each with its own levels", () => {
+    const groups = groupStoryPlacePokemon([
+      row({}),
+      row({ levelMax: 15, levelMin: 10, wayName: "Surfing", waySortOrder: 6 }),
+    ]);
+
+    expect(groups.map((group) => group.pokemon[0].levels)).toEqual([
+      "Lv. 2–5",
+      "Lv. 10–15",
+    ]);
   });
 
   it("reads one level, or none where none is known", () => {
     expect(
-      groupStoryPlacePokemon([row({ levelMax: 5, levelMin: 5 })])[0].levels,
+      groupStoryPlacePokemon([row({ levelMax: 5, levelMin: 5 })])[0].pokemon[0]
+        .levels,
     ).toBe("Lv. 5");
     expect(
       groupStoryPlacePokemon([row({ levelMax: null, levelMin: null })])[0]
-        .levels,
+        .pokemon[0].levels,
     ).toBeNull();
   });
 });

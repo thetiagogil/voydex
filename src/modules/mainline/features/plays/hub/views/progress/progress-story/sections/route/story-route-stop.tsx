@@ -56,7 +56,7 @@ export const StoryRouteStop = ({
     aria-pressed={selected}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
-    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1.5 pr-2 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1.5 pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
       <span
@@ -129,7 +129,7 @@ export const StoryRoutePlace = ({
     aria-haspopup={opensSheet ? "dialog" : undefined}
     aria-pressed={selected}
     onClick={onSelect}
-    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span
@@ -173,7 +173,7 @@ export const StoryRouteSign = ({
   finished: boolean;
   name: string;
 }) => (
-  <div className="flex w-full items-center gap-3 pt-3 pb-1">
+  <div className="flex w-full items-center gap-3 pt-3 pb-1 pl-1.5">
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span
         className={cn(
@@ -202,31 +202,40 @@ const joinPlaceNames = (names: string[]) =>
     : (names[0] ?? "");
 
 /*
- * Places you've walked, folded into one line on the route: their names in
- * order and how many, opening them all again in place.
+ * Places on the way, folded into one line on the route: their names in
+ * order and how many, opening them all again in place. Its dots fill once
+ * you're past them all.
  */
 export const StoryRouteFold = ({
   names,
   onOpen,
+  reached,
 }: {
   names: string[];
   onOpen: () => void;
+  reached: boolean;
 }) => (
   <button
     type="button"
-    aria-label={`Show ${names.length} places: ${joinPlaceNames(names)}`}
     onClick={onOpen}
-    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
   >
     <span
       data-route-node
       className="grid w-14 shrink-0 place-items-center gap-1 py-1"
     >
-      <span className="bg-progress/60 size-2 rounded-full" />
-      <span className="bg-progress/60 size-2 rounded-full" />
-      <span className="bg-progress/60 size-2 rounded-full" />
+      {[0, 1, 2].map((dot) => (
+        <span
+          key={dot}
+          className={cn(
+            "size-2 rounded-full",
+            reached ? "bg-progress/60" : "bg-dash",
+          )}
+        />
+      ))}
     </span>
     <span className="text-ink-3 text-14 min-w-0 truncate font-semibold">
+      <span className="sr-only">Show </span>
       {joinPlaceNames(names)}
     </span>
     <span className="text-ink-2 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-bold">

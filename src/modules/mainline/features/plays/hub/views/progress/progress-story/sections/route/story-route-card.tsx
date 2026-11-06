@@ -19,10 +19,7 @@ import {
   buildStoryRoute,
   type StoryRouteEntry,
 } from "../../data/story-route-model";
-import {
-  foldWalkedPlaces,
-  type StoryRouteItem,
-} from "../../data/story-route-folds";
+import { foldPlaces, type StoryRouteItem } from "../../data/story-route-folds";
 import type { StoryMilestone, StoryScope } from "../../types";
 import { StoryRoute } from "./story-route";
 import {
@@ -47,14 +44,14 @@ const getStoryMilestoneState = (
       : "todo";
 
 const isItemDone = (item: StoryRouteItem) =>
-  item.kind === "fold" ? true : isDone(item);
+  item.kind === "fold" ? item.places.every(isDone) : isDone(item);
 
 /*
  * Story as one route in one card (#108, #199): every chapter in order down
  * one line, the places on the way to each milestone between them, side
- * content as optional stops where it sits (`buildStoryRoute`). The places
- * you've walked fold into one line each stretch, so the route stays short
- * behind you. Milestones recorded together cascade: each stop waits as it
+ * content as optional stops where it sits (`buildStoryRoute`). Each stretch
+ * of places folds into one line but the way to your next objective, so the
+ * route reads as its milestones. Milestones recorded together cascade: each stop waits as it
  * was, then its marker stamps down, one after another in Story order; one
  * un-recorded pops back to its number.
  */
@@ -137,6 +134,7 @@ export const StoryRouteCard = ({
       return (
         <StoryRouteFold
           names={item.places.map((entry) => entry.place.name)}
+          reached={item.places.every((entry) => entry.reached)}
           onOpen={() => {
             focusPlaceKey.current = item.places[0]?.key ?? null;
             setUnfolded((current) => new Set([...current, item.key]));
@@ -300,7 +298,7 @@ export const StoryRouteCard = ({
     <div key={key} data-route-key={key}>
       <StoryRoute
         label={label}
-        items={foldWalkedPlaces(entries, keepOpen)}
+        items={foldPlaces(entries, keepOpen, nextMilestoneId)}
         getKey={(item) => item.key}
         isQuiet={(item) => item.optional}
         isTravelled={(item, next) => isItemDone(item) && isItemDone(next)}
