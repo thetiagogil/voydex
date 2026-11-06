@@ -72,7 +72,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 1
                 AND mainline_categories.slug = 'main-story' ORDER BY mainline_milestones.sort_order $$, $$
-            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter City'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion City'), ('rainbow-badge', 'Celadon City'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('soul-badge', 'Fuchsia City'), ('safari-zone', 'Safari Zone'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron City'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Island'), ('earth-badge', 'Viridian City') $$, 'Red / Blue''s Main Story runs in story order, each beat at its place');
+            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter City'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion City'), ('rainbow-badge', 'Celadon City'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron City'), ('soul-badge', 'Fuchsia City'), ('safari-zone', 'Safari Zone'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Island'), ('earth-badge', 'Viridian City') $$, 'Red / Blue''s Main Story follows the walkthrough, each beat at its place');
 -- Each Main Story and League beat after the first suggests the one before it.
 SELECT
     is_empty ($$ WITH ordered AS (
@@ -103,8 +103,8 @@ SELECT
             JOIN reference.locations ON locations.id = location_version_groups.location_id
             WHERE
                 location_version_groups.version_group_id = 1
-                AND location_version_groups.sort_order BETWEEN 18 AND 34 ORDER BY location_version_groups.sort_order $$, $$
-            VALUES ('Route 6'), ('Vermilion City'), ('S.S. Anne'), ('Route 11'), ('Diglett''s Cave'), ('Route 9'), ('Route 10'), ('Rock Tunnel'), ('Lavender Town'), ('Route 8'), ('Route 7'), ('Celadon City'), ('Celadon Condominiums'), ('Rocket Hideout'), ('Pokémon Tower'), ('Route 12'), ('Route 13') $$, 'Red / Blue''s places from Route 6 to Route 13 follow the story');
+                AND location_version_groups.sort_order BETWEEN 18 AND 36 ORDER BY location_version_groups.sort_order $$, $$
+            VALUES ('Route 6'), ('Vermilion City'), ('S.S. Anne'), ('Route 11'), ('Diglett''s Cave'), ('Pewter Museum of Science'), ('Route 9'), ('Route 10'), ('Rock Tunnel'), ('Lavender Town'), ('Route 8'), ('Underground Path (Kanto Routes 7-8)'), ('Route 7'), ('Celadon City'), ('Celadon Condominiums'), ('Rocket Hideout'), ('Pokémon Tower'), ('Route 12'), ('Route 13') $$, 'Red / Blue''s places from Route 6 to Route 13 follow the story');
 -- Cerulean Cave is post-game, optional, after the Hall of Fame.
 SELECT
     results_eq ($$

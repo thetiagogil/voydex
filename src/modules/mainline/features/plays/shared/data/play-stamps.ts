@@ -12,7 +12,34 @@ import type { Json } from "@/shared/types/database.types";
  */
 export type MilestoneBadge = {
   imageUrl: string | null;
+  /* Its place in the game's badge case (Boulder 1, Cascade 2…), when known. */
+  order?: number;
   type: PokemonTypeSlug;
+};
+
+/*
+ * Stamps in the badge case's order (#199): the gyms' badges sorted by their
+ * place in the case, wherever the route reaches them (Red and Blue's route
+ * reaches Marsh before Soul, the case holds Soul first). Everything else
+ * keeps its place, so the League stays where the journey puts it.
+ */
+export const inBadgeOrder = <TItem>(
+  items: TItem[],
+  getOrder: (item: TItem) => number | null | undefined,
+): TItem[] => {
+  const slots = items.flatMap((item, index) =>
+    typeof getOrder(item) === "number" ? [index] : [],
+  );
+  const sorted = slots
+    .map((index) => items[index])
+    .sort((a, b) => (getOrder(a) ?? 0) - (getOrder(b) ?? 0));
+  const result = [...items];
+
+  slots.forEach((slot, position) => {
+    result[slot] = sorted[position];
+  });
+
+  return result;
 };
 
 /*
@@ -60,7 +87,11 @@ export const getTypedStampKind = (
 /* The first badge a milestone refers to that has a type. */
 const getFirstTypedBadgeRef = (
   badgeRefs: Json | null,
-): { spriteSlug: string | null; typeId: number } | null => {
+): {
+  order: number | null;
+  spriteSlug: string | null;
+  typeId: number;
+} | null => {
   if (!Array.isArray(badgeRefs)) {
     return null;
   }
@@ -73,6 +104,10 @@ const getFirstTypedBadgeRef = (
       typeof ref.type_id === "number"
     ) {
       return {
+        order:
+          typeof ref.badge_sort_order === "number"
+            ? ref.badge_sort_order
+            : null,
         spriteSlug:
           typeof ref.sprite_slug === "string" ? ref.sprite_slug : null,
         typeId: ref.type_id,
@@ -111,6 +146,7 @@ export const getMilestoneBadge = ({
   return {
     imageUrl:
       milestoneTypeSlug === "gym" ? getBadgeImageUrl(ref.spriteSlug) : null,
+    ...(ref.order === null ? {} : { order: ref.order }),
     type,
   };
 };

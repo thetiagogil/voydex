@@ -5323,6 +5323,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      mainline_roadmap_steps: {
+        Row: {
+          created_at: string;
+          id: number;
+          location_id: number | null;
+          milestone_id: number | null;
+          sort_order: number;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id?: never;
+          location_id?: number | null;
+          milestone_id?: number | null;
+          sort_order: number;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: never;
+          location_id?: number | null;
+          milestone_id?: number | null;
+          sort_order?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mainline_roadmap_steps_milestone_version_group_fkey";
+            columns: ["milestone_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_milestones";
+            referencedColumns: ["id", "version_group_id"];
+          },
+        ];
+      };
       mainline_snapshot_policies: {
         Row: {
           created_at: string;

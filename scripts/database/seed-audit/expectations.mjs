@@ -376,6 +376,7 @@ export const scopedSortTables = new Set([
   "tracking.mainline_milestones",
   "tracking.mainline_opponents",
   "tracking.mainline_opponent_team_members",
+  "tracking.mainline_roadmap_steps",
 ]);
 
 export const scopedSlugTables = new Set([
@@ -403,6 +404,7 @@ export const generatedIdTables = new Set([
   "tracking.mainline_opponent_team_members",
   "tracking.mainline_milestone_pokemon_refs",
   "tracking.mainline_milestone_prerequisites",
+  "tracking.mainline_roadmap_steps",
 ]);
 
 export const productDescriptionTables = new Set([
@@ -460,6 +462,7 @@ export const customAuditTables = new Set([
   "tracking.mainline_milestones",
   "tracking.mainline_opponents",
   "tracking.mainline_opponent_team_members",
+  "tracking.mainline_roadmap_steps",
 ]);
 
 export const allowedStats = new Set([

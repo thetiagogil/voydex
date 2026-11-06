@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import type {
   StoryChapterKind,
   StoryMilestone,
-  StoryPlace,
   StoryScope,
   StorySection,
 } from "../types";
@@ -14,7 +13,6 @@ const milestone = (
   overrides: Partial<StoryMilestone> = {},
 ): StoryMilestone =>
   ({
-    battlePlaces: [],
     id,
     isCompleted: false,
     name: `Milestone ${id}`,
@@ -53,15 +51,12 @@ const section = (
   totalCount: milestones.filter((item) => item.sequence !== null).length,
 });
 
-const scope = (sections: StorySection[], places: StoryPlace[] = []) =>
-  ({ places, sections }) as StoryScope;
-
-const place = (id: number): StoryPlace => ({ id, name: `Place ${id}` });
+const scope = (sections: StorySection[]) =>
+  ({ sections, steps: [] }) as unknown as StoryScope;
 
 /*
  * Each block as what it draws: a sign's name, a stop's id, `?` for
- * optional, `@` and its id for a place on the way, `!` where the route comes
- * back to it.
+ * optional, `@` and its id for a place on the way.
  */
 const read = (blocks: ReturnType<typeof buildStoryRoute>) =>
   blocks.map((block) =>
@@ -70,7 +65,7 @@ const read = (blocks: ReturnType<typeof buildStoryRoute>) =>
         entry.kind === "sign"
           ? `${entry.name}${entry.optional ? "?" : ""}`
           : entry.kind === "place"
-            ? `@${entry.place.id}${entry.key.endsWith("-again") ? "!" : ""}`
+            ? `@${entry.place.id}`
             : `${entry.milestone.id}${entry.optional ? "?" : ""}`,
       ),
     ),
@@ -216,98 +211,62 @@ describe("buildStoryRoute signs", () => {
   });
 });
 
-describe("buildStoryRoute as a roadmap", () => {
-  /* Pallet Town 1, Route 1 2, Viridian 3, Route 22 4, Route 2 5, Pewter 6, Route 3 7, Mt. Moon 8. */
-  const kanto = [1, 2, 3, 4, 5, 6, 7, 8].map(place);
-  const at = (id: number) => ({ place: place(id) });
+describe("buildStoryRoute from a roadmap", () => {
+  const place = (id: number) => ({
+    id: 100 + id,
+    milestoneId: null,
+    place: { id, name: `Place ${id}` },
+  });
+  const at = (milestoneId: number) => ({
+    id: 200 + milestoneId,
+    milestoneId,
+    place: null,
+  });
+  const roadmap = (
+    sections: StorySection[],
+    steps: StoryScope["steps"],
+  ): StoryScope => ({ sections, steps }) as StoryScope;
 
-  it("puts the places on the way before each milestone, each its own stop", () => {
+  it("follows the walkthrough, a place coming back as often as the story does", () => {
     expect(
       read(
         buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [
-                milestone(11, at(1)),
-                milestone(12, at(3)),
-                milestone(13, at(6)),
-              ]),
-            ],
-            kanto,
+          roadmap(
+            [section(1, "main-story", [milestone(11), milestone(12)])],
+            [place(1), at(11), place(2), place(3), place(1), at(12), place(3)],
           ),
         ),
       ),
-    ).toEqual([[["main-story", "11", "@2", "12", "@4", "@5", "13"]]]);
+    ).toEqual([[["main-story", "@1", "11", "@2", "@3", "@1", "12"]]]);
   });
 
-  it("shows a place once, where the story first reaches it", () => {
+  it("puts a chapter's sign before the places on the way to its first milestone", () => {
     expect(
       read(
         buildStoryRoute(
-          scope(
+          roadmap(
             [
-              section(1, "main-story", [
-                milestone(11, at(3)),
-                milestone(12, at(6)),
-                /* Back to Viridian City for its badge. */
-                milestone(13, at(3)),
-                milestone(14, at(8)),
-              ]),
+              section(1, "main-story", [milestone(11)]),
+              section(2, "pokemon-league", [milestone(21)]),
             ],
-            kanto,
+            [at(11), place(4), place(7), at(21)],
           ),
         ),
       ),
-    ).toEqual([
-      [["main-story", "@1", "@2", "11", "@4", "@5", "12", "13", "@7", "14"]],
-    ]);
+    ).toEqual([[["main-story", "11", "pokemon-league", "@4", "@7", "21"]]]);
   });
 
-  it("gives a battle back at a passed place a stop of its own before its milestone", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [milestone(11, at(6))]),
-              section(2, "pokemon-league", [
-                milestone(21, { ...at(8), battlePlaces: [place(4)] }),
-              ]),
-            ],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([
-      [
-        [
-          "main-story",
-          "@1",
-          "@2",
-          "@3",
-          "@4",
-          "@5",
-          "11",
-          "pokemon-league",
-          "@4!",
-          "@7",
-          "21",
-        ],
-      ],
-    ]);
-  });
-
-  it("leads each place to its milestone, and reaches it once all before are recorded", () => {
+  it("leads each place to the next required milestone, reached once all before it are recorded", () => {
     const [block] = buildStoryRoute(
-      scope(
+      roadmap(
         [
           section(1, "main-story", [
-            milestone(11, { ...at(1), isCompleted: true }),
-            milestone(12, at(3)),
-            milestone(13, at(6)),
+            milestone(11, { isCompleted: true }),
+            milestone(12),
           ]),
+          section(4, "side-content", [optional(41)]),
         ],
-        kanto,
+        [at(11), place(2), at(41), place(3), at(12)],
       ),
     );
     const places =
@@ -321,164 +280,42 @@ describe("buildStoryRoute as a roadmap", () => {
 
     expect(places).toEqual([
       [2, 12, true],
-      [4, 13, false],
-      [5, 13, false],
+      [3, 12, true],
     ]);
   });
 
-  it("sits side content where the route passes its place, standing for it", () => {
+  it("keeps side content where the walkthrough meets it", () => {
     expect(
       read(
         buildStoryRoute(
-          scope(
+          roadmap(
             [
-              section(1, "main-story", [
-                milestone(11, at(1)),
-                milestone(12, at(6)),
-              ]),
-              section(4, "side-content", [
-                optional(41, { ...at(5), ...opensAfter(11) }),
-                optional(42, { ...at(6), ...opensAfter(11) }),
-                /* Somewhere the route never shows: after its opener. */
-                optional(43, { ...at(8), ...opensAfter(11) }),
-              ]),
+              section(1, "main-story", [milestone(11), milestone(12)]),
+              section(4, "side-content", [optional(41)]),
             ],
-            kanto,
+            [at(11), place(5), at(41), at(12)],
+          ),
+        ),
+      ),
+    ).toEqual([[["main-story", "11", "@5", "41?", "12"]]]);
+  });
+
+  it("still shows a milestone the roadmap leaves out", () => {
+    expect(
+      read(
+        buildStoryRoute(
+          roadmap(
+            [
+              section(1, "main-story", [milestone(11), milestone(12)]),
+              section(4, "side-content", [optional(41)]),
+            ],
+            [at(11)],
           ),
         ),
       ),
     ).toEqual([
-      [["main-story", "11", "43?", "@2", "@3", "@4", "41?", "12", "42?"]],
+      [["main-story", "11", "main-story", "12", "side-content?", "41?"]],
     ]);
-  });
-
-  it("keeps side content after its opener when the route passes its place before it", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [
-                milestone(11, at(3)),
-                milestone(12, at(6)),
-              ]),
-              /* At Route 1 (2), but only open once Pewter's milestone is done. */
-              section(4, "side-content", [
-                optional(41, { ...at(2), ...opensAfter(12) }),
-              ]),
-            ],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([[["main-story", "@1", "@2", "11", "@4", "@5", "12", "41?"]]]);
-  });
-
-  it("keeps a place's own stop where a battle is fought there too", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [
-                milestone(11, at(1)),
-                milestone(12, { ...at(6), battlePlaces: [place(4)] }),
-              ]),
-              section(4, "side-content", [
-                optional(41, { ...at(4), ...opensAfter(11) }),
-              ]),
-            ],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([[["main-story", "11", "@2", "@3", "@4", "41?", "@5", "12"]]]);
-  });
-
-  it("sets each chapter played in any order out from where the route forks", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [milestone(11, at(1))]),
-              section(2, "path-a", [milestone(21, at(4))], {
-                playsInAnyOrder: true,
-              }),
-              section(3, "path-b", [milestone(31, at(3))], {
-                playsInAnyOrder: true,
-              }),
-              section(4, "home", [milestone(41, at(6))]),
-            ],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([
-      [["main-story", "11"]],
-      [
-        ["path-a", "@2", "@3", "21"],
-        ["path-b", "@2", "31"],
-      ],
-      [["home", "@5", "41"]],
-    ]);
-  });
-
-  it("shows a battle's place ahead of the route once, before its milestone", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [
-              section(1, "main-story", [
-                milestone(11, { ...at(3), battlePlaces: [place(5)] }),
-                milestone(12, at(6)),
-              ]),
-            ],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([[["main-story", "@5!", "@1", "@2", "11", "@4", "12"]]]);
-  });
-
-  it("draws side content once where two paths in any order pass its place", () => {
-    const [, fork] = buildStoryRoute(
-      scope(
-        [
-          section(1, "main-story", [milestone(11, at(1))]),
-          section(2, "path-a", [milestone(21, at(5))], {
-            playsInAnyOrder: true,
-          }),
-          section(3, "path-b", [milestone(31, at(6))], {
-            playsInAnyOrder: true,
-          }),
-          section(4, "side-content", [
-            optional(41, { ...at(3), ...opensAfter(11) }),
-          ]),
-        ],
-        kanto,
-      ),
-    );
-    const stops =
-      fork.kind === "anyOrder"
-        ? fork.routes.flat().filter((entry) => entry.key === "stop-41")
-        : [];
-
-    expect(stops).toHaveLength(1);
-  });
-
-  it("shows no places for milestones without one", () => {
-    expect(
-      read(
-        buildStoryRoute(
-          scope(
-            [section(1, "main-story", [milestone(11), milestone(12)])],
-            kanto,
-          ),
-        ),
-      ),
-    ).toEqual([[["main-story", "11", "12"]]]);
   });
 });
 

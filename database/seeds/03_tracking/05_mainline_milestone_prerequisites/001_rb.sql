@@ -1,7 +1,8 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Bulbapedia's
+-- Red / Blue walkthrough.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
@@ -40,16 +41,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (10020, 10007, 1, 1, 1, NULL),
   -- Pokémon Tower <- Rocket Hideout
   (10021, 10020, 1, 1, 1, NULL),
-  -- Soul Badge <- Pokémon Tower
-  (10008, 10021, 1, 1, 1, NULL),
-  -- Safari Zone <- Soul Badge
-  (10028, 10008, 1, 1, 1, NULL),
-  -- Silph Co. <- Safari Zone
-  (10022, 10028, 1, 1, 1, NULL),
+  -- Silph Co. <- Pokémon Tower
+  (10022, 10021, 1, 1, 1, NULL),
   -- Marsh Badge <- Silph Co.
   (10009, 10022, 1, 1, 1, NULL),
-  -- Pokémon Mansion <- Marsh Badge
-  (10029, 10009, 1, 1, 1, NULL),
+  -- Soul Badge <- Marsh Badge
+  (10008, 10009, 1, 1, 1, NULL),
+  -- Safari Zone <- Soul Badge
+  (10028, 10008, 1, 1, 1, NULL),
+  -- Pokémon Mansion <- Safari Zone
+  (10029, 10028, 1, 1, 1, NULL),
   -- Volcano Badge <- Pokémon Mansion
   (10011, 10029, 1, 1, 1, NULL),
   -- Earth Badge <- Volcano Badge

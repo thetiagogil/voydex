@@ -274,30 +274,13 @@ const toPlace = (id: unknown, name: unknown): StoryPlace | null => {
     : null;
 };
 
-/* The places its battles happen at other than its own, once each, in order. */
-const parseBattlePlaces = (value: unknown, own: StoryPlace | null) => {
-  const places = new Map<number, StoryPlace>();
-
-  for (const ref of Array.isArray(value) ? value : []) {
-    const place = isRecord(ref)
-      ? toPlace(ref.location_id, ref.location_name)
-      : null;
-
-    if (place && place.id !== own?.id && !places.has(place.id)) {
-      places.set(place.id, place);
-    }
-  }
-
-  return [...places.values()];
-};
-
 export const buildStoryProgressModel = ({
   badgeTypes,
   categories,
   decisionForms,
   milestones,
-  places,
   snapshotEvents,
+  steps,
 }: MainlinePlayProgressStoryData): StoryProgressModel => {
   const completedMilestoneIds = new Set(
     milestones
@@ -360,7 +343,6 @@ export const buildStoryProgressModel = ({
               milestoneTypeSlug: milestone.milestone_type_slug,
               typeSlugById: badgeTypeSlugById,
             }),
-            battlePlaces: parseBattlePlaces(milestone.opponent_refs, place),
             blockingPrerequisites,
             categoryId,
             completedAt: milestone.completed_at,
@@ -455,10 +437,14 @@ export const buildStoryProgressModel = ({
         ? "Main game"
         : (category?.version_group_name ?? "Main game"),
       nextMilestone: null,
-      places: places
-        .filter((place) => place.version_group_id === scopeId)
+      steps: steps
+        .filter((step) => step.version_group_id === scopeId)
         .sort((a, b) => a.sort_order - b.sort_order)
-        .map((place) => ({ id: place.location_id, name: place.name })),
+        .map((step) => ({
+          id: step.id,
+          milestoneId: step.milestone_id,
+          place: toPlace(step.location_id, step.location_name),
+        })),
       sections: [section],
       stamps: null,
       totalCount: section.totalCount,

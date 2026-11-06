@@ -12,10 +12,11 @@
 -- ============================================================================
 -- Red / Blue story, decision, badge, league, champion, and completion milestones,
 -- each at the place it happens (location_id). Main Story follows the order the
--- game's story reaches each beat, with the badges in the badge case's order
--- (Soul before Marsh), and the Safari Zone and Pokémon Mansion open the way to Cinnabar
--- Gym. Mewtwo's Cerulean Cave is post-game. Dense optional walkthrough beats
--- are intentionally excluded.
+-- game's walkthrough reaches each beat (Silph Co. and the Marsh Badge before
+-- the Soul Badge), and the Safari Zone and Pokémon Mansion open the way to
+-- Cinnabar Gym. The roadmap's steps (tracking.mainline_roadmap_steps) follow
+-- the same order. Mewtwo's Cerulean Cave is post-game. Dense optional
+-- walkthrough beats are intentionally excluded.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestones (
@@ -56,13 +57,13 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon Tower (Pokémon Tower)
   (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope and rescue Mr. Fuji to get the Poké Flute.', 11, true, 33),
   -- Silph Co. (Silph Co.)
-  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni, which also clears the Rocket blocking the Saffron Gym.', 14, true, 67),
+  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni, which also clears the Rocket blocking the Saffron Gym.', 12, true, 67),
   -- Marsh Badge (Saffron City)
-  (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 15, true, 133),
+  (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true, 133),
   -- Soul Badge (Fuchsia City)
-  (10008, 1, NULL, 101, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 12, true, 18),
+  (10008, 1, NULL, 101, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 14, true, 18),
   -- Safari Zone (Safari Zone)
-  (10028, 1, NULL, 101, 1, 2, NULL, 'safari-zone', 'Safari Zone', 'Find HM03 Surf and the Gold Teeth in the Safari Zone, then give the teeth to the Warden in Fuchsia City for HM04 Strength.', 13, true, 64),
+  (10028, 1, NULL, 101, 1, 2, NULL, 'safari-zone', 'Safari Zone', 'Find HM03 Surf and the Gold Teeth in the Safari Zone, then give the teeth to the Warden in Fuchsia City for HM04 Strength.', 15, true, 64),
   -- Pokémon Mansion (Pokémon Mansion)
   (10029, 1, NULL, 101, 1, 2, NULL, 'pokemon-mansion', 'Pokémon Mansion', 'Search the Pokémon Mansion on Cinnabar Island for the Secret Key that opens Cinnabar Gym.', 16, true, 32),
   -- Volcano Badge (Cinnabar Island)

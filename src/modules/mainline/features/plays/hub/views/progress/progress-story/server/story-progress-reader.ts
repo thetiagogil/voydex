@@ -31,8 +31,8 @@ const getDecisionPokemonFormIds = (
 };
 
 /*
- * Story's read: the Play's categories and milestones, the places its story
- * passes in order, the team snapshots recorded with them, the decision Pokémon's art and the badge types, so a
+ * Story's read: the Play's categories and milestones, its game's roadmap
+ * (places and milestones in the walkthrough's order), the team snapshots recorded with them, the decision Pokémon's art and the badge types, so a
  * gym badge (or Alola trial) wears its type on the stamp card and in its row.
  */
 export const readMainlinePlayStoryProgress = async (
@@ -54,7 +54,7 @@ export const readMainlinePlayStoryProgress = async (
         .schema("views")
         .from("mainline_play_milestone_detail")
         .select(
-          "badge_refs, category_id, category_name, category_slug, completed_at, completion_event_id, completion_event_team_snapshot_count, decision_options, description, is_completed, is_required_for_completion, location_id, location_name, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, opponent_refs, prerequisites, progress_notes, selected_decision_option_id, selected_decision_option_label, snapshot_policy_slug, sort_order, version_group_id",
+          "badge_refs, category_id, category_name, category_slug, completed_at, completion_event_id, completion_event_team_snapshot_count, decision_options, description, is_completed, is_required_for_completion, location_id, location_name, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, prerequisites, progress_notes, selected_decision_option_id, selected_decision_option_label, snapshot_policy_slug, sort_order, version_group_id",
         )
         .eq("play_id", playId)
         .order("category_sort_order", { ascending: true })
@@ -76,7 +76,7 @@ export const readMainlinePlayStoryProgress = async (
       getMilestoneBadgeTypeId(milestone.badge_refs),
     ),
   );
-  const [decisionFormsResult, badgeTypesResult, placesResult] =
+  const [decisionFormsResult, badgeTypesResult, stepsResult] =
     await Promise.all([
       decisionFormIds.length
         ? supabase
@@ -94,12 +94,13 @@ export const readMainlinePlayStoryProgress = async (
         : { data: [], error: null },
       versionGroupIds.length
         ? supabase
-            .schema("reference")
-            .from("location_version_groups")
+            .schema("tracking")
+            .from("mainline_roadmap_steps")
             .select(
-              "location_id, sort_order, version_group_id, locations(name)",
+              "id, location_id, milestone_id, sort_order, version_group_id",
             )
             .in("version_group_id", versionGroupIds)
+            .order("sort_order", { ascending: true })
         : { data: [], error: null },
     ]);
 
@@ -111,27 +112,43 @@ export const readMainlinePlayStoryProgress = async (
     throw new Error("Unable to load Mainline Story badge types.");
   }
 
-  if (placesResult.error) {
+  if (stepsResult.error) {
+    throw new Error("Unable to load Mainline Story roadmap.");
+  }
+
+  const steps = stepsResult.data ?? [];
+  const locationIds = uniqueNumberIds(steps.map((step) => step.location_id));
+  const locationsResult = locationIds.length
+    ? await supabase
+        .schema("reference")
+        .from("locations")
+        .select("id, name")
+        .in("id", locationIds)
+    : { data: [], error: null };
+
+  if (locationsResult.error) {
     throw new Error("Unable to load Mainline Story places.");
   }
+
+  const locationNameById = new Map(
+    (locationsResult.data ?? []).map((location) => [
+      location.id,
+      location.name,
+    ]),
+  );
 
   return {
     badgeTypes: badgeTypesResult.data ?? [],
     categories: categoriesResult.data ?? [],
     decisionForms: decisionFormsResult.data ?? [],
     milestones,
-    places: (placesResult.data ?? []).flatMap((row) =>
-      row.locations?.name
-        ? [
-            {
-              location_id: row.location_id,
-              name: row.locations.name,
-              sort_order: row.sort_order,
-              version_group_id: row.version_group_id,
-            },
-          ]
-        : [],
-    ),
     snapshotEvents,
+    steps: steps.map((step) => ({
+      ...step,
+      location_name:
+        step.location_id === null
+          ? null
+          : (locationNameById.get(step.location_id) ?? null),
+    })),
   };
 };

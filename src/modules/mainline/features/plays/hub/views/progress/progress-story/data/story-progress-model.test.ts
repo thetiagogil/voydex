@@ -45,7 +45,6 @@ const milestone = (
   milestone_name: "Choose Starter",
   milestone_type_name: "Decision",
   milestone_type_slug: "decision",
-  opponent_refs: [],
   prerequisites: [],
   progress_notes: null,
   selected_decision_option_id: null,
@@ -71,7 +70,7 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -109,7 +108,7 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({ is_completed: true }),
@@ -137,7 +136,7 @@ describe("buildStoryProgressModel", () => {
           category({ is_open_world: isOpenWorld, milestone_count: 6 }),
         ],
         badgeTypes: [],
-        places: [],
+        steps: [],
         decisionForms: [],
         milestones: [
           milestone({
@@ -212,7 +211,7 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -248,7 +247,7 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category()],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [{ id: 906, slug: "sprigatito" }],
       milestones: [
         milestone({
@@ -363,7 +362,7 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -398,7 +397,7 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 3 })],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -448,7 +447,7 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 4 })],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -538,7 +537,7 @@ describe("buildStoryProgressModel", () => {
           milestone_count: 2,
         }),
       ],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({ milestone_id: 1 }),
@@ -614,7 +613,7 @@ describe("buildStoryProgressModel", () => {
           milestone_count: 1,
         }),
       ],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -666,7 +665,7 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       badgeTypes: [],
       categories: [category()],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [milestone()],
       snapshotEvents: [],
@@ -684,7 +683,7 @@ describe("findStoryMilestone", () => {
         category(),
       ],
       badgeTypes: [],
-      places: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),

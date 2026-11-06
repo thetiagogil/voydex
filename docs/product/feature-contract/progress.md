@@ -36,12 +36,12 @@ Story opens inside the Progress context as one route, read as a roadmap: the
 stamp card above, then every milestone of the open journey as a stop down one
 line that runs through the chapters in order (each chapter a sign on the
 line), with chapters played in any order (Scarlet / Violet's three paths) as
-bands the line turns into. Where a game's milestones have places, the places
-the story passes on the way to each milestone sit between them as quiet
-stops (Route 22, Route 2, Viridian Forest before Boulder Badge): a milestone
-stands for its own place, a place shows once where the story first reaches
-it, and side content with a place sits where the route passes it (otherwise
-after the beat that opens it). Each chapter is its own card that folds; only
+bands the line turns into. Where Voydex has a game's roadmap (its
+walkthrough's places and milestones in order, `tracking.mainline_roadmap_steps`),
+the route follows it: the places the story passes sit between the milestones
+as quiet stops (Route 1, Viridian City, back to Pallet Town for the Pokédex),
+a place coming back as often as the story returns to it, and side content
+where the walkthrough meets it. Each chapter is its own card that folds; only
 the one you're in starts open, and a folded one shows its milestones as a
 strip. The line is solid behind you and dashed ahead; stops still
 ahead are quieter, so how far you've come reads at a glance, and the page
@@ -66,7 +66,9 @@ Starter, Jupiter in Eterna City on Forest Badge, Hugh at the Driftveil
 tournament on Quake Badge) or, for a battle on the road between two beats, the
 beat it leads to (Silver at Cherrygrove on Zephyr Badge). A battle fought
 away from its beat's place says where (`location_id` on its opponent row:
-Red / Blue's rival on Route 22) and shows on that place on the route. A beat
+Red / Blue's rival on Route 22) and shows on that place where the roadmap
+passes it on the way to the beat. The stamp card and badge case keep the
+game's badge order even where the walkthrough reaches the gyms in another. A beat
 with no fight
 of its own never carries later battles, a rematch is never a Story battle, and
 a character fought twice on one beat has one opponent row per battle.

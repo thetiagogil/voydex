@@ -315,14 +315,21 @@ sources remain authoritative for game-specific mechanics and availability.
 - Story places: each Red / Blue milestone names the place it happens at
   (`location_id`), and a battle fought elsewhere names its own (Blue on Route
   22 before the Boulder Badge and before Victory Road). Once a version
-  group's milestones are placed, its place list is the Story roadmap, so it
-  also lists the places with no wild Pokémon the story stops at (Pewter City,
-  the S.S. Anne, Lavender Town, the Rocket Hideout, Saffron City), in
-  walkthrough order. Red / Blue's Main Story follows the order its story
-  reaches each beat (Silph Co. and the Marsh Badge before the Soul Badge, Bill's
-  Sea Cottage, the Safari Zone and the Pokémon Mansion as their own beats), and
-  Cerulean Cave is post-game. Source: Bulbapedia's Red / Blue walkthrough and
-  location pages. `560_story_places.sql` pins them.
+  group's milestones are placed, its place list also holds the places with no
+  wild Pokémon the story stops at (Pewter City, the S.S. Anne, the Pewter
+  Museum of Science, Lavender Town, the Underground Path between Routes 7 and
+  8, the Rocket Hideout, Saffron City), in walkthrough order. Red / Blue's
+  Main Story follows the walkthrough (Silph Co. and the Marsh Badge before
+  the Soul Badge, Bill's Sea Cottage, the Safari Zone and the Pokémon Mansion
+  as their own beats), and Cerulean Cave is post-game. Source: Bulbapedia's
+  Red / Blue walkthrough and location pages. `560_story_places.sql` pins
+  them.
+- Story roadmap (`tracking.mainline_roadmap_steps`): the walkthrough step by
+  step, copied from Bulbapedia's walkthrough for the version group, so a
+  place shows each time the story comes back to it (Red / Blue passes Pallet
+  Town three times). Every milestone of the version group is one step, side
+  content and post-game included, where the walkthrough reaches it.
+  `570_story_roadmap_steps.sql` pins Red / Blue's.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

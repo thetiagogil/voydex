@@ -142,7 +142,7 @@ WHERE
         mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'badge_sort_order', mainline_badges.sort_order, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
             ORDER BY mainline_milestone_badge_refs.sort_order) AS badge_refs
         FROM
             tracking.mainline_milestone_badge_refs

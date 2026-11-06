@@ -14,17 +14,12 @@ import type {
  * order (Scarlet and Violet's three stories) are each a short route of their
  * own, side by side, before the route carries on.
  *
- * Where milestones have places, the route is a roadmap: before each
- * milestone come the places the story passes on the way to it (Route 22,
- * Route 2, Viridian Forest before Boulder Badge), each its own quiet stop.
- * A milestone stands for its own place, so a town with a badge shows once;
- * a place the story comes back to shows only where it first comes. A battle
- * away from its milestone's place sits on that place: on the way there if
- * the stretch passes it, or as a stop of its own just before the milestone
- * when the story comes back to it. Side content with a place sits where the
- * route passes that place, standing for it, instead of after the beat that
- * opens it; where the route passes the place before that beat, it stays
- * after the beat.
+ * Where the game has a roadmap (`scope.steps`, from its walkthrough), the
+ * route is that roadmap: its places and milestones in the walkthrough's
+ * order, places as quiet stops (a place the story comes back to shows again),
+ * side content where the walkthrough meets it, and a chapter's sign where
+ * its first step comes. A place's battles are those of the milestone it
+ * leads to that are fought there (Red and Blue's rival on Route 22).
  */
 
 export type StoryRouteEntry =
@@ -91,7 +86,184 @@ export const isStoryFinished = (milestones: StoryMilestone[]) => {
 
 const isFinished = isStoryFinished;
 
-export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
+export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] =>
+  scope.steps.length ? buildRoadmapRoute(scope) : buildChapterRoute(scope);
+
+const stop = (milestone: StoryMilestone, optional: boolean) => ({
+  key: `stop-${milestone.id}`,
+  kind: "stop" as const,
+  milestone,
+  optional,
+});
+
+const sign = (section: StorySection, reached: boolean): StoryRouteEntry => ({
+  count: formatStoryCount([section]),
+  finished: isFinished(section.milestones),
+  key: `sign-${section.id}`,
+  kind: "sign",
+  name: section.name,
+  optional: false,
+  reached,
+  sectionId: section.id,
+});
+
+/* Side content open from the start (or with nothing placing it), under its own sign. */
+const anyTimeEntries = (
+  milestones: StoryMilestone[],
+  name: string,
+  reached: boolean,
+): StoryRouteEntry[] =>
+  milestones.length
+    ? [
+        {
+          count: `${milestones.filter((milestone) => milestone.isCompleted).length} of ${milestones.length}`,
+          finished: isFinished(milestones),
+          key: `sign-any-time`,
+          kind: "sign",
+          name,
+          optional: true,
+          reached,
+          sectionId: null,
+        },
+        ...milestones.map((milestone) => stop(milestone, true)),
+      ]
+    : [];
+
+/*
+ * A game with a roadmap: its steps in order. Each step belongs to the chapter
+ * of the next story milestone at or after it, so the places on the way to a
+ * chapter's first milestone come after its sign.
+ */
+const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
+  const sectionOf = new Map<number, StorySection>();
+  const milestoneById = new Map<number, StoryMilestone>();
+
+  for (const section of scope.sections) {
+    for (const milestone of section.milestones) {
+      sectionOf.set(milestone.id, section);
+      milestoneById.set(milestone.id, milestone);
+    }
+  }
+
+  type RoadmapStep = {
+    id: number;
+    milestone: StoryMilestone | null;
+    place: StoryPlace | null;
+  };
+
+  const steps = scope.steps.flatMap((step): RoadmapStep[] => {
+    const milestone =
+      step.milestoneId === null ? null : milestoneById.get(step.milestoneId);
+
+    return milestone
+      ? [{ id: step.id, milestone, place: null }]
+      : step.place
+        ? [{ id: step.id, milestone: null, place: step.place }]
+        : [];
+  });
+  const isStoryStep = (step: RoadmapStep) =>
+    step.milestone !== null &&
+    !isSideContent(sectionOf.get(step.milestone.id) as StorySection);
+  /* The chapter each step belongs to, and the milestone each place leads to. */
+  const chapterAt: (StorySection | null)[] = [];
+  const towardAt: (StoryMilestone | null)[] = [];
+  let chapter: StorySection | null = null;
+  let toward: StoryMilestone | null = null;
+
+  for (let index = steps.length - 1; index >= 0; index -= 1) {
+    const step = steps[index];
+
+    if (isStoryStep(step) && step.milestone) {
+      chapter = sectionOf.get(step.milestone.id) ?? chapter;
+    }
+
+    if (step.milestone && step.milestone.sequence !== null) {
+      toward = step.milestone;
+    }
+
+    chapterAt[index] = chapter;
+    towardAt[index] = toward;
+  }
+
+  const entries: StoryRouteEntry[] = [];
+  const placed = new Set<number>();
+  let shownChapter: StorySection | null = null;
+  /* Every required milestone so far is recorded. */
+  let walked = true;
+
+  steps.forEach((step, index) => {
+    const stepChapter = chapterAt[index];
+
+    if (stepChapter && stepChapter !== shownChapter) {
+      entries.push(sign(stepChapter, walked));
+      shownChapter = stepChapter;
+    }
+
+    if (step.milestone) {
+      placed.add(step.milestone.id);
+      entries.push(stop(step.milestone, step.milestone.sequence === null));
+
+      if (step.milestone.sequence !== null) {
+        walked = walked && step.milestone.isCompleted;
+      }
+
+      return;
+    }
+
+    const leadsTo = towardAt[index];
+
+    if (step.place && leadsTo) {
+      entries.push({
+        key: `place-${step.id}`,
+        kind: "place",
+        optional: false,
+        place: step.place,
+        reached: walked,
+        toward: leadsTo,
+      });
+    }
+  });
+
+  /* Anything the roadmap leaves out still shows, at its chapter's end or under Side Content. */
+  for (const section of scope.sections) {
+    const missing = section.milestones.filter(
+      (milestone) => !placed.has(milestone.id),
+    );
+
+    if (!missing.length || isSideContent(section)) {
+      continue;
+    }
+
+    entries.push(
+      sign(section, walked),
+      ...missing.map((milestone) =>
+        stop(milestone, milestone.sequence === null),
+      ),
+    );
+  }
+
+  const side = scope.sections.filter(isSideContent);
+
+  entries.push(
+    ...anyTimeEntries(
+      side
+        .flatMap((section) => section.milestones)
+        .filter((milestone) => !placed.has(milestone.id)),
+      side[0]?.name ?? "Side Content",
+      walked,
+    ),
+  );
+
+  return entries.length
+    ? [{ entries, key: entries[0].key, kind: "route" }]
+    : [];
+};
+
+/*
+ * A game without a roadmap: each chapter's milestones in order, side content
+ * after the beat that opens it, chapters played in any order side by side.
+ */
+const buildChapterRoute = (scope: StoryScope): StoryRouteBlock[] => {
   const story = scope.sections.filter((section) => !isSideContent(section));
   const side = scope.sections.filter(isSideContent);
   const storyMilestoneIds = new Set(
@@ -99,95 +271,11 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
       section.milestones.map((milestone) => milestone.id),
     ),
   );
-  const placeIndex = new Map(
-    scope.places.map((place, index) => [place.id, index]),
-  );
-  const sideMilestones = side.flatMap((section) => section.milestones);
-
-  /*
-   * Where the route reaches each place, by the story milestones' order: a
-   * place on the way to the k-th sits at k - 0.5, a milestone's own place at k.
-   */
-  const reachedAt = new Map<number, number>();
-  const milestoneOrder = new Map<number, number>();
-  let order = 0;
-
-  /* Walks a chapter's milestones from `from`; returns the furthest place reached. */
-  const reach = (section: StorySection, from: number) => {
-    let furthest = from;
-
-    for (const milestone of section.milestones) {
-      const target = milestone.place
-        ? (placeIndex.get(milestone.place.id) ?? -1)
-        : -1;
-
-      milestoneOrder.set(milestone.id, order);
-
-      for (let index = furthest + 1; index <= target; index += 1) {
-        reachedAt.set(
-          scope.places[index].id,
-          index === target ? order : order - 0.5,
-        );
-      }
-
-      furthest = Math.max(furthest, target);
-      order += 1;
-    }
-
-    return furthest;
-  };
-
-  /* Chapters played in any order each set out from where the route forks. */
-  let reachedSoFar = -1;
-  let forkFrom: number | null = null;
-  let forkFurthest = -1;
-
-  for (const section of story) {
-    if (section.playsInAnyOrder) {
-      forkFrom ??= reachedSoFar;
-      forkFurthest = Math.max(forkFurthest, reach(section, forkFrom));
-      continue;
-    }
-
-    if (forkFrom !== null) {
-      reachedSoFar = forkFurthest;
-      forkFrom = null;
-    }
-
-    reachedSoFar = reach(section, reachedSoFar);
-  }
-
-  /*
-   * Side content at a place the route passes sits there, standing for the
-   * place, unless the route reaches the place before what opens it.
-   */
-  const sideByPlace = new Map<number, StoryMilestone[]>();
-  const placedSide = new Set<number>();
-
-  for (const milestone of sideMilestones) {
-    const at = milestone.place ? reachedAt.get(milestone.place.id) : undefined;
-    const opener = milestone.opensAfter
-      ? milestoneOrder.get(milestone.opensAfter.id)
-      : undefined;
-
-    if (milestone.place && at !== undefined && (opener ?? -1) <= at) {
-      sideByPlace.set(milestone.place.id, [
-        ...(sideByPlace.get(milestone.place.id) ?? []),
-        milestone,
-      ]);
-      placedSide.add(milestone.id);
-    }
-  }
-
   /* Side content placed after the beat that opens it; the rest closes the route. */
   const sideByOpener = new Map<number, StoryMilestone[]>();
   const sideAnyTime: StoryMilestone[] = [];
 
-  for (const milestone of sideMilestones) {
-    if (placedSide.has(milestone.id)) {
-      continue;
-    }
-
+  for (const milestone of side.flatMap((section) => section.milestones)) {
     const opener = milestone.opensAfter;
 
     if (opener && storyMilestoneIds.has(opener.id)) {
@@ -200,114 +288,15 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
     }
   }
 
-  const stop = (milestone: StoryMilestone, optional: boolean) => ({
-    key: `stop-${milestone.id}`,
-    kind: "stop" as const,
-    milestone,
-    optional,
-  });
-
-  /* Every required milestone so far is recorded: the places after it are reached. */
-  let walked = true;
-  /* The furthest place the route has shown, by its place in the story's order. */
-  let shown = -1;
-  /* Places already shown as a battle's own stop, ahead of where the route reaches them. */
-  const shownEarly = new Set<number>();
-
-  /* Side content already drawn, so a place two paths pass shows it once. */
-  const drawnSide = new Set<number>();
-  const pinnedAt = (place: StoryPlace) =>
-    (sideByPlace.get(place.id) ?? []).flatMap((milestone) => {
-      if (drawnSide.has(milestone.id)) {
-        return [];
-      }
-
-      drawnSide.add(milestone.id);
-
-      return [stop(milestone, true)];
-    });
-
-  /* The places on the way to a milestone, each with any side content there. */
-  const placesBefore = (milestone: StoryMilestone): StoryRouteEntry[] => {
-    const target = milestone.place
-      ? (placeIndex.get(milestone.place.id) ?? -1)
-      : -1;
-    /* No place: the route shows none on the way to it. */
-    const ahead = target < 0 ? [] : scope.places.slice(shown + 1, target);
-    const aheadIds = new Set(ahead.map(({ id }) => id));
-    const place = (where: StoryPlace, revisit: boolean): StoryRouteEntry => ({
-      key: `place-${milestone.id}-${where.id}${revisit ? "-again" : ""}`,
-      kind: "place",
-      optional: false,
-      place: where,
-      reached: walked,
-      toward: milestone,
-    });
-    /*
-     * A battle at a place the route has passed (or doesn't reach on the way
-     * here): a stop of its own first.
-     */
-    const revisits = milestone.battlePlaces
-      .filter((where) => !aheadIds.has(where.id))
-      .map((where) => {
-        shownEarly.add(where.id);
-        return place(where, true);
-      });
-
-    const battlePlaceIds = new Set(milestone.battlePlaces.map(({ id }) => id));
-
-    /* Side content at a place stands for it, unless a battle is fought there too. */
-    return [
-      ...revisits,
-      ...ahead.flatMap((where) =>
-        shownEarly.has(where.id) && !battlePlaceIds.has(where.id)
-          ? pinnedAt(where)
-          : sideByPlace.has(where.id) && !battlePlaceIds.has(where.id)
-            ? pinnedAt(where)
-            : [place(where, false), ...pinnedAt(where)],
-      ),
-    ];
-  };
-
-  /* A milestone after the places that lead to it, then what it opens. */
-  const milestoneEntries = (milestone: StoryMilestone) => {
-    const entries: StoryRouteEntry[] = [
-      ...placesBefore(milestone),
-      stop(milestone, milestone.sequence === null),
-    ];
-    const target = milestone.place
-      ? (placeIndex.get(milestone.place.id) ?? -1)
-      : -1;
-
-    if (milestone.place && target > shown) {
-      entries.push(...pinnedAt(milestone.place));
-      shown = target;
-    }
-
-    for (const opened of sideByOpener.get(milestone.id) ?? []) {
-      entries.push(stop(opened, true));
-    }
-
-    if (milestone.sequence !== null) {
-      walked = walked && milestone.isCompleted;
-    }
-
-    return entries;
-  };
-
-  /* A chapter on the route: its sign, then each milestone and the way to it. */
+  /* A chapter on the route: its sign, its milestones and what each opens. */
   const chapterEntries = (section: StorySection, reached: boolean) => [
-    {
-      count: formatStoryCount([section]),
-      finished: isFinished(section.milestones),
-      key: `sign-${section.id}`,
-      kind: "sign" as const,
-      name: section.name,
-      optional: false,
-      reached,
-      sectionId: section.id,
-    },
-    ...section.milestones.flatMap(milestoneEntries),
+    sign(section, reached),
+    ...section.milestones.flatMap((milestone) => [
+      stop(milestone, milestone.sequence === null),
+      ...(sideByOpener.get(milestone.id) ?? []).map((opened) =>
+        stop(opened, true),
+      ),
+    ]),
   ];
 
   const blocks: StoryRouteBlock[] = [];
@@ -323,29 +312,11 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
   };
   const closeAnyOrder = () => {
     if (anyOrder.length) {
-      /* Each chapter sets out from where the route forks, walked as far as it. */
-      const forkShown = shown;
-      const forkWalked = walked;
-      let furthestShown = shown;
-      let allWalked = forkWalked;
-
       blocks.push({
         key: `any-${anyOrder[0].id}`,
         kind: "anyOrder",
-        routes: anyOrder.map((section) => {
-          shown = forkShown;
-          walked = forkWalked;
-
-          const entries = chapterEntries(section, reached);
-
-          furthestShown = Math.max(furthestShown, shown);
-          allWalked = allWalked && walked;
-
-          return entries;
-        }),
+        routes: anyOrder.map((section) => chapterEntries(section, reached)),
       });
-      shown = furthestShown;
-      walked = allWalked;
       reached = reached && anyOrder.every((s) => isFinished(s.milestones));
       anyOrder = [];
     }
@@ -368,23 +339,9 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
   }
 
   closeAnyOrder();
-
-  if (sideAnyTime.length) {
-    route.push(
-      {
-        count: `${sideAnyTime.filter((milestone) => milestone.isCompleted).length} of ${sideAnyTime.length}`,
-        finished: isFinished(sideAnyTime),
-        key: `sign-any-time`,
-        kind: "sign",
-        name: side[0]?.name ?? "Side Content",
-        optional: true,
-        reached,
-        sectionId: null,
-      },
-      ...sideAnyTime.map((milestone) => stop(milestone, true)),
-    );
-  }
-
+  route.push(
+    ...anyTimeEntries(sideAnyTime, side[0]?.name ?? "Side Content", reached),
+  );
   closeRoute();
 
   return blocks;

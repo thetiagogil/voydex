@@ -27,7 +27,6 @@ const milestone = (
   milestone_name: "Boulder Badge",
   milestone_type_name: "Gym",
   milestone_type_slug: "gym",
-  opponent_refs: [],
   prerequisites: [],
   progress_notes: null,
   selected_decision_option_id: null,
@@ -57,7 +56,7 @@ const scope = buildStoryProgressModel({
       version_group_name: "FireRed / LeafGreen",
     },
   ],
-  places: [],
+  steps: [],
   decisionForms: [],
   milestones: [
     milestone({}),

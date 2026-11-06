@@ -4007,6 +4007,44 @@ COMMENT ON TABLE tracking.mainline_opponent_team_member_moves IS 'Curated move s
 COMMENT ON COLUMN tracking.mainline_opponent_team_member_moves.move_id IS 'A regular move it knows in this battle, as that game''s own trainer data gives it; a Pokémon the game gives no set moves keeps its default level-up moves for its level.';
 
 -- ============================================================================
+-- Source: database/schema/03_tracking/01_tables/019_mainline_roadmap_steps.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: tracking.mainline_roadmap_steps
+-- The Story roadmap of a version group, step by step in walkthrough order.
+-- ============================================================================
+CREATE TABLE tracking.mainline_roadmap_steps (
+    id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    sort_order integer NOT NULL,
+    location_id integer,
+    milestone_id integer,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT mainline_roadmap_steps_id_positive_check CHECK (id > 0),
+    CONSTRAINT mainline_roadmap_steps_sort_order_positive_check CHECK (sort_order > 0),
+    CONSTRAINT mainline_roadmap_steps_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT mainline_roadmap_steps_one_target_check CHECK (num_nonnulls (location_id, milestone_id) = 1),
+    CONSTRAINT mainline_roadmap_steps_version_group_sort_order_unique UNIQUE (version_group_id, sort_order)
+);
+
+CREATE UNIQUE INDEX mainline_roadmap_steps_milestone_unique ON tracking.mainline_roadmap_steps (milestone_id)
+WHERE
+    milestone_id IS NOT NULL;
+
+CREATE INDEX mainline_roadmap_steps_location_idx ON tracking.mainline_roadmap_steps (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
+COMMENT ON TABLE tracking.mainline_roadmap_steps IS 'A version group''s Story roadmap in walkthrough order. A step is a place you pass (location_id) or a milestone (milestone_id), which carries its own place. Places may repeat (revisits); a milestone appears once.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.sort_order IS 'The step''s position on the version group''s roadmap, counting 1, 2, 3.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.location_id IS 'A place the story passes through, one of the version group''s places. NULL on a milestone step.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.milestone_id IS 'A milestone of the same version group; the step sits at the milestone''s own place. NULL on a place step.';
+
+-- ============================================================================
 -- Source: database/schema/03_tracking/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -4048,6 +4086,8 @@ ALTER TABLE tracking.mainline_opponent_team_members ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE tracking.mainline_opponent_team_member_moves ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE tracking.mainline_roadmap_steps ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE tracking.mainline_snapshot_policies FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_categories FROM anon, authenticated;
@@ -4083,6 +4123,8 @@ REVOKE ALL ON TABLE tracking.mainline_milestone_decision_options FROM anon, auth
 REVOKE ALL ON TABLE tracking.mainline_opponent_team_members FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_opponent_team_member_moves FROM anon, authenticated;
+
+REVOKE ALL ON TABLE tracking.mainline_roadmap_steps FROM anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_snapshot_policies TO authenticated;
 
@@ -4120,6 +4162,8 @@ GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO anon, authentic
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
 
+GRANT SELECT ON TABLE tracking.mainline_roadmap_steps TO authenticated;
+
 GRANT ALL ON TABLE tracking.mainline_snapshot_policies TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_categories TO service_role;
@@ -4155,6 +4199,8 @@ GRANT ALL ON TABLE tracking.mainline_milestone_decision_options TO service_role;
 GRANT ALL ON TABLE tracking.mainline_opponent_team_members TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_opponent_team_member_moves TO service_role;
+
+GRANT ALL ON TABLE tracking.mainline_roadmap_steps TO service_role;
 
 CREATE POLICY mainline_snapshot_policies_read_all ON tracking.mainline_snapshot_policies
     FOR SELECT TO authenticated
@@ -4225,6 +4271,10 @@ CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_oppon
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves
+    FOR SELECT TO authenticated
+    USING (TRUE);
+
+CREATE POLICY mainline_roadmap_steps_read_all ON tracking.mainline_roadmap_steps
     FOR SELECT TO authenticated
     USING (TRUE);
 
@@ -10294,7 +10344,7 @@ WHERE
         mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'badge_sort_order', mainline_badges.sort_order, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
             ORDER BY mainline_milestone_badge_refs.sort_order) AS badge_refs
         FROM
             tracking.mainline_milestone_badge_refs
