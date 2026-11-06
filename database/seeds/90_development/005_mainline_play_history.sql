@@ -194,8 +194,12 @@ WITH last_milestone_event AS (
   FROM
     gameplay.mainline_play_events
     JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_events.play_id
+    -- Only a milestone that keeps a team gets one (never a choice, whose policy is none).
+    JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_play_events.milestone_id
+    JOIN tracking.mainline_snapshot_policies ON mainline_snapshot_policies.id = mainline_milestones.snapshot_policy_id
   WHERE
     mainline_play_events.milestone_id IS NOT NULL
+    AND mainline_snapshot_policies.slug <> 'none'
     AND mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid
   ORDER BY mainline_play_events.play_id, mainline_play_events.timeline_order DESC
 ),
