@@ -7,13 +7,15 @@ import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
+import { getStoryRouteStopId } from "./story-route-stop";
 
 /*
  * One chapter of the Story as its own card (#199): its name and how far
  * through it you are in a head that stays in view while you scroll, with
  * Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
- * its milestones as a strip of small medallions, so the whole game reads at
- * a glance; open, its route of milestones and places.
+ * its milestones as a strip of small medallions, each opening its milestone,
+ * so the whole game reads at a glance; open, its route of milestones and
+ * places.
  */
 export const StoryChapterCard = ({
   children,
@@ -23,8 +25,11 @@ export const StoryChapterCard = ({
   milestones,
   name,
   nextMilestoneId,
+  onMilestoneSelect,
   onToggle,
   open,
+  opensSheet,
+  selectedMilestoneId,
 }: {
   /* Its route, shown while it's open. */
   children: ReactNode;
@@ -36,8 +41,14 @@ export const StoryChapterCard = ({
   milestones: StoryMilestone[];
   name: string;
   nextMilestoneId: number | null;
+  /* A medallion in the folded strip opens its milestone. */
+  onMilestoneSelect: (milestone: StoryMilestone) => void;
   onToggle: () => void;
   open: boolean;
+  /* Below 1024px a milestone opens a sheet; beside the route, the panel. */
+  opensSheet: boolean;
+  /* The milestone open in the detail, ringed in the strip. */
+  selectedMilestoneId: number | null;
 }) => {
   const bodyId = useId();
 
@@ -105,28 +116,44 @@ export const StoryChapterCard = ({
           >
             {milestones.map((milestone) => (
               <li key={milestone.id}>
-                <MilestoneMarker
-                  badge={milestone.badge}
-                  sequence={milestone.sequence}
-                  size="sm"
-                  state={
-                    milestone.isCompleted
-                      ? "done"
-                      : milestone.id === nextMilestoneId
-                        ? "next"
-                        : "todo"
+                {/* Opens its milestone, as its stop would; the chapter stays folded. */}
+                <button
+                  type="button"
+                  id={getStoryRouteStopId(milestone.id)}
+                  aria-current={
+                    milestone.id === selectedMilestoneId ? "true" : undefined
                   }
-                  className={
-                    !milestone.isCompleted && milestone.id !== nextMilestoneId
-                      ? "bg-surface-2 inset-ring-dash"
-                      : undefined
-                  }
-                  typeSlug={milestone.typeSlug}
-                />
-                <span className="sr-only">
-                  {milestone.name}
-                  {milestone.isCompleted ? ", recorded" : ""}
-                </span>
+                  aria-haspopup={opensSheet ? "dialog" : undefined}
+                  onClick={() => onMilestoneSelect(milestone)}
+                  className={cn(
+                    "focus-ring grid place-items-center rounded-full transition-shadow duration-150",
+                    milestone.id === selectedMilestoneId &&
+                      "ring-select-ink ring-offset-surface ring-2 ring-offset-2",
+                  )}
+                >
+                  <MilestoneMarker
+                    badge={milestone.badge}
+                    sequence={milestone.sequence}
+                    size="sm"
+                    state={
+                      milestone.isCompleted
+                        ? "done"
+                        : milestone.id === nextMilestoneId
+                          ? "next"
+                          : "todo"
+                    }
+                    className={
+                      !milestone.isCompleted && milestone.id !== nextMilestoneId
+                        ? "bg-surface-2 inset-ring-dash"
+                        : undefined
+                    }
+                    typeSlug={milestone.typeSlug}
+                  />
+                  <span className="sr-only">
+                    {milestone.name}
+                    {milestone.isCompleted ? ", recorded" : ""}
+                  </span>
+                </button>
               </li>
             ))}
           </ul>

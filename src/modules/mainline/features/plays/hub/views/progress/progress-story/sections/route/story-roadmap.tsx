@@ -140,38 +140,6 @@ export const StoryRoadmap = ({
       new Map(current).set(signKey, !isChapterOpen(signKey)),
     );
 
-  /* The chapter each stop and place sits in, by its route key. */
-  const chapterOfKey = useMemo(() => {
-    const chapters = new Map<string, string>();
-
-    for (const block of blocks) {
-      for (const entries of block.kind === "route"
-        ? [block.entries]
-        : block.routes) {
-        for (const chapter of splitStoryRouteChapters(entries)) {
-          for (const entry of chapter.entries) {
-            chapters.set(entry.key, chapter.key);
-          }
-        }
-      }
-    }
-
-    return chapters;
-  }, [blocks]);
-
-  /* Picking a stop or place (from a stamp, say) opens the chapter it sits in. */
-  const [seenSelectedKey, setSeenSelectedKey] = useState(selectedKey);
-
-  if (selectedKey !== seenSelectedKey) {
-    setSeenSelectedKey(selectedKey);
-
-    const chapterKey = selectedKey ? chapterOfKey.get(selectedKey) : undefined;
-
-    if (chapterKey && !isChapterOpen(chapterKey)) {
-      setChapterOpen((current) => new Map(current).set(chapterKey, true));
-    }
-  }
-
   const renderEntry = (item: StoryRouteItem) => {
     if (item.kind === "place") {
       return (
@@ -291,8 +259,15 @@ export const StoryRoadmap = ({
         milestones={stops}
         name={chapter.sign.name}
         nextMilestoneId={nextMilestoneId}
+        onMilestoneSelect={onMilestoneSelect}
         onToggle={() => toggleChapter(chapter.key)}
         open={isChapterOpen(chapter.key)}
+        opensSheet={opensSheet}
+        selectedMilestoneId={
+          selectedKey?.startsWith("stop-")
+            ? Number(selectedKey.slice("stop-".length))
+            : null
+        }
       >
         <StoryRoute
           label={label}

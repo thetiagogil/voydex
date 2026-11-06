@@ -181,9 +181,15 @@ test.describe("Progress", () => {
       name: /^(Expand|Collapse) Main Story$/,
     });
     await mainStory.click();
-    await expect(
-      route.getByRole("button", { name: /^Boulder Badge/ }),
-    ).toHaveCount(0);
+    await expect(route.getByRole("button", { name: /^Route 2\b/ })).toHaveCount(
+      0,
+    );
+    /* Collapsed, its milestones are a strip of medallions that still open. */
+    await route
+      .getByRole("list", { name: "Main Story milestones" })
+      .getByRole("button", { name: /^Boulder Badge/ })
+      .click();
+    await expect(storyDetail(page, "Boulder Badge")).toBeVisible();
     await mainStory.click();
     await route22.first().click();
     const routeDetail = storyDetail(page, "Route 22");
