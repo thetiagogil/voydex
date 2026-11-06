@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createStampOrder,
   describePlayStamp,
+  getMilestoneBadge,
   getMilestoneBadgeTypeId,
   getPlayStampLabel,
   getPlayStampStates,
@@ -13,6 +14,71 @@ describe("play stamps", () => {
   it("reads the first badge's type", () => {
     expect(getMilestoneBadgeTypeId([{ name: "x" }, { type_id: 12 }])).toBe(12);
     expect(getMilestoneBadgeTypeId(null)).toBeNull();
+  });
+
+  describe("getMilestoneBadge", () => {
+    const typeSlugById = new Map([
+      [3, "water"],
+      [12, "grass"],
+      [99, "shadow"],
+    ]);
+
+    it("gives a gym its badge's type and picture", () => {
+      expect(
+        getMilestoneBadge({
+          badgeRefs: [{ sprite_slug: "cascade-badge", type_id: 3 }],
+          milestoneTypeSlug: "gym",
+          typeSlugById,
+        }),
+      ).toEqual({
+        imageUrl: "https://assets.test/badges/cascade-badge.webp",
+        type: "water",
+      });
+    });
+
+    it("keeps an Alola trial's Z-Crystal on its type's icon", () => {
+      expect(
+        getMilestoneBadge({
+          badgeRefs: [{ sprite_slug: "waterium-z", type_id: 3 }],
+          milestoneTypeSlug: "trial",
+          typeSlugById,
+        }),
+      ).toEqual({ imageUrl: null, type: "water" });
+    });
+
+    it("has no picture for a badge without a sprite slug", () => {
+      expect(
+        getMilestoneBadge({
+          badgeRefs: [{ sprite_slug: null, type_id: 12 }],
+          milestoneTypeSlug: "gym",
+          typeSlugById,
+        }),
+      ).toEqual({ imageUrl: null, type: "grass" });
+    });
+
+    it("has no badge without a typed ref or a Pokémon type", () => {
+      expect(
+        getMilestoneBadge({
+          badgeRefs: [{ sprite_slug: "x-badge" }],
+          milestoneTypeSlug: "gym",
+          typeSlugById,
+        }),
+      ).toBeNull();
+      expect(
+        getMilestoneBadge({
+          badgeRefs: [{ sprite_slug: "x-badge", type_id: 99 }],
+          milestoneTypeSlug: "gym",
+          typeSlugById,
+        }),
+      ).toBeNull();
+      expect(
+        getMilestoneBadge({
+          badgeRefs: null,
+          milestoneTypeSlug: "gym",
+          typeSlugById,
+        }),
+      ).toBeNull();
+    });
   });
 
   it("marks the first stamp not yet earned as next", () => {

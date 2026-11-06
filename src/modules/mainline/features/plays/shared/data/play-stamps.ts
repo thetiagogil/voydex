@@ -1,5 +1,19 @@
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { getBadgeImageUrl } from "@/modules/reference/features/badges/data/badge-images";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { Json } from "@/shared/types/database.types";
+
+/*
+ * What a gym (or an Alola trial) hands out, as its medallion and stamp wear
+ * it: the badge's type, and the badge's own picture. Only a gym badge has a
+ * picture; a trial's Z-Crystal keeps its type's icon.
+ */
+export type MilestoneBadge = {
+  imageUrl: string | null;
+  type: PokemonTypeSlug;
+};
 
 /*
  * One stamp of a Play's badge case or stamp card: a gym badge or an Alola
@@ -8,8 +22,8 @@ import type { Json } from "@/shared/types/database.types";
  * same wherever it shows.
  */
 export type PlayStamp = {
-  /* A gym badge's or a trial's type; null for the League or an unknown badge. */
-  badgeType: PokemonTypeSlug | null;
+  /* A gym's badge or a trial's Z-Crystal; null for the League or an unknown badge. */
+  badge: MilestoneBadge | null;
   completedAt: string | null;
   kind: PlayStampKind;
   /*
@@ -43,10 +57,10 @@ export const getTypedStampKind = (
     : null;
 };
 
-/* A gym milestone's badge: the type of the first badge it refers to. */
-export const getMilestoneBadgeTypeId = (
+/* The first badge a milestone refers to that has a type. */
+const getFirstTypedBadgeRef = (
   badgeRefs: Json | null,
-): number | null => {
+): { spriteSlug: string | null; typeId: number } | null => {
   if (!Array.isArray(badgeRefs)) {
     return null;
   }
@@ -58,11 +72,47 @@ export const getMilestoneBadgeTypeId = (
       !Array.isArray(ref) &&
       typeof ref.type_id === "number"
     ) {
-      return ref.type_id;
+      return {
+        spriteSlug:
+          typeof ref.sprite_slug === "string" ? ref.sprite_slug : null,
+        typeId: ref.type_id,
+      };
     }
   }
 
   return null;
+};
+
+/* A gym milestone's badge type id: the type of the first badge it refers to. */
+export const getMilestoneBadgeTypeId = (badgeRefs: Json | null) =>
+  getFirstTypedBadgeRef(badgeRefs)?.typeId ?? null;
+
+/*
+ * A milestone's badge from its badge refs: the first badge's type (looked up
+ * among the reference types) and, for a gym, the badge's picture. Null when
+ * it refers to no badge with a Pokémon type.
+ */
+export const getMilestoneBadge = ({
+  badgeRefs,
+  milestoneTypeSlug,
+  typeSlugById,
+}: {
+  badgeRefs: Json | null;
+  milestoneTypeSlug: string | null | undefined;
+  typeSlugById: ReadonlyMap<number, string>;
+}): MilestoneBadge | null => {
+  const ref = getFirstTypedBadgeRef(badgeRefs);
+  const type = ref ? typeSlugById.get(ref.typeId) : undefined;
+
+  if (!ref || !type || !isPokemonTypeSlug(type)) {
+    return null;
+  }
+
+  return {
+    imageUrl:
+      milestoneTypeSlug === "gym" ? getBadgeImageUrl(ref.spriteSlug) : null,
+    type,
+  };
 };
 
 /*

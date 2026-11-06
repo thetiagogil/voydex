@@ -129,7 +129,7 @@ export const readMainlinePlayPokemonMoments = async (
     return {
       byPokemonId: Object.fromEntries(playPokemonIds.map((id) => [id, []])),
       context: {
-        badgeTypeByMilestoneId: [],
+        badgeByMilestoneId: [],
         trophyMilestoneIds: [],
         typeByFormId: [],
       },

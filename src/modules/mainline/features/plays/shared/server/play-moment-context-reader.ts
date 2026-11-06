@@ -3,8 +3,9 @@ import { getMainlineTimelinePokemonFormIds } from "@/modules/mainline/features/p
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { isTrophyMilestone } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import {
-  getMilestoneBadgeTypeId,
+  getMilestoneBadge,
   getTypedStampKind,
+  type MilestoneBadge,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   isPokemonTypeSlug,
@@ -15,7 +16,7 @@ import { uniqueNumberIds } from "@/shared/utils/collections";
 
 /*
  * What moment medallions need beyond the events themselves: each gym's (or
- * Alola trial's) badge type, and the type of every form the moments name (read
+ * Alola trial's) badge, and the type of every form the moments name (read
  * at the Play's generation), so a Pokémon medallion sits on its type's tint.
  */
 export const readMainlinePlayMomentContext = async (
@@ -65,16 +66,18 @@ export const readMainlinePlayMomentContext = async (
       isPokemonTypeSlug(type.slug) ? [[type.id, type.slug]] : [],
     ),
   );
-  const badgeTypeByMilestoneId = (milestonesResult.data ?? []).flatMap(
-    (milestone): [number, PokemonTypeSlug][] => {
-      const typeSlug = typeSlugById.get(
-        getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
-      );
+  const badgeByMilestoneId = (milestonesResult.data ?? []).flatMap(
+    (milestone): [number, MilestoneBadge][] => {
+      const badge = getMilestoneBadge({
+        badgeRefs: milestone.badge_refs,
+        milestoneTypeSlug: milestone.milestone_type_slug,
+        typeSlugById,
+      });
 
       return getTypedStampKind(milestone.milestone_type_slug, true) &&
         milestone.milestone_id !== null &&
-        typeSlug
-        ? [[milestone.milestone_id, typeSlug]]
+        badge
+        ? [[milestone.milestone_id, badge]]
         : [];
     },
   );
@@ -90,7 +93,7 @@ export const readMainlinePlayMomentContext = async (
   }
 
   return {
-    badgeTypeByMilestoneId,
+    badgeByMilestoneId,
     trophyMilestoneIds: (milestonesResult.data ?? []).flatMap((milestone) =>
       milestone.milestone_id !== null &&
       isTrophyMilestone(milestone.milestone_type_slug)

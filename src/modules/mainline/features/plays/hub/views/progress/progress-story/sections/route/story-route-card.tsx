@@ -142,7 +142,7 @@ export const StoryRouteCard = ({
         }}
         marker={
           <MilestoneMarker
-            badgeType={milestone.badgeType}
+            badge={milestone.badge}
             popIn={motion !== null}
             sequence={milestone.sequence}
             /* An optional stop is a detour off the route: a step smaller. */

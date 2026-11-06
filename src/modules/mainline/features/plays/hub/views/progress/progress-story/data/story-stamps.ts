@@ -20,7 +20,7 @@ export const buildStoryStamps = (
 ): PlayStamp[] | null => {
   const milestones = sections.flatMap((section) => section.milestones);
   const typed = milestones.filter((milestone) =>
-    getTypedStampKind(milestone.typeSlug, milestone.badgeType !== null),
+    getTypedStampKind(milestone.typeSlug, milestone.badge !== null),
   );
 
   if (!typed.length) {
@@ -39,11 +39,11 @@ export const buildStoryStamps = (
 
   return ordered.map((milestone, index) => {
     const kind =
-      getTypedStampKind(milestone.typeSlug, milestone.badgeType !== null) ??
+      getTypedStampKind(milestone.typeSlug, milestone.badge !== null) ??
       "league";
 
     return {
-      badgeType: milestone.badgeType,
+      badge: milestone.badge,
       completedAt: milestone.completedAt,
       kind,
       label: getPlayStampLabel(kind, milestone.name),

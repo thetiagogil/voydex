@@ -63,9 +63,15 @@ export type PublicPokemon = PublicPokemonForm & {
   type: PublicTypeSlug;
 };
 
+/*
+ * A gym badge the public pages show: its type and the name of its picture on
+ * the assets site (`tracking.mainline_badges.sprite_slug`).
+ */
+export type PublicBadge = { spriteSlug: string; type: PublicTypeSlug };
+
 /* What a moment's medallion holds: a gym badge, a note or a Pokémon. */
 export type PublicMoment =
-  | { kind: "badge"; type: PublicTypeSlug }
+  | (PublicBadge & { kind: "badge" })
   | { kind: "note" }
   | { kind: "pokemon"; pokemon: PublicPokemon };
 
@@ -87,7 +93,7 @@ export type PublicSamplePlay = {
  */
 export type PublicPlayArt = {
   /* An earned gym badge stamp at its resting tilt, decorative. */
-  badgeStamp: (props: { tilt: number; type: PublicTypeSlug }) => ReactNode;
+  badgeStamp: (props: PublicBadge & { tilt: number }) => ReactNode;
   /* A moment's medallion, decorative; `lg` is the Intro's partner. */
   medallion: (props: {
     className?: string;

@@ -2,6 +2,7 @@ import {
   getPlayMomentTeamLine,
   type PlayMomentTextPart,
 } from "@/modules/mainline/features/plays/shared/data/play-moment-team-line";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { getMilestoneMedallion } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
@@ -27,11 +28,11 @@ export type PlayMomentRecord = {
 
 /*
  * What a moment's medallion can know beyond the event: a gym's (or Alola
- * trial's) badge type, and the types of the forms on the team (event Pokémon carry
+ * trial's) badge, and the types of the forms on the team (event Pokémon carry
  * no type).
  */
 export type PlayMomentContext = {
-  badgeTypeByMilestoneId?: ReadonlyMap<number, PokemonTypeSlug>;
+  badgeByMilestoneId?: ReadonlyMap<number, MilestoneBadge>;
   /* Milestones that are trophies (the League, trials), in gold. */
   trophyMilestoneIds?: ReadonlySet<number>;
   typeByFormId?: ReadonlyMap<number, PokemonTypeSlug>;
@@ -42,7 +43,7 @@ export type PlayMomentContext = {
  * Client Component.
  */
 export type PlayMomentContextEntries = {
-  badgeTypeByMilestoneId: [number, PokemonTypeSlug][];
+  badgeByMilestoneId: [number, MilestoneBadge][];
   trophyMilestoneIds: number[];
   typeByFormId: [number, PokemonTypeSlug][];
 };
@@ -50,7 +51,7 @@ export type PlayMomentContextEntries = {
 export const toPlayMomentContext = (
   entries: PlayMomentContextEntries,
 ): PlayMomentContext => ({
-  badgeTypeByMilestoneId: new Map(entries.badgeTypeByMilestoneId),
+  badgeByMilestoneId: new Map(entries.badgeByMilestoneId),
   trophyMilestoneIds: new Set(entries.trophyMilestoneIds),
   typeByFormId: new Map(entries.typeByFormId),
 });
@@ -217,14 +218,14 @@ export const getPlayMomentRecord = (
   }
 
   const kind = otherMomentKinds[eventTypeSlug] ?? unknownMomentKind;
-  const badgeType =
+  const badge =
     event.milestone_id === null
       ? undefined
-      : context.badgeTypeByMilestoneId?.get(event.milestone_id);
+      : context.badgeByMilestoneId?.get(event.milestone_id);
   const medallion: MedallionContent =
     kind.medallion === "milestone"
       ? getMilestoneMedallion({
-          badgeType,
+          badge,
           icon: kind.icon,
           isTrophy:
             eventTypeSlug === "hall_of_fame" ||

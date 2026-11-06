@@ -129,7 +129,7 @@ export const StoryMilestoneSheet = ({
           <div className="flex items-center gap-4">
             {milestone ? (
               <MilestoneMarker
-                badgeType={milestone.badgeType}
+                badge={milestone.badge}
                 sequence={milestone.sequence}
                 size="lg"
                 state={

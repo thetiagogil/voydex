@@ -139,6 +139,7 @@ export const RecordAsYouGoStage = ({
         {samplePlayBadges.map((badge, index) => (
           <Fragment key={badge.name}>
             {playArt.badgeStamp({
+              spriteSlug: badge.spriteSlug,
               tilt: stampTilts[index] ?? 0,
               type: badge.type,
             })}

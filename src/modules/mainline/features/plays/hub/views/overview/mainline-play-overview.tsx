@@ -4,7 +4,7 @@ import { toPokedexMode } from "@/config/play-tracking";
 import { appRoutes } from "@/config/routes";
 import { getPlayMomentTypeByFormId } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 
 import { OverviewRecordingProvider } from "./client/overview-recording";
 import { FirstStepsSection } from "./sections/first-steps/first-steps-section";
@@ -46,10 +46,10 @@ export const MainlinePlayOverview = ({
   const recentMoments = (
     <RecentHistorySection
       context={{
-        badgeTypeByMilestoneId: new Map(
+        badgeByMilestoneId: new Map(
           (data.badgeCase?.stamps ?? []).flatMap(
-            (stamp): [number, PokemonTypeSlug][] =>
-              stamp.badgeType ? [[stamp.milestoneId, stamp.badgeType]] : [],
+            (stamp): [number, MilestoneBadge][] =>
+              stamp.badge ? [[stamp.milestoneId, stamp.badge]] : [],
           ),
         ),
         trophyMilestoneIds: new Set(data.trophyMilestoneIds),
