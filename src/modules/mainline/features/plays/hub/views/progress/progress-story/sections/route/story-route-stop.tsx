@@ -56,7 +56,7 @@ export const StoryRouteStop = ({
     aria-pressed={selected}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
-    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1.5 pr-2 pl-1.5 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-0.5 pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
       <span
@@ -110,6 +110,7 @@ export const StoryRoutePlace = ({
   battleCount,
   id,
   name,
+  onPrefetch,
   onSelect,
   opensSheet,
   reached,
@@ -118,6 +119,8 @@ export const StoryRoutePlace = ({
   battleCount: number;
   id: string;
   name: string;
+  /* Pointed at or focused: what it opens can start loading. */
+  onPrefetch: () => void;
   onSelect: () => void;
   opensSheet: boolean;
   reached: boolean;
@@ -129,7 +132,9 @@ export const StoryRoutePlace = ({
     aria-haspopup={opensSheet ? "dialog" : undefined}
     aria-pressed={selected}
     onClick={onSelect}
-    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
+    onFocus={onPrefetch}
+    onPointerEnter={onPrefetch}
+    className="focus-ring hover:bg-hover flex min-h-8 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span
@@ -162,85 +167,67 @@ export const StoryRoutePlace = ({
 /*
  * Where the route enters a named chapter (Pokémon League, Island
  * Challenge): a small mark on the line, its name and how far through it you
- * are beside it. A finished chapter's mark is filled and checked.
+ * are beside it. A finished chapter's mark is filled and checked. A chapter
+ * behind you folds into its sign (`onToggle`), which opens and folds it.
  */
 export const StoryRouteSign = ({
   count,
+  expanded,
   finished,
   name,
+  onToggle,
 }: {
   count: string;
+  /* Whether its folding chapter shows; only with `onToggle`. */
+  expanded?: boolean;
   finished: boolean;
   name: string;
-}) => (
-  <div className="flex w-full items-center gap-3 pt-3 pb-1 pl-1.5">
-    <span data-route-node className="grid w-14 shrink-0 place-items-center">
-      <span
-        className={cn(
-          "grid size-7 place-items-center rounded-full",
-          finished
-            ? "bg-progress text-surface"
-            : "bg-surface text-ink-3 inset-ring-progress/45 inset-ring-[3px]",
-        )}
-      >
+  onToggle?: () => void;
+}) => {
+  const content = (
+    <>
+      <span data-route-node className="grid w-14 shrink-0 place-items-center">
+        <span
+          className={cn(
+            "grid size-7 place-items-center rounded-full",
+            finished
+              ? "bg-progress text-surface"
+              : "bg-surface text-ink-3 inset-ring-progress/45 inset-ring-[3px]",
+          )}
+        >
+          <AppIcon
+            icon={finished ? appIcons.status.active : appIcons.product.journey}
+            size="xs"
+          />
+        </span>
+      </span>
+      <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
+        <span className="title-card">{name}</span>
+        <span className="text-ink-3 text-13 font-semibold">{count}</span>
+      </span>
+    </>
+  );
+
+  return onToggle ? (
+    <button
+      type="button"
+      aria-expanded={expanded}
+      onClick={onToggle}
+      className="focus-ring hover:bg-hover mt-2 flex w-full items-center gap-3 rounded-xl py-1 pr-2 pl-1.5 text-left transition-colors"
+    >
+      {content}
+      <span className="text-ink-2 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-bold">
+        {expanded ? "Fold" : "Show"}
         <AppIcon
-          icon={finished ? appIcons.status.active : appIcons.product.journey}
+          icon={appIcons.actions.expand}
           size="xs"
+          className={cn(expanded && "rotate-180")}
         />
       </span>
-    </span>
-    <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
-      <span className="title-card">{name}</span>
-      <span className="text-ink-3 text-13 font-semibold">{count}</span>
-    </span>
-  </div>
-);
-
-const joinPlaceNames = (names: string[]) =>
-  names.length > 1
-    ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
-    : (names[0] ?? "");
-
-/*
- * Places on the way, folded into one line on the route: their names in
- * order and how many, opening them all again in place. Its dots fill once
- * you're past them all.
- */
-export const StoryRouteFold = ({
-  names,
-  onOpen,
-  reached,
-}: {
-  names: string[];
-  onOpen: () => void;
-  reached: boolean;
-}) => (
-  <button
-    type="button"
-    onClick={onOpen}
-    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
-  >
-    <span
-      data-route-node
-      className="grid w-14 shrink-0 place-items-center gap-1 py-1"
-    >
-      {[0, 1, 2].map((dot) => (
-        <span
-          key={dot}
-          className={cn(
-            "size-2 rounded-full",
-            reached ? "bg-progress/60" : "bg-dash",
-          )}
-        />
-      ))}
-    </span>
-    <span className="text-ink-3 text-14 min-w-0 truncate font-semibold">
-      <span className="sr-only">Show </span>
-      {joinPlaceNames(names)}
-    </span>
-    <span className="text-ink-2 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-bold">
-      {names.length} places
-      <AppIcon icon={appIcons.actions.expand} size="xs" />
-    </span>
-  </button>
-);
+    </button>
+  ) : (
+    <div className="flex w-full items-center gap-3 pt-3 pb-1 pl-1.5">
+      {content}
+    </div>
+  );
+};

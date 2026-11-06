@@ -149,18 +149,12 @@ test.describe("Progress", () => {
     });
     const route = page.getByRole("region", { name: "Main game route" });
 
-    /*
-     * The way to the next objective is open; the stretch after it (Route 1
-     * to Viridian Forest, on to Boulder Badge) is folded into one line.
-     */
-    await route
-      .getByRole("button", { name: /^Show Route 1, .* 5 places/ })
-      .click();
-
     /* Each place between Receive Pokédex and Boulder Badge is its own stop. */
     for (const place of ["Route 22", "Route 2", "Viridian Forest"]) {
       await expect(
-        route.getByRole("button", { name: new RegExp(`^${place}( |$)`) }),
+        route
+          .getByRole("button", { name: new RegExp(`^${place}( |$)`) })
+          .first(),
       ).toBeVisible();
     }
     /* A milestone stands for its own town. */
@@ -168,8 +162,13 @@ test.describe("Progress", () => {
       route.getByRole("button", { name: /^Boulder Badge Pewter City/ }),
     ).toBeVisible();
 
-    /* The rival's first fight sits on Route 22, not under Boulder Badge. */
-    await route.getByRole("button", { name: /^Route 22 1 battle/ }).click();
+    /*
+     * The rival's first fight sits on Route 22, not under Boulder Badge; the
+     * route comes back to Route 22 for the fight before the League.
+     */
+    const route22 = route.getByRole("button", { name: /^Route 22 1 battle/ });
+    await expect(route22).toHaveCount(2);
+    await route22.first().click();
     const routeDetail = storyDetail(page, "Route 22");
     await expect(routeDetail).toContainText("On the way to Boulder Badge");
     await expect(
@@ -178,7 +177,7 @@ test.describe("Progress", () => {
     /* Its Pokémon, by how you meet them, as sprites with their names a sheet away. */
     await expect(
       routeDetail.getByRole("region", { name: "Tall grass" }),
-    ).toBeVisible();
+    ).toBeVisible(forTheAnswer);
     await expect(
       routeDetail.getByRole("img", { name: "Spearow" }),
     ).toBeVisible();
@@ -209,7 +208,8 @@ test.describe("Progress", () => {
     const detail = storyDetail(page, "Route 24");
 
     /* A Red Play: Weedle and Oddish, never Blue's Caterpie or Bellsprout. */
-    await expect(detail).toContainText("Tall grass");
+    /* The first open loads its Pokémon. */
+    await expect(detail).toContainText("Tall grass", forTheAnswer);
     await expect(
       detail
         .getByText(/Weedle/)

@@ -11,7 +11,11 @@ import { Button } from "@/shared/components/ui/button";
 
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
 import type { StoryPlacePokemonGroup } from "../../data/story-place-pokemon";
-import { loadStoryPlacePokemonAction } from "../../server/story-place-action";
+import {
+  loadStoryPlacePokemon,
+  peekStoryPlacePokemon,
+} from "../../client/story-place-pokemon-cache";
+import type { StoryPlacePokemonResult } from "../../server/story-place-action";
 import type { StoryPlace } from "../../types";
 import { StoryMilestoneBattles } from "./story-milestone-battles";
 
@@ -19,6 +23,17 @@ type PokemonState =
   | { status: "loading" }
   | { message: string; status: "error" }
   | { groups: StoryPlacePokemonGroup[]; status: "ready" };
+
+const toState = (result: StoryPlacePokemonResult): PokemonState =>
+  result.status === "success"
+    ? { groups: result.groups, status: "ready" }
+    : { message: result.message, status: "error" };
+
+/* Fishing's rod isn't recorded yet (#240), so it says so rather than mislead. */
+const wayLabel = (group: StoryPlacePokemonGroup) =>
+  group.waySlug === "fishing"
+    ? `${group.way} (rod not recorded yet)`
+    : group.way;
 
 const imageOf = (pokemon: { name: string; slug: string }) =>
   getPokemonFormImageUrl({ name: pokemon.name, slug: pokemon.slug }, "sm");
@@ -28,7 +43,7 @@ const PokemonRows = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
   <div className="grid gap-5">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
+        <h4 className="text-ink-2 text-13 font-bold">{wayLabel(group)}</h4>
         <ul className="grid gap-2">
           {group.pokemon.map((pokemon) => (
             <li
@@ -65,7 +80,7 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
   <div className="grid gap-4">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
+        <h4 className="text-ink-2 text-13 font-bold">{wayLabel(group)}</h4>
         <ul className="flex flex-wrap gap-2">
           {group.pokemon.map((pokemon) => (
             <li key={pokemon.formId}>
@@ -112,25 +127,22 @@ export const StoryPlaceDetail = ({
     state: PokemonState;
   } | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const cached = peekStoryPlacePokemon(playId, place.id);
   const state: PokemonState =
-    loaded?.key === key ? loaded.state : { status: "loading" };
+    loaded?.key === key
+      ? loaded.state
+      : cached
+        ? toState(cached)
+        : { status: "loading" };
 
   useEffect(() => {
     let current = true;
 
-    loadStoryPlacePokemonAction({ locationId: place.id, playId }).then(
-      (result) => {
-        if (current) {
-          setLoaded({
-            key,
-            state:
-              result.status === "success"
-                ? { groups: result.groups, status: "ready" }
-                : { message: result.message, status: "error" },
-          });
-        }
-      },
-    );
+    loadStoryPlacePokemon(playId, place.id).then((result) => {
+      if (current) {
+        setLoaded({ key, state: toState(result) });
+      }
+    });
 
     return () => {
       current = false;

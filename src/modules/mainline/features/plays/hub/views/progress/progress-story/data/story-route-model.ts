@@ -39,6 +39,8 @@ export type StoryRouteEntry =
       optional: boolean;
       /* Every milestone before the sign on its route is recorded. */
       reached: boolean;
+      /* The chapter it opens; null for the side content open from the start. */
+      sectionId: number | null;
     }
   | {
       key: string;
@@ -293,6 +295,7 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
       name: section.name,
       optional: false,
       reached,
+      sectionId: section.id,
     },
     ...section.milestones.flatMap(milestoneEntries),
   ];
@@ -366,6 +369,7 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
         name: side[0]?.name ?? "Side Content",
         optional: true,
         reached,
+        sectionId: null,
       },
       ...sideAnyTime.map((milestone) => stop(milestone, true)),
     );

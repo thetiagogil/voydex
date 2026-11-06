@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
@@ -19,13 +19,16 @@ import {
   buildStoryRoute,
   type StoryRouteEntry,
 } from "../../data/story-route-model";
-import { foldPlaces, type StoryRouteItem } from "../../data/story-route-folds";
+import {
+  foldEarlierChapters,
+  getEarlierChapterIds,
+  type StoryRouteItem,
+} from "../../data/story-route-chapters";
 import type { StoryMilestone, StoryScope } from "../../types";
 import { StoryRoute } from "./story-route";
 import {
   getStoryRoutePlaceId,
   getStoryRouteStopId,
-  StoryRouteFold,
   StoryRoutePlace,
   StoryRouteSign,
   StoryRouteStop,
@@ -44,14 +47,13 @@ const getStoryMilestoneState = (
       : "todo";
 
 const isItemDone = (item: StoryRouteItem) =>
-  item.kind === "fold" ? item.places.every(isDone) : isDone(item);
+  isDone(item.kind === "chapter" ? item.sign : item);
 
 /*
  * Story as one route in one card (#108, #199): every chapter in order down
  * one line, the places on the way to each milestone between them, side
- * content as optional stops where it sits (`buildStoryRoute`). Each stretch
- * of places folds into one line but the way to your next objective, so the
- * route reads as its milestones. Milestones recorded together cascade: each stop waits as it
+ * content as optional stops where it sits (`buildStoryRoute`). The chapters
+ * before the one you're in fold into their signs, which open them again. Milestones recorded together cascade: each stop waits as it
  * was, then its marker stamps down, one after another in Story order; one
  * un-recorded pops back to its number.
  */
@@ -60,6 +62,7 @@ export const StoryRouteCard = ({
   getPlaceBattleCount,
   onMilestoneSelect,
   onMotionEnd,
+  onPlacePrefetch,
   onPlaceSelect,
   opensSheet,
   scope,
@@ -74,6 +77,8 @@ export const StoryRouteCard = ({
   onMilestoneSelect: (milestone: StoryMilestone) => void;
   /* Called once a marker has stamped or popped. */
   onMotionEnd: (milestoneId: number) => void;
+  /* Pointed at or focused: its Pokémon can start loading. */
+  onPlacePrefetch: (entry: StoryRoutePlaceEntry) => void;
   onPlaceSelect: (entry: StoryRoutePlaceEntry) => void;
   /* Below 1024px a stop opens a sheet; beside the route, the detail panel. */
   opensSheet: boolean;
@@ -109,36 +114,61 @@ export const StoryRouteCard = ({
       ),
     [scope, waitingMilestoneIds],
   );
-  /* The walked stretches opened again, by their fold's key. */
-  const [unfolded, setUnfolded] = useState<ReadonlySet<string>>(new Set());
-  /* A selected place stays in view: its stretch never folds away under it. */
-  const keepOpen = useMemo(
-    () => (selectedKey ? new Set([...unfolded, selectedKey]) : unfolded),
-    [selectedKey, unfolded],
+  /* The chapters before the one you're in fold into their signs. */
+  const earlier = useMemo(() => getEarlierChapterIds(scope), [scope]);
+  /* The earlier chapters opened again. */
+  const [unfolded, setUnfolded] = useState<ReadonlySet<number>>(new Set());
+  /* The chapter of what's open in the detail never folds away under it. */
+  const selectedSectionId = useMemo(() => {
+    const milestoneId = Number(
+      /^(?:stop|place)-(\d+)/.exec(selectedKey ?? "")?.[1],
+    );
+
+    return (
+      scope.sections.find((section) =>
+        section.milestones.some((milestone) => milestone.id === milestoneId),
+      )?.id ?? null
+    );
+  }, [scope, selectedKey]);
+  const open = useMemo(
+    () =>
+      selectedSectionId === null
+        ? unfolded
+        : new Set([...unfolded, selectedSectionId]),
+    [selectedSectionId, unfolded],
   );
 
-  /* An opened stretch hands focus to its first place, where the fold was. */
-  const focusPlaceKey = useRef<string | null>(null);
+  const toggleChapter = (sectionId: number) =>
+    setUnfolded((current) => {
+      const next = new Set(current);
 
-  useEffect(() => {
-    const key = focusPlaceKey.current;
+      if (!next.delete(sectionId)) {
+        next.add(sectionId);
+      }
 
-    if (key) {
-      focusPlaceKey.current = null;
-      document.getElementById(getStoryRoutePlaceId(key))?.focus();
-    }
-  });
+      return next;
+    });
 
   const renderEntry = (item: StoryRouteItem) => {
-    if (item.kind === "fold") {
+    if (item.kind === "chapter" || item.kind === "sign") {
+      const sign = item.kind === "chapter" ? item.sign : item;
+      const sectionId = sign.sectionId;
+
       return (
-        <StoryRouteFold
-          names={item.places.map((entry) => entry.place.name)}
-          reached={item.places.every((entry) => entry.reached)}
-          onOpen={() => {
-            focusPlaceKey.current = item.places[0]?.key ?? null;
-            setUnfolded((current) => new Set([...current, item.key]));
-          }}
+        <StoryRouteSign
+          count={sign.count}
+          expanded={
+            sectionId !== null && earlier.has(sectionId)
+              ? item.kind === "sign"
+              : undefined
+          }
+          finished={sign.finished}
+          name={sign.name}
+          onToggle={
+            sectionId !== null && earlier.has(sectionId)
+              ? () => toggleChapter(sectionId)
+              : undefined
+          }
         />
       );
     }
@@ -149,20 +179,11 @@ export const StoryRouteCard = ({
           battleCount={getPlaceBattleCount(item)}
           id={getStoryRoutePlaceId(item.key)}
           name={item.place.name}
+          onPrefetch={() => onPlacePrefetch(item)}
           onSelect={() => onPlaceSelect(item)}
           opensSheet={opensSheet}
           reached={item.reached}
           selected={item.key === selectedKey}
-        />
-      );
-    }
-
-    if (item.kind === "sign") {
-      return (
-        <StoryRouteSign
-          count={item.count}
-          finished={item.finished}
-          name={item.name}
         />
       );
     }
@@ -292,13 +313,13 @@ export const StoryRouteCard = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [blocks, keepOpen]);
+  }, [blocks, open]);
 
   const route = (entries: StoryRouteEntry[], label: string, key: string) => (
     <div key={key} data-route-key={key}>
       <StoryRoute
         label={label}
-        items={foldPlaces(entries, keepOpen, nextMilestoneId)}
+        items={foldEarlierChapters(entries, earlier, open)}
         getKey={(item) => item.key}
         isQuiet={(item) => item.optional}
         isTravelled={(item, next) => isItemDone(item) && isItemDone(next)}

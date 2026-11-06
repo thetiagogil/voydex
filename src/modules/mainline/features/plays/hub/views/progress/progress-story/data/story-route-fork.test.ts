@@ -19,6 +19,7 @@ const sign = (name: string, reached: boolean): StoryRouteEntry => ({
   name,
   optional: false,
   reached,
+  sectionId: null,
 });
 
 const blocks = (done: boolean): StoryRouteBlock[] => [

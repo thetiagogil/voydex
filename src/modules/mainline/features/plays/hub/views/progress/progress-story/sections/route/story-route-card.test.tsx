@@ -84,6 +84,7 @@ const render = (waiting: number[], selected: number | null = null) =>
       getPlaceBattleCount={() => 0}
       onMilestoneSelect={() => {}}
       onMotionEnd={() => {}}
+      onPlacePrefetch={() => {}}
       onPlaceSelect={() => {}}
       opensSheet
       scope={scope}

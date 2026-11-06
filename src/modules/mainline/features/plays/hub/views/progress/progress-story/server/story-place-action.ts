@@ -56,7 +56,7 @@ export const loadStoryPlacePokemonAction = async (input: {
       .schema("reference")
       .from("pokemon_encounters")
       .select(
-        "form_id, level_min, level_max, pokemon_forms(name, slug), encounter_ways(name, sort_order)",
+        "form_id, level_min, level_max, pokemon_forms(name, slug), encounter_ways(name, slug, sort_order)",
       )
       .eq("location_id", locationId)
       .eq("version_group_id", versionGroupId)
@@ -80,6 +80,7 @@ export const loadStoryPlacePokemonAction = async (input: {
                   levelMax: row.level_max ?? row.level_min ?? null,
                   levelMin: row.level_min ?? row.level_max ?? null,
                   wayName: row.encounter_ways.name,
+                  waySlug: row.encounter_ways.slug,
                   waySortOrder: row.encounter_ways.sort_order,
                 },
               ]
