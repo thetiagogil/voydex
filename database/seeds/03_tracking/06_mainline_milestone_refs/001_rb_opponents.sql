@@ -13,7 +13,8 @@
 -- on Route 22, the Elite Four, then Champion Blue.
 -- location_id is set only where the battle is fought away from its milestone's
 -- place: the two rival battles on Route 22 (before the Boulder Badge and before
--- Victory Road). NULL means the battle is at the milestone's place.
+-- Victory Road) and the rival battle in Cerulean City on the way to Nugget
+-- Bridge, not in the Gym. NULL means the battle is at the milestone's place.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -58,7 +59,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Boulder Badge -> Blue (Route 22)
   (10003, 1014, 1, 'battle-opponent', 1, 'You can skip this battle.', 52),
   -- Cascade Badge -> Blue
-  (10005, 1014, 1, 'battle-opponent', 1, 'Cerulean City (north exit, before Nugget Bridge)', NULL),
+  (10005, 1014, 1, 'battle-opponent', 1, 'At the north exit, before Nugget Bridge.', 9),
   -- S.S. Anne -> Blue
   (10019, 1014, 1, 'battle-opponent', 1, 'S.S. Anne 2F, Vermilion City', NULL),
   -- Pokémon Tower -> Blue

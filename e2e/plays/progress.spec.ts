@@ -159,7 +159,7 @@ test.describe("Progress", () => {
     }
     /* A milestone stands for its own town. */
     await expect(
-      route.getByRole("button", { name: /^Boulder Badge Pewter City/ }),
+      route.getByRole("button", { name: /^Boulder Badge Pewter Gym/ }),
     ).toBeVisible();
 
     /*
@@ -220,7 +220,7 @@ test.describe("Progress", () => {
     await expectAccessible(page);
 
     await route
-      .getByRole("button", { name: /^Boulder Badge Pewter City/ })
+      .getByRole("button", { name: /^Boulder Badge Pewter Gym/ })
       .click();
     const badge = storyDetail(page, "Boulder Badge");
     await expect(badge.getByRole("button", { name: /^Brock/ })).toBeVisible();

@@ -12,7 +12,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.locations),
-            805,
+            812,
             'every place is seeded');
 SELECT
     IS ((

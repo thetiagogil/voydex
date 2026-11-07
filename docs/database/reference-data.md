@@ -313,12 +313,15 @@ sources remain authoritative for game-specific mechanics and availability.
   honey trees Bulbapedia keeps on other pages. SOS-only allies, Max Lair
   Pokémon and sub-areas Bulbapedia folds into a city page are not rows.
 - Story places: each Red / Blue milestone names the place it happens at
-  (`location_id`), and a battle fought elsewhere names its own (Blue on Route
-  22 before the Boulder Badge and before Victory Road). Once a version
-  group's milestones are placed, its place list also holds the places with no
-  wild Pokémon the story stops at (Pewter City, the S.S. Anne, the Pewter
-  Museum of Science, Lavender Town, the Underground Path between Routes 7 and
-  8, the Rocket Hideout, Saffron City), in walkthrough order. Red / Blue's
+  (`location_id`), a badge its Gym, and a battle fought elsewhere names its
+  own (Blue on Route 22 before the Boulder Badge and before Victory Road, and
+  in Cerulean City before Nugget Bridge). Once a version group's milestones
+  are placed, its place list also holds the places with no wild Pokémon the
+  story stops at (Pewter City, the S.S. Anne, the Pewter Museum of Science,
+  Lavender Town, the Underground Path between Routes 7 and 8, the Rocket
+  Hideout, Saffron City and the Gyms), in walkthrough order. A Gym or the
+  League lists only its own battles; a rival met on the way sits on the place
+  where you meet them. Red / Blue's
   Main Story follows the walkthrough (Silph Co. and the Marsh Badge before
   the Soul Badge, Bill's Sea Cottage, the Safari Zone and the Pokémon Mansion
   as their own beats) and ends with one Pokémon League milestone (Champion

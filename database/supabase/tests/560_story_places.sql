@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Story places: a milestone happens at one of its version group's places,
 -- which pins it on the Story roadmap, and a battle fought away from that
--- place names its own (Red / Blue's Route 22 rival fights). Red / Blue is
+-- place names its own (Red / Blue's Route 22 and Cerulean City rival fights). Red / Blue is
 -- the first journey placed, in the order its story reaches each beat.
 BEGIN;
 SET LOCAL search_path = extensions, public;
@@ -40,7 +40,7 @@ SELECT
             WHERE
                 milestone_id = 10003
                 AND opponent_id = 1014 $$, '23503', NULL, 'a battle cannot be fought at a place its version group does not have');
--- The two rival battles on Route 22 carry Route 22; every other Red / Blue battle is at its milestone's place.
+-- The two rival battles on Route 22 carry Route 22 and the one before Nugget Bridge carries Cerulean City; every other Red / Blue battle is at its milestone's place.
 SELECT
     results_eq ($$
         SELECT
@@ -50,7 +50,7 @@ SELECT
             WHERE
                 mainline_milestone_opponent_refs.version_group_id = 1
                 AND mainline_milestone_opponent_refs.opponent_id = 1014 ORDER BY mainline_milestones.category_id, mainline_milestones.sort_order $$, $$
-            VALUES ('boulder-badge', 'Route 22', 'You can skip this battle.'), ('pokemon-league', 'Route 22', NULL::text) $$, 'Blue''s Route 22 battles before the Boulder Badge and before Victory Road are on Route 22');
+            VALUES ('boulder-badge', 'Route 22', 'You can skip this battle.'), ('cascade-badge', 'Cerulean City', 'At the north exit, before Nugget Bridge.'), ('pokemon-league', 'Route 22', NULL::text) $$, 'Blue''s battles away from a Gym or the League carry their own place');
 SELECT
     IS ((
             SELECT
@@ -60,8 +60,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND location_id IS NOT NULL),
-            2,
-            'only the two Route 22 battles have their own place in Red / Blue');
+            3,
+            'only the Route 22 and Cerulean City rival battles have their own place in Red / Blue');
 -- Red / Blue's Main Story in the order the story reaches each beat, each at its place.
 SELECT
     results_eq ($$
@@ -72,7 +72,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 1
                 AND mainline_categories.slug = 'main-story' ORDER BY mainline_milestones.sort_order $$, $$
-            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter City'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion City'), ('rainbow-badge', 'Celadon City'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron City'), ('soul-badge', 'Fuchsia City'), ('safari-zone', 'Safari Zone'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Island'), ('earth-badge', 'Viridian City'), ('pokemon-league', 'Indigo Plateau') $$, 'Red / Blue''s Main Story follows the walkthrough, each beat at its place, and ends at the Pokémon League');
+            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter Gym'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion Gym'), ('rainbow-badge', 'Celadon Gym'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron Gym'), ('soul-badge', 'Fuchsia Gym'), ('safari-zone', 'Safari Zone'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Gym'), ('earth-badge', 'Viridian Gym'), ('pokemon-league', 'Indigo Plateau') $$, 'Red / Blue''s Main Story follows the walkthrough, each beat at its place, and ends at the Pokémon League');
 -- Each Main Story beat after the first suggests the one before it.
 SELECT
     is_empty ($$ WITH ordered AS (
@@ -95,7 +95,7 @@ SELECT
                                 mainline_milestone_prerequisites.milestone_id = ordered.id
                                 AND mainline_milestone_prerequisites.prerequisite_milestone_id = ordered.previous_id
                                 AND mainline_milestone_prerequisite_kinds.slug = 'suggested') $$, 'each Red / Blue Story beat follows the one before it');
--- Red / Blue's places run in story order, with the towns and Story places that have no wild Pokémon.
+-- Red / Blue's places run in story order, with the towns, Gyms and Story places that have no wild Pokémon.
 SELECT
     results_eq ($$
         SELECT
@@ -103,8 +103,8 @@ SELECT
             JOIN reference.locations ON locations.id = location_version_groups.location_id
             WHERE
                 location_version_groups.version_group_id = 1
-                AND location_version_groups.sort_order BETWEEN 18 AND 36 ORDER BY location_version_groups.sort_order $$, $$
-            VALUES ('Route 6'), ('Vermilion City'), ('S.S. Anne'), ('Route 11'), ('Diglett''s Cave'), ('Pewter Museum of Science'), ('Route 9'), ('Route 10'), ('Rock Tunnel'), ('Lavender Town'), ('Route 8'), ('Underground Path (Kanto Routes 7-8)'), ('Route 7'), ('Celadon City'), ('Celadon Condominiums'), ('Rocket Hideout'), ('Pokémon Tower'), ('Route 12'), ('Route 13') $$, 'Red / Blue''s places from Route 6 to Route 13 follow the story');
+                AND location_version_groups.sort_order BETWEEN 19 AND 39 ORDER BY location_version_groups.sort_order $$, $$
+            VALUES ('Route 6'), ('Vermilion City'), ('S.S. Anne'), ('Vermilion Gym'), ('Route 11'), ('Diglett''s Cave'), ('Pewter Museum of Science'), ('Route 9'), ('Route 10'), ('Rock Tunnel'), ('Lavender Town'), ('Route 8'), ('Underground Path (Kanto Routes 7-8)'), ('Route 7'), ('Celadon City'), ('Celadon Condominiums'), ('Celadon Gym'), ('Rocket Hideout'), ('Pokémon Tower'), ('Route 12'), ('Route 13') $$, 'Red / Blue''s places from Route 6 to Route 13 follow the story');
 -- Cerulean Cave is post-game, optional, after the Pokémon League (where the team enters the Hall of Fame).
 SELECT
     results_eq ($$

@@ -6,8 +6,8 @@ import {
   relative,
 } from "../core.mjs";
 
-const EXPECTED_LOCATION_ROWS = 805;
-const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1548;
+const EXPECTED_LOCATION_ROWS = 812;
+const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1555;
 const EXPECTED_ENCOUNTER_ROWS = 26485;
 
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
@@ -71,7 +71,7 @@ export function assertLocationRows(context, tableRows) {
     {
       count: EXPECTED_LOCATION_ROWS,
       sha256:
-        "8fd0354d4db880734d56c82b9ecd68a53779e8fbf915750ed8d2a15e98b0ac1f",
+        "7f81810853ff844aa41f116e540bbba8fbc75f75adbf444ff0012cfa16b1b330",
     },
   );
   for (const { row, filePath } of locations) {
