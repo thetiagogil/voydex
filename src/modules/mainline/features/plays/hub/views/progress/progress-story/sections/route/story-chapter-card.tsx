@@ -20,7 +20,6 @@ export const StoryChapterCard = ({
   children,
   count,
   current,
-  finished,
   milestones,
   name,
   nextMilestoneId,
@@ -35,7 +34,6 @@ export const StoryChapterCard = ({
   count: string;
   /* The chapter holding your next objective. */
   current: boolean;
-  finished: boolean;
   /* Its milestones in route order, for the folded strip. */
   milestones: StoryMilestone[];
   name: string;
@@ -62,23 +60,6 @@ export const StoryChapterCard = ({
       )}
     >
       <div className="flex items-center gap-3 pt-4 pb-1 sm:pt-5">
-        <span className="grid w-14 shrink-0 place-items-center pl-1.5">
-          <span
-            className={cn(
-              "grid size-8 place-items-center rounded-full",
-              finished
-                ? "bg-progress text-surface"
-                : "bg-surface text-ink-3 inset-ring-progress inset-ring-[3px]",
-            )}
-          >
-            <AppIcon
-              icon={
-                finished ? appIcons.status.active : appIcons.product.journey
-              }
-              size="sm"
-            />
-          </span>
-        </span>
         <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
           <h3 className="title-card">{name}</h3>
           <span className="text-ink-3 text-13 font-semibold">{count}</span>
@@ -108,7 +89,7 @@ export const StoryChapterCard = ({
         ) : milestones.length ? (
           <ul
             aria-label={`${name} milestones`}
-            className="flex flex-wrap gap-1.5 px-1.5 sm:pl-17.5"
+            className="flex flex-wrap gap-1.5"
           >
             {milestones.map((milestone) => (
               <li key={milestone.id}>

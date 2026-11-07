@@ -185,7 +185,7 @@ describe("buildStoryRoute", () => {
 });
 
 describe("buildStoryRoute signs", () => {
-  it("calls a chapter finished once its required milestones are, optional ones aside", () => {
+  it("reaches a chapter once the required milestones before it are, optional ones aside", () => {
     const [block] = buildStoryRoute(
       scope([
         section(1, "main-story", [
@@ -200,13 +200,9 @@ describe("buildStoryRoute signs", () => {
         ? block.entries.filter((entry) => entry.kind === "sign")
         : [];
 
-    expect(
-      signs.map(
-        (sign) => sign.kind === "sign" && [sign.finished, sign.reached],
-      ),
-    ).toEqual([
-      [true, true],
-      [false, true],
+    expect(signs.map((sign) => sign.kind === "sign" && sign.reached)).toEqual([
+      true,
+      true,
     ]);
   });
 });

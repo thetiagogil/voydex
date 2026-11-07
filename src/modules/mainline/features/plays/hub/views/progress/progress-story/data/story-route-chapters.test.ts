@@ -50,7 +50,6 @@ describe("getCurrentChapterKey", () => {
 describe("splitStoryRouteChapters", () => {
   const sign = (sectionId: number): StoryRouteEntry => ({
     count: "1 of 1",
-    finished: true,
     key: `sign-${sectionId}`,
     kind: "sign",
     name: `Chapter ${sectionId}`,

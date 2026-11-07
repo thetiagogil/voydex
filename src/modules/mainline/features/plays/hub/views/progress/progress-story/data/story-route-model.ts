@@ -25,8 +25,6 @@ import type {
 export type StoryRouteEntry =
   | {
       count: string;
-      /* Every milestone in the chapter is recorded. */
-      finished: boolean;
       key: string;
       kind: "sign";
       name: string;
@@ -100,7 +98,6 @@ const stop = (milestone: StoryMilestone, optional: boolean) => ({
 
 const sign = (section: StorySection, reached: boolean): StoryRouteEntry => ({
   count: formatStoryCount([section]),
-  finished: isFinished(section.milestones),
   key: `sign-${section.id}`,
   kind: "sign",
   name: section.name,
@@ -119,7 +116,6 @@ const anyTimeEntries = (
     ? [
         {
           count: `${milestones.filter((milestone) => milestone.isCompleted).length} of ${milestones.length}`,
-          finished: isFinished(milestones),
           key: `sign-any-time`,
           kind: "sign",
           name,

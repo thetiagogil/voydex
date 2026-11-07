@@ -256,7 +256,6 @@ export const StoryRoadmap = ({
         key={chapter.key}
         count={chapter.sign.count}
         current={chapter.key === liveChapterKey}
-        finished={chapter.sign.finished}
         milestones={stops}
         name={chapter.sign.name}
         nextMilestoneId={nextMilestoneId}
