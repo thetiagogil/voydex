@@ -86,7 +86,8 @@ export const StoryRouteStop = ({
         {marker}
       </span>
     </span>
-    <span className="flex min-w-0 flex-col gap-0.5">
+    {/* Takes what's left, so a long place line wraps here and never pushes the memento under. */}
+    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
       <span
         className={cn(
           "text-16 leading-tight font-extrabold",

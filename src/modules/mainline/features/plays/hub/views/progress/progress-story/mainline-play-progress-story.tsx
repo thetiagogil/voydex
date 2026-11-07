@@ -430,7 +430,7 @@ export const MainlinePlayProgressStory = ({
         />
       ) : null}
 
-      <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-7 lg:grid-cols-[26rem_minmax(0,1fr)] xl:grid-cols-[30rem_minmax(0,1fr)]">
         <StoryRoadmap
           fadingMilestoneIds={fadingMilestoneIds}
           getPlaceBattleCount={(entry) =>
