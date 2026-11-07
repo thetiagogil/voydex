@@ -131,16 +131,15 @@ export const StoryRouteStop = ({
 
 /*
  * A place the route passes between milestones (Route 1, Viridian Forest): a
- * small quiet dot on the line, its name beside it and, where something
- * happens there, a quiet line saying what, so you see the way to
- * the next milestone. Nothing to record; it opens what is there (its
- * battles, the Pokémon found there). The dot fills once you're past it.
+ * small quiet dot on the line with its name and how many battles are fought
+ * there, so you see the way to the next milestone. Nothing to record; it
+ * opens what is there (its note, its battles, the Pokémon found there). The
+ * dot fills once you're past it.
  */
 export const StoryRoutePlace = ({
   battleCount,
   id,
   name,
-  note,
   onSelect,
   opensSheet,
   reached,
@@ -149,8 +148,6 @@ export const StoryRoutePlace = ({
   battleCount: number;
   id: string;
   name: string;
-  /* What happens there: one line here, in full in its detail. */
-  note: string | null;
   onSelect: () => void;
   opensSheet: boolean;
   reached: boolean;
@@ -176,28 +173,21 @@ export const StoryRoutePlace = ({
         )}
       />
     </span>
-    <span className="flex min-w-0 flex-1 flex-col py-1">
-      {/* Its name, and on the same line, the battles fought there. */}
-      <span className="flex min-w-0 items-baseline gap-3">
-        <span
-          className={cn(
-            "text-14 min-w-0 truncate font-bold transition-colors",
-            selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
-          )}
-        >
-          {name}
-          {reached ? <span className="sr-only">, passed</span> : null}
-        </span>
-        {battleCount ? (
-          <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">
-            <AppIcon icon={appIcons.product.battle} size="xs" />
-            {battleCount === 1 ? "1 battle" : `${battleCount} battles`}
-          </span>
-        ) : null}
+    {/* Its name, and on the same line, the battles fought there. Its note is in its detail. */}
+    <span className="flex min-w-0 flex-1 items-baseline gap-3 py-1">
+      <span
+        className={cn(
+          "text-14 min-w-0 truncate font-bold transition-colors",
+          selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
+        )}
+      >
+        {name}
+        {reached ? <span className="sr-only">, passed</span> : null}
       </span>
-      {note ? (
-        <span className="text-ink-3 text-13 truncate font-semibold">
-          {note}
+      {battleCount ? (
+        <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">
+          <AppIcon icon={appIcons.product.battle} size="xs" />
+          {battleCount === 1 ? "1 battle" : `${battleCount} battles`}
         </span>
       ) : null}
     </span>

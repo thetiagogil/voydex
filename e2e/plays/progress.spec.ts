@@ -233,8 +233,10 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    /* Its note is part of its name: Nugget Bridge. */
-    await page.getByRole("button", { name: /^Route 24 Nugget Bridge/ }).click();
+    await page
+      .getByRole("button", { name: /^Route 24\b/ })
+      .first()
+      .click();
     const detail = storyDetail(page, "Route 24");
 
     /* A Red Play: Weedle and Oddish, never Blue's Caterpie or Bellsprout. */

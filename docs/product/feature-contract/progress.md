@@ -51,8 +51,8 @@ another) and in a bottom sheet below: a milestone with its battles inside,
 one line per battle with its verdict, and the battle's full report in the
 same place with a way back; a place with its full note, the battles fought
 there and the Pokémon found there (read with the Story, so a place opens with
-them at once). On the route a place shows its name with its battle count on
-the right and its note below, cut to one line. A Gym or the League lists only
+them at once). On the route a place shows only its name, with its battle
+count on the right; its note is in its detail. A Gym or the League lists only
 its own battles; a rival met on the way sits on the place where you meet
 them. There is no separate list of battles anywhere.
 

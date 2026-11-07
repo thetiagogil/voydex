@@ -144,7 +144,6 @@ export const StoryRoadmap = ({
           battleCount={getPlaceBattleCount(item)}
           id={getStoryRoutePlaceId(item.key)}
           name={item.place.name}
-          note={item.note}
           onSelect={() => onPlaceSelect(item)}
           opensSheet={opensSheet}
           reached={item.reached}
