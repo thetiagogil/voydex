@@ -10,6 +10,8 @@ import type {
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { PokemonForm } from "@/modules/reference/types";
 
+import type { StoryPlacePokemonGroup } from "./data/story-place-pokemon";
+
 export type StoryMilestoneSource = Pick<
   MainlinePlayMilestone,
   | "badge_refs"
@@ -96,6 +98,13 @@ export type StoryRoadmapStepSource = {
   milestone_id: number | null;
   note: string | null;
   sort_order: number;
+  version_group_id: number;
+};
+
+/* The Pokémon found at one of a roadmap's places, read with the Story. */
+export type StoryPlacePokemonSource = {
+  groups: StoryPlacePokemonGroup[];
+  location_id: number;
   version_group_id: number;
 };
 
@@ -193,6 +202,8 @@ export type StoryScope = {
   label: string;
   /* The milestone this scope's side card offers to record next. */
   nextMilestone: StoryMilestone | null;
+  /* The Pokémon found at each of its roadmap's places, by place. */
+  placePokemon: ReadonlyMap<number, StoryPlacePokemonGroup[]>;
   /* Its roadmap from the walkthrough; empty where Voydex has none for it. */
   steps: StoryRoadmapStep[];
   sections: StorySection[];
@@ -207,6 +218,7 @@ export type MainlinePlayProgressStoryData = {
   categories: StoryCategorySource[];
   decisionForms: Pick<PokemonForm, "id" | "slug">[];
   milestones: StoryMilestoneSource[];
+  placePokemon: StoryPlacePokemonSource[];
   steps: StoryRoadmapStepSource[];
   snapshotEvents: StorySnapshotEventSource[];
 };

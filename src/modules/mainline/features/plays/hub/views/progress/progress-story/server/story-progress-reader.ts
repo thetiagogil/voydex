@@ -1,9 +1,102 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { readMainlinePlayMilestoneTimelineSnapshots } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
+import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
-import type { MainlinePlayProgressStoryData } from "../types";
+import {
+  groupStoryPlacePokemon,
+  type StoryPlaceEncounterRow,
+} from "../data/story-place-pokemon";
+import type {
+  MainlinePlayProgressStoryData,
+  StoryPlacePokemonSource,
+} from "../types";
+
+type PlaceEncounterRow = {
+  encounter_ways: { name: string; slug: string; sort_order: number } | null;
+  form_id: number;
+  game_id: number | null;
+  level_max: number | null;
+  level_min: number | null;
+  location_id: number;
+  pokemon_forms: { name: string; slug: string } | null;
+  version_group_id: number;
+};
+
+/*
+ * The Pokémon found at every place on the roadmap, read with the Story so a
+ * place opens with them at once: the Play's own game only (a Red Play never
+ * lists Blue's), grouped by how you meet them, levels included.
+ */
+const readStoryPlacePokemon = async (
+  supabase: ServerSupabaseClient,
+  gameId: number | null,
+  versionGroupIds: number[],
+  locationIds: number[],
+): Promise<StoryPlacePokemonSource[]> => {
+  if (!locationIds.length || !versionGroupIds.length) {
+    return [];
+  }
+
+  const rows = await loadChunkedReferenceRows<PlaceEncounterRow>(
+    locationIds,
+    (ids, from, to) =>
+      supabase
+        .schema("reference")
+        .from("pokemon_encounters")
+        .select(
+          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, slug, sort_order)",
+        )
+        .in("location_id", ids)
+        .in("version_group_id", versionGroupIds)
+        /* Species order, as a place lists them; the id keeps paging stable. */
+        .order("species_id", { ascending: true })
+        .order("form_id", { ascending: true })
+        .order("id", { ascending: true })
+        .range(from, to),
+    "Unable to load the Pokémon found on the Story's way.",
+  );
+  const byPlace = new Map<
+    string,
+    { location: number; rows: StoryPlaceEncounterRow[]; versionGroup: number }
+  >();
+
+  for (const row of rows) {
+    if (
+      !row.pokemon_forms ||
+      !row.encounter_ways ||
+      (row.game_id !== null && row.game_id !== gameId)
+    ) {
+      continue;
+    }
+
+    const key = `${row.version_group_id}/${row.location_id}`;
+    const place = byPlace.get(key) ?? {
+      location: row.location_id,
+      rows: [],
+      versionGroup: row.version_group_id,
+    };
+
+    byPlace.set(key, place);
+    place.rows.push({
+      formId: row.form_id,
+      formName: row.pokemon_forms.name,
+      formSlug: row.pokemon_forms.slug,
+      levelMax: row.level_max ?? row.level_min ?? null,
+      levelMin: row.level_min ?? row.level_max ?? null,
+      wayName: row.encounter_ways.name,
+      waySlug: row.encounter_ways.slug,
+      waySortOrder: row.encounter_ways.sort_order,
+    });
+  }
+
+  return [...byPlace.values()].map((place) => ({
+    groups: groupStoryPlacePokemon(place.rows),
+    location_id: place.location,
+    version_group_id: place.versionGroup,
+  }));
+};
 
 const getDecisionPokemonFormIds = (
   milestones: MainlinePlayProgressStoryData["milestones"],
@@ -39,7 +132,7 @@ export const readMainlinePlayStoryProgress = async (
   supabase: ServerSupabaseClient,
   playId: string,
 ): Promise<MainlinePlayProgressStoryData> => {
-  const [categoriesResult, milestonesResult, snapshotEvents] =
+  const [categoriesResult, milestonesResult, snapshotEvents, playResult] =
     await Promise.all([
       supabase
         .schema("views")
@@ -60,9 +153,15 @@ export const readMainlinePlayStoryProgress = async (
         .order("category_sort_order", { ascending: true })
         .order("sort_order", { ascending: true }),
       readMainlinePlayMilestoneTimelineSnapshots(supabase, playId),
+      supabase
+        .schema("gameplay")
+        .from("mainline_plays")
+        .select("game_id")
+        .eq("id", playId)
+        .maybeSingle(),
     ]);
 
-  if (categoriesResult.error || milestonesResult.error) {
+  if (categoriesResult.error || milestonesResult.error || playResult.error) {
     throw new Error("Unable to load Mainline Story progress.");
   }
 
@@ -118,13 +217,21 @@ export const readMainlinePlayStoryProgress = async (
 
   const steps = stepsResult.data ?? [];
   const locationIds = uniqueNumberIds(steps.map((step) => step.location_id));
-  const locationsResult = locationIds.length
-    ? await supabase
-        .schema("reference")
-        .from("locations")
-        .select("id, name")
-        .in("id", locationIds)
-    : { data: [], error: null };
+  const [locationsResult, placePokemon] = await Promise.all([
+    locationIds.length
+      ? supabase
+          .schema("reference")
+          .from("locations")
+          .select("id, name")
+          .in("id", locationIds)
+      : { data: [], error: null },
+    readStoryPlacePokemon(
+      supabase,
+      playResult.data?.game_id ?? null,
+      versionGroupIds,
+      locationIds,
+    ),
+  ]);
 
   if (locationsResult.error) {
     throw new Error("Unable to load Mainline Story places.");
@@ -142,6 +249,7 @@ export const readMainlinePlayStoryProgress = async (
     categories: categoriesResult.data ?? [],
     decisionForms: decisionFormsResult.data ?? [],
     milestones,
+    placePokemon,
     snapshotEvents,
     steps: steps.map((step) => ({
       ...step,

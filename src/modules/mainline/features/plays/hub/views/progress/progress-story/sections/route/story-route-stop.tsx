@@ -141,7 +141,6 @@ export const StoryRoutePlace = ({
   id,
   name,
   note,
-  onPrefetch,
   onSelect,
   opensSheet,
   reached,
@@ -150,10 +149,8 @@ export const StoryRoutePlace = ({
   battleCount: number;
   id: string;
   name: string;
-  /* What happens there, in a quiet second line. */
+  /* What happens there: one line here, in full in its detail. */
   note: string | null;
-  /* Pointed at or focused: what it opens can start loading. */
-  onPrefetch: () => void;
   onSelect: () => void;
   opensSheet: boolean;
   reached: boolean;
@@ -165,8 +162,6 @@ export const StoryRoutePlace = ({
     aria-haspopup={opensSheet ? "dialog" : undefined}
     aria-current={selected ? "true" : undefined}
     onClick={onSelect}
-    onFocus={onPrefetch}
-    onPointerEnter={onPrefetch}
     className="focus-ring group flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
@@ -181,27 +176,30 @@ export const StoryRoutePlace = ({
         )}
       />
     </span>
-    <span className="flex min-w-0 flex-col py-1">
-      <span
-        className={cn(
-          "text-14 truncate font-bold transition-colors",
-          selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
-        )}
-      >
-        {name}
-        {reached ? <span className="sr-only">, passed</span> : null}
+    <span className="flex min-w-0 flex-1 flex-col py-1">
+      {/* Its name, and on the same line, the battles fought there. */}
+      <span className="flex min-w-0 items-baseline gap-3">
+        <span
+          className={cn(
+            "text-14 min-w-0 truncate font-bold transition-colors",
+            selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
+          )}
+        >
+          {name}
+          {reached ? <span className="sr-only">, passed</span> : null}
+        </span>
+        {battleCount ? (
+          <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">
+            <AppIcon icon={appIcons.product.battle} size="xs" />
+            {battleCount === 1 ? "1 battle" : `${battleCount} battles`}
+          </span>
+        ) : null}
       </span>
       {note ? (
-        <span className="text-ink-3 text-13 line-clamp-2 font-semibold">
+        <span className="text-ink-3 text-13 truncate font-semibold">
           {note}
         </span>
       ) : null}
     </span>
-    {battleCount ? (
-      <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">
-        <AppIcon icon={appIcons.product.battle} size="xs" />
-        {battleCount === 1 ? "1 battle" : `${battleCount} battles`}
-      </span>
-    ) : null}
   </button>
 );

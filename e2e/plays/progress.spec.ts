@@ -167,7 +167,7 @@ test.describe("Progress", () => {
      * route comes back to Route 22 for the fight before the League.
      */
     const route22 = route.getByRole("button", {
-      name: /^Route 22\b.*1 battle$/,
+      name: /^Route 22 1 battle\b/,
     });
     await expect(route22).toHaveCount(2);
     /* Only the chapter you're in starts open; the Post Game opens from its head. */
@@ -198,7 +198,7 @@ test.describe("Progress", () => {
     await route22.first().click();
     const routeDetail = storyDetail(page, "Route 22");
     await expect(routeDetail).toContainText(
-      "Blue waits here for an optional battle",
+      "Blue shows up here for a battle you can skip.",
     );
     await expect(
       routeDetail.getByRole("button", { name: /^Blue/ }),

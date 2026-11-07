@@ -279,6 +279,7 @@ export const buildStoryProgressModel = ({
   categories,
   decisionForms,
   milestones,
+  placePokemon,
   snapshotEvents,
   steps,
 }: MainlinePlayProgressStoryData): StoryProgressModel => {
@@ -437,6 +438,11 @@ export const buildStoryProgressModel = ({
         ? "Main game"
         : (category?.version_group_name ?? "Main game"),
       nextMilestone: null,
+      placePokemon: new Map(
+        placePokemon
+          .filter((place) => place.version_group_id === scopeId)
+          .map((place) => [place.location_id, place.groups]),
+      ),
       steps: steps
         .filter((step) => step.version_group_id === scopeId)
         .sort((a, b) => a.sort_order - b.sort_order)

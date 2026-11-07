@@ -37,7 +37,7 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order = 4),
-            'Pick up Oak''s Parcel at the Poké Mart. The Gym is locked for now.',
+            'The Poké Mart clerk asks you to take Oak''s Parcel back to Professor Oak, and you can''t shop until you do. An old man blocks the road north. The Gym is locked for now.',
             'Viridian City''s first visit says to pick up Oak''s Parcel');
 -- A step belongs to its version group: Route 26 and Gold / Silver's Choose Starter are not Red / Blue's.
 SELECT

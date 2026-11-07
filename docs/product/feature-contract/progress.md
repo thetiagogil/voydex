@@ -49,9 +49,12 @@ completion, and a game with DLC switches journeys there. A stop or place
 opens beside the route from 1024px (your next objective until you pick
 another) and in a bottom sheet below: a milestone with its battles inside,
 one line per battle with its verdict, and the battle's full report in the
-same place with a way back; a place with the milestone it leads to, the
-battles fought there and the Pokémon found there. There is no separate list
-of battles anywhere.
+same place with a way back; a place with its full note, the battles fought
+there and the Pokémon found there (read with the Story, so a place opens with
+them at once). On the route a place shows its name with its battle count on
+the right and its note below, cut to one line. A Gym or the League lists only
+its own battles; a rival met on the way sits on the place where you meet
+them. There is no separate list of battles anywhere.
 
 Story holds story beats, not one milestone per battle. A beat is a required
 visit where the story stops you: a Gym, trial or League match; a confrontation

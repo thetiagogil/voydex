@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { loadStoryPlacePokemon } from "./client/story-place-pokemon-cache";
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
 import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
@@ -452,9 +451,6 @@ export const MainlinePlayProgressStory = ({
               return next;
             });
           }}
-          onPlacePrefetch={(entry) =>
-            void loadStoryPlacePokemon(playId, entry.place.id)
-          }
           onPlaceSelect={(entry) => {
             setSelection({
               key: entry.key,
@@ -494,7 +490,6 @@ export const MainlinePlayProgressStory = ({
               layout="panel"
               onAction={openEditor}
               open
-              playId={playId}
               returnsFocus={!isEditorOpen}
               scope={activeScope}
               target={panelTarget}
@@ -515,7 +510,6 @@ export const MainlinePlayProgressStory = ({
         onAction={openEditor}
         onOpenChange={setIsDetailSheetOpen}
         open={isDetailSheetOpen && usesDetailSheet}
-        playId={playId}
         returnsFocus={!isEditorOpen}
         scope={activeScope}
         target={sheetTarget}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
@@ -10,23 +10,8 @@ import { Button } from "@/shared/components/ui/button";
 
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
 import type { StoryPlacePokemonGroup } from "../../data/story-place-pokemon";
-import {
-  loadStoryPlacePokemon,
-  peekStoryPlacePokemon,
-} from "../../client/story-place-pokemon-cache";
-import type { StoryPlacePokemonResult } from "../../server/story-place-action";
 import type { StoryPlace } from "../../types";
 import { StoryMilestoneBattles } from "./story-milestone-battles";
-
-type PokemonState =
-  | { status: "loading" }
-  | { message: string; status: "error" }
-  | { groups: StoryPlacePokemonGroup[]; status: "ready" };
-
-const toState = (result: StoryPlacePokemonResult): PokemonState =>
-  result.status === "success"
-    ? { groups: result.groups, status: "ready" }
-    : { message: result.message, status: "error" };
 
 /* Fishing's rod isn't recorded yet (#240), so it says so rather than mislead. */
 const wayLabel = (group: StoryPlacePokemonGroup) =>
@@ -98,10 +83,11 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
 );
 
 /*
- * A place on the Story's way opened in full (#199): what happens there, the battles fought there and the Pokémon found there in the
- * Play's game, grouped by how you meet them and loaded when it opens.
- * Beside the route (`compact`) they're sprites, with their names and levels
- * a sheet away; in a sheet they're one line each.
+ * A place on the Story's way opened in full (#199): what happens there, the
+ * battles fought there and the Pokémon found there in the Play's game,
+ * grouped by how you meet them. They come with the Story, so a place opens
+ * with them at once. Beside the route (`compact`) they're sprites, with
+ * their names and levels a sheet away; in a sheet they're one line each.
  */
 export const StoryPlaceDetail = ({
   battles,
@@ -109,43 +95,18 @@ export const StoryPlaceDetail = ({
   note,
   onBattleSelect,
   place,
-  playId,
+  pokemon,
 }: {
   battles: StoryMatchupBattle[];
   compact: boolean;
-  /* What happens there, in a line. */
+  /* What happens there, in full. */
   note: string | null;
   onBattleSelect: (battle: StoryMatchupBattle) => void;
   place: StoryPlace;
-  playId: string;
+  /* The Pokémon found there, by way. */
+  pokemon: StoryPlacePokemonGroup[];
 }) => {
-  const key = `${playId}-${place.id}`;
-  const [loaded, setLoaded] = useState<{
-    key: string;
-    state: PokemonState;
-  } | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const cached = peekStoryPlacePokemon(playId, place.id);
-  const state: PokemonState =
-    loaded?.key === key
-      ? loaded.state
-      : cached
-        ? toState(cached)
-        : { status: "loading" };
-
-  useEffect(() => {
-    let current = true;
-
-    loadStoryPlacePokemon(playId, place.id).then((result) => {
-      if (current) {
-        setLoaded({ key, state: toState(result) });
-      }
-    });
-
-    return () => {
-      current = false;
-    };
-  }, [key, place.id, playId]);
 
   return (
     <>
@@ -154,7 +115,7 @@ export const StoryPlaceDetail = ({
       <SheetSection
         title="Pokémon found here"
         action={
-          compact && state.status === "ready" && state.groups.length ? (
+          compact && pokemon.length ? (
             <Button
               type="button"
               variant="ghost"
@@ -166,25 +127,17 @@ export const StoryPlaceDetail = ({
           ) : undefined
         }
       >
-        {state.status === "loading" ? (
-          <p className="text-ink-3 text-14 font-semibold" aria-live="polite">
-            Looking around…
-          </p>
-        ) : state.status === "error" ? (
-          <p className="text-ink-2 text-14 font-semibold" role="alert">
-            {state.message}
-          </p>
-        ) : !state.groups.length ? (
+        {!pokemon.length ? (
           <p className="text-ink-3 text-14 font-semibold">
             No wild Pokémon here.
           </p>
         ) : compact ? (
-          <PokemonSprites groups={state.groups} />
+          <PokemonSprites groups={pokemon} />
         ) : (
-          <PokemonRows groups={state.groups} />
+          <PokemonRows groups={pokemon} />
         )}
       </SheetSection>
-      {compact && state.status === "ready" ? (
+      {compact && pokemon.length ? (
         <OverlaySheet
           open={detailsOpen}
           onOpenChange={setDetailsOpen}
@@ -192,7 +145,7 @@ export const StoryPlaceDetail = ({
           title={`Pokémon at ${place.name}`}
           bodyClassName="grid content-start gap-6"
         >
-          <PokemonRows groups={state.groups} />
+          <PokemonRows groups={pokemon} />
         </OverlaySheet>
       ) : null}
     </>

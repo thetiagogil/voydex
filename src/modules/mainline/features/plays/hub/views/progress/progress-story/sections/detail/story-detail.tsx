@@ -58,7 +58,6 @@ export const StoryDetail = ({
   onAction,
   onOpenChange,
   open,
-  playId,
   returnsFocus,
   scope,
   target,
@@ -71,7 +70,6 @@ export const StoryDetail = ({
   /* The sheet's open state; the panel beside the route is always there. */
   onOpenChange?: (open: boolean) => void;
   open: boolean;
-  playId: string;
   /*
    * False while what it opened (the editor, a confirm) holds focus, so
    * closing the sheet behind it never pulls focus out from under it.
@@ -201,7 +199,7 @@ export const StoryDetail = ({
       note={target.note}
       onBattleSelect={showBattle}
       place={target.place}
-      playId={playId}
+      pokemon={scope.placePokemon.get(target.place.id) ?? []}
     />
   ) : null;
   const footer = milestone ? (

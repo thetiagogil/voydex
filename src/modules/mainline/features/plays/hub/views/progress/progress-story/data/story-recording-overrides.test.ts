@@ -59,6 +59,7 @@ const milestone = (
 const data: MainlinePlayProgressStoryData = {
   badgeTypes: [],
   categories: [category],
+  placePokemon: [],
   steps: [],
   decisionForms: [],
   milestones: [

@@ -58,7 +58,6 @@ export const StoryRoadmap = ({
   getPlaceBattleCount,
   onMilestoneSelect,
   onMotionEnd,
-  onPlacePrefetch,
   onPlaceSelect,
   opensSheet,
   scope,
@@ -73,8 +72,6 @@ export const StoryRoadmap = ({
   onMilestoneSelect: (milestone: StoryMilestone) => void;
   /* Called once a marker has stamped or popped. */
   onMotionEnd: (milestoneId: number) => void;
-  /* Pointed at or focused: its Pokémon can start loading. */
-  onPlacePrefetch: (entry: StoryRoutePlaceEntry) => void;
   onPlaceSelect: (entry: StoryRoutePlaceEntry) => void;
   /* Below 1024px a stop opens a sheet; beside the route, the detail panel. */
   opensSheet: boolean;
@@ -148,7 +145,6 @@ export const StoryRoadmap = ({
           id={getStoryRoutePlaceId(item.key)}
           name={item.place.name}
           note={item.note}
-          onPrefetch={() => onPlacePrefetch(item)}
           onSelect={() => onPlaceSelect(item)}
           opensSheet={opensSheet}
           reached={item.reached}

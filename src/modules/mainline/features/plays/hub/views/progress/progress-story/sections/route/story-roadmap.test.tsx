@@ -56,6 +56,7 @@ const scope = buildStoryProgressModel({
       version_group_name: "FireRed / LeafGreen",
     },
   ],
+  placePokemon: [],
   steps: [],
   decisionForms: [],
   milestones: [
@@ -83,7 +84,6 @@ const render = (waiting: number[], selected: number | null = null) =>
       getPlaceBattleCount={() => 0}
       onMilestoneSelect={() => {}}
       onMotionEnd={() => {}}
-      onPlacePrefetch={() => {}}
       onPlaceSelect={() => {}}
       opensSheet
       scope={scope}

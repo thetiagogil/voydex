@@ -4026,7 +4026,7 @@ CREATE TABLE tracking.mainline_roadmap_steps (
     CONSTRAINT mainline_roadmap_steps_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_roadmap_steps_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_roadmap_steps_one_target_check CHECK (num_nonnulls (location_id, milestone_id) = 1),
-    CONSTRAINT mainline_roadmap_steps_note_length_check CHECK (note IS NULL OR CHAR_LENGTH(BTRIM(note)) BETWEEN 1 AND 160),
+    CONSTRAINT mainline_roadmap_steps_note_length_check CHECK (note IS NULL OR CHAR_LENGTH(BTRIM(note)) BETWEEN 1 AND 300),
     CONSTRAINT mainline_roadmap_steps_note_place_check CHECK (note IS NULL OR location_id IS NOT NULL),
     CONSTRAINT mainline_roadmap_steps_version_group_sort_order_unique UNIQUE (version_group_id, sort_order)
 );
