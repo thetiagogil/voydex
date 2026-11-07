@@ -237,6 +237,8 @@ export type StoryMatchupBattle = {
   isTrainer: boolean;
   /* Their team, or null where Voydex doesn't have it. */
   party: StoryMatchupParty | null;
+  /* Where it happens when that isn't its milestone's place (Route 22); null at the milestone. */
+  placeId: number | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
   /* The trainer's portrait; null for a Pokémon or a trainer Voydex has none of. */
@@ -325,6 +327,8 @@ const isPlayerSide = (value: unknown): value is StoryPlayerSide =>
   playerSides.has(value as StoryPlayerSide);
 
 type OpponentRef = {
+  /* Where it happens when that isn't the milestone's own place. */
+  location_id: number | null;
   opponent_id: number;
   name: string;
   /* Where the battle happens, when it isn't the story point's own event. */
@@ -352,6 +356,8 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
           ? [
               {
                 name: ref.name,
+                location_id:
+                  typeof ref.location_id === "number" ? ref.location_id : null,
                 notes: typeof ref.notes === "string" ? ref.notes : null,
                 opponent_id: ref.opponent_id,
                 opponent_role: ref.opponent_role,
@@ -837,6 +843,7 @@ export const buildStoryMatchupsModel = ({
               uncoveredTypes: reading.uncoveredTypes,
             }
           : null,
+        placeId: ref.location_id,
         specialtyTypes,
         state: isWon ? "won" : "ahead",
         teamSizeLimit: ref.team_size_limit,

@@ -12,7 +12,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.locations),
-            802,
+            812,
             'every place is seeded');
 SELECT
     IS ((
@@ -44,7 +44,14 @@ SELECT
                     FROM reference.pokemon_encounters e
                     WHERE
                         e.location_id = p.location_id
-                        AND e.version_group_id = p.version_group_id) $$, 'every placed place has encounters');
+                        AND e.version_group_id = p.version_group_id)
+                AND NOT EXISTS (
+                    SELECT
+                        1
+                    FROM tracking.mainline_milestones m
+                    WHERE
+                        m.version_group_id = p.version_group_id
+                        AND m.location_id IS NOT NULL) $$, 'every placed place has encounters, unless its version group''s Story is placed on them');
 SELECT
     is_empty ($$
         SELECT

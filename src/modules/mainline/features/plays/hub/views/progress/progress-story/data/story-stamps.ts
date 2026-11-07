@@ -2,6 +2,7 @@ import {
   getPlayStampLabel,
   getPlayStampStates,
   getTypedStampKind,
+  inBadgeOrder,
   type PlayStamp,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 
@@ -11,7 +12,8 @@ const leagueSectionSlug = "pokemon-league";
 
 /*
  * The stamp card: every gym badge (or, in Alola, every trial and Grand Trial
- * with its Z-Crystal) in Story's order, then the rest of the League chapter.
+ * with its Z-Crystal) in the badge case's order, then the rest of the League
+ * chapter.
  * A scope without any has no stamp card. The first stamp not yet earned is
  * the next one.
  */
@@ -27,11 +29,26 @@ export const buildStoryStamps = (
     return null;
   }
 
+  /*
+   * The League's gold stamps: the League chapter's milestones where a game
+   * still has one, or its Champion milestone where the League is one stop
+   * of the main story (Red and Blue).
+   */
   const league = sections
-    .filter((section) => section.slug === leagueSectionSlug)
-    .flatMap((section) => section.milestones)
+    .flatMap((section) =>
+      section.slug === leagueSectionSlug
+        ? section.milestones
+        : section.chapterKind === "main-story"
+          ? section.milestones.filter(
+              (milestone) => milestone.typeSlug === "champion",
+            )
+          : [],
+    )
     .filter((milestone) => !typed.includes(milestone));
-  const ordered = [...typed, ...league];
+  const ordered = inBadgeOrder(
+    [...typed, ...league],
+    (milestone) => milestone.badge?.order,
+  );
   const states = getPlayStampStates(
     ordered,
     (milestone) => milestone.isCompleted,

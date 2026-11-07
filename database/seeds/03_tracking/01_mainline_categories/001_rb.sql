@@ -7,6 +7,8 @@
 -- File Scope
 -- ============================================================================
 -- Version-group-wide categories for Red / Blue story and optional progression.
+-- The Pokémon League is one milestone at the end of Main Story (the Elite Four,
+-- Champion Blue and the Hall of Fame back to back), so it has no chapter.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_categories (
@@ -21,9 +23,7 @@ INSERT INTO tracking.mainline_categories (
 ) VALUES
   -- Main Story
   (101, 1, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
-  -- Pokémon League
-  (102, 1, 'pokemon-league', 'Pokémon League', 'story', 'main-story', false, 2),
   -- Post Game
-  (103, 1, 'post-game', 'Post Game', 'story', 'post-game', false, 3),
+  (103, 1, 'post-game', 'Post Game', 'story', 'post-game', false, 2),
   -- Side Content
-  (104, 1, 'side-content', 'Side Content', 'story', 'side-content', false, 4);
+  (104, 1, 'side-content', 'Side Content', 'story', 'side-content', false, 3);

@@ -40,6 +40,8 @@ const milestone = (
   description: null,
   is_completed: false,
   is_required_for_completion: true,
+  location_id: null,
+  location_name: null,
   milestone_id: 1,
   milestone_name: "Milestone",
   milestone_type_name: "Gym",
@@ -57,6 +59,8 @@ const milestone = (
 const data: MainlinePlayProgressStoryData = {
   badgeTypes: [],
   categories: [category],
+  placePokemon: [],
+  steps: [],
   decisionForms: [],
   milestones: [
     milestone({ completed_at: "2026-01-01", is_completed: true }),

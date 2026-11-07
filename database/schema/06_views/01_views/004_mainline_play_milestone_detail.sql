@@ -31,6 +31,8 @@ SELECT
     mainline_milestones.description,
     mainline_milestones.sort_order,
     mainline_milestones.is_required_for_completion,
+    mainline_milestones.location_id,
+    milestone_locations.name AS location_name,
     (
         COALESCE(
             mainline_play_settings.story_tracking_enabled, TRUE
@@ -71,6 +73,7 @@ FROM
         OR mainline_milestones.game_id = mainline_plays.game_id)
     JOIN reference.version_groups ON version_groups.id = mainline_milestones.version_group_id
     LEFT JOIN reference.games ON games.id = mainline_milestones.game_id
+    LEFT JOIN reference.locations AS milestone_locations ON milestone_locations.id = mainline_milestones.location_id
     JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
         AND mainline_categories.version_group_id = mainline_milestones.version_group_id
     JOIN tracking.mainline_milestone_types ON mainline_milestone_types.id = mainline_milestones.milestone_type_id
@@ -128,17 +131,18 @@ WHERE
             mainline_milestone_pokemon_refs.milestone_id = mainline_milestones.id) AS pokemon_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'sort_order', mainline_milestone_opponent_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'location_id', mainline_milestone_opponent_refs.location_id, 'location_name', opponent_ref_locations.name, 'sort_order', mainline_milestone_opponent_refs.sort_order)
             ORDER BY mainline_milestone_opponent_refs.sort_order) AS opponent_refs
         FROM
             tracking.mainline_milestone_opponent_refs
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
                 AND mainline_opponents.version_group_id = mainline_milestone_opponent_refs.version_group_id
-        WHERE
-            mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
+        LEFT JOIN reference.locations AS opponent_ref_locations ON opponent_ref_locations.id = mainline_milestone_opponent_refs.location_id
+    WHERE
+        mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'badge_sort_order', mainline_badges.sort_order, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
             ORDER BY mainline_milestone_badge_refs.sort_order) AS badge_refs
         FROM
             tracking.mainline_milestone_badge_refs
@@ -159,4 +163,4 @@ WHERE
     WHERE
         mainline_milestone_collectible_refs.milestone_id = mainline_milestones.id) AS collectible_refs ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with progress, prerequisites, decisions, static refs, and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with their place, progress, prerequisites, decisions, static refs (each battle with its own place when it is fought away from the milestone''s), and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';

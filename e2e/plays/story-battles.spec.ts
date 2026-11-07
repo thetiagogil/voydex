@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openAllChapters } from "../support/story";
 import { forTheAnswer } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -15,16 +16,30 @@ const openBattle = async (
   await page.goto(`/mainline/plays/${playId}/progress/story`, {
     waitUntil: "networkidle",
   });
+  await openAllChapters(page);
   const stopButton = page.getByRole("button", { name: stop }).first();
   await expect(stopButton).toBeVisible(forTheAnswer);
   await stopButton.click();
-  const sheet = page.getByRole("dialog");
+  /* The sheet below 1024px, the panel beside the route above it. */
+  const sheet = page.getByRole("dialog").or(page.locator("[data-story-panel]"));
   const row = sheet.getByRole("button", { name: battle }).first();
   await expect(row).toBeVisible(forTheAnswer);
   await row.click();
 
   return {
-    report: sheet.getByRole("region", { name: reportName }),
+    /* Beside the route the report opens in a sheet of its own. */
+    report: page.getByRole("region", { exact: true, name: reportName }),
+    /* Back to the milestone: the sheet's way back, or closing the report's sheet. */
+    back: async () => {
+      const backButton = page.getByRole("button", { name: /^Back to / });
+
+      if (await backButton.count()) {
+        await backButton.click();
+      } else {
+        await page.keyboard.press("Escape");
+        await expect(page.getByRole("dialog")).toHaveCount(0);
+      }
+    },
     row,
     sheet,
   };
@@ -41,7 +56,7 @@ test.describe("Story battles", () => {
     });
 
     /* Roaming Raikou is optional Side Content: a legendary, not a Boss. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Roaming Raikou/,
@@ -61,9 +76,7 @@ test.describe("Story battles", () => {
     await expectAccessible(page);
 
     /* Back to the milestone, where it sits as side content after the Burned Tower. */
-    await sheet
-      .getByRole("button", { name: /^Back to Roaming Raikou/ })
-      .click();
+    await back();
     await expect(sheet).toContainText("Opens after Burned Tower");
   });
 
@@ -107,6 +120,7 @@ test.describe("Story battles", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
+    await openAllChapters(page);
 
     /* Ranks Y to V come before Mega Evolution, F to B after it, A in the Finale. */
     const route = page.getByRole("region", { name: "Main game route" });
@@ -130,7 +144,7 @@ test.describe("Story battles", () => {
     ]);
 
     /* Jacinthe's tournament: Canari, Ivor and Corbeau again, then the final. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Reach Rank B/,
@@ -140,7 +154,7 @@ test.describe("Story battles", () => {
     await expect(report).toContainText("Z-A Royale");
     await expect(report).toContainText("Clefable");
     await expect(report).toContainText("Hotel Richissime");
-    await sheet.getByRole("button", { name: /^Back to Reach Rank B/ }).click();
+    await back();
     const battleNames = (
       await sheet.getByRole("list").last().getByRole("button").allTextContents()
     ).map((text) => text.match(/^[A-Z][a-z]+/)?.[0]);

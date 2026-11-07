@@ -39,6 +39,8 @@ const milestone = (
   description: "A story milestone.",
   is_completed: false,
   is_required_for_completion: true,
+  location_id: null,
+  location_name: null,
   milestone_id: 1,
   milestone_name: "Choose Starter",
   milestone_type_name: "Decision",
@@ -54,6 +56,33 @@ const milestone = (
 });
 
 describe("buildStoryProgressModel", () => {
+  it("keeps each place's Pokémon with its own game's scope", () => {
+    const groups = [
+      {
+        pokemon: [
+          { formId: 16, levels: "Lv. 2–5", name: "Pidgey", slug: "pidgey" },
+        ],
+        way: "Walking",
+        waySlug: "walk",
+      },
+    ];
+    const model = buildStoryProgressModel({
+      badgeTypes: [],
+      categories: [category()],
+      decisionForms: [],
+      milestones: [milestone()],
+      placePokemon: [
+        { groups, location_id: 38, version_group_id: 1 },
+        { groups, location_id: 39, version_group_id: 99 },
+      ],
+      snapshotEvents: [],
+      steps: [],
+    });
+
+    expect([...(model.scopes[0]?.placePokemon.keys() ?? [])]).toEqual([38]);
+    expect(model.scopes[0]?.placePokemon.get(38)).toBe(groups);
+  });
+
   it("groups ordered sections into a base-game scope and calculates completion", () => {
     const model = buildStoryProgressModel({
       categories: [
@@ -68,6 +97,8 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -105,6 +136,8 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({ is_completed: true }),
@@ -132,6 +165,8 @@ describe("buildStoryProgressModel", () => {
           category({ is_open_world: isOpenWorld, milestone_count: 6 }),
         ],
         badgeTypes: [],
+        placePokemon: [],
+        steps: [],
         decisionForms: [],
         milestones: [
           milestone({
@@ -206,6 +241,8 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -241,6 +278,8 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category()],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [{ id: 906, slug: "sprigatito" }],
       milestones: [
         milestone({
@@ -355,6 +394,8 @@ describe("buildStoryProgressModel", () => {
         }),
       ],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -389,6 +430,8 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 3 })],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -438,6 +481,8 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 4 })],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -527,6 +572,8 @@ describe("buildStoryProgressModel", () => {
           milestone_count: 2,
         }),
       ],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({ milestone_id: 1 }),
@@ -602,6 +649,8 @@ describe("buildStoryProgressModel", () => {
           milestone_count: 1,
         }),
       ],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -653,6 +702,8 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       badgeTypes: [],
       categories: [category()],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [milestone()],
       snapshotEvents: [],
@@ -670,6 +721,8 @@ describe("findStoryMilestone", () => {
         category(),
       ],
       badgeTypes: [],
+      placePokemon: [],
+      steps: [],
       decisionForms: [],
       milestones: [
         milestone(),

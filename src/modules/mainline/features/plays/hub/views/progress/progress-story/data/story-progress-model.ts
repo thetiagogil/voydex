@@ -21,6 +21,7 @@ import type {
   StoryMilestoneIncompletionImpact,
   StoryMilestonePrerequisite,
   StoryMilestoneRef,
+  StoryPlace,
   StoryProgressModel,
   StoryScope,
   StorySection,
@@ -263,12 +264,24 @@ const findNextMilestone = (milestones: StoryMilestone[]) =>
     isChoice: isChoiceMilestone(milestone.typeSlug),
   }));
 
+/* Its place, or null where the milestone has none. */
+const toPlace = (id: unknown, name: unknown): StoryPlace | null => {
+  const placeId = toFiniteNumber(id, Number.NaN);
+  const placeName = toStringValue(name);
+
+  return Number.isFinite(placeId) && placeName
+    ? { id: placeId, name: placeName }
+    : null;
+};
+
 export const buildStoryProgressModel = ({
   badgeTypes,
   categories,
   decisionForms,
   milestones,
+  placePokemon,
   snapshotEvents,
+  steps,
 }: MainlinePlayProgressStoryData): StoryProgressModel => {
   const completedMilestoneIds = new Set(
     milestones
@@ -323,6 +336,7 @@ export const buildStoryProgressModel = ({
             isBlockingPrerequisite,
           );
           const isCompleted = Boolean(milestone.is_completed);
+          const place = toPlace(milestone.location_id, milestone.location_name);
 
           return {
             badge: getMilestoneBadge({
@@ -359,6 +373,7 @@ export const buildStoryProgressModel = ({
                   (prerequisite) => prerequisite.kindSlug === "opens-after",
                 )
                 .map(({ id, name }) => ({ id, name }))[0] ?? null,
+            place,
             prerequisites,
             selectedDecisionId: milestone.selected_decision_option_id ?? null,
             selectedDecisionLabel:
@@ -423,6 +438,20 @@ export const buildStoryProgressModel = ({
         ? "Main game"
         : (category?.version_group_name ?? "Main game"),
       nextMilestone: null,
+      placePokemon: new Map(
+        placePokemon
+          .filter((place) => place.version_group_id === scopeId)
+          .map((place) => [place.location_id, place.groups]),
+      ),
+      steps: steps
+        .filter((step) => step.version_group_id === scopeId)
+        .sort((a, b) => a.sort_order - b.sort_order)
+        .map((step) => ({
+          id: step.id,
+          milestoneId: step.milestone_id,
+          note: step.note,
+          place: toPlace(step.location_id, step.location_name),
+        })),
       sections: [section],
       stamps: null,
       totalCount: section.totalCount,

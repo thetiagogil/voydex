@@ -3045,10 +3045,12 @@ CREATE TABLE tracking.mainline_milestones (
     description text,
     sort_order integer NOT NULL,
     is_required_for_completion boolean NOT NULL DEFAULT TRUE,
+    location_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_milestones_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_milestones_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_category_version_group_fkey FOREIGN KEY (category_id, version_group_id) REFERENCES tracking.mainline_categories (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_milestones_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_parent_version_group_fkey FOREIGN KEY (parent_milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_parent_not_self_check CHECK (parent_milestone_id IS NULL OR parent_milestone_id <> id),
     CONSTRAINT mainline_milestones_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -3086,6 +3088,10 @@ CREATE INDEX mainline_milestones_parent_idx ON tracking.mainline_milestones (par
 WHERE
     parent_milestone_id IS NOT NULL;
 
+CREATE INDEX mainline_milestones_location_idx ON tracking.mainline_milestones (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
 COMMENT ON TABLE tracking.mainline_milestones IS 'Curated story/progression milestone definitions. User completion state lives in gameplay.';
 
 COMMENT ON COLUMN tracking.mainline_milestones.game_id IS 'Nullable for version-group-wide mainline_milestones. When set, the game must be mapped to the same content scope.';
@@ -3093,6 +3099,8 @@ COMMENT ON COLUMN tracking.mainline_milestones.game_id IS 'Nullable for version-
 COMMENT ON COLUMN tracking.mainline_milestones.sort_order IS 'Display order within its category in the final play scope. Game-specific rows can fill slots between version-group-wide rows. Previous-step prompts and unlock logic are modeled in mainline_milestone_prerequisites.';
 
 COMMENT ON COLUMN tracking.mainline_milestones.snapshot_policy_id IS 'Defines whether the UI should offer or recommend a team snapshot when completing the milestone.';
+
+COMMENT ON COLUMN tracking.mainline_milestones.location_id IS 'The place the milestone happens at, which pins it on the Story roadmap. It must be one of the version group''s places; NULL until the version group''s beats are placed.';
 
 -- ============================================================================
 -- Source: database/schema/03_tracking/01_tables/006_mainline_milestone_prerequisites.sql
@@ -3482,10 +3490,12 @@ CREATE TABLE tracking.mainline_milestone_opponent_refs (
     notes text,
     player_side text NOT NULL DEFAULT 'own-team',
     team_size_limit integer,
+    location_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_milestone_opponent_refs_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_milestone_opponent_refs_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_milestone_opponent_refs_opponent_version_group_fkey FOREIGN KEY (opponent_id, version_group_id) REFERENCES tracking.mainline_opponents (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_milestone_opponent_refs_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestone_opponent_refs_relation_kind_format_check CHECK (relation_kind = LOWER(relation_kind) AND relation_kind ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(relation_kind) <= 80),
     CONSTRAINT mainline_milestone_opponent_refs_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_milestone_opponent_refs_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000),
@@ -3499,11 +3509,17 @@ CREATE UNIQUE INDEX mainline_milestone_opponent_refs_sort_order_unique ON tracki
 
 CREATE INDEX mainline_milestone_opponent_refs_opponent_idx ON tracking.mainline_milestone_opponent_refs (opponent_id);
 
+CREATE INDEX mainline_milestone_opponent_refs_location_idx ON tracking.mainline_milestone_opponent_refs (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
 COMMENT ON TABLE tracking.mainline_milestone_opponent_refs IS 'Static opponent references related to milestone definitions.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.player_side IS 'What the player battles with: own-team, a lent-pokemon given for the fight, one-own-pokemon alone (such as the ride legendary), or not-a-battle where the fight is mostly dodging and balms.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.team_size_limit IS 'How many of their own Pokémon the player may bring to this battle, where the game limits it (Emerald''s Space Center Multi Battle: three). NULL means the whole team; only for own-team battles.';
+
+COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.location_id IS 'Where the battle happens when it is not at its milestone''s own place (Red / Blue''s Route 22 rival fights), one of the version group''s places. NULL means at the milestone''s place. The battle stays owned by its milestone.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.version_group_id IS 'Enforces that the milestone and opponent belong to the same version group.';
 
@@ -3991,6 +4007,49 @@ COMMENT ON TABLE tracking.mainline_opponent_team_member_moves IS 'Curated move s
 COMMENT ON COLUMN tracking.mainline_opponent_team_member_moves.move_id IS 'A regular move it knows in this battle, as that game''s own trainer data gives it; a Pokémon the game gives no set moves keeps its default level-up moves for its level.';
 
 -- ============================================================================
+-- Source: database/schema/03_tracking/01_tables/019_mainline_roadmap_steps.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: tracking.mainline_roadmap_steps
+-- The Story roadmap of a version group, step by step in walkthrough order.
+-- ============================================================================
+CREATE TABLE tracking.mainline_roadmap_steps (
+    id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    sort_order integer NOT NULL,
+    location_id integer,
+    milestone_id integer,
+    note text,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT mainline_roadmap_steps_id_positive_check CHECK (id > 0),
+    CONSTRAINT mainline_roadmap_steps_sort_order_positive_check CHECK (sort_order > 0),
+    CONSTRAINT mainline_roadmap_steps_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT mainline_roadmap_steps_one_target_check CHECK (num_nonnulls (location_id, milestone_id) = 1),
+    CONSTRAINT mainline_roadmap_steps_note_length_check CHECK (note IS NULL OR CHAR_LENGTH(BTRIM(note)) BETWEEN 1 AND 300),
+    CONSTRAINT mainline_roadmap_steps_note_place_check CHECK (note IS NULL OR location_id IS NOT NULL),
+    CONSTRAINT mainline_roadmap_steps_version_group_sort_order_unique UNIQUE (version_group_id, sort_order)
+);
+
+CREATE UNIQUE INDEX mainline_roadmap_steps_milestone_unique ON tracking.mainline_roadmap_steps (milestone_id)
+WHERE
+    milestone_id IS NOT NULL;
+
+CREATE INDEX mainline_roadmap_steps_location_idx ON tracking.mainline_roadmap_steps (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
+COMMENT ON TABLE tracking.mainline_roadmap_steps IS 'A version group''s Story roadmap in walkthrough order. A step is a place you pass (location_id) or a milestone (milestone_id), which carries its own place. Places may repeat (revisits); a milestone appears once.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.sort_order IS 'The step''s position on the version group''s roadmap, counting 1, 2, 3.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.location_id IS 'A place the story passes through, one of the version group''s places. NULL on a milestone step.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.milestone_id IS 'A milestone of the same version group; the step sits at the milestone''s own place. NULL on a place step.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.note IS 'What happens at a place step, in a line (pick up Oak''s Parcel, needs Cut); NULL where nothing does. Milestones have their own description.';
+
+-- ============================================================================
 -- Source: database/schema/03_tracking/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -4032,6 +4091,8 @@ ALTER TABLE tracking.mainline_opponent_team_members ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE tracking.mainline_opponent_team_member_moves ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE tracking.mainline_roadmap_steps ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE tracking.mainline_snapshot_policies FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_categories FROM anon, authenticated;
@@ -4067,6 +4128,8 @@ REVOKE ALL ON TABLE tracking.mainline_milestone_decision_options FROM anon, auth
 REVOKE ALL ON TABLE tracking.mainline_opponent_team_members FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_opponent_team_member_moves FROM anon, authenticated;
+
+REVOKE ALL ON TABLE tracking.mainline_roadmap_steps FROM anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_snapshot_policies TO authenticated;
 
@@ -4104,6 +4167,8 @@ GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO anon, authentic
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
 
+GRANT SELECT ON TABLE tracking.mainline_roadmap_steps TO authenticated;
+
 GRANT ALL ON TABLE tracking.mainline_snapshot_policies TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_categories TO service_role;
@@ -4139,6 +4204,8 @@ GRANT ALL ON TABLE tracking.mainline_milestone_decision_options TO service_role;
 GRANT ALL ON TABLE tracking.mainline_opponent_team_members TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_opponent_team_member_moves TO service_role;
+
+GRANT ALL ON TABLE tracking.mainline_roadmap_steps TO service_role;
 
 CREATE POLICY mainline_snapshot_policies_read_all ON tracking.mainline_snapshot_policies
     FOR SELECT TO authenticated
@@ -4209,6 +4276,10 @@ CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_oppon
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves
+    FOR SELECT TO authenticated
+    USING (TRUE);
+
+CREATE POLICY mainline_roadmap_steps_read_all ON tracking.mainline_roadmap_steps
     FOR SELECT TO authenticated
     USING (TRUE);
 
@@ -10167,6 +10238,8 @@ SELECT
     mainline_milestones.description,
     mainline_milestones.sort_order,
     mainline_milestones.is_required_for_completion,
+    mainline_milestones.location_id,
+    milestone_locations.name AS location_name,
     (
         COALESCE(
             mainline_play_settings.story_tracking_enabled, TRUE
@@ -10207,6 +10280,7 @@ FROM
         OR mainline_milestones.game_id = mainline_plays.game_id)
     JOIN reference.version_groups ON version_groups.id = mainline_milestones.version_group_id
     LEFT JOIN reference.games ON games.id = mainline_milestones.game_id
+    LEFT JOIN reference.locations AS milestone_locations ON milestone_locations.id = mainline_milestones.location_id
     JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
         AND mainline_categories.version_group_id = mainline_milestones.version_group_id
     JOIN tracking.mainline_milestone_types ON mainline_milestone_types.id = mainline_milestones.milestone_type_id
@@ -10264,17 +10338,18 @@ WHERE
             mainline_milestone_pokemon_refs.milestone_id = mainline_milestones.id) AS pokemon_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'sort_order', mainline_milestone_opponent_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'location_id', mainline_milestone_opponent_refs.location_id, 'location_name', opponent_ref_locations.name, 'sort_order', mainline_milestone_opponent_refs.sort_order)
             ORDER BY mainline_milestone_opponent_refs.sort_order) AS opponent_refs
         FROM
             tracking.mainline_milestone_opponent_refs
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
                 AND mainline_opponents.version_group_id = mainline_milestone_opponent_refs.version_group_id
-        WHERE
-            mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
+        LEFT JOIN reference.locations AS opponent_ref_locations ON opponent_ref_locations.id = mainline_milestone_opponent_refs.location_id
+    WHERE
+        mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) AS opponent_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_badge_refs.relation_kind, 'badge_id', mainline_badges.id, 'slug', mainline_badges.slug, 'name', mainline_badges.name, 'type_id', mainline_badges.type_id, 'sprite_slug', mainline_badges.sprite_slug, 'badge_sort_order', mainline_badges.sort_order, 'notes', mainline_milestone_badge_refs.notes, 'sort_order', mainline_milestone_badge_refs.sort_order)
             ORDER BY mainline_milestone_badge_refs.sort_order) AS badge_refs
         FROM
             tracking.mainline_milestone_badge_refs
@@ -10295,7 +10370,7 @@ WHERE
     WHERE
         mainline_milestone_collectible_refs.milestone_id = mainline_milestones.id) AS collectible_refs ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with progress, prerequisites, decisions, static refs, and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with their place, progress, prerequisites, decisions, static refs (each battle with its own place when it is fought away from the milestone''s), and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/005_mainline_play_team_detail.sql
