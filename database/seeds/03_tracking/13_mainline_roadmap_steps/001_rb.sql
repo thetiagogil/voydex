@@ -58,11 +58,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 15: Route 4
   (1, 15, 57, NULL, 'Out of Mt. Moon, ledges lead down to Cerulean City. Ekans live in the grass in Red, Sandshrew in Blue.'),
   -- 16: Cerulean City
-  (1, 16, 9, NULL, 'Misty''s Gym uses Water types. A Rocket has robbed a house here, and a police officer guards it until you''ve met Bill. The Bike Shop''s Bicycle costs far too much for now. Blue waits at the north exit.'),
+  (1, 16, 9, NULL, 'Misty''s Gym uses Water types. A Team Rocket Grunt has robbed a house here, and a police officer guards it until you''ve met Bill. The Bike Shop''s Bicycle costs far too much for now. Blue waits at the north exit.'),
   -- 17: Cascade Badge (milestone)
   (1, 17, NULL, 10005, NULL),
   -- 18: Route 24
-  (1, 18, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a man gives you a Nugget and asks you to join Team Rocket. Say no and he battles you. Abra appear in the grass past the bridge.'),
+  (1, 18, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a Team Rocket Grunt gives you a Nugget and asks you to join. Say no and he battles you. Abra appear in the grass past the bridge.'),
   -- 19: Route 25
   (1, 19, 55, NULL, 'Trainers line the path east along the cape. Bill''s Sea Cottage sits at the very end.'),
   -- 20: Bill's Sea Cottage (milestone)

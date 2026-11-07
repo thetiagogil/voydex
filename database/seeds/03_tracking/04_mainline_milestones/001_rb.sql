@@ -60,7 +60,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon Tower (Pokémon Tower)
   (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope and rescue Mr. Fuji to get the Poké Flute.', 11, true, 33),
   -- Silph Co. (Silph Co.)
-  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni. This also clears the Rocket blocking the Saffron Gym.', 12, true, 67),
+  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni. This also clears the Team Rocket Grunt blocking the Saffron Gym.', 12, true, 67),
   -- Marsh Badge (Saffron City)
   (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true, 814),
   -- Soul Badge (Fuchsia City)
