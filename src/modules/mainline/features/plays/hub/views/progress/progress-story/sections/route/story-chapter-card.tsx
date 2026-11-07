@@ -2,6 +2,7 @@ import { useId, type ReactNode } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Card } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -9,7 +10,7 @@ import type { StoryMilestone } from "../../types";
 import { getStoryRouteStopId } from "./story-route-stop";
 
 /*
- * One chapter of the Story, a section of the route's card (#199): its name and how far
+ * One chapter of the Story as its own card (#199): its name and how far
  * through it you are in a head that stays in view while you scroll, with
  * Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
  * its milestones as a strip of small medallions, each opening its milestone,
@@ -52,21 +53,19 @@ export const StoryChapterCard = ({
   const bodyId = useId();
 
   return (
-    <section
+    <Card
+      role="region"
       aria-label={name}
       className={cn(
-        "rounded-2xl pb-3",
-        /* The chapter you're in wears a ring inside the route's card. */
-        current && "inset-ring-select-ink/25 inset-ring-2",
+        /* Visible overflow, so its head can stay pinned while you scroll. */
+        "gap-0 overflow-visible px-3 pt-0 pb-3 sm:px-5 sm:pb-4",
+        /* Outside the card, so its pinned head never covers it. */
+        current && "ring-select-ink/25 ring-2",
       )}
     >
-      {/*
-       * Its head stays in view while you scroll its route, to fold it at
-       * will: pinned a little higher than the dock's offset so nothing shows
-       * between them, and from 1024px at the top of the route card's own
-       * scroll. It sits inside the ring, so it never covers it.
-       */}
-      <div className="bg-surface sticky top-[calc(var(--play-dock-offset,0px)-1rem)] z-10 mx-0.5 flex items-center gap-3 rounded-t-2xl pt-3.5 pr-2 pb-1 lg:top-0">
+      {/* Its head stays in view while you scroll its route, to fold it at will. */}
+      {/* Pinned a little higher than the dock's offset, so nothing shows between them. */}
+      <div className="bg-surface sticky top-[calc(var(--play-dock-offset,0px)-1rem)] z-10 -mx-3 flex items-center gap-3 rounded-t-2xl px-3 pt-4 pb-1 sm:-mx-5 sm:px-5 sm:pt-5">
         <span className="grid w-14 shrink-0 place-items-center pl-1.5">
           <span
             className={cn(
@@ -161,6 +160,6 @@ export const StoryChapterCard = ({
           </ul>
         ) : null}
       </div>
-    </section>
+    </Card>
   );
 };

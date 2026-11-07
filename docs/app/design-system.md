@@ -554,9 +554,8 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   menu separators and the hairlines between a toolbar's groups.
 - A list you read (History, Recent moments) is one card with rows inside.
   Story is a roadmap (`StoryRoadmap` in
-  `.../progress-story/sections/route/`): one card, pinned beside the detail
-  from 1024px and scrolling inside (`sticky-column`), with each chapter a
-  section of it (`StoryChapterCard`) with its milestones as stops down one vertical line
+  `.../progress-story/sections/route/`): each chapter its own card
+  (`StoryChapterCard`) with its milestones as stops down one vertical line
   (solid in the progress tint behind you, dashed ahead, dotted to an
   optional stop) and the places on the way between them as small quiet
   dots. Every chapter folds from its head (Expand / Collapse), which stays

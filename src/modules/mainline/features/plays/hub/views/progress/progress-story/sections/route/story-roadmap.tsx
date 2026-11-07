@@ -8,7 +8,6 @@ import type { StampOrder } from "@/modules/mainline/features/plays/shared/data/p
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Card } from "@/shared/components/ui/card";
 
 import {
   getCurrentChapterKey,
@@ -286,17 +285,10 @@ export const StoryRoadmap = ({
   };
 
   return (
-    <Card
+    <div
       role="region"
       aria-label={`${scope.label} route`}
-      /*
-       * One card for the whole route. From 1024px it stays pinned beside the
-       * detail, as the detail does, and scrolls inside; it's short enough to
-       * fit above the page's bottom padding (4.5rem), so scrolling the page
-       * to its end never pushes its top under the dock. Below, the page
-       * scrolls and each chapter's head pins under the dock.
-       */
-      className="lg:sticky-column grid content-start gap-2 overflow-visible px-2 pt-0 pb-2 sm:px-3 lg:max-h-[calc(100dvh-var(--play-dock-offset,0px)-6rem)] lg:overflow-y-auto"
+      className="grid content-start gap-4"
     >
       {blocks.map((block) =>
         block.kind === "route" ? (
@@ -321,6 +313,6 @@ export const StoryRoadmap = ({
           </section>
         ),
       )}
-    </Card>
+    </div>
   );
 };
