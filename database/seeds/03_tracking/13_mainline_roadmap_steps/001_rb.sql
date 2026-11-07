@@ -47,7 +47,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 9: Viridian City
   (1, 9, 76, NULL, 'The old man has had his coffee and shows you how to catch a Pokémon. The road north is open, and the Poké Mart now sells Poké Balls.'),
   -- 10: Route 22
-  (1, 10, 52, NULL, 'West of Viridian City. Blue shows up here for a battle you can skip. Further west, the gate to the Pokémon League turns you away until you have the Boulder Badge.'),
+  (1, 10, 52, NULL, 'West of Viridian City. If you come here before beating Brock, Blue walks up and battles you, with no way to refuse. Stay away until then and you skip it. Further west, the gate to the Pokémon League turns you away until you have the Boulder Badge.'),
   -- 11: Route 2
   (1, 11, 49, NULL, 'Leads north into Viridian Forest. The trees and houses on its east side need Cut, so you''ll come back later.'),
   -- 12: Viridian Forest

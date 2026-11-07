@@ -50,7 +50,7 @@ SELECT
             WHERE
                 mainline_milestone_opponent_refs.version_group_id = 1
                 AND mainline_milestone_opponent_refs.opponent_id = 1014 ORDER BY mainline_milestones.category_id, mainline_milestones.sort_order $$, $$
-            VALUES ('boulder-badge', 'Route 22', 'You can skip this battle.'), ('cascade-badge', 'Cerulean City', 'At the north exit, before Nugget Bridge.'), ('pokemon-league', 'Route 22', NULL::text) $$, 'Blue''s battles away from a Gym or the League carry their own place');
+            VALUES ('boulder-badge', 'Route 22', 'Skipped if you stay off Route 22 until you beat Brock.'), ('cascade-badge', 'Cerulean City', 'At the north exit, before Nugget Bridge.'), ('pokemon-league', 'Route 22', NULL::text) $$, 'Blue''s battles away from a Gym or the League carry their own place');
 SELECT
     IS ((
             SELECT

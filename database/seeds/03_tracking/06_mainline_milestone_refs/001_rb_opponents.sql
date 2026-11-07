@@ -57,7 +57,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Choose Starter -> Blue
   (10001, 1014, 1, 'battle-opponent', 1, 'Oak''s Lab, Pallet Town', NULL),
   -- Boulder Badge -> Blue (Route 22)
-  (10003, 1014, 1, 'battle-opponent', 1, 'You can skip this battle.', 52),
+  (10003, 1014, 1, 'battle-opponent', 1, 'Skipped if you stay off Route 22 until you beat Brock.', 52),
   -- Cascade Badge -> Blue
   (10005, 1014, 1, 'battle-opponent', 1, 'At the north exit, before Nugget Bridge.', 9),
   -- S.S. Anne -> Blue

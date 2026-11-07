@@ -198,7 +198,7 @@ test.describe("Progress", () => {
     await route22.first().click();
     const routeDetail = storyDetail(page, "Route 22");
     await expect(routeDetail).toContainText(
-      "Blue shows up here for a battle you can skip.",
+      "Blue walks up and battles you, with no way to refuse.",
     );
     await expect(
       routeDetail.getByRole("button", { name: /^Blue/ }),
