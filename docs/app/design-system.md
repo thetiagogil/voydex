@@ -558,10 +558,9 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   (`StoryChapterCard`) with its milestones as stops down one vertical line
   (solid in the progress tint behind you, dashed ahead, dotted to an
   optional stop) and the places on the way between them as small quiet
-  dots. Every chapter folds from its head (Expand / Collapse), which stays
-  pinned while you scroll its route; only the one you're in starts open,
-  wearing a ring, and a folded one shows its milestones as a strip of small
-  medallions. A stop is its `MilestoneMarker`
+  dots. Every chapter folds from its head (Expand / Collapse); only the one
+  you're in starts open, wearing a ring, and a folded one shows its
+  milestones as a strip of small medallions. A stop is its `MilestoneMarker`
   (`lg`) with its name and one quiet line beside it (its place, then where
   it stands); a recorded one is a sticker in its badge's type with what you
   got there on its right (the Pokémon you chose, the team then); only the

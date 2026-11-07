@@ -1,9 +1,8 @@
-import { useId, useRef, type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
-import { useIsPinned } from "@/shared/hooks/use-is-pinned";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -12,8 +11,7 @@ import { getStoryRouteStopId } from "./story-route-stop";
 
 /*
  * One chapter of the Story as its own card (#199): its name and how far
- * through it you are in a head that stays in view while you scroll, with
- * Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
+ * through it you are in its head, with Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
  * its milestones as a strip of small medallions, each opening its milestone,
  * so the whole game reads at a glance; open, its route of milestones and
  * places.
@@ -52,49 +50,18 @@ export const StoryChapterCard = ({
   selectedMilestoneId: number | null;
 }) => {
   const bodyId = useId();
-  const cardRef = useRef<HTMLDivElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  /* Pinned, the head dresses as its card's top: rounded, edged, ringed. */
-  const isPinned = useIsPinned(headRef, cardRef);
 
   return (
     <Card
-      ref={cardRef}
       role="region"
       aria-label={name}
       className={cn(
-        /* Visible overflow, so its head can stay pinned while you scroll. */
+        /* Visible overflow, so a sticker's lift and shadow are never cut. */
         "gap-0 overflow-visible px-3 pt-0 pb-3 sm:px-5 sm:pb-4",
-        /* Outside the card, so its pinned head never covers it. */
         current && "ring-select-ink/25 ring-2",
       )}
     >
-      {/* Its head stays in view while you scroll its route, to fold it at will. */}
-      <div
-        ref={headRef}
-        className={cn(
-          "bg-surface sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] z-10 -mx-3 flex items-center gap-3 rounded-t-2xl px-3 pt-4 pb-1 transition-shadow duration-150 sm:-mx-5 sm:px-5 sm:pt-5",
-          /*
-           * Pinned, it's the card's top that stays: rounded all round, on
-           * the card's soft shadow, and the ring of the chapter you're in.
-           */
-          /*
-           * It pins where the detail beside it does, under the dock with the
-           * same gap; the page's ground fills that gap, so the route never
-           * shows through above it.
-           */
-          /*
-           * Pinned, it is the card's top: rounded above, the card's edge (and
-           * the ring of the chapter you're in) on its top and sides, cut off
-           * below so they run straight on down the card. A hairline and a
-           * little room under it, so the route slides away beneath a clear
-           * edge instead of being sliced mid-line.
-           */
-          isPinned &&
-            "shadow-card border-line before:bg-bg -mb-2 border-b pb-3 [clip-path:inset(-3rem_-2rem_0_-2rem)] before:absolute before:-inset-x-4 before:bottom-full before:h-10",
-          isPinned && current && "ring-select-ink/25 ring-2",
-        )}
-      >
+      <div className="flex items-center gap-3 pt-4 pb-1 sm:pt-5">
         <span className="grid w-14 shrink-0 place-items-center pl-1.5">
           <span
             className={cn(
