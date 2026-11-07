@@ -83,8 +83,13 @@ export const StoryChapterCard = ({
            * same gap; the page's ground fills that gap, so the route never
            * shows through above it.
            */
+          /*
+           * Pinned, it is the card's top: rounded above, the card's edge (and
+           * the ring of the chapter you're in) on its top and sides, cut off
+           * below so they run straight on down the card.
+           */
           isPinned &&
-            "shadow-card before:bg-bg rounded-b-2xl before:absolute before:-inset-x-4 before:bottom-full before:h-10",
+            "shadow-card before:bg-bg [clip-path:inset(-3rem_-2rem_0_-2rem)] before:absolute before:-inset-x-4 before:bottom-full before:h-10",
           isPinned && current && "ring-select-ink/25 ring-2",
         )}
       >
