@@ -70,16 +70,21 @@ export const StoryChapterCard = ({
       )}
     >
       {/* Its head stays in view while you scroll its route, to fold it at will. */}
-      {/* Pinned a little higher than the dock's offset, so nothing shows between them. */}
       <div
         ref={headRef}
         className={cn(
-          "bg-surface sticky top-[calc(var(--play-dock-offset,0px)-1rem)] z-10 -mx-3 flex items-center gap-3 rounded-t-2xl px-3 pt-4 pb-1 transition-shadow duration-150 sm:-mx-5 sm:px-5 sm:pt-5",
+          "bg-surface sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] z-10 -mx-3 flex items-center gap-3 rounded-t-2xl px-3 pt-4 pb-1 transition-shadow duration-150 sm:-mx-5 sm:px-5 sm:pt-5",
           /*
            * Pinned, it's the card's top that stays: rounded all round, on
            * the card's soft shadow, and the ring of the chapter you're in.
            */
-          isPinned && "shadow-card rounded-b-2xl",
+          /*
+           * It pins where the detail beside it does, under the dock with the
+           * same gap; the page's ground fills that gap, so the route never
+           * shows through above it.
+           */
+          isPinned &&
+            "shadow-card before:bg-bg rounded-b-2xl before:absolute before:-inset-x-4 before:bottom-full before:h-10",
           isPinned && current && "ring-select-ink/25 ring-2",
         )}
       >
