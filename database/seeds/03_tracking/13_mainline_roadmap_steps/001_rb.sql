@@ -17,8 +17,9 @@
 -- Seafoam Islands on the way to Cinnabar Island, the Power Plant on the way
 -- back to Viridian City, Victory Road before the Indigo Plateau). A place
 -- step carries a note on what happens there: who gives you what, what a path
--- needs, what blocks the way and the Gym's type. The route shows its first
--- line and the place's detail shows it in full.
+-- needs, what blocks the way and the Gym's type. It shows in the place's
+-- detail only, and never lists the Pokémon found there, which the detail
+-- already shows.
 -- ============================================================================
 INSERT INTO tracking.mainline_roadmap_steps (
   version_group_id,
@@ -32,7 +33,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 2: Choose Starter (milestone)
   (1, 2, NULL, 10001, NULL),
   -- 3: Route 1
-  (1, 3, 38, NULL, 'The first route, with Pidgey and Rattata in the tall grass. A Poké Mart clerk hands you a free Potion on the way.'),
+  (1, 3, 38, NULL, 'The first route out of Pallet Town, with ledges you can only hop down. A Poké Mart clerk hands you a free Potion on the way to Viridian City.'),
   -- 4: Viridian City
   (1, 4, 76, NULL, 'The Poké Mart clerk asks you to take Oak''s Parcel back to Professor Oak, and you can''t shop until you do. An old man blocks the road north. The Gym is locked for now.'),
   -- 5: Route 1
@@ -50,25 +51,25 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 11: Route 2
   (1, 11, 49, NULL, 'Leads north into Viridian Forest. The trees and houses on its east side need Cut, so you''ll come back later.'),
   -- 12: Viridian Forest
-  (1, 12, 77, NULL, 'A maze of trees full of Bug Catchers, a good test before Brock. Wild Pikachu hide in the grass, but they''re rare.'),
+  (1, 12, 77, NULL, 'A maze of trees full of Bug Catchers, a good test before Brock. Its far exit opens straight onto Pewter City.'),
   -- 13: Pewter City
   (1, 13, 104, NULL, 'A quiet town of stone. Brock''s Gym uses Rock types, so Water and Grass Pokémon have an easy time. The Museum of Science costs 50 Pokédollars to visit. A boy won''t let you leave east until you''ve beaten the Gym.'),
   -- 14: Boulder Badge (milestone)
   (1, 14, NULL, 10003, NULL),
   -- 15: Route 3
-  (1, 15, 56, NULL, 'A long line of trainers on the way to Mt. Moon. In the Pokémon Center by the cave, a man sells you a Magikarp for 500 Pokédollars.'),
+  (1, 15, 56, NULL, 'A long line of trainers on the way to Mt. Moon. A Pokémon Center stands at the cave''s mouth, so heal up before you go in.'),
   -- 16: Mt. Moon
-  (1, 16, 27, NULL, 'A cave of three floors where Team Rocket digs for fossils. Wild Clefairy are rare here, and there''s a Moon Stone to find.'),
+  (1, 16, 27, NULL, 'A cave of three floors where Team Rocket digs for fossils. There''s a Moon Stone to find on the way through.'),
   -- 17: Fossil Choice (milestone)
   (1, 17, NULL, 10004, NULL),
   -- 18: Route 4
-  (1, 18, 57, NULL, 'Out of Mt. Moon, ledges lead down to Cerulean City. Ekans live in the grass in Red, Sandshrew in Blue.'),
+  (1, 18, 57, NULL, 'Out of Mt. Moon, ledges lead down to Cerulean City. You can''t climb back up this way.'),
   -- 19: Cerulean City
   (1, 19, 9, NULL, 'Misty''s Gym uses Water types. A Team Rocket Grunt has robbed a house here, and a police officer guards it until you''ve met Bill. The Bike Shop''s Bicycle costs far too much for now. Blue waits at the north exit.'),
   -- 20: Cascade Badge (milestone)
   (1, 20, NULL, 10005, NULL),
   -- 21: Route 24
-  (1, 21, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a Team Rocket Grunt gives you a Nugget and asks you to join. Say no and he battles you. Abra appear in the grass past the bridge.'),
+  (1, 21, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a Team Rocket Grunt gives you a Nugget and asks you to join. Say no and he battles you.'),
   -- 22: Route 25
   (1, 22, 55, NULL, 'Trainers line the path east along the cape. Bill''s Sea Cottage sits at the very end.'),
   -- 23: Bill's Sea Cottage (milestone)
@@ -76,7 +77,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 24: Route 5
   (1, 24, 58, NULL, 'South of Cerulean City. A thirsty guard keeps you out of Saffron City, so take the Underground Path south instead. The Day Care here raises one Pokémon for you.'),
   -- 25: Underground Path (Kanto Routes 5-6)
-  (1, 25, 73, NULL, 'A long tunnel that runs under Saffron City from Route 5 to Route 6. No wild Pokémon live down here.'),
+  (1, 25, 73, NULL, 'A long tunnel that runs under Saffron City from Route 5 to Route 6.'),
   -- 26: Route 6
   (1, 26, 59, NULL, 'Leads south to Vermilion City. Its gate into Saffron City has a guard who''s just as thirsty.'),
   -- 27: Vermilion City
@@ -88,11 +89,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 30: Route 11
   (1, 30, 40, NULL, 'Leads east from Vermilion City, past Diglett''s Cave. In the gate at its end, Oak''s aide gives you an Itemfinder once you''ve caught 30 kinds.'),
   -- 31: Diglett's Cave
-  (1, 31, 13, NULL, 'A long tunnel full of Diglett and Dugtrio, running from Route 11 back to Route 2 near Pewter City.'),
+  (1, 31, 13, NULL, 'A long tunnel running from Route 11 back to Route 2, near Pewter City. It''s the quickest way back west.'),
   -- 32: Route 2
-  (1, 32, 49, NULL, 'Cut through the trees on the east side. In the gate, Oak''s aide gives you HM05 Flash once you''ve caught 10 kinds. A man in a house here trades his Mr. Mime for an Abra.'),
+  (1, 32, 49, NULL, 'Cut through the trees on the east side. In the gate, Oak''s aide gives you HM05 Flash once you''ve caught 10 kinds.'),
   -- 33: Pewter Museum of Science
-  (1, 33, 105, NULL, 'Cut round to the museum''s back door. A scientist there gives you the Old Amber, which Cinnabar Lab can bring back as Aerodactyl.'),
+  (1, 33, 105, NULL, 'Cut round to the museum''s back door. A scientist there gives you the Old Amber. Cinnabar Lab can revive it later.'),
   -- 34: Route 9
   (1, 34, 62, NULL, 'East from Cerulean City. Cut the tree to get through, then a long line of trainers leads to Route 10.'),
   -- 35: Route 10
@@ -108,7 +109,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 40: Route 7
   (1, 40, 60, NULL, 'A short road west to Celadon City.'),
   -- 41: Celadon City
-  (1, 41, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. A man in the mansion gives you an Eevee. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret.'),
+  (1, 41, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret.'),
   -- 42: Rainbow Badge (milestone)
   (1, 42, NULL, 10007, NULL),
   -- 43: Rocket Hideout (milestone)
@@ -126,7 +127,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 49: Marsh Badge (milestone)
   (1, 49, NULL, 10009, NULL),
   -- 50: Route 16
-  (1, 50, 45, NULL, 'West of Celadon City. A Snorlax sleeps on the road. Wake it with the Poké Flute to battle or catch it. A girl in a house behind a tree gives you HM02 Fly.'),
+  (1, 50, 45, NULL, 'West of Celadon City. A sleeping Snorlax blocks the road. Wake it with the Poké Flute. A girl in a house behind a tree gives you HM02 Fly.'),
   -- 51: Route 17
   (1, 51, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle, and bikers wait along the way.'),
   -- 52: Route 18
@@ -138,7 +139,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 55: Safari Zone (milestone)
   (1, 55, NULL, 10028, NULL),
   -- 56: Route 12
-  (1, 56, 41, NULL, 'Another Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute to battle or catch it. A fisherman in a house here gives you the Super Rod.'),
+  (1, 56, 41, NULL, 'Another sleeping Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
   -- 57: Route 13
   (1, 57, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
   -- 58: Route 14
@@ -148,7 +149,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 60: Route 19
   (1, 60, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
   -- 61: Route 20
-  (1, 61, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway, where Articuno lives.'),
+  (1, 61, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
   -- 62: Seafoam Islands (milestone)
   (1, 62, NULL, 10024, NULL),
   -- 63: Cinnabar Island
