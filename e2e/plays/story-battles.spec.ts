@@ -314,7 +314,7 @@ test.describe("Story battles", () => {
     const teams = report.getByRole("group", { name: "Their team" });
 
     await expect(report).toContainText(
-      "Their team depends on a choice this Play hasn't recorded.",
+      "It depends on a choice this Play hasn't recorded.",
     );
     await expect(teams.getByRole("button")).toHaveCount(3);
     await expect(

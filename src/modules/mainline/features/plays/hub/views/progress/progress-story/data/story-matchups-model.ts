@@ -944,8 +944,8 @@ export const buildStoryMatchupsModel = ({
           : read.party;
       const versionsNote = versions.length
         ? openParties[0]?.choiceKey
-          ? "Their team depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face."
-          : "Their team depends on something Voydex doesn't record. Pick how it went to see the team you'd face."
+          ? "It depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face."
+          : "It depends on something Voydex doesn't record. Pick how it went to see the team you'd face."
         : null;
 
       battles.push({

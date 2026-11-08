@@ -754,28 +754,6 @@ export const StoryBattleReport = ({
         </div>
       </div>
 
-      {version ? (
-        <div className="mt-5 grid gap-2">
-          <p className="text-ink-2 text-14 font-semibold">
-            {source.versionsNote}
-          </p>
-          <SegmentedControl
-            ariaLabel="Their team"
-            size="sm"
-            variant="pills"
-            selectedTone="strong"
-            options={source.versions.map((candidate) => ({
-              label: candidate.label,
-              value: candidate.key,
-            }))}
-            value={version.key}
-            onValueChange={(key) =>
-              setVersionPick({ battleId: source.id, key })
-            }
-          />
-        </div>
-      ) : null}
-
       {isWon ? null : battle.playerSide !== "own-team" ? (
         <p className="text-ink-2 text-14 mt-5 font-semibold">
           {playerSideNotes[battle.playerSide]}
@@ -821,6 +799,27 @@ export const StoryBattleReport = ({
           ) : null
         }
       >
+        {version ? (
+          <div className="mb-2 grid gap-2">
+            <p className="text-ink-2 text-14 font-semibold">
+              {source.versionsNote}
+            </p>
+            <SegmentedControl
+              ariaLabel="Their team"
+              size="sm"
+              variant="pills"
+              selectedTone="strong"
+              options={source.versions.map((candidate) => ({
+                label: candidate.label,
+                value: candidate.key,
+              }))}
+              value={version.key}
+              onValueChange={(key) =>
+                setVersionPick({ battleId: source.id, key })
+              }
+            />
+          </div>
+        ) : null}
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
             {wording.specialty[battle.specialtyTypes.length > 1 ? 1 : 0]}

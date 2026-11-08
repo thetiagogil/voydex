@@ -421,7 +421,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
       pokemon: [{ name: "Venusaur" }],
     });
     expect(blue?.versionsNote).toBe(
-      "Their team depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face.",
+      "It depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face.",
     );
     expect(blue?.versions.map((version) => version.label)).toEqual([
       "Charmander",
@@ -616,7 +616,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
 
     expect(blue?.party?.note).toBeNull();
     expect(blue?.versionsNote).toBe(
-      "Their team depends on something Voydex doesn't record. Pick how it went to see the team you'd face.",
+      "It depends on something Voydex doesn't record. Pick how it went to see the team you'd face.",
     );
     expect(blue?.versions.map((version) => version.label)).toEqual([
       "Rival's Eevee evolved into Jolteon",
