@@ -294,10 +294,9 @@ const reportWording = {
     levels: (range: string | null) =>
       `It's ${range}. Your team's levels aren't recorded yet.`,
     moves: {
-      all: "This reads its moves against your team.",
       none: "Its moves aren't in Voydex, so this reads its types against your recorded moves.",
       /* One Pokémon: its moves are known or they aren't. */
-      some: () => "This reads its moves against your team.",
+      some: () => null,
     },
     opponentTitle: "The Pokémon",
     specialty: ["Type", "Types"],
@@ -310,7 +309,6 @@ const reportWording = {
     levels: (range: string | null) =>
       `Their team is ${range}. Your team's levels aren't recorded yet.`,
     moves: {
-      all: "This reads their moves against your team.",
       none: "Their moves aren't in Voydex, so this reads their types against your recorded moves.",
       some: (known: number, count: number) =>
         `Voydex has the moves of ${known} of their ${count} Pokémon and reads the others by their types.`,
@@ -629,10 +627,11 @@ const getMovesNote = (
 ) => {
   const known = countOpponentsWithMoves(their);
 
+  /* Said only where the reading falls back on types; their moves are the norm. */
   return known === 0
     ? notes.none
     : known === their.length
-      ? notes.all
+      ? null
       : notes.some(known, their.length);
 };
 
@@ -679,6 +678,10 @@ export const StoryBattleReport = ({
   const isWon = battle.state === "won";
   const { opponentKind, party, reading } = battle;
   const wording = reportWording[opponentKind];
+  /* What the reading reads them by, where that isn't simply their moves. */
+  const footnote = party
+    ? getMovesNote(wording.moves, party.pokemon)
+    : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types.";
   /* Which battle's cards are turned to their moves, so another battle opens on its faces. */
   const [movesShownFor, setMovesShownFor] = useState<string | null>(null);
   const showMoves = movesShownFor === battle.id;
@@ -967,11 +970,9 @@ export const StoryBattleReport = ({
               />
             )}
           </SheetSection>
-          <p className="text-ink-3 text-13 mt-5 font-semibold">
-            {party
-              ? getMovesNote(wording.moves, party.pokemon)
-              : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types."}
-          </p>
+          {footnote ? (
+            <p className="text-ink-3 text-13 mt-5 font-semibold">{footnote}</p>
+          ) : null}
         </>
       )}
     </div>

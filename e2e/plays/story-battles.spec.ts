@@ -69,9 +69,10 @@ test.describe("Story battles", () => {
       report.getByRole("heading", { name: "The Pokémon" }),
     ).toBeVisible();
     /* Gold's own data gives Raikou its moves for its level. */
-    await expect(report).toContainText(
-      "This reads its moves against your team",
-    );
+    await expect(
+      report.getByRole("button", { name: "Show moves" }),
+    ).toBeVisible();
+    await expect(report).not.toContainText("aren't in Voydex");
     await expect(report).not.toContainText("Their");
     await expectAccessible(page);
 
@@ -98,9 +99,7 @@ test.describe("Story battles", () => {
     );
 
     /* The Giant Chasm Kyurem knows Glaciate at Lv. 75. */
-    await expect(report).toContainText(
-      "This reads its moves against your team",
-    );
+    await expect(report).not.toContainText("aren't in Voydex");
     await report.getByRole("button", { name: "Show moves" }).click();
     await expect(
       report.getByRole("listitem").filter({ hasText: /^Glaciate$/ }),
@@ -211,9 +210,8 @@ test.describe("Story battles", () => {
       /^Brock/,
       "Brock",
     );
-    await expect(report).toContainText(
-      "This reads their moves against your team.",
-    );
+    /* Their moves are known, so no footnote says what it reads them by. */
+    await expect(report).not.toContainText("reads their types");
 
     /* Show moves turns each card over; Onix's Gym Leader move is Bide. */
     const bide = report.getByRole("listitem").filter({ hasText: /^Bide$/ });
