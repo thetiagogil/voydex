@@ -54,7 +54,11 @@ there and the Pokémon found there (read with the Story, so a place opens with
 them at once). On the route a place shows only its name, with its battle
 count on the right; its note is in its detail. A Gym or the League lists only
 its own battles; a rival met on the way sits on the place where you meet
-them. There is no separate list of battles anywhere.
+them. While the choice that picks an opponent's team isn't recorded (Blue's
+team follows your starter), the battle's report switches between every team
+they could bring, starting on the first, and its row shows the range of
+verdicts (Strong to challenging). There is no separate list of battles
+anywhere.
 
 Story holds story beats, not one milestone per battle. A beat is a required
 visit where the story stops you: a Gym, trial or League match; a confrontation

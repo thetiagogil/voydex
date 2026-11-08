@@ -27,6 +27,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
 import {
@@ -643,12 +644,38 @@ const getMovesNote = (
  * their team, it reads the opponent's specialty only.
  */
 export const StoryBattleReport = ({
-  battle,
+  battle: source,
   titleId,
 }: {
   battle: StoryMatchupBattle;
   titleId: string;
 }) => {
+  /*
+   * While the choice that picks their team isn't recorded, the team picked
+   * here (the first until you pick another) is the one the report reads.
+   */
+  const [versionPick, setVersionPick] = useState<{
+    battleId: string;
+    key: string;
+  } | null>(null);
+  const version =
+    source.versions.find(
+      (candidate) =>
+        versionPick?.battleId === source.id &&
+        candidate.key === versionPick.key,
+    ) ??
+    source.versions[0] ??
+    null;
+  const battle: StoryMatchupBattle = version
+    ? {
+        ...source,
+        allies: version.allies,
+        members: version.members,
+        party: version.party,
+        partyLevels: version.partyLevels,
+        reading: version.reading,
+      }
+    : source;
   const isWon = battle.state === "won";
   const { opponentKind, party, reading } = battle;
   const wording = reportWording[opponentKind];
@@ -726,6 +753,28 @@ export const StoryBattleReport = ({
           ) : null}
         </div>
       </div>
+
+      {version ? (
+        <div className="mt-5 grid gap-2">
+          <p className="text-ink-2 text-14 font-semibold">
+            {source.versionsNote}
+          </p>
+          <SegmentedControl
+            ariaLabel="Their team"
+            size="sm"
+            variant="pills"
+            selectedTone="strong"
+            options={source.versions.map((candidate) => ({
+              label: candidate.label,
+              value: candidate.key,
+            }))}
+            value={version.key}
+            onValueChange={(key) =>
+              setVersionPick({ battleId: source.id, key })
+            }
+          />
+        </div>
+      ) : null}
 
       {isWon ? null : battle.playerSide !== "own-team" ? (
         <p className="text-ink-2 text-14 mt-5 font-semibold">

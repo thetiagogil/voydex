@@ -295,4 +295,39 @@ test.describe("Story battles", () => {
     await expect(squirtle).toContainText(/Water type, 4× on (Geodude|Onix)/);
     await expectAccessible(page);
   });
+  test("switches between the teams a rival could bring while your starter isn't recorded", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Undecided run"),
+      partner: null,
+    });
+
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Choose Starter/,
+      /^Blue\b/,
+      "Blue",
+    );
+    const teams = report.getByRole("group", { name: "Their team" });
+
+    await expect(report).toContainText(
+      "Their team depends on a choice this Play hasn't recorded.",
+    );
+    await expect(teams.getByRole("button")).toHaveCount(3);
+    await expect(
+      teams.getByRole("button", { pressed: true }),
+    ).toHaveAccessibleName("Bulbasaur");
+    await expect(report).toContainText("Charmander");
+
+    /* Pick another starter: the report reads Blue's team for it. */
+    await teams.getByRole("button", { name: "Squirtle" }).click();
+    await expect(
+      teams.getByRole("button", { name: "Squirtle" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(report).toContainText(/Lv\. 5\s*Bulbasaur/);
+    await expectAccessible(page);
+  });
 });
