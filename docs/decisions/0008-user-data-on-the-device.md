@@ -59,12 +59,20 @@ and should stay. What has to change is where they run.
 - Every user-table change ships as a device update: it saves a copy first,
   restores it if the update fails, and is tested against an old backup.
 
-### Keep the way back open
+### Row security only where it protects something
 
-Row security rules and their pgTAP tests stay in the schema. On the device
-they protect nothing (the one user owns everything), but they keep moving
-user data back to Supabase a small step, and they guard the `user_backups`
-table that does live there.
+Row security rules (RLS) and their pgTAP tests guard only tables that hosted
+Supabase serves. On the device they would protect nothing, because the one
+user owns every row, so they would be dead code.
+
+- Until the screens move, every table is still on hosted Supabase and its
+  rules stay.
+- The rules on user, `reference` and `tracking` tables are removed in the
+  same change as the hosted reset that drops those tables (issue #248), never
+  before, so no table is ever served without them.
+- `user_backups` and its storage folder keep owner rules and tests.
+- Moving user data back to Supabase one day means writing the rules again;
+  Git history keeps the old ones.
 
 ### First proof
 

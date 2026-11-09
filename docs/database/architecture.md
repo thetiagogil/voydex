@@ -45,8 +45,8 @@ issues (#245 to #248) move it to this target:
 | Hosted Supabase           | Login (Auth) and `user_backups` with each user's private backup folder only     |
 
 - The device loads the tables, functions and views from `database/schema`.
-  `auth.uid()` returns one fixed local user there, so owner policies and
-  functions work unchanged.
+  `auth.uid()` returns one fixed local user there, so functions that check
+  the owner work unchanged.
 - `reference` and `tracking` reach the device as files: a release loads the
   seeds, runs `db:verify`, and exports one versioned file per version group,
   one shared base file and a version list, published to Cloudflare Pages.

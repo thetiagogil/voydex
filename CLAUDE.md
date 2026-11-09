@@ -110,8 +110,9 @@ task; use more only when the user asks for parallel work on independent scopes.
   data files from them. From launch on, a game data ID never disappears
   without an entry in the ID changes list, and a user-table change ships as a
   device update that saves a copy first and is tested against an old backup.
-- Keep RLS policies and their pgTAP tests on every user table, even though
-  user data lives on the device.
+- RLS guards only tables hosted Supabase serves. Every table keeps its
+  policies until the hosted reset that drops it (#248); after that only
+  `user_backups` has them.
 - Remote writes, linked-project operations, production mutation and
   destructive local state are separate authority gates: each needs the user's
   explicit approval in this conversation.

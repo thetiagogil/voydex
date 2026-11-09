@@ -258,8 +258,10 @@ Looking coherent in isolation is not enough.
   through the package scripts.
 - Keep the device database under `src/platform/local-db` and browser and
   server Supabase clients under `src/platform/supabase`.
-- Keep RLS policies and their two-user pgTAP tests on every user table, even
-  though it lives on the device.
+- RLS and its two-user pgTAP tests guard only tables hosted Supabase serves:
+  every table until the hosted reset that drops it (#248), then only
+  `user_backups`. Don't add policies to a table that lives only on the
+  device.
 - From launch on, a user-table change ships as a device update that saves a
   copy first and is tested against an old backup, and a removed or reused
   game data ID needs an entry in the ID changes list.
