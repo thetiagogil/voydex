@@ -12,10 +12,11 @@ import {
   type GameFile,
 } from "@/platform/local-db/game-file";
 import { LocalDbError } from "@/platform/local-db/local-db";
+import { createTestDb } from "@/platform/local-db/local-db-test-support";
 import {
-  createTestDb,
+  readDeviceSchemaHash,
   readDeviceSchemaSql,
-} from "@/platform/local-db/local-db-test-support";
+} from "@/platform/local-db/device-schema-source";
 
 const gameFile: GameFile = {
   builtAt: "2026-11-09T22:00:00.000Z",
@@ -43,6 +44,11 @@ const gameFile: GameFile = {
     },
   ],
   versionGroupIds: [18, 19, 20],
+};
+
+const deviceSchema = {
+  hash: readDeviceSchemaHash(),
+  readSql: () => Promise.resolve(readDeviceSchemaSql()),
 };
 
 describe("parseGameFile", () => {
@@ -96,7 +102,7 @@ describe("importGameFile", () => {
 
   beforeAll(async () => {
     db = await createTestDb();
-    await ensureDeviceSchema(db, readDeviceSchemaSql());
+    await ensureDeviceSchema(db, deviceSchema);
   });
 
   afterAll(() => db.close());
@@ -129,7 +135,7 @@ describe("importGameFile", () => {
 
   it("leaves nothing behind when a table fails", async () => {
     const fresh = await createTestDb();
-    await ensureDeviceSchema(fresh, readDeviceSchemaSql());
+    await ensureDeviceSchema(fresh, deviceSchema);
 
     await expect(
       importGameFile(fresh, {

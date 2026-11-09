@@ -2,10 +2,12 @@ import {
   NewPlayInputError,
   parseNewPlayInput,
 } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
-import type {
-  AddMainlinePlayPokemonRepository,
-  AddMainlinePlayPokemonResult,
+import {
+  addMainlinePlayPokemon,
+  type AddMainlinePlayPokemonRepository,
+  type AddMainlinePlayPokemonResult,
 } from "@/modules/mainline/features/plays/shared/server/add-team-member-command";
+import type { AddMainlinePlayPokemonInput } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 import { buildPlayRuleOverrides } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { Json } from "@/shared/types/database.types";
 import {
@@ -170,3 +172,16 @@ export const createLocalTeamRepository = (
     };
   },
 });
+
+/* Adds a Pokémon to a Play's team or reserve on the device. */
+export const addLocalTeamMember = ({
+  db,
+  input,
+}: {
+  db: LocalDb;
+  input: AddMainlinePlayPokemonInput;
+}) =>
+  addMainlinePlayPokemon({
+    input,
+    repository: createLocalTeamRepository(db),
+  });

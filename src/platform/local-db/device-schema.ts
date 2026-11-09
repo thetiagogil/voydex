@@ -84,17 +84,25 @@ const readInstalledHash = async (db: LocalDb) => {
 /*
  * Puts the schema on a new device in one transaction, with the local user
  * (whose profile and preferences the signup trigger creates). On a device
- * that has it, only compares the installed schema with the app's.
+ * that has it, only compares the installed schema's hash with the app's, so
+ * a returning device never downloads the schema.
  */
 export const ensureDeviceSchema = async (
   db: LocalDb,
-  schemaSql: string,
+  schema: { hash: string; readSql: () => Promise<string> },
 ): Promise<DeviceSchemaResult> => {
-  const schemaHash = await hashSchemaSql(schemaSql);
   const installedHash = await readInstalledHash(db);
 
   if (installedHash !== null) {
-    return { status: installedHash === schemaHash ? "ready" : "outdated" };
+    return { status: installedHash === schema.hash ? "ready" : "outdated" };
+  }
+
+  const schemaSql = await schema.readSql();
+
+  if ((await hashSchemaSql(schemaSql)) !== schema.hash) {
+    throw new LocalDbError(
+      "The schema doesn't match its hash; reload the app and try again.",
+    );
   }
 
   try {
@@ -102,7 +110,7 @@ export const ensureDeviceSchema = async (
       await tx.exec(schemaSql);
       await tx.query("INSERT INTO auth.users (id) VALUES ($1)", [localUserId]);
       await tx.query("INSERT INTO device.installs (schema_hash) VALUES ($1)", [
-        schemaHash,
+        schema.hash,
       ]);
     });
   } catch (error) {

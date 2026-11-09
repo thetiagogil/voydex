@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import {
+  addLocalTeamMember,
   createLocalPlay,
   createLocalTeamRepository,
 } from "@/modules/mainline/features/plays/shared/client/local-play-commands";
@@ -118,5 +119,25 @@ describe("createLocalTeamRepository", () => {
         speciesId: 810,
       }),
     ).rejects.toThrow("returned no result");
+  });
+});
+
+describe("addLocalTeamMember", () => {
+  it("checks the input before anything is saved", async () => {
+    const { db, query } = fakeDb(() => []);
+
+    await expect(
+      addLocalTeamMember({
+        db,
+        input: {
+          formId: 81000,
+          playId: "8146851c-3ab9-432a-83e0-21cc6d598afc",
+          rosterStateId: 1,
+          slot: 7,
+          speciesId: 810,
+        },
+      }),
+    ).rejects.toThrow("Team slot");
+    expect(query).not.toHaveBeenCalled();
   });
 });

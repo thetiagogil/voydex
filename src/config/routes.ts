@@ -23,6 +23,8 @@ export const appRoutes = {
       : `/codex/games/${versionGroupSlug}`,
   codexVersionGroupPokedex: (versionGroupSlug: string, pokedexSlug: string) =>
     `/codex/games/${versionGroupSlug}/pokedexes/${pokedexSlug}`,
+  /* Runs the device database with Sword / Shield and times it (local data). */
+  deviceCheck: "/device-check",
   /* Ask for a password reset link. */
   forgotPassword: "/forgot-password",
   health: "/api/health",

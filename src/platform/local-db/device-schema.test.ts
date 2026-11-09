@@ -1,15 +1,17 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import {
   buildDeviceSchemaSql,
   ensureDeviceSchema,
+  hashSchemaSql,
   localUserId,
 } from "@/platform/local-db/device-schema";
 import {
-  createTestDb,
+  readDeviceSchemaHash,
   readDeviceSchemaSql,
-} from "@/platform/local-db/local-db-test-support";
+} from "@/platform/local-db/device-schema-source";
+import { createTestDb } from "@/platform/local-db/local-db-test-support";
 
 describe("buildDeviceSchemaSql", () => {
   it("puts the device schema first and leaves pgcrypto out", () => {
@@ -37,6 +39,10 @@ describe("buildDeviceSchemaSql", () => {
 describe("ensureDeviceSchema", () => {
   let db: PGlite;
   const schemaSql = readDeviceSchemaSql();
+  const schema = {
+    hash: readDeviceSchemaHash(),
+    readSql: () => Promise.resolve(schemaSql),
+  };
 
   beforeAll(async () => {
     db = await createTestDb();
@@ -44,8 +50,12 @@ describe("ensureDeviceSchema", () => {
 
   afterAll(() => db.close());
 
+  it("hashes the schema the same way on the server and in the browser", async () => {
+    await expect(hashSchemaSql(schemaSql)).resolves.toBe(schema.hash);
+  });
+
   it("installs the schema with the local user, profile and preferences", async () => {
-    await expect(ensureDeviceSchema(db, schemaSql)).resolves.toEqual({
+    await expect(ensureDeviceSchema(db, schema)).resolves.toEqual({
       status: "installed",
     });
 
@@ -60,23 +70,40 @@ describe("ensureDeviceSchema", () => {
     expect(rows).toEqual([{ preferences: 1, profiles: 1, uid: localUserId }]);
   });
 
-  it("leaves an installed device alone", async () => {
-    await expect(ensureDeviceSchema(db, schemaSql)).resolves.toEqual({
-      status: "ready",
-    });
+  it("leaves an installed device alone without reading the schema", async () => {
+    const readSql = vi.fn(schema.readSql);
+
+    await expect(
+      ensureDeviceSchema(db, { ...schema, readSql }),
+    ).resolves.toEqual({ status: "ready" });
+    expect(readSql).not.toHaveBeenCalled();
   });
 
   it("says when the device has an older schema", async () => {
     await expect(
-      ensureDeviceSchema(db, `${schemaSql}\n-- changed`),
+      ensureDeviceSchema(db, { ...schema, hash: "newer" }),
     ).resolves.toEqual({ status: "outdated" });
+  });
+
+  it("refuses a schema that doesn't match its hash", async () => {
+    const fresh = await createTestDb();
+
+    await expect(
+      ensureDeviceSchema(fresh, { ...schema, hash: "other" }),
+    ).rejects.toThrow("doesn't match its hash");
+    await fresh.close();
   });
 
   it("rolls a failed install back completely", async () => {
     const fresh = await createTestDb();
 
+    const brokenSql = `${schemaSql}\nSELECT * FROM missing_table;`;
+
     await expect(
-      ensureDeviceSchema(fresh, `${schemaSql}\nSELECT * FROM missing_table;`),
+      ensureDeviceSchema(fresh, {
+        hash: await hashSchemaSql(brokenSql),
+        readSql: () => Promise.resolve(brokenSql),
+      }),
     ).rejects.toMatchObject({ code: "42P01" });
 
     const { rows } = await fresh.query<{ installed: boolean }>(
