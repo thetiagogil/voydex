@@ -53,6 +53,30 @@ issues (#245 to #248) move it to this target:
 - Hosted Supabase is reset to auth and backups only at the reset before
   launch, with the owner's approval.
 
+### The Device Database
+
+`src/platform/local-db` holds what the device runs (#245):
+
+- `device-schema.sql` runs first on a new device: the `anon`,
+  `authenticated` and `service_role` roles, a small `auth.users` and
+  `auth.uid()`, and the `device` schema that records the installed schema's
+  hash and the imported game files. The built migration follows in the same
+  transaction, without its `CREATE EXTENSION pgcrypto` (nothing uses it, and
+  the device would download 1 MB for it). The app serves both, built at
+  build time, at `/local-db/schema.sql` and `/local-db/schema-hash.txt`; a
+  returning device only compares the hash.
+- `npm run local-db:game-file [slug|all]` builds a game data file without
+  Docker: it loads the schema and the seeds (no development fixtures) into an
+  in-memory PGlite, keeps the shared rows plus one version group and its
+  expansions, and writes every non-empty table as COPY text to
+  `public/game-data/<slug>.json.gz` (ignored by Git). Format 1 carries the
+  shared rows too, so a device takes one game until the release build splits
+  a base file from the per-game files (#246).
+- The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
+  `/pglite/voydex`; one tab leads and the others send their queries to it.
+- `/device-check` starts it with Sword / Shield and times start, import and
+  saves, for the phone test.
+
 ## Schema Responsibilities
 
 | Schema      | Responsibility                                                               | Client access               |
