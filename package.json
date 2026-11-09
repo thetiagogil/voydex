@@ -46,12 +46,14 @@
     "db:types:check": "node scripts/database/generate-types.mjs --local --check",
     "db:types:linked": "node scripts/database/generate-types.mjs --linked",
     "db:verify": "npm run db:reset && npm run db:audit && npm run db:format:sql:check && npm run db:lint && npm run db:test && npm run db:types:check",
+    "local-db:game-file": "node scripts/database/build-game-file.mjs",
     "icons:generate": "node scripts/generate-app-icons.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@electric-sql/pglite": "0.5.12",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "class-variance-authority": "^0.7.1",
