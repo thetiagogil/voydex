@@ -16,7 +16,8 @@
 -- milestone is one step, side content and post-game included, where the
 -- walkthrough reaches it (the Fighting Dojo before the Marsh Badge, the
 -- Seafoam Islands on the way to Cinnabar Island, the optional Power Plant
--- on the way back to Viridian City, Victory Road before the Indigo Plateau).
+-- as soon as the Safari Zone's Surf opens it, Victory Road before the Indigo
+-- Plateau).
 -- A place step carries a note on what happens there: who gives you what,
 -- what a path needs, what blocks the way and the Gym's type. It shows in the
 -- place's detail only, and never lists the Pokémon found there, which the
@@ -145,38 +146,38 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (1, 56, NULL, 10008, NULL),
   -- 57: Safari Zone (milestone)
   (1, 57, NULL, 10028, NULL),
-  -- 58: Route 12
-  (1, 58, 41, NULL, 'Another sleeping Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
-  -- 59: Route 13
-  (1, 59, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
-  -- 60: Route 14
-  (1, 60, 43, NULL, 'Trainers line the way south toward Route 15.'),
-  -- 61: Route 15
-  (1, 61, 44, NULL, 'Leads west to Fuchsia City. In the gate, Oak''s aide gives you an Exp. All once you''ve caught 50 kinds.'),
-  -- 62: Fuchsia City
-  (1, 62, 18, NULL, 'Back in Fuchsia City with Surf and Strength. Head south from the beach to cross the sea.'),
-  -- 63: Route 19
-  (1, 63, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
-  -- 64: Route 20
-  (1, 64, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
-  -- 65: Seafoam Islands (milestone)
-  (1, 65, NULL, 10024, NULL),
-  -- 66: Route 20
-  (1, 66, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
-  -- 67: Cinnabar Island
-  (1, 67, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
-  -- 68: Cinnabar Lab
-  (1, 68, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
-  -- 69: Pokémon Mansion (milestone)
-  (1, 69, NULL, 10029, NULL),
-  -- 70: Volcano Badge (milestone)
-  (1, 70, NULL, 10011, NULL),
-  -- 71: Route 21
-  (1, 71, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
-  -- 72: Pallet Town
-  (1, 72, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
-  -- 73: Power Plant (milestone)
-  (1, 73, NULL, 10023, NULL),
+  -- 58: Power Plant (milestone)
+  (1, 58, NULL, 10023, NULL),
+  -- 59: Route 12
+  (1, 59, 41, NULL, 'Another sleeping Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
+  -- 60: Route 13
+  (1, 60, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
+  -- 61: Route 14
+  (1, 61, 43, NULL, 'Trainers line the way south toward Route 15.'),
+  -- 62: Route 15
+  (1, 62, 44, NULL, 'Leads west to Fuchsia City. In the gate, Oak''s aide gives you an Exp. All once you''ve caught 50 kinds.'),
+  -- 63: Fuchsia City
+  (1, 63, 18, NULL, 'Back in Fuchsia City with Surf and Strength. Head south from the beach to cross the sea.'),
+  -- 64: Route 19
+  (1, 64, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
+  -- 65: Route 20
+  (1, 65, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
+  -- 66: Seafoam Islands (milestone)
+  (1, 66, NULL, 10024, NULL),
+  -- 67: Route 20
+  (1, 67, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
+  -- 68: Cinnabar Island
+  (1, 68, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
+  -- 69: Cinnabar Lab
+  (1, 69, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
+  -- 70: Pokémon Mansion (milestone)
+  (1, 70, NULL, 10029, NULL),
+  -- 71: Volcano Badge (milestone)
+  (1, 71, NULL, 10011, NULL),
+  -- 72: Route 21
+  (1, 72, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
+  -- 73: Pallet Town
+  (1, 73, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
   -- 74: Viridian City
   (1, 74, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
   -- 75: Earth Badge (milestone)
