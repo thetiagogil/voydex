@@ -19,6 +19,7 @@ one canonical owner; other documents should link to it instead of restating it.
 | Setup and verification                     | [Setup](./app/setup.md) and [Verification](./app/verification.md)     |
 | Issues, labels, releases and platforms     | [Workflow](./app/workflow.md)                                         |
 | Database structure and integration         | [Database Architecture](./database/architecture.md)                   |
+| Where user and game data live              | [ADR 0008](./decisions/0008-user-data-on-the-device.md)               |
 | Tables, constraints, grants, and policies  | `database/schema`                                                     |
 | Seed facts                                 | `database/seeds`                                                      |
 | Durable architecture rationale             | [Architecture Decision Records](./decisions/0001-modular-monolith.md) |
@@ -61,9 +62,10 @@ which slices are currently implemented.
 - [ADR 0002: Co-Locate Database Source](./decisions/0002-colocate-database-source.md)
 - [ADR 0003: Shared Visual Primitives](./decisions/0003-shared-visual-primitives.md)
 - [ADR 0004: Soft Clay Design System](./decisions/0004-soft-clay-design-system.md)
-- [ADR 0005: Supabase Postgres Is The Backend](./decisions/0005-postgres-is-the-backend.md)
+- [ADR 0005: Supabase Postgres Is The Backend](./decisions/0005-postgres-is-the-backend.md) (superseded by 0008)
 - [ADR 0006: Installable Web App First](./decisions/0006-installable-web-app-first.md)
 - [ADR 0007: Development Workflow](./decisions/0007-development-workflow.md)
+- [ADR 0008: User Data Lives On The Device](./decisions/0008-user-data-on-the-device.md)
 - [Design References](./design/README.md)
 - [Soft Clay Brief](./design/soft-clay-brief.md)
 - [Codex Pokémon Detail Direction](./design/codex-pokemon-detail.md)

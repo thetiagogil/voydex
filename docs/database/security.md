@@ -20,6 +20,24 @@
   reparented to another user.
 - Never use user-editable metadata or `auth.role()` for authorization.
 
+## On The Device And On Supabase
+
+Under [ADR 0008](../decisions/0008-user-data-on-the-device.md) user data moves
+to PGlite on the device, where `auth.uid()` returns one fixed local user. There
+RLS protects nothing, because the one user owns every row; the device's own
+browser storage is the boundary, and RLS there would be dead code.
+
+- Until the screens move, every table is on hosted Supabase and the rules
+  above apply to all of them, new tables included.
+- The policies and pgTAP isolation tests on user, `reference` and `tracking`
+  tables are removed in the same change as the hosted reset that drops those
+  tables (#248), never before.
+- After that, RLS guards only what hosted Supabase still holds: `user_backups`
+  and each user's private backup folder, readable and writable only by their
+  owner.
+
+Deleting an account deletes its backups too.
+
 ## Views And Functions
 
 - Every app-facing view uses `security_invoker = true` and inherits underlying

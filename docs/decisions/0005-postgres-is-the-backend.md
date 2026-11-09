@@ -1,7 +1,11 @@
 # ADR 0005: Supabase Postgres Is The Backend
 
-- Status: Accepted
+- Status: Superseded by [ADR 0008](./0008-user-data-on-the-device.md)
 - Date: 2026-10-13
+
+User data moves to the device and hosted Supabase keeps only login and
+backups. The rule that a multi-table write is one database function, and the
+functions living as plain SQL in `database/schema`, carry over to ADR 0008.
 
 ## Context
 

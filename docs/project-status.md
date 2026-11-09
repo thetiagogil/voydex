@@ -4,6 +4,27 @@ This document is the only canonical source for Voydex's current implementation
 checkpoint. Product contracts describe accepted behavior; code and tests remain
 the evidence for exact implementation details.
 
+## Current Step: Local Data (2026-11-09)
+
+Voydex can't be funded and free tiers can't hold everyone's data, so user data
+moves onto the device, game data ships as files, and Supabase keeps only login
+and backups ([ADR 0008](./decisions/0008-user-data-on-the-device.md)). Five
+issues, in order:
+
+1. #244 Decision record and architecture docs.
+2. #245 iPhone test and the data layer: PGlite on a real phone, a go or
+   no-go, and `src/platform/local-db`. On a no-go the plan switches to plain
+   browser storage before anything else starts.
+3. #246 Game data files on Cloudflare: one file per game built from the
+   seeds, the ID check, pre-built Codex pages, images moved.
+4. #247 Every Mainline screen moved to the device, one screen per pull
+   request, with the device update runner.
+5. #248 Backup file and account sync.
+
+Until #247 finishes, every screen still reads and saves through hosted
+Supabase. The Milestones and collectibles review (#199, pull request #243) is
+paused until this work is done.
+
 ## Checkpoint (2026-10-19)
 
 The Soft Clay redesign is finished and on `main`: the owner reviewed every view
@@ -85,7 +106,8 @@ to 4 are done (#51 to #62). Phase 4 was reviewed live with the owner on
   on hand-sized text, hand-made focus rings and hand-drawn white bands; the
   browser tests run every axe rule.
 
-Next is phase 5, Data and features (milestone 5). The open Components issues
+Phase 5, Data and features (milestone 5), is under way; the local-data
+issues above come first. The open Components issues
 (#35 to #37, #39, #63, #64, #66) and the later ones (#67 band motion, #68
 favicon, #69 keyboard pass) are follow-ups to pick up alongside it.
 

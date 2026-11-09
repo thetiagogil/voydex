@@ -1,7 +1,10 @@
 # ADR 0006: The Phone Version Starts As An Installable Web App
 
-- Status: Accepted
+- Status: Accepted, amended by [ADR 0008](./0008-user-data-on-the-device.md)
 - Date: 2026-10-13
+
+ADR 0008 drops the native app: a store app, if ever made, wraps the web app,
+and the offline cache now holds each Play's game data and all user data.
 
 ## Context
 
