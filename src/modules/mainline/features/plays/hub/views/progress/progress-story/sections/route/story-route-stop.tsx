@@ -18,7 +18,7 @@ const selectedRing =
 /*
  * One milestone on the Story route: its marker on the line, its name and one
  * quiet line beside it (where it happens, then Next objective, Locked or
- * Optional). A recorded one keeps its date small on its right. The whole stop opens the milestone; the one open in
+ * Optional). A recorded one adds its date, small, on a line of its own. The whole stop opens the milestone; the one open in
  * the detail wears a ring round its marker and its name in the selected ink.
  * Stops still ahead sink back (a grey ring on a grey fill, a quieter name),
  * so how far you've come reads at a glance; their numbers keep 4.5:1. A
@@ -51,7 +51,7 @@ export const StoryRouteStop = ({
   opensSheet: boolean;
   /* Where it happens, before its status. */
   place: string | null;
-  /* When it was recorded: small and quiet on the stop's right. */
+  /* When it was recorded: small and quiet, under where it happens. */
   recordedOn?: ReactNode;
   selected: boolean;
   state: PlayMilestoneState;
@@ -118,21 +118,18 @@ export const StoryRouteStop = ({
           {status}
         </span>
       ) : null}
-      {status ? null : (
+      {recordedOn ? (
+        <span className="text-ink-3 text-12 font-semibold">{recordedOn}</span>
+      ) : null}
+      {status || recordedOn ? null : (
         <span className="sr-only">
           {state === "next" ? "Next objective" : "Not recorded"}
         </span>
       )}
     </span>
-    {/*
-     * When it was recorded and what you got there, on the card's right
-     * (wrapping under on a narrow one).
-     */}
-    {recordedOn || memento ? (
-      <span className="ml-auto flex shrink-0 items-center gap-3 self-center max-sm:basis-full max-sm:pl-17">
-        {recordedOn ? (
-          <span className="text-ink-3 text-12 font-semibold">{recordedOn}</span>
-        ) : null}
+    {/* What you got there, on the card's right (wrapping under on a narrow one). */}
+    {memento ? (
+      <span className="ml-auto flex shrink-0 self-center max-sm:basis-full max-sm:pl-17">
         {memento}
       </span>
     ) : null}
