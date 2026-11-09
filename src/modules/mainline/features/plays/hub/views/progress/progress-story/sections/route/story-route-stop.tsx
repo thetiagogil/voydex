@@ -82,7 +82,9 @@ export const StoryRouteStop = ({
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
       <span
         className={cn(
-          "grid place-items-center rounded-full transition-shadow duration-150",
+          "grid place-items-center rounded-full transition-[box-shadow,scale] duration-150",
+          /* Not yet recorded: the place's light hover, its marker grows a little. */
+          !sticker && "group-hover:scale-105",
           selected && selectedRing,
         )}
       >
