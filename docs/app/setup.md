@@ -26,6 +26,7 @@ NEXT_PUBLIC_ASSETS_URL=
 ```
 
 `NEXT_PUBLIC_ASSETS_URL` is the address of the separate `voydex-assets` site
+(`https://voydex-assets.thetiagogil.workers.dev`, static files on Cloudflare)
 that serves Pokémon images (HOME sprites at 160 and 384 px, official art at
 475 px, each normal and shiny, named by form slug), game covers, held item
 and Poké Ball sprites (named by item slug), the Physical, Special and
