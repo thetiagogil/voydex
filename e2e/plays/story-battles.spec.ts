@@ -154,8 +154,14 @@ test.describe("Story battles", () => {
     await expect(report).toContainText("Clefable");
     await expect(report).toContainText("Hotel Richissime");
     await back();
+    /* Each row's name, whatever its avatar shows (a portrait or initials). */
     const battleNames = (
-      await sheet.getByRole("list").last().getByRole("button").allTextContents()
+      await sheet
+        .getByRole("list")
+        .last()
+        .getByRole("button")
+        .locator("b")
+        .allTextContents()
     ).map((text) => text.match(/^[A-Z][a-z]+/)?.[0]);
     expect(battleNames).toEqual([
       "Canari",

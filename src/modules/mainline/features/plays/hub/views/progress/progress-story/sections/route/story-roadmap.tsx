@@ -217,7 +217,7 @@ export const StoryRoadmap = ({
             typeSlug={milestone.typeSlug}
           />
         }
-        status={
+        recordedOn={
           state === "done" ? (
             <>
               <span className="sr-only">Recorded </span>
@@ -227,7 +227,10 @@ export const StoryRoadmap = ({
                 fallback="Recorded"
               />
             </>
-          ) : state ===
+          ) : null
+        }
+        status={
+          state === "done" ? null : state ===
             "next" /* The ring says it; the stop says it to a screen reader. */ ? null : !milestone.isAvailable ? (
             <span className="inline-flex items-center gap-1">
               <AppIcon icon={appIcons.status.locked} size="xs" />
