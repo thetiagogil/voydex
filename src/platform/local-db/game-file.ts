@@ -130,9 +130,9 @@ export const importGameFile = async (
       for (const table of file.tables) {
         if (!table.rows) continue;
 
-        await tx.query(
+        /* exec, not query: one round trip, so one IndexedDB write per table. */
+        await tx.exec(
           `COPY ${table.name} (${table.columns.join(", ")}) FROM '/dev/blob'`,
-          [],
           { blob: new Blob([table.copy]) },
         );
         rows += table.rows;

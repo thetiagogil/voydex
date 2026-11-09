@@ -4,7 +4,11 @@ import { PGliteWorker } from "@electric-sql/pglite/worker";
 const dataDir = "idb://voydex";
 const indexedDbName = "/pglite/voydex";
 
-export type LocalDbHandle = PGliteWorker;
+export type LocalDbHandle = {
+  db: PGliteWorker;
+  /* Closes the database and ends its worker, letting go of IndexedDB. */
+  stop: () => Promise<void>;
+};
 
 export type StartLocalDbOptions = {
   /*
@@ -22,7 +26,23 @@ export const startLocalDb = async ({
     type: "module",
   });
 
-  return PGliteWorker.create(worker, { dataDir, relaxedDurability });
+  try {
+    const db = await PGliteWorker.create(worker, {
+      dataDir,
+      relaxedDurability,
+    });
+
+    return {
+      db,
+      stop: async () => {
+        await db.close().catch(() => undefined);
+        worker.terminate();
+      },
+    };
+  } catch (error) {
+    worker.terminate();
+    throw error;
+  }
 };
 
 /*

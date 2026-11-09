@@ -22,6 +22,7 @@ import {
   startLocalDb,
   type LocalDbHandle,
 } from "@/platform/local-db/start-local-db";
+import type { LocalDb } from "@/platform/local-db/local-db";
 import {
   readLocalStorageStatus,
   requestPersistentStorage,
@@ -90,7 +91,7 @@ const todayIso = () => {
 const readErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : "Something went wrong.";
 
-const loadGameData = async (db: LocalDbHandle): Promise<GameDataLoad> => {
+const loadGameData = async (db: LocalDb): Promise<GameDataLoad> => {
   if ((await readImportedGameSlugs(db)).includes(gameSlug)) {
     return { status: "already-on-device" };
   }
@@ -124,7 +125,7 @@ const loadGameData = async (db: LocalDbHandle): Promise<GameDataLoad> => {
   };
 };
 
-const readPlays = async (db: LocalDbHandle) => {
+const readPlays = async (db: LocalDb) => {
   const [row] = await runQuery<{ count: number; last: string | null }>(
     db,
     `SELECT count(*)::int AS count, max(created_at)::text AS last
@@ -135,7 +136,7 @@ const readPlays = async (db: LocalDbHandle) => {
   return { count: row.count, lastStartedAt: row.last };
 };
 
-const readDatabaseBytes = async (db: LocalDbHandle) => {
+const readDatabaseBytes = async (db: LocalDb) => {
   const [row] = await runQuery<{ bytes: number }>(
     db,
     "SELECT pg_database_size(current_database())::float8 AS bytes",
@@ -145,7 +146,7 @@ const readDatabaseBytes = async (db: LocalDbHandle) => {
 };
 
 const startCheck = async (
-  db: LocalDbHandle,
+  db: LocalDb,
   startMs: number,
 ): Promise<StartResult> => {
   const startedAt = performance.now();
@@ -187,7 +188,7 @@ const startCheck = async (
 
 /* Starts a Sword Play and adds Grookey to its team, as New Play and Add would. */
 const runFlow = async (
-  db: LocalDbHandle,
+  db: LocalDb,
   playName: string,
 ): Promise<FlowResult & { playId: string }> => {
   let startedAt = performance.now();
@@ -251,18 +252,18 @@ export const useDeviceCheck = (durability: Durability) => {
     const start = async () => {
       try {
         const startedAt = performance.now();
-        const db = await startLocalDb({
+        const handle = await startLocalDb({
           relaxedDurability: durability === "relaxed",
         });
         const startMs = elapsed(startedAt);
 
         if (cancelled) {
-          await db.close();
+          await handle.stop();
           return;
         }
 
-        dbRef.current = db;
-        const result = await startCheck(db, startMs);
+        dbRef.current = handle;
+        const result = await startCheck(handle.db, startMs);
 
         if (!cancelled) setState({ result, status: "ready" });
       } catch (error) {
@@ -278,15 +279,15 @@ export const useDeviceCheck = (durability: Durability) => {
 
     return () => {
       cancelled = true;
-      const db = dbRef.current;
+      const handle = dbRef.current;
       dbRef.current = null;
-      void db?.close();
+      void handle?.stop();
     };
   }, [durability, refreshStorage]);
 
   const run = useCallback(
-    async (action: (db: LocalDbHandle) => Promise<void>) => {
-      const db = dbRef.current;
+    async (action: (db: LocalDb) => Promise<void>) => {
+      const db = dbRef.current?.db;
 
       if (!db) return;
 
@@ -359,9 +360,9 @@ export const useDeviceCheck = (durability: Durability) => {
     setBusy(true);
 
     try {
-      const db = dbRef.current;
+      const handle = dbRef.current;
       dbRef.current = null;
-      await db?.close();
+      await handle?.stop();
       await deleteLocalDb();
       window.location.reload();
     } catch (error) {
