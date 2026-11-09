@@ -11,16 +11,18 @@
 -- Red / Blue's Story roadmap, step by step: a place the walkthrough passes
 -- (location_id) or a milestone (milestone_id), which sits at its own place.
 -- Places repeat where the walkthrough comes back (Pallet Town, Route 1,
--- Viridian City and Cerulean City three times, Route 2, Route 10, Route 20,
+-- Viridian City and Cerulean City three times, Route 2, Route 20,
 -- Fuchsia City, Lavender Town and Route 22 twice). Every Red / Blue
 -- milestone is one step, side content and post-game included, where the
 -- walkthrough reaches it (the Fighting Dojo before the Marsh Badge, the
--- Seafoam Islands on the way to Cinnabar Island, the Power Plant on the way
--- back to Viridian City, Victory Road before the Indigo Plateau). A place
--- step carries a note on what happens there: who gives you what, what a path
--- needs, what blocks the way and the Gym's type. It shows in the place's
--- detail only, and never lists the Pokémon found there, which the detail
--- already shows.
+-- Seafoam Islands on the way to Cinnabar Island, the optional Power Plant
+-- on the way back to Viridian City, Victory Road before the Indigo Plateau).
+-- A place step carries a note on what happens there: who gives you what,
+-- what a path needs, what blocks the way and the Gym's type. It shows in the
+-- place's detail only, and never lists the Pokémon found there, which the
+-- detail already shows. Only the way the story takes gets places: an
+-- optional milestone sits where it's reached, with no route of its own (no
+-- Route 10 for the Power Plant).
 -- ============================================================================
 INSERT INTO tracking.mainline_roadmap_steps (
   version_group_id,
@@ -173,23 +175,21 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (1, 71, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
   -- 72: Pallet Town
   (1, 72, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
-  -- 73: Route 10
-  (1, 73, 39, NULL, 'Fly to the Pokémon Center at Rock Tunnel and Surf down the river to reach the Power Plant.'),
-  -- 74: Power Plant (milestone)
-  (1, 74, NULL, 10023, NULL),
-  -- 75: Viridian City
-  (1, 75, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
-  -- 76: Earth Badge (milestone)
-  (1, 76, NULL, 10012, NULL),
-  -- 77: Route 22
-  (1, 77, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
-  -- 78: Route 23
-  (1, 78, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
-  -- 79: Victory Road (milestone)
-  (1, 79, NULL, 10025, NULL),
-  -- 80: Indigo Plateau
-  (1, 80, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 81: Pokémon League (milestone)
-  (1, 81, NULL, 10017, NULL),
-  -- 82: Cerulean Cave (milestone)
-  (1, 82, NULL, 10026, NULL);
+  -- 73: Power Plant (milestone)
+  (1, 73, NULL, 10023, NULL),
+  -- 74: Viridian City
+  (1, 74, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
+  -- 75: Earth Badge (milestone)
+  (1, 75, NULL, 10012, NULL),
+  -- 76: Route 22
+  (1, 76, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
+  -- 77: Route 23
+  (1, 77, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
+  -- 78: Victory Road (milestone)
+  (1, 78, NULL, 10025, NULL),
+  -- 79: Indigo Plateau
+  (1, 79, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 80: Pokémon League (milestone)
+  (1, 80, NULL, 10017, NULL),
+  -- 81: Cerulean Cave (milestone)
+  (1, 81, NULL, 10026, NULL);
