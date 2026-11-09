@@ -3,6 +3,8 @@
   "name": "voydex",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-01",
+  // Run beside the hosted database in Paris, not near each visitor.
+  "placement": { "region": "aws:eu-west-3" },
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
