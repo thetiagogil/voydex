@@ -5,6 +5,8 @@ build
 coverage
 .turbo
 .vercel
+.open-next
+.wrangler
 .claude/skills/shadcn
 package-lock.json
 src/shared/types/database.types.ts

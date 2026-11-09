@@ -60,6 +60,9 @@ const eslintConfig = defineConfig([
     // Browser test output (`npm run test:e2e`).
     "e2e/.report/**",
     "e2e/.results/**",
+    // Cloudflare build output (`npm run cf:build`).
+    ".open-next/**",
+    ".wrangler/**",
   ]),
 ]);
 
