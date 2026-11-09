@@ -28,6 +28,29 @@ The app should store user intent and meaningful user state. It should derive sum
 | Backlog/wishlist                 | User-owned game intent tables                                   |
 | Preferences                      | User-owned preference tables                                    |
 
+## Where Data Lives
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) keeps the tables
+above as the source of truth but moves where they live (the local-data issues,
+#245 to #248, build it; today hosted Supabase holds everything):
+
+- **User-owned tables** (profile, preferences, Plays and everything under them,
+  Plans, tags, rules, backlog and favourites) live on the user's device. The
+  device is the one source of truth for them; nothing else holds a live copy.
+- **`reference` and `tracking`** are the same for everyone. They ship as
+  versioned game data files built from the seeds, one per game, and the
+  device keeps a copy of each game it uses.
+- **Backups** are copies, never a second source of truth. A backup file is a
+  versioned, compressed JSON of all user data. For an account, hosted Supabase
+  keeps the last 3 backups; devices merge them by Play, and when the same Play
+  changed on two devices the user picks which one to keep.
+- **Login** stays with Supabase Auth.
+
+Data lives per browser: moving it to another browser or device takes a backup
+file or an account. A Play saves game data IDs, so an ID never disappears or
+changes meaning without an entry in the ID changes list shipped with the game
+data.
+
 ## Derived Data
 
 These should be calculated through queries, views, or app services:
@@ -68,7 +91,8 @@ next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the
 change takes effect once it is opened. Voydex offers no export or import of
-your data for now; a Plan's share link is the one import.
+your data yet; a Plan's share link is the one import. The backup file
+(planned, #248) becomes the export and import for everyone.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never
@@ -83,7 +107,7 @@ without an explicit product and data decision.
 
 Account deletion is an Auth-owned destructive workflow that must remove the
 Auth identity and allow reviewed foreign-key cascades to remove the profile and
-dependent owner-scoped data. A client must never delete application rows first
+dependent owner-scoped data, including the account's backups. A client must never delete application rows first
 or report success before Auth identity deletion succeeds. Sign out changes only
 the current session and must not delete user data.
 

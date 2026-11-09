@@ -32,6 +32,27 @@ already authenticated, optional `SUPABASE_ACCESS_TOKEN`. Browser configuration
 uses only `NEXT_PUBLIC_SUPABASE_URL` and
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.local`.
 
+## Where The Database Runs
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) runs one schema in
+three places. Today hosted Supabase still holds everything; the local-data
+issues (#245 to #248) move it to this target:
+
+| Place                     | What it holds                                                                   |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files |
+| The device (PGlite)       | Each user's own data, plus the game data files for the games they play          |
+| Hosted Supabase           | Login (Auth) and `user_backups` with each user's private backup folder only     |
+
+- The device loads the tables, functions and views from `database/schema`.
+  `auth.uid()` returns one fixed local user there, so owner policies and
+  functions work unchanged.
+- `reference` and `tracking` reach the device as files: a release loads the
+  seeds, runs `db:verify`, and exports one versioned file per version group,
+  one shared base file and a version list, published to Cloudflare Pages.
+- Hosted Supabase is reset to auth and backups only at the reset before
+  launch, with the owner's approval.
+
 ## Schema Responsibilities
 
 | Schema      | Responsibility                                                               | Client access               |
@@ -69,17 +90,26 @@ database built from them alone must match every environment.
   into it on 2026-10-19. Do not add patch migrations; the hosted database is
   reset and re-seeded from source when the owner approves, which also resets
   its migration history.
-- **After launch**: every change ships as a patch migration under
-  `database/supabase/migrations` **and** the matching schema or seed edit in
-  the same change, so source and migrations never drift. Data corrections
-  follow the same rule as schema changes.
+- **After launch**: every change to the hosted tables ships as a patch
+  migration under `database/supabase/migrations` **and** the matching schema
+  edit in the same change, so source and migrations never drift. A
+  user-table change also ships as a device update that saves a copy first,
+  restores it on failure, and is tested against an old backup. A game data ID
+  never disappears or changes meaning silently: the change goes in the
+  ordered ID changes list shipped with the game data, and the release check
+  fails without it. Until launch, IDs may change freely.
 
 Every data fix adds a pgTAP check that failed before it (see
 `database/supabase/tests/080_reference_data_regressions.sql`).
 
 ## Application Integration
 
-- Browser and server clients are created only under `src/platform/supabase`.
+- The device database is started and queried only through
+  `src/platform/local-db`; every user-data read and save goes there once its
+  screen has moved (see
+  [Frontend Architecture](../app/architecture.md#where-data-lives)).
+- Browser and server Supabase clients are created only under
+  `src/platform/supabase`, for login, backups and the screens not yet moved.
 - UI components do not issue raw schema queries.
 - Public reads use `reference`, `tracking`, and safe `views` contracts.
 - User-owned reads establish an authenticated identity and remain owner-scoped.

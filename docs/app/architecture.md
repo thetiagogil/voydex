@@ -98,7 +98,8 @@ src/
   config/                      # static application contracts
   platform/                    # framework and external-service infrastructure
     env/
-    supabase/
+    local-db/                  # the database on the device (ADR 0008)
+    supabase/                  # login and backups only
   features/                    # global application features
     app-shell/
     auth/
@@ -141,9 +142,9 @@ depend on runtime infrastructure or feature implementations.
 ### `src/platform`
 
 Infrastructure adapters owned by the application: environment parsing,
-authenticated and public Supabase clients, proxy/session helpers, and health
-integration. Platform code must not depend on product modules or application
-features.
+the database on the device (`local-db`), authenticated and public Supabase
+clients, proxy/session helpers, and health integration. Platform code must not
+depend on product modules or application features.
 
 ### `src/features`
 
@@ -433,6 +434,30 @@ sit beside the tests that use them.
 `domain/` stays only in `reference`; `shell/` and `views/` stay only in the
 Play Hub; `styles/` holds only the Pokémon type colour tokens.
 
+## Where Data Lives
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) moves user data onto
+the device. The target, built through the local-data issues (#245 to #248):
+
+- **User data** (Plays, Team, Progress, History, Plans, Library, Collection,
+  Statistics, Home, Settings and the profile) lives in PGlite in the browser.
+  Every read and save goes through `src/platform/local-db`: plain SQL for
+  reads, one database function call for a save that touches several tables or
+  creates a History moment. Screens never call Supabase for user data.
+- **Game data** (`reference` and `tracking`) arrives as one versioned file per
+  game, built from the seeds at release and served from Cloudflare Pages. A
+  game downloads with its first Play; Library games download in the
+  background. Codex pages are pre-built from the same data.
+- **Supabase** keeps login and account backups only, through
+  `src/platform/supabase`.
+- **User-table changes** ship as device updates that save a copy first and
+  restore it on failure.
+
+Until a screen moves, it keeps the server reads and Server Actions described
+below; each move deletes them, and `architecture:check` then forbids
+user-data calls to Supabase. Mappers, `data/`, `domain/` and components stay
+as they are.
+
 ## Reads, Writes, And File Responsibilities
 
 The design goal is separation of concerns, not a fixed filename ritual.
@@ -484,7 +509,8 @@ parser is shared or tested on its own; the messages are the ones the form
 shows. Database constraints and RLS remain authoritative; UI checks are not
 authorization.
 
-Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
+Per [ADR 0008](../decisions/0008-user-data-on-the-device.md) (carried over
+from ADR 0005), a write that
 touches more than one table or creates a History moment goes through one
 database function so it is all-or-nothing: starting a Play
 (`gameplay.create_mainline_play`), saving a Plan
@@ -496,7 +522,8 @@ the partner (`gameplay.choose_mainline_play_partner`,
 `gameplay.undo_mainline_play_partner`) and deleting a Pokémon with its Added
 moment (`gameplay.remove_mainline_play_pokemon`) are each one RPC call; no
 Server Action writes in steps or undoes by hand. Readers, loaders,
-commands, repositories and writers take a Supabase client as a parameter; the
+commands, repositories and writers take their database as a parameter (a
+Supabase client today, the local database once a screen moves); the
 query or Server Action that calls them creates it (a simple read may still be
 one `*-query.ts` that does both). `data/`, `domain/` and `utils/` never import
 Next.js, React or `src/platform` at runtime; type-only imports are fine.

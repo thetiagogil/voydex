@@ -119,15 +119,25 @@ read/write file roles. The rules most often missed:
 
 ## Reads And Writes
 
+- User data lives on the device
+  ([ADR 0008](../docs/decisions/0008-user-data-on-the-device.md)). A screen
+  that has moved reads and saves only through `src/platform/local-db`: plain
+  SQL for reads, one database function call for a multi-table or History
+  save. Never add a new Supabase read or Server Action for user data; a screen
+  not yet moved keeps its server code until its move deletes it (Where Data
+  Lives in the architecture guide).
+- Game data reaches the device as files built from the seeds; Codex pages are
+  pre-built from the same data and read no database at runtime.
 - Readers distinguish an empty result from a failed read. Never turn a failed
   required query into an empty array or `null` the UI can mistake for
   authoritative absence.
 - Give each route the smallest cohesive read model it needs; an Overview
   preview must not reuse a detailed workspace reader that loads unrelated
   data.
-- Server Actions authenticate explicitly and parse their input with Zod. Multi-table
-  writes follow action → validated command → repository or RPC → database
-  constraints and RLS; these may be files in one `server` folder.
+- Server Actions (and, once moved, `local-db` calls) parse their input with
+  Zod; Server Actions also authenticate explicitly. Multi-table writes follow
+  action → validated command → repository or RPC → database constraints and
+  RLS; these may be files in one `server` folder.
 - Long lists (Plays, Collection, History, Collectibles, Pokédexes) load
   their full read model and draw it in batches as you scroll, through the
   shared `LoadMoreTrigger`; search and filters stay local and instant. Page
@@ -246,7 +256,13 @@ Looking coherent in isolation is not enough.
 
 - Edit authored schema and seeds, then rebuild generated artifacts and types
   through the package scripts.
-- Keep browser and server clients under `src/platform/supabase`.
+- Keep the device database under `src/platform/local-db` and browser and
+  server Supabase clients under `src/platform/supabase`.
+- Keep RLS policies and their two-user pgTAP tests on every user table, even
+  though it lives on the device.
+- From launch on, a user-table change ships as a device update that saves a
+  copy first and is tested against an old backup, and a removed or reused
+  game data ID needs an entry in the ID changes list.
 - Keep RLS, grants, constraints, transactional functions and generated types
   aligned with app queries and actions.
 - Run `npm run db:verify` after database contract changes. Remote comparisons
