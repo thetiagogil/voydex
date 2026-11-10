@@ -1,7 +1,7 @@
 import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 import { z } from "zod";
 
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { parseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
@@ -38,7 +38,7 @@ export const followMainlinePlayPlanAction = async (input: {
     );
 
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
 
     if (!claimsResult?.data?.claims?.sub) {
       throw new Error("You must be logged in to follow a Plan.");

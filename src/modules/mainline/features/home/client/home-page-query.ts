@@ -10,7 +10,6 @@ import {
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
   HomeBand,
-  HomeIntentOffer,
   HomeMomentsData,
   HomePageData,
   HomePartnerChoice,
@@ -22,10 +21,8 @@ import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/share
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
-import type { StartIntent } from "@/config/start-intent";
 import type { GameCatalogue } from "@/modules/reference/features/games/types";
 import { readGameStarters } from "@/modules/reference/features/games/server/game-shelf-reader";
-import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -180,55 +177,17 @@ const readHomeMoments = async (
 };
 
 /*
- * The Play picked before signing up, offered once the trainer has Plays:
- * its game and partner from the catalogue, so it needs no game data on the
- * device.
- */
-const toIntentOffer = (
-  intent: StartIntent | null,
-  catalogue: GameCatalogue | null,
-): HomeIntentOffer | null => {
-  const game = intent
-    ? catalogue?.games.find((item) => item.slug === intent.gameSlug)
-    : null;
-  const starters = game ? catalogue?.startersByGameSlug[game.slug] : null;
-
-  if (!intent || !game || !starters) {
-    return null;
-  }
-
-  const partner = starters.isSolo
-    ? (starters.starters[0] ?? null)
-    : (starters.starters.find(
-        (starter) => starter.speciesSlug === intent.partnerSpeciesSlug,
-      ) ?? null);
-
-  return {
-    gameName: game.name,
-    gameShortName: getGameShortName(game.name),
-    gameSlug: intent.gameSlug,
-    partner,
-  };
-};
-
-/*
- * Mainline Home: with no Plays, the picker that starts one (and the game
- * picked before signing up); otherwise the shelf of your latest Plays, each
- * with its team for the meadow and its latest moments. `?play=` picks the
- * current one.
- * The trainer name and the wish are the request's shared reads, which the
- * Mainline layout's New Play reads too.
+ * Mainline Home: with no Plays, the picker that starts one; otherwise the
+ * shelf of your latest Plays, each with its team for the meadow and its
+ * latest moments. `?play=` picks the current one.
  */
 export const getHomePageData = async (
   requestedPlayId: string | null,
   {
     catalogue,
-    intent,
   }: {
     /* Game data, read on the server until it ships as files. */
     catalogue: GameCatalogue | null;
-    /* Kept on the account, so read on the server. */
-    intent: StartIntent | null;
   },
 ): Promise<HomePageData> => {
   const supabase = await getLocalQueryClient();
@@ -245,7 +204,6 @@ export const getHomePageData = async (
 
     return {
       displayName: names.displayName,
-      intent,
       kind: "empty",
       picker: { ...catalogue, trainerName: names.trainerName },
     };
@@ -283,7 +241,6 @@ export const getHomePageData = async (
       ),
     ),
   ]);
-  const intentOffer = toIntentOffer(intent, catalogue);
   const coverShapeByGameSlug = new Map(
     catalogue?.games.map((game) => [game.slug, game.coverShape]),
   );
@@ -319,9 +276,7 @@ export const getHomePageData = async (
     bands,
     currentPlayId: current.play_id ?? bands[0].play.id,
     displayName: names.displayName,
-    intentOffer,
     isFirstPlay: browseItems.length === 1 && isBrandNewPlay(current),
     kind: "plays",
-    trainerName: names.trainerName,
   };
 };

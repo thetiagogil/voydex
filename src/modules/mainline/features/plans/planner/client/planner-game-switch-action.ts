@@ -13,7 +13,7 @@ import {
 } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -98,7 +98,7 @@ export const checkPlannerGameSwitchAction = async (input: {
       versionGroupSlug: input.versionGroupSlug,
     });
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
 
     if (!claimsResult?.data?.claims?.sub) {
       throw new PlanSaveInputError("Log in to plan a team.");

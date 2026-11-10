@@ -124,7 +124,7 @@ export const appRoutes = {
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
   settings: "/settings",
-  /* Start a Play: pick a game and a partner before signing up. */
+  /* Start a Play: pick a game and a partner, then New Play opens on them. */
   start: "/start",
   terms: "/terms",
   /* First run after sign-up: name and icon. */

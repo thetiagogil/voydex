@@ -1,6 +1,6 @@
 import { readPlanFollowers } from "@/modules/mainline/features/plans/planner/client/plan-followers-reader";
 import type { PlayTeamsResult } from "@/modules/mainline/shared/types";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
@@ -18,7 +18,7 @@ export const readPlanFollowersAction = async (
   }
 
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
 
   if (!claimsResult?.data?.claims?.sub) {
     return { message: "Log in to see your Plans.", status: "error" };

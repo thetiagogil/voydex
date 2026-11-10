@@ -11,7 +11,7 @@ import {
   toSearchFiltersPreference,
   type SearchFiltersPreference,
 } from "@/config/search-filters-preference";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 
 export type UserPreferences = {
@@ -28,7 +28,7 @@ export type UserPreferences = {
  */
 export const readUserPreferences = async (): Promise<UserPreferences> => {
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   if (!userId) {

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { insertMainlinePlayEvent } from "@/modules/mainline/features/plays/hub/client/play-event-writer";
 import { toPlayNoteText } from "@/modules/mainline/features/plays/hub/utils/play-note-text";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { parseInput } from "@/shared/utils/input-schemas";
@@ -31,7 +31,7 @@ export const addMainlinePlayNoteAction = async (input: {
     const { playId, text } = parseInput(playNoteInputSchema, input);
     const note = toPlayNoteText(text);
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
     const userId = claimsResult?.data?.claims?.sub;
 
     if (!userId) {

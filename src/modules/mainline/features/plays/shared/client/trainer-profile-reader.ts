@@ -1,4 +1,4 @@
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type TrainerNames = {
@@ -26,7 +26,7 @@ export const readTrainerNames = async (
       .select("default_trainer_name, display_name")
       .eq("id", userId)
       .maybeSingle(),
-    getClaimsWithTimeout(supabase),
+    readLocalClaims(supabase),
   ]);
 
   if (error) {

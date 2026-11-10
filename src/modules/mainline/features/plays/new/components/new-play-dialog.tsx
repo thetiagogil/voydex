@@ -59,7 +59,6 @@ export const NewPlayDialogProvider = ({
   /* One request: the game and its partner, as the address asked. */
   const request =
     requested === null ? null : `${requested}:${requestedPartner ?? ""}`;
-  const [intent, setIntent] = useState(data.intent);
   const [opening, setOpening] = useState<Opening | null>(null);
   const [openedOn, setOpenedOn] = useState(pathname);
   const [seenRequest, setSeenRequest] = useState<string | null>(null);
@@ -111,12 +110,6 @@ export const NewPlayDialogProvider = ({
 
   const opener = useMemo<NewPlayDialogOpener>(
     () => ({
-      forgetIntent: (gameSlug) =>
-        setIntent((current) =>
-          current && (!gameSlug || current.gameSlug === gameSlug)
-            ? null
-            : current,
-        ),
       open: (options) => {
         triggerCount.current += 1;
         setOpening({
@@ -155,7 +148,6 @@ export const NewPlayDialogProvider = ({
               initial: resolveNewPlayInitialChoice(
                 data.catalogue.games,
                 opening,
-                intent,
               ),
             }}
             onClose={close}

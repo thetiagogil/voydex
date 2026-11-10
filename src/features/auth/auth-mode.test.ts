@@ -39,25 +39,6 @@ describe("auth page links", () => {
       }),
     ).toBe("/login?error=weak-password&mode=sign-up");
   });
-
-  it("carries the pick from Start a Play last", () => {
-    expect(
-      getAuthPageHref({
-        intent: { gameSlug: "sword", partnerSpeciesSlug: "grookey" },
-        mode: "sign-up",
-        next: "/mainline/plays",
-      }),
-    ).toBe(
-      "/login?mode=sign-up&next=%2Fmainline%2Fplays&game=sword&partner=grookey",
-    );
-    expect(
-      getAuthPageHref({
-        intent: { gameSlug: "yellow" },
-        mode: "log-in",
-        next: LOGIN_DEFAULT_NEXT,
-      }),
-    ).toBe("/login?game=yellow");
-  });
 });
 
 describe("recovery and first-run links", () => {
@@ -82,14 +63,13 @@ describe("recovery and first-run links", () => {
     );
   });
 
-  it("links Check your email with the pick and a resend", () => {
-    expect(
-      getCheckEmailHref({
-        intent: { gameSlug: "sword" },
-        next: LOGIN_DEFAULT_NEXT,
-        resent: true,
-      }),
-    ).toBe("/check-email?sent=again&game=sword");
+  it("links Check your email with a resend", () => {
+    expect(getCheckEmailHref({ next: LOGIN_DEFAULT_NEXT })).toBe(
+      "/check-email",
+    );
+    expect(getCheckEmailHref({ next: "/mainline/plays", resent: true })).toBe(
+      "/check-email?sent=again&next=%2Fmainline%2Fplays",
+    );
   });
 
   it("links Welcome, leaving out the default destination", () => {

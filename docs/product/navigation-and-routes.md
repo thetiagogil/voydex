@@ -11,7 +11,12 @@ shared reference browser. Account and global settings stay outside both. The
 app shell (`src/features/app-shell`) draws v3's bars; there is no module
 switcher.
 
-### Signed In
+### The App Frame
+
+The app opens for everyone: your data lives on this device
+([ADR 0008](../decisions/0008-user-data-on-the-device.md)), and signing in is
+only for backups. Mainline, Settings, You, Welcome and the Codex take this
+frame.
 
 - **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
   Mainline Home (`/mainline`). Mainline's views sit centred in module order:
@@ -21,30 +26,32 @@ switcher.
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
   open theirs; it is bold while you are anywhere under `/codex`.
 - **Account menu:** Library (`/mainline/library`, your rules and tags),
-  Settings (`/settings`) and Log out at the foot.
+  Settings (`/settings`) and, once you've signed in, Log out at the foot.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/you` (the
-  trainer card, Statistics, Collection, Library, Settings and Log out) and
+  trainer card, Statistics, Collection, Library, Settings and, signed in,
+  Log out) and
   stays current on You, Settings, Library, Welcome, Statistics and
   Collection. The current
   item takes the soft action tint. Toasts sit above the bar.
 - Mainline's views come from `src/config/modules.ts`; nothing appears as a
   speculative `Coming soon` entry.
 
-### Signed Out
+### The Site Frame
+
+The site (`/`, `/intro`, `/start`, Privacy, Terms) and the log-in pages.
 
 - **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
   phones), then How it works (`/intro`) and the Codex menu centred, and Log
   in on the right. On phones the links fold into a menu behind one icon
   beside Log in; it leads with Start a Play (`/start`), then How it works,
   then the Codex's Pokémon and Games under its name.
-- The signed-out frame ends on the quiet site footer (name, catchphrase, How
-  it works, Codex, Log in, Privacy, Terms and the fan-project notice).
-- Protected destinations (`/mainline`, `/settings`, `/welcome`, `/you` and
-  everything under them) send you to `/login?next=[path and query]`: the
-  proxy redirects first, and the protected layout checks again from the path
-  the proxy forwards, so you return where you were going.
+- The site frame ends on the quiet site footer (name, catchphrase, How it
+  works, Codex, Log in, Privacy, Terms and the fan-project notice).
+- Nothing sends you to log in: the app's pages (`/mainline`, `/settings`,
+  `/welcome`, `/you` and everything under them) open on this device's data
+  behind one short start screen while its database opens.
 
 ### Inside A Module
 
@@ -61,8 +68,8 @@ switcher.
 Explicit URLs determine the rendered module, and authorization still happens at
 server boundaries. Logging in and `/app` follow this precedence:
 
-1. A validated protected destination or action-resumption target wins when the
-   user is returning from authentication.
+1. A validated destination or action-resumption target wins when the user is
+   returning from authentication.
 2. A signed-in user is sent to the default landing view of their last active,
    currently available module (Mainline: Home at `/mainline`; Codex:
    Pokémon).
@@ -209,10 +216,8 @@ Mainline Home (the shelf, Continue) or Plays -> Play Hub
 Mainline Home (no Plays: the game picker) -> Start -> Play Hub
 Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play dialog over the page, game picked
-Start a Play (game, partner), signed out -> Sign up or Log in
-  -> Welcome -> Mainline Home offers that Play
-Start a Play, signed in -> New Play with the game and partner picked
-  (/mainline?new=&partner=)
+Start a Play (game, partner) -> New Play over Mainline Home with the game and
+  partner picked (/mainline?new=&partner=)
 ```
 
 Codex is an optional contextual entry, never a required funnel.
@@ -241,8 +246,9 @@ Codex game page -> Your Plays -> Plan a team -> the Team Planner over the page,
 Codex Pokémon entry -> In your Plays -> a Play's Roster on that Pokémon
 ```
 
-The Codex routes draw these pieces from Mainline through the Codex's
-signed-in slots; signed out they don't appear. Add to a Play, Plan a team and
+The Codex routes draw these pieces from Mainline through the Codex's slots;
+each reads your Plays on this device and shows once the device database is
+open. Add to a Play, Plan a team and
 Start a Play all open over the Codex page: closing one (its close button,
 Escape or a tap outside) leaves you exactly where you were, and the Codex is
 left only for what was created (the new Play, the saved Plan) or by choosing
@@ -255,24 +261,18 @@ data.
 ### Authenticate Or Recover
 
 ```txt
-Protected destination -> /login?next=[path] -> Log in -> the destination
-Start a Play -> /login?mode=sign-up&game=&partner= -> Sign up
-  -> /welcome (or /check-email, whose link returns through /auth/callback
-     to /welcome)
+Log in or Sign up (only for backups) -> /login?next=[path] -> the destination
+Sign up -> /welcome (or /check-email, whose link returns through
+  /auth/callback to /welcome)
 Log in -> Forgot password -> /forgot-password (sent state)
   -> the email's link -> /auth/callback -> /reset-password -> next
 ```
 
 `/login` owns Log in and Sign up (`?mode=sign-up`). Reset your password
 (`/forgot-password`), Choose a new password (`/reset-password`) and Check your
-email (`/check-email`) are their own routes; `?next=` and the Start a Play
-pick (`?game=`, `?partner=`) travel through all of them. A signed-in request
-to Login redirects to the validated destination or normal app entry.
-
-The pick from Start a Play is stored on the account (user metadata
-`voydex_intent`), so a confirmation link opened on another device still
-carries it; Mainline Home offers to start that Play, then clears it. It is
-only a wish: New Play's command validates the game and partner again.
+email (`/check-email`) are their own routes; `?next=` travels through all of
+them. A signed-in request to Login redirects to the validated destination or
+normal app entry.
 
 Every email link returns through `/auth/callback`: a sign-up confirmation
 continues to Welcome, a reset to `/reset-password`, an email change to
@@ -326,11 +326,10 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
 - The Library (`/mainline/library`) is not in the main bars: the account
   menu, the You page and every rule or tag picker's "Manage in Library"
   reach it.
-- Public not-found states keep the public shell. Protected resource-not-found
-  and permission states keep the authenticated shell and return to the nearest
-  owning library without exposing inaccessible resource existence.
+- Site not-found states keep the site frame. An app resource that isn't on
+  this device keeps the app frame and returns to the nearest owning library.
 - Compatibility routes redirect rather than duplicate feature logic.
-- Protected destinations preserve a validated `next` path through login.
+- Log in preserves a validated `next` path.
 - Route helpers and product contracts never imply implementation status.
 - The Play navigation always exposes the five areas: Overview, Team, Progress,
   History and Settings. Collectibles appears in the Progress menu only for a

@@ -4,8 +4,8 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import { readTrainerNames } from "./trainer-profile-reader";
 
-vi.mock("@/platform/supabase/auth", () => ({
-  getClaimsWithTimeout: vi.fn(async () => ({
+vi.mock("@/platform/local-db/local-claims", () => ({
+  readLocalClaims: vi.fn(async () => ({
     data: { claims: { email: "ash@example.com" } },
   })),
 }));

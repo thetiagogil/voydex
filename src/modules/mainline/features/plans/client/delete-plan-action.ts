@@ -1,6 +1,6 @@
 import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
@@ -26,7 +26,7 @@ export const deletePlanAction = async (
   }
 
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   if (!userId) {

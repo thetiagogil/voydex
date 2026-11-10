@@ -1,4 +1,3 @@
-import type { StartIntent } from "@/config/start-intent";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
@@ -9,14 +8,6 @@ import type { GameStarter } from "@/modules/reference/features/games/types";
 export type HomePartnerChoice = {
   options: { decisionOptionId: number; starter: GameStarter }[];
   playId: string;
-};
-
-/* The game (and partner) picked on Start a Play before signing up. */
-export type HomeIntentOffer = {
-  gameName: string;
-  gameShortName: string;
-  gameSlug: string;
-  partner: GameStarter | null;
 };
 
 export type HomeMomentsData = {
@@ -38,7 +29,6 @@ export type HomeBand = {
 export type HomePageData =
   | {
       displayName: string | null;
-      intent: StartIntent | null;
       kind: "empty";
       picker: NewPlayPickerData;
     }
@@ -47,10 +37,7 @@ export type HomePageData =
       bands: HomeBand[];
       currentPlayId: string;
       displayName: string | null;
-      intentOffer: HomeIntentOffer | null;
       /* The trainer's only Play has only just started (v3 `homefirst`). */
       isFirstPlay: boolean;
       kind: "plays";
-      /* What a Play started from the offer is named for: your default trainer name, else your display name. */
-      trainerName: string | null;
     };

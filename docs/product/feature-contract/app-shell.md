@@ -4,9 +4,10 @@ This is the Accounts, Settings And System States part of the [Feature Contract](
 
 ## Authentication And Resumption
 
-Start a Play (`/start`) lets a visitor pick a game and partner before having
-an account; the pick travels through Sign up and Log in and waits on the
-account until Mainline starts the Play. Log in and Sign up share `/login`;
+The app opens without an account: your data lives on this device, and
+signing in is only for backups (#248). Start a Play (`/start`) lets a visitor
+pick a game and partner, then opens New Play over Mainline Home with both
+picked. Log in and Sign up share `/login`;
 Reset your password, Choose a new password and Check your email are their own
 routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
 password with Show and no confirmation field (v3), then Welcome (`/welcome`):
@@ -20,8 +21,8 @@ the normal last-active-module resolver. A user who is already authenticated is
 redirected to the validated destination or normal app entry rather than shown
 the form again.
 
-When authentication interrupts a protected route or Codex action, Login shows
-a compact summary of what will resume. Preserve the exact internal destination,
+When authentication interrupts a Codex action or a backup, Login shows a
+compact summary of what will resume. Preserve the exact internal destination,
 game, Pokémon/form, content scope, action branch, and public origin when they
 apply. Validate all continuation data, reject external or tampered targets, and
 revalidate the owning Mainline operation after authentication. Login never
@@ -36,7 +37,7 @@ Password recovery returns the same neutral Check Email response whether or not
 an account exists. Recovery links open a focused new-password mode and handle
 expired or reused links without losing a safe destination. When email
 confirmation is required after Sign up, show a clear Check Email state instead
-of redirecting into a protected loop.
+of looping back to Log in.
 
 Recoverable errors preserve Email and non-sensitive intent, clear passwords,
 associate field errors, translate provider messages into stable user-facing

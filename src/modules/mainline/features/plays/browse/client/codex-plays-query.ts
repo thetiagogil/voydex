@@ -3,7 +3,7 @@ import {
   toCodexPlays,
   type CodexPlay,
 } from "@/modules/mainline/features/plays/browse/data/codex-plays-model";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
 
@@ -11,7 +11,7 @@ export type { CodexPlay };
 
 const readSignedInClient = async () => {
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   return userId ? { supabase, userId } : null;

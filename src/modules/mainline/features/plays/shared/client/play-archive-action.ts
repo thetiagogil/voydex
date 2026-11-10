@@ -1,7 +1,7 @@
 import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 import { z } from "zod";
 
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { setPlayArchived } from "@/modules/mainline/features/plays/shared/client/play-archive-command";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
@@ -38,7 +38,7 @@ export const setPlayArchivedAction = async (input: {
     : "Unable to restore this Play.";
 
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   if (!userId) {

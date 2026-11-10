@@ -4,7 +4,7 @@ import { z } from "zod";
 import { motionPreferences } from "@/config/motion-preference";
 import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
 import { searchFiltersPreferences } from "@/config/search-filters-preference";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import type { TablesInsert } from "@/shared/types/database.types";
 import { safeParseInput } from "@/shared/utils/input-schemas";
@@ -37,7 +37,7 @@ const saveOwnPreferences = async (
   message: string,
 ): Promise<PreferencesActionResult> => {
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   if (!userId) {

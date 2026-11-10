@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { getStoryMilestoneMoment } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/data/story-milestone-moment";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { isUuid } from "@/shared/utils/identifiers";
 import {
@@ -105,7 +105,7 @@ export const updateStoryMilestoneAction = async (
     );
 
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
 
     if (!claimsResult?.data?.claims?.sub) {
       throw new Error("You must be signed in to update Story progress.");

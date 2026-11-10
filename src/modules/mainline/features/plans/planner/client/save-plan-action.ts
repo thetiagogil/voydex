@@ -5,7 +5,7 @@ import {
   parsePlanSaveInput,
   PlanSaveInputError,
 } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 
 export type SavePlanResult =
@@ -19,7 +19,7 @@ export const savePlanAction = async (
   try {
     const input = parsePlanSaveInput(rawInput);
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
     const userId = claimsResult?.data?.claims?.sub;
 
     if (!userId) {

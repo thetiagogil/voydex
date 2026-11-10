@@ -6,8 +6,8 @@ const state = {
   userId: "user-1" as string | null,
 };
 
-vi.mock("@/platform/supabase/auth", () => ({
-  getClaimsWithTimeout: vi.fn(async () => ({
+vi.mock("@/platform/local-db/local-claims", () => ({
+  readLocalClaims: vi.fn(async () => ({
     data: { claims: state.userId ? { sub: state.userId } : null },
   })),
 }));

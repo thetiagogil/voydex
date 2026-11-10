@@ -2,7 +2,7 @@ import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 import { z } from "zod";
 
 import { setFavouritePokemon } from "@/modules/mainline/features/collection/client/favourite-pokemon-command";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { parseInput, positiveIdSchema } from "@/shared/utils/input-schemas";
 
@@ -28,7 +28,7 @@ export const setFavouritePokemonAction = async (input: {
       input,
     );
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
     const userId = claimsResult?.data?.claims?.sub;
 
     if (!userId) {

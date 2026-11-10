@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { readPlayTeams } from "@/modules/mainline/shared/client/play-team-reader";
 import type { PlayTeamsResult } from "@/modules/mainline/shared/types";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
@@ -26,7 +26,7 @@ export const readPlayTeamsAction = async (
   }
 
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
 
   if (!claimsResult?.data?.claims?.sub) {
     return { message: "Log in to see your Plays.", status: "error" };

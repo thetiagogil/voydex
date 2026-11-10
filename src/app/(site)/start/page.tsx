@@ -1,7 +1,6 @@
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 import { StartPage } from "@/features/site/components/start-page";
 import type { StartPick } from "@/features/site/components/start-meadow";
-import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import { publicArt } from "@/modules/reference/public-art";
 
@@ -13,10 +12,11 @@ import { StartGameShelf } from "@/modules/reference/features/games/components/st
  * `?partner=`, `?gen=`), which the page's client parts read.
  */
 export default async function Page() {
-  const [
-    { badgeCountsByGameSlug, games, startersByGameSlug: startersByGame },
-    { isAuthenticated },
-  ] = await Promise.all([readGameCatalogue(), getSiteVisitor()]);
+  const {
+    badgeCountsByGameSlug,
+    games,
+    startersByGameSlug: startersByGame,
+  } = await readGameCatalogue();
   const picks: Record<string, StartPick> = {};
 
   for (const game of games) {
@@ -45,7 +45,6 @@ export default async function Page() {
     <PublicAppShell>
       <StartPage
         art={publicArt}
-        isAuthenticated={isAuthenticated}
         picks={picks}
         shelf={<StartGameShelf games={games} />}
       />

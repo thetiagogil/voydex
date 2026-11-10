@@ -10,7 +10,6 @@ import {
   readStartGeneration,
   readStartIntentParams,
   replaceStartAddress,
-  setStartIntentParams,
   START_GENERATION_EVENT,
   startIntentParams,
 } from "@/config/start-intent";
@@ -46,28 +45,10 @@ export type StartPick = {
 type StartMeadowProps = {
   /* The heading and the game shelf, on the sky. */
   children: ReactNode;
-  isAuthenticated: boolean;
   /* The first partners standing on the hill while no game is picked. */
   partners: ReactNode;
   /* Every game's first partner choice, by game slug. */
   picks: Readonly<Record<string, StartPick>>;
-};
-
-/* Where Start leads: Sign up carrying the pick, or New Play once you're signed in. */
-const getStartHref = (
-  isAuthenticated: boolean,
-  gameSlug: string,
-  partnerSpeciesSlug: string | undefined,
-) => {
-  if (isAuthenticated) {
-    return appRoutes.mainlineNewPlay(gameSlug, partnerSpeciesSlug);
-  }
-
-  const params = new URLSearchParams({ mode: "sign-up" });
-
-  setStartIntentParams(params, { gameSlug, partnerSpeciesSlug });
-
-  return `${appRoutes.login}?${params.toString()}`;
 };
 
 /* A plain click: anything else (a new tab, a download) follows the link. */
@@ -165,7 +146,6 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
  */
 export const StartMeadow = ({
   children,
-  isAuthenticated,
   partners,
   picks,
 }: StartMeadowProps) => {
@@ -239,11 +219,7 @@ export const StartMeadow = ({
       </div>
       {pick ? (
         <Link
-          href={getStartHref(
-            isAuthenticated,
-            pick.game.slug,
-            partner?.speciesSlug,
-          )}
+          href={appRoutes.mainlineNewPlay(pick.game.slug, partner?.speciesSlug)}
           className={buttonVariants({ className: "shrink-0" })}
         >
           {partner

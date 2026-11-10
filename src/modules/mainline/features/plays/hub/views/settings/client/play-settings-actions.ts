@@ -2,7 +2,7 @@ import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 import { z } from "zod";
 
 import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import {
   libraryNameMaxLength,
@@ -93,7 +93,7 @@ const failure = (
 const getOwnedPlay = async (rawPlayId: string) => {
   const playId = parseInput(playIdSchema, rawPlayId);
   const supabase = await getLocalQueryClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+  const claimsResult = await readLocalClaims(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
   if (!userId) {

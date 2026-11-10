@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { parseInput } from "@/shared/utils/input-schemas";
@@ -46,7 +46,7 @@ export const loadMainlinePlayPokemonChoicesAction = async (input: {
     );
 
     const supabase = await getLocalQueryClient();
-    const claimsResult = await getClaimsWithTimeout(supabase);
+    const claimsResult = await readLocalClaims(supabase);
     const userId = claimsResult?.data?.claims?.sub;
 
     if (!userId) {

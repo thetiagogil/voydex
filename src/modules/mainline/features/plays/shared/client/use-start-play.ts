@@ -5,14 +5,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/client/create-play-command";
 import {
   NewPlayInputError,
   parseNewPlayInput,
   type NewPlayInput,
 } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
-import { forgetStartedIntentAction } from "@/modules/mainline/features/plays/shared/server/start-intent-actions";
 import { getPlayCalendarDay } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { ensureGameData } from "@/platform/local-db/game-downloads";
 import { LocalDbError } from "@/platform/local-db/local-db";
@@ -47,7 +45,6 @@ export const useStartPlay = () => {
   const router = useRouter();
   const { save } = useLocalDb();
   const [isPending, setIsPending] = useState(false);
-  const newPlayDialog = useNewPlayDialog();
 
   const startPlay = async (
     input: Omit<NewPlayInput, "startedOn">,
@@ -75,8 +72,6 @@ export const useStartPlay = () => {
         }),
       );
 
-      newPlayDialog?.forgetIntent(input.gameSlug);
-      void forgetStartedIntentAction(input.gameSlug);
       toast.success(`${gameShortName}: ${result.playName} started`);
       router.push(appRoutes.mainlinePlay(result.playId));
     } catch (error) {

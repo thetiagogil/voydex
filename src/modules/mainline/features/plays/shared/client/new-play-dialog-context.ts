@@ -5,11 +5,6 @@ import { createContext, useContext } from "react";
 export type NewPlayDialogOpener = {
   /* Opens New Play over the current page, on `gameSlug` when given. */
   open: (options?: { gameSlug?: string | null }) => void;
-  /*
-   * The game picked before signing up was started (its `gameSlug`) or put
-   * aside (no slug): New Play stops opening on it.
-   */
-  forgetIntent: (gameSlug?: string) => void;
 };
 
 /*

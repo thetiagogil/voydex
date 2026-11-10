@@ -9,7 +9,6 @@ import {
 
 type StartPageProps = {
   art: PublicArt;
-  isAuthenticated: boolean;
   /* Every game's first partner choice, by game slug. */
   picks: Readonly<Record<string, StartPick>>;
   /* The game shelf, injected by the route (the reference module's picker). */
@@ -20,18 +19,12 @@ type StartPageProps = {
  * Start a Play (v3 `start`): "What are you playing?" over the meadow. With no
  * game yet, one first partner per generation stands on the hill; pick a game
  * and the sky takes its colour, its first partners come forward to choose,
- * and Start goes to Sign up carrying the pick. The picks are the meadow's
+ * and Start opens New Play with the pick. The picks are the meadow's
  * client state, kept in the address (`?game=`, `?partner=`, `?gen=`).
  */
-export const StartPage = ({
-  art,
-  isAuthenticated,
-  picks,
-  shelf,
-}: StartPageProps) => {
+export const StartPage = ({ art, picks, shelf }: StartPageProps) => {
   return (
     <StartMeadow
-      isAuthenticated={isAuthenticated}
       partners={<MeadowPartners art={art} loading="eager" openStart />}
       picks={picks}
     >

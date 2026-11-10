@@ -7,8 +7,8 @@ const state = { saveFails: false, userId: "user-1" as string | null };
 vi.mock("@/platform/local-db/local-db-context", () => ({
   notifyLocalSave: vi.fn(() => revalidated.push("saved")),
 }));
-vi.mock("@/platform/supabase/auth", () => ({
-  getClaimsWithTimeout: vi.fn(async () => ({
+vi.mock("@/platform/local-db/local-claims", () => ({
+  readLocalClaims: vi.fn(async () => ({
     data: { claims: state.userId ? { sub: state.userId } : null },
   })),
 }));

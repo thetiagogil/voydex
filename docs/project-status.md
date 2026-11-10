@@ -4,7 +4,7 @@ This document is the only canonical source for Voydex's current implementation
 checkpoint. Product contracts describe accepted behavior; code and tests remain
 the evidence for exact implementation details.
 
-## Current Step: Local Data (2026-11-09)
+## Current Step: Local Data (2026-11-10)
 
 Voydex can't be funded and free tiers can't hold everyone's data, so user data
 moves onto the device, game data ships as files, and Supabase keeps only login
@@ -16,16 +16,21 @@ issues, in order:
    no-go, and `src/platform/local-db`. On a no-go the plan switches to plain
    browser storage before anything else starts.
 3. #246 Game data files on Cloudflare: one file per game built from the
-   seeds, the ID check, pre-built Codex pages, images moved. The build, the
-   release checks and installing a game on the device are done; images moved
-   in #251; pre-built Codex pages and using the files in New Play remain.
-4. #247 Every Mainline screen moved to the device, one screen per pull
-   request, with the device update runner.
+   seeds, the ID check, images moved (#251). Pre-built Codex pages are #256.
+4. #247 Every Mainline screen moved to the device, in one pull request: the
+   device database opens behind one start screen, every Mainline, Settings,
+   You and Welcome read and save runs on the device, games download on first
+   need, device updates run with a copy kept first, and the app opens without
+   signing in (the sign-up pick from Start a Play is gone: Start leads
+   straight into New Play). Hosted Supabase data was left behind; the app
+   starts anew.
 5. #248 Backup file and account sync.
 
-Until #247 finishes, every screen still reads and saves through hosted
-Supabase. The Milestones and collectibles review (#199, pull request #243) is
-paused until this work is done.
+Left after #247: updating a game file that changed in a new release (a device
+keeps the one it has; Start fresh is the way out before launch), and the
+cached server read of the game catalogue, which moves with #256. The
+Milestones and collectibles review (#199, pull request #243) waits until this
+work is done.
 
 ## Checkpoint (2026-10-19)
 

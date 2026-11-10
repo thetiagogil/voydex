@@ -38,7 +38,6 @@ export const WelcomeRoute = ({ destination }: { destination: string }) => {
       choices={choices}
       destination={destination}
       displayName={profile.displayName}
-      gameShortName={null}
       iconFormId={profile.iconFormId}
       trainerSince={account.trainerSince}
     />

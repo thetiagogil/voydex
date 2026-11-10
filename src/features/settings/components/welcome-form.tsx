@@ -22,11 +22,9 @@ import { Spinner } from "@/shared/components/ui/spinner";
 type WelcomeFormProps = {
   /* The Pokémon you can pick as your icon. */
   choices: readonly ProfileIconChoice[];
-  /* Where Continue and Skip lead: your new Play's way in, or Mainline Home. */
+  /* Where Continue and Skip lead: where you were headed, or Mainline Home. */
   destination: string;
   displayName: string | null;
-  /* The game picked on Start a Play, such as "Sword"; null without one. */
-  gameShortName: string | null;
   iconFormId: number | null;
   trainerSince: string | null;
 };
@@ -45,7 +43,6 @@ export const WelcomeForm = ({
   choices,
   destination,
   displayName,
-  gameShortName,
   iconFormId,
   trainerSince,
 }: WelcomeFormProps) => {
@@ -84,9 +81,6 @@ export const WelcomeForm = ({
   const isBusy = isSaving || isSkipping;
   const previewName = draft.trim() || null;
   const pickedChoice = choices.find((choice) => choice.formId === pickedFormId);
-  const continueLabel = gameShortName
-    ? `Go to your ${gameShortName} Play`
-    : "Continue";
 
   return (
     <div className="mx-auto mt-5.5 grid w-full max-w-235 items-start gap-4.5 sm:mt-7 md:grid-cols-[18.75rem_minmax(0,1fr)] md:gap-8">
@@ -158,7 +152,7 @@ export const WelcomeForm = ({
               aria-busy={isSaving}
             >
               {isSaving ? <Spinner data-icon="inline-start" /> : null}
-              {isSaving ? "Saving..." : continueLabel}
+              {isSaving ? "Saving..." : "Continue"}
               {isSaving ? null : (
                 <AppIcon icon={appIcons.actions.continue} inline="end" />
               )}

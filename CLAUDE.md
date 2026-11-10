@@ -75,8 +75,9 @@ task; use more only when the user asks for parallel work on independent scopes.
   `src/platform`.
 - User data lives on the device ([ADR 0008](./docs/decisions/0008-user-data-on-the-device.md)):
   every user-data read and save goes through `src/platform/local-db`, never
-  Supabase. Screens not yet moved keep their server reads and Server Actions
-  until their local-data move deletes them. Supabase is for login and
+  Supabase (`architecture:check` enforces it for Mainline and Settings).
+  Readers, commands and actions that run on the device live in `client/`
+  folders. The app opens without signing in; Supabase is for login and
   backups only.
 - Only domain-neutral primitives and documented app-wide visual primitives
   belong under `src/shared`. `src/lib` is retired; do not recreate root `lib`,
