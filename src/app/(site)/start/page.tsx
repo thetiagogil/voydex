@@ -1,3 +1,5 @@
+import { connection } from "next/server";
+
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 import { StartPage } from "@/features/site/components/start-page";
 import type { StartPick } from "@/features/site/components/start-meadow";
@@ -12,6 +14,8 @@ import { StartGameShelf } from "@/modules/reference/features/games/components/st
  * `?partner=`, `?gen=`), which the page's client parts read.
  */
 export default async function Page() {
+  /* Its picks live in the address, read as the page renders. */
+  await connection();
   const {
     badgeCountsByGameSlug,
     games,
