@@ -4,16 +4,15 @@ import { expectAccessible } from "../support/accessibility";
 import { startPlay, uniquePlayName } from "../support/plays";
 import { forTheAnswer, waitForAction } from "../support/actions";
 
-/* Pick it on the roster (a sheet on phones), then Edit, once its choices load. */
+/* Pick it on the roster (a sheet on phones), then Edit; its choices read from the device. */
 const openEditor = async (page: Page, name: string) => {
   await page
     .getByRole("button", {
       name: new RegExp(`\\b${name}\\b.*, \\w+ slot \\d$`),
     })
     .click();
-  const optionsLoaded = waitForAction(page);
   await page.getByRole("button", { name: `Edit ${name}` }).click();
-  await optionsLoaded;
+  await expect(page.getByRole("dialog").last()).toBeVisible();
 };
 
 test.describe("Team", () => {
@@ -165,14 +164,8 @@ test.describe("Team", () => {
   });
 
   test("evolves the partner, then retires it", async ({ page }) => {
-    /*
-     * The editor loads what it offers through an action of its own (twice
-     * in development, where effects run twice); its buttons turn on once
-     * the last load lands.
-     */
-    let optionsLoaded = waitForAction(page);
+    /* The editor reads what it offers from the device; its buttons turn on once it has. */
     await page.getByRole("button", { name: "Edit Squirtle" }).click();
-    await optionsLoaded;
     const evolve = page.getByRole("button", { name: "Evolve into Wartortle" });
     await expect(evolve).toBeEnabled();
     const evolved = waitForAction(page);
@@ -187,9 +180,7 @@ test.describe("Team", () => {
         .getByRole("button", { name: /^Wartortle\b.*, Active slot 1$/ }),
     ).toBeVisible();
 
-    optionsLoaded = waitForAction(page);
     await page.getByRole("button", { name: "Edit Wartortle" }).click();
-    await optionsLoaded;
     await expect(
       page.getByRole("button", { name: "Evolve into Blastoise" }),
     ).toBeEnabled();

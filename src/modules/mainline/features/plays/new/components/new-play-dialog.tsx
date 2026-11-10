@@ -64,7 +64,7 @@ export const NewPlayDialogProvider = ({
   const [seenRequest, setSeenRequest] = useState<string | null>(null);
   const triggerCount = useRef(0);
   const local = useLocalRead("new-play", readNewPlayLocalData);
-  /* Until the device answers (milliseconds), New Play starts from the saved defaults. */
+  /* A failed read starts New Play from the saved defaults, without your rules. */
   const yours =
     local.status === "ready"
       ? local.data
@@ -136,7 +136,8 @@ export const NewPlayDialogProvider = ({
         fullScreenOnPhone
         size="2xl"
       >
-        {opening && data.catalogue ? (
+        {/* The wizard waits for the device (milliseconds): it starts from what it reads. */}
+        {local.status === "loading" ? null : opening && data.catalogue ? (
           <NewPlayWizard
             key={opening.id}
             data={{

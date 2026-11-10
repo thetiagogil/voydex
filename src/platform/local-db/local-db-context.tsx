@@ -44,6 +44,16 @@ const saveListeners = new Set<() => void>();
  * device's stand-in for revalidating a page after a Server Action.
  */
 export const notifyLocalSave = () => {
+  /*
+   * Counts the visit's saves on the page's root (`data-saves`), so a browser
+   * test can wait for a save to land without knowing how it was made.
+   */
+  if (typeof document !== "undefined") {
+    const root = document.documentElement;
+
+    root.dataset.saves = String(Number(root.dataset.saves ?? 0) + 1);
+  }
+
   for (const listener of saveListeners) listener();
 };
 

@@ -1,29 +1,28 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { seededAccounts, signedOut } from "../support/accounts";
-import { logIn } from "../support/auth";
+import { startPlay, uniquePlayName } from "../support/plays";
 
-test.use({ storageState: signedOut });
-
-/* The seeded trainers each earn a different title (database/seeds/90_development). */
+/*
+ * Statistics reads the Plays on this device: the board and its title come
+ * with a second Play. Two Plays earn the plain title; the specialist and
+ * hopper titles are covered by the stats model's unit tests.
+ */
 test.describe("Statistics", () => {
-  test("reads Water Specialist for the specialist account", async ({
-    page,
-  }) => {
-    await logIn(page, seededAccounts.specialist);
-    await page.waitForURL("**/mainline");
-    await page.goto("/mainline/stats");
-
-    await expect(page.getByText("Water Specialist").first()).toBeVisible();
-    await expectAccessible(page);
-  });
-
-  test("reads Pokémon Trainer for the trainer account", async ({ page }) => {
-    await logIn(page, seededAccounts.trainer);
-    await page.waitForURL("**/mainline");
+  test("reads Pokémon Trainer after two Plays", async ({ page }) => {
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Stats run"),
+      partner: "Charmander",
+    });
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Stats run"),
+      partner: "Squirtle",
+    });
     await page.goto("/mainline/stats");
 
     await expect(page.getByText("Pokémon Trainer").first()).toBeVisible();
+    await expectAccessible(page);
   });
 });
