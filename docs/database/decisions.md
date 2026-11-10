@@ -61,7 +61,8 @@ product slice needs them.
 
 ## Security And Read Models
 
-Client-readable facts are read-only; user-owned state is protected by grants
-and RLS; multi-table functions run as security invoker. App-facing views use
-`security_invoker = true` so they inherit underlying RLS. See
+Client-readable facts are read-only behind RLS; user-owned state lives on the
+device (ADR 0008), where the API roles have no grants and its tables no RLS;
+multi-table functions run as security invoker. Views use
+`security_invoker = true` so they inherit underlying grants and RLS. See
 [Security And Indexing](./security.md) for operational rules.

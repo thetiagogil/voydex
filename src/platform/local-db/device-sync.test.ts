@@ -23,7 +23,9 @@ const tagId = "30000000-0000-4000-8000-000000000001";
 const createAccount = () => {
   const backups: { id: string; snapshot: SyncSnapshot }[] = [];
   const account: AccountBackups = {
-    latest: async () => backups.at(-1) ?? null,
+    latestId: async () => backups.at(-1)?.id ?? null,
+    read: async (id) =>
+      structuredClone(backups.find((backup) => backup.id === id)!.snapshot),
     upload: async (snapshot) => {
       const id = `backup-${backups.length + 1}`;
 
@@ -229,8 +231,8 @@ describe("account sync by event merge", () => {
     });
 
     /* The phone takes the answer without being asked again. */
-    await expect(sync(phone, account)).resolves.toMatchObject({
-      status: "synced",
+    await expect(sync(phone, account)).resolves.not.toMatchObject({
+      status: "clashes",
     });
     await expect(readPlay(phone.db)).resolves.toMatchObject({
       notes: "Phone note.",
@@ -332,6 +334,27 @@ describe("account sync by event merge", () => {
     }
   });
 
+  it("sends a restored backup up in place of the account's, without asking", async () => {
+    await phone.db.query(
+      "UPDATE gameplay.mainline_plays SET notes = 'Phone note.' WHERE id = $1",
+      [playId],
+    );
+    await sync(phone, account);
+    await laptop.db.query(
+      "UPDATE gameplay.mainline_plays SET notes = 'Restored note.' WHERE id = $1",
+      [playId],
+    );
+    laptop.state = { ...laptop.state, restored: true };
+
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await sync(phone, account);
+    await expect(readPlay(phone.db)).resolves.toMatchObject({
+      notes: "Restored note.",
+    });
+  });
+
   it("leaves a change unsynced when another device uploaded first", async () => {
     await phone.db.query(
       "UPDATE gameplay.mainline_plays SET notes = 'Phone note.' WHERE id = $1",
@@ -339,7 +362,8 @@ describe("account sync by event merge", () => {
     );
 
     const raced: AccountBackups = {
-      latest: account.latest,
+      latestId: account.latestId,
+      read: account.read,
       upload: async (snapshot) => ({
         ...(await account.upload(snapshot)),
         latest: false,

@@ -70,9 +70,11 @@ user owns every row, so they would be dead code.
 
 - Until the screens move, every table is still on hosted Supabase and its
   rules stay.
-- The rules on user, `reference` and `tracking` tables are removed in the
-  same change as the hosted reset that drops those tables (issue #248), never
-  before, so no table is ever served without them.
+- The rules on user tables are removed in the same change as the hosted
+  reset that drops their data (issue #248), never before, so no table is
+  ever served without them; the API roles also lose every grant on them.
+  `reference` and `tracking` keep their read rules while the Codex still
+  reads them from hosted Supabase, until it is pre-built (#256).
 - `user_backups` and its storage folder keep owner rules and tests.
 - Moving user data back to Supabase one day means writing the rules again;
   Git history keeps the old ones.

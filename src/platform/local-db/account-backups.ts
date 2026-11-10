@@ -73,14 +73,12 @@ export const createAccountBackups = (
   };
 
   return {
-    latest: async () => {
-      const [newest] = await listNewest();
-
-      if (!newest) return null;
-
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .download(newest.object_path);
+    latestId: async () => (await listNewest())[0]?.id ?? null,
+    read: async (id) => {
+      const row = (await listNewest()).find((item) => item.id === id);
+      const { data, error } = row
+        ? await supabase.storage.from(bucket).download(row.object_path)
+        : { data: null, error: new Error("That backup is gone.") };
 
       if (error || !data) throw failed("download", error);
 
@@ -88,10 +86,7 @@ export const createAccountBackups = (
         new Uint8Array(await data.arrayBuffer()),
       );
 
-      return {
-        id: newest.id,
-        snapshot: { changes: backup.changes, tables: backup.tables },
-      };
+      return { changes: backup.changes, tables: backup.tables };
     },
     upload: async (snapshot) => {
       const savedAt = new Date();

@@ -11067,9 +11067,9 @@ CREATE POLICY backups_select_own ON storage.objects
 CREATE POLICY backups_insert_own ON storage.objects
     FOR INSERT TO authenticated
     WITH CHECK (bucket_id = 'backups'
-        AND (storage.foldername (name))[1] = (
-            SELECT
-                auth.uid ())::text);
+    AND (storage.foldername (name))[1] = (
+        SELECT
+            auth.uid ())::text);
 
 CREATE POLICY backups_delete_own ON storage.objects
     FOR DELETE TO authenticated

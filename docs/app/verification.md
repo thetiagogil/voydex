@@ -113,7 +113,8 @@ skips the tests; the check still reports as skipped, so it can be required.
   and Statistics, with axe on each page.
 - Offline database audits validate authored schema and the full deterministic
   seed corpus.
-- pgTAP covers structural security, client access, cross-user RLS, view
-  isolation, and representative transactional mutations.
+- pgTAP covers structural security, reference access, that the API roles
+  reach none of your device-only tables, owner-only account backups, and
+  representative transactional mutations.
 
 Exact current counts belong in [Project Status](../project-status.md).

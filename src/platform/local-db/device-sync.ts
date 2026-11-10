@@ -25,8 +25,10 @@ import { readNeededVersionGroups } from "@/platform/local-db/user-data";
 export type AccountBackup = { id: string; snapshot: SyncSnapshot };
 
 export type AccountBackups = {
-  /* The latest backup, or null when the account has none yet. */
-  latest: () => Promise<AccountBackup | null>;
+  /* The newest backup's id, or null when the account has none yet. */
+  latestId: () => Promise<string | null>;
+  /* A backup's data, downloaded only when the device hasn't merged it. */
+  read: (id: string) => Promise<SyncSnapshot>;
   /* Saves a new backup; resolves to its id and whether it is now the latest. */
   upload: (snapshot: SyncSnapshot) => Promise<{ id: string; latest: boolean }>;
 };
@@ -94,8 +96,12 @@ export const syncDevice = async (
   const localChanged =
     state.restored ||
     local.changes.some((record) => record.changedAt !== record.baseChangedAt);
-  const remote = state.restored ? null : await account.latest();
-  const remoteChanged = remote !== null && remote.id !== state.backupId;
+  const remoteId = state.restored ? null : await account.latestId();
+  const remote: AccountBackup | null =
+    remoteId !== null && remoteId !== state.backupId
+      ? { id: remoteId, snapshot: await account.read(remoteId) }
+      : null;
+  const remoteChanged = remote !== null;
 
   if (!localChanged && !remoteChanged) return { status: "unchanged" };
 
