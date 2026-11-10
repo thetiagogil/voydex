@@ -4,7 +4,6 @@ import {
   type LocalDb,
 } from "@/platform/local-db/local-db";
 import {
-  toMicros,
   type ChangeRecord,
   type ForeignKey,
   type SchemaShape,
@@ -118,22 +117,25 @@ export const readChangeRecords = (db: LocalDb) =>
     `SELECT ${recordColumns} FROM device.changes ORDER BY 1, 2, 3`,
   );
 
-export const readSyncSnapshot = async (db: LocalDb): Promise<SyncSnapshot> => {
-  /* Records first: a change that lands between the two still counts as new. */
+/*
+ * This device's side of a sync, with `seq`: the last write the device had
+ * counted when it was read (null before any). Later writes count higher,
+ * whatever the clocks of the devices merged into it say.
+ */
+export type DeviceSnapshot = SyncSnapshot & { seq: number | null };
+
+export const readSyncSnapshot = async (
+  db: LocalDb,
+): Promise<DeviceSnapshot> => {
+  /* The count first: a write that lands after it still counts as new. */
+  const [{ seq }] = await runQuery<{ seq: number | null }>(
+    db,
+    "SELECT max(seq)::float8 AS seq FROM device.changes",
+  );
   const changes = await readChangeRecords(db);
 
-  return { changes, tables: await readUserData(db) };
+  return { changes, seq, tables: await readUserData(db) };
 };
-
-/* The latest change in a snapshot, to tell later changes apart. */
-export const latestChange = (snapshot: SyncSnapshot) =>
-  snapshot.changes.reduce<string | null>(
-    (latest, record) =>
-      latest === null || toMicros(record.changedAt) > toMicros(latest)
-        ? record.changedAt
-        : latest,
-    null,
-  );
 
 const writeRecords = async (tx: Transaction, changes: ChangeRecord[]) => {
   await tx.exec("DELETE FROM device.changes");
@@ -152,12 +154,12 @@ const writeRecords = async (tx: Transaction, changes: ChangeRecord[]) => {
   );
 };
 
-/* Whether a change landed on the device after `latest` (null: none then). */
-const movedOn = async (tx: Transaction, latest: string | null) => {
+/* Whether a write landed on the device after the one `seq` counted. */
+const movedOn = async (tx: Transaction, seq: number | null) => {
   const { rows } = await tx.query<{ moved: boolean }>(
     `SELECT EXISTS (SELECT 1 FROM device.changes
-       WHERE $1::timestamptz IS NULL OR changed_at > $1::timestamptz) AS moved`,
-    [latest],
+       WHERE $1::bigint IS NULL OR seq > $1::bigint) AS moved`,
+    [seq],
   );
 
   return rows[0]?.moved ?? false;
@@ -166,31 +168,52 @@ const movedOn = async (tx: Transaction, latest: string | null) => {
 /*
  * Puts a merged snapshot in place of the device's data, with its records
  * as given (their base is the account's version they were merged with),
- * in one transaction. `readLatest` is the latest change the merge saw on
- * this device: a later one means you saved meanwhile, and nothing changes
- * (SyncMovedOnError) so the next sync takes it in.
+ * in one transaction. `readSeq` is the device's write count when the
+ * merge read it: a later write means you saved (or restored) meanwhile,
+ * and nothing changes (SyncMovedOnError) so the next sync takes it in.
  */
 export const applySyncSnapshot = async (
   db: LocalDb,
   snapshot: SyncSnapshot,
-  readLatest: string | null,
+  readSeq: number | null,
 ) => {
   await replaceUserData(db, snapshot.tables, {
     after: (tx) => writeRecords(tx, snapshot.changes),
     inside: async (tx) => {
-      if (await movedOn(tx, readLatest)) throw new SyncMovedOnError();
+      if (await movedOn(tx, readSeq)) throw new SyncMovedOnError();
     },
   });
 };
 
-/* Every change up to `latest` reached the account. */
-export const markSynced = async (db: LocalDb, latest: string | null) => {
-  if (latest === null) return;
+/* Every write up to the one `seq` counted reached the account. */
+export const markSynced = async (db: LocalDb, seq: number | null) => {
+  if (seq === null) return;
 
   await db.query(
     `UPDATE device.changes SET base_changed_at = changed_at
-     WHERE changed_at <= $1::timestamptz`,
-    [latest],
+     WHERE seq <= $1::bigint`,
+    [seq],
+  );
+};
+
+/*
+ * Records the deletion, now, of rows this device doesn't have: what a
+ * restored backup sends the account in place of what it held.
+ */
+export const recordDeletions = async (
+  db: LocalDb,
+  keys: { key: string; table: string }[],
+) => {
+  if (!keys.length) return;
+
+  await db.query(
+    `INSERT INTO device.changes (table_name, row_key, column_name, changed_at, deleted)
+     SELECT r."table", r."key", '', clock_timestamp(), TRUE
+     FROM jsonb_to_recordset($1::jsonb) AS r ("table" text, "key" text)
+     ON CONFLICT (table_name, row_key, column_name) DO UPDATE SET
+       changed_at = EXCLUDED.changed_at, deleted = TRUE,
+       base_changed_at = NULL, seq = EXCLUDED.seq`,
+    [JSON.stringify(keys)],
   );
 };
 

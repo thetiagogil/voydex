@@ -13,8 +13,9 @@ import type { BrowserSupabaseClient } from "@/platform/supabase/browser-client";
 /*
  * The account's backups on Supabase: one row per file in `user_backups`,
  * the files in the account's own folder of the private `backups` bucket.
- * The newest (by the server's clock) is the one devices merge with, and
- * the last three are kept.
+ * The newest (by the server's clock) is the one devices merge with; a new
+ * one goes on top of it only through `add_user_backup`, so two devices
+ * can't both save on top of the same one. The last three are kept.
  */
 
 const bucket = "backups";
@@ -88,7 +89,7 @@ export const createAccountBackups = (
 
       return { changes: backup.changes, tables: backup.tables };
     },
-    upload: async (snapshot) => {
+    upload: async (snapshot, parentId) => {
       const savedAt = new Date();
       const backup = createBackup(snapshot.tables, snapshot.changes, savedAt);
       const bytes = await writeBackupFile(backup);
@@ -99,29 +100,27 @@ export const createAccountBackups = (
 
       if (stored.error) throw failed("upload", stored.error);
 
-      const { data, error } = await supabase
-        .from("user_backups")
-        .insert({
-          byte_size: bytes.byteLength,
-          device_name: describeDevice(navigator.userAgent),
-          format: backupFormat,
-          object_path: objectPath,
-          saved_at: backup.savedAt,
-          user_id: userId,
-        })
-        .select("id")
-        .single();
+      const { data: backupId, error } = await supabase.rpc("add_user_backup", {
+        p_byte_size: bytes.byteLength,
+        p_device_name: describeDevice(navigator.userAgent) ?? undefined,
+        p_format: backupFormat,
+        p_object_path: objectPath,
+        p_parent_id: parentId ?? undefined,
+        p_saved_at: backup.savedAt,
+      });
 
-      if (error) {
+      /* Another device saved first, or it failed: the file isn't kept. */
+      if (error || !backupId) {
         await supabase.storage.from(bucket).remove([objectPath]);
-        throw failed("upload", error);
+
+        if (error) throw failed("upload", error);
+
+        return null;
       }
 
-      const rows = await listNewest();
+      await prune(await listNewest()).catch(() => undefined);
 
-      await prune(rows).catch(() => undefined);
-
-      return { id: data.id, latest: rows[0]?.id === data.id };
+      return backupId;
     },
   };
 };

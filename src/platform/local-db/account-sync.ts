@@ -74,11 +74,21 @@ export const useAccountSync = () =>
 let accountId: string | null = null;
 let running: Promise<void> | null = null;
 let runAgain = false;
+/* A restore is putting a backup in place: no sync starts meanwhile. */
+let paused = false;
 let timer: number | null = null;
 /* The save this runner announced itself after a merge; not yours. */
 let ownSave = false;
+/*
+ * Every clash answered since the last sync that went through: an answer can
+ * bring up a new clash, and the next round mustn't forget the first.
+ */
+let answers: MergeChoices = {};
 
-const run = async (choices: MergeChoices = {}) => {
+/* After losing an upload race, try again soon to merge the winner's. */
+const raceDelayMs = 2000;
+
+const run = async () => {
   const userId = accountId;
 
   if (!userId) return;
@@ -89,7 +99,7 @@ const run = async (choices: MergeChoices = {}) => {
     const { db } = await openLocalDb();
     const outcome = await syncDevice(db, {
       account: createAccountBackups(getBrowserSupabaseClient(), { userId }),
-      choices,
+      choices: answers,
       ensureGame: ensureVersionGroupData,
       state: await readDeviceSyncState(db, userId),
     });
@@ -100,10 +110,19 @@ const run = async (choices: MergeChoices = {}) => {
       return;
     }
 
+    if (outcome.status === "raced") {
+      setStatus({ status: "idle" });
+      schedule(raceDelayMs);
+
+      return;
+    }
+
     if (outcome.status === "synced") {
+      answers = {};
       await saveDeviceSyncState(db, {
         accountId: userId,
         backupId: outcome.backupId,
+        sentRestore: outcome.sentRestore,
       });
       await recordBackup(db, "account", new Date().toISOString());
       ownSave = true;
@@ -131,22 +150,23 @@ const run = async (choices: MergeChoices = {}) => {
   }
 };
 
-/* Syncs now, or once more after the sync already running. */
-export const syncNow = (choices?: MergeChoices) => {
-  if (!accountId || (current.status === "clashes" && !choices)) {
-    return Promise.resolve();
-  }
+/*
+ * Syncs now, or once more after the sync already running. A clash waiting
+ * for your answer, or a restore under way, holds it.
+ */
+export const syncNow = (): Promise<void> => {
+  if (!accountId || current.status === "clashes") return Promise.resolve();
 
-  if (running) {
+  if (running || paused) {
     runAgain = true;
 
-    return running;
+    return running ?? Promise.resolve();
   }
 
-  running = run(choices).finally(() => {
+  running = run().finally(() => {
     running = null;
 
-    if (runAgain) {
+    if (runAgain && !paused) {
       runAgain = false;
       void syncNow();
     }
@@ -171,11 +191,32 @@ export const askAboutClashesAgain = () => {
   }
 };
 
-/* Answers the clashes and syncs with them. */
+/* Answers the clashes and syncs with every answer so far. */
 export const resolveAccountClashes = (choices: MergeChoices) => {
+  answers = { ...answers, ...choices };
   setStatus({ status: "idle" });
 
-  return syncNow(choices);
+  return syncNow();
+};
+
+/*
+ * Runs `change` (a restore) with sync held: it waits for a sync under way
+ * and starts none until `change` is done, then syncs.
+ */
+export const withSyncPaused = async <Result>(
+  change: () => Promise<Result>,
+): Promise<Result> => {
+  paused = true;
+
+  try {
+    await running;
+
+    return await change();
+  } finally {
+    paused = false;
+    runAgain = false;
+    void syncNow();
+  }
 };
 
 /*

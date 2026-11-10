@@ -9,7 +9,7 @@ INSERT INTO public.user_backups (user_id, object_path, format, saved_at, byte_si
 INSERT INTO storage.objects (bucket_id, name, owner_id)
     VALUES ('backups', '00000000-0000-0000-0000-0000000005b2/b.json.gz', '00000000-0000-0000-0000-0000000005b2');
 SELECT
-    plan (13);
+    plan (18);
 SELECT
     IS ((
             SELECT
@@ -60,6 +60,39 @@ SELECT
 SELECT
     lives_ok ($$ DELETE FROM public.user_backups
         WHERE object_path LIKE '00000000-0000-0000-0000-0000000005b2/%' $$, 'deleting another''s backup quietly deletes nothing');
+-- A new backup goes only on top of the newest one.
+SELECT
+    IS (public.add_user_backup ('00000000-0000-0000-0000-0000000005a1/c.json.gz', 2, NOW(), 10, 'Mac', '00000000-0000-0000-0000-00000000dead'),
+        NULL,
+        'a backup on top of an older one is refused');
+SELECT
+    isnt (public.add_user_backup ('00000000-0000-0000-0000-0000000005a1/c.json.gz', 2, NOW(), 10, 'Mac', (
+            SELECT
+                id
+            FROM public.user_backups
+            WHERE
+                object_path = '00000000-0000-0000-0000-0000000005a1/a.json.gz')), NULL, 'a backup on top of the newest is recorded');
+SELECT
+    IS (public.add_user_backup ('00000000-0000-0000-0000-0000000005a1/d.json.gz', 2, NOW(), 10, 'iPhone', (
+            SELECT
+                id
+            FROM public.user_backups
+            WHERE
+                object_path = '00000000-0000-0000-0000-0000000005a1/a.json.gz')),
+        NULL,
+        'a second device saving on top of the same backup loses the race');
+SELECT
+    IS ((
+            SELECT
+                object_path
+            FROM
+                public.user_backups
+            ORDER BY
+                created_at DESC,
+                id DESC
+            LIMIT 1),
+        '00000000-0000-0000-0000-0000000005a1/c.json.gz',
+        'the recorded backup is the newest');
 RESET ROLE;
 SELECT
     set_config('request.jwt.claim.sub', '', TRUE);
@@ -68,6 +101,10 @@ SELECT
     throws_ok ($$
         SELECT
             * FROM public.user_backups $$, '42501', NULL, 'signed-out visitors cannot read backups');
+SELECT
+    throws_ok ($$
+        SELECT
+            public.add_user_backup ('x/y.json.gz', 2, NOW(), 10, NULL, NULL) $$, '42501', NULL, 'signed-out visitors cannot record a backup');
 RESET ROLE;
 SELECT
     IS ((

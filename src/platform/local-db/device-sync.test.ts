@@ -26,12 +26,14 @@ const createAccount = () => {
     latestId: async () => backups.at(-1)?.id ?? null,
     read: async (id) =>
       structuredClone(backups.find((backup) => backup.id === id)!.snapshot),
-    upload: async (snapshot) => {
+    upload: async (snapshot, parentId) => {
+      if ((backups.at(-1)?.id ?? null) !== parentId) return null;
+
       const id = `backup-${backups.length + 1}`;
 
       backups.push({ id, snapshot: structuredClone(snapshot) });
 
-      return { id, latest: true };
+      return id;
     },
   };
 
@@ -355,25 +357,67 @@ describe("account sync by event merge", () => {
     });
   });
 
-  it("leaves a change unsynced when another device uploaded first", async () => {
+  it("loses nothing when two devices upload at the same moment", async () => {
+    await phone.db.query(
+      "UPDATE gameplay.mainline_plays SET name = 'Phone name' WHERE id = $1",
+      [playId],
+    );
+    await laptop.db.query(
+      "UPDATE gameplay.mainline_plays SET notes = 'Laptop note.' WHERE id = $1",
+      [playId],
+    );
+
+    /* The phone's upload lands while the laptop is between read and upload. */
+    const racing: AccountBackups = {
+      ...account,
+      upload: async (snapshot, parentId) => {
+        await sync(phone, account);
+
+        return account.upload(snapshot, parentId);
+      },
+    };
+
+    await expect(sync(laptop, racing)).resolves.toEqual({ status: "raced" });
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await sync(phone, account);
+
+    for (const device of [phone, laptop]) {
+      await expect(readPlay(device.db)).resolves.toEqual({
+        name: "Phone name",
+        notes: "Laptop note.",
+      });
+    }
+  });
+
+  it("notices a save made while it merges, and leaves it in place", async () => {
     await phone.db.query(
       "UPDATE gameplay.mainline_plays SET notes = 'Phone note.' WHERE id = $1",
       [playId],
     );
+    await sync(phone, account);
 
-    const raced: AccountBackups = {
-      latestId: account.latestId,
-      read: account.read,
-      upload: async (snapshot) => ({
-        ...(await account.upload(snapshot)),
-        latest: false,
-      }),
+    /* The laptop saves while the phone's backup downloads. */
+    const slow: AccountBackups = {
+      ...account,
+      read: async (id) => {
+        const snapshot = await account.read(id);
+
+        await laptop.db.query(
+          "UPDATE gameplay.mainline_plays SET name = 'Saved meanwhile' WHERE id = $1",
+          [playId],
+        );
+
+        return snapshot;
+      },
     };
 
-    await expect(sync(phone, raced)).resolves.toEqual({ status: "unchanged" });
-    /* Still new on the phone: the next sync sends it again. */
-    await expect(sync(phone, account)).resolves.toMatchObject({
-      status: "synced",
+    await expect(sync(laptop, slow)).rejects.toThrow("syncs again");
+    await sync(laptop, account);
+    await expect(readPlay(laptop.db)).resolves.toEqual({
+      name: "Saved meanwhile",
+      notes: "Phone note.",
     });
   });
 });

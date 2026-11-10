@@ -325,10 +325,13 @@ const clockOf = (index: SideIndex, id: string, column: string) => {
 const changedSinceSync = (merger: Merger, side: Side, id: string) => {
   const records = sideOf(merger, side).index.records.get(id);
 
-  return [...(records?.values() ?? [])].some((record) =>
-    side === "local"
-      ? !sameTime(record.changedAt, record.baseChangedAt)
-      : !sameTime(record.changedAt, localBase(merger, id, record.column)),
+  /* Opening a Play or a stamp of the time alone isn't a change to keep it for. */
+  return [...(records?.values() ?? [])].some(
+    (record) =>
+      !quietColumns.has(record.column) &&
+      (side === "local"
+        ? !sameTime(record.changedAt, record.baseChangedAt)
+        : !sameTime(record.changedAt, localBase(merger, id, record.column))),
   );
 };
 
@@ -555,6 +558,7 @@ const takeItemFrom = (
   merger: Merger,
   side: Side,
   item: { key: string; table: string },
+  now: string,
 ) => {
   const from = sideOf(merger, side).index;
   const to = sideOf(merger, side === "local" ? "remote" : "local").index;
@@ -575,11 +579,28 @@ const takeItemFrom = (
       const row = from.rows.get(name)?.get(key);
       const records = from.records.get(id);
 
-      if (row) to.rows.get(name)?.set(key, row);
-      else to.rows.get(name)?.delete(key);
+      if (row) {
+        to.rows.get(name)?.set(key, row);
+        to.records.set(id, new Map(records));
+        continue;
+      }
 
-      if (records) to.records.set(id, new Map(records));
-      else to.records.delete(id);
+      /*
+       * Only the other side has it: deleted now, so the other device lets it
+       * go too instead of keeping it as something added since.
+       */
+      const tombstone: ChangeRecord = {
+        baseChangedAt: null,
+        changedAt: now,
+        column: "",
+        deleted: true,
+        key,
+        table: name,
+      };
+
+      to.rows.get(name)?.delete(key);
+      from.records.set(id, new Map([["", tombstone]]));
+      to.records.set(id, new Map([["", tombstone]]));
     }
   }
 };
@@ -843,7 +864,9 @@ export const mergeSnapshots = ({
   for (const [clashId, side] of Object.entries(choices)) {
     const match = /^item:([^:]+):(.+)$/.exec(clashId);
 
-    if (match) takeItemFrom(merger, side, { key: match[2], table: match[1] });
+    if (match) {
+      takeItemFrom(merger, side, { key: match[2], table: match[1] }, now);
+    }
   }
 
   merger.localFinder = new RowFinder(localIndex.rows);

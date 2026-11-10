@@ -16,7 +16,10 @@ CREATE TABLE device.sync (
 -- One record per row (column_name '') and per changed column. A deleted
 -- row keeps only its row record, marked deleted. base_changed_at is
 -- changed_at as of the last sync: a record whose changed_at moved since
--- changed on this device.
+-- changed on this device. seq counts every write on this device, whatever
+-- the clocks say, so a sync can tell what landed after it read.
+CREATE SEQUENCE device.change_seq;
+
 CREATE TABLE device.changes (
     table_name text NOT NULL,
     row_key text NOT NULL,
@@ -24,6 +27,7 @@ CREATE TABLE device.changes (
     changed_at timestamptz NOT NULL,
     base_changed_at timestamptz,
     deleted boolean NOT NULL DEFAULT FALSE,
+    seq bigint NOT NULL DEFAULT nextval('device.change_seq'),
     PRIMARY KEY (table_name, row_key, column_name)
 );
 
@@ -71,7 +75,7 @@ BEGIN
             VALUES (changed_table, old_key, '', changed_at, TRUE)
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at, deleted = TRUE;
+                changed_at = EXCLUDED.changed_at, deleted = TRUE, seq = EXCLUDED.seq;
     END IF;
     IF TG_OP = 'INSERT' OR old_key IS DISTINCT FROM new_key AND TG_OP = 'UPDATE' THEN
         DELETE FROM device.changes
@@ -82,7 +86,7 @@ BEGIN
             VALUES (changed_table, new_key, '', changed_at, FALSE)
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at, deleted = FALSE;
+                changed_at = EXCLUDED.changed_at, deleted = FALSE, seq = EXCLUDED.seq;
     ELSIF TG_OP = 'UPDATE' THEN
         INSERT INTO device.changes (table_name, row_key, column_name, changed_at)
         SELECT
@@ -96,7 +100,7 @@ BEGIN
             columns.value IS DISTINCT FROM old_row -> columns.key
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at;
+                changed_at = EXCLUDED.changed_at, seq = EXCLUDED.seq;
     END IF;
     RETURN NULL;
 END;
@@ -129,6 +133,65 @@ BEGIN
         AND schemas.nspname IN ('public', 'gameplay', 'planning')
         LOOP
             EXECUTE format('CREATE TRIGGER record_device_change AFTER INSERT OR UPDATE OR DELETE ON %s FOR EACH ROW EXECUTE FUNCTION device.record_change (%s)', user_table.name, user_table.key_columns);
+        END LOOP;
+END;
+$$;
+
+-- Rows saved before change records existed get one now, as added: so the
+-- first sync sends them to the account. (A new device starts with none:
+-- its own profile isn't a change of yours.) The list matches userTables in
+-- src/platform/local-db/user-data.ts.
+DO $$
+DECLARE
+    user_table record;
+    key_columns text[];
+BEGIN
+    FOR user_table IN
+    SELECT
+        *
+    FROM (
+        VALUES ('public.profiles', 'TRUE'),
+            ('public.user_preferences', 'TRUE'),
+            ('public.tags', 'TRUE'),
+            ('gameplay.mainline_challenge_rules', 'user_id IS NOT NULL'),
+            ('gameplay.mainline_challenge_rule_sets', 'user_id IS NOT NULL'),
+            ('gameplay.mainline_challenge_rule_set_rules', 'rule_set_id IN (SELECT id FROM gameplay.mainline_challenge_rule_sets WHERE user_id IS NOT NULL)'),
+            ('gameplay.user_game_library_entries', 'TRUE'),
+            ('gameplay.user_favourite_pokemon', 'TRUE'),
+            ('gameplay.mainline_plays', 'TRUE'),
+            ('gameplay.mainline_play_settings', 'TRUE'),
+            ('gameplay.mainline_play_optional_content_scopes', 'TRUE'),
+            ('gameplay.mainline_play_pokemon', 'TRUE'),
+            ('gameplay.mainline_play_pokemon_moves', 'TRUE'),
+            ('gameplay.mainline_play_milestone_progress', 'TRUE'),
+            ('gameplay.mainline_play_milestone_decisions', 'TRUE'),
+            ('gameplay.mainline_play_collectible_entry_progress', 'TRUE'),
+            ('gameplay.mainline_play_pokedex_species_progress', 'TRUE'),
+            ('gameplay.mainline_play_events', 'TRUE'),
+            ('gameplay.mainline_play_event_pokemon_refs', 'TRUE'),
+            ('gameplay.mainline_play_event_team_snapshots', 'TRUE'),
+            ('gameplay.mainline_play_event_team_snapshot_moves', 'TRUE'),
+            ('gameplay.mainline_play_tags', 'TRUE'),
+            ('gameplay.mainline_play_pokemon_tags', 'TRUE'),
+            ('gameplay.mainline_play_challenge_rules', 'TRUE'),
+            ('planning.mainline_team_plans', 'TRUE'),
+            ('planning.mainline_team_plan_optional_content_scopes', 'TRUE'),
+            ('planning.mainline_team_plan_members', 'TRUE'),
+            ('planning.mainline_team_plan_member_moves', 'TRUE'),
+            ('planning.mainline_play_plan_links', 'TRUE')) AS tables (name, row_filter)
+        LOOP
+            SELECT
+                array_agg(columns.attname::text ORDER BY keys.position) INTO key_columns
+            FROM
+                pg_constraint primary_keys
+                CROSS JOIN LATERAL unnest(primary_keys.conkey)
+                WITH ORDINALITY AS keys (attnum, position)
+                JOIN pg_attribute columns ON columns.attrelid = primary_keys.conrelid
+                    AND columns.attnum = keys.attnum
+            WHERE
+                primary_keys.conrelid = user_table.name::regclass
+                AND primary_keys.contype = 'p';
+            EXECUTE format('INSERT INTO device.changes (table_name, row_key, column_name, changed_at) SELECT %L, device.row_key (to_jsonb (t), %L), %L, clock_timestamp() FROM %s t WHERE %s ON CONFLICT DO NOTHING', user_table.name, key_columns, '', user_table.name, user_table.row_filter);
         END LOOP;
 END;
 $$;

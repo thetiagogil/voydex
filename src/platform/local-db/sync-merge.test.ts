@@ -94,6 +94,12 @@ describe("mergeSnapshots", () => {
     expect(result.status === "merged" && result.snapshot.tables[team]).toEqual([
       { id: "b", name: "Eevee", play_id: "p1", slot: 1 },
     ]);
+    /* The Pikachu only this device had goes as a deletion, so it stays gone. */
+    expect(
+      result.status === "merged" && result.snapshot.changes,
+    ).toContainEqual(
+      expect.objectContaining({ deleted: true, key: '["a"]', table: team }),
+    );
   });
 
   it("orders times to the microsecond, whatever their spelling", () => {

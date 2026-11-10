@@ -1,5 +1,6 @@
 "use client";
 
+import { withSyncPaused } from "@/platform/local-db/account-sync";
 import {
   BackupFileError,
   readBackupFile,
@@ -87,7 +88,10 @@ export const restoreBackupFile = async (
   backup: BackupFile,
 ): Promise<BackupResult> => {
   try {
-    await restoreBackup(db, backup, { ensureGame: ensureVersionGroupData });
+    /* No account sync runs while the backup goes in; one runs after. */
+    await withSyncPaused(() =>
+      restoreBackup(db, backup, { ensureGame: ensureVersionGroupData }),
+    );
     notifyLocalSave();
 
     return { status: "success" };

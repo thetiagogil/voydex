@@ -22,11 +22,15 @@ SELECT
             SELECT
                 1
             FROM
-                unnest(ARRAY['public.profiles', 'public.user_preferences', 'public.tags']::regclass[]) AS user_table (name)
+                pg_catalog.pg_class AS relation
+                INNER JOIN pg_catalog.pg_namespace AS namespace ON namespace.oid = relation.relnamespace
                 CROSS JOIN unnest(ARRAY['anon', 'authenticated']) AS api_role (name)
             WHERE
-                has_table_privilege(api_role.name, user_table.name, 'SELECT, INSERT, UPDATE, DELETE')),
-            'the API roles cannot touch profiles, preferences or tags');
+                relation.relkind = 'r'
+                AND namespace.nspname = 'public'
+                AND relation.oid <> 'public.user_backups'::regclass
+                AND has_table_privilege(api_role.name, relation.oid, 'SELECT, INSERT, UPDATE, DELETE')),
+            'the API roles cannot touch any public table but the backups');
 SELECT
     ok (NOT EXISTS (
             SELECT

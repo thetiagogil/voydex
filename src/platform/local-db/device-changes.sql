@@ -10,7 +10,10 @@
 -- One record per row (column_name '') and per changed column. A deleted
 -- row keeps only its row record, marked deleted. base_changed_at is
 -- changed_at as of the last sync: a record whose changed_at moved since
--- changed on this device.
+-- changed on this device. seq counts every write on this device, whatever
+-- the clocks say, so a sync can tell what landed after it read.
+CREATE SEQUENCE device.change_seq;
+
 CREATE TABLE device.changes (
     table_name text NOT NULL,
     row_key text NOT NULL,
@@ -18,6 +21,7 @@ CREATE TABLE device.changes (
     changed_at timestamptz NOT NULL,
     base_changed_at timestamptz,
     deleted boolean NOT NULL DEFAULT FALSE,
+    seq bigint NOT NULL DEFAULT nextval('device.change_seq'),
     PRIMARY KEY (table_name, row_key, column_name)
 );
 
@@ -65,7 +69,7 @@ BEGIN
             VALUES (changed_table, old_key, '', changed_at, TRUE)
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at, deleted = TRUE;
+                changed_at = EXCLUDED.changed_at, deleted = TRUE, seq = EXCLUDED.seq;
     END IF;
     IF TG_OP = 'INSERT' OR old_key IS DISTINCT FROM new_key AND TG_OP = 'UPDATE' THEN
         DELETE FROM device.changes
@@ -76,7 +80,7 @@ BEGIN
             VALUES (changed_table, new_key, '', changed_at, FALSE)
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at, deleted = FALSE;
+                changed_at = EXCLUDED.changed_at, deleted = FALSE, seq = EXCLUDED.seq;
     ELSIF TG_OP = 'UPDATE' THEN
         INSERT INTO device.changes (table_name, row_key, column_name, changed_at)
         SELECT
@@ -90,7 +94,7 @@ BEGIN
             columns.value IS DISTINCT FROM old_row -> columns.key
         ON CONFLICT (table_name, row_key, column_name)
             DO UPDATE SET
-                changed_at = EXCLUDED.changed_at;
+                changed_at = EXCLUDED.changed_at, seq = EXCLUDED.seq;
     END IF;
     RETURN NULL;
 END;

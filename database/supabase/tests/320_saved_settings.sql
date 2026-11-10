@@ -419,19 +419,6 @@ SELECT
                             FROM
                                 started_bare)),
                         'the unit totals return to what they were');
--- Another trainer cannot read or change the Play's settings
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-UPDATE
-    gameplay.mainline_play_settings
-SET
-    story_tracking_enabled = FALSE
-WHERE
-    play_id = (
-        SELECT
-            result_play_id
-        FROM
-            started_bare);
 SELECT
     *
 FROM

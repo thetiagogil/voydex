@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
@@ -232,6 +234,18 @@ describe("backups on the device", () => {
 });
 
 describe("userTables", () => {
+  it("matches the tables device update 0002 records older rows for", () => {
+    const sql = readFileSync(
+      "database/device-updates/0002-account-sync.sql",
+      "utf8",
+    );
+    const listed = [...sql.matchAll(/\('([a-z_]+\.[a-z_]+)', '/g)].map(
+      (match) => match[1],
+    );
+
+    expect(listed).toEqual(userTables.map((table) => table.name));
+  });
+
   let db: PGlite;
 
   beforeEach(async () => {

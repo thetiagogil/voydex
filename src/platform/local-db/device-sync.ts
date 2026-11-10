@@ -5,12 +5,14 @@ import {
   type MergeChoices,
   type SyncSnapshot,
 } from "@/platform/local-db/sync-merge";
+import { rowKeyOf, type SchemaShape } from "@/platform/local-db/sync-merge";
 import {
   applySyncSnapshot,
-  latestChange,
   markSynced,
   readSchemaShape,
   readSyncSnapshot,
+  recordDeletions,
+  type DeviceSnapshot,
 } from "@/platform/local-db/sync-snapshot";
 import { readNeededVersionGroups } from "@/platform/local-db/user-data";
 
@@ -29,8 +31,15 @@ export type AccountBackups = {
   latestId: () => Promise<string | null>;
   /* A backup's data, downloaded only when the device hasn't merged it. */
   read: (id: string) => Promise<SyncSnapshot>;
-  /* Saves a new backup; resolves to its id and whether it is now the latest. */
-  upload: (snapshot: SyncSnapshot) => Promise<{ id: string; latest: boolean }>;
+  /*
+   * Saves a new backup on top of `parentId`, the newest one this device
+   * merged (null for an account with none). Resolves to its id, or to null
+   * when another device saved on top of that one first.
+   */
+  upload: (
+    snapshot: SyncSnapshot,
+    parentId: string | null,
+  ) => Promise<string | null>;
 };
 
 export type SyncState = {
@@ -43,8 +52,13 @@ export type SyncState = {
 export type SyncOutcome =
   /* Nothing new on either side. */
   | { status: "unchanged" }
-  /* The device's data reached the account (merged first when both changed). */
-  | { backupId: string; status: "synced" }
+  /*
+   * The device's data reached the account (merged first when both
+   * changed); `sentRestore` when it was a restored backup's.
+   */
+  | { backupId: string; sentRestore: boolean; status: "synced" }
+  /* Another device saved a backup first: sync again to merge it. */
+  | { status: "raced" }
   /* Both sides changed the same things: ask, then sync again with `choices`. */
   | { clashes: Clash[]; status: "clashes" };
 
@@ -91,23 +105,24 @@ export const syncDevice = async (
     state: SyncState;
   },
 ): Promise<SyncOutcome> => {
+  const remoteId = await account.latestId();
+
+  if (state.restored) {
+    return sendRestore(db, { account, remoteId });
+  }
+
   const local = await readSyncSnapshot(db);
-  const readLatest = latestChange(local);
-  const localChanged =
-    state.restored ||
-    local.changes.some((record) => record.changedAt !== record.baseChangedAt);
-  const remoteId = state.restored ? null : await account.latestId();
+  const localChanged = hasUnsynced(local);
   const remote: AccountBackup | null =
     remoteId !== null && remoteId !== state.backupId
       ? { id: remoteId, snapshot: await account.read(remoteId) }
       : null;
-  const remoteChanged = remote !== null;
 
-  if (!localChanged && !remoteChanged) return { status: "unchanged" };
+  if (!localChanged && !remote) return { status: "unchanged" };
 
   let snapshot = local;
 
-  if (remoteChanged) {
+  if (remote) {
     const result = mergeSnapshots({
       choices,
       local,
@@ -126,31 +141,92 @@ export const syncDevice = async (
     await applySyncSnapshot(
       db,
       withAccountBase(result.snapshot, remote.snapshot),
-      readLatest,
+      local.seq,
     );
     snapshot = await readSyncSnapshot(db);
 
     /* Nothing of this device's is new: the account already has it all. */
-    if (
-      snapshot.changes.every(
-        (record) => record.changedAt === record.baseChangedAt,
-      )
-    ) {
-      return { backupId: remote.id, status: "synced" };
+    if (!hasUnsynced(snapshot)) {
+      return { backupId: remote.id, sentRestore: false, status: "synced" };
     }
   }
 
-  const uploaded = await account.upload(snapshot);
+  return upload(db, { account, parentId: remoteId, snapshot });
+};
 
-  /*
-   * Another device uploaded at the same moment: leave this device's
-   * changes unsynced, so the next sync merges them with that backup.
-   */
-  if (!uploaded.latest) return { status: "unchanged" };
+const hasUnsynced = (snapshot: SyncSnapshot) =>
+  snapshot.changes.some((record) => record.changedAt !== record.baseChangedAt);
 
-  await markSynced(db, latestChange(snapshot));
+/*
+ * Uploads on top of `parentId`; a device that loses the race to another
+ * leaves its changes unsynced, to merge them with that backup next.
+ */
+const upload = async (
+  db: LocalDb,
+  {
+    account,
+    parentId,
+    sentRestore = false,
+    snapshot,
+  }: {
+    account: AccountBackups;
+    parentId: string | null;
+    sentRestore?: boolean;
+    snapshot: DeviceSnapshot;
+  },
+): Promise<SyncOutcome> => {
+  const backupId = await account.upload(snapshot, parentId);
 
-  return { backupId: uploaded.id, status: "synced" };
+  if (!backupId) return { status: "raced" };
+
+  await markSynced(db, snapshot.seq);
+
+  return { backupId, sentRestore, status: "synced" };
+};
+
+/* Every live row's key in a snapshot, as `table\u0000key`. */
+const liveKeys = (snapshot: SyncSnapshot, shape: SchemaShape) =>
+  new Set(
+    shape.tables.flatMap(({ keyColumns, name }) =>
+      (snapshot.tables[name] ?? []).map(
+        (row) => `${name}\u0000${rowKeyOf(row, keyColumns)}`,
+      ),
+    ),
+  );
+
+/*
+ * A restored backup replaces the account's data instead of merging with
+ * it: what the account holds and the backup doesn't is recorded as
+ * deleted, so the other devices let it go too.
+ */
+const sendRestore = async (
+  db: LocalDb,
+  { account, remoteId }: { account: AccountBackups; remoteId: string | null },
+): Promise<SyncOutcome> => {
+  if (remoteId) {
+    const [shape, remote, local] = await Promise.all([
+      readSchemaShape(db),
+      account.read(remoteId),
+      readSyncSnapshot(db),
+    ]);
+    const kept = liveKeys(local, shape);
+    const gone = [...liveKeys(remote, shape)]
+      .filter((id) => !kept.has(id))
+      .map((id) => {
+        const [table, key] = id.split("\u0000");
+
+        return { key, table };
+      });
+
+    await recordDeletions(db, gone);
+  }
+
+  return upload(db, {
+    account,
+    parentId: remoteId,
+    sentRestore: true,
+    snapshot: await readSyncSnapshot(db),
+  });
 };
 
 /*
@@ -181,14 +257,19 @@ export const readDeviceSyncState = async (
 
 export const saveDeviceSyncState = async (
   db: LocalDb,
-  { accountId, backupId }: { accountId: string; backupId: string },
+  {
+    accountId,
+    backupId,
+    sentRestore,
+  }: { accountId: string; backupId: string; sentRestore: boolean },
 ) => {
+  /* A restore made while this sync ran still waits to go up. */
   await db.query(
     `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
      VALUES ($1, $2, NOW(), FALSE)
      ON CONFLICT (id) DO UPDATE SET account_id = EXCLUDED.account_id,
        backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
-       restored = FALSE`,
-    [accountId, backupId],
+       restored = device.sync.restored AND NOT $3::boolean`,
+    [accountId, backupId, sentRestore],
   );
 };
