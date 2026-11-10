@@ -12,7 +12,7 @@ import {
   type SearchFiltersPreference,
 } from "@/config/search-filters-preference";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 
 export type UserPreferences = {
   motion: MotionPreference;
@@ -27,7 +27,7 @@ export type UserPreferences = {
  * row yet reads as the defaults.
  */
 export const readUserPreferences = async (): Promise<UserPreferences> => {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await getLocalQueryClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 

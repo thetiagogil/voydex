@@ -5,10 +5,7 @@ vi.mock("../client/favourite-pokemon-action", () => ({
   setFavouritePokemonAction: vi.fn(),
 }));
 
-import {
-  FavouritePokemonButton,
-  FavouritePokemonSignIn,
-} from "./favourite-pokemon-button";
+import { FavouritePokemonButton } from "./favourite-pokemon-button";
 
 const render = (initialFavourite: boolean) =>
   renderToStaticMarkup(
@@ -34,21 +31,5 @@ describe("FavouritePokemonButton", () => {
 
     expect(html).toContain('aria-pressed="false"');
     expect(html).not.toContain('fill="currentColor"');
-  });
-});
-
-describe("FavouritePokemonSignIn", () => {
-  it("asks a visitor to sign in and comes back to the entry", () => {
-    const html = renderToStaticMarkup(
-      <FavouritePokemonSignIn href="/login?next=%2Fcodex%2Fpokemon%2Frb%2Fgengar" />,
-    );
-
-    expect(html).toContain(
-      'aria-label="Favourite: sign in to keep favourites"',
-    );
-    expect(html).toContain(
-      'href="/login?next=%2Fcodex%2Fpokemon%2Frb%2Fgengar"',
-    );
-    expect(html).not.toContain("aria-pressed=");
   });
 });

@@ -1,14 +1,11 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
+import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 import { z } from "zod";
 
 import { motionPreferences } from "@/config/motion-preference";
 import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
-import { appRoutes } from "@/config/routes";
 import { searchFiltersPreferences } from "@/config/search-filters-preference";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import type { TablesInsert } from "@/shared/types/database.types";
 import { safeParseInput } from "@/shared/utils/input-schemas";
 
@@ -39,7 +36,7 @@ const saveOwnPreferences = async (
   update: Omit<TablesInsert<"user_preferences">, "user_id">,
   message: string,
 ): Promise<PreferencesActionResult> => {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await getLocalQueryClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
@@ -55,7 +52,7 @@ const saveOwnPreferences = async (
     return { message: SAVE_FAILED, status: "error" };
   }
 
-  revalidatePath(appRoutes.home, "layout");
+  notifyLocalSave();
 
   return { message, status: "success" };
 };

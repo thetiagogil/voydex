@@ -1,5 +1,5 @@
 import type { PlayTracking } from "@/config/play-tracking";
-import type { LookAndFeel } from "@/features/settings/server/preferences-actions";
+import type { LookAndFeel } from "@/features/settings/client/preferences-actions";
 import type { ProfileIconChoice } from "@/features/settings/types";
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
 import { PageBand } from "@/shared/components/page-band";
@@ -14,7 +14,7 @@ type SettingsPageProps = {
   choices: readonly ProfileIconChoice[];
   defaultTrainerName: string | null;
   displayName: string | null;
-  /* Null when the claims carry no email. */
+  /* The signed-in account's email; null when you haven't signed in. */
   email: string | null;
   iconFormId: number | null;
   /* Motion, and whether lists keep search and filters open. */
@@ -63,7 +63,10 @@ export const SettingsPage = ({
     <div className="mt-6 flex flex-col gap-6">
       <SettingsLookSection lookAndFeel={lookAndFeel} />
       <SettingsNewPlayDefaultsSection defaults={newPlayDefaults} />
-      <SettingsAccountSection email={email} signOutAction={signOutAction} />
+      {/* Signing in is only for backups: the account section shows once you have. */}
+      {email ? (
+        <SettingsAccountSection email={email} signOutAction={signOutAction} />
+      ) : null}
       <SettingsDataSection />
     </div>
   </div>

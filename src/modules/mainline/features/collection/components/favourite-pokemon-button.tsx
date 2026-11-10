@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { setFavouritePokemonAction } from "@/modules/mainline/features/collection/client/favourite-pokemon-action";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 
 type FavouritePokemonButtonProps = {
   formId: number;
@@ -101,22 +100,3 @@ export const FavouritePokemonButton = ({
     />
   );
 };
-
-/*
- * The heart for a visitor: it asks you to sign in, then brings you back to
- * the entry.
- */
-export const FavouritePokemonSignIn = ({ href }: { href: string }) => (
-  <IconTip
-    label="Sign in to keep favourites"
-    trigger={
-      <Link
-        href={href}
-        aria-label="Favourite: sign in to keep favourites"
-        className={buttonVariants({ size: "icon", variant: "secondary" })}
-      >
-        <HeartIcon filled={false} />
-      </Link>
-    }
-  />
-);

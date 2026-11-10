@@ -11,8 +11,8 @@ vi.mock("@/platform/supabase/auth", () => ({
     data: { claims: state.userId ? { sub: state.userId } : null },
   })),
 }));
-vi.mock("@/platform/supabase/server-client", () => ({
-  createServerSupabaseClient: vi.fn(async () => ({
+vi.mock("@/platform/local-db/open-local-db", () => ({
+  getLocalQueryClient: vi.fn(async () => ({
     from: () => ({
       select: () => ({
         eq: () => ({

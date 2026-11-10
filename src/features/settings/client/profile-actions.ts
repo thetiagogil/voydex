@@ -1,16 +1,13 @@
-"use server";
+import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 
-import { revalidatePath } from "next/cache";
-
-import { appRoutes } from "@/config/routes";
-import { isProfileIconForm } from "@/features/settings/server/profile-icon-choices-query";
+import { isProfileIconForm } from "@/features/settings/client/profile-icon-choices-query";
 import {
   parseDisplayName,
   parseTrainerName,
 } from "@/features/settings/utils/display-name";
 import { parseProfileIconInput } from "@/features/settings/utils/profile-icon-input";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import type { TablesUpdate } from "@/shared/types/database.types";
 
 export type SavedProfile = {
@@ -39,7 +36,7 @@ const updateOwnProfile = async (
 ): Promise<
   { message: string; ok: false } | { ok: true; saved: SavedProfile }
 > => {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await getLocalQueryClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
   const userId = claimsResult?.data?.claims?.sub;
 
@@ -73,7 +70,7 @@ const updateOwnProfile = async (
     return { message: SAVE_FAILED, ok: false };
   }
 
-  revalidatePath(appRoutes.home, "layout");
+  notifyLocalSave();
 
   return {
     ok: true,

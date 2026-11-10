@@ -11,7 +11,7 @@ import {
   finishWelcomeAction,
   type ProfileFormState,
   skipWelcomeAction,
-} from "@/features/settings/server/profile-actions";
+} from "@/features/settings/client/profile-actions";
 import { DISPLAY_NAME_MAX_LENGTH } from "@/features/settings/utils/display-name";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";

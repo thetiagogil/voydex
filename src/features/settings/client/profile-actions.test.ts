@@ -8,13 +8,15 @@ const state = {
   userId: "user-1" as string | null,
 };
 
-vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
+vi.mock("@/platform/local-db/local-db-context", () => ({
+  notifyLocalSave: vi.fn(),
+}));
 vi.mock("@/platform/supabase/auth", () => ({
   getClaimsWithTimeout: vi.fn(async () => ({
     data: { claims: state.userId ? { sub: state.userId } : null },
   })),
 }));
-vi.mock("@/features/settings/server/profile-icon-choices-query", () => ({
+vi.mock("@/features/settings/client/profile-icon-choices-query", () => ({
   isProfileIconForm: vi.fn(async () => {
     if (state.iconCheckFails) {
       throw new Error("The icon couldn't be checked.");
@@ -23,8 +25,8 @@ vi.mock("@/features/settings/server/profile-icon-choices-query", () => ({
     return state.iconAllowed;
   }),
 }));
-vi.mock("@/platform/supabase/server-client", () => ({
-  createServerSupabaseClient: vi.fn(async () => ({
+vi.mock("@/platform/local-db/open-local-db", () => ({
+  getLocalQueryClient: vi.fn(async () => ({
     from: () => ({
       update: (update: Record<string, unknown>) => {
         updates.push(update);

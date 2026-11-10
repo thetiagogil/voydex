@@ -4,20 +4,8 @@ import {
   ACTIVE_MODULE_COOKIE_NAME,
   getModuleKeyForPathname,
 } from "@/config/modules";
-import { appRoutes, isProtectedRoute } from "@/config/routes";
-import { REQUEST_PATH_HEADER } from "@/features/app-shell/utils/request-path";
+import { appRoutes, isAppRoute } from "@/config/routes";
 import { refreshSupabaseProxySession } from "@/platform/supabase/proxy-session";
-
-const redirectWithSessionCookies = (
-  url: URL,
-  sessionResponse: NextResponse,
-) => {
-  const redirectResponse = NextResponse.redirect(url);
-  sessionResponse.cookies.getAll().forEach((cookie) => {
-    redirectResponse.cookies.set(cookie);
-  });
-  return redirectResponse;
-};
 
 const syncActiveModuleCookie = (
   response: NextResponse,
@@ -42,25 +30,16 @@ export const updateAppSession = async (request: NextRequest) => {
   if (routeModuleKey) {
     request.cookies.set(ACTIVE_MODULE_COOKIE_NAME, routeModuleKey);
   }
-  if (!isProtectedRoute(request.nextUrl.pathname)) {
+  if (!isAppRoute(request.nextUrl.pathname)) {
     return syncActiveModuleCookie(
       NextResponse.next({ request }),
       routeModuleKey,
     );
   }
-  const requestPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
-  request.headers.set(REQUEST_PATH_HEADER, requestPath);
-  const { isAuthenticated, response } =
-    await refreshSupabaseProxySession(request);
-  if (!isAuthenticated) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = appRoutes.login;
-    loginUrl.search = "";
-    loginUrl.searchParams.set("next", requestPath);
-    return syncActiveModuleCookie(
-      redirectWithSessionCookies(loginUrl, response),
-      routeModuleKey,
-    );
-  }
+  /*
+   * The app opens for everyone; signing in is only for backups, so the
+   * session is kept fresh here and nobody is sent to log in.
+   */
+  const { response } = await refreshSupabaseProxySession(request);
   return syncActiveModuleCookie(response, routeModuleKey);
 };

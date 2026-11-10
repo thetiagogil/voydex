@@ -4,7 +4,6 @@ import {
   getAuthPageHref,
   getCheckEmailHref,
   getForgotPasswordHref,
-  getLoginRedirectHref,
   getResetPasswordHref,
   getWelcomeHref,
   LOGIN_DEFAULT_NEXT,
@@ -105,25 +104,5 @@ describe("recovery and first-run links", () => {
     expect(parseAuthLinkSent("again")).toBe("again");
     expect(parseAuthLinkSent("1")).toBeNull();
     expect(parseAuthLinkSent(undefined)).toBeNull();
-  });
-});
-
-describe("protected page redirect", () => {
-  it("sends you to Log in with the page you asked for", () => {
-    expect(getLoginRedirectHref("/mainline/plays/abc/team?view=plan")).toBe(
-      "/login?next=%2Fmainline%2Fplays%2Fabc%2Fteam%3Fview%3Dplan",
-    );
-    expect(getLoginRedirectHref("/settings")).toBe("/login?next=%2Fsettings");
-  });
-
-  it("leaves next out when there is no path or it is the default", () => {
-    expect(getLoginRedirectHref(null)).toBe("/login");
-    expect(getLoginRedirectHref(LOGIN_DEFAULT_NEXT)).toBe("/login");
-  });
-
-  it("never sends you somewhere unsafe", () => {
-    expect(getLoginRedirectHref("https://example.com/mainline")).toBe("/login");
-    expect(getLoginRedirectHref("//example.com/mainline")).toBe("/login");
-    expect(getLoginRedirectHref("/not-a-module")).toBe("/login");
   });
 });

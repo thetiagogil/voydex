@@ -4,16 +4,16 @@ const upserts: { onConflict?: string; row: Record<string, unknown> }[] = [];
 const revalidated: string[] = [];
 const state = { saveFails: false, userId: "user-1" as string | null };
 
-vi.mock("next/cache", () => ({
-  revalidatePath: vi.fn((path: string) => revalidated.push(path)),
+vi.mock("@/platform/local-db/local-db-context", () => ({
+  notifyLocalSave: vi.fn(() => revalidated.push("saved")),
 }));
 vi.mock("@/platform/supabase/auth", () => ({
   getClaimsWithTimeout: vi.fn(async () => ({
     data: { claims: state.userId ? { sub: state.userId } : null },
   })),
 }));
-vi.mock("@/platform/supabase/server-client", () => ({
-  createServerSupabaseClient: vi.fn(async () => ({
+vi.mock("@/platform/local-db/open-local-db", () => ({
+  getLocalQueryClient: vi.fn(async () => ({
     from: () => ({
       upsert: (
         row: Record<string, unknown>,
@@ -62,7 +62,7 @@ describe("saveLookAndFeelAction", () => {
         },
       },
     ]);
-    expect(revalidated).toEqual(["/"]);
+    expect(revalidated).toEqual(["saved"]);
   });
 
   it("saves Folded as the switch off", async () => {

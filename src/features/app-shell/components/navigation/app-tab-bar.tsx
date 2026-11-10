@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import type { SignedInAccount } from "@/features/app-shell/types";
+import { useAppAccount } from "@/features/app-shell/components/app-account-provider";
 import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import { CodexTabMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import {
@@ -16,10 +16,6 @@ import {
 import { getMainlineViewIcon } from "@/features/app-shell/utils/mainline-view-icons";
 import { AppIcon } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
-
-type AppTabBarProps = {
-  account: SignedInAccount;
-};
 
 type TabItemProps = {
   href: string;
@@ -53,7 +49,8 @@ const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
  * pages), and You, which
  * opens the You page with Statistics, Collection and Settings.
  */
-export const AppTabBar = ({ account }: AppTabBarProps) => {
+export const AppTabBar = () => {
+  const account = useAppAccount();
   const pathname = usePathname();
 
   return (

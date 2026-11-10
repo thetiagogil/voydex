@@ -47,6 +47,15 @@ export const notifyLocalSave = () => {
   for (const listener of saveListeners) listener();
 };
 
+/* Runs `listener` after every save; returns the way to stop. */
+export const subscribeLocalSaves = (listener: () => void) => {
+  saveListeners.add(listener);
+
+  return () => {
+    saveListeners.delete(listener);
+  };
+};
+
 const LocalDbContext = createContext<LocalDbSession | null>(null);
 const RevisionContext = createContext(0);
 
@@ -73,15 +82,10 @@ export const LocalDbProvider = ({
     [client],
   );
 
-  useEffect(() => {
-    const listener = () => setRevision((current) => current + 1);
-
-    saveListeners.add(listener);
-
-    return () => {
-      saveListeners.delete(listener);
-    };
-  }, []);
+  useEffect(
+    () => subscribeLocalSaves(() => setRevision((current) => current + 1)),
+    [],
+  );
   const session = useMemo(
     () => ({ client, db, save, versions }),
     [client, db, save, versions],

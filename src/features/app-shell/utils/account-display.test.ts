@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import type { SignedInAccount } from "../types";
+import type { AppAccount } from "../types";
 import { getAccountInitial, getAccountName } from "./account-display";
 
 describe("account display", () => {
   it("prefers the display name over the email", () => {
-    const account: SignedInAccount = {
+    const account: AppAccount = {
       displayName: "tiago",
       email: "ash@example.com",
       icon: null,

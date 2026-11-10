@@ -2,10 +2,7 @@ import { DEFAULT_MODULE_KEY, modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import { setStartIntentParams, type StartIntent } from "@/config/start-intent";
 import type { AuthErrorCode } from "@/features/auth/auth-errors";
-import {
-  DEFAULT_AUTH_REDIRECT_PATH,
-  getSafeAuthRedirectPath,
-} from "@/features/auth/auth-redirects";
+import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
 
 export type AuthMode = "log-in" | "sign-up";
 
@@ -91,14 +88,3 @@ export const parseAuthLinkSent = (value: unknown): AuthLinkSent | null =>
 /* Welcome, the first run after signing up, keeping where to go afterwards. */
 export const getWelcomeHref = (next: string) =>
   buildAuthHref(appRoutes.welcome, { next });
-
-/*
- * Where a protected page sends you when you aren't signed in: Log in, then
- * back to the page you asked for. A path that isn't safe falls back to the
- * Log in page's own default.
- */
-export const getLoginRedirectHref = (requestPath: string | null) =>
-  getAuthPageHref({
-    mode: "log-in",
-    next: getSafeAuthRedirectPath(requestPath, LOGIN_DEFAULT_NEXT),
-  });
