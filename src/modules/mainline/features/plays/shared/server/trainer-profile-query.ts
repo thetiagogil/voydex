@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { readTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
+import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 

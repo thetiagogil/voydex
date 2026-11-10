@@ -29,7 +29,7 @@ import {
 import {
   findOrCreateChallengeRule,
   findOrCreateTag,
-} from "@/modules/mainline/shared/server/library-choice-commands";
+} from "@/modules/mainline/shared/client/library-choice-commands";
 import {
   deleteMainlinePlay,
   readOwnedPlay,

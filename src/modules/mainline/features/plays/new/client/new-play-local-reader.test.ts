@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import { readNewPlayLocalData } from "@/modules/mainline/features/plays/new/client/new-play-local-reader";
-import { findOrCreateChallengeRule } from "@/modules/mainline/shared/server/library-choice-commands";
+import { findOrCreateChallengeRule } from "@/modules/mainline/shared/client/library-choice-commands";
 import { localUserId } from "@/platform/local-db/device-schema";
 import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import { createTestDevice } from "@/platform/local-db/local-db-test-support";

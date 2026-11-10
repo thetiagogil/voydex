@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   addMainlinePlayPokemon,
   type AddMainlinePlayPokemonRepository,
-} from "@/modules/mainline/features/plays/shared/server/add-team-member-command";
+} from "@/modules/mainline/features/plays/shared/client/add-team-member-command";
 
 describe("addMainlinePlayPokemon", () => {
   it("validates the command before calling the repository", async () => {

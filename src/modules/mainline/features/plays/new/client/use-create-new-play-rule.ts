@@ -1,7 +1,7 @@
 "use client";
 
 import type { LibraryCreateResult } from "@/modules/mainline/shared/components/library-choice-field";
-import { findOrCreateChallengeRule } from "@/modules/mainline/shared/server/library-choice-commands";
+import { findOrCreateChallengeRule } from "@/modules/mainline/shared/client/library-choice-commands";
 import {
   libraryNameMaxLength,
   parseLibraryName,

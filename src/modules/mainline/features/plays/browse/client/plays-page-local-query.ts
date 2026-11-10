@@ -1,7 +1,7 @@
 import {
   readMainlineArchivedPlayCount,
   readMainlinePlayLibrary,
-} from "@/modules/mainline/features/plays/shared/server/play-library-reader";
+} from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import type {
   PlaysPageData,
   PlaysPageView,

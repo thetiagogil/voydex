@@ -1,8 +1,8 @@
 import type { PlayTracking } from "@/config/play-tracking";
-import { readTrackingDefaults } from "@/modules/mainline/features/plays/shared/server/tracking-defaults-reader";
-import { readTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
-import { readChallengeRuleChoices } from "@/modules/mainline/shared/server/challenge-rule-choices-reader";
-import { readRulePresets } from "@/modules/mainline/shared/server/rule-presets-reader";
+import { readTrackingDefaults } from "@/modules/mainline/features/plays/shared/client/tracking-defaults-reader";
+import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
+import { readChallengeRuleChoices } from "@/modules/mainline/shared/client/challenge-rule-choices-reader";
+import { readRulePresets } from "@/modules/mainline/shared/client/rule-presets-reader";
 import type { ChallengeRuleChoice } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import { localUserId } from "@/platform/local-db/device-schema";

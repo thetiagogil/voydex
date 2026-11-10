@@ -701,8 +701,9 @@ async function checkFile(filePath) {
   }
 
   const fileName = segments.at(-1) ?? "";
+  /* Readers and commands run on the server or, moved to client/, on the device. */
   const isPortableServerFile =
-    segments.at(-2) === "server" &&
+    ["client", "server"].includes(segments.at(-2) ?? "") &&
     /-(reader|loaders|command|commands|repository|writer)\.ts$/.test(fileName);
   const isPureFile =
     ["modules", "features"].includes(segments[0]) &&
@@ -739,7 +740,7 @@ async function checkFile(filePath) {
       addImportViolation(
         violations,
         normalizePath(path.relative(projectRoot, filePath)),
-        "readers, loaders, commands, repositories and writers take their Supabase client as a parameter; create it in the query or Server Action",
+        "readers, loaders, commands, repositories and writers take their database client as a parameter; create it in the query, Server Action or device hook",
         specifier,
       );
     }

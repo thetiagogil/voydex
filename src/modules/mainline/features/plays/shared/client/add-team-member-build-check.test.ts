@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/server/add-team-member-build-check";
+import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/client/add-team-member-build-check";
 
 const readBuild = vi.hoisted(() =>
   vi.fn().mockResolvedValue({

@@ -5,7 +5,7 @@ import {
 } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { readMainlinePlayCollectiblesAvailability } from "@/modules/mainline/features/plays/hub/server/play-collectibles-availability-reader";
 import { readPlayTracking } from "@/modules/mainline/features/plays/hub/server/play-tracking-reader";
-import { readRulePresets } from "@/modules/mainline/shared/server/rule-presets-reader";
+import { readRulePresets } from "@/modules/mainline/shared/client/rule-presets-reader";
 import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
 import { readTypeIntroductions } from "@/modules/reference/features/games/server/type-introduction-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";

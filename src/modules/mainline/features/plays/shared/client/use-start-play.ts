@@ -10,7 +10,7 @@ import {
   installLocalLearnsetsLater,
 } from "@/modules/mainline/features/plays/shared/client/local-play-game";
 import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
-import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/server/create-play-command";
+import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/client/create-play-command";
 import {
   NewPlayInputError,
   parseNewPlayInput,

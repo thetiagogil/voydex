@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/server/add-team-member-command";
-import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/server/create-play-command";
-import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/server/team-repository";
+import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/client/add-team-member-command";
+import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/client/create-play-command";
+import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/client/team-repository";
 import { parseNewPlayInput } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import { mainlineTeamRosterStates } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";

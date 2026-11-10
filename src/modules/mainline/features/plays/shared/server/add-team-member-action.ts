@@ -14,9 +14,9 @@ import {
   mainlineTeamRosterStates,
   MainlineTeamValidationError,
 } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
-import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/server/add-team-member-build-check";
-import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/server/add-team-member-command";
-import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/server/team-repository";
+import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/client/add-team-member-build-check";
+import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/client/add-team-member-command";
+import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/client/team-repository";
 import {
   findOpenRosterSlot,
   revalidateTeamPaths,

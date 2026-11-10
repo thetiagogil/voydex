@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
-import { setPlayArchived } from "@/modules/mainline/features/plays/shared/server/play-archive-command";
+import { setPlayArchived } from "@/modules/mainline/features/plays/shared/client/play-archive-command";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { safeParseInput } from "@/shared/utils/input-schemas";

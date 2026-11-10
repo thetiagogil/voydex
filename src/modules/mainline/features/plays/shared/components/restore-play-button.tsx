@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-import { setPlayArchived } from "@/modules/mainline/features/plays/shared/server/play-archive-command";
+import { setPlayArchived } from "@/modules/mainline/features/plays/shared/client/play-archive-command";
 import { localUserId } from "@/platform/local-db/device-schema";
 import { useLocalDb } from "@/platform/local-db/local-db-context";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

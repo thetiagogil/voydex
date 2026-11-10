@@ -18,7 +18,7 @@ import type {
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/server/play-moment-context-reader";
 import { readMainlinePlayTimelinePreview } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
-import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/server/play-library-reader";
+import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import { readNewPlayPickerData } from "@/modules/mainline/features/plays/shared/server/new-play-picker-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
 import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";

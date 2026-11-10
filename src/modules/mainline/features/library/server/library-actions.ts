@@ -12,7 +12,7 @@ import {
   renameChallengeRule,
   renameTag,
   saveRulePreset,
-} from "@/modules/mainline/shared/server/library-choice-commands";
+} from "@/modules/mainline/shared/client/library-choice-commands";
 import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import {
