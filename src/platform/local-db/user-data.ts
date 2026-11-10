@@ -112,19 +112,54 @@ const readColumns = async (tx: Transaction, table: string) => {
 const quoteName = (name: string) => `"${name.replaceAll('"', '""')}"`;
 
 /*
+ * The triggers that stamp a row (its updated_at, its Play's "last changed")
+ * rather than check it: off while rows go back as they were. The checks
+ * (a form the game allows, a fixed Tera Type) stay on.
+ */
+const stampingTriggers = async (tx: Transaction) => {
+  const { rows } = await tx.query<{ table_name: string; trigger: string }>(
+    `SELECT schemas.nspname || '.' || tables.relname AS table_name,
+       triggers.tgname AS trigger
+     FROM pg_trigger triggers
+     JOIN pg_class tables ON tables.oid = triggers.tgrelid
+     JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+     WHERE NOT triggers.tgisinternal
+       AND (triggers.tgname LIKE 'set\\_%\\_updated\\_at'
+         OR triggers.tgname = 'touch_play_after_change')
+       AND schemas.nspname || '.' || tables.relname = ANY ($1)`,
+    [userTables.map((table) => table.name)],
+  );
+
+  return rows;
+};
+
+const switchTriggers = async (
+  tx: Transaction,
+  triggers: { table_name: string; trigger: string }[],
+  mode: "DISABLE" | "ENABLE",
+) => {
+  for (const { table_name, trigger } of triggers) {
+    await tx.exec(
+      `ALTER TABLE ${table_name} ${mode} TRIGGER ${quoteName(trigger)}`,
+    );
+  }
+};
+
+/*
  * Replaces every row of yours with `data`, in one transaction: on any
  * failure (a row that breaks a rule, a game that isn't on the device) the
  * device keeps what it had. Rows go back exactly as they were: the
  * triggers that stamp times or move a Play's "last changed" are off
- * meanwhile, while foreign keys and checks still hold. A column the data
+ * meanwhile, while foreign keys, checks and the triggers that check a row
+ * still hold. A column the data
  * lacks takes its default; one the table lacks is left out.
  */
 export const replaceUserData = async (db: LocalDb, data: UserData) => {
   try {
     await db.transaction(async (tx) => {
-      for (const { name } of userTables) {
-        await tx.exec(`ALTER TABLE ${name} DISABLE TRIGGER USER`);
-      }
+      const triggers = await stampingTriggers(tx);
+
+      await switchTriggers(tx, triggers, "DISABLE");
 
       for (const table of [...userTables].reverse()) {
         await tx.exec(
@@ -151,9 +186,9 @@ export const replaceUserData = async (db: LocalDb, data: UserData) => {
         );
       }
 
-      for (const { name } of userTables) {
-        await tx.exec(`ALTER TABLE ${name} ENABLE TRIGGER USER`);
-      }
+      /* Deferred checks run now, so the triggers can come back on. */
+      await tx.exec("SET CONSTRAINTS ALL IMMEDIATE");
+      await switchTriggers(tx, triggers, "ENABLE");
     });
   } catch (error) {
     const cause = toLocalDbError(error);

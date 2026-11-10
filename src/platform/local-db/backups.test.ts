@@ -190,6 +190,40 @@ describe("backups on the device", () => {
     expect(rows[0].updated_at.toISOString()).toBe("2026-10-01T10:00:00.000Z");
   });
 
+  it("still checks rows against the game, and turns every trigger back on", async () => {
+    await addUserData(db);
+    await db.exec(`
+      SET session_replication_role = replica;
+      INSERT INTO reference.game_content_scopes (game_id, version_group_id, is_base_scope, sort_order)
+        VALUES (1, 1, TRUE, 1);
+      SET session_replication_role = origin;
+    `);
+
+    const { backup } = await makeBackupFile(db);
+    /* The base game isn't optional content: a trigger refuses it. */
+    const broken = {
+      ...backup,
+      tables: {
+        ...backup.tables,
+        "gameplay.mainline_play_optional_content_scopes": [
+          { game_id: 1, play_id: playId, version_group_id: 1 },
+        ],
+      },
+    };
+
+    await expect(
+      restoreBackup(db, broken, { ensureGame: async () => undefined }),
+    ).rejects.toThrow("doesn't fit");
+    await restoreBackup(db, backup, { ensureGame: async () => undefined });
+
+    const { rows } = await db.query<{ off: number }>(
+      `SELECT count(*)::int AS off FROM pg_trigger
+       WHERE NOT tgisinternal AND tgenabled = 'D'`,
+    );
+
+    expect(rows).toEqual([{ off: 0 }]);
+  });
+
   it("reminds you after 30 days without a backup", async () => {
     const status = await readBackupStatus(db);
     const later = (days: number, from: string) =>
