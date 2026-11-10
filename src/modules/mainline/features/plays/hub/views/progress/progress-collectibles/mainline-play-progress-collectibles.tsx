@@ -14,7 +14,7 @@ import { CollectiblesPageHead } from "./sections/head/collectibles-page-head";
 import {
   updateCollectibleEntryProgress,
   updateCollectibleEntryProgressBulk,
-} from "./server/collectibles-progress-action";
+} from "./client/collectibles-progress-action";
 import type {
   CollectibleSort,
   MainlinePlayCollectibleEntry,

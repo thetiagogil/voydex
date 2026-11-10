@@ -1,7 +1,4 @@
-import { notFound } from "next/navigation";
-
-import { getMainlinePlayProgressPokedexData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
-import { MainlinePlayProgressPokedex } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/mainline-play-progress-pokedex";
+import { PlayProgressPokedexRoute } from "@/modules/mainline/features/plays/hub/components/play-hub-routes";
 
 type MainlinePlayProgressPokedexRouteProps = {
   params: Promise<{
@@ -16,17 +13,10 @@ export default async function MainlinePlayProgressPokedexRoute({
   params,
   searchParams,
 }: MainlinePlayProgressPokedexRouteProps) {
-  const { playId } = await params;
-  const { pokedex } = await searchParams;
-  const data = await getMainlinePlayProgressPokedexData(playId);
-
-  if (!data) {
-    notFound();
-  }
+  const [{ playId }, { pokedex }] = await Promise.all([params, searchParams]);
 
   return (
-    <MainlinePlayProgressPokedex
-      data={data}
+    <PlayProgressPokedexRoute
       initialScopeSlug={typeof pokedex === "string" ? pokedex : undefined}
       playId={playId}
     />

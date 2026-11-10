@@ -19,7 +19,7 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import { followMainlinePlayPlanAction } from "../../server/follow-plan-action";
+import { followMainlinePlayPlanAction } from "../../client/follow-plan-action";
 
 /*
  * v3's "Follow a different Plan": your other Plans for this game in a quiet

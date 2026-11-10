@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
-vi.mock("../../server/play-settings-actions", () => ({
+vi.mock("../../client/play-settings-actions", () => ({
   updatePlayTrackingAction: vi.fn(),
 }));
 

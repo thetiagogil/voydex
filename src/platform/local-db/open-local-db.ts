@@ -5,6 +5,7 @@ import {
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
 import type { LocalDb } from "@/platform/local-db/local-db";
+import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import {
   DeviceProblemError,
   prepareDevice,
@@ -134,4 +135,24 @@ export const startFreshLocalDb = async (
   await deleteLocalDb();
 
   return openLocalDb(onStep);
+};
+
+let queryClient: {
+  client: ReturnType<typeof createLocalQueryClient>;
+  db: LocalDb;
+} | null = null;
+
+/*
+ * The opened device database behind the query interface the readers and
+ * commands take, for the device's own queries and actions. Screens run
+ * under the device gate, so it is already open when they ask.
+ */
+export const getLocalQueryClient = async () => {
+  const { db } = await openLocalDb();
+
+  if (queryClient?.db !== db) {
+    queryClient = { client: createLocalQueryClient(db), db };
+  }
+
+  return queryClient.client;
 };

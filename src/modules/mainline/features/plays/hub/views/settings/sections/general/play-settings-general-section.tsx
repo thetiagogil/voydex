@@ -14,7 +14,7 @@ import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
 import { PlayPlaytimeFields } from "@/modules/mainline/features/plays/hub/components/play-playtime-fields";
-import { updatePlayGeneralSettingsAction } from "../../server/play-settings-actions";
+import { updatePlayGeneralSettingsAction } from "../../client/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 import type { PlayGeneralSettingsInput } from "../../utils/play-settings-validation";
 

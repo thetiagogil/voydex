@@ -14,7 +14,7 @@ import { findUnofferedEditorChoice } from "@/modules/mainline/features/plays/sha
 import {
   readPokemonBuildOptions,
   type PokemonBuildPart,
-} from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
+} from "@/modules/mainline/features/plays/shared/client/pokemon-build-options-reader";
 
 export type AddedBuild = {
   abilityId: number | null;

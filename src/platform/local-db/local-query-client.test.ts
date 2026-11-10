@@ -156,9 +156,52 @@ describe("createLocalQueryClient", () => {
     expect(data?.claims.sub).toBe(localUserId);
   });
 
-  it("refuses an embedded select instead of guessing", async () => {
-    const { error } = await client.from("tags").select("id, plays(id)");
+  describe("embedded tables", () => {
+    const reference = () => client.schema("reference");
 
-    expect(error?.message).toContain("flat column lists");
+    beforeAll(async () => {
+      await db.exec(`
+        INSERT INTO reference.generations (id, slug, name, start_year, sort_order) VALUES
+          (1, 'generation-1', 'Generation I', 1996, 1),
+          (2, 'generation-2', 'Generation II', 1999, 2);
+        INSERT INTO reference.types (id, slug, name, introduced_generation_id, sort_order) VALUES
+          (1, 'normal', 'Normal', 1, 1), (2, 'fire', 'Fire', 1, 2), (3, 'dark', 'Dark', 2, 3);
+      `);
+    });
+
+    it("reads the row a foreign key points at, by its column", async () => {
+      const { data } = await reference()
+        .from("types")
+        .select(
+          "slug, generation:generations!introduced_generation_id(sort_order)",
+        )
+        .eq("slug", "dark")
+        .single();
+
+      expect(data).toEqual({ generation: { sort_order: 2 }, slug: "dark" });
+    });
+
+    it("reads the rows that point back as a list", async () => {
+      const { data } = await reference()
+        .from("generations")
+        .select("slug, types (slug)")
+        .order("sort_order");
+
+      expect(data).toEqual([
+        { slug: "generation-1", types: [{ slug: "normal" }, { slug: "fire" }] },
+        { slug: "generation-2", types: [{ slug: "dark" }] },
+      ]);
+    });
+
+    it("keeps only the rows whose embedded table matches a filter", async () => {
+      const { data } = await reference()
+        .from("types")
+        .select("slug, generations!inner(slug)")
+        .in("generations.slug", ["generation-2"]);
+
+      expect(data).toEqual([
+        { generations: { slug: "generation-2" }, slug: "dark" },
+      ]);
+    });
   });
 });

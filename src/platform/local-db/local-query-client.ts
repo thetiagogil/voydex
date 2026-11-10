@@ -18,7 +18,8 @@ import {
  * eq, neq, in, is, not(…, "is", …), lt, lte, gt, gte, contains and simple
  * `or` lists, order, range, limit, single, maybeSingle, exact counts,
  * insert, update, upsert and delete (with `.select()` for what they wrote),
- * and function calls. Embedded resources (`table(cols)`) are refused.
+ * function calls, and embedded tables (`alias:table!hint(cols)`, with
+ * `!inner` and filters on their columns) found through their foreign keys.
  */
 
 type Order = { ascending: boolean; column: string; nullsFirst?: boolean };
@@ -86,26 +87,120 @@ const failed = (error: LocalQueryError): LocalQueryResult => ({
   statusText: "Bad Request",
 });
 
-/* A column list as the API takes it: "*", or "a, b"; embeds are refused. */
+/* Splits a column list at its top-level commas, leaving embeds whole. */
+const splitColumns = (columns: string) => {
+  const parts: string[] = [];
+  let depth = 0;
+  let current = "";
+
+  for (const character of columns) {
+    if (character === "(") depth += 1;
+    if (character === ")") depth -= 1;
+
+    if (character === "," && depth === 0) {
+      parts.push(current.trim());
+      current = "";
+    } else {
+      current += character;
+    }
+  }
+
+  if (current.trim()) parts.push(current.trim());
+
+  return parts;
+};
+
+/* A plain column list, for RETURNING: "*", or "a, b". */
 const parseColumns = (columns: string) => {
   const trimmed = columns.trim();
 
   if (trimmed === "*" || trimmed === "") return "*";
 
-  return trimmed
-    .split(",")
-    .map((column) => {
-      const name = column.trim();
+  return splitColumns(trimmed).map(quote).join(", ");
+};
 
-      if (name.includes("(") || name.includes(":")) {
-        throw new Error(
-          `"${name}": the device runs flat column lists only; read the related table on its own.`,
-        );
-      }
+/*
+ * A related table read with its row, as the API embeds it:
+ * `alias:table!hint(a, b)`, where the hint names the foreign key column or
+ * says `inner` (only rows that have one).
+ */
+type Embed = {
+  alias: string;
+  columns: string[];
+  hint: string | null;
+  inner: boolean;
+  table: string;
+};
 
-      return quote(name);
-    })
-    .join(", ");
+const embedPattern =
+  /^(?:([a-z_][a-z0-9_]*):)?([a-z_][a-z0-9_]*)(?:!([a-z_][a-z0-9_]*))?\s*\(([^()]*)\)$/;
+
+const parseEmbed = (part: string): Embed | null => {
+  const match = embedPattern.exec(part);
+
+  if (!match) return null;
+
+  const [, alias, table, hint, columns] = match;
+
+  return {
+    alias: quote(alias ?? table),
+    columns: columns.trim() === "*" ? ["*"] : splitColumns(columns).map(quote),
+    hint: hint && hint !== "inner" ? hint : null,
+    inner: hint === "inner",
+    table: quote(table),
+  };
+};
+
+/* How a related table joins its row: one row (`base` points at it) or many. */
+type Relation = { condition: string; many: boolean };
+
+type ForeignKey = {
+  columns: string[];
+  from_base: boolean;
+  name: string;
+  ref_columns: string[];
+};
+
+const findRelation = async (
+  db: LocalDb,
+  base: string,
+  schema: string,
+  embed: Embed,
+): Promise<Relation> => {
+  const { rows } = await db.query<ForeignKey>(
+    `SELECT con.conname AS name, con.conrelid = $1::regclass AS from_base,
+       ARRAY(SELECT a.attname FROM unnest(con.conkey) WITH ORDINALITY k(n, i)
+         JOIN pg_attribute a ON a.attrelid = con.conrelid AND a.attnum = k.n ORDER BY k.i)::text[] AS columns,
+       ARRAY(SELECT a.attname FROM unnest(con.confkey) WITH ORDINALITY k(n, i)
+         JOIN pg_attribute a ON a.attrelid = con.confrelid AND a.attnum = k.n ORDER BY k.i)::text[] AS ref_columns
+     FROM pg_constraint con
+     WHERE con.contype = 'f'
+       AND ((con.conrelid = $1::regclass AND con.confrelid = $2::regclass)
+         OR (con.conrelid = $2::regclass AND con.confrelid = $1::regclass))`,
+    [base, `${schema}.${embed.table}`],
+  );
+  const hinted = embed.hint
+    ? rows.filter(
+        (key) => key.name === embed.hint || key.columns.includes(embed.hint!),
+      )
+    : rows;
+  const toOne = hinted.filter((key) => key.from_base);
+  const candidates = toOne.length ? toOne : hinted;
+
+  if (candidates.length !== 1) {
+    throw new Error(
+      `"${embed.table}" relates to "${base}" ${candidates.length ? "more than one way; add a hint" : "in no way the device knows"}.`,
+    );
+  }
+
+  const [key] = candidates;
+  const pairs = key.columns.map((column, index) =>
+    key.from_base
+      ? `related.${quote(key.ref_columns[index])} = base.${quote(column)}`
+      : `related.${quote(column)} = base.${quote(key.ref_columns[index])}`,
+  );
+
+  return { condition: pairs.join(" AND "), many: !key.from_base };
 };
 
 /* One `or` condition, like "is_legendary.eq.true" or "id.is.null". */
@@ -148,6 +243,43 @@ const parseOrCondition = (
   throw new Error(`"${condition}" isn't an or condition the device runs.`);
 };
 
+/* One API filter as a SQL condition on `name`. */
+const filterCondition = (
+  name: string,
+  operator: string,
+  value: unknown,
+  param: (value: unknown) => string,
+) => {
+  switch (operator) {
+    case "eq":
+      return value === null ? `${name} IS NULL` : `${name} = ${param(value)}`;
+    case "neq":
+      return `${name} <> ${param(value)}`;
+    case "in":
+      return `${name} = ANY (${param(value)})`;
+    case "is":
+      return value === null
+        ? `${name} IS NULL`
+        : `${name} IS ${value ? "TRUE" : "FALSE"}`;
+    case "is not":
+      return value === null
+        ? `${name} IS NOT NULL`
+        : `${name} IS NOT ${value ? "TRUE" : "FALSE"}`;
+    case "lt":
+      return `${name} < ${param(value)}`;
+    case "lte":
+      return `${name} <= ${param(value)}`;
+    case "gt":
+      return `${name} > ${param(value)}`;
+    case "gte":
+      return `${name} >= ${param(value)}`;
+    case "contains":
+      return `${name} @> ${param(value)}`;
+    default:
+      throw new Error(`"${operator}" isn't a filter the device runs.`);
+  }
+};
+
 class LocalQuery implements PromiseLike<LocalQueryResult> {
   private columns = "*";
   private count: "exact" | null = null;
@@ -161,10 +293,15 @@ class LocalQuery implements PromiseLike<LocalQueryResult> {
   private returning: string | null = null;
   private singleMode: "maybe" | "one" | null = null;
 
+  private readonly table: string;
+
   constructor(
     private readonly db: LocalDb,
-    private readonly table: string,
-  ) {}
+    private readonly schema: string,
+    table: string,
+  ) {
+    this.table = `${quote(schema)}.${quote(table)}`;
+  }
 
   select(columns = "*", options: { count?: "exact"; head?: boolean } = {}) {
     if (this.mutation) {
@@ -308,46 +445,78 @@ class LocalQuery implements PromiseLike<LocalQueryResult> {
     return this;
   }
 
-  private buildWhere(params: unknown[]) {
+  /* The select list, with each embedded table read as JSON beside its row. */
+  private async resolveSelect() {
+    const relations = new Map<string, Embed & Relation>();
+    const parts = this.columns.trim() ? splitColumns(this.columns) : ["*"];
+    const select: string[] = [];
+
+    for (const part of parts) {
+      const embed = parseEmbed(part);
+
+      if (!embed) {
+        select.push(part === "*" ? "base.*" : quote(part));
+        continue;
+      }
+
+      const relation = {
+        ...embed,
+        ...(await findRelation(this.db, this.table, this.schema, embed)),
+      };
+      const row = embed.columns.includes("*")
+        ? "row_to_json(related)"
+        : `json_build_object(${embed.columns
+            .map((column) => `'${column}', related.${column}`)
+            .join(", ")})`;
+      const from = `FROM ${quote(this.schema)}.${embed.table} related WHERE ${relation.condition}`;
+
+      relations.set(embed.alias, relation);
+      relations.set(embed.table, relation);
+      select.push(
+        relation.many
+          ? `COALESCE((SELECT json_agg(${row}) ${from}), '[]'::json) AS ${embed.alias}`
+          : `(SELECT ${row} ${from} LIMIT 1) AS ${embed.alias}`,
+      );
+    }
+
+    return { relations, select: select.join(", ") };
+  }
+
+  private buildWhere(
+    params: unknown[],
+    relations: ReadonlyMap<string, Embed & Relation> = new Map(),
+  ) {
     const param = (value: unknown) => {
       params.push(value);
 
       return `$${params.length}`;
     };
     const conditions = this.filters.map(({ column, operator, value }) => {
-      const name = quote(column);
+      /* A filter on an embedded table's column keeps the rows that match. */
+      const [owner, field] = column.includes(".")
+        ? column.split(".")
+        : [null, column];
+      const relation = owner ? relations.get(owner) : null;
 
-      switch (operator) {
-        case "eq":
-          return value === null
-            ? `${name} IS NULL`
-            : `${name} = ${param(value)}`;
-        case "neq":
-          return `${name} <> ${param(value)}`;
-        case "in":
-          return `${name} = ANY (${param(value)})`;
-        case "is":
-          return value === null
-            ? `${name} IS NULL`
-            : `${name} IS ${value ? "TRUE" : "FALSE"}`;
-        case "is not":
-          return value === null
-            ? `${name} IS NOT NULL`
-            : `${name} IS NOT ${value ? "TRUE" : "FALSE"}`;
-        case "lt":
-          return `${name} < ${param(value)}`;
-        case "lte":
-          return `${name} <= ${param(value)}`;
-        case "gt":
-          return `${name} > ${param(value)}`;
-        case "gte":
-          return `${name} >= ${param(value)}`;
-        case "contains":
-          return `${name} @> ${param(value)}`;
-        default:
-          throw new Error(`"${operator}" isn't a filter the device runs.`);
+      if (owner && !relation) {
+        throw new Error(`"${column}" filters a table this read doesn't embed.`);
       }
+
+      const name = relation ? `related.${quote(field)}` : quote(field);
+      const condition = filterCondition(name, operator, value, param);
+
+      return relation
+        ? `EXISTS (SELECT 1 FROM ${quote(this.schema)}.${relation.table} related WHERE ${relation.condition} AND ${condition})`
+        : condition;
     });
+
+    for (const relation of new Set(relations.values())) {
+      if (relation.inner) {
+        conditions.push(
+          `EXISTS (SELECT 1 FROM ${quote(this.schema)}.${relation.table} related WHERE ${relation.condition})`,
+        );
+      }
+    }
 
     for (const group of this.ors) {
       conditions.push(
@@ -452,31 +621,25 @@ class LocalQuery implements PromiseLike<LocalQueryResult> {
         return this.shape(this.returning === null ? null : rows);
       }
 
-      const where = this.buildWhere(params);
+      const { relations, select } = await this.resolveSelect();
+      const where = this.buildWhere(params, relations);
+      const from = `FROM ${this.table} AS base${where}`;
+      const readCount = async () =>
+        (
+          await this.db.query<{ count: number }>(
+            `SELECT count(*)::integer AS count ${from}`,
+            params,
+          )
+        ).rows[0]?.count ?? 0;
 
-      if (this.head) {
-        const { rows } = await this.db.query<{ count: number }>(
-          `SELECT count(*)::integer AS count FROM ${this.table}${where}`,
-          params,
-        );
-
-        return ok(null, rows[0]?.count ?? 0);
-      }
+      if (this.head) return ok(null, await readCount());
 
       const { rows } = await this.db.query(
-        `SELECT ${parseColumns(this.columns)} FROM ${this.table}${where}${this.buildOrder()}${this.buildPage()}`,
+        `SELECT ${select} ${from}${this.buildOrder()}${this.buildPage()}`,
         params,
         { parsers: rowParsers },
       );
-      const count =
-        this.count === "exact"
-          ? ((
-              await this.db.query<{ count: number }>(
-                `SELECT count(*)::integer AS count FROM ${this.table}${where}`,
-                params,
-              )
-            ).rows[0]?.count ?? 0)
-          : null;
+      const count = this.count === "exact" ? await readCount() : null;
 
       return this.shape(rows, count);
     } catch (error) {
@@ -558,8 +721,7 @@ const callLocalFunction = async (
 };
 
 const fromSchema = (db: LocalDb, schema: string) => ({
-  from: (table: string) =>
-    new LocalQuery(db, `${quote(schema)}.${quote(table)}`),
+  from: (table: string) => new LocalQuery(db, schema, table),
   rpc: (name: string, args?: Record<string, unknown>) =>
     callLocalFunction(db, schema, name, args),
 });

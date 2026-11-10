@@ -10,7 +10,7 @@ import { SettingsChoiceSection } from "@/shared/components/settings-choice-secti
 import {
   createPlayChallengeRuleAction,
   updatePlayChallengeRulesAction,
-} from "../../server/play-settings-actions";
+} from "../../client/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 
 /*

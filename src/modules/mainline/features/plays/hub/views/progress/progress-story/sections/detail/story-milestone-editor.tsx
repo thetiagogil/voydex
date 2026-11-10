@@ -20,7 +20,7 @@ import {
   type StoryMilestoneActionIntent,
   type StoryMilestoneActionState,
   updateStoryMilestoneAction,
-} from "../../server/story-milestone-action";
+} from "../../client/story-milestone-action";
 import type { StoryMilestone } from "../../types";
 import { getStoryRouteStopId } from "../route/story-route-stop";
 import { getStoryMilestoneEditorCopy } from "../../utils/story-milestone-editor";

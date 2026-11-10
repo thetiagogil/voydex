@@ -36,6 +36,17 @@ export type LocalDbSession = {
 
 export type LocalQueryClient = ServerSupabaseClient;
 
+/* Every provider on the page, told when a save lands so its reads run again. */
+const saveListeners = new Set<() => void>();
+
+/*
+ * Tells the screens a save landed, so every read on screen runs again: the
+ * device's stand-in for revalidating a page after a Server Action.
+ */
+export const notifyLocalSave = () => {
+  for (const listener of saveListeners) listener();
+};
+
 const LocalDbContext = createContext<LocalDbSession | null>(null);
 const RevisionContext = createContext(0);
 
@@ -56,11 +67,21 @@ export const LocalDbProvider = ({
         return await write(client);
       } finally {
         /* A failed save may still have changed nothing; reading again is cheap. */
-        setRevision((current) => current + 1);
+        notifyLocalSave();
       }
     },
     [client],
   );
+
+  useEffect(() => {
+    const listener = () => setRevision((current) => current + 1);
+
+    saveListeners.add(listener);
+
+    return () => {
+      saveListeners.delete(listener);
+    };
+  }, []);
   const session = useMemo(
     () => ({ client, db, save, versions }),
     [client, db, save, versions],

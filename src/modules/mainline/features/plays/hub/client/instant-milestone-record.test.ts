@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import type {
   PlayMilestoneRecordResult,
   PlayMilestoneUndoResult,
-} from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
+} from "@/modules/mainline/features/plays/hub/client/play-milestone-record-action";
 
 import {
   recordMilestoneInstantly,

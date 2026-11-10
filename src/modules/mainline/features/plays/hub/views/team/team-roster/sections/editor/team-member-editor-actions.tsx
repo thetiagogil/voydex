@@ -29,8 +29,8 @@ import {
   changeMainlinePlayPokemonFormAction,
   evolveMainlinePlayPokemonAction,
   retireMainlinePlayPokemonAction,
-} from "../../server/team-member-mutation-actions";
-import { removeMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/server/team-member-remove-actions";
+} from "../../client/team-member-mutation-actions";
+import { removeMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/client/team-member-remove-actions";
 import { IconTip } from "@/shared/components/icon-tip";
 
 type Confirm = "delete" | "retire" | null;

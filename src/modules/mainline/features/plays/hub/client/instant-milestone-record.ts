@@ -3,7 +3,7 @@ import type { ExternalToast } from "sonner";
 import type {
   PlayMilestoneRecordResult,
   PlayMilestoneUndoResult,
-} from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
+} from "@/modules/mainline/features/plays/hub/client/play-milestone-record-action";
 import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 
 export type RecordableMilestone = {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
-import { addMainlinePlayNoteAction } from "@/modules/mainline/features/plays/hub/server/play-note-action";
+import { addMainlinePlayNoteAction } from "@/modules/mainline/features/plays/hub/client/play-note-action";
 import { playNoteMaxLength } from "@/modules/mainline/features/plays/hub/utils/play-note-text";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";

@@ -7,7 +7,7 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import type { PokemonBuildOptions } from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
+import type { PokemonBuildOptions } from "@/modules/mainline/features/plays/shared/client/pokemon-build-options-reader";
 import type { TeamMemberEditorSupport } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {
   TeamMemberBuildFields,

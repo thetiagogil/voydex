@@ -19,7 +19,7 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import type {
   StoryMilestoneActionIntent,
   StoryMilestoneActionState,
-} from "../../server/story-milestone-action";
+} from "../../client/story-milestone-action";
 import type { StoryMilestone, StoryMilestoneRef } from "../../types";
 import type { StoryMilestoneEditorCopy } from "../../utils/story-milestone-editor";
 import { StoryMilestoneDecisionField } from "./story-milestone-decision-field";

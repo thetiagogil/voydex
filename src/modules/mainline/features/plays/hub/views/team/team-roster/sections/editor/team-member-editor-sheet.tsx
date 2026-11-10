@@ -23,8 +23,8 @@ import { Button } from "@/shared/components/ui/button";
 import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import { loadTeamMemberEditorOptionsAction } from "../../server/team-member-editor-options-action";
-import { updateMainlinePlayPokemonAction } from "../../server/team-member-mutation-actions";
+import { loadTeamMemberEditorOptionsAction } from "../../client/team-member-editor-options-action";
+import { updateMainlinePlayPokemonAction } from "../../client/team-member-mutation-actions";
 import {
   getTeamMemberEditorChanges,
   getTeamMemberEditorValues,

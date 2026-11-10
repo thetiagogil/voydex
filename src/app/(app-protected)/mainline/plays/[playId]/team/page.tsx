@@ -1,7 +1,4 @@
-import { notFound } from "next/navigation";
-
-import { getMainlinePlayTeamRosterData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
-import { MainlinePlayTeamRoster } from "@/modules/mainline/features/plays/hub/views/team/team-roster/mainline-play-team-roster";
+import { PlayTeamRosterRoute } from "@/modules/mainline/features/plays/hub/components/play-hub-routes";
 
 type MainlinePlayTeamRouteProps = {
   params: Promise<{
@@ -18,38 +15,22 @@ const firstValue = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value[0] : value;
 
 /*
- * `?add=` opens Add Pokémon (`appRoutes.mainlinePlayTeamAdd`): empty for
- * the picker, a species slug (with an optional `&form=`) for that Pokémon.
+ * `?pokemon=` opens the Roster on that Pokémon. `?add=` opens Add Pokémon
+ * (`appRoutes.mainlinePlayTeamAdd`): empty for the picker, a species slug
+ * (with an optional `&form=`) for that Pokémon.
  */
 export default async function MainlinePlayTeamRoute({
   params,
   searchParams,
 }: MainlinePlayTeamRouteProps) {
   const [{ playId }, query] = await Promise.all([params, searchParams]);
-  const pokemon = firstValue(query.pokemon);
-  const data = await getMainlinePlayTeamRosterData(playId, pokemon ?? null);
-
-  if (!data) {
-    notFound();
-  }
-
-  const add = firstValue(query.add);
-  const form = firstValue(query.form);
 
   return (
-    <MainlinePlayTeamRoster
-      /* A new `?pokemon=` (the Play head's rule sheet) selects it afresh. */
-      key={pokemon ?? ""}
-      addRequest={
-        add === undefined
-          ? null
-          : {
-              preset: add ? { formSlug: form || null, speciesSlug: add } : null,
-            }
-      }
-      data={data}
-      initialPokemonId={pokemon ?? null}
+    <PlayTeamRosterRoute
+      add={firstValue(query.add)}
+      form={firstValue(query.form)}
       playId={playId}
+      pokemon={firstValue(query.pokemon)}
     />
   );
 }

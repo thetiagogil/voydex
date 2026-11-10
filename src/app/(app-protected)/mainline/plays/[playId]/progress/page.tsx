@@ -1,7 +1,4 @@
-import { redirect } from "next/navigation";
-
-import { appRoutes } from "@/config/routes";
-import { getMainlinePlayTracking } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
+import { PlayProgressRoute } from "@/modules/mainline/features/plays/hub/components/play-hub-routes";
 
 type MainlinePlayProgressRouteProps = {
   params: Promise<{
@@ -9,17 +6,11 @@ type MainlinePlayProgressRouteProps = {
   }>;
 };
 
+/* Progress opens on Story, or on the Pokédex for a Play that doesn't track it. */
 export default async function MainlinePlayProgressRoute({
   params,
 }: MainlinePlayProgressRouteProps) {
   const { playId } = await params;
 
-  /* Progress opens on Story, or on the Pokédex when this Play doesn't track Story. */
-  const tracking = await getMainlinePlayTracking(playId);
-
-  redirect(
-    tracking.story
-      ? appRoutes.mainlinePlayProgressStory(playId)
-      : appRoutes.mainlinePlayProgressPokedex(playId),
-  );
+  return <PlayProgressRoute playId={playId} />;
 }

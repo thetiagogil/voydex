@@ -14,7 +14,7 @@ const readBuild = vi.hoisted(() =>
 );
 
 vi.mock(
-  "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader",
+  "@/modules/mainline/features/plays/shared/client/pokemon-build-options-reader",
   () => ({
     readPokemonBuildOptions: readBuild,
   }),

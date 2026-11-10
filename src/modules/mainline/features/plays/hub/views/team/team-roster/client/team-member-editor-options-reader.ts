@@ -1,0 +1,279 @@
+import {
+  getChangeableFormIds,
+  resolveFormClasses,
+} from "@/modules/reference/features/pokemon/domain/form-classes";
+import {
+  readFormClassById,
+  readHeldItemForms,
+} from "@/modules/reference/features/pokemon/server/form-class-reader";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import { readPokeBallOptions } from "@/modules/mainline/shared/server/build-option-readers";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+
+import type {
+  EditorFormOption,
+  TeamMemberEditorOptions,
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
+import { readPokemonBuildOptions } from "@/modules/mainline/features/plays/shared/client/pokemon-build-options-reader";
+
+const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
+  rows.toSorted(
+    (left, right) => right.generation_start_id - left.generation_start_id,
+  );
+
+/*
+ * Everything the editor offers: the build (natures, abilities, held items,
+ * moves), Poké Balls and Tera Types, and the forms it can evolve or change to.
+ */
+export const readTeamMemberEditorOptions = async (
+  supabase: ServerSupabaseClient,
+  {
+    formId,
+    gameId,
+    generationId,
+    mechanics,
+    playId,
+    speciesId,
+    versionGroupId,
+  }: {
+    formId: number;
+    gameId: number;
+    generationId: number;
+    mechanics: GameMechanicsProfile;
+    playId: string;
+    speciesId: number;
+    versionGroupId: number;
+  },
+): Promise<TeamMemberEditorOptions> => {
+  const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+  const hasTerastal = supportsGameMechanic(mechanics, gameMechanics.terastal);
+  const [
+    build,
+    edgesResult,
+    speciesFormsResult,
+    formClassById,
+    teraTypesResult,
+    contentScopesResult,
+  ] = await Promise.all([
+    readPokemonBuildOptions(supabase, {
+      formId,
+      gameId,
+      generationId,
+      mechanics,
+      playId,
+      versionGroupId,
+    }),
+    supabase
+      .schema("reference")
+      .from("pokemon_evolution_edges")
+      .select(
+        "from_form_id, introduced_generation_id, to_form_id, to_species_id, version_group_id",
+      )
+      .eq("from_form_id", formId)
+      .lte("introduced_generation_id", generationId),
+    supabase
+      .schema("reference")
+      .from("pokemon_forms")
+      .select("id, name, slug, species_id")
+      .eq("species_id", speciesId)
+      .order("form_order", { ascending: true }),
+    readFormClassById(supabase, [speciesId]),
+    hasTerastal
+      ? supabase
+          .schema("reference")
+          .from("tera_types")
+          .select("id, name, introduced_version_group_id")
+          .order("sort_order", { ascending: true })
+      : null,
+    /* The add-ons the Play includes: their balls and Stellar. */
+    supabase
+      .schema("gameplay")
+      .from("mainline_play_optional_content_scopes")
+      .select("version_group_id")
+      .eq("play_id", playId),
+  ]);
+
+  if (
+    edgesResult.error ||
+    speciesFormsResult.error ||
+    teraTypesResult?.error ||
+    contentScopesResult.error
+  ) {
+    throw new Error("Unable to load what this Pokémon can record.");
+  }
+
+  const playVersionGroupIds = [
+    versionGroupId,
+    ...(contentScopesResult.data ?? []).map((scope) => scope.version_group_id),
+  ];
+  /* What it evolves into in this Play's games, out of what the game hands out. */
+  const availabilityResult = edgesResult.data?.length
+    ? await supabase
+        .schema("views")
+        .from("reference_resolved_pokemon_availability")
+        .select("form_id, species_id")
+        .in("target_version_group_id", playVersionGroupIds)
+        .in("species_id", [
+          ...new Set(edgesResult.data.map((edge) => edge.to_species_id)),
+        ])
+    : null;
+  if (availabilityResult?.error) {
+    throw new Error("Unable to load what this Pokémon can record.");
+  }
+  const availableTargetFormIds = new Set<number>();
+  const speciesWideIds = new Set<number>();
+  for (const row of availabilityResult?.data ?? []) {
+    if (row.form_id !== null) availableTargetFormIds.add(row.form_id);
+    else if (row.species_id !== null) speciesWideIds.add(row.species_id);
+  }
+  for (const edge of edgesResult.data ?? []) {
+    if (speciesWideIds.has(edge.to_species_id))
+      availableTargetFormIds.add(edge.to_form_id);
+  }
+  const edges = selectEvolutionEdgesInForce({
+    availableFormIds: availableTargetFormIds,
+    edges: edgesResult.data ?? [],
+    generationOrder: generationId,
+    versionGroupIds: playVersionGroupIds,
+  });
+  const speciesForms = speciesFormsResult.data ?? [];
+  const changeableFormIds = getChangeableFormIds(
+    speciesForms,
+    resolveFormClasses(speciesForms, formClassById),
+    formId,
+  );
+  const targetFormIds = [
+    ...new Set([...edges.map((edge) => edge.to_form_id), ...changeableFormIds]),
+  ];
+
+  const [
+    balls,
+    targetFormsResult,
+    targetAttributesResult,
+    typesResult,
+    heldItemForms,
+  ] = await Promise.all([
+    readPokeBallOptions(supabase, {
+      gameIds: [gameId],
+      versionGroupIds: playVersionGroupIds,
+    }),
+    targetFormIds.length
+      ? supabase
+          .schema("reference")
+          .from("pokemon_forms")
+          .select("id, name, slug, species_id")
+          .in("id", targetFormIds)
+      : null,
+    targetFormIds.length
+      ? supabase
+          .schema("reference")
+          .from("pokemon_attributes")
+          .select(
+            "form_id, generation_start_id, primary_type_id, secondary_type_id",
+          )
+          .in("form_id", targetFormIds)
+          .lte("generation_start_id", generationId)
+      : null,
+    targetFormIds.length
+      ? supabase.schema("reference").from("types").select("id, name, slug")
+      : null,
+    /* Without held items (Legends: Arceus), any form is picked by hand. */
+    hasHeldItems
+      ? readHeldItemForms(supabase, {
+          formIds: changeableFormIds,
+          generationId,
+          versionGroupId,
+        })
+      : new Map<number, string[]>(),
+  ]);
+
+  if (
+    targetFormsResult?.error ||
+    targetAttributesResult?.error ||
+    typesResult?.error
+  ) {
+    throw new Error("Unable to load what this Pokémon can record.");
+  }
+
+  /* Each target's attributes in this generation, newest first. */
+  const attributeByFormId = new Map(
+    newestFirst(targetAttributesResult?.data ?? [])
+      .toReversed()
+      .map((row) => [row.form_id, row]),
+  );
+  const typeById = new Map(
+    (typesResult?.data ?? []).map((type) => [type.id, type]),
+  );
+  /*
+   * A form a held item selects can't be picked: it says which item, and the
+   * default of such a Pokémon follows its held item too.
+   */
+  const followsHeldItem = (targetFormId: number) => {
+    const items = heldItemForms.get(targetFormId);
+
+    if (items?.length) {
+      return `Hold ${items.join(" or ")}`;
+    }
+
+    return heldItemForms.size && !formClassById.has(targetFormId)
+      ? "Follows its held item"
+      : null;
+  };
+  const toFormOption = (form: {
+    id: number;
+    name: string;
+    species_id: number;
+    slug: string | null;
+  }): EditorFormOption => {
+    const attribute = attributeByFormId.get(form.id);
+
+    return {
+      formId: form.id,
+      heldItemNote:
+        form.species_id === speciesId ? followsHeldItem(form.id) : null,
+      imageUrl: getPokemonFormImageUrl(form, "sm"),
+      name: form.name,
+      speciesId: form.species_id,
+      types: [attribute?.primary_type_id, attribute?.secondary_type_id].flatMap(
+        (typeId) => {
+          const type = typeId ? typeById.get(typeId) : undefined;
+
+          return type ? [{ name: type.name, slug: type.slug }] : [];
+        },
+      ),
+    };
+  };
+  const targetForms = (targetFormsResult?.data ?? []).filter((form) =>
+    attributeByFormId.has(form.id),
+  );
+  return {
+    ...build,
+    balls,
+    evolutions: edges.flatMap((edge) => {
+      const form = targetForms.find((item) => item.id === edge.to_form_id);
+      return form ? [toFormOption(form)] : [];
+    }),
+    forms: changeableFormIds.flatMap((id) => {
+      const form = targetForms.find((item) => item.id === id);
+
+      return form ? [toFormOption(form)] : [];
+    }),
+    /* Stellar only when the Play includes The Indigo Disk. */
+    teraTypes: (teraTypesResult?.data ?? [])
+      .filter(
+        (teraType) =>
+          teraType.introduced_version_group_id === versionGroupId ||
+          (contentScopesResult.data ?? []).some(
+            (scope) =>
+              scope.version_group_id === teraType.introduced_version_group_id,
+          ),
+      )
+      .map(({ id, name }) => ({ id, name })),
+  };
+};

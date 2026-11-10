@@ -10,7 +10,7 @@ import { SettingsChoiceSection } from "@/shared/components/settings-choice-secti
 import { SettingsRow } from "@/shared/components/settings-row";
 import { SettingsSwitchRow } from "@/shared/components/settings-switch-row";
 
-import { updatePlayTrackingAction } from "../../server/play-settings-actions";
+import { updatePlayTrackingAction } from "../../client/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 
 /*

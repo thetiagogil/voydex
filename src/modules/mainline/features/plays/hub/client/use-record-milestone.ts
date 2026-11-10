@@ -8,7 +8,7 @@ import {
   recordMainlinePlayMilestoneAction,
   recordMainlinePlayMilestoneTeamAction,
   undoMainlinePlayMilestoneAction,
-} from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
+} from "@/modules/mainline/features/plays/hub/client/play-milestone-record-action";
 import {
   recordMilestoneInstantly,
   type InstantRecordOptions,
