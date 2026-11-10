@@ -143,16 +143,20 @@ export const restoreBackup = async (
   });
 };
 
+/* "today", "yesterday" or "3 days ago". */
+export const describeDaysAgo = (iso: string, now = new Date()) => {
+  const days = daysSince(iso, now);
+
+  if (days === 0) return "today";
+
+  return days === 1 ? "yesterday" : `${days} days ago`;
+};
+
 /* "Last backup today", "Last backup 3 days ago", or "No backup yet". */
 export const describeLastBackup = (
   lastBackupAt: string | null,
   now = new Date(),
-) => {
-  if (!lastBackupAt) return "No backup yet";
-
-  const days = daysSince(lastBackupAt, now);
-
-  if (days === 0) return "Last backup today";
-
-  return days === 1 ? "Last backup yesterday" : `Last backup ${days} days ago`;
-};
+) =>
+  lastBackupAt
+    ? `Last backup ${describeDaysAgo(lastBackupAt, now)}`
+    : "No backup yet";

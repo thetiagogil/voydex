@@ -30,6 +30,26 @@ import {
  */
 const pgcryptoStatement = "CREATE EXTENSION IF NOT EXISTS pgcrypto;";
 
+/*
+ * Hosted Supabase's own part of the schema (account backups and their
+ * storage folder): the device leaves it out.
+ */
+const hostedOnlySource = "-- Source: database/schema/07_backups/";
+
+/* The migration without its hosted-only files, by their Source headers. */
+export function stripHostedOnly(migrationSql) {
+  const rule =
+    "-- ============================================================================";
+  const parts = migrationSql.split(`${rule}\n-- Source: `);
+
+  return [
+    parts[0],
+    ...parts
+      .slice(1)
+      .filter((part) => !`-- Source: ${part}`.startsWith(hostedOnlySource)),
+  ].join(`${rule}\n-- Source: `);
+}
+
 const updateNamePattern = /^[0-9]{4}-[a-z0-9]+(?:-[a-z0-9]+)*\.sql$/;
 
 const checkUpdateName = (name) => {
@@ -53,7 +73,7 @@ export function buildDeviceSchemaSql({
   migrationSql,
   updateNames = [],
 }) {
-  const schemaSql = migrationSql.replace(
+  const schemaSql = stripHostedOnly(migrationSql).replace(
     pgcryptoStatement,
     "-- pgcrypto: left out on the device, nothing uses it.",
   );

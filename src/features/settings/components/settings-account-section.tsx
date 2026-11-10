@@ -2,6 +2,7 @@ import {
   ChangeEmailDialog,
   ChangePasswordDialog,
 } from "@/features/settings/components/account-change-dialogs";
+import { SettingsSyncRow } from "@/features/settings/components/settings-sync-row";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { SettingsRow } from "@/shared/components/settings-row";
@@ -13,7 +14,10 @@ type SettingsAccountSectionProps = {
   signOutAction: () => Promise<void>;
 };
 
-/* v3's Account section: your email, your password, and Log out on this device. */
+/*
+ * v3's Account section: your email, your password, account sync, and Log
+ * out on this device.
+ */
 export const SettingsAccountSection = ({
   email,
   signOutAction,
@@ -28,6 +32,7 @@ export const SettingsAccountSection = ({
     <SettingsRow title="Password" description="The one you log in with">
       <ChangePasswordDialog />
     </SettingsRow>
+    <SettingsSyncRow />
     <SettingsRow title="Log out" description="On this device">
       <form action={signOutAction}>
         <SettingsLogOutButton className={SETTINGS_ACTION_CLASS_NAME} />

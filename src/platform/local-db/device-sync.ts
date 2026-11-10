@@ -1,4 +1,4 @@
-import type { LocalDb } from "@/platform/local-db/local-db";
+import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import {
   mergeSnapshots,
   type Clash,
@@ -145,4 +145,44 @@ export const syncDevice = async (
   await markSynced(db, latestChange(snapshot));
 
   return { backupId: uploaded.id, status: "synced" };
+};
+
+/*
+ * This device's sync state for an account. A device that synced with
+ * another account before starts over with this one: none of its records
+ * count as synced.
+ */
+export const readDeviceSyncState = async (
+  db: LocalDb,
+  accountId: string,
+): Promise<SyncState> => {
+  const [row] = await runQuery<{
+    account_id: string | null;
+    backup_id: string | null;
+    restored: boolean;
+  }>(db, "SELECT account_id, backup_id, restored FROM device.sync");
+
+  if (row?.account_id === accountId) {
+    return { backupId: row.backup_id, restored: row.restored };
+  }
+
+  if (row?.account_id) {
+    await db.query("UPDATE device.changes SET base_changed_at = NULL");
+  }
+
+  return { backupId: null, restored: row?.restored ?? false };
+};
+
+export const saveDeviceSyncState = async (
+  db: LocalDb,
+  { accountId, backupId }: { accountId: string; backupId: string },
+) => {
+  await db.query(
+    `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
+     VALUES ($1, $2, NOW(), FALSE)
+     ON CONFLICT (id) DO UPDATE SET account_id = EXCLUDED.account_id,
+       backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
+       restored = FALSE`,
+    [accountId, backupId],
+  );
 };

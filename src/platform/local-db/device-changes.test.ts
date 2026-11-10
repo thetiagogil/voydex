@@ -31,15 +31,20 @@ describe("change records", () => {
 
   afterEach(() => db.close());
 
-  it("records the new device's own profile", async () => {
-    await expect(readChanges(db, "public.profiles")).resolves.toEqual([
-      {
-        column_name: "",
-        deleted: false,
-        row_key: '["00000000-0000-4000-8000-000000000001"]',
-        table_name: "public.profiles",
-      },
-    ]);
+  it("starts a new device with no records: its own profile isn't a change", async () => {
+    await expect(readChanges(db, "public.profiles")).resolves.toEqual([]);
+  });
+
+  it("records a change to the profile once you make one", async () => {
+    await db.query(
+      "UPDATE public.profiles SET display_name = 'Red' WHERE id = auth.uid()",
+    );
+
+    await expect(readChanges(db, "public.profiles")).resolves.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ column_name: "display_name" }),
+      ]),
+    );
   });
 
   it("records an added row, then each column that changes", async () => {

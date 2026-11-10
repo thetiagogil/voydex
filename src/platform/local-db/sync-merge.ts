@@ -414,11 +414,15 @@ const mergeFields = (
           ? "remote"
           : "local";
     } else {
+      /*
+       * A value with no record at all was never changed by you: a new
+       * device's own profile, or data from before records. It gives way.
+       */
       const localChanged =
-        !localClock ||
+        localClock !== null &&
         !sameTime(localClock.changedAt, localClock.baseChangedAt);
       const remoteChanged =
-        !remoteClock ||
+        remoteClock !== null &&
         !sameTime(remoteClock.changedAt, localBase(merger, id, column));
       const clashId = `field:${table}:${key}:${column}`;
 
