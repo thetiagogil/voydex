@@ -11,9 +11,12 @@ import { createTestDb } from "@/platform/local-db/local-db-test-support";
 import {
   hashDeviceSchemaSql,
   readDeviceSchemaSql,
+  readDeviceUpdateFiles,
 } from "../../../scripts/database/device-schema.mjs";
 
 const schemaSql = readDeviceSchemaSql();
+/* The updates today's schema already holds, recorded on a new device. */
+const shipped = readDeviceUpdateFiles().map((update) => update.name);
 const schemaHash = hashDeviceSchemaSql(schemaSql);
 const openDbs: PGlite[] = [];
 
@@ -80,7 +83,7 @@ describe("runDeviceUpdates", () => {
         colour: "blue",
         name: "Nuzlocke",
         schema_hash: "new-hash",
-        updates: [addColour.name],
+        updates: [...shipped, addColour.name],
       },
     ]);
   });
@@ -130,7 +133,7 @@ describe("runDeviceUpdates", () => {
     );
 
     expect(rows).toEqual([
-      { colour_columns: 0, schema_hash: schemaHash, updates: 0 },
+      { colour_columns: 0, schema_hash: schemaHash, updates: shipped.length },
     ]);
   });
 

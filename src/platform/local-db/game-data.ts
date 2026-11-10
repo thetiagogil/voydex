@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { readMaybeGzippedText } from "@/platform/local-db/gzip";
 import {
   LocalDbError,
   runQuery,
@@ -100,8 +101,6 @@ const parseGameDataFile = (value: unknown): GameDataFile => {
   return result.data;
 };
 
-const isGzip = (bytes: Uint8Array) => bytes[0] === 0x1f && bytes[1] === 0x8b;
-
 const sha256Hex = async (text: string) => {
   const digest = await crypto.subtle.digest(
     "SHA-256",
@@ -122,13 +121,7 @@ export const readGameDataFile = async (
   bytes: Uint8Array,
   entry: Pick<GameDataFileEntry, "hash" | "name">,
 ): Promise<GameDataFile> => {
-  const text = isGzip(bytes)
-    ? await new Response(
-        new Blob([bytes as BlobPart])
-          .stream()
-          .pipeThrough(new DecompressionStream("gzip")),
-      ).text()
-    : new TextDecoder().decode(bytes);
+  const text = await readMaybeGzippedText(bytes);
 
   if ((await sha256Hex(text)) !== entry.hash) {
     throw new LocalDbError(

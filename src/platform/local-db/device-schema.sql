@@ -51,3 +51,10 @@ CREATE TABLE device.updates (
     name text PRIMARY KEY,
     applied_at timestamptz NOT NULL DEFAULT NOW()
 );
+
+-- When this device last saved a backup: as a file, or to the account. The
+-- quiet "Last backup" note reads it.
+CREATE TABLE device.backups (
+    kind text PRIMARY KEY CHECK (kind IN ('file', 'account')),
+    saved_at timestamptz NOT NULL
+);

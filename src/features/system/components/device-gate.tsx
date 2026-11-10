@@ -1,9 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
+import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import { LocalDbProvider } from "@/platform/local-db/local-db-context";
 import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
 
@@ -14,6 +15,8 @@ import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
  */
 export const DeviceGate = ({ children }: { children: ReactNode }) => {
   const { retry, startFresh, state } = useOpenLocalDb();
+
+  useEffect(listenForInstallPrompt, []);
 
   if (state.status === "opening") {
     return <DeviceStartState step={state.step} />;

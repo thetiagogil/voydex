@@ -35,3 +35,19 @@ export const readLocalStorageStatus = async (): Promise<LocalStorageStatus> => {
 /* Asks the browser to keep the data; resolves to whether it agreed. */
 export const requestPersistentStorage = async () =>
   navigator.storage?.persist ? navigator.storage.persist() : false;
+
+/*
+ * Apps that open links in their own browser (Instagram, Facebook, TikTok,
+ * LinkedIn, Snapchat, Line, WeChat) keep a site's data only for a while, if
+ * at all; Voydex asks you to open it in your real browser there.
+ */
+const inAppBrowserPattern =
+  /\b(FBAN|FBAV|FB_IAB|Instagram|BytedanceWebview|musical_ly|TikTok|LinkedInApp|Snapchat|Line\/|MicroMessenger|Twitter)\b/i;
+
+export const isInAppBrowser = (userAgent: string) =>
+  inAppBrowserPattern.test(userAgent);
+
+/* An iPhone or iPad, where installing is Share, then Add to Home Screen. */
+export const isAppleMobile = (userAgent: string, maxTouchPoints: number) =>
+  /iPhone|iPad|iPod/.test(userAgent) ||
+  (/Macintosh/.test(userAgent) && maxTouchPoints > 1);
