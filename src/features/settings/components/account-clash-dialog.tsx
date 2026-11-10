@@ -18,7 +18,9 @@ import type { Clash, MergeChoices, Side } from "@/platform/local-db/sync-merge";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Button } from "@/shared/components/ui/button";
-import { Field, FieldContent, FieldLabel } from "@/shared/components/ui/field";
+import { IconDisc } from "@/shared/components/icon-disc";
+import { PickedMark } from "@/shared/components/picked-mark";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 
 type Device = { label: string; name: string | null };
@@ -63,29 +65,39 @@ const ClashChoice = ({
           const changedAt = changedAtOf(clash, side);
 
           return (
-            <FieldLabel key={side} htmlFor={`${titleId}-${side}`}>
-              <Field orientation="horizontal" className="min-h-20 gap-3">
-                <RadioGroupItem
-                  id={`${titleId}-${side}`}
-                  value={side}
-                  className="mt-0.5"
-                />
-                <FieldContent className="gap-1">
-                  <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold">
+            <FieldLabel
+              key={side}
+              htmlFor={`${titleId}-${side}`}
+              className="relative"
+            >
+              {/* The card is the control; the picked mark shows the pick. */}
+              <span className="sr-only">
+                <RadioGroupItem id={`${titleId}-${side}`} value={side} />
+              </span>
+              {choice === side ? (
+                <PickedMark size="sm" className="top-3 right-3" />
+              ) : null}
+              <Field className="gap-0">
+                <span className="flex items-center gap-2.5 pr-8">
+                  <IconDisc size="sm">
                     <AppIcon
                       icon={appIcons.devices[deviceKind(devices[side].name)]}
                     />
-                    {devices[side].label}
-                  </span>
-                  <span className="text-15 font-extrabold wrap-anywhere">
-                    {options[side]}
-                  </span>
-                  {changedAt ? (
-                    <span className="text-ink-3 text-13 font-semibold">
-                      {describeChangedAt(changedAt)}
+                  </IconDisc>
+                  <span className="flex min-w-0 flex-col">
+                    <span className="text-14 font-extrabold">
+                      {devices[side].label}
                     </span>
-                  ) : null}
-                </FieldContent>
+                    {changedAt ? (
+                      <span className="text-ink-2 text-13 font-semibold">
+                        {describeChangedAt(changedAt)}
+                      </span>
+                    ) : null}
+                  </span>
+                </span>
+                <span className="border-line text-16 mt-3 border-t pt-3 font-extrabold wrap-anywhere">
+                  {options[side]}
+                </span>
               </Field>
             </FieldLabel>
           );
