@@ -9,7 +9,9 @@
     "postcss": "8.5.15"
   },
   "scripts": {
+    "predev": "node scripts/database/device-schema.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/database/device-schema.mjs",
     "build": "next build",
     "start": "next start",
     "cf:build": "opennextjs-cloudflare build",

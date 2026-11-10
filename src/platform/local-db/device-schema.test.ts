@@ -2,45 +2,21 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import {
-  buildDeviceSchemaSql,
   ensureDeviceSchema,
   hashSchemaSql,
   localUserId,
 } from "@/platform/local-db/device-schema";
 import {
-  readDeviceSchemaHash,
+  hashDeviceSchemaSql,
   readDeviceSchemaSql,
-} from "@/platform/local-db/device-schema-source";
+} from "../../../scripts/database/device-schema.mjs";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
-
-describe("buildDeviceSchemaSql", () => {
-  it("puts the device schema first and leaves pgcrypto out", () => {
-    const sql = buildDeviceSchemaSql({
-      deviceSql: "CREATE SCHEMA device;\n",
-      migrationSql:
-        "CREATE EXTENSION IF NOT EXISTS pgcrypto;\nCREATE SCHEMA reference;",
-    });
-
-    expect(sql.startsWith("CREATE SCHEMA device;")).toBe(true);
-    expect(sql).not.toMatch(/CREATE EXTENSION/i);
-    expect(sql).toContain("CREATE SCHEMA reference;");
-  });
-
-  it("refuses a schema that needs another extension", () => {
-    expect(() =>
-      buildDeviceSchemaSql({
-        deviceSql: "",
-        migrationSql: "CREATE EXTENSION IF NOT EXISTS postgis;",
-      }),
-    ).toThrow("postgis");
-  });
-});
 
 describe("ensureDeviceSchema", () => {
   let db: PGlite;
   const schemaSql = readDeviceSchemaSql();
   const schema = {
-    hash: readDeviceSchemaHash(),
+    hash: hashDeviceSchemaSql(schemaSql),
     readSql: () => Promise.resolve(schemaSql),
   };
 

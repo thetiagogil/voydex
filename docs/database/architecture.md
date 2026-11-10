@@ -60,11 +60,12 @@ issues (#245 to #248) move it to this target:
 - `device-schema.sql` runs first on a new device: the `anon`,
   `authenticated` and `service_role` roles, a small `auth.users` and
   `auth.uid()`, and the `device` schema that records the installed schema's
-  hash and the imported game files. The built migration follows in the same
-  transaction, without its `CREATE EXTENSION pgcrypto` (nothing uses it, and
-  the device would download 1 MB for it). The app serves both, built at
-  build time, at `/local-db/schema.sql` and `/local-db/schema-hash.txt`; a
-  returning device only compares the hash.
+  hash and the imported game files. The built migration follows in the
+  same transaction, without its `CREATE EXTENSION pgcrypto` (nothing uses
+  it, and the device would download 1 MB for it).
+  `scripts/database/device-schema.mjs` writes both, with their hash, to
+  `public/local-db/` before every `dev` and `build`; a returning device only
+  fetches the hash.
 - `npm run local-db:game-file [slug|all]` builds a game data file without
   Docker: it loads the schema and the seeds (no development fixtures) into an
   in-memory PGlite, keeps the shared rows plus one version group and its

@@ -14,9 +14,9 @@ import {
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
 import {
-  readDeviceSchemaHash,
+  hashDeviceSchemaSql,
   readDeviceSchemaSql,
-} from "@/platform/local-db/device-schema-source";
+} from "../../../scripts/database/device-schema.mjs";
 
 const gameFile: GameFile = {
   builtAt: "2026-11-09T22:00:00.000Z",
@@ -47,7 +47,7 @@ const gameFile: GameFile = {
 };
 
 const deviceSchema = {
-  hash: readDeviceSchemaHash(),
+  hash: hashDeviceSchemaSql(readDeviceSchemaSql()),
   readSql: () => Promise.resolve(readDeviceSchemaSql()),
 };
 

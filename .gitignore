@@ -61,5 +61,6 @@ next-env.d.ts
 /e2e/.results/
 /e2e/.report/
 
-# device game data files (npm run local-db:game-file)
+# device game data files (npm run local-db:game-file) and schema (prebuild)
 /public/game-data/
+/public/local-db/

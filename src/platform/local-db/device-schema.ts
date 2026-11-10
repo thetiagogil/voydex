@@ -8,40 +8,6 @@ import {
 /* The one local user; `auth.uid()` in device-schema.sql returns this id. */
 export const localUserId = "00000000-0000-4000-8000-000000000001";
 
-/*
- * The schema asks for pgcrypto, but nothing in it uses pgcrypto (Postgres
- * has gen_random_uuid() built in). The device leaves it out rather than
- * download a 1 MB extension for nothing.
- */
-const pgcryptoStatement = "CREATE EXTENSION IF NOT EXISTS pgcrypto;";
-
-/*
- * The SQL a new device runs: the device schema, then the Voydex schema from
- * the built migration. Fails loudly when the schema asks for an extension
- * the device doesn't have.
- */
-export const buildDeviceSchemaSql = ({
-  deviceSql,
-  migrationSql,
-}: {
-  deviceSql: string;
-  migrationSql: string;
-}) => {
-  const schemaSql = migrationSql.replace(
-    pgcryptoStatement,
-    "-- pgcrypto: left out on the device, nothing uses it.",
-  );
-  const extension = /^\s*CREATE EXTENSION[^;]*;/im.exec(schemaSql);
-
-  if (extension) {
-    throw new Error(
-      `The device can't run "${extension[0].trim()}". Add the extension to the device database first.`,
-    );
-  }
-
-  return `${deviceSql.trimEnd()}\n\n${schemaSql}`;
-};
-
 export const hashSchemaSql = async (sql: string) => {
   const digest = await crypto.subtle.digest(
     "SHA-256",

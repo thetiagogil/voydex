@@ -159,7 +159,7 @@ const startCheck = async (
   const schema = await ensureDeviceSchema(db, {
     hash: (await hashResponse.text()).trim(),
     readSql: async () => {
-      const response = await fetch(schemaUrl);
+      const response = await fetch(schemaUrl, { cache: "no-store" });
 
       if (!response.ok) throw new Error("The device schema didn't download.");
 
