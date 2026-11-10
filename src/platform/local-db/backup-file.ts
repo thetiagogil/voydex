@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { gzipText, readMaybeGzippedText } from "@/platform/local-db/gzip";
+import type { ChangeRecord } from "@/platform/local-db/sync-merge";
 import type { UserData } from "@/platform/local-db/user-data";
 
 /*
@@ -8,10 +9,12 @@ import type { UserData } from "@/platform/local-db/user-data";
  * when the file's shape changes; an older file is upgraded step by step
  * before it is read, and a newer one asks for a newer Voydex.
  */
-export const backupFormat = 1;
+export const backupFormat = 2;
 
 export type BackupFile = {
   app: "voydex";
+  /* When each row was added and each column last changed, for account sync. */
+  changes: ChangeRecord[];
   format: typeof backupFormat;
   kind: "backup";
   /* When the backup was saved, as ISO text. */
@@ -31,6 +34,16 @@ const tableNamePattern = /^(public|gameplay|planning)\.[a-z_][a-z0-9_]*$/;
 
 const backupSchema = z.object({
   app: z.literal("voydex"),
+  changes: z.array(
+    z.object({
+      baseChangedAt: z.null(),
+      changedAt: z.iso.datetime({ offset: true }),
+      column: z.string(),
+      deleted: z.boolean(),
+      key: z.string().min(1),
+      table: z.string().regex(tableNamePattern),
+    }),
+  ),
   format: z.literal(backupFormat),
   kind: z.literal("backup"),
   savedAt: z.iso.datetime({ offset: true }),
@@ -48,9 +61,12 @@ type Upgrade = (file: Record<string, unknown>) => Record<string, unknown>;
 
 /*
  * One step per older format: `upgrades[n]` turns a format n file into
- * format n + 1. Format 1 is the first, so there are none yet.
+ * format n + 1.
  */
-const upgrades: Record<number, Upgrade> = {};
+const upgrades: Record<number, Upgrade> = {
+  /* Format 2 added the change records; a format 1 file has none. */
+  1: (file) => ({ ...file, changes: [] }),
+};
 
 const brokenFile = (cause?: unknown) =>
   new BackupFileError("That file isn't a Voydex backup, or it's damaged.", {
@@ -95,9 +111,15 @@ export const upgradeBackup = (value: unknown): BackupFile => {
   return result.data;
 };
 
-export const createBackup = (tables: UserData, savedAt = new Date()) =>
+export const createBackup = (
+  tables: UserData,
+  changes: ChangeRecord[],
+  savedAt = new Date(),
+) =>
   ({
     app: "voydex",
+    /* The base is this device's own sync point: it means nothing elsewhere. */
+    changes: changes.map((change) => ({ ...change, baseChangedAt: null })),
     format: backupFormat,
     kind: "backup",
     savedAt: savedAt.toISOString(),

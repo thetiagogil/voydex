@@ -95,7 +95,7 @@ export const readNeededVersionGroups = (data: UserData) => {
   return [...ids].sort((left, right) => left - right);
 };
 
-type Transaction = Parameters<Parameters<LocalDb["transaction"]>[0]>[0];
+export type Transaction = Parameters<Parameters<LocalDb["transaction"]>[0]>[0];
 
 /* A table's columns a row can set (generated columns can't be set). */
 const readColumns = async (tx: Transaction, table: string) => {
@@ -112,8 +112,9 @@ const readColumns = async (tx: Transaction, table: string) => {
 const quoteName = (name: string) => `"${name.replaceAll('"', '""')}"`;
 
 /*
- * The triggers that stamp a row (its updated_at, its Play's "last changed")
- * rather than check it: off while rows go back as they were. The checks
+ * The triggers that stamp a row (its updated_at, its Play's "last changed",
+ * its change record) rather than check it: off while rows go back as they
+ * were. The checks
  * (a form the game allows, a fixed Tera Type) stay on.
  */
 const stampingTriggers = async (tx: Transaction) => {
@@ -125,7 +126,7 @@ const stampingTriggers = async (tx: Transaction) => {
      JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
      WHERE NOT triggers.tgisinternal
        AND (triggers.tgname LIKE 'set\\_%\\_updated\\_at'
-         OR triggers.tgname = 'touch_play_after_change')
+         OR triggers.tgname IN ('touch_play_after_change', 'record_device_change'))
        AND schemas.nspname || '.' || tables.relname = ANY ($1)`,
     [userTables.map((table) => table.name)],
   );
@@ -151,12 +152,25 @@ const switchTriggers = async (
  * device keeps what it had. Rows go back exactly as they were: the
  * triggers that stamp times or move a Play's "last changed" are off
  * meanwhile, while foreign keys, checks and the triggers that check a row
- * still hold. A column the data
- * lacks takes its default; one the table lacks is left out.
+ * still hold. A column the data lacks takes its default; one the table
+ * lacks is left out. `inside` runs in the same transaction first (a check)
+ * and `after` once the rows are in (the change records that go with them).
  */
-export const replaceUserData = async (db: LocalDb, data: UserData) => {
+export const replaceUserData = async (
+  db: LocalDb,
+  data: UserData,
+  {
+    after,
+    inside,
+  }: {
+    after?: (tx: Transaction) => Promise<void>;
+    inside?: (tx: Transaction) => Promise<void>;
+  } = {},
+) => {
   try {
     await db.transaction(async (tx) => {
+      await inside?.(tx);
+
       const triggers = await stampingTriggers(tx);
 
       await switchTriggers(tx, triggers, "DISABLE");
@@ -189,8 +203,11 @@ export const replaceUserData = async (db: LocalDb, data: UserData) => {
       /* Deferred checks run now, so the triggers can come back on. */
       await tx.exec("SET CONSTRAINTS ALL IMMEDIATE");
       await switchTriggers(tx, triggers, "ENABLE");
+      await after?.(tx);
     });
   } catch (error) {
+    if (error instanceof LocalDbError) throw error;
+
     const cause = toLocalDbError(error);
 
     throw new LocalDbError(

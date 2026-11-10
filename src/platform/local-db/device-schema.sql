@@ -58,3 +58,14 @@ CREATE TABLE device.backups (
     kind text PRIMARY KEY CHECK (kind IN ('file', 'account')),
     saved_at timestamptz NOT NULL
 );
+
+-- Account sync on this device: the account it syncs with, the latest
+-- account backup it has merged or uploaded, and whether a restored backup
+-- waits to replace the account's (restoring a file is a deliberate choice).
+CREATE TABLE device.sync (
+    id boolean PRIMARY KEY DEFAULT TRUE CHECK (id),
+    account_id uuid,
+    backup_id uuid,
+    synced_at timestamptz,
+    restored boolean NOT NULL DEFAULT FALSE
+);
