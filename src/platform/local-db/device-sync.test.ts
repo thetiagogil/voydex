@@ -24,8 +24,13 @@ const createAccount = () => {
   const backups: { id: string; snapshot: SyncSnapshot }[] = [];
   const account: AccountBackups = {
     latestId: async () => backups.at(-1)?.id ?? null,
-    read: async (id) =>
-      structuredClone(backups.find((backup) => backup.id === id)!.snapshot),
+    read: async (id) => ({
+      name: "iPhone",
+      savedAt: "2026-11-10T10:00:00.000Z",
+      snapshot: structuredClone(
+        backups.find((backup) => backup.id === id)!.snapshot,
+      ),
+    }),
     upload: async (snapshot, parentId) => {
       if ((backups.at(-1)?.id ?? null) !== parentId) return null;
 
@@ -216,6 +221,7 @@ describe("account sync by event merge", () => {
           remote: "Phone note.",
         },
       ],
+      otherDevice: { name: "iPhone" },
       status: "clashes",
     });
     /* Nothing changed on the laptop while it waits for the answer. */

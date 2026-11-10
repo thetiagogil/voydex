@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 import { createAccountBackups } from "@/platform/local-db/account-backups";
 import { recordBackup } from "@/platform/local-db/backups";
 import {
+  type BackupDevice,
   readDeviceSyncState,
   saveDeviceSyncState,
   syncDevice,
@@ -41,7 +42,7 @@ export type AccountSyncStatus =
   | { status: "off" }
   | { status: "idle" }
   | { status: "syncing" }
-  | { clashes: Clash[]; status: "clashes" }
+  | { clashes: Clash[]; otherDevice: BackupDevice; status: "clashes" }
   | { message: string; status: "failed" };
 
 /* After a save, wait this long for more before uploading. */
@@ -105,7 +106,11 @@ const run = async () => {
     });
 
     if (outcome.status === "clashes") {
-      setStatus({ clashes: outcome.clashes, status: "clashes" });
+      setStatus({
+        clashes: outcome.clashes,
+        otherDevice: outcome.otherDevice,
+        status: "clashes",
+      });
 
       return;
     }
@@ -184,10 +189,10 @@ const schedule = (delayMs: number) => {
   }, delayMs);
 };
 
-/* Opens the clash sheet again after "Later". */
+/* Opens the clash dialog again after "Later". */
 export const askAboutClashesAgain = () => {
   if (current.status === "clashes") {
-    setStatus({ clashes: [...current.clashes], status: "clashes" });
+    setStatus({ ...current, clashes: [...current.clashes] });
   }
 };
 

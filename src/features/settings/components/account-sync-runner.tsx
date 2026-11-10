@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { AccountClashSheet } from "@/features/settings/components/account-clash-sheet";
+import { AccountClashDialog } from "@/features/settings/components/account-clash-dialog";
 import { startAccountSync } from "@/platform/local-db/account-sync";
 
 /*
@@ -12,5 +12,5 @@ import { startAccountSync } from "@/platform/local-db/account-sync";
 export const AccountSyncRunner = ({ userId }: { userId: string | null }) => {
   useEffect(() => (userId ? startAccountSync(userId) : undefined), [userId]);
 
-  return userId ? <AccountClashSheet /> : null;
+  return userId ? <AccountClashDialog /> : null;
 };

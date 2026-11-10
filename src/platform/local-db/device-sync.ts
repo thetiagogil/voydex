@@ -24,13 +24,19 @@ import { readNeededVersionGroups } from "@/platform/local-db/user-data";
  * a test's stand-in.
  */
 
-export type AccountBackup = { id: string; snapshot: SyncSnapshot };
+/* Which device saved a backup, and when: for telling the devices apart. */
+export type BackupDevice = { name: string | null; savedAt: string };
+
+export type AccountBackup = BackupDevice & {
+  id: string;
+  snapshot: SyncSnapshot;
+};
 
 export type AccountBackups = {
   /* The newest backup's id, or null when the account has none yet. */
   latestId: () => Promise<string | null>;
   /* A backup's data, downloaded only when the device hasn't merged it. */
-  read: (id: string) => Promise<SyncSnapshot>;
+  read: (id: string) => Promise<Omit<AccountBackup, "id">>;
   /*
    * Saves a new backup on top of `parentId`, the newest one this device
    * merged (null for an account with none). Resolves to its id, or to null
@@ -60,7 +66,7 @@ export type SyncOutcome =
   /* Another device saved a backup first: sync again to merge it. */
   | { status: "raced" }
   /* Both sides changed the same things: ask, then sync again with `choices`. */
-  | { clashes: Clash[]; status: "clashes" };
+  | { clashes: Clash[]; otherDevice: BackupDevice; status: "clashes" };
 
 /*
  * The merged records' base is the account's version they were merged
@@ -115,7 +121,7 @@ export const syncDevice = async (
   const localChanged = hasUnsynced(local);
   const remote: AccountBackup | null =
     remoteId !== null && remoteId !== state.backupId
-      ? { id: remoteId, snapshot: await account.read(remoteId) }
+      ? { ...(await account.read(remoteId)), id: remoteId }
       : null;
 
   if (!localChanged && !remote) return { status: "unchanged" };
@@ -130,7 +136,13 @@ export const syncDevice = async (
       shape: await readSchemaShape(db),
     });
 
-    if (result.status === "clashes") return result;
+    if (result.status === "clashes") {
+      return {
+        clashes: result.clashes,
+        otherDevice: { name: remote.name, savedAt: remote.savedAt },
+        status: "clashes",
+      };
+    }
 
     for (const versionGroupId of readNeededVersionGroups(
       result.snapshot.tables,
@@ -206,7 +218,7 @@ const sendRestore = async (
   if (remoteId) {
     const [shape, remote, local] = await Promise.all([
       readSchemaShape(db),
-      account.read(remoteId),
+      account.read(remoteId).then((backup) => backup.snapshot),
       readSyncSnapshot(db),
     ]);
     const kept = liveKeys(local, shape);

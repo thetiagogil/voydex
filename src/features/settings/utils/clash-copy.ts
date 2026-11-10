@@ -105,3 +105,50 @@ export const describeClashOptions = (
     remote: "The other device's version",
   };
 };
+
+/* "Today, 23:12", "Yesterday, 09:10" or "8 Nov, 23:12". */
+export const describeChangedAt = (iso: string, now = new Date()) => {
+  const at = new Date(iso);
+  const time = timeFormat.format(at);
+  const dayStart = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  const days = Math.round((dayStart(now) - dayStart(at)) / 86_400_000);
+
+  if (days === 0) return `Today, ${time}`;
+  if (days === 1) return `Yesterday, ${time}`;
+
+  return `${dayFormat.format(at)}, ${time}`;
+};
+
+const timeFormat = new Intl.DateTimeFormat("en-GB", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+const dayFormat = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+});
+
+/* A device as the person knows it: "iPhone", "Mac", or a plain "device". */
+export type DeviceKind = "computer" | "phone";
+
+const phoneNames = new Set(["Android", "iPad", "iPhone"]);
+
+export const deviceKind = (name: string | null): DeviceKind =>
+  name && phoneNames.has(name) ? "phone" : "computer";
+
+/*
+ * The two sides of a clash by their devices: "This Mac" and "Your iPhone";
+ * "Your other Mac" when both are Macs; "device" when the name is unknown.
+ */
+export const describeDevices = (
+  thisDevice: string | null,
+  otherDevice: string | null,
+) => ({
+  local: `This ${thisDevice ?? "device"}`,
+  remote:
+    otherDevice && otherDevice !== thisDevice
+      ? `Your ${otherDevice}`
+      : `Your other ${otherDevice ?? "device"}`,
+});

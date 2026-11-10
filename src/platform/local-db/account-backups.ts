@@ -46,7 +46,7 @@ export const createAccountBackups = (
   const listNewest = async () => {
     const { data, error } = await supabase
       .from("user_backups")
-      .select("id, object_path")
+      .select("id, object_path, device_name, saved_at")
       .order("created_at", { ascending: false })
       .order("id", { ascending: false });
 
@@ -87,7 +87,11 @@ export const createAccountBackups = (
         new Uint8Array(await data.arrayBuffer()),
       );
 
-      return { changes: backup.changes, tables: backup.tables };
+      return {
+        name: row?.device_name ?? null,
+        savedAt: backup.savedAt,
+        snapshot: { changes: backup.changes, tables: backup.tables },
+      };
     },
     upload: async (snapshot, parentId) => {
       const savedAt = new Date();

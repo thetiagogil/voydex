@@ -27,7 +27,7 @@ issues, in order:
 5. #248 Backup file and account sync: Save backup and Restore in Settings,
    a 30-day reminder on Home, an installable app (manifest) with install and
    in-app-browser notes, change records on the device, event merge with a
-   clash sheet, account backups on Supabase (last 3), and no row security or
+   clash dialog, account backups on Supabase (last 3), and no row security or
    API access on device-only tables, in two pull requests (the backup file
    first). Hosted Supabase was reset on 2026-11-10 with the owner's
    approval: no accounts or user data, the new schema, game data re-seeded;

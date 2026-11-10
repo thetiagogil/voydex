@@ -57,7 +57,10 @@ export type Clash =
       key: string;
       kind: "field";
       local: unknown;
+      /* When each side made its change, as ISO text. */
+      localChangedAt: string | null;
       remote: unknown;
+      remoteChangedAt: string | null;
       table: string;
     }
   /* One side deleted a row the other side changed. */
@@ -67,6 +70,9 @@ export type Clash =
       item: ClashItem;
       key: string;
       kind: "row";
+      /* When each side deleted or last changed it, as ISO text. */
+      localChangedAt: string | null;
+      remoteChangedAt: string | null;
       table: string;
     }
   /* Both sides changed a Play or Plan in ways that don't fit together. */
@@ -370,6 +376,14 @@ const subtreeChanged = (
 
 type MergedRow = { records: ChangeRecord[]; row: UserRow | null };
 
+/* A row's latest change on one side (its quiet columns aside). */
+const latestChangeOf = (index: SideIndex, id: string) =>
+  [...(index.records.get(id)?.values() ?? [])]
+    .filter((record) => !quietColumns.has(record.column))
+    .reduce<
+      string | null
+    >((latest, record) => (latest === null || later(record.changedAt, latest) ? record.changedAt : latest), null);
+
 const recordsFrom = (index: SideIndex, id: string) => [
   ...(index.records.get(id)?.values() ?? []),
 ];
@@ -440,7 +454,9 @@ const mergeFields = (
             key,
             kind: "field",
             local: localValue,
+            localChangedAt: localClock?.changedAt ?? null,
             remote: remoteValue,
+            remoteChangedAt: remoteClock?.changedAt ?? null,
             table,
           });
         }
@@ -537,12 +553,18 @@ const mergeKey = (
   const choice = choices[clashId];
 
   if (!choice) {
+    const liveChangedAt = latestChangeOf(sideOf(merger, liveSide).index, id);
+
     clashes.push({
       deletedOn: goneSide,
       id: clashId,
       item: toClashItem(findItem(merger, table, liveRow)),
       key,
       kind: "row",
+      localChangedAt:
+        goneSide === "local" ? tombstone.changedAt : liveChangedAt,
+      remoteChangedAt:
+        goneSide === "remote" ? tombstone.changedAt : liveChangedAt,
       table,
     });
   }

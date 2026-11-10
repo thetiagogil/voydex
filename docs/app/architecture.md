@@ -461,7 +461,7 @@ the device:
   the device's data (`sync-merge.ts`, pure: latest change per column, a
   clash only when both sides changed the same thing since the last sync),
   puts the result in place (`sync-snapshot.ts`) and uploads it
-  (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash sheet.
+  (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.

@@ -54,8 +54,13 @@ pick or type and Save appears once it has changed), Look and feel, New Play defa
 `/you` gathers the trainer card, Statistics, Collection and Settings.
 
 Account shows your email with Change email (confirmed by a link Supabase
-sends; the change takes effect once it is opened), Change password, and Log
-out on this device. Your data offers Save backup (every Play, Plan and
+sends; the change takes effect once it is opened), Change password, Sync
+(when this device last synced with the account, with Sync now, or Choose
+while a clash waits) and Log out on this device. When two devices changed
+the same thing since they last synced, a dialog, wherever you are, asks
+which version to keep: each choice names its device (This Mac, your iPhone)
+and when it changed there; Later closes it and nothing syncs until you
+answer. Your data offers Save backup (every Play, Plan and
 setting as one gzipped file, `voydex-backup-<day>.json.gz`, with "Last backup
 N days ago"), Restore (reads a file, says when it was saved and how many
 Plays and Plans it holds, and after a confirm replaces everything on this

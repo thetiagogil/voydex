@@ -46,7 +46,19 @@ export const SettingsChoiceSection = <Value,>({
 }) => {
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
+  const [served, setServed] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
+
+  /*
+   * The saved value changed under it (another device's, through sync):
+   * follow it, unless you have unsaved changes of your own.
+   */
+  if (!isEqual(served, initialValue)) {
+    setServed(initialValue);
+
+    if (isEqual(value, served)) setValue(initialValue);
+  }
+
   const [isSaving, startTransition] = useTransition();
   const isDirty = !isEqual(initialValue, value);
 
