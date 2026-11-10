@@ -47,9 +47,9 @@ issues (#245 to #248) move it to this target:
 - The device loads the tables, functions and views from `database/schema`.
   `auth.uid()` returns one fixed local user there, so functions that check
   the owner work unchanged.
-- `reference` and `tracking` reach the device as files: a release loads the
-  seeds, runs `db:verify`, and exports one versioned file per version group,
-  one shared base file and a version list, published to Cloudflare Pages.
+- `reference` and `tracking` reach the device as files (see Game Data Files
+  below), served by the app itself on Cloudflare, so the files always fit
+  the schema of the app that serves them.
 - Hosted Supabase is reset to auth and backups only at the reset before
   launch, with the owner's approval.
 
@@ -60,23 +60,63 @@ issues (#245 to #248) move it to this target:
 - `device-schema.sql` runs first on a new device: the `anon`,
   `authenticated` and `service_role` roles, a small `auth.users` and
   `auth.uid()`, and the `device` schema that records the installed schema's
-  hash and the imported game files. The built migration follows in the
+  hash and the installed game data files. The built migration follows in the
   same transaction, without its `CREATE EXTENSION pgcrypto` (nothing uses
   it, and the device would download 1 MB for it).
   `scripts/database/device-schema.mjs` writes both, with their hash, to
   `public/local-db/` before every `dev` and `build`; a returning device only
   fetches the hash.
-- `npm run local-db:game-file [slug|all]` builds a game data file without
-  Docker: it loads the schema and the seeds (no development fixtures) into an
-  in-memory PGlite, keeps the shared rows plus one version group and its
-  expansions, and writes every non-empty table as COPY text to
-  `public/game-data/<slug>.json.gz` (ignored by Git). Format 1 carries the
-  shared rows too, so a device takes one game until the release build splits
-  a base file from the per-game files (#246).
+- `game-data.ts` installs game data files (below): `installGame` puts the
+  base file and a game's file on the device once, with progress, and
+  `installGameLearnsets` adds the game's learnsets after, for the background.
+  A game already on the device downloads nothing. Files go in with triggers
+  and foreign key checks off, one transaction per file.
 - The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
   `/pglite/voydex`; one tab leads and the others send their queries to it.
-- `/device-check` starts it with Sword / Shield and times start, import and
+- `/device-check` starts it with Sword / Shield and times start, install and
   saves, for the phone test.
+
+### Game Data Files
+
+`npm run game-data:build` builds them from the seeds without Docker
+(`scripts/database/game-data/`, about 40 seconds). It loads the device schema
+and the seeds (no development fixtures) into an in-memory PGlite, runs the
+release checks, and writes to `public/game-data/` (ignored by Git):
+
+| File                              | What it holds                                                                                      |
+| --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `base.<hash>.json.gz`             | Every row that belongs to no single game: Pokémon, moves, items, types, the game list and lookups  |
+| `<slug>.<hash>.json.gz`           | One game's rows: a version group with its expansions, its Pokédex, availability, Story and battles |
+| `<slug>-learnsets.<hash>.json.gz` | That game's learnsets, most of its rows, installed after the game                                  |
+| `versions.json`                   | The version list: each file's name, hash, size and rows, the schema it fits and the ID changes     |
+
+- Every row lands in exactly one file; a row that would land in two or in
+  none fails the build.
+- A file's name carries a hash of its content. Columns filled at insert time
+  (`created_at`) are left out, so the same seeds always give the same files
+  and a device downloads a file again only when its rows changed.
+- `cf:build`, `cf:preview` and `cf:deploy` build the files first, so a deploy
+  always ships files that fit its schema.
+- The device checks a downloaded file against the hash in the version list,
+  and refuses files built for another schema.
+
+### Release Checks
+
+`npm run game-data:check` runs them alone; `npm run verify` runs it, GitHub
+does not. Both compare against the last release, recorded in
+`database/game-data/last-release.json` by `npm run game-data:build --
+--release`. Until launch nothing is recorded and both pass, so IDs and the
+schema change freely; the first `--release` is run at launch.
+
+- **ID check:** every seeded ID that a user table points at (a foreign key
+  from `public`, `gameplay` or `planning`) must stay and keep its slug. An ID
+  that goes or is reused needs an entry in
+  `database/game-data/id-changes.json` (`{ table, id, becomes, reason }`,
+  where `becomes` is the new ID or `null`). The list ships in
+  `versions.json`, to be applied to saved Plays.
+- **Schema check:** a device schema that changed since the last release
+  needs a new device update in `database/device-updates/` (a `.sql` file,
+  run in name order), and a shipped device update is never removed.
 
 ## Schema Responsibilities
 

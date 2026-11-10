@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   useDeviceCheck,
   type Durability,
+  type GameDataLoad,
   type StartResult,
 } from "@/modules/mainline/features/device-check/client/use-device-check";
 import { appRoutes } from "@/config/routes";
@@ -14,6 +15,8 @@ import { SegmentedControl } from "@/shared/components/segmented-control";
 import { StatTile } from "@/shared/components/stat-tile";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
+import { Progress } from "@/shared/components/ui/progress";
+import type { GameDataProgress } from "@/platform/local-db/game-data";
 import type { LocalStorageStatus } from "@/platform/local-db/storage";
 
 const formatMs = (ms: number) =>
@@ -21,6 +24,23 @@ const formatMs = (ms: number) =>
 
 const formatMb = (bytes: number | null) =>
   bytes === null ? "Unknown" : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+
+const describeGameData = (load: GameDataLoad) =>
+  load.status === "loaded"
+    ? `${formatMb(load.downloadedBytes)} downloaded and checked in ${formatMs(load.downloadMs)}, installed in ${formatMs(load.importMs)} (${load.rows} rows)`
+    : "already on this device";
+
+const describeProgress = (progress: GameDataProgress | null) => {
+  if (!progress) return "Starting the device database…";
+
+  const percent = progress.total
+    ? Math.round((progress.done / progress.total) * 100)
+    : 0;
+
+  return progress.step === "downloading"
+    ? `Downloading game data… ${percent}%`
+    : `Installing game data… ${percent}%`;
+};
 
 const formatYesNo = (value: boolean | null) =>
   value === null ? "Unknown" : value ? "Yes" : "No";
@@ -53,9 +73,8 @@ const buildReport = ({
     `Storage used: ${formatMb(storage?.usageBytes ?? null)} of ${formatMb(storage?.quotaBytes ?? null)}`,
     `Ready: ${formatMs(result.startMs + result.schemaMs)} (database ${formatMs(result.startMs)})`,
     `Schema: ${schemaLabels[result.schema]} in ${formatMs(result.schemaMs)}`,
-    result.game.status === "loaded"
-      ? `Game data: ${formatMb(result.game.downloadedBytes)} downloaded in ${formatMs(result.game.downloadMs)}, read in ${formatMs(result.game.readMs)}, imported in ${formatMs(result.game.importMs)} (${result.game.rows} rows)`
-      : "Game data: already on this device",
+    `Game data (base and Sword / Shield): ${describeGameData(result.game)}`,
+    `Learnsets: ${describeGameData(result.learnsets)}`,
     `Database size: ${formatMb(result.databaseBytes)}`,
     `Plays on this device: ${result.plays.count}${result.plays.lastStartedAt ? `, last started ${result.plays.lastStartedAt}` : ""}`,
   ];
@@ -133,7 +152,17 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
 
       {state.status === "starting" ? (
         <Alert>
-          <AlertDescription>Starting the device database…</AlertDescription>
+          <AlertDescription>
+            {describeProgress(state.progress)}
+            {state.progress ? (
+              <Progress
+                aria-label="Game data"
+                className="mt-2"
+                max={state.progress.total || 1}
+                value={state.progress.done}
+              />
+            ) : null}
+          </AlertDescription>
         </Alert>
       ) : null}
 
@@ -207,14 +236,26 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
                   label="Game data"
                   value={formatMb(result.game.downloadedBytes)}
                 >
-                  Downloaded in {formatMs(result.game.downloadMs)}
+                  Base and Sword / Shield, downloaded and checked in{" "}
+                  {formatMs(result.game.downloadMs)}
                 </StatTile>
-                <StatTile label="Read" value={formatMs(result.game.readMs)}>
-                  Unzipped and checked
-                </StatTile>
-                <StatTile label="Import" value={formatMs(result.game.importMs)}>
+                <StatTile
+                  label="Install"
+                  value={formatMs(result.game.importMs)}
+                >
                   {result.game.rows.toLocaleString()} rows
                 </StatTile>
+                {result.learnsets.status === "loaded" ? (
+                  <StatTile
+                    label="Learnsets"
+                    value={formatMs(
+                      result.learnsets.downloadMs + result.learnsets.importMs,
+                    )}
+                  >
+                    {result.learnsets.rows.toLocaleString()} rows, in the
+                    background in the app
+                  </StatTile>
+                ) : null}
               </div>
             ) : (
               <p className="text-ink-2 text-15 mt-3 font-semibold">

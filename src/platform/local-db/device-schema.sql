@@ -36,9 +36,11 @@ CREATE TABLE device.installs (
     installed_at timestamptz NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE device.game_files (
-    slug text PRIMARY KEY,
+-- One row per installed game data file: "base", a game ("swsh") or its
+-- learnsets ("swsh-learnsets"), with the content hash it was built with.
+CREATE TABLE device.game_data_files (
+    name text PRIMARY KEY,
+    hash text NOT NULL,
     format integer NOT NULL,
-    built_at timestamptz NOT NULL,
     imported_at timestamptz NOT NULL DEFAULT NOW()
 );

@@ -12,10 +12,11 @@ import {
   type DeviceSchemaResult,
 } from "@/platform/local-db/device-schema";
 import {
-  importGameFile,
-  readGameFileBytes,
-  readImportedGameSlugs,
-} from "@/platform/local-db/game-file";
+  fetchGameDataVersions,
+  installGame,
+  installGameLearnsets,
+  type GameDataProgress,
+} from "@/platform/local-db/game-data";
 import { runQuery } from "@/platform/local-db/local-db";
 import {
   deleteLocalDb,
@@ -31,13 +32,13 @@ import {
 
 /*
  * The device check: starts the device database the way the app will,
- * loads Sword / Shield, and times what the iPhone test measures.
+ * installs Sword / Shield (then its learnsets), and times what the iPhone
+ * test measures.
  */
 
 const schemaUrl = "/local-db/schema.sql";
 const schemaHashUrl = "/local-db/schema-hash.txt";
 const gameSlug = "swsh";
-const gameFileUrl = `/game-data/${gameSlug}.json.gz`;
 const timedSaveCount = 10;
 const timedSavePrefix = "Save timing";
 
@@ -46,10 +47,10 @@ export type Durability = "normal" | "relaxed";
 export type GameDataLoad =
   | { status: "already-on-device" }
   | {
+      /* Downloading and checking the files. */
       downloadMs: number;
       downloadedBytes: number;
       importMs: number;
-      readMs: number;
       rows: number;
       status: "loaded";
     };
@@ -57,6 +58,7 @@ export type GameDataLoad =
 export type StartResult = {
   databaseBytes: number;
   game: GameDataLoad;
+  learnsets: GameDataLoad;
   plays: { count: number; lastStartedAt: string | null };
   schema: DeviceSchemaResult["status"];
   schemaMs: number;
@@ -68,7 +70,7 @@ export type FlowResult = { addMs: number; createMs: number; playName: string };
 export type SaveTimings = { medianMs: number; slowestMs: number };
 
 type CheckState =
-  | { status: "starting" }
+  | { progress: GameDataProgress | null; status: "starting" }
   | { message: string; status: "failed" }
   | { result: StartResult; status: "ready" };
 
@@ -91,36 +93,33 @@ const todayIso = () => {
 const readErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : "Something went wrong.";
 
-const loadGameData = async (db: LocalDb): Promise<GameDataLoad> => {
-  if ((await readImportedGameSlugs(db)).includes(gameSlug)) {
+/* Installs the files, timing the download apart from the install. */
+const timeInstall = async (
+  install: (
+    onProgress: (progress: GameDataProgress) => void,
+  ) => ReturnType<typeof installGame>,
+  onProgress: (progress: GameDataProgress) => void,
+): Promise<GameDataLoad> => {
+  const startedAt = performance.now();
+  let installStartedAt: number | null = null;
+  const result = await install((progress) => {
+    if (progress.step === "installing" && installStartedAt === null) {
+      installStartedAt = performance.now();
+    }
+    onProgress(progress);
+  });
+
+  if (result.status === "already-installed") {
     return { status: "already-on-device" };
   }
 
-  let startedAt = performance.now();
-  const response = await fetch(gameFileUrl, { cache: "no-store" });
-
-  if (!response.ok) {
-    throw new Error(
-      `No game data file at ${gameFileUrl}. Run npm run local-db:game-file, then build again.`,
-    );
-  }
-
-  const bytes = new Uint8Array(await response.arrayBuffer());
-  const downloadMs = elapsed(startedAt);
-
-  startedAt = performance.now();
-  const file = await readGameFileBytes(bytes);
-  const readMs = elapsed(startedAt);
-
-  startedAt = performance.now();
-  const imported = await importGameFile(db, file);
+  const installedAt = installStartedAt ?? performance.now();
 
   return {
-    downloadMs,
-    downloadedBytes: bytes.byteLength,
-    importMs: elapsed(startedAt),
-    readMs,
-    rows: imported.status === "imported" ? imported.rows : 0,
+    downloadMs: Math.round(installedAt - startedAt),
+    downloadedBytes: result.bytes,
+    importMs: elapsed(installedAt),
+    rows: result.rows,
     status: "loaded",
   };
 };
@@ -148,6 +147,7 @@ const readDatabaseBytes = async (db: LocalDb) => {
 const startCheck = async (
   db: LocalDb,
   startMs: number,
+  onProgress: (progress: GameDataProgress) => void,
 ): Promise<StartResult> => {
   const startedAt = performance.now();
   const hashResponse = await fetch(schemaHashUrl, { cache: "no-store" });
@@ -174,11 +174,26 @@ const startCheck = async (
     );
   }
 
-  const game = await loadGameData(db);
+  const versions = await fetchGameDataVersions().catch((error: unknown) => {
+    throw new Error(
+      `${readErrorMessage(error)} Without built files, run npm run game-data:build first.`,
+    );
+  });
+  const game = await timeInstall(
+    (report) => installGame(db, gameSlug, { onProgress: report, versions }),
+    onProgress,
+  );
+  /* The app loads learnsets in the background; here they are timed apart. */
+  const learnsets = await timeInstall(
+    (report) =>
+      installGameLearnsets(db, gameSlug, { onProgress: report, versions }),
+    onProgress,
+  );
 
   return {
     databaseBytes: await readDatabaseBytes(db),
     game,
+    learnsets,
     plays: await readPlays(db),
     schema: schema.status,
     schemaMs,
@@ -235,7 +250,10 @@ const runFlow = async (
 
 export const useDeviceCheck = (durability: Durability) => {
   const dbRef = useRef<LocalDbHandle | null>(null);
-  const [state, setState] = useState<CheckState>({ status: "starting" });
+  const [state, setState] = useState<CheckState>({
+    progress: null,
+    status: "starting",
+  });
   const [storage, setStorage] = useState<LocalStorageStatus | null>(null);
   const [flow, setFlow] = useState<FlowResult | null>(null);
   const [saves, setSaves] = useState<SaveTimings | null>(null);
@@ -263,7 +281,9 @@ export const useDeviceCheck = (durability: Durability) => {
         }
 
         dbRef.current = handle;
-        const result = await startCheck(handle.db, startMs);
+        const result = await startCheck(handle.db, startMs, (progress) => {
+          if (!cancelled) setState({ progress, status: "starting" });
+        });
 
         if (!cancelled) setState({ result, status: "ready" });
       } catch (error) {
