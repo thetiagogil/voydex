@@ -9,7 +9,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 import { MainlinePlannerPage } from "../mainline-planner-page";
-import { openPlannerAction } from "../server/planner-open-action";
+import { openPlannerAction } from "../client/planner-open-action";
 import type { PlannerPageData } from "@/modules/mainline/features/plans/types";
 
 type CodexPlanTeamProps = {

@@ -2,12 +2,6 @@
 
 import { redirect } from "next/navigation";
 
-import { appRoutes } from "@/config/routes";
-import {
-  readStartIntentFormData,
-  START_INTENT_METADATA_KEY,
-  type StartIntent,
-} from "@/config/start-intent";
 import {
   type AuthErrorCode,
   getAuthErrorCode,
@@ -33,7 +27,6 @@ import {
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 type AuthFormContext = {
-  intent: StartIntent | null;
   mode: AuthMode;
   next: string;
 };
@@ -46,7 +39,6 @@ const redirectWithAuthError = (
 
 const readAuthForm = async (formData: FormData, mode: AuthMode) => {
   const context: AuthFormContext = {
-    intent: readStartIntentFormData(formData),
     mode,
     next: await readSafeNext(formData),
   };
@@ -77,27 +69,13 @@ export const logInWithPassword = async (formData: FormData) => {
   }
 
   await forgetAuthEmail();
-
-  if (context.intent) {
-    /*
-     * Logging in from Start a Play: the pick waits on the account, where
-     * Mainline starts the Play from it. If it can't be stored, you still land
-     * in Mainline and can start the Play from there.
-     */
-    await supabase.auth.updateUser({
-      data: { [START_INTENT_METADATA_KEY]: context.intent },
-    });
-    redirect(appRoutes.mainline);
-  }
-
   redirect(getLogInLandingPath(context.next));
 };
 
 /*
  * One password with Show, no confirmation field (v3). A new account goes to
  * Welcome first; when its email still needs confirming, to Check your email,
- * and the email's link leads to Welcome. The game picked on Start a Play is
- * stored on the account, so the link works on any device.
+ * and the email's link leads to Welcome.
  */
 export const signUpWithPassword = async (formData: FormData) => {
   const { context, email, password } = await readAuthForm(formData, "sign-up");
@@ -107,9 +85,6 @@ export const signUpWithPassword = async (formData: FormData) => {
     email,
     password,
     options: {
-      data: context.intent
-        ? { [START_INTENT_METADATA_KEY]: context.intent }
-        : undefined,
       emailRedirectTo: await buildAuthCallbackUrl(welcomeHref),
     },
   });
@@ -125,18 +100,17 @@ export const signUpWithPassword = async (formData: FormData) => {
   }
 
   await rememberAuthEmail(email);
-  redirect(getCheckEmailHref({ intent: context.intent, next: context.next }));
+  redirect(getCheckEmailHref({ next: context.next }));
 };
 
 /* Check your email's "Send it again": the same confirmation link, to the email just used. */
 export const resendSignUpEmail = async (formData: FormData) => {
-  const intent = readStartIntentFormData(formData);
   const next = await readSafeNext(formData);
   const email = await readAuthEmail();
 
   if (!email) {
-    /* The remembered email has gone: start Sign up again with the same pick. */
-    redirect(getAuthPageHref({ intent, mode: "sign-up", next }));
+    /* The remembered email has gone: start Sign up again. */
+    redirect(getAuthPageHref({ mode: "sign-up", next }));
   }
 
   const supabase = await createServerSupabaseClient();
@@ -151,7 +125,6 @@ export const resendSignUpEmail = async (formData: FormData) => {
   redirect(
     getCheckEmailHref({
       error: error ? getAuthErrorCode(error.code) : null,
-      intent,
       next,
       resent: !error,
     }),

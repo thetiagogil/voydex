@@ -9,6 +9,12 @@ export default defineConfig({
   test: {
     /* Browser tests run through Playwright (`npm run test:e2e`). */
     exclude: [...configDefaults.exclude, "e2e/**"],
+    /*
+     * The device database tests install the whole schema in PGlite, which
+     * takes seconds, longer while other test files run beside them.
+     */
+    hookTimeout: 60_000,
+    testTimeout: 60_000,
     env: {
       NEXT_PUBLIC_ASSETS_URL: "https://assets.test",
     },

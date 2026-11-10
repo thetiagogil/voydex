@@ -5,7 +5,7 @@ import {
   PlayTeamsDialog,
   usePlayTeamsDialog,
 } from "@/modules/mainline/shared/components/play-teams-dialog";
-import { readPlayTeamsAction } from "@/modules/mainline/shared/server/play-teams-action";
+import { readPlayTeamsAction } from "@/modules/mainline/shared/client/play-teams-action";
 import { TextLink } from "@/shared/components/text-link";
 
 /*

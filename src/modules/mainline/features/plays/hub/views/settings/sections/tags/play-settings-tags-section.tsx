@@ -6,7 +6,7 @@ import { SettingsChoiceSection } from "@/shared/components/settings-choice-secti
 import {
   createPlayTagAction,
   updatePlayTagsAction,
-} from "../../server/play-settings-actions";
+} from "../../client/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 import { diffIdSets } from "../../utils/play-settings-validation";
 

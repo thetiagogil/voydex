@@ -1,5 +1,3 @@
-import type { PublicArt } from "@/config/public-art";
-import type { ResolveStartIntent } from "@/config/start-intent";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getAuthPageHref,
@@ -14,45 +12,29 @@ import {
   AuthMailMark,
 } from "@/features/auth/components/auth-frame";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
-import { StartIntentCard } from "@/features/auth/components/start-intent-card";
-import { StartIntentFields } from "@/features/auth/components/start-intent-fields";
 import { resendSignUpEmail } from "@/features/auth/server/auth-actions";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
 import { TextLink } from "@/shared/components/text-link";
-import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 
 export type CheckEmailSearchParams = {
   error?: string;
-  game?: string;
   next?: string;
-  partner?: string;
   sent?: string;
 };
 
 type CheckEmailPageProps = {
-  art: Pick<PublicArt, "gameCover">;
-  resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<CheckEmailSearchParams>;
 };
 
 /*
  * Check your email (v3 `checkemail`), after a sign-up that still needs its
- * email confirmed. The picked game waits with the new account, so the link
- * works on any device.
+ * email confirmed.
  */
-export const CheckEmailPage = async ({
-  art,
-  resolveIntent,
-  searchParams,
-}: CheckEmailPageProps) => {
+export const CheckEmailPage = async ({ searchParams }: CheckEmailPageProps) => {
   const params = await searchParams;
   const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
   const error = parseAuthErrorCode(params?.error);
-  const [intent, email] = await Promise.all([
-    readAuthStartIntent(params, resolveIntent),
-    readAuthEmail(),
-  ]);
-  const preview = intent?.preview ?? null;
+  const email = await readAuthEmail();
 
   return (
     <AuthFrame>
@@ -66,29 +48,15 @@ export const CheckEmailPage = async ({
         ) : (
           "We sent a link to your email. "
         )}
-        {preview
-          ? `Open it on any device and your ${preview.gameShortName} Play will be waiting.`
-          : "Open it on any device to finish signing up."}
+        Open it on any device to finish signing up.
       </AuthHeading>
-      {preview ? <StartIntentCard art={art} intent={preview} /> : null}
       {error ? <AuthErrorAlert error={error} /> : null}
       <EmailSentActions
         resendAction={resendSignUpEmail}
         sentAgain={!error && parseAuthLinkSent(params?.sent) === "again"}
-        hiddenFields={
-          <>
-            <input type="hidden" name="next" value={next} />
-            <StartIntentFields intent={intent?.value ?? null} />
-          </>
-        }
+        hiddenFields={<input type="hidden" name="next" value={next} />}
         alternative={
-          <TextLink
-            href={getAuthPageHref({
-              intent: intent?.value,
-              mode: "sign-up",
-              next,
-            })}
-          >
+          <TextLink href={getAuthPageHref({ mode: "sign-up", next })}>
             Use a different email
           </TextLink>
         }

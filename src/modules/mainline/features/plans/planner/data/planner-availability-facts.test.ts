@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { PlannerAvailabilityRow } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
+import type { PlannerAvailabilityRow } from "@/modules/mainline/features/plans/planner/client/planner-pool-reader";
 
 import { buildPlannerAvailabilityFacts } from "./planner-availability-facts";
 

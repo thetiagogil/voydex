@@ -27,7 +27,8 @@ export type DeviceSchemaResult =
   /* An older schema is on this device; it needs a device update first. */
   | { status: "outdated" };
 
-const readInstalledHash = async (db: LocalDb) => {
+/* The installed schema's hash; null on a device with nothing installed. */
+export const readInstalledSchemaHash = async (db: LocalDb) => {
   const [{ installed }] = await runQuery<{ installed: boolean }>(
     db,
     "SELECT to_regclass('device.installs') IS NOT NULL AS installed",
@@ -57,7 +58,7 @@ export const ensureDeviceSchema = async (
   db: LocalDb,
   schema: { hash: string; readSql: () => Promise<string> },
 ): Promise<DeviceSchemaResult> => {
-  const installedHash = await readInstalledHash(db);
+  const installedHash = await readInstalledSchemaHash(db);
 
   if (installedHash !== null) {
     return { status: installedHash === schema.hash ? "ready" : "outdated" };

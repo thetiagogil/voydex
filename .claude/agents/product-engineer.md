@@ -29,7 +29,7 @@ product and Pokémon-domain playbook; `CLAUDE.md` and
    slice (`docs/product/feature-contract.md`,
    `docs/product/navigation-and-routes.md`,
    `docs/product/data-ownership.md`).
-2. Trace the real path: the route under `src/app/(app-protected)` or
+2. Trace the real path: the route under `src/app/(app)` or
    `src/app/(app-public)` → the module entry under `src/modules/<module>/features`
    → its `server` queries, readers and actions → `data` mappers → `sections`
    and components. Mainline Play views live under

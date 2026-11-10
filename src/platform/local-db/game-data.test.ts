@@ -8,6 +8,7 @@ import { ensureDeviceSchema } from "@/platform/local-db/device-schema";
 import {
   findGameData,
   installGame,
+  installGameBase,
   installGameLearnsets,
   parseGameDataVersions,
   readGameDataFile,
@@ -184,6 +185,23 @@ describe("findGameData", () => {
   it("finds a game by any of its version groups, expansions included", () => {
     expect(findGameData(versions, 20)?.slug).toBe("swsh");
     expect(findGameData(versions, 99)).toBeNull();
+  });
+});
+
+describe("installGameBase", () => {
+  it("installs only the base, so a later game downloads only its own file", async () => {
+    const db = await createDevice();
+
+    await expect(
+      installGameBase(db, { download: createDownload(), versions }),
+    ).resolves.toMatchObject({ files: ["base"], status: "installed" });
+
+    const download = createDownload();
+
+    await installGame(db, "swsh", { download, versions });
+    expect(download.mock.calls.map(([path]) => path)).toEqual([
+      swsh.entry.path,
+    ]);
   });
 });
 

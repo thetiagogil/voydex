@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
-vi.mock("../server/preferences-actions", () => ({
+vi.mock("../client/preferences-actions", () => ({
   saveLookAndFeelAction: vi.fn(),
   saveNewPlayDefaultsAction: vi.fn(),
 }));

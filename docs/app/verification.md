@@ -74,21 +74,21 @@ npm run test:e2e
 npm run test:e2e:report   # opens the last run's report
 ```
 
-Playwright drives Chrome through the app against the local seeded database,
-and axe checks each page it visits for accessibility problems. The tests live
-in `e2e/`, one folder per area (Plays, Plans, Codex, auth, Mainline). They
-reuse a dev server already on port 3000 or start one; `E2E_PORT=3100` runs
-them beside it.
+Playwright drives Chrome through the app, and axe checks each page it visits
+for accessibility problems. The tests live in `e2e/`, one folder per area
+(Plays, Plans, Codex, auth, Mainline). They reuse a dev server already on port
+3000 or start one; `E2E_PORT=3100` runs them beside it.
 
-- The setup project signs up a new throwaway account each run
-  (`e2e-…@voydex.test`), and every test that writes does so as that account,
-  so the seeded fixture, specialist and trainer data never changes. Read-only
-  checks such as Statistics log in as the seeded accounts. Throwaway accounts
-  pile up in the local database until the next reset.
+- Every test starts with an empty device (a fresh browser context has its own
+  IndexedDB), so a test makes the Plays it needs through the app
+  (`startPlay` in `e2e/support/plays.ts`); nothing reads seeded user data.
+  The setup project still signs up a throwaway account each run
+  (`e2e-…@voydex.test`) for the sign-in tests; the local Supabase stack is
+  only needed for those and for the game catalogue.
 - Tests tagged `@phone` also run at phone size (Pixel 7).
 - Tests wait for what they depend on, never for a fixed time: `waitForAction`
-  (`e2e/support/actions.ts`) for a save or a Server Action load before
-  reloading or reading its result, `forTheAnswer` for what that answer draws,
+  (`e2e/support/actions.ts`) for a save on the device (each save counts itself
+  on the page's root, `data-saves`) before reloading or reading its result, `forTheAnswer` for what that answer draws,
   and `waitUntil: "networkidle"` on a page whose first tap must be heard.
 - `expectAccessible` (`e2e/support/accessibility.ts`) fails on any WCAG 2.2 AA
   axe finding except the rules listed there as known issues; remove a rule

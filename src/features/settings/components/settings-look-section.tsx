@@ -10,7 +10,7 @@ import { PendingData } from "@/shared/components/pending-data";
 import {
   saveLookAndFeelAction,
   type LookAndFeel,
-} from "../server/preferences-actions";
+} from "../client/preferences-actions";
 
 /*
  * Look and feel (v3 `.set-sec`): Motion and Search and filters are saved;

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { LibraryPresetDetails } from "@/modules/mainline/features/library/components/library-preset-details";
-import { saveLibraryPresetAction } from "@/modules/mainline/features/library/server/library-actions";
+import { saveLibraryPresetAction } from "@/modules/mainline/features/library/client/library-actions";
 import type {
   LibraryRule,
   LibraryRuleKind,

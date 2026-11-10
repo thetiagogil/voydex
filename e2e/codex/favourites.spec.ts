@@ -121,18 +121,16 @@ test.describe("Codex: favourites", () => {
   });
 });
 
-test.describe("Codex: favourites signed out", () => {
+test.describe("Codex: favourites without signing in", () => {
   test.use({ storageState: signedOut });
 
-  test("the heart asks a visitor to sign in and comes back to the entry", async ({
+  test("the heart works for a visitor too: favourites live on the device", async ({
     page,
   }) => {
     const { entry } = subjects.desktop;
 
     await page.goto(entry, { waitUntil: "networkidle" });
 
-    await expect(
-      page.getByRole("link", { name: "Favourite: sign in to keep favourites" }),
-    ).toHaveAttribute("href", `/login?next=${encodeURIComponent(entry)}`);
+    await expect(heart(page)).toBeVisible();
   });
 });

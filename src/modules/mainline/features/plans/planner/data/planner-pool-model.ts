@@ -2,7 +2,7 @@ import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data
 import type {
   PlannerCatalogueRows,
   PlannerPoolRows,
-} from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
+} from "@/modules/mainline/features/plans/planner/client/planner-pool-reader";
 import { buildPlannerAvailabilityFacts } from "@/modules/mainline/features/plans/planner/data/planner-availability-facts";
 import {
   getOfferedFormIdsBySpecies,

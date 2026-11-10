@@ -9,7 +9,7 @@ import type { ProfileIconChoice } from "@/features/settings/types";
 import {
   type ProfileFormState,
   saveProfileAction,
-} from "@/features/settings/server/profile-actions";
+} from "@/features/settings/client/profile-actions";
 import {
   DISPLAY_NAME_MAX_LENGTH,
   TRAINER_NAME_MAX_LENGTH,

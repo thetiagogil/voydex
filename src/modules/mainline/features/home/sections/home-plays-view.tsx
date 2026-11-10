@@ -11,8 +11,6 @@ type HomePlaysViewProps = {
   /* The Play the address asked for, or the latest. */
   currentPlayId: string;
   greeting: string;
-  /* Between the band and the moments: the Play picked before signing up. */
-  intentOffer?: ReactNode;
   isFirstPlay: boolean;
   subtitle: ReactNode;
 };
@@ -27,7 +25,6 @@ export const HomePlaysView = ({
   bands,
   currentPlayId,
   greeting,
-  intentOffer,
   isFirstPlay,
   subtitle,
 }: HomePlaysViewProps) => {
@@ -61,7 +58,6 @@ export const HomePlaysView = ({
         greeting={greeting}
         subtitle={subtitle}
       />
-      {intentOffer}
       <HomeMomentsSection moments={band.moments} play={band.play} />
     </div>
   );

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 
 import { getProfileIconTintStyle } from "@/config/profile-icons";
-import type { SignedInAccount } from "@/features/app-shell/types";
+import type { AppAccount } from "@/features/app-shell/types";
 import { getAccountInitial } from "@/features/app-shell/utils/account-display";
 import {
   Avatar,
@@ -19,7 +19,7 @@ export const AccountAvatar = ({
   fallbackClassName,
   size,
 }: {
-  account: SignedInAccount;
+  account: AppAccount;
   fallbackClassName?: string;
   size?: ComponentProps<typeof Avatar>["size"];
 }) => (

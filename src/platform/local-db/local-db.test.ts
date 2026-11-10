@@ -4,6 +4,7 @@ import type { PGlite } from "@electric-sql/pglite";
 import {
   callFunction,
   LocalDbError,
+  rowParsers,
   runQuery,
   toLocalDbError,
   type LocalDb,
@@ -30,6 +31,7 @@ describe("callFunction", () => {
     expect(query).toHaveBeenCalledWith(
       "SELECT * FROM gameplay.create_mainline_play(p_game_id => $1, p_name => $2)",
       [31, "Run"],
+      { parsers: rowParsers },
     );
   });
 
@@ -101,6 +103,23 @@ describe("with a real device database", () => {
     expect(error).toMatchObject({
       code: "23514",
       message: "Version groups 99 are not part of this game",
+    });
+  });
+
+  it("reads rows the way the Supabase API sent them", async () => {
+    const [row] = await runQuery<Record<string, unknown>>(
+      db,
+      `SELECT '2026-11-10 09:30:00.5+00'::timestamptz AS at,
+        '2026-11-10 09:30:00'::timestamp AS local_at,
+        '2026-11-10'::date AS day, 1.5::numeric AS share, 7::bigint AS total`,
+    );
+
+    expect(row).toEqual({
+      at: "2026-11-10T09:30:00.5+00:00",
+      day: "2026-11-10",
+      local_at: "2026-11-10T09:30:00",
+      share: 1.5,
+      total: 7,
     });
   });
 

@@ -8,7 +8,7 @@ import type {
   MainlinePlayShellData,
   PlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/types";
-import { updatePlayHeaderFieldAction } from "@/modules/mainline/features/plays/hub/views/settings/server/play-settings-actions";
+import { updatePlayHeaderFieldAction } from "@/modules/mainline/features/plays/hub/views/settings/client/play-settings-actions";
 import type { PlayHeaderChange } from "@/modules/mainline/features/plays/hub/views/settings/utils/play-settings-validation";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";

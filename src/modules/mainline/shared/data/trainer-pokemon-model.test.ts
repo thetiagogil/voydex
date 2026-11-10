@@ -4,7 +4,7 @@ import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shar
 import type {
   TrainerPokemonRows,
   TrainerPokemonUse,
-} from "@/modules/mainline/shared/server/trainer-pokemon-reader";
+} from "@/modules/mainline/shared/client/trainer-pokemon-reader";
 
 import {
   buildTrainerPokemonEntries,

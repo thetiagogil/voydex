@@ -157,9 +157,7 @@ test.describe("Rule warnings", () => {
     await page.goto(`/mainline/plays/${firstId}/team`, {
       waitUntil: "networkidle",
     });
-    const optionsLoaded = waitForAction(page);
     await page.getByRole("button", { name: "Edit Charmander" }).click();
-    await optionsLoaded;
     const evolve = page.getByRole("button", { name: "Evolve into Charmeleon" });
     await expect(evolve).toBeEnabled();
     const evolved = waitForAction(page);

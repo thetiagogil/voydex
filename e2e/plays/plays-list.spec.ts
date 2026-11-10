@@ -141,9 +141,9 @@ test.describe("Plays list", () => {
     await page
       .getByRole("combobox", { name: "Search or name a new tag" })
       .fill(tagName);
-    const created = waitForAction(page);
+    /* Making the tag saves only the tag; the section's Save keeps it on the Play. */
     await page.getByRole("option", { name: `Create “${tagName}”` }).click();
-    await created;
+    await expect(tags.getByText(tagName, { exact: true })).toBeVisible();
     const saved = waitForAction(page);
     await tags.getByRole("button", { name: "Save" }).click();
     await saved;

@@ -44,3 +44,10 @@ CREATE TABLE device.game_data_files (
     format integer NOT NULL,
     imported_at timestamptz NOT NULL DEFAULT NOW()
 );
+
+-- One row per device update (database/device-updates/) this device's data
+-- already has: run on it, or part of the schema it was installed with.
+CREATE TABLE device.updates (
+    name text PRIMARY KEY,
+    applied_at timestamptz NOT NULL DEFAULT NOW()
+);

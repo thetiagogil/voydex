@@ -84,11 +84,8 @@ choice (`search_filters_open`). Pokémon reuse is a Play's No Pokémon reuse
 rule.
 
 The game and partner picked on Start a Play are a wish, not a record: they
-travel as `?game=` and `?partner=`, then wait on the Auth user's metadata
-(`voydex_intent`) so a confirmation link opened on another device keeps them.
-Mainline reads them with `auth.getUser()`, validates them again when it starts
-the Play, and clears them once the Play is started or put aside. The email
-typed on an auth page is kept for half an hour in an HTTP-only cookie so the
+travel as `?new=` and `?partner=` into New Play, which validates them again
+when it starts the Play; nothing stores them. The email typed on an auth page is kept for half an hour in an HTTP-only cookie so the
 next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the

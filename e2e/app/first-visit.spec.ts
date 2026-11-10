@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { seededAccounts, signedOut } from "../support/accounts";
-import { logIn } from "../support/auth";
+import { signedOut } from "../support/accounts";
+import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
  * The once-per-visit reveals (the meadow's partners, Statistics' title) play
@@ -85,18 +85,26 @@ test.describe("The meadow's partners", () => {
 
 test.describe("Statistics' title", () => {
   /*
-   * Each test logs in as the seeded trainer, who has Plays (so Statistics has
-   * a title to show), in a fresh tab that has seen no reveal.
+   * Each test starts two Plays first (so Statistics has a title to show), in a
+   * fresh tab that has seen no reveal.
    */
-  test.use({ storageState: signedOut });
 
   test("rises in once in a fresh tab, and stays still on a reload", async ({
     page,
   }) => {
     const title = page.getByRole("heading", { name: "Pokémon Trainer" });
 
-    await logIn(page, seededAccounts.trainer);
-    await page.waitForURL("**/mainline");
+    /* The board, and its title, come with a second Play. */
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Reveal run"),
+      partner: "Charmander",
+    });
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Reveal run"),
+      partner: "Squirtle",
+    });
     await recordAnimations(page);
     await page.goto("/mainline/stats");
     await expect(title).toBeVisible();
@@ -113,10 +121,19 @@ test.describe("Statistics' title", () => {
     const title = page.getByRole("heading", { name: "Pokémon Trainer" });
     const bar = page.getByRole("navigation").first();
 
-    await logIn(page, seededAccounts.trainer);
-    await page.waitForURL("**/mainline");
+    /* The board, and its title, come with a second Play. */
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Reveal run"),
+      partner: "Charmander",
+    });
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Reveal run"),
+      partner: "Squirtle",
+    });
     await recordAnimations(page);
-    await page.reload();
+    await page.goto("/mainline");
     await bar.getByRole("link", { name: "Statistics" }).click();
     await expect(title).toBeVisible();
     await expectPlayedThrough(page, "title-rise");

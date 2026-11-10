@@ -13,7 +13,7 @@ import {
 import { cn } from "@/shared/utils/cn";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 
-import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
+import type { StoryMilestoneActionIntent } from "../../client/story-milestone-action";
 import type { StoryMilestone } from "../../types";
 import {
   hasRecordedStoryMilestoneDecision,

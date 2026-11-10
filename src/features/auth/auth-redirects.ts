@@ -1,5 +1,5 @@
 import { getModuleKeyForPathname } from "@/config/modules";
-import { appRoutes, isProtectedRoute } from "@/config/routes";
+import { appRoutes, isAppRoute } from "@/config/routes";
 
 export const DEFAULT_AUTH_REDIRECT_PATH: string = appRoutes.appEntry;
 
@@ -10,7 +10,7 @@ const isAllowedAuthRedirectPath = (pathname: string) => {
     pathname === appRoutes.appEntry ||
     /* Where a password reset link lands, through the callback. */
     pathname === appRoutes.resetPassword ||
-    isProtectedRoute(pathname) ||
+    isAppRoute(pathname) ||
     Boolean(getModuleKeyForPathname(pathname))
   );
 };
@@ -53,7 +53,7 @@ export const getSafeAuthRedirectPath = (
 export const getLogInLandingPath = (next: string): string => {
   const { pathname } = new URL(next, AUTH_REDIRECT_BASE_URL);
 
-  return pathname !== appRoutes.appEntry && isProtectedRoute(pathname)
+  return pathname !== appRoutes.appEntry && isAppRoute(pathname)
     ? next
     : appRoutes.mainline;
 };

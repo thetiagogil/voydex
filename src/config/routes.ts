@@ -124,7 +124,7 @@ export const appRoutes = {
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
   settings: "/settings",
-  /* Start a Play: pick a game and a partner before signing up. */
+  /* Start a Play: pick a game and a partner, then New Play opens on them. */
   start: "/start",
   terms: "/terms",
   /* First run after sign-up: name and icon. */
@@ -133,15 +133,16 @@ export const appRoutes = {
   you: "/you",
 } as const;
 
-const protectedRoutePrefixes = [
+/* The app's own pages: open to everyone, with your data on this device. */
+const appRoutePrefixes = [
   appRoutes.mainline,
   appRoutes.settings,
   appRoutes.welcome,
   appRoutes.you,
 ] as const;
 
-export const isProtectedRoute = (pathname: string) => {
-  return protectedRoutePrefixes.some(
+export const isAppRoute = (pathname: string) => {
+  return appRoutePrefixes.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 };

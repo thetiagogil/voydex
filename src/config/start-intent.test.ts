@@ -1,47 +1,23 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  getStartPlayHref,
-  parseStartIntent,
-  readStartIntentFormData,
-  setStartIntentParams,
-} from "./start-intent";
+import { getStartPlayHref, readStartIntentParams } from "./start-intent";
 
 describe("start intent", () => {
-  it("reads stored metadata, keeping only slugs", () => {
+  it("reads the pick from the address, keeping only slugs", () => {
     expect(
-      parseStartIntent({ gameSlug: "sword", partnerSpeciesSlug: "grookey" }),
+      readStartIntentParams({ game: "sword", partner: "grookey" }),
     ).toEqual({ gameSlug: "sword", partnerSpeciesSlug: "grookey" });
-    expect(parseStartIntent({ gameSlug: "lets-go-pikachu" })).toEqual({
+    expect(readStartIntentParams({ game: "lets-go-pikachu" })).toEqual({
       gameSlug: "lets-go-pikachu",
     });
     expect(
-      parseStartIntent({ gameSlug: "sword", partnerSpeciesSlug: "Grookey" }),
+      readStartIntentParams({ game: "sword", partner: "Grookey" }),
     ).toEqual({ gameSlug: "sword" });
-    expect(parseStartIntent({ gameSlug: "-sword" })).toBeNull();
-    expect(parseStartIntent({ gameSlug: "a".repeat(65) })).toBeNull();
-    expect(parseStartIntent("sword")).toBeNull();
-    expect(parseStartIntent(null)).toBeNull();
-  });
-
-  it("round-trips through a form and a query", () => {
-    const formData = new FormData();
-
-    formData.set("game", "violet");
-    formData.set("partner", "quaxly");
-
-    const intent = readStartIntentFormData(formData);
-
-    expect(intent).toEqual({
-      gameSlug: "violet",
-      partnerSpeciesSlug: "quaxly",
-    });
-    expect(setStartIntentParams(new URLSearchParams(), intent).toString()).toBe(
-      "game=violet&partner=quaxly",
-    );
+    expect(readStartIntentParams({ game: "-sword" })).toBeNull();
+    expect(readStartIntentParams({ game: "a".repeat(65) })).toBeNull();
     expect(
-      setStartIntentParams(new URLSearchParams("a=1"), null).toString(),
-    ).toBe("a=1");
+      readStartIntentParams({ game: null, partner: "grookey" }),
+    ).toBeNull();
   });
 
   it("links Start a Play at a generation or a game", () => {

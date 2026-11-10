@@ -57,6 +57,12 @@ test.describe("Home", () => {
   });
 
   test("another Play on the shelf lets the pick go", async ({ page }) => {
+    /* Each test has its own device: the shelf needs a second Play. */
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Home shelf other"),
+      partner: "Charmander",
+    });
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: uniquePlayName("Home shelf"),

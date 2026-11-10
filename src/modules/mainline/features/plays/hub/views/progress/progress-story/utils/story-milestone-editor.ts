@@ -1,4 +1,4 @@
-import type { StoryMilestoneActionIntent } from "../server/story-milestone-action";
+import type { StoryMilestoneActionIntent } from "../client/story-milestone-action";
 import type { StoryMilestone } from "../types";
 import {
   hasRecordedStoryMilestoneDecision,

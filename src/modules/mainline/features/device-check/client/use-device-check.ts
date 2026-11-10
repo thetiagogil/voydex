@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-  addLocalTeamMember,
-  createLocalPlay,
-} from "@/modules/mainline/features/plays/shared/client/local-play-commands";
+import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/client/add-team-member-command";
+import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/client/create-play-command";
+import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/client/team-repository";
+import { parseNewPlayInput } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
+import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import { mainlineTeamRosterStates } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 import {
   ensureDeviceSchema,
@@ -206,10 +207,10 @@ const runFlow = async (
   db: LocalDb,
   playName: string,
 ): Promise<FlowResult & { playId: string }> => {
+  const client = createLocalQueryClient(db);
   let startedAt = performance.now();
-  const play = await createLocalPlay({
-    db,
-    rawInput: {
+  const play = await createMainlinePlay({
+    input: parseNewPlayInput({
       challengeRules: [],
       expansionVersionGroupIds: [],
       gameSlug: "sword",
@@ -217,7 +218,8 @@ const runFlow = async (
       playName,
       startedOn: todayIso(),
       trainerName: null,
-    },
+    }),
+    supabase: client,
   });
   const createMs = elapsed(startedAt);
   const [grookey] = await runQuery<{ form_id: number; species_id: number }>(
@@ -229,8 +231,8 @@ const runFlow = async (
   );
 
   startedAt = performance.now();
-  await addLocalTeamMember({
-    db,
+  await addMainlinePlayPokemon({
+    repository: createMainlineTeamRepository(client),
     input: {
       formId: grookey.form_id,
       playId: play.playId,

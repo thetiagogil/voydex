@@ -22,7 +22,7 @@ import {
   keepPendingOverrides,
   type StoryRecordingOverrides,
 } from "./data/story-recording-overrides";
-import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
+import type { StoryMilestoneActionIntent } from "./client/story-milestone-action";
 import type { StoryMilestoneChoice } from "./sections/detail/story-milestone-actions";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
 import { StoryMilestoneSheet } from "./sections/detail/story-milestone-sheet";

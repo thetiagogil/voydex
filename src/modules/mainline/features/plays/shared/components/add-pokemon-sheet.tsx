@@ -31,13 +31,13 @@ import { SearchControl } from "@/shared/components/search-control";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import { addMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/server/add-team-member-action";
-import { loadPokemonBuildOptionsAction } from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-action";
-import { loadMainlinePlayPokemonChoicesAction } from "@/modules/mainline/features/plays/shared/server/pokemon-choices-action";
+import { addMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/client/add-team-member-action";
+import { loadPokemonBuildOptionsAction } from "@/modules/mainline/features/plays/shared/client/pokemon-build-options-action";
+import { loadMainlinePlayPokemonChoicesAction } from "@/modules/mainline/features/plays/shared/client/pokemon-choices-action";
 import {
   removeMainlinePlayPokemonAction,
   replaceMainlinePlayPokemonAction,
-} from "@/modules/mainline/features/plays/shared/server/team-member-remove-actions";
+} from "@/modules/mainline/features/plays/shared/client/team-member-remove-actions";
 import {
   filterPokemonChoices,
   formatPokemonChoiceNumber,
