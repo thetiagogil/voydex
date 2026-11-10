@@ -3,6 +3,7 @@ import type { StartIntent } from "@/config/start-intent";
 import type { ChallengeRuleChoice } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
+import type { GameCatalogue } from "@/modules/reference/features/games/types";
 
 /* Where New Play opens: a game (and partner) from a preset or the sign-up wish. */
 export type NewPlayInitialChoice = {
@@ -22,14 +23,12 @@ export type NewPlayWizardData = NewPlayPickerData & {
 };
 
 /*
- * What the New Play dialog keeps for the visit to Mainline: the picker (null
- * when the games couldn't be read), and the game picked before signing up,
- * so each opening can start on its own game.
+ * What the server hands the New Play dialog for the visit to Mainline: the
+ * game catalogue (null when the games couldn't be read), and the game picked
+ * before signing up, so each opening can start on its own game. The rest
+ * (your rules, defaults and trainer name) is read on the device.
  */
 export type NewPlayDialogData = {
+  catalogue: GameCatalogue | null;
   intent: StartIntent | null;
-  picker: NewPlayPickerData | null;
-  presets: RulePreset[];
-  rules: ChallengeRuleChoice[];
-  trackingDefaults: PlayTracking | null;
 };

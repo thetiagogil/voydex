@@ -16,11 +16,14 @@ export type StartLocalDbOptions = {
    * saves feel instant; a crash in that moment can lose the last save.
    */
   relaxedDurability?: boolean;
+  /* A copy from `dumpDataDir` to start from; the database must not exist. */
+  restoreFrom?: Blob;
 };
 
 /* Starts the device database in its worker; resolves once it can be queried. */
 export const startLocalDb = async ({
   relaxedDurability = false,
+  restoreFrom,
 }: StartLocalDbOptions = {}): Promise<LocalDbHandle> => {
   const worker = new Worker(new URL("./local-db-worker.ts", import.meta.url), {
     type: "module",
@@ -29,6 +32,7 @@ export const startLocalDb = async ({
   try {
     const db = await PGliteWorker.create(worker, {
       dataDir,
+      loadDataDir: restoreFrom,
       relaxedDurability,
     });
 

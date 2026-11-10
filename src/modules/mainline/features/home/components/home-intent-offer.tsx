@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import type { HomeIntentOffer } from "@/modules/mainline/features/home/types";
 import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
-import { dismissStartIntentAction } from "@/modules/mainline/features/plays/shared/server/create-play-action";
+import { dismissStartIntentAction } from "@/modules/mainline/features/plays/shared/server/start-intent-actions";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { OfferCard } from "@/shared/components/offer-card";
 import { Button } from "@/shared/components/ui/button";

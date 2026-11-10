@@ -25,6 +25,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { IconTip } from "@/shared/components/icon-tip";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { QuietLocalDbBoundary } from "@/platform/local-db/local-db-context";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export { FavouritePokemonSignIn as CodexFavouriteSignIn } from "@/modules/mainline/features/collection/components/favourite-pokemon-button";
@@ -39,12 +40,15 @@ export { FavouritePokemonSignIn as CodexFavouriteSignIn } from "@/modules/mainli
 /*
  * New Play, hosted on a Codex page as the Mainline layout hosts it: Start a
  * Play opens the dialog over the page, and only starting the Play moves on,
- * to the new Play.
+ * to the new Play. The card waits for the device database, which New Play
+ * reads and saves through.
  */
 const CodexNewPlayHost = async ({ children }: { children: ReactNode }) => (
-  <NewPlayDialogProvider data={await getNewPlayDialogData()}>
-    {children}
-  </NewPlayDialogProvider>
+  <QuietLocalDbBoundary>
+    <NewPlayDialogProvider data={await getNewPlayDialogData()}>
+      {children}
+    </NewPlayDialogProvider>
+  </QuietLocalDbBoundary>
 );
 
 const getAddItems = (plays: CodexPlay[]) =>

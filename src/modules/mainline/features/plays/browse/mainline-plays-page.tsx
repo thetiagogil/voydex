@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
@@ -6,8 +8,13 @@ import { PlaysBrowser } from "@/modules/mainline/features/plays/browse/component
 import { PlaysPageHeader } from "@/modules/mainline/features/plays/browse/components/plays-page-header";
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseParams } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import type { PlaysPageData } from "@/modules/mainline/features/plays/browse/types";
+import { readLocalPlaysPageData } from "@/modules/mainline/features/plays/browse/client/plays-page-local-query";
+import type {
+  PlaysPageData,
+  PlaysPageView,
+} from "@/modules/mainline/features/plays/browse/types";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
+import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -16,8 +23,8 @@ import { PageHeader } from "@/shared/components/page-header";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type MainlinePlaysPageProps = {
-  data: PlaysPageData;
   params?: PlayBrowseParams;
+  view: PlaysPageView;
 };
 
 const emptyLibraryArt = {
@@ -65,7 +72,29 @@ const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
   </div>
 );
 
-export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
+/*
+ * The Plays page, read on the device. The read takes milliseconds, so there
+ * is no loading state; a failed read goes to the page's error screen.
+ */
+export const MainlinePlaysPage = ({ params, view }: MainlinePlaysPageProps) => {
+  const read = useLocalRead(`plays:${view}`, (db) =>
+    readLocalPlaysPageData(db, view),
+  );
+
+  if (read.status === "failed") throw read.error;
+
+  if (read.status === "loading") return null;
+
+  return <PlaysPageContent data={read.data} params={params} />;
+};
+
+const PlaysPageContent = ({
+  data,
+  params,
+}: {
+  data: PlaysPageData;
+  params?: PlayBrowseParams;
+}) => {
   if (data.view === "archived") {
     return <ArchivedPlaysView plays={data.plays} />;
   }

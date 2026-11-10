@@ -234,6 +234,10 @@ export type GameDataProgress = {
   total: number;
 };
 
+/* How far a download or install is, 0 to 100, for a progress bar. */
+export const getGameDataPercent = ({ done, total }: GameDataProgress) =>
+  total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+
 /* Downloads one file; reports each chunk's size as it arrives. */
 export type DownloadGameDataFile = (
   path: string,
@@ -335,6 +339,14 @@ const findGame = (versions: GameDataVersions, slug: string) => {
 
   return game;
 };
+
+/*
+ * The base file alone: games, Pokémon, moves and the other lists every game
+ * shares, so Voydex can show Plays and pick a game before any game file is
+ * on the device.
+ */
+export const installGameBase = (db: LocalDb, options: InstallOptions) =>
+  installFiles(db, [options.versions.base], options);
 
 /*
  * Makes a game ready to play on this device: the base file (once per device)

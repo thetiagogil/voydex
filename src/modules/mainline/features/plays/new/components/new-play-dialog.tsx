@@ -8,12 +8,14 @@ import {
   NewPlayUnavailable,
   NewPlayWizard,
 } from "@/modules/mainline/features/plays/new/components/new-play-wizard";
+import { readNewPlayLocalData } from "@/modules/mainline/features/plays/new/client/new-play-local-reader";
 import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
 import { resolveNewPlayInitialChoice } from "@/modules/mainline/features/plays/new/utils/new-play-initial-choice";
 import {
   NewPlayDialogContext,
   type NewPlayDialogOpener,
 } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
+import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 
 /*
@@ -30,7 +32,10 @@ type Opening = {
 
 type NewPlayDialogProviderProps = {
   children: ReactNode;
-  /* Read with the Mainline layout: the dialog opens complete, every time. */
+  /*
+   * Read with the Mainline layout: the dialog opens complete, every time.
+   * Your rules, defaults and trainer name come from the device.
+   */
   data: NewPlayDialogData;
 };
 
@@ -59,6 +64,12 @@ export const NewPlayDialogProvider = ({
   const [openedOn, setOpenedOn] = useState(pathname);
   const [seenRequest, setSeenRequest] = useState<string | null>(null);
   const triggerCount = useRef(0);
+  const local = useLocalRead("new-play", readNewPlayLocalData);
+  /* Until the device answers (milliseconds), New Play starts from the saved defaults. */
+  const yours =
+    local.status === "ready"
+      ? local.data
+      : { presets: [], rules: [], trackingDefaults: null, trainerName: null };
 
   const close = () =>
     setOpening((current) => current && { ...current, isOpen: false });
@@ -132,16 +143,17 @@ export const NewPlayDialogProvider = ({
         fullScreenOnPhone
         size="2xl"
       >
-        {opening && data.picker ? (
+        {opening && data.catalogue ? (
           <NewPlayWizard
             key={opening.id}
             data={{
-              ...data.picker,
-              presets: data.presets,
-              rules: data.rules,
-              trackingDefaults: data.trackingDefaults,
+              ...data.catalogue,
+              presets: yours.presets,
+              rules: yours.rules,
+              trackingDefaults: yours.trackingDefaults,
+              trainerName: yours.trainerName,
               initial: resolveNewPlayInitialChoice(
-                data.picker.games,
+                data.catalogue.games,
                 opening,
                 intent,
               ),

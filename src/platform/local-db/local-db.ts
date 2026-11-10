@@ -1,4 +1,4 @@
-import type { PGliteInterface } from "@electric-sql/pglite";
+import { types, type PGliteInterface } from "@electric-sql/pglite";
 
 /*
  * The device database as readers and commands receive it: plain SQL reads,
@@ -47,6 +47,22 @@ export const toLocalDbError = (error: unknown) => {
   });
 };
 
+/* Postgres prints "2026-11-10 09:30:00.123456+00"; the API sent ISO text. */
+const toIsoDateTime = (value: string) =>
+  value.replace(" ", "T").replace(/([+-]\d\d)$/, "$1:00");
+
+/*
+ * Rows come back the way the Supabase API sent them, so the mappers that
+ * read them need no change: dates and times as ISO text (PGlite would make
+ * them Date objects) and numeric as a number (PGlite leaves it as text).
+ */
+export const rowParsers = {
+  [types.DATE]: (value: string) => value,
+  [types.NUMERIC]: (value: string) => Number(value),
+  [types.TIMESTAMP]: toIsoDateTime,
+  [types.TIMESTAMPTZ]: toIsoDateTime,
+};
+
 /* A plain SQL read; a failed read throws, it never reads as empty. */
 export const runQuery = async <Row>(
   db: LocalDb,
@@ -54,7 +70,7 @@ export const runQuery = async <Row>(
   params: unknown[] = [],
 ): Promise<Row[]> => {
   try {
-    const result = await db.query<Row>(sql, params);
+    const result = await db.query<Row>(sql, params, { parsers: rowParsers });
 
     return result.rows;
   } catch (error) {

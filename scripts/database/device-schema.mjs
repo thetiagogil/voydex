@@ -3,9 +3,11 @@
 /*
  * Writes the SQL a new device runs, and its hash, to public/local-db/ (run
  * before `dev` and `build`): the device schema
- * (src/platform/local-db/device-schema.sql), then the built migration. The
- * app serves them as static files, so a returning device only fetches the
- * hash.
+ * (src/platform/local-db/device-schema.sql), then the built migration, then
+ * the device updates it already holds. The app serves them as static files,
+ * so a returning device only fetches the hash. The device updates
+ * (database/device-updates/) go to updates.json, which only a device with
+ * an older schema fetches.
  */
 
 import { createHash } from "node:crypto";
@@ -14,6 +16,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rootDir, supabaseDir } from "./context.mjs";
+import {
+  deviceUpdatesDir,
+  readDeviceUpdates,
+} from "./game-data/release-checks.mjs";
 
 /*
  * The schema asks for pgcrypto, but nothing in it uses pgcrypto (Postgres
@@ -22,8 +28,28 @@ import { rootDir, supabaseDir } from "./context.mjs";
  */
 const pgcryptoStatement = "CREATE EXTENSION IF NOT EXISTS pgcrypto;";
 
-/* Fails loudly when the schema asks for an extension the device lacks. */
-export function buildDeviceSchemaSql({ deviceSql, migrationSql }) {
+const updateNamePattern = /^[0-9]{4}-[a-z0-9]+(?:-[a-z0-9]+)*\.sql$/;
+
+const checkUpdateName = (name) => {
+  if (!updateNamePattern.test(name)) {
+    throw new Error(
+      `Device update "${name}" needs a name like 0001-add-play-notes.sql.`,
+    );
+  }
+
+  return name;
+};
+
+/*
+ * Fails loudly when the schema asks for an extension the device lacks. A new
+ * device gets the current schema, which already holds every device update,
+ * so it records them as run.
+ */
+export function buildDeviceSchemaSql({
+  deviceSql,
+  migrationSql,
+  updateNames = [],
+}) {
   const schemaSql = migrationSql.replace(
     pgcryptoStatement,
     "-- pgcrypto: left out on the device, nothing uses it.",
@@ -36,7 +62,21 @@ export function buildDeviceSchemaSql({ deviceSql, migrationSql }) {
     );
   }
 
-  return `${deviceSql.trimEnd()}\n\n${schemaSql}`;
+  const updatesSql = updateNames.length
+    ? `\n\nINSERT INTO device.updates (name)\n    VALUES ${updateNames
+        .map((name) => `('${checkUpdateName(name)}')`)
+        .join(", ")};\n`
+    : "";
+
+  return `${deviceSql.trimEnd()}\n\n${schemaSql.trimEnd()}\n${updatesSql}`;
+}
+
+/* The device updates, in the order a device runs them, with their SQL. */
+export function readDeviceUpdateFiles() {
+  return readDeviceUpdates().map((name) => ({
+    name: checkUpdateName(name),
+    sql: fs.readFileSync(path.join(deviceUpdatesDir, name), "utf8"),
+  }));
 }
 
 export function readDeviceSchemaSql() {
@@ -53,6 +93,7 @@ export function readDeviceSchemaSql() {
       ),
       "utf8",
     ),
+    updateNames: readDeviceUpdates(),
   });
 }
 
@@ -70,5 +111,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   fs.writeFileSync(
     path.join(outputDir, "schema-hash.txt"),
     hashDeviceSchemaSql(sql),
+  );
+  fs.writeFileSync(
+    path.join(outputDir, "updates.json"),
+    JSON.stringify({ updates: readDeviceUpdateFiles() }),
   );
 }

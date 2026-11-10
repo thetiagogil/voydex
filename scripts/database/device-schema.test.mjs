@@ -23,4 +23,26 @@ describe("buildDeviceSchemaSql", () => {
       }),
     ).toThrow("postgis");
   });
+
+  it("records the device updates the schema already holds", () => {
+    const sql = buildDeviceSchemaSql({
+      deviceSql: "CREATE SCHEMA device;\n",
+      migrationSql: "CREATE SCHEMA reference;",
+      updateNames: ["0001-first.sql", "0002-add-notes.sql"],
+    });
+
+    expect(sql.trimEnd().endsWith(
+      "INSERT INTO device.updates (name)\n    VALUES ('0001-first.sql'), ('0002-add-notes.sql');",
+    )).toBe(true);
+  });
+
+  it("refuses a device update named out of order", () => {
+    expect(() =>
+      buildDeviceSchemaSql({
+        deviceSql: "",
+        migrationSql: "",
+        updateNames: ["notes.sql"],
+      }),
+    ).toThrow("0001-add-play-notes.sql");
+  });
 });

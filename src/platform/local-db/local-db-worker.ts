@@ -13,6 +13,8 @@ void worker({
     PGlite.create({
       ...localDbOptions,
       dataDir: options.dataDir,
+      /* A saved copy to start from, when restoring one. */
+      loadDataDir: options.loadDataDir,
       relaxedDurability: options.relaxedDurability,
     }),
 });

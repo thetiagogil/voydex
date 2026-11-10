@@ -6,7 +6,11 @@ import {
   createLocalTeamRepository,
 } from "@/modules/mainline/features/plays/shared/client/local-play-commands";
 import { NewPlayInputError } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
-import { LocalDbError, type LocalDb } from "@/platform/local-db/local-db";
+import {
+  LocalDbError,
+  rowParsers,
+  type LocalDb,
+} from "@/platform/local-db/local-db";
 
 const newPlay = {
   challengeRules: [],
@@ -47,6 +51,7 @@ describe("createLocalPlay", () => {
     expect(query).toHaveBeenLastCalledWith(
       "SELECT * FROM gameplay.create_mainline_play(p_challenge_rules => $1, p_expansion_version_group_ids => $2, p_game_id => $3, p_name => $4, p_started_on => $5)",
       [[], [19], 31, "Galar run", "2026-11-09"],
+      { parsers: rowParsers },
     );
   });
 
@@ -58,7 +63,7 @@ describe("createLocalPlay", () => {
     ).rejects.toBeInstanceOf(NewPlayInputError);
   });
 
-  it("refuses a partner it can't check yet", async () => {
+  it("refuses a partner the game doesn't offer", async () => {
     const { db, query } = fakeDb(() => []);
 
     await expect(
@@ -66,8 +71,27 @@ describe("createLocalPlay", () => {
         db,
         rawInput: { ...newPlay, partner: { formId: 81000, speciesId: 810 } },
       }),
-    ).rejects.toThrow("Pick the partner after the Play starts");
-    expect(query).not.toHaveBeenCalled();
+    ).rejects.toThrow("That partner isn't one this game offers.");
+    expect(query).toHaveBeenCalledOnce();
+  });
+
+  it("starts with a partner the game offers", async () => {
+    const { db, query } = fakeDb((sql) =>
+      sql.includes("availability_methods")
+        ? [{ "?column?": 1 }]
+        : sql.includes("reference.games")
+          ? [{ id: 31 }]
+          : [{ result_play_id: "play-1" }],
+    );
+
+    await createLocalPlay({
+      db,
+      rawInput: { ...newPlay, partner: { formId: 81000, speciesId: 810 } },
+    });
+    expect(query.mock.lastCall?.[0]).toContain(
+      "p_partner_form_id => $5, p_partner_species_id => $6",
+    );
+    expect(query.mock.lastCall?.[1]).toContain(81000);
   });
 
   it("turns the expansion refusal into New Play's message", async () => {
@@ -104,6 +128,7 @@ describe("createLocalTeamRepository", () => {
     expect(query).toHaveBeenCalledWith(
       "SELECT * FROM gameplay.add_mainline_play_pokemon(p_form_id => $1, p_move_ids => $2, p_play_id => $3, p_roster_state_id => $4, p_slot => $5, p_species_id => $6)",
       [81000, [], "play-1", 1, 1, 810],
+      { parsers: rowParsers },
     );
   });
 

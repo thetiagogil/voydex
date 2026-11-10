@@ -1,5 +1,4 @@
 import { MainlinePlaysPage } from "@/modules/mainline/features/plays/browse/mainline-plays-page";
-import { getMainlinePlaysPageData } from "@/modules/mainline/features/plays/browse/server/plays-page-query";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -16,13 +15,12 @@ const getSearchParam = (
 
 export default async function PlaysPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const data = await getMainlinePlaysPageData(
-    getSearchParam(params, "view") === "archived" ? "archived" : "active",
-  );
 
   return (
     <MainlinePlaysPage
-      data={data}
+      view={
+        getSearchParam(params, "view") === "archived" ? "archived" : "active"
+      }
       params={{
         display: getSearchParam(params, "display"),
         game: getSearchParam(params, "game"),
