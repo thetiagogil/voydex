@@ -24,7 +24,10 @@ issues, in order:
    signing in (the sign-up pick from Start a Play is gone: Start leads
    straight into New Play). Hosted Supabase data was left behind; the app
    starts anew.
-5. #248 Backup file and account sync.
+5. #248 Backup file and account sync, in two pull requests: first Save
+   backup and Restore in Settings, a 30-day reminder on Home and an
+   installable app (manifest) with install and in-app-browser notes; then
+   change records, event merge and account sync.
 
 Left after #247: updating a game file that changed in a new release (a device
 keeps the one it has; Start fresh is the way out before launch), and the

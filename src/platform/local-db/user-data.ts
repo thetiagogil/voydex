@@ -61,10 +61,6 @@ export type UserRow = Record<string, unknown>;
 /* `{ "gameplay.mainline_plays": [row, ...] }`, rows as JSON objects. */
 export type UserData = Record<string, UserRow[]>;
 
-const userTableNames = new Set(userTables.map((table) => table.name));
-
-export const isUserTable = (name: string) => userTableNames.has(name);
-
 const selectRows = ({ name, where }: UserTable) =>
   `SELECT to_jsonb(t) AS row FROM ${name} t${where ? ` WHERE ${where}` : ""}`;
 

@@ -467,6 +467,9 @@ src/platform/local-db/
   local-query-client.ts  # the query interface readers take, as SQL on the device
   local-db-context.tsx   # LocalDbProvider, useLocalRead, save, notifyLocalSave
   game-downloads.ts      # game files on first need, with useGameDownload
+  user-data.ts           # your tables, read whole and replaced in one go
+  backup-file.ts         # the backup file: format, upgrades, gzip
+  backups.ts             # save and restore a file, the "Last backup" note
 ```
 
 The app's layout wraps every app page in the device gate
