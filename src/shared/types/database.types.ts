@@ -1769,6 +1769,40 @@ export type Database = {
           },
         ];
       };
+      user_backups: {
+        Row: {
+          byte_size: number;
+          created_at: string;
+          device_name: string | null;
+          format: number;
+          id: string;
+          object_path: string;
+          saved_at: string;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          byte_size: number;
+          created_at?: string;
+          device_name?: string | null;
+          format: number;
+          id?: string;
+          object_path: string;
+          saved_at: string;
+          user_id: string;
+        };
+        Update: {
+          byte_size?: number;
+          created_at?: string;
+          device_name?: string | null;
+          format?: number;
+          id?: string;
+          object_path?: string;
+          saved_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       user_preferences: {
         Row: {
           created_at: string;

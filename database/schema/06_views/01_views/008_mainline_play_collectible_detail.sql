@@ -58,4 +58,4 @@ FROM
     LEFT JOIN gameplay.mainline_play_collectible_entry_progress ON mainline_play_collectible_entry_progress.play_id = mainline_plays.id
         AND mainline_play_collectible_entry_progress.collectible_entry_id = mainline_collectible_entries.id;
 
-COMMENT ON VIEW views.mainline_play_collectible_detail IS 'Available collectible entries for each play with collected state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_collectible_detail IS 'Available collectible entries for each play with collected state. Uses security_invoker.';

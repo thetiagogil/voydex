@@ -8,7 +8,7 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f1', 'authenticated', 'authenticated', 'settings-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f2', 'authenticated', 'authenticated', 'settings-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (39);
+    plan (34);
 -- Defaults of a new account
 SELECT
     results_eq ($$
@@ -28,7 +28,6 @@ SELECT
 -- Owner access and enum checks
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$ INSERT INTO public.user_preferences (user_id, default_track_story, default_pokedex_mode, default_track_collectibles, motion)
             VALUES ('00000000-0000-0000-0000-0000000000f1', FALSE, 'caught_only', FALSE, 'none') ON CONFLICT (user_id)
@@ -37,71 +36,55 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            default_track_story, default_pokedex_mode, default_track_collectibles, motion FROM public.user_preferences $$, $$
-        VALUES (FALSE, 'caught_only', FALSE, 'none') $$, 'the owner reads the saved settings back');
-SELECT
-    throws_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            default_pokedex_mode = 'everything' $$, '23514', NULL, 'the default Pokédex mode must be caught_only or caught_and_seen');
-SELECT
-    throws_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            motion = 'fast' $$, '23514', NULL, 'motion must be full or none');
-SELECT
-    lives_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            motion = 'full' $$, 'the owner can change motion');
-SELECT
-    lives_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            search_filters_open = TRUE $$, 'the owner can keep search and filters open');
-SELECT
-    throws_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            search_filters_open = NULL $$, '23502', NULL, 'search and filters is never empty');
-SELECT
-    throws_ok ($$ UPDATE
-            public.user_preferences
-        SET
-            default_track_story = NULL $$, '23502', NULL, 'a default switch is never empty');
--- Another trainer's settings stay private
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-SELECT
-    is_empty ($$
-        SELECT
-            1 FROM public.user_preferences
-            WHERE
-                user_id = '00000000-0000-0000-0000-0000000000f1' $$, 'another trainer cannot read my settings');
-UPDATE
-    public.user_preferences
-SET
-    motion = 'none',
-    default_track_story = TRUE
-WHERE
-    user_id = '00000000-0000-0000-0000-0000000000f1';
-SELECT
-    throws_ok ($$ INSERT INTO public.user_preferences (user_id)
-            VALUES ('00000000-0000-0000-0000-0000000000f1') ON CONFLICT (user_id)
-            DO UPDATE SET
-                motion = 'none' $$, '42501', NULL, 'another trainer cannot upsert over my settings');
-RESET ROLE;
-SELECT
-    results_eq ($$
-        SELECT
-            default_track_story, motion FROM public.user_preferences
+            default_track_story, default_pokedex_mode, default_track_collectibles, motion FROM public.user_preferences
             WHERE
                 user_id = '00000000-0000-0000-0000-0000000000f1' ORDER BY user_id $$, $$
-            VALUES (FALSE, 'full') $$, 'another trainer''s update did not change my settings');
+            VALUES (FALSE, 'caught_only', FALSE, 'none') $$, 'the owner reads the saved settings back');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            default_pokedex_mode = 'everything'
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, '23514', NULL, 'the default Pokédex mode must be caught_only or caught_and_seen');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            motion = 'fast'
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, '23514', NULL, 'motion must be full or none');
+SELECT
+    lives_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            motion = 'full'
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, 'the owner can change motion');
+SELECT
+    lives_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = TRUE
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, 'the owner can keep search and filters open');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = NULL
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, '23502', NULL, 'search and filters is never empty');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            default_track_story = NULL
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, '23502', NULL, 'a default switch is never empty');
 -- Starting a Play with explicit choices
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
-SET LOCAL ROLE authenticated;
 CREATE TEMPORARY TABLE started_explicit ON COMMIT DROP AS
 SELECT
     *
@@ -164,11 +147,14 @@ SELECT
                     FROM started_mixed) $$, $$
         VALUES (TRUE, 'caught_only', FALSE) $$, 'one explicit choice does not hide the other saved defaults');
 -- No saved row: everything on
-DELETE FROM public.user_preferences;
+DELETE FROM public.user_preferences
+WHERE user_id = '00000000-0000-0000-0000-0000000000f1';
 SELECT
     is_empty ($$
         SELECT
-            1 FROM public.user_preferences $$, 'the owner removed their saved settings row');
+            1 FROM public.user_preferences
+            WHERE
+                user_id = '00000000-0000-0000-0000-0000000000f1' $$, 'the owner removed their saved settings row');
 CREATE TEMPORARY TABLE started_bare ON COMMIT DROP AS
 SELECT
     *
@@ -436,15 +422,6 @@ SELECT
 -- Another trainer cannot read or change the Play's settings
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-SELECT
-    is_empty ($$
-        SELECT
-            1 FROM gameplay.mainline_play_settings
-            WHERE
-                play_id = (
-                    SELECT
-                        result_play_id
-                    FROM started_bare) $$, 'another trainer cannot read my Play settings');
 UPDATE
     gameplay.mainline_play_settings
 SET
@@ -455,21 +432,6 @@ WHERE
             result_play_id
         FROM
             started_bare);
-RESET ROLE;
-SELECT
-    IS ((
-            SELECT
-                story_tracking_enabled
-            FROM
-                gameplay.mainline_play_settings
-            WHERE
-                play_id = (
-                    SELECT
-                        result_play_id
-                    FROM
-                        started_bare)),
-                TRUE,
-                'another trainer cannot switch off my Story tracking');
 SELECT
     *
 FROM

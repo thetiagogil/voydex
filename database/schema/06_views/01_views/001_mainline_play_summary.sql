@@ -236,4 +236,4 @@ SELECT
                         JOIN reference.version_groups ON version_groups.id = mainline_plays.version_group_id
                         JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_play_summary IS 'Compact play summary rows. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_summary IS 'Compact play summary rows. Uses security_invoker.';

@@ -18,7 +18,6 @@ SELECT
     plan (4);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e3', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$
         SELECT

@@ -136,3 +136,46 @@ BEGIN
         END LOOP;
 END;
 $$;
+
+-- Your tables lost their row security (ADR 0008): on the device the one
+-- local user owns every row, and it runs as the database owner, so the API
+-- roles' grants never mattered here.
+DO $$
+DECLARE
+    user_policy record;
+BEGIN
+    FOR user_policy IN
+    SELECT
+        policies.polname AS name,
+        policies.polrelid::regclass AS table_name
+    FROM
+        pg_policy policies
+        JOIN pg_class tables ON tables.oid = policies.polrelid
+        JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+    WHERE
+        schemas.nspname IN ('public', 'gameplay', 'planning')
+        LOOP
+            EXECUTE format('DROP POLICY %I ON %s', user_policy.name, user_policy.table_name);
+        END LOOP;
+END;
+$$;
+
+DO $$
+DECLARE
+    user_table record;
+BEGIN
+    FOR user_table IN
+    SELECT
+        tables.oid::regclass AS name
+    FROM
+        pg_class tables
+        JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+    WHERE
+        tables.relkind = 'r'
+        AND tables.relrowsecurity
+        AND schemas.nspname IN ('public', 'gameplay', 'planning')
+        LOOP
+            EXECUTE format('ALTER TABLE %s DISABLE ROW LEVEL SECURITY', user_table.name);
+        END LOOP;
+END;
+$$;

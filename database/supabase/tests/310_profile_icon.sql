@@ -6,7 +6,7 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000e1', 'authenticated', 'authenticated', 'icon-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000e2', 'authenticated', 'authenticated', 'icon-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (8);
+    plan (7);
 SELECT
     IS ((
             SELECT
@@ -19,7 +19,6 @@ SELECT
     hasnt_column ('public', 'profiles', 'avatar_url', 'the unused avatar URL is gone');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$ UPDATE
             public.profiles
@@ -71,15 +70,6 @@ SET
     default_trainer_name = 'Not mine'
 WHERE
     id = '00000000-0000-0000-0000-0000000000e1';
-RESET ROLE;
-SELECT
-    IS ((
-            SELECT
-                default_trainer_name
-            FROM
-                public.profiles
-            WHERE
-                id = '00000000-0000-0000-0000-0000000000e1'), 'Red', 'another trainer cannot change your default trainer name');
 SELECT
     *
 FROM

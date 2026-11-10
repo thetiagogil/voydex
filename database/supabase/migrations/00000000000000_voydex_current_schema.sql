@@ -51,9 +51,9 @@ GRANT USAGE ON SCHEMA reference TO anon, authenticated, service_role;
 
 GRANT USAGE ON SCHEMA tracking TO anon, authenticated, service_role;
 
-GRANT USAGE ON SCHEMA gameplay TO authenticated, service_role;
+GRANT USAGE ON SCHEMA gameplay TO service_role;
 
-GRANT USAGE ON SCHEMA planning TO authenticated, service_role;
+GRANT USAGE ON SCHEMA planning TO service_role;
 
 GRANT USAGE ON SCHEMA views TO anon, authenticated, service_role;
 
@@ -282,110 +282,25 @@ CREATE TRIGGER on_auth_user_created_create_voydex_profile
 COMMENT ON FUNCTION private.handle_new_user_profile () IS 'Creates public.profiles and public.user_preferences rows for new auth.users records.';
 
 -- ============================================================================
--- Source: database/schema/01_public/03_policies/001_rls_and_grants.sql
+-- Source: database/schema/01_public/03_policies/001_grants.sql
 -- ============================================================================
 -- ============================================================================
--- RLS/Grants: public schema
--- Enables user-owned access policies for profiles, preferences, and tags.
+-- Grants: public schema
+-- Your profiles, preferences and tags live only on the device (ADR 0008), where the one local
+-- user owns every row, so these tables have no row security and the API
+-- roles get nothing: hosted Supabase never serves them.
 -- ============================================================================
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE public.tags ENABLE ROW LEVEL SECURITY;
-
 REVOKE ALL ON TABLE public.profiles FROM anon, authenticated;
 
 REVOKE ALL ON TABLE public.user_preferences FROM anon, authenticated;
 
 REVOKE ALL ON TABLE public.tags FROM anon, authenticated;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE public.profiles TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.user_preferences TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.tags TO authenticated;
-
 GRANT ALL ON TABLE public.profiles TO service_role;
 
 GRANT ALL ON TABLE public.user_preferences TO service_role;
 
 GRANT ALL ON TABLE public.tags TO service_role;
-
-CREATE POLICY profiles_select_own ON public.profiles
-    FOR SELECT TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = id);
-
-CREATE POLICY profiles_insert_own ON public.profiles
-    FOR INSERT TO authenticated
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = id);
-
-CREATE POLICY profiles_update_own ON public.profiles
-    FOR UPDATE TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = id)
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = id);
-
-CREATE POLICY user_preferences_select_own ON public.user_preferences
-    FOR SELECT TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY user_preferences_insert_own ON public.user_preferences
-    FOR INSERT TO authenticated
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY user_preferences_update_own ON public.user_preferences
-    FOR UPDATE TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id)
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY user_preferences_delete_own ON public.user_preferences
-    FOR DELETE TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY tags_select_own ON public.tags
-    FOR SELECT TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY tags_insert_own ON public.tags
-    FOR INSERT TO authenticated
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY tags_update_own ON public.tags
-    FOR UPDATE TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id)
-    WITH CHECK ((
-        SELECT
-            auth.uid ()) = user_id);
-
-CREATE POLICY tags_delete_own ON public.tags
-    FOR DELETE TO authenticated
-    USING ((
-        SELECT
-            auth.uid ()) = user_id);
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/001_generations.sql
@@ -6013,9 +5928,9 @@ REVOKE ALL ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER,
 
 REVOKE ALL ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) TO service_role;
 
-COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally records the required milestones and choices before it in Story order (never in an open-world story, and without moments or decisions of their own), replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally records the required milestones and choices before it in Story order (never in an open-world story, and without moments or decisions of their own), replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot..';
 
 CREATE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[], p_also_clear_milestone_ids integer[] DEFAULT '{}'::integer[])
     RETURNS TABLE (
@@ -6170,9 +6085,9 @@ REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, I
 
 REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) TO service_role;
 
-COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) IS 'Atomically marks one completed milestone, any other milestones cleared with it, and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) IS 'Atomically marks one completed milestone, any other milestones cleared with it, and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set..';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/002_mainline_play_pokemon_mutations.sql
@@ -7003,65 +6918,65 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGE
 
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) TO service_role;
 
-COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds a play Pokémon with optional current moves and optional Pokémon Added timeline event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds a play Pokémon with optional current moves and optional Pokémon Added timeline event/ref. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/003_mainline_play_progress_mutations.sql
@@ -7251,17 +7166,17 @@ REVOKE ALL ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UU
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) TO service_role;
 
-COMMENT ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) IS 'Sets or clears sparse collectible entry progress for a play. Row existence means collected. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) IS 'Sets or clears sparse collectible entry progress for a play. Row existence means collected. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) IS 'Sets or clears sparse species-level Pokedex progress for a play, enforcing caught-implies-seen behavior. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) IS 'Sets or clears sparse species-level Pokedex progress for a play, enforcing caught-implies-seen behavior. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/004_mainline_play_lifecycle_mutations.sql
@@ -7890,49 +7805,49 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT,
 
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO service_role;
 
-COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER.';
 
 COMMENT ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) IS 'The game''s partner milestone: its first milestone, in Story order, whose decision is a choice of Pokémon. Null when the game hands you your partner. Shared by the partner write functions. Runs as SECURITY INVOKER over client-readable tracking data.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) IS 'Atomically saves a Play''s general settings (name, trainer, start day, playtime and status; every field is written) and, when the status actually changes, adds one recorded-action status-change moment titled with the new status. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) IS 'Atomically saves a Play''s general settings (name, trainer, start day, playtime and status; every field is written) and, when the status actually changes, adds one recorded-action status-change moment titled with the new status. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) IS 'Atomically records a Play''s partner choice: resolves the game partner milestone, accepts only one of its Pokémon options, adds the partner to slot 1 when the team is empty (no Added moment), and completes the milestone with that decision and one "<Species> chose you" moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) IS 'Atomically records a Play''s partner choice: resolves the game partner milestone, accepts only one of its Pokémon options, adds the partner to slot 1 when the team is empty (no Added moment), and completes the milestone with that decision and one "<Species> chose you" moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) IS 'Atomically undoes a Play''s partner choice: marks the partner milestone incomplete (refused when anything recorded since depends on it), removing its decision, moment and snapshot, and deletes the partner Pokémon that choice added. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) IS 'Atomically undoes a Play''s partner choice: marks the partner milestone incomplete (refused when anything recorded since depends on it), removing its decision, moment and snapshot, and deletes the partner Pokémon that choice added. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/005_mainline_challenge_rule_set_mutations.sql
@@ -8010,70 +7925,20 @@ REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UU
 
 REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) TO service_role;
 
-COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, each once. A preset needs at least one rule. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
--- Source: database/schema/04_gameplay/03_policies/001_rls_and_grants.sql
+-- Source: database/schema/04_gameplay/03_policies/001_grants.sql
 -- ============================================================================
 -- ============================================================================
--- RLS and grants for gameplay data.
+-- Grants: gameplay
+-- Your Plays, Library, rules and favourites live only on the device
+-- (ADR 0008), where the one local user owns every row, so these tables have
+-- no row security and the API roles get nothing: hosted Supabase never
+-- serves them.
 -- ============================================================================
-ALTER TABLE gameplay.mainline_play_statuses ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_plays ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_settings ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_optional_content_scopes ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_pokemon_roster_states ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_pokemon ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_pokemon_moves ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_milestone_progress ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_milestone_decisions ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_collectible_entry_progress ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_pokedex_species_progress ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_event_origins ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_event_types ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_events ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_event_pokemon_refs ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_event_team_snapshots ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_event_team_snapshot_moves ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_tags ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_pokemon_tags ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_challenge_rule_types ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_challenge_rules ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_play_challenge_rules ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_challenge_rule_sets ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.mainline_challenge_rule_set_rules ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.user_game_library_statuses ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.user_game_library_entries ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE gameplay.user_favourite_pokemon ENABLE ROW LEVEL SECURITY;
-
 REVOKE ALL ON TABLE gameplay.mainline_play_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.mainline_plays FROM anon, authenticated;
@@ -8128,60 +7993,6 @@ REVOKE ALL ON TABLE gameplay.user_game_library_entries FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.user_favourite_pokemon FROM anon, authenticated;
 
-GRANT SELECT ON TABLE gameplay.mainline_play_statuses TO authenticated;
-
-GRANT SELECT ON TABLE gameplay.mainline_play_pokemon_roster_states TO authenticated;
-
-GRANT SELECT ON TABLE gameplay.mainline_play_event_origins TO authenticated;
-
-GRANT SELECT ON TABLE gameplay.mainline_play_event_types TO authenticated;
-
-GRANT SELECT ON TABLE gameplay.mainline_challenge_rule_types TO authenticated;
-
-GRANT SELECT ON TABLE gameplay.user_game_library_statuses TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_plays TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_settings TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_optional_content_scopes TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_pokemon TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_pokemon_moves TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_milestone_progress TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_milestone_decisions TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_collectible_entry_progress TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_pokedex_species_progress TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_events TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_event_pokemon_refs TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_event_team_snapshots TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_event_team_snapshot_moves TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_tags TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_pokemon_tags TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rules TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_challenge_rules TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_sets TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_set_rules TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.user_game_library_entries TO authenticated;
-
-GRANT SELECT, INSERT, DELETE ON TABLE gameplay.user_favourite_pokemon TO authenticated;
-
 GRANT ALL ON TABLE gameplay.mainline_play_statuses TO service_role;
 
 GRANT ALL ON TABLE gameplay.mainline_plays TO service_role;
@@ -8235,436 +8046,6 @@ GRANT ALL ON TABLE gameplay.user_game_library_statuses TO service_role;
 GRANT ALL ON TABLE gameplay.user_game_library_entries TO service_role;
 
 GRANT ALL ON TABLE gameplay.user_favourite_pokemon TO service_role;
-
-CREATE POLICY play_statuses_read_all ON gameplay.mainline_play_statuses
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY play_pokemon_roster_states_read_all ON gameplay.mainline_play_pokemon_roster_states
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY play_event_origins_read_all ON gameplay.mainline_play_event_origins
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY play_event_types_read_all ON gameplay.mainline_play_event_types
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY challenge_rule_types_read_all ON gameplay.mainline_challenge_rule_types
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY user_game_library_statuses_read_all ON gameplay.user_game_library_statuses
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY plays_select_own ON gameplay.mainline_plays
-    FOR SELECT TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY plays_insert_own ON gameplay.mainline_plays
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY plays_update_own ON gameplay.mainline_plays
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY plays_delete_own ON gameplay.mainline_plays
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY challenge_rules_select_available ON gameplay.mainline_challenge_rules
-    FOR SELECT TO authenticated
-    USING (user_id IS NULL
-        OR user_id = auth.uid ());
-
-CREATE POLICY challenge_rules_insert_own ON gameplay.mainline_challenge_rules
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY challenge_rules_update_own ON gameplay.mainline_challenge_rules
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY challenge_rules_delete_own ON gameplay.mainline_challenge_rules
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY challenge_rule_sets_select_available ON gameplay.mainline_challenge_rule_sets
-    FOR SELECT TO authenticated
-    USING (user_id IS NULL
-        OR user_id = auth.uid ());
-
-CREATE POLICY challenge_rule_sets_insert_own ON gameplay.mainline_challenge_rule_sets
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY challenge_rule_sets_update_own ON gameplay.mainline_challenge_rule_sets
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY challenge_rule_sets_delete_own ON gameplay.mainline_challenge_rule_sets
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY challenge_rule_set_rules_select_available ON gameplay.mainline_challenge_rule_set_rules
-    FOR SELECT TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_challenge_rule_sets
-        WHERE
-            mainline_challenge_rule_sets.id = rule_set_id
-            AND (mainline_challenge_rule_sets.user_id IS NULL
-            OR mainline_challenge_rule_sets.user_id = auth.uid ())));
-
-CREATE POLICY challenge_rule_set_rules_write_own ON gameplay.mainline_challenge_rule_set_rules
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_challenge_rule_sets
-        WHERE
-            mainline_challenge_rule_sets.id = rule_set_id
-            AND mainline_challenge_rule_sets.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_challenge_rule_sets
-        WHERE
-            mainline_challenge_rule_sets.id = rule_set_id
-            AND mainline_challenge_rule_sets.user_id = auth.uid ()));
-
-CREATE POLICY user_game_library_entries_select_own ON gameplay.user_game_library_entries
-    FOR SELECT TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY user_game_library_entries_insert_own ON gameplay.user_game_library_entries
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY user_game_library_entries_update_own ON gameplay.user_game_library_entries
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY user_game_library_entries_delete_own ON gameplay.user_game_library_entries
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY user_favourite_pokemon_select_own ON gameplay.user_favourite_pokemon
-    FOR SELECT TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY user_favourite_pokemon_insert_own ON gameplay.user_favourite_pokemon
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY user_favourite_pokemon_delete_own ON gameplay.user_favourite_pokemon
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY play_settings_owned ON gameplay.mainline_play_settings
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_optional_content_scopes_owned ON gameplay.mainline_play_optional_content_scopes
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_pokemon_owned ON gameplay.mainline_play_pokemon
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_milestone_progress_owned ON gameplay.mainline_play_milestone_progress
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_milestone_decisions_owned ON gameplay.mainline_play_milestone_decisions
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_collectible_entry_progress_owned ON gameplay.mainline_play_collectible_entry_progress
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_pokedex_species_progress_owned ON gameplay.mainline_play_pokedex_species_progress
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_events_owned ON gameplay.mainline_play_events
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_event_pokemon_refs_owned ON gameplay.mainline_play_event_pokemon_refs
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_event_team_snapshots_owned ON gameplay.mainline_play_event_team_snapshots
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_tags_owned ON gameplay.mainline_play_tags
-    FOR ALL TO authenticated
-    USING (user_id = auth.uid ()
-        AND EXISTS (
-            SELECT
-                1
-            FROM
-                gameplay.mainline_plays
-            WHERE
-                mainline_plays.id = play_id
-                AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (user_id = auth.uid ()
-    AND EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_pokemon_tags_owned ON gameplay.mainline_play_pokemon_tags
-    FOR ALL TO authenticated
-    USING (user_id = auth.uid ()
-        AND EXISTS (
-            SELECT
-                1
-            FROM
-                gameplay.mainline_plays
-            WHERE
-                mainline_plays.id = play_id
-                AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (user_id = auth.uid ()
-    AND EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_challenge_rules_owned ON gameplay.mainline_play_challenge_rules
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_plays
-        WHERE
-            mainline_plays.id = play_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_pokemon_moves_owned ON gameplay.mainline_play_pokemon_moves
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_play_pokemon
-            JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_pokemon.play_id
-        WHERE
-            mainline_play_pokemon.id = play_pokemon_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_play_pokemon
-            JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_pokemon.play_id
-        WHERE
-            mainline_play_pokemon.id = play_pokemon_id
-            AND mainline_plays.user_id = auth.uid ()));
-
-CREATE POLICY play_event_team_snapshot_moves_owned ON gameplay.mainline_play_event_team_snapshot_moves
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_play_event_team_snapshots
-            JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_event_team_snapshots.play_id
-        WHERE
-            mainline_play_event_team_snapshots.id = snapshot_id
-            AND mainline_plays.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_play_event_team_snapshots
-            JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_event_team_snapshots.play_id
-        WHERE
-            mainline_play_event_team_snapshots.id = snapshot_id
-            AND mainline_plays.user_id = auth.uid ()));
 
 -- ============================================================================
 -- Source: database/schema/05_planning/01_tables/001_mainline_team_plan_statuses.sql
@@ -9156,17 +8537,17 @@ REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOO
 
 REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO service_role;
 
 REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO service_role;
 
 COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan, moving an existing link when asked. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
-COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';
+COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
 -- Source: database/schema/05_planning/02_functions/002_mainline_team_plan_save_mutations.sql
@@ -9448,28 +8829,19 @@ REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, I
 
 REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) TO service_role;
 
-COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. No game_id saves it for either version (stored under the version group''s first game); a game_id saves it for that version. Refuses a version group change while a Play follows the Plan; the version may change. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
+COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. No game_id saves it for either version (stored under the version group''s first game); a game_id saves it for that version. Refuses a version group change while a Play follows the Plan; the version may change. Build validation against reference data stays with the caller; it saves for the signed-in user (auth.uid()). Runs as SECURITY INVOKER.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/03_policies/001_rls_and_grants.sql
+-- Source: database/schema/05_planning/03_policies/001_grants.sql
 -- ============================================================================
 -- ============================================================================
--- RLS and grants for planning data.
+-- Grants: planning
+-- Your Plans live only on the device (ADR 0008), where the one local
+-- user owns every row, so these tables have no row security and the API
+-- roles get nothing: hosted Supabase never serves them.
 -- ============================================================================
-ALTER TABLE planning.mainline_team_plan_statuses ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_team_plans ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_team_plan_optional_content_scopes ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_team_plan_members ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_team_plan_member_moves ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_play_plan_links ENABLE ROW LEVEL SECURITY;
-
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plans FROM anon, authenticated;
@@ -9482,18 +8854,6 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_member_moves FROM anon, authenti
 
 REVOKE ALL ON TABLE planning.mainline_play_plan_links FROM anon, authenticated;
 
-GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plans TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_optional_content_scopes TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_members TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member_moves TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_links TO authenticated;
-
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plans TO service_role;
@@ -9505,103 +8865,6 @@ GRANT ALL ON TABLE planning.mainline_team_plan_members TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_member_moves TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_play_plan_links TO service_role;
-
-CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY team_plans_select_own ON planning.mainline_team_plans
-    FOR SELECT TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY team_plans_insert_own ON planning.mainline_team_plans
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY team_plans_update_own ON planning.mainline_team_plans
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY team_plans_delete_own ON planning.mainline_team_plans
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY play_plan_links_select_own ON planning.mainline_play_plan_links
-    FOR SELECT TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY play_plan_links_insert_own ON planning.mainline_play_plan_links
-    FOR INSERT TO authenticated
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY play_plan_links_update_own ON planning.mainline_play_plan_links
-    FOR UPDATE TO authenticated
-    USING (user_id = auth.uid ())
-    WITH CHECK (user_id = auth.uid ());
-
-CREATE POLICY play_plan_links_delete_own ON planning.mainline_play_plan_links
-    FOR DELETE TO authenticated
-    USING (user_id = auth.uid ());
-
-CREATE POLICY team_plan_optional_content_scopes_owned ON planning.mainline_team_plan_optional_content_scopes
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_members_owned ON planning.mainline_team_plan_members
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_member_moves_owned ON planning.mainline_team_plan_member_moves
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plan_members
-            JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_team_plan_members.team_plan_id
-        WHERE
-            mainline_team_plan_members.id = team_plan_member_id
-            AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plan_members
-            JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_team_plan_members.team_plan_id
-        WHERE
-            mainline_team_plan_members.id = team_plan_member_id
-            AND mainline_team_plans.user_id = auth.uid ()));
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/001_mainline_play_summary.sql
@@ -9844,7 +9107,7 @@ SELECT
                         JOIN reference.version_groups ON version_groups.id = mainline_plays.version_group_id
                         JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_play_summary IS 'Compact play summary rows. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_summary IS 'Compact play summary rows. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/002_mainline_play_completion_summary.sql
@@ -10030,7 +9293,7 @@ SELECT
 FROM
     completion_totals;
 
-COMMENT ON VIEW views.mainline_play_completion_summary IS 'Derived completion counts and percentages per play. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_completion_summary IS 'Derived completion counts and percentages per play. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/003_mainline_play_overview.sql
@@ -10129,7 +9392,7 @@ FROM
             mainline_play_optional_content_scopes.play_id = mainline_play_summary.play_id
 ) AS optional_content ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_overview IS 'Play hub overview with settings and optional content. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_overview IS 'Play hub overview with settings and optional content. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/004_mainline_play_milestone_detail.sql
@@ -10295,7 +9558,7 @@ WHERE
     WHERE
         mainline_milestone_collectible_refs.milestone_id = mainline_milestones.id) AS collectible_refs ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with progress, prerequisites, decisions, static refs, and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with progress, prerequisites, decisions, static refs, and linked completion event state. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/005_mainline_play_team_detail.sql
@@ -10378,7 +9641,7 @@ FROM
             mainline_play_pokemon_moves.play_pokemon_id = mainline_play_pokemon.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/006_mainline_play_timeline_detail.sql
@@ -10469,7 +9732,7 @@ FROM
             mainline_play_event_team_snapshots.event_id = mainline_play_events.id
 ) AS team_snapshots ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_timeline_detail IS 'Timeline events with display labels and attached Pokémon history. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_timeline_detail IS 'Timeline events with display labels and attached Pokémon history. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/007_mainline_play_pokedex_detail.sql
@@ -10550,7 +9813,7 @@ FROM
     LEFT JOIN gameplay.mainline_play_pokedex_species_progress ON mainline_play_pokedex_species_progress.play_id = mainline_plays.id
         AND mainline_play_pokedex_species_progress.species_id = pokedex_entries.species_id;
 
-COMMENT ON VIEW views.mainline_play_pokedex_detail IS 'Available Pokedex entries for each play with species-level progress. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_pokedex_detail IS 'Available Pokedex entries for each play with species-level progress. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/008_mainline_play_collectible_detail.sql
@@ -10615,7 +9878,7 @@ FROM
     LEFT JOIN gameplay.mainline_play_collectible_entry_progress ON mainline_play_collectible_entry_progress.play_id = mainline_plays.id
         AND mainline_play_collectible_entry_progress.collectible_entry_id = mainline_collectible_entries.id;
 
-COMMENT ON VIEW views.mainline_play_collectible_detail IS 'Available collectible entries for each play with collected state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_collectible_detail IS 'Available collectible entries for each play with collected state. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/009_mainline_team_plan_summary.sql
@@ -10683,7 +9946,7 @@ FROM
     JOIN reference.version_groups ON version_groups.id = mainline_team_plans.version_group_id
     JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/010_mainline_team_plan_detail.sql
@@ -10743,7 +10006,7 @@ FROM
             mainline_team_plan_member_moves.team_plan_member_id = mainline_team_plan_members.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_team_plan_detail IS 'Ordered team Plan members with target identity, optional build preferences, and planned moves. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_detail IS 'Ordered team Plan members with target identity, optional build preferences, and planned moves. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/011_mainline_collection_used_identities.sql
@@ -10828,7 +10091,7 @@ FROM
     JOIN reference.pokemon_forms ON pokemon_forms.species_id = mainline_play_event_team_snapshots.species_id
         AND pokemon_forms.id = mainline_play_event_team_snapshots.form_id;
 
-COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. event_id names the History moment for event refs and snapshots. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. event_id names the History moment for event refs and snapshots. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/012_mainline_collection_detail.sql
@@ -10874,7 +10137,7 @@ GROUP BY
     mainline_collection_used_identities.form_slug,
     mainline_collection_used_identities.form_name;
 
-COMMENT ON VIEW views.mainline_collection_detail IS 'Aggregated Pokémon usage by user and species/form. Uses security_invoker so underlying gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_collection_detail IS 'Aggregated Pokémon usage by user and species/form. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/013_mainline_dashboard_summary.sql
@@ -10964,7 +10227,7 @@ SELECT
 FROM
     public.profiles;
 
-COMMENT ON VIEW views.mainline_dashboard_summary IS 'Dashboard counters scoped by profile ownership. Uses security_invoker so public/gameplay/planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_dashboard_summary IS 'Dashboard counters scoped by profile ownership. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/014_mainline_stats_summary.sql
@@ -11075,7 +10338,7 @@ SELECT
 FROM
     public.profiles;
 
-COMMENT ON VIEW views.mainline_stats_summary IS 'User-level aggregate stats. Uses security_invoker so public/gameplay/planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_stats_summary IS 'User-level aggregate stats. Uses security_invoker.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/015_reference_content_scope_closure.sql
@@ -11623,7 +10886,8 @@ COMMENT ON VIEW views.mainline_play_team_plan_detail IS 'Play-scoped reusable Pl
 -- ============================================================================
 -- ============================================================================
 -- Grants: app read models
--- Views are read-only app query models.
+-- Views are read-only app query models over your data, which lives only on
+-- the device (ADR 0008): the API roles get nothing.
 -- ============================================================================
 REVOKE ALL ON TABLE views.mainline_play_summary FROM PUBLIC, anon, authenticated;
 
@@ -11657,37 +10921,37 @@ REVOKE ALL ON TABLE views.mainline_dashboard_summary FROM PUBLIC, anon, authenti
 
 REVOKE ALL ON TABLE views.mainline_stats_summary FROM PUBLIC, anon, authenticated;
 
-GRANT SELECT ON TABLE views.mainline_play_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_completion_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_completion_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_overview TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_overview TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_milestone_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_milestone_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_milestone_category_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_milestone_category_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_team_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_team_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_timeline_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_timeline_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_pokedex_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_pokedex_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_collectible_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_collectible_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_team_plan_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_team_plan_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_team_plan_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_team_plan_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_team_plan_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_team_plan_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_collection_used_identities TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_collection_used_identities TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_collection_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_collection_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_dashboard_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_dashboard_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_stats_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_stats_summary TO service_role;
 
 -- ============================================================================
 -- Source: database/schema/06_views/02_grants/002_reference_resolved_views_select.sql
@@ -11719,4 +10983,98 @@ GRANT SELECT ON TABLE views.reference_resolved_item_availability TO anon, authen
 GRANT SELECT ON TABLE views.reference_resolved_move_machines TO anon, authenticated, service_role;
 
 GRANT SELECT ON TABLE views.reference_resolved_pokemon_learnsets TO anon, authenticated, service_role;
+
+-- ============================================================================
+-- Source: database/schema/07_backups/01_tables/001_user_backups.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: public.user_backups
+-- An account's backups: one row per file in its private storage folder
+-- (backups/<user id>/). Hosted Supabase only: the device never has it.
+-- ============================================================================
+CREATE TABLE public.user_backups (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id uuid NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
+    object_path text NOT NULL,
+    format integer NOT NULL,
+    saved_at timestamptz NOT NULL,
+    device_name text,
+    byte_size integer NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT user_backups_object_path_unique UNIQUE (object_path),
+    CONSTRAINT user_backups_object_path_owner_check CHECK (SPLIT_PART(object_path, '/', 1) = user_id::text),
+    CONSTRAINT user_backups_format_positive_check CHECK (format > 0),
+    CONSTRAINT user_backups_byte_size_positive_check CHECK (byte_size > 0),
+    CONSTRAINT user_backups_device_name_length_check CHECK (device_name IS NULL OR CHAR_LENGTH(BTRIM(device_name)) BETWEEN 1 AND 120)
+);
+
+CREATE INDEX user_backups_user_created_at_idx ON public.user_backups (user_id, created_at DESC);
+
+COMMENT ON TABLE public.user_backups IS 'An account''s backups, newest by created_at; the app keeps the last three. Deleting the account deletes the rows (the files go with the account deletion operation).';
+
+COMMENT ON COLUMN public.user_backups.object_path IS 'The file in the private backups bucket, inside the owner''s folder: <user id>/<file>.json.gz.';
+
+COMMENT ON COLUMN public.user_backups.format IS 'The backup file format the app wrote (backupFormat in src/platform/local-db/backup-file.ts).';
+
+COMMENT ON COLUMN public.user_backups.saved_at IS 'When the device saved the backup, by its own clock; created_at orders them.';
+
+-- ============================================================================
+-- Source: database/schema/07_backups/02_policies/001_rls_and_grants.sql
+-- ============================================================================
+-- ============================================================================
+-- RLS/Grants: account backups
+-- Each account reads, adds and deletes only its own backups, in the table
+-- and in its folder of the private backups bucket. Nothing changes a
+-- backup: a new one is a new file.
+-- ============================================================================
+ALTER TABLE public.user_backups ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON TABLE public.user_backups FROM anon, authenticated;
+
+GRANT SELECT, INSERT, DELETE ON TABLE public.user_backups TO authenticated;
+
+GRANT ALL ON TABLE public.user_backups TO service_role;
+
+CREATE POLICY user_backups_select_own ON public.user_backups
+    FOR SELECT TO authenticated
+    USING ((
+        SELECT
+            auth.uid ()) = user_id);
+
+CREATE POLICY user_backups_insert_own ON public.user_backups
+    FOR INSERT TO authenticated
+    WITH CHECK ((
+        SELECT
+            auth.uid ()) = user_id);
+
+CREATE POLICY user_backups_delete_own ON public.user_backups
+    FOR DELETE TO authenticated
+    USING ((
+        SELECT
+            auth.uid ()) = user_id);
+
+-- The files: gzipped JSON, at most 20 MB each, in the owner's folder.
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+    VALUES ('backups', 'backups', FALSE, 20971520, ARRAY['application/gzip']);
+
+CREATE POLICY backups_select_own ON storage.objects
+    FOR SELECT TO authenticated
+    USING (bucket_id = 'backups'
+        AND (storage.foldername (name))[1] = (
+            SELECT
+                auth.uid ())::text);
+
+CREATE POLICY backups_insert_own ON storage.objects
+    FOR INSERT TO authenticated
+    WITH CHECK (bucket_id = 'backups'
+        AND (storage.foldername (name))[1] = (
+            SELECT
+                auth.uid ())::text);
+
+CREATE POLICY backups_delete_own ON storage.objects
+    FOR DELETE TO authenticated
+    USING (bucket_id = 'backups'
+        AND (storage.foldername (name))[1] = (
+            SELECT
+                auth.uid ())::text);
 

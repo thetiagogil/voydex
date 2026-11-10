@@ -15,10 +15,9 @@ INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id
 INSERT INTO planning.mainline_team_plan_members (id, team_plan_id, slot, target_species_id, target_form_id, gender, notes)
     VALUES ('51000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', 1, 722, 72200, 'male', 'Copied member note');
 SELECT
-    plan (54);
+    plan (48);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$
         SELECT
@@ -152,9 +151,10 @@ SELECT
             SELECT
                 COUNT(*)
             FROM
-                gameplay.mainline_play_event_team_snapshot_moves),
-            4::bigint,
-            'milestone snapshot records move slots through owner RLS');
+                gameplay.mainline_play_event_team_snapshot_moves AS moves
+                JOIN gameplay.mainline_play_event_team_snapshots AS snapshots ON snapshots.id = moves.snapshot_id
+            WHERE
+                snapshots.play_id = '40000000-0000-0000-0000-0000000000a1'), 4::bigint, 'milestone snapshot records the team''s move slots');
 UPDATE
     gameplay.mainline_play_pokemon
 SET
@@ -184,7 +184,6 @@ SELECT
                 play_id = '40000000-0000-0000-0000-0000000000a1'), 'Updated Leaf', 'the replacement snapshot reflects the current active team');
 -- The seeded Sun / Moon chain is only suggested; make it a hard chain so the cascade has dependents.
 -- The Iki Town festival beat sits between Receive Pokedex and Ilima's trial; this chain skips it.
-RESET ROLE;
 UPDATE
     tracking.mainline_milestone_prerequisites
 SET
@@ -205,7 +204,6 @@ SET
 WHERE
     version_group_id = 15
     AND milestone_id BETWEEN 150002 AND 150006;
-SET LOCAL ROLE authenticated;
 INSERT INTO gameplay.mainline_play_milestone_progress (play_id, milestone_id, completed_at, notes)
 VALUES
     ('40000000-0000-0000-0000-0000000000a1', 150004, NOW(), 'Cascade note'),
@@ -286,9 +284,10 @@ SELECT
             SELECT
                 COUNT(*)
             FROM
-                gameplay.mainline_play_event_team_snapshot_moves),
-            0::bigint,
-            'snapshot removal cascades to its recorded moves');
+                gameplay.mainline_play_event_team_snapshot_moves AS moves
+                JOIN gameplay.mainline_play_event_team_snapshots AS snapshots ON snapshots.id = moves.snapshot_id
+            WHERE
+                snapshots.play_id = '40000000-0000-0000-0000-0000000000a1'), 0::bigint, 'snapshot removal cascades to its recorded moves');
 SELECT
     throws_ok ($$
         SELECT
@@ -405,7 +404,9 @@ SELECT
             SELECT
                 COUNT(*)
             FROM
-                planning.mainline_team_plans),
+                planning.mainline_team_plans
+            WHERE
+                user_id = auth.uid ()),
             2::bigint,
             'Play-scoped Plan cloning preserves the source and creates one copy');
 SELECT
@@ -447,39 +448,8 @@ SELECT
                 gameplay.mainline_play_pokemon
             WHERE
                 play_id = '40000000-0000-0000-0000-0000000000a1'), 1::bigint, 'failed team mutation rolls back its parent Pokemon row');
-RESET ROLE;
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000b2', TRUE);
-SET LOCAL ROLE authenticated;
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.add_mainline_play_pokemon (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_roster_state_id => 1, p_slot => 2, p_species_id => 725, p_form_id => 72500) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot add Pokemon to the owner play');
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150001, p_expected_affected_milestone_ids => ARRAY[150001]) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot correct the owner milestone progress');
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.set_mainline_play_pokedex_species_progress ('40000000-0000-0000-0000-0000000000a1', 722, TRUE, TRUE) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot update the owner Pokedex progress');
-SELECT
-    throws_ok ($$
-        SELECT
-            planning.link_mainline_team_plan_to_play ('40000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', FALSE) $$, '23503', 'Unknown or unavailable play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot link the owner plan and play');
-SELECT
-    throws_ok ($$
-        SELECT
-            planning.clone_mainline_team_plan_for_play ('40000000-0000-0000-0000-0000000000a1') $$, '23503', 'Unknown or unavailable linked Plan for play_id 40000000-0000-0000-0000-0000000000a1', 'another user cannot clone the owner linked Plan');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)
-            FROM
-                gameplay.mainline_play_pokemon),
-            0::bigint,
-            'another user cannot see the owner team rows');
-RESET ROLE;
 SELECT
     *
 FROM

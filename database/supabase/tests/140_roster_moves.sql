@@ -26,14 +26,7 @@ VALUES
     ('75000000-0000-0000-0000-0000000000c6', '74000000-0000-0000-0000-0000000000c0', 1, 6, 736, 73600, 'Six'),
     ('75000000-0000-0000-0000-0000000000c7', '74000000-0000-0000-0000-0000000000c0', 2, 7, 744, 74400, 'Seven');
 SELECT
-    plan (19);
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e2', TRUE);
-SET LOCAL ROLE authenticated;
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.move_mainline_play_pokemon (p_play_pokemon_id => '75000000-0000-0000-0000-0000000000a1', p_to_slot => 3) $$, '23503', NULL, 'another user cannot move a Pokemon they do not own');
+    plan (18);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e1', TRUE);
 SELECT

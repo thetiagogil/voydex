@@ -488,15 +488,16 @@ SELECT
             'postgame plays remain short of full completion');
 SELECT
     set_config('request.jwt.claim.sub', '46ba21ff-6955-4252-8913-35b50de51456', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     IS ((
             SELECT
                 COUNT(*)
             FROM
-                views.mainline_play_summary),
+                views.mainline_play_summary
+            WHERE
+                user_id = auth.uid ()),
             44::bigint,
-            'the authenticated owner can read every play summary');
+            'the fixture owner has a summary for every play');
 SELECT
     IS ((
             SELECT

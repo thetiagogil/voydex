@@ -81,7 +81,6 @@ SELECT
 -- The category summary tells Story each chapter's kind.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     results_eq ($$
         SELECT
@@ -94,7 +93,6 @@ SELECT
     lives_ok ($$
         SELECT
             gameplay.complete_mainline_play_milestone (p_play_id => '60000000-0000-0000-0000-0000000000d1', p_milestone_id => 60029) $$, 'a side-content beat records before the beat that opens it');
-RESET ROLE;
 -- Ruby / Sapphire and Omega Ruby / Alpha Sapphire: the Cave of Origin is its own beat, so Rain Badge holds only Wallace.
 SELECT
     results_eq ($$

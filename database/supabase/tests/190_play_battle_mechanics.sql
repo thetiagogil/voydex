@@ -12,7 +12,7 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 INSERT INTO gameplay.mainline_play_pokemon (id, play_id, roster_state_id, slot, species_id, form_id, nickname)
     VALUES ('7a000000-0000-0000-0000-0000000000a1', '79000000-0000-0000-0000-0000000000a0', 1, 1, 849, 84901, 'Riff');
 SELECT
-    plan (13);
+    plan (12);
 -- A new member has no Tera Type and no Gigantamax Factor.
 SELECT
     results_eq ($$
@@ -31,7 +31,6 @@ SELECT
 -- The owner saves both through the editor's one call.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$
         SELECT
@@ -57,12 +56,7 @@ SELECT
 -- Another trainer can't set them.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f3', TRUE);
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.update_mainline_play_pokemon ('7a000000-0000-0000-0000-0000000000a1', p_tera_type_id => 4, p_has_gigantamax_factor => TRUE) $$, '23503', NULL, 'another trainer cannot give the owner''s Pokémon a Tera Type');
 -- Anyone reads which form reaches a battle form.
-RESET ROLE;
 SET LOCAL ROLE anon;
 SELECT
     results_eq ($$

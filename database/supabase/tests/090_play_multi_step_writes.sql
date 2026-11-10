@@ -5,25 +5,15 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000c1', 'authenticated', 'authenticated', 'multi-step-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000d2', 'authenticated', 'authenticated', 'multi-step-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (42);
+    plan (37);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
-SET LOCAL ROLE authenticated;
 CREATE TEMPORARY TABLE alola ON COMMIT DROP AS
 SELECT
     result_play_id AS play_id
 FROM
     gameplay.create_mainline_play (p_game_id => 25, p_name => 'Partnerless Run');
 -- Choosing the partner
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.choose_mainline_play_partner (%L, 71) $$, (
-                    SELECT
-                        play_id
-                    FROM alola)), '23503', NULL, 'another user cannot choose the owner Play partner');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT
@@ -118,18 +108,6 @@ SELECT
                         play_id
                     FROM alola)), '23505', NULL, 'a recorded partner cannot be chosen again');
 -- Undoing the partner
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.undo_mainline_play_partner (%L, %L) $$, (
-                    SELECT
-                        play_id
-                    FROM alola), (
-                SELECT
-                    result_partner_play_pokemon_id
-                FROM chosen)), '23503', NULL, 'another user cannot undo the owner Play partner');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT
@@ -265,15 +243,6 @@ SELECT
                 'undo without an added partner keeps the team');
 -- General settings and status
 SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.update_mainline_play_general_settings (%L, 'Stolen', 3) $$, (
-                    SELECT
-                        play_id
-                    FROM alola)), '23503', NULL, 'another user cannot change the owner Play settings');
-SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT
     IS ((
@@ -391,15 +360,6 @@ FROM
             SELECT
                 play_id
             FROM alola), p_roster_state_id => 1, p_slot => 1, p_species_id => 722, p_form_id => 72200, p_nickname => 'Leaf', p_level => 5, p_move_ids => ARRAY[1, 2], p_create_event => FALSE);
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.update_mainline_play_pokemon (%L, p_nickname => 'Stolen') $$, (
-                    SELECT
-                        play_pokemon_id
-                    FROM owl)), '23503', NULL, 'another user cannot edit the owner Pokémon');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT
@@ -533,17 +493,6 @@ SELECT
             WHERE
                 label = 'undone'), p_to_species_id => 732, p_to_form_id => 73200);
 SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.remove_mainline_play_pokemon (%L, TRUE) $$, (
-                    SELECT
-                        play_pokemon_id
-                    FROM mistakes
-                    WHERE
-                        label = 'undone')), '23503', NULL, 'another user cannot delete the owner Pokémon');
-SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT
     IS ((
@@ -656,7 +605,6 @@ SELECT
                     WHERE
                         label = 'kept')), '23503', NULL, 'a deleted Pokémon cannot be deleted twice');
 -- No client role outside the owner reaches the new functions anonymously.
-RESET ROLE;
 SELECT
     ok (NOT has_function_privilege('anon', 'gameplay.choose_mainline_play_partner(uuid, integer)', 'EXECUTE')
         AND NOT has_function_privilege('anon', 'gameplay.undo_mainline_play_partner(uuid, uuid)', 'EXECUTE')

@@ -62,7 +62,6 @@ SELECT
             VALUES ('mega-charizard-x'::text, 'battle'::text), ('hisuian-arcanine', 'variant'), ('rotom-heat', 'form'), ('arceus-fire', 'form'), ('tornadus-therian', 'form'), ('lycanroc-dusk', 'variant') $$, 'Hisuian Arcanine and Dusk Lycanroc are variants, Rotom, Therian and Arceus forms switch, Mega is in battle');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-SET LOCAL ROLE authenticated;
 -- Arceus takes the type of the Plate it holds, and goes back without one.
 SELECT
     gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b1', p_held_item_id => 2);
