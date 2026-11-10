@@ -85,9 +85,9 @@ const quietColumns = new Set(["created_at", "last_opened_at", "updated_at"]);
 /* The things a clash can belong to: a Play or a Plan, with their rows. */
 const itemTables = ["gameplay.mainline_plays", "planning.mainline_team_plans"];
 
-/* A row's own label: its name, a slug, or nothing. */
+/* A row's own label: its name (a Play, a Plan, a tag), or nothing. */
 const readLabel = (row: UserRow | undefined) => {
-  const label = row?.name ?? row?.display_name ?? row?.slug;
+  const label = row?.name;
 
   return typeof label === "string" ? label : null;
 };
