@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { setFavouritePokemonAction } from "@/modules/mainline/features/collection/server/favourite-pokemon-action";
+import { setFavouritePokemonAction } from "@/modules/mainline/features/collection/client/favourite-pokemon-action";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
 import { Button, buttonVariants } from "@/shared/components/ui/button";

@@ -29,10 +29,10 @@ const readLearnset = vi.hoisted(() =>
 );
 
 vi.mock(
-  "@/modules/mainline/shared/server/build-option-readers",
+  "@/modules/mainline/shared/client/build-option-readers",
   async (importOriginal) => ({
     ...(await importOriginal<
-      typeof import("@/modules/mainline/shared/server/build-option-readers")
+      typeof import("@/modules/mainline/shared/client/build-option-readers")
     >()),
     readFormLearnsetRows: readLearnset,
   }),

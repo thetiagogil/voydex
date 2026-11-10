@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import {
   loadPlanMemberOptionsAction,
   type PlanMemberOptions,
-} from "@/modules/mainline/features/plans/planner/server/plan-member-options-action";
+} from "@/modules/mainline/features/plans/planner/client/plan-member-options-action";
 import type {
   PlanMember,
   PlanMoveSlots,

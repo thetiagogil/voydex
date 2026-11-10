@@ -83,6 +83,20 @@ describe("createLocalQueryClient", () => {
     expect(data).toEqual([{ slug: "monotype" }, { slug: "nuzlocke" }]);
   });
 
+  it("reads in-lists inside an or filter", async () => {
+    const { data } = await client
+      .from("tags")
+      .select("slug")
+      .or("slug.in.(nuzlocke,monotype),name.eq.Shiny hunt")
+      .order("slug");
+
+    expect(data).toEqual([
+      { slug: "monotype" },
+      { slug: "nuzlocke" },
+      { slug: "shiny-hunt" },
+    ]);
+  });
+
   it("inserts, updates, upserts and deletes, returning what changed", async () => {
     const inserted = await client
       .from("tags")

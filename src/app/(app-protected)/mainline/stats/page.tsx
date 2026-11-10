@@ -1,8 +1,5 @@
-import { MainlineStatsPage } from "@/modules/mainline/features/stats/mainline-stats-page";
-import { getStatsPageData } from "@/modules/mainline/features/stats/server/stats-page-query";
+import { MainlineStatsRoute } from "@/modules/mainline/features/stats/mainline-stats-route";
 
-export default async function StatsPage() {
-  const stats = await getStatsPageData();
-
-  return <MainlineStatsPage stats={stats} />;
+export default function StatsPage() {
+  return <MainlineStatsRoute />;
 }

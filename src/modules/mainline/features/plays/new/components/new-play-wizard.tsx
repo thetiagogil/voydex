@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
 import { getGameDataPercent } from "@/platform/local-db/game-data";
+import { useGameDownload } from "@/platform/local-db/game-downloads";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayExpansions } from "@/modules/mainline/features/plays/new/components/new-play-expansions";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
@@ -140,7 +141,8 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   );
   const tracking =
     editedTracking ?? data.trackingDefaults ?? defaultPlayTracking;
-  const { download, isPending, startPlay } = useStartPlay();
+  const { isPending, startPlay } = useStartPlay();
+  const download = useGameDownload();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
   const isFirstRender = useRef(true);
@@ -383,13 +385,13 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         {download ? (
           <div className="mr-auto flex min-w-0 basis-full flex-col gap-1.5 sm:basis-64">
             <p aria-live="polite" className="text-ink-2 text-14 font-semibold">
-              {download.step === "downloading"
-                ? `Downloading ${game?.shortName ?? "the game"}`
-                : `Saving ${game?.shortName ?? "the game"} on this device`}
+              {download.progress.step === "downloading"
+                ? `Downloading ${download.name}`
+                : `Saving ${download.name} on this device`}
             </p>
             <Progress
               aria-label="Game download"
-              value={getGameDataPercent(download)}
+              value={getGameDataPercent(download.progress)}
             />
           </div>
         ) : (

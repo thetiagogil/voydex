@@ -2,8 +2,8 @@ import { cache, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { FavouritePokemonButton } from "@/modules/mainline/features/collection/components/favourite-pokemon-button";
-import { readIsFavouritePokemon } from "@/modules/mainline/features/collection/server/favourite-pokemon-reader";
-import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
+import { readIsFavouritePokemon } from "@/modules/mainline/features/collection/client/favourite-pokemon-reader";
+import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
 import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/components/codex-add-to-play";
 import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";

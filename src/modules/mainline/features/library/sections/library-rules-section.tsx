@@ -11,7 +11,7 @@ import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/l
 import {
   deleteLibraryRuleAction,
   updateLibraryRuleAction,
-} from "@/modules/mainline/features/library/server/library-actions";
+} from "@/modules/mainline/features/library/client/library-actions";
 import type {
   LibraryRule,
   LibraryRuleKind,

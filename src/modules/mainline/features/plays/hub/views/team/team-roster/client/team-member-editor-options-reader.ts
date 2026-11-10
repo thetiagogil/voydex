@@ -13,7 +13,7 @@ import {
   supportsGameMechanic,
   type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { readPokeBallOptions } from "@/modules/mainline/shared/server/build-option-readers";
+import { readPokeBallOptions } from "@/modules/mainline/shared/client/build-option-readers";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type {

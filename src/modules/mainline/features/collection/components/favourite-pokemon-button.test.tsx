@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("../server/favourite-pokemon-action", () => ({
+vi.mock("../client/favourite-pokemon-action", () => ({
   setFavouritePokemonAction: vi.fn(),
 }));
 

@@ -1,22 +1,17 @@
 import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
 import { signOut } from "@/features/app-shell/server/sign-out-action";
-import { YouPage } from "@/features/settings/components/you-page";
-import { readYouSummary } from "@/modules/mainline/public-you";
+
+import { YouRoute } from "./you-route";
 
 export default async function Page() {
-  const [account, summary] = await Promise.all([
-    getSignedInAccount(),
-    readYouSummary(),
-  ]);
+  const account = await getSignedInAccount();
 
   return (
-    <YouPage
-      collection={summary?.collection}
+    <YouRoute
       displayName={account?.displayName ?? null}
       email={account?.email ?? null}
       icon={account?.icon ?? null}
       signOutAction={signOut}
-      statistics={summary?.statistics}
       trainerSince={account?.trainerSince ?? null}
     />
   );

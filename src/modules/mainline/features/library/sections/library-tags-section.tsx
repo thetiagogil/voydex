@@ -10,7 +10,7 @@ import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/l
 import {
   deleteLibraryTagAction,
   renameLibraryTagAction,
-} from "@/modules/mainline/features/library/server/library-actions";
+} from "@/modules/mainline/features/library/client/library-actions";
 import type { LibraryTag } from "@/modules/mainline/features/library/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";

@@ -8,7 +8,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   getLearnableMoveIds,
   readFormLearnsetRows,
-} from "@/modules/mainline/shared/server/build-option-readers";
+} from "@/modules/mainline/shared/client/build-option-readers";
 
 import { findUnofferedEditorChoice } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {

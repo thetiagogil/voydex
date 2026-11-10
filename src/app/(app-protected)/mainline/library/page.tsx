@@ -1,21 +1,12 @@
 import { parseLibraryTab } from "@/modules/mainline/features/library/data/library-model";
-import { MainlineLibraryPage } from "@/modules/mainline/features/library/mainline-library-page";
-import { getLibraryPageData } from "@/modules/mainline/features/library/server/library-page-query";
+import { MainlineLibraryRoute } from "@/modules/mainline/features/library/mainline-library-route";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export default async function LibraryPage({ searchParams }: PageProps) {
-  const [params, data] = await Promise.all([
-    searchParams,
-    getLibraryPageData(),
-  ]);
+  const params = await searchParams;
 
-  return (
-    <MainlineLibraryPage
-      data={data}
-      tab={parseLibraryTab([params.tab].flat()[0])}
-    />
-  );
+  return <MainlineLibraryRoute tab={parseLibraryTab([params.tab].flat()[0])} />;
 }

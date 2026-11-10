@@ -238,6 +238,21 @@ const parseOrCondition = (
       return `${name} > ${param(value)}`;
     case "gte":
       return `${name} >= ${param(value)}`;
+    case "in": {
+      /* "in.(1,2,3)": the list as one array parameter. */
+      const list = /^\((.*)\)$/.exec(raw)?.[1];
+
+      if (list !== undefined) {
+        return `${name} = ANY (${param(
+          list
+            .split(",")
+            .map((item) => item.trim().replace(/^"(.*)"$/, "$1"))
+            .filter(Boolean),
+        )})`;
+      }
+
+      break;
+    }
   }
 
   throw new Error(`"${condition}" isn't an or condition the device runs.`);
@@ -520,8 +535,7 @@ class LocalQuery implements PromiseLike<LocalQueryResult> {
 
     for (const group of this.ors) {
       conditions.push(
-        `(${group
-          .split(",")
+        `(${splitColumns(group)
           .map((condition) => parseOrCondition(condition.trim(), param))
           .join(" OR ")})`,
       );

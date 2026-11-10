@@ -5,10 +5,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import {
-  ensureLocalGame,
-  installLocalLearnsetsLater,
-} from "@/modules/mainline/features/plays/shared/client/local-play-game";
 import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
 import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/client/create-play-command";
 import {
@@ -18,7 +14,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { forgetStartedIntentAction } from "@/modules/mainline/features/plays/shared/server/start-intent-actions";
 import { getPlayCalendarDay } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import type { GameDataProgress } from "@/platform/local-db/game-data";
+import { ensureGameData } from "@/platform/local-db/game-downloads";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { useLocalDb } from "@/platform/local-db/local-db-context";
 import { isStorageFullError } from "@/platform/local-db/prepare-device";
@@ -43,15 +39,14 @@ const describeFailure = (error: unknown, step: "download" | "start") => {
 /*
  * Starts a Play on the device and opens it, the one start flow New Play and
  * Home share. The game downloads first when it isn't on the device yet
- * (`download` moves the bar), and its learnsets follow in the background.
+ * (`useGameDownload` moves the bar), its learnsets after, in the background.
  * The Play starts on the viewer's own calendar day; a failure says why and
  * keeps everything picked.
  */
 export const useStartPlay = () => {
   const router = useRouter();
-  const { db, save, versions } = useLocalDb();
+  const { save } = useLocalDb();
   const [isPending, setIsPending] = useState(false);
-  const [download, setDownload] = useState<GameDataProgress | null>(null);
   const newPlayDialog = useNewPlayDialog();
 
   const startPlay = async (
@@ -65,14 +60,8 @@ export const useStartPlay = () => {
     let step: "download" | "start" = "download";
 
     try {
-      const fileSlug = await ensureLocalGame(db, {
-        gameSlug: input.gameSlug,
-        onProgress: setDownload,
-        versions,
-      });
-
+      await ensureGameData(input.gameSlug);
       step = "start";
-      setDownload(null);
 
       const result = await save((client) =>
         createMainlinePlay({
@@ -86,7 +75,6 @@ export const useStartPlay = () => {
         }),
       );
 
-      installLocalLearnsetsLater(db, fileSlug, versions);
       newPlayDialog?.forgetIntent(input.gameSlug);
       void forgetStartedIntentAction(input.gameSlug);
       toast.success(`${gameShortName}: ${result.playName} started`);
@@ -95,12 +83,10 @@ export const useStartPlay = () => {
       toast.error(describeFailure(error, step));
     } finally {
       setIsPending(false);
-      setDownload(null);
     }
   };
 
   return {
-    download,
     isPending,
     startPlay: (...args: Parameters<typeof startPlay>) =>
       void startPlay(...args),
