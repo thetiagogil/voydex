@@ -1,10 +1,6 @@
--- When this device last saved a backup (file or account), for the quiet
--- "Last backup" note, and the change records account sync combines (see
--- src/platform/local-db/device-changes.sql).
-CREATE TABLE device.backups (
-    kind text PRIMARY KEY CHECK (kind IN ('file', 'account')),
-    saved_at timestamptz NOT NULL
-);
+-- Account sync: this device's sync state, the change records sync combines
+-- (see src/platform/local-db/device-changes.sql), and your tables without
+-- row security.
 
 -- Account sync on this device: the account it syncs with, the latest
 -- account backup it has merged or uploaded, and whether a restored backup
