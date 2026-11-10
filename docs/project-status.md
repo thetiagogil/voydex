@@ -16,7 +16,9 @@ issues, in order:
    no-go, and `src/platform/local-db`. On a no-go the plan switches to plain
    browser storage before anything else starts.
 3. #246 Game data files on Cloudflare: one file per game built from the
-   seeds, the ID check, pre-built Codex pages, images moved.
+   seeds, the ID check, pre-built Codex pages, images moved. The build, the
+   release checks and installing a game on the device are done; images moved
+   in #251; pre-built Codex pages and using the files in New Play remain.
 4. #247 Every Mainline screen moved to the device, one screen per pull
    request, with the device update runner.
 5. #248 Backup file and account sync.
