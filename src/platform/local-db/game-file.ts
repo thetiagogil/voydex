@@ -144,6 +144,8 @@ export const importGameFile = async (
         [file.slug, file.format, file.builtAt],
       );
     });
+    /* Lets Postgres reuse the log the import wrote instead of keeping it. */
+    await db.exec("CHECKPOINT");
   } catch (error) {
     throw toLocalDbError(error);
   }
