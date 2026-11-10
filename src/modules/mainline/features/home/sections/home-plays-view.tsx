@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 
+import { HomeDataNote } from "@/modules/mainline/features/home/components/home-data-note";
 import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
 import { HomeMomentsSection } from "@/modules/mainline/features/home/sections/home-moments-section";
 import type { HomeBand } from "@/modules/mainline/features/home/types";
@@ -59,6 +60,7 @@ export const HomePlaysView = ({
         subtitle={subtitle}
       />
       <HomeMomentsSection moments={band.moments} play={band.play} />
+      <HomeDataNote />
     </div>
   );
 };

@@ -55,9 +55,17 @@ pick or type and Save appears once it has changed), Look and feel, New Play defa
 
 Account shows your email with Change email (confirmed by a link Supabase
 sends; the change takes effect once it is opened), Change password, and Log
-out on this device. Your data offers Delete your account; there is no
-download or import of your data for now (a Plan's share link is the one
-import). Account deletion requires recent-auth handling when
+out on this device. Your data offers Save backup (every Play, Plan and
+setting as one gzipped file, `voydex-backup-<day>.json.gz`, with "Last backup
+N days ago"), Restore (reads a file, says when it was saved and how many
+Plays and Plans it holds, and after a confirm replaces everything on this
+device in one go; an older file is upgraded first, a broken or newer one is
+refused and nothing changes), whether this browser keeps the data (Install
+where the browser offers it, Share then Add to Home Screen on an iPhone, and
+a warning in an app's own browser), and Delete your account. On Home a quiet
+line under the moments says when the data needs a hand: an app's own
+browser, Safari on a phone without Voydex on the Home Screen, or 30 days
+without a backup. Account deletion requires recent-auth handling when
 necessary, a complete consequence summary, typed confirmation, one reviewed
 server-owned operation, and no partial success; it removes the Auth identity
 and dependent user-owned data, clears the session, and returns to the public

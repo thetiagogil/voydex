@@ -41,8 +41,10 @@ above as the source of truth but moves where they live (the local-data issues,
   versioned game data files built from the seeds, one per game, and the
   device keeps a copy of each game it uses.
 - **Backups** are copies, never a second source of truth. A backup file is a
-  versioned, compressed JSON of all user data. For an account, hosted Supabase
-  keeps the last 3 backups. Sync uses event merge: every change is a small
+  versioned, gzipped JSON of every row of yours (Settings > Your data: Save
+  backup and Restore; a restore replaces the device's data in one go, and an
+  older file is upgraded first). For an account, hosted Supabase will keep
+  the last 3 backups. Sync uses event merge: every change is a small
   timestamped record per Play, devices combine the records, the latest change
   wins per field, and the user is asked only on a true clash (the same field
   of the same item changed on two devices).
@@ -89,9 +91,8 @@ when it starts the Play; nothing stores them. The email typed on an auth page is
 next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the
-change takes effect once it is opened. Voydex offers no export or import of
-your data yet; a Plan's share link is the one import. The backup file
-(planned, #248) becomes the export and import for everyone.
+change takes effect once it is opened. The backup file is the export and
+import for everyone; a Plan's share link imports one Plan.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never

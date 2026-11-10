@@ -32,6 +32,7 @@ import {
   Crown,
   Dices,
   Dna,
+  Download,
   Eraser,
   EllipsisVertical,
   Eye,
@@ -74,6 +75,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Signpost,
+  Smartphone,
   SlidersHorizontal,
   Sparkles,
   Star,
@@ -82,6 +84,7 @@ import {
   Trash2,
   UserRound,
   UserRoundPlus,
+  Upload,
   UsersRound,
   Venus,
   WifiOff,
@@ -103,7 +106,11 @@ export const appIcons = {
     continue: ArrowRight,
     create: Plus,
     delete: Trash2,
+    /* Save a file to this device, such as a backup. */
+    download: Download,
     enterApp: Compass,
+    /* Add Voydex to the Home Screen. */
+    install: Smartphone,
     edit: Pencil,
     expand: ChevronDown,
     filter: SlidersHorizontal,
@@ -126,6 +133,8 @@ export const appIcons = {
     share: Share,
     signOut: LogOut,
     unlock: LockOpen,
+    /* Open a file from this device, such as a backup to restore. */
+    upload: Upload,
   },
   /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
   matchup: {
