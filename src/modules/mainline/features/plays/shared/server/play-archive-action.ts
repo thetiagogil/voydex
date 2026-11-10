@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { setPlayArchived } from "@/modules/mainline/features/plays/shared/server/play-archive-command";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { safeParseInput } from "@/shared/utils/input-schemas";
@@ -52,15 +53,9 @@ export const setPlayArchivedAction = async (input: {
     };
   }
 
-  const updateResult = await supabase
-    .schema("gameplay")
-    .from("mainline_plays")
-    .update({ archived_at: archived ? new Date().toISOString() : null })
-    .eq("id", playId)
-    .eq("user_id", userId)
-    .select("id");
-
-  if (updateResult.error || !updateResult.data?.length) {
+  try {
+    await setPlayArchived(supabase, { archived, playId, userId });
+  } catch {
     return { message: failureMessage, status: "error" };
   }
 

@@ -5,14 +5,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import { createLocalPlay } from "@/modules/mainline/features/plays/shared/client/local-play-commands";
 import {
   ensureLocalGame,
   installLocalLearnsetsLater,
 } from "@/modules/mainline/features/plays/shared/client/local-play-game";
 import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
+import { createMainlinePlay } from "@/modules/mainline/features/plays/shared/server/create-play-command";
 import {
   NewPlayInputError,
+  parseNewPlayInput,
   type NewPlayInput,
 } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { forgetStartedIntentAction } from "@/modules/mainline/features/plays/shared/server/start-intent-actions";
@@ -73,15 +74,15 @@ export const useStartPlay = () => {
       step = "start";
       setDownload(null);
 
-      const result = await save((device) =>
-        createLocalPlay({
-          db: device,
-          rawInput: {
+      const result = await save((client) =>
+        createMainlinePlay({
+          input: parseNewPlayInput({
             ...input,
             startedOn: getPlayCalendarDay(
               Intl.DateTimeFormat().resolvedOptions().timeZone,
             ),
-          },
+          }),
+          supabase: client,
         }),
       );
 

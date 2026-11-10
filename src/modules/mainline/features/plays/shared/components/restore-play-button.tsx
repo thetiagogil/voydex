@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-import { setLocalPlayArchived } from "@/modules/mainline/features/plays/shared/client/local-play-commands";
+import { setPlayArchived } from "@/modules/mainline/features/plays/shared/server/play-archive-command";
+import { localUserId } from "@/platform/local-db/device-schema";
 import { useLocalDb } from "@/platform/local-db/local-db-context";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
@@ -39,8 +40,12 @@ export const RestorePlayButton = ({
       onClick={() => {
         startRestoring(async () => {
           try {
-            await save((db) =>
-              setLocalPlayArchived(db, { archived: false, playId }),
+            await save((client) =>
+              setPlayArchived(client, {
+                archived: false,
+                playId,
+                userId: localUserId,
+              }),
             );
           } catch {
             toast.error("Unable to restore this Play.");

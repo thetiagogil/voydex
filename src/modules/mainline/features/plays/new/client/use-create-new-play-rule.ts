@@ -1,12 +1,12 @@
 "use client";
 
 import type { LibraryCreateResult } from "@/modules/mainline/shared/components/library-choice-field";
-import { findOrCreateLocalChallengeRule } from "@/modules/mainline/shared/client/challenge-rules-local";
+import { findOrCreateChallengeRule } from "@/modules/mainline/shared/server/library-choice-commands";
 import {
   libraryNameMaxLength,
   parseLibraryName,
 } from "@/modules/mainline/shared/utils/library-names";
-import { LocalDbError } from "@/platform/local-db/local-db";
+import { localUserId } from "@/platform/local-db/device-schema";
 import { useLocalDb } from "@/platform/local-db/local-db-context";
 
 /*
@@ -23,18 +23,18 @@ export const useCreateNewPlayRule = () => {
         label: "rule",
         maximum: libraryNameMaxLength.rule,
       });
-      const choice = await save((db) =>
-        findOrCreateLocalChallengeRule(db, ruleName),
+      const { choice } = await save((client) =>
+        findOrCreateChallengeRule(client, {
+          name: ruleName,
+          userId: localUserId,
+        }),
       );
 
       return { choice, status: "success" };
     } catch (error) {
       return {
         message:
-          /* A name problem says what to fix; a failed save stays plain. */
-          error instanceof Error && !(error instanceof LocalDbError)
-            ? error.message
-            : "Unable to add that rule.",
+          error instanceof Error ? error.message : "Unable to add that rule.",
         status: "error",
       };
     }

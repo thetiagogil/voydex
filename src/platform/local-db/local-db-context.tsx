@@ -13,6 +13,8 @@ import {
 
 import type { GameDataVersions } from "@/platform/local-db/game-data";
 import { toLocalDbError, type LocalDb } from "@/platform/local-db/local-db";
+import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
 
 /*
@@ -21,12 +23,18 @@ import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
  * again and shows the saved data; device reads take milliseconds.
  */
 export type LocalDbSession = {
+  /* The device database behind the query interface readers and commands take. */
+  client: LocalQueryClient;
   db: LocalDb;
   /* Runs a save, then lets every read on screen read again. */
-  save: <Result>(write: (db: LocalDb) => Promise<Result>) => Promise<Result>;
+  save: <Result>(
+    write: (client: LocalQueryClient) => Promise<Result>,
+  ) => Promise<Result>;
   /* The game data version list; null when opened offline. */
   versions: GameDataVersions | null;
 };
+
+export type LocalQueryClient = ServerSupabaseClient;
 
 const LocalDbContext = createContext<LocalDbSession | null>(null);
 const RevisionContext = createContext(0);
@@ -41,18 +49,22 @@ export const LocalDbProvider = ({
   versions: GameDataVersions | null;
 }) => {
   const [revision, setRevision] = useState(0);
+  const client = useMemo(() => createLocalQueryClient(db), [db]);
   const save = useCallback(
-    async <Result,>(write: (db: LocalDb) => Promise<Result>) => {
+    async <Result,>(write: (client: LocalQueryClient) => Promise<Result>) => {
       try {
-        return await write(db);
+        return await write(client);
       } finally {
         /* A failed save may still have changed nothing; reading again is cheap. */
         setRevision((current) => current + 1);
       }
     },
-    [db],
+    [client],
   );
-  const session = useMemo(() => ({ db, save, versions }), [db, save, versions]);
+  const session = useMemo(
+    () => ({ client, db, save, versions }),
+    [client, db, save, versions],
+  );
 
   return (
     <LocalDbContext.Provider value={session}>
@@ -87,9 +99,9 @@ export type LocalRead<Data> =
  */
 export const useLocalRead = <Data,>(
   key: string,
-  read: (db: LocalDb) => Promise<Data>,
+  read: (client: LocalQueryClient) => Promise<Data>,
 ): LocalRead<Data> => {
-  const { db } = useLocalDb();
+  const { client } = useLocalDb();
   const revision = useContext(RevisionContext);
   const readRef = useRef(read);
   const [state, setState] = useState<LocalRead<Data> & { key?: string }>({
@@ -103,7 +115,7 @@ export const useLocalRead = <Data,>(
   useEffect(() => {
     let current = true;
 
-    readRef.current(db).then(
+    readRef.current(client).then(
       (data) => {
         if (current) setState({ data, key, status: "ready" });
       },
@@ -117,7 +129,7 @@ export const useLocalRead = <Data,>(
     return () => {
       current = false;
     };
-  }, [db, key, revision]);
+  }, [client, key, revision]);
 
   /* Data read for another key is never shown as this one's. */
   if (state.status !== "loading" && state.key !== key) {

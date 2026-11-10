@@ -2,7 +2,9 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import { readNewPlayLocalData } from "@/modules/mainline/features/plays/new/client/new-play-local-reader";
-import { findOrCreateLocalChallengeRule } from "@/modules/mainline/shared/client/challenge-rules-local";
+import { findOrCreateChallengeRule } from "@/modules/mainline/shared/server/library-choice-commands";
+import { localUserId } from "@/platform/local-db/device-schema";
+import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import { createTestDevice } from "@/platform/local-db/local-db-test-support";
 
 describe("New Play's device reads and saves", () => {
@@ -20,7 +22,9 @@ describe("New Play's device reads and saves", () => {
   afterAll(() => db.close());
 
   it("reads the trainer name, the New Play defaults and the rules", async () => {
-    await expect(readNewPlayLocalData(db)).resolves.toEqual({
+    await expect(
+      readNewPlayLocalData(createLocalQueryClient(db)),
+    ).resolves.toEqual({
       presets: [],
       rules: [],
       trackingDefaults: expect.objectContaining({ story: true }),
@@ -29,13 +33,20 @@ describe("New Play's device reads and saves", () => {
   });
 
   it("adds a rule of your own once, then finds it by name", async () => {
-    const rule = await findOrCreateLocalChallengeRule(db, "No items");
+    const client = createLocalQueryClient(db);
+    const { choice } = await findOrCreateChallengeRule(client, {
+      name: "No items",
+      userId: localUserId,
+    });
 
     await expect(
-      findOrCreateLocalChallengeRule(db, "no ITEMS"),
-    ).resolves.toEqual(rule);
+      findOrCreateChallengeRule(client, {
+        name: "no ITEMS",
+        userId: localUserId,
+      }),
+    ).resolves.toEqual({ choice, created: false });
 
-    const { rules } = await readNewPlayLocalData(db);
+    const { rules } = await readNewPlayLocalData(createLocalQueryClient(db));
 
     expect(rules.map((choice) => choice.name)).toEqual(["No items"]);
   });

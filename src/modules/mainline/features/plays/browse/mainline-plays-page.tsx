@@ -77,8 +77,8 @@ const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
  * is no loading state; a failed read goes to the page's error screen.
  */
 export const MainlinePlaysPage = ({ params, view }: MainlinePlaysPageProps) => {
-  const read = useLocalRead(`plays:${view}`, (db) =>
-    readLocalPlaysPageData(db, view),
+  const read = useLocalRead(`plays:${view}`, (client) =>
+    readLocalPlaysPageData(client, view),
   );
 
   if (read.status === "failed") throw read.error;

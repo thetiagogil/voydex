@@ -1,24 +1,25 @@
 import {
-  readLocalArchivedPlayCount,
-  readLocalPlayLibrary,
-} from "@/modules/mainline/features/plays/shared/client/play-library-local-reader";
+  readMainlineArchivedPlayCount,
+  readMainlinePlayLibrary,
+} from "@/modules/mainline/features/plays/shared/server/play-library-reader";
 import type {
   PlaysPageData,
   PlaysPageView,
 } from "@/modules/mainline/features/plays/browse/types";
-import type { LocalDb } from "@/platform/local-db/local-db";
+import { localUserId } from "@/platform/local-db/device-schema";
+import type { LocalQueryClient } from "@/platform/local-db/local-db-context";
 
 /* The Plays page from the device: the library (with tags) or the archived ones. */
 export const readLocalPlaysPageData = async (
-  db: LocalDb,
+  client: LocalQueryClient,
   view: PlaysPageView,
 ): Promise<PlaysPageData> => {
   const [plays, archivedCount] = await Promise.all([
-    readLocalPlayLibrary(db, {
+    readMainlinePlayLibrary(client, localUserId, {
       archived: view === "archived",
       withTags: view === "active",
     }),
-    readLocalArchivedPlayCount(db),
+    readMainlineArchivedPlayCount(client, localUserId),
   ]);
 
   return { archivedCount, plays, view };

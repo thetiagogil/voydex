@@ -1,10 +1,55 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type { LibraryChoice } from "@/modules/mainline/shared/types";
-import {
-  isSameLibraryName,
-  writeWithLibrarySlug,
-} from "@/modules/mainline/shared/utils/library-slugs";
+import { toLibrarySlug } from "@/modules/mainline/shared/utils/library-names";
+
+const uniqueViolation = "23505";
+
+const isSameName = (left: string, right: string) =>
+  left.localeCompare(right, "en", { sensitivity: "base" }) === 0;
+
+/*
+ * Writes (inserts or renames) a named row under a slug made from its name.
+ * A name of only symbols takes `fallback`; a slug you already use (two names
+ * that read the same, like "Mono-type" and "Mono type") gets a short suffix.
+ */
+const writeWithSlug = async (
+  name: string,
+  {
+    fallback,
+    maximum,
+    separator,
+    write,
+  }: {
+    fallback: string;
+    maximum: number;
+    separator: "-" | "_";
+    write: (slug: string) => PromiseLike<{
+      data: LibraryChoice | null;
+      error: { code: string } | null;
+    }>;
+  },
+) => {
+  const base =
+    toLibrarySlug(name, { maximum: maximum - 5, separator }) ?? fallback;
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const slug = attempt
+      ? `${base}${separator}${crypto.randomUUID().slice(0, 4)}`
+      : base;
+    const result = await write(slug);
+
+    if (!result.error && result.data) {
+      return result.data;
+    }
+
+    if (result.error?.code !== uniqueViolation) {
+      return null;
+    }
+  }
+
+  return null;
+};
 
 /*
  * A challenge rule of your own, kept with Voydex's for all your Plays: of
@@ -46,7 +91,7 @@ export const findOrCreateChallengeRule = async (
   }
 
   const existing = (rulesResult.data ?? []).find((rule) =>
-    isSameLibraryName(rule.name, name),
+    isSameName(rule.name, name),
   );
 
   if (existing) {
@@ -54,7 +99,7 @@ export const findOrCreateChallengeRule = async (
   }
 
   const ruleTypeId = typeResult.data.id;
-  const rule = await writeWithLibrarySlug(name, {
+  const rule = await writeWithSlug(name, {
     fallback: "custom_rule",
     write: (slug) =>
       supabase
@@ -98,14 +143,14 @@ export const findOrCreateTag = async (
   }
 
   const existing = (tagsResult.data ?? []).find((tag) =>
-    isSameLibraryName(tag.name, name),
+    isSameName(tag.name, name),
   );
 
   if (existing) {
     return { choice: existing, created: false };
   }
 
-  const tag = await writeWithLibrarySlug(name, {
+  const tag = await writeWithSlug(name, {
     fallback: "tag",
     write: (slug) =>
       supabase
@@ -171,14 +216,14 @@ export const renameChallengeRule = async (
   }
 
   const taken = (rulesResult.data ?? []).find(
-    (rule) => rule.id !== id && isSameLibraryName(rule.name, name),
+    (rule) => rule.id !== id && isSameName(rule.name, name),
   );
 
   if (taken) {
     throw new Error(`You already have a rule called ${taken.name}.`);
   }
 
-  const rule = await writeWithLibrarySlug(name, {
+  const rule = await writeWithSlug(name, {
     fallback: "custom_rule",
     maximum: 120,
     separator: "_",
@@ -239,14 +284,14 @@ export const renameTag = async (
   }
 
   const taken = (tagsResult.data ?? []).find(
-    (tag) => tag.id !== id && isSameLibraryName(tag.name, name),
+    (tag) => tag.id !== id && isSameName(tag.name, name),
   );
 
   if (taken) {
     throw new Error(`You already have a tag called ${taken.name}.`);
   }
 
-  const tag = await writeWithLibrarySlug(name, {
+  const tag = await writeWithSlug(name, {
     fallback: "tag",
     maximum: 80,
     separator: "-",
@@ -315,14 +360,14 @@ export const saveRulePreset = async (
   }
 
   const taken = (presetsResult.data ?? []).find(
-    (preset) => preset.id !== id && isSameLibraryName(preset.name, name),
+    (preset) => preset.id !== id && isSameName(preset.name, name),
   );
 
   if (taken) {
     throw new Error(`You already have a preset called ${taken.name}.`);
   }
 
-  const preset = await writeWithLibrarySlug(name, {
+  const preset = await writeWithSlug(name, {
     fallback: "preset",
     maximum: 120,
     separator: "_",
