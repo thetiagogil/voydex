@@ -42,8 +42,10 @@ above as the source of truth but moves where they live (the local-data issues,
   device keeps a copy of each game it uses.
 - **Backups** are copies, never a second source of truth. A backup file is a
   versioned, compressed JSON of all user data. For an account, hosted Supabase
-  keeps the last 3 backups; devices merge them by Play, and when the same Play
-  changed on two devices the user picks which one to keep.
+  keeps the last 3 backups. Sync uses event merge: every change is a small
+  timestamped record per Play, devices combine the records, the latest change
+  wins per field, and the user is asked only on a true clash (the same field
+  of the same item changed on two devices).
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup
