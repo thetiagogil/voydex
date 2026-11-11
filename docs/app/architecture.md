@@ -261,10 +261,10 @@ catalogue types, data helpers, and paged/chunked reference reads. The game
 picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
 (`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`) also live
 in reference, so Start a Play, New Play and the Planner share them. `readGameCatalogue` (every game,
-its first partners and expansions) is the one cached read: static reference data read without a session through
-`createPublicSupabaseClient` and `unstable_cache` (a day, tag
-`reference-games`), so the Mainline layout can hand New Play its games on
-every load.
+its first partners and expansions) runs once in the build, into the
+pre-built game catalogue file; `games/client/game-catalogue.ts` reads it in
+the browser (`useGameCatalogue`, `fetchGameCatalogue`), so New Play, Start
+a Play, Home and Collection open with every game.
 `public-art.tsx` is the entry the public pages' routes inject into global
 features (which can't import a module), typed by `src/config/public-art.ts`.
 Mainline has the one matching entry, `src/modules/mainline/public-play-art.tsx`,
@@ -448,9 +448,16 @@ the device:
   game, built from the seeds, plus a shared base file. The base installs when
   the device database first opens; a game downloads the first time something
   needs it (a Play starting, the Team Planner opening on it), with its
-  learnsets after, in the background. The game catalogue New Play, Home and
-  Collection show is still a cached server read until Codex pages are
-  pre-built (#256).
+  learnsets after, in the background.
+- **The Codex and the game pickers** read pre-built files (#256): the build
+  runs the Codex's `server/` readers once over every game data file and
+  writes a gzipped JSON file per page to `/codex-data/` (see
+  [Codex Files](../database/architecture.md#codex-files)). Pages download
+  their file in the browser with `useCodexFile` (Codex) or
+  `useGameCatalogue` (the game catalogue New Play, Start a Play, Home and
+  Collection show), through `src/platform/prebuilt-data`; an address that
+  names no file is a 404, and an old game or expansion address moves on to
+  its base group.
 - **Supabase** keeps login and account backups only. The app opens without
   signing in; signed in, the device syncs with the account's backups
   (`account-sync.ts`, started by `AccountSyncRunner` in the app layout).
@@ -564,8 +571,9 @@ the partner (`gameplay.choose_mainline_play_partner`,
 moment (`gameplay.remove_mainline_play_pokemon`) are each one function call;
 no action writes in steps or undoes by hand. Readers, loaders, commands,
 repositories and writers take their database client as a parameter; the
-query or action that calls them gets it (`getLocalQueryClient`, or a server
-client for the Codex's game data). `data/`, `domain/` and `utils/` never import
+query or action that calls them gets it (`getLocalQueryClient`, or, for the
+Codex's `server/` readers, the build's database holding every game data
+file). `data/`, `domain/` and `utils/` never import
 Next.js, React or `src/platform` at runtime; type-only imports are fine.
 `architecture:check` enforces both rules.
 
@@ -614,7 +622,7 @@ Current route groups remain:
   Collectibles, History, Settings), the Team Planner and My Plans
   (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
   `/welcome` and `/you`;
-- API: `/api/health` and `/api/codex/pokemon-menu`.
+- API: `/api/health`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every
 address; code is the evidence for what is mounted.
