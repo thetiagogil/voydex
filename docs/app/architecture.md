@@ -591,6 +591,22 @@ Next.js, React or `src/platform` at runtime; type-only imports are fine.
 - `src/proxy.ts` refreshes the session on app routes; it never sends anyone
   to log in, since the app opens without signing in.
 
+### Page Changes
+
+A page's data is read on the device, so what the server sends for a page is
+small and doesn't change while you use the app. Page changes never wait on
+it:
+
+- Links come from `@/shared/components/link`, which fetches each page on
+  screen in full ahead of the click (lint forbids `next/link` elsewhere).
+- The router keeps each page opened or fetched for an hour
+  (`experimental.staleTimes` in `next.config.ts`), so going back is instant.
+- A save on the device redraws through `notifyLocalSave`; it never calls
+  `router.refresh()`, which asks the server for the page again and drops every
+  page fetched ahead.
+- A filter or scope kept in the address updates it with
+  `window.history.replaceState`, not `router.replace`.
+
 ## File Size And Naming
 
 File size is a review signal, not a hard gate:

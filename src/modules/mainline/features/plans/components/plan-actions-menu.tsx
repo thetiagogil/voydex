@@ -95,7 +95,6 @@ export const PlanActionsMenu = ({
       toast.success(
         `${plan.name} ${plan.isArchived ? "restored" : "archived"}`,
       );
-      router.refresh();
     });
 
   const deletePlan = () =>
@@ -114,8 +113,6 @@ export const PlanActionsMenu = ({
         router.push(appRoutes.mainlinePlans);
         return;
       }
-
-      router.refresh();
     });
 
   return (
@@ -215,7 +212,6 @@ export const PlanActionsMenu = ({
             if (result.status === "error") return result.message;
 
             toast.success(`Renamed to ${result.name}`);
-            router.refresh();
 
             return null;
           }}

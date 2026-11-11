@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { OverlayFrame } from "@/shared/components/overlay-frame";
@@ -61,7 +60,6 @@ export const StoryMilestoneEditor = ({
   /* Recording: start with "Record team snapshot" ticked. */
   recordsTeam?: boolean;
 }) => {
-  const router = useRouter();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const usesBottomSheet = useBottomSheetLayout();
   const [state, formAction] = useActionState(
@@ -92,8 +90,7 @@ export const StoryMilestoneEditor = ({
 
     handledStateRef.current = state;
     onSaved(state.message, state.milestoneIds ?? []);
-    router.refresh();
-  }, [onSaved, router, state]);
+  }, [onSaved, state]);
 
   /* Back to the milestone's stop on the route, as its sheet does. */
   const returnFocus = () =>

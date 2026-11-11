@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState, useTransition, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { EditedMark } from "@/shared/components/edited-mark";
@@ -61,7 +60,6 @@ export const PlaySettingsGeneralSection = ({
   data: MainlinePlaySettingsData;
   playId: string;
 }) => {
-  const router = useRouter();
   const id = useId();
   const initial = toFormValues(data.general);
   const [values, setValues] = useState(initial);
@@ -95,7 +93,6 @@ export const PlaySettingsGeneralSection = ({
       }
 
       toast.success(result.message);
-      router.refresh();
     });
   };
 

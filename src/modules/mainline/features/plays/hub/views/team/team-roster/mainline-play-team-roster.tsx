@@ -145,13 +145,10 @@ export const MainlinePlayTeamRoster = ({
 
       if (result.status === "error") {
         toast.error(result.message);
-        /* The roster may have changed elsewhere; show it as it is now. */
-        router.refresh();
         return;
       }
 
       onSaved();
-      router.refresh();
     });
   };
 

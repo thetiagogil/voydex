@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
@@ -75,7 +74,6 @@ export const TeamMemberEditorSheet = ({
   playId: string;
   roster: readonly MainlinePlayTeamMember[];
 }) => {
-  const router = useRouter();
   const id = useId();
   const initial = getTeamMemberEditorValues(member);
   const [values, setValues] = useState(initial);
@@ -231,8 +229,6 @@ export const TeamMemberEditorSheet = ({
         if (toSlot !== null) {
           onMove(playPokemonId, toSlot);
         }
-
-        router.refresh();
       } catch (saveError) {
         setError(
           saveError instanceof Error

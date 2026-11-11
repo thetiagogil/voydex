@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import {
@@ -64,7 +63,6 @@ export const PartnerHeroSection = ({
   partner: OverviewPartnerChoice;
   playId: string;
 }) => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [pickedOptionId, setPickedOptionId] = useState<number | null>(null);
   const [poppingOptionId, setPoppingOptionId] = useState<number | null>(null);
@@ -88,7 +86,6 @@ export const PartnerHeroSection = ({
         }
 
         toast.success(result.message);
-        router.refresh();
       },
     );
   };
@@ -113,7 +110,6 @@ export const PartnerHeroSection = ({
           onClick: () => undo(result.addedPlayPokemonId),
         },
       });
-      router.refresh();
     });
   };
 

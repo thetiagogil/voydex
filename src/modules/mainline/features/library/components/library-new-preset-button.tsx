@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -24,7 +23,6 @@ export const LibraryNewPresetButton = ({
   kinds: LibraryRuleKind[];
   rules: LibraryRule[];
 }) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -51,7 +49,6 @@ export const LibraryNewPresetButton = ({
 
             toast.success(result.message);
             setIsOpen(false);
-            router.refresh();
 
             return null;
           }}
