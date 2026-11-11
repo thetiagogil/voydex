@@ -1,20 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("next/cache", () => ({
-  unstable_cache: (read: () => unknown) => read,
-}));
-
-vi.mock("@/platform/supabase/public-client", () => ({
-  createPublicSupabaseClient: vi.fn(() => ({})),
-}));
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 vi.mock("@/modules/reference/features/games/server/game-shelf-reader", () => ({
   readGameBadgeCountsByGameSlug: vi.fn(async () => {
     throw new Error("Unable to load the games' badges.");
   }),
-  readGameCollectiblesByGameSlug: vi.fn(async () => {
-    throw new Error("Unable to load the games' collectibles.");
-  }),
+  readGameCollectiblesByGameSlug: vi.fn(async () => ({})),
   readGameExpansionsByGameSlug: vi.fn(async () => ({})),
   readGameShelfGames: vi.fn(async () => []),
   readGameStartersByGameSlug: vi.fn(async () => ({})),
@@ -29,11 +21,10 @@ const { readGameCatalogue } =
   await import("@/modules/reference/features/games/server/game-catalogue-query");
 
 describe("readGameCatalogue", () => {
-  it("still reads the games when the badges or collectibles can't be read", async () => {
-    await expect(readGameCatalogue()).resolves.toMatchObject({
-      badgeCountsByGameSlug: {},
-      collectiblesByGameSlug: null,
-      games: [],
-    });
+  /* It runs in the build: a part it can't read fails the build, never ships empty. */
+  it("fails when a part of the catalogue can't be read", async () => {
+    await expect(readGameCatalogue({} as ServerSupabaseClient)).rejects.toThrow(
+      "Unable to load the games' badges.",
+    );
   });
 });

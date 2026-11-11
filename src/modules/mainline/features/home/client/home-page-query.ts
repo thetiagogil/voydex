@@ -186,7 +186,7 @@ export const getHomePageData = async (
   {
     catalogue,
   }: {
-    /* Game data, read on the server until it ships as files. */
+    /* Game data, from the pre-built game catalogue. */
     catalogue: GameCatalogue | null;
   },
 ): Promise<HomePageData> => {

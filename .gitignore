@@ -63,4 +63,6 @@ next-env.d.ts
 
 # device game data files (npm run game-data:build) and schema (prebuild)
 /public/game-data/
+# the Codex's pre-built files (npm run codex:build)
+/public/codex-data/
 /public/local-db/

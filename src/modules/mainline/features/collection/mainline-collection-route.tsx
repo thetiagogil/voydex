@@ -3,20 +3,18 @@
 import { getCollectionPageData } from "@/modules/mainline/features/collection/client/collection-page-query";
 import { MainlineCollectionPage } from "@/modules/mainline/features/collection/mainline-collection-page";
 import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
-import type { GameCatalogue } from "@/modules/reference/features/games/types";
+import { fetchGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 
-/* Collection, read on the device; the games come from the server. */
+/* Collection, read on the device, with the games from the pre-built catalogue. */
 export const MainlineCollectionRoute = ({
-  catalogue,
   initialSpeciesSlug,
   view,
 }: {
-  catalogue: GameCatalogue;
   initialSpeciesSlug: string | null;
   view: "favourites" | "games" | "pokemon";
 }) => {
-  const data = useLocalPageData("collection", () =>
-    getCollectionPageData(catalogue),
+  const data = useLocalPageData("collection", async () =>
+    getCollectionPageData(await fetchGameCatalogue()),
   );
 
   return data ? (

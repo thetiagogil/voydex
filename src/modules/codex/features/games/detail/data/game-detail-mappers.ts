@@ -3,8 +3,11 @@ import {
   getPokedexPokemonCounts,
   sortVersionGroupPokedexes,
 } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
-import { buildGameLeaders } from "@/modules/codex/features/games/detail/data/game-detail-leaders";
-import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
+import {
+  buildGameLeaders,
+  type CodexLeaderRows,
+} from "@/modules/codex/features/games/detail/data/game-detail-leaders";
+import type { VersionExclusiveRows } from "@/modules/codex/features/games/detail/server/game-detail-exclusive-loaders";
 import type {
   CodexGameDetailData,
   CodexGameFirstPartners,
@@ -21,11 +24,39 @@ import {
 import type {
   Game,
   GameCard,
+  GamePlatform,
   GameStarters,
+  GameType,
   Generation,
+  Platform,
+  Pokedex,
+  PokedexEntry,
   PokemonTypePair,
+  Region,
   VersionGroup,
 } from "@/modules/reference/types";
+
+/* One version group's page as rows (pre-built), mapped with the picked game. */
+export type GameDetailRows = {
+  gamePlatforms: GamePlatform[];
+  gameTypes: GameType[];
+  generations: Generation[];
+  /* The group's Gym Leaders, kahunas and Champion with their first teams. */
+  leaders: CodexLeaderRows;
+  platforms: Platform[];
+  pokedexEntries: PokedexEntry[];
+  /* The group's Pokédexes and its expansions' (Isle of Armor, Crown Tundra). */
+  pokedexes: Pokedex[];
+  relatedGames: Game[];
+  regions: Region[];
+  /* The base game's version exclusives, when the group has two games or more. */
+  versionExclusives: VersionExclusiveRows;
+  /* The base version group the page is about. */
+  versionGroup: VersionGroup;
+  versionGroups: VersionGroup[];
+  /* The group's own games, Sword and Shield. */
+  versions: Game[];
+};
 
 const fallbackSortOrder = Number.MAX_SAFE_INTEGER;
 const RELATED_GAME_LIMIT = 5;

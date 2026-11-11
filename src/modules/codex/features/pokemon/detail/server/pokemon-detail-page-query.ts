@@ -1,5 +1,5 @@
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { buildPokemonDetailData } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-page-mappers";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import type { PokemonDetailRows } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-page-mappers";
 import {
   loadPokemonDetailBaseRows,
   loadPokemonDetailSpeciesRows,
@@ -10,19 +10,21 @@ import {
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-related-loaders";
 import { loadPokemonDetailLearnsetMoveRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-learnset-loaders";
 import { isNumber } from "@/modules/reference/reference-data";
-import type {
-  PokedexEntry,
-  PokemonDetailData,
-} from "@/modules/reference/types";
+import type { PokedexEntry } from "@/modules/reference/types";
 
 const getPokedexIds = (entries: PokedexEntry[]) => {
   return [...new Set(entries.map((row) => row.pokedex_id).filter(isNumber))];
 };
 
-export const getPokemonDetailData = async (
+/*
+ * Everything a species' entry is made from, every game's, as rows: the page
+ * builds the entry (`buildPokemonDetailData`) and scopes it to one group.
+ * Rows, not the built entry, because the entry repeats them many times over.
+ */
+export const readPokemonDetailRows = async (
+  supabase: ServerSupabaseClient,
   slug: string,
-): Promise<PokemonDetailData | null> => {
-  const supabase = await createServerSupabaseClient();
+): Promise<PokemonDetailRows | null> => {
   const baseRows = await loadPokemonDetailBaseRows(supabase, slug);
 
   if (!baseRows) {
@@ -54,11 +56,11 @@ export const getPokemonDetailData = async (
     relatedRows.evolutionEdges,
   );
 
-  return buildPokemonDetailData({
+  return {
     baseRows,
     evolutionMethods,
     learnsetMoveRows,
     relatedRows,
     speciesRows,
-  });
+  };
 };

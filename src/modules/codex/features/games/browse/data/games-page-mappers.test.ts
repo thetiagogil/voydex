@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildGamesPageData } from "@/modules/codex/features/games/browse/data/games-page-mappers";
-import type { GamesPageRows } from "@/modules/codex/features/games/browse/server/games-page-loaders";
+import type { GamesPageRows } from "@/modules/codex/features/games/browse/data/games-page-mappers";
 import type {
   Game,
   GameType,

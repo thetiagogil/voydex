@@ -9,12 +9,12 @@ import {
   NewPlayWizard,
 } from "@/modules/mainline/features/plays/new/components/new-play-wizard";
 import { readNewPlayLocalData } from "@/modules/mainline/features/plays/new/client/new-play-local-reader";
-import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
 import { resolveNewPlayInitialChoice } from "@/modules/mainline/features/plays/new/utils/new-play-initial-choice";
 import {
   NewPlayDialogContext,
   type NewPlayDialogOpener,
 } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
+import { useGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 
@@ -32,11 +32,6 @@ type Opening = {
 
 type NewPlayDialogProviderProps = {
   children: ReactNode;
-  /*
-   * Read with the Mainline layout: the dialog opens complete, every time.
-   * Your rules, defaults and trainer name come from the device.
-   */
-  data: NewPlayDialogData;
 };
 
 /*
@@ -46,11 +41,12 @@ type NewPlayDialogProviderProps = {
  * `&partner=<species>`, or `?new=1` for none), whose parameters it drops from
  * the address once open. The address otherwise stays
  * the page's, so the bar keeps its place. Starting a Play opens it, and the
- * dialog stands down once you are on another page.
+ * dialog stands down once you are on another page. The games come from
+ * the pre-built game catalogue; your rules, defaults and trainer name from
+ * the device.
  */
 export const NewPlayDialogProvider = ({
   children,
-  data,
 }: NewPlayDialogProviderProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -64,6 +60,8 @@ export const NewPlayDialogProvider = ({
   const [seenRequest, setSeenRequest] = useState<string | null>(null);
   const triggerCount = useRef(0);
   const local = useLocalRead("new-play", readNewPlayLocalData);
+  const games = useGameCatalogue();
+  const catalogue = games.status === "ready" ? games.data : null;
   /* A failed read starts New Play from the saved defaults, without your rules. */
   const yours =
     local.status === "ready"
@@ -136,20 +134,18 @@ export const NewPlayDialogProvider = ({
         fullScreenOnPhone
         size="2xl"
       >
-        {/* The wizard waits for the device (milliseconds): it starts from what it reads. */}
-        {local.status === "loading" ? null : opening && data.catalogue ? (
+        {/* The wizard waits for the device and the games (milliseconds): it starts from what it reads. */}
+        {local.status === "loading" ||
+        games.status === "loading" ? null : opening && catalogue ? (
           <NewPlayWizard
             key={opening.id}
             data={{
-              ...data.catalogue,
+              ...catalogue,
               presets: yours.presets,
               rules: yours.rules,
               trackingDefaults: yours.trackingDefaults,
               trainerName: yours.trainerName,
-              initial: resolveNewPlayInitialChoice(
-                data.catalogue.games,
-                opening,
-              ),
+              initial: resolveNewPlayInitialChoice(catalogue.games, opening),
             }}
             onClose={close}
           />

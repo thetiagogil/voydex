@@ -1,23 +1,5 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import type {
-  Game,
-  GamePlatform,
-  GameType,
-  Generation,
-  Platform,
-  Region,
-  VersionGroup,
-} from "@/modules/reference/types";
-
-export type GamesPageRows = {
-  gamePlatforms: GamePlatform[];
-  gameTypes: GameType[];
-  games: Game[];
-  generations: Generation[];
-  platforms: Platform[];
-  regions: Region[];
-  versionGroups: VersionGroup[];
-};
+import type { GamesPageRows } from "@/modules/codex/features/games/browse/data/games-page-mappers";
 
 export const loadGamesPageRows = async (
   supabase: ServerSupabaseClient,

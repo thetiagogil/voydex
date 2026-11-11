@@ -9,7 +9,7 @@ import type { GameCatalogue } from "@/modules/reference/features/games/types";
 import { readSpeciesGenerations } from "@/modules/reference/features/pokemon/server/species-generations-reader";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 
-/* `catalogue` is game data, read on the server until it ships as files. */
+/* `catalogue` is game data, from the pre-built game catalogue. */
 export const getCollectionPageData = async (
   catalogue: GameCatalogue,
 ): Promise<CollectionPageData> => {
