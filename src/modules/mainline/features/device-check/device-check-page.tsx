@@ -88,6 +88,7 @@ const buildReport = ({
   if (saves) {
     lines.push(
       `Saves: median ${formatMs(saves.medianMs)}, slowest ${formatMs(saves.slowestMs)}`,
+      `Saved to storage: median ${formatMs(saves.writtenMedianMs)}, slowest ${formatMs(saves.writtenSlowestMs)}`,
     );
   }
 
@@ -298,12 +299,20 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
                   </>
                 ) : null}
                 {check.saves ? (
-                  <StatTile
-                    label="Median save"
-                    value={formatMs(check.saves.medianMs)}
-                  >
-                    Slowest {formatMs(check.saves.slowestMs)}
-                  </StatTile>
+                  <>
+                    <StatTile
+                      label="Median save"
+                      value={formatMs(check.saves.medianMs)}
+                    >
+                      Slowest {formatMs(check.saves.slowestMs)}
+                    </StatTile>
+                    <StatTile
+                      label="Saved to storage"
+                      value={formatMs(check.saves.writtenMedianMs)}
+                    >
+                      Slowest {formatMs(check.saves.writtenSlowestMs)}
+                    </StatTile>
+                  </>
                 ) : null}
               </div>
             ) : null}

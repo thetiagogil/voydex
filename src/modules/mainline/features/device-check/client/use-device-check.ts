@@ -18,6 +18,7 @@ import {
   installGameLearnsets,
   type GameDataProgress,
 } from "@/platform/local-db/game-data";
+import { waitForWrites } from "@/platform/local-db/durable-writes";
 import { runQuery } from "@/platform/local-db/local-db";
 import {
   deleteLocalDb,
@@ -68,7 +69,13 @@ export type StartResult = {
 
 export type FlowResult = { addMs: number; createMs: number; playName: string };
 
-export type SaveTimings = { medianMs: number; slowestMs: number };
+export type SaveTimings = {
+  medianMs: number;
+  slowestMs: number;
+  /* Until a save is in IndexedDB and survives a reload or close. */
+  writtenMedianMs: number;
+  writtenSlowestMs: number;
+};
 
 type CheckState =
   | { progress: GameDataProgress | null; status: "starting" }
@@ -355,14 +362,18 @@ export const useDeviceCheck = (durability: Durability) => {
   const timeSaves = () =>
     run(async (db) => {
       const timings: number[] = [];
+      const written: number[] = [];
 
       for (let index = 1; index <= timedSaveCount; index += 1) {
         const { addMs, createMs } = await runFlow(
           db,
           `${timedSavePrefix} ${index}`,
         );
+        const writeStartedAt = performance.now();
 
+        await waitForWrites();
         timings.push(createMs, addMs);
+        written.push(addMs + elapsed(writeStartedAt));
       }
 
       await runQuery(
@@ -370,7 +381,12 @@ export const useDeviceCheck = (durability: Durability) => {
         "DELETE FROM gameplay.mainline_plays WHERE name LIKE $1",
         [`${timedSavePrefix}%`],
       );
-      setSaves({ medianMs: median(timings), slowestMs: Math.max(...timings) });
+      setSaves({
+        medianMs: median(timings),
+        slowestMs: Math.max(...timings),
+        writtenMedianMs: median(written),
+        writtenSlowestMs: Math.max(...written),
+      });
     });
 
   const keepData = () =>
