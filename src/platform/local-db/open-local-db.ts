@@ -20,9 +20,9 @@ import { requestPersistentStorage } from "@/platform/local-db/storage";
 
 /*
  * The device database for this visit: started once, in its worker, with
- * relaxed durability (saves answer at once; the iPhone test showed normal
- * saves take a second), and made ready by `prepareDevice`. Every screen
- * shares it.
+ * relaxed durability (saves answer at once and reach IndexedDB right after;
+ * the iPhone test showed normal saves take a second), and made ready by
+ * `prepareDevice`. Every screen shares it.
  */
 
 export type OpenedLocalDb = {

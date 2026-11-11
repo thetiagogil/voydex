@@ -131,7 +131,9 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await dialog
       .getByRole("textbox", { name: "Play name" })
       .fill(uniquePlayName("Tracking run"));
+    const started = waitForAction(page);
     await dialog.getByRole("button", { name: /^Start/ }).click();
+    await started;
     await page.waitForURL(/\/mainline\/plays\/[0-9a-f-]{36}$/);
     const playId = page.url().split("/").at(-1)!;
 

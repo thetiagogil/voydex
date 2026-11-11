@@ -80,6 +80,14 @@ three places:
   and foreign key checks off, one transaction per file.
 - The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
   `/pglite/voydex`; one tab leads and the others send their queries to it.
+- Saves answer before they reach IndexedDB (relaxed durability), so they feel
+  instant; the worker writes them right after, through one queue
+  (`durable-writes.ts`). `notifyLocalSave` redraws the screen at once, then
+  waits for that write (`waitForWrites`, over a broadcast channel to the tab
+  that leads) before counting the save on the page's root (`data-saves`).
+  Leaving the page before it lands asks first in desktop and Android
+  browsers; an iPhone can't be asked, and closing the tab that leads loses
+  another tab's unwritten saves.
 - `/device-check` starts it with Sword / Shield and times start, install and
   saves, for the phone test.
 

@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { waitForWrites } from "@/platform/local-db/durable-writes";
 import type { GameDataVersions } from "@/platform/local-db/game-data";
 import { toLocalDbError, type LocalDb } from "@/platform/local-db/local-db";
 import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
@@ -39,20 +40,62 @@ export type LocalQueryClient = ServerSupabaseClient;
 /* Every provider on the page, told when a save lands so its reads run again. */
 const saveListeners = new Set<() => void>();
 
+/* Saves the screen shows that aren't in IndexedDB yet. */
+let unwrittenSaves = 0;
+
+/*
+ * Asks before a reload or close would lose a save still being written.
+ * Desktop and Android browsers ask; an iPhone can't be asked, so there the
+ * short write is the only window.
+ */
+const askBeforeLeaving = (event: BeforeUnloadEvent) => {
+  event.preventDefault();
+  /* Older browsers ask only when this is set. */
+  event.returnValue = "";
+};
+
+const bump = (key: "saves" | "savesStarted") => {
+  const root = document.documentElement;
+
+  root.dataset[key] = String(Number(root.dataset[key] ?? 0) + 1);
+};
+
+/*
+ * Counts a save on the page's root as it starts (`data-saves-started`) and
+ * once it is in IndexedDB (`data-saves`), so a browser test can wait for a
+ * save that survives a reload without knowing how it was made.
+ */
+const keepSave = async (counted: boolean) => {
+  if (counted) bump("savesStarted");
+
+  if (unwrittenSaves++ === 0) {
+    window.addEventListener("beforeunload", askBeforeLeaving);
+  }
+
+  try {
+    await waitForWrites();
+
+    if (counted) bump("saves");
+  } catch (error) {
+    console.error("A save on this device wasn't written.", error);
+  } finally {
+    if (--unwrittenSaves === 0) {
+      window.removeEventListener("beforeunload", askBeforeLeaving);
+    }
+  }
+};
+
 /*
  * Tells the screens a save landed, so every read on screen runs again: the
- * device's stand-in for revalidating a page after a Server Action.
+ * device's stand-in for revalidating a page after a Server Action. The
+ * screen updates at once; the write to IndexedDB follows (relaxed
+ * durability), and leaving the page before it lands asks first where the
+ * browser can ask.
+ * `background` marks a save the app made on its own (an account sync),
+ * which isn't counted: it lands at any moment, not after a tap.
  */
-export const notifyLocalSave = () => {
-  /*
-   * Counts the visit's saves on the page's root (`data-saves`), so a browser
-   * test can wait for a save to land without knowing how it was made.
-   */
-  if (typeof document !== "undefined") {
-    const root = document.documentElement;
-
-    root.dataset.saves = String(Number(root.dataset.saves ?? 0) + 1);
-  }
+export const notifyLocalSave = ({ background = false } = {}) => {
+  if (typeof window !== "undefined") void keepSave(!background);
 
   for (const listener of saveListeners) listener();
 };
