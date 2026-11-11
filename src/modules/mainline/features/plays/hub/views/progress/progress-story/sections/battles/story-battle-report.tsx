@@ -27,6 +27,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
 import {
@@ -293,10 +294,9 @@ const reportWording = {
     levels: (range: string | null) =>
       `It's ${range}. Your team's levels aren't recorded yet.`,
     moves: {
-      all: "This reads its moves against your team.",
       none: "Its moves aren't in Voydex, so this reads its types against your recorded moves.",
       /* One Pokémon: its moves are known or they aren't. */
-      some: () => "This reads its moves against your team.",
+      some: () => null,
     },
     opponentTitle: "The Pokémon",
     specialty: ["Type", "Types"],
@@ -309,7 +309,6 @@ const reportWording = {
     levels: (range: string | null) =>
       `Their team is ${range}. Your team's levels aren't recorded yet.`,
     moves: {
-      all: "This reads their moves against your team.",
       none: "Their moves aren't in Voydex, so this reads their types against your recorded moves.",
       some: (known: number, count: number) =>
         `Voydex has the moves of ${known} of their ${count} Pokémon and reads the others by their types.`,
@@ -628,10 +627,11 @@ const getMovesNote = (
 ) => {
   const known = countOpponentsWithMoves(their);
 
+  /* Said only where the reading falls back on types; their moves are the norm. */
   return known === 0
     ? notes.none
     : known === their.length
-      ? notes.all
+      ? null
       : notes.some(known, their.length);
 };
 
@@ -643,15 +643,45 @@ const getMovesNote = (
  * their team, it reads the opponent's specialty only.
  */
 export const StoryBattleReport = ({
-  battle,
+  battle: source,
   titleId,
 }: {
   battle: StoryMatchupBattle;
   titleId: string;
 }) => {
+  /*
+   * While the choice that picks their team isn't recorded, the team picked
+   * here (the first until you pick another) is the one the report reads.
+   */
+  const [versionPick, setVersionPick] = useState<{
+    battleId: string;
+    key: string;
+  } | null>(null);
+  const version =
+    source.versions.find(
+      (candidate) =>
+        versionPick?.battleId === source.id &&
+        candidate.key === versionPick.key,
+    ) ??
+    source.versions[0] ??
+    null;
+  const battle: StoryMatchupBattle = version
+    ? {
+        ...source,
+        allies: version.allies,
+        members: version.members,
+        party: version.party,
+        partyLevels: version.partyLevels,
+        reading: version.reading,
+      }
+    : source;
   const isWon = battle.state === "won";
   const { opponentKind, party, reading } = battle;
   const wording = reportWording[opponentKind];
+  /* What the reading reads them by, where that isn't simply their moves. */
+  const footnote = party
+    ? getMovesNote(wording.moves, party.pokemon)
+    : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types.";
   /* Which battle's cards are turned to their moves, so another battle opens on its faces. */
   const [movesShownFor, setMovesShownFor] = useState<string | null>(null);
   const showMoves = movesShownFor === battle.id;
@@ -772,6 +802,27 @@ export const StoryBattleReport = ({
           ) : null
         }
       >
+        {version ? (
+          <div className="mb-2 grid gap-2">
+            <p className="text-ink-2 text-14 font-semibold">
+              {source.versionsNote}
+            </p>
+            <SegmentedControl
+              ariaLabel="Their team"
+              size="sm"
+              variant="pills"
+              selectedTone="strong"
+              options={source.versions.map((candidate) => ({
+                label: candidate.label,
+                value: candidate.key,
+              }))}
+              value={version.key}
+              onValueChange={(key) =>
+                setVersionPick({ battleId: source.id, key })
+              }
+            />
+          </div>
+        ) : null}
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
             {wording.specialty[battle.specialtyTypes.length > 1 ? 1 : 0]}
@@ -919,11 +970,9 @@ export const StoryBattleReport = ({
               />
             )}
           </SheetSection>
-          <p className="text-ink-3 text-13 mt-5 font-semibold">
-            {party
-              ? getMovesNote(wording.moves, party.pokemon)
-              : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types."}
-          </p>
+          {footnote ? (
+            <p className="text-ink-3 text-13 mt-5 font-semibold">{footnote}</p>
+          ) : null}
         </>
       )}
     </div>

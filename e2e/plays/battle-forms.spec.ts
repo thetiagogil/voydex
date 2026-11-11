@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openAllChapters } from "../support/story";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -15,14 +16,17 @@ test.describe("Battle forms", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
+    await openAllChapters(page);
     /* The stop, not the stamp (whose name goes on with a comma). */
     await page.getByRole("button", { name: /^Champion Steven(?!,)/ }).click();
-    /* The sheet takes the battle's name once its report is open. */
-    const sheet = page.getByRole("dialog");
+    /* The panel beside the route (the sheet on a phone) holds the report. */
+    const sheet = page
+      .getByRole("dialog")
+      .or(page.locator("[data-story-panel]"));
     await sheet.getByRole("button", { name: /^Steven/ }).click();
 
     /* Steven holds Metagrossite, so his ace is read as Mega Metagross. */
-    const report = sheet.getByRole("region", { name: "Steven" });
+    const report = page.getByRole("region", { exact: true, name: "Steven" });
     await expect(report).toContainText("Mega Metagross", forTheAnswer);
   });
 

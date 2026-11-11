@@ -408,16 +408,31 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
       note: null,
       pokemon: [{ name: "Charizard" }],
     });
+    expect(blue?.versions).toEqual([]);
+    expect(blue?.versionsNote).toBeNull();
     expect(blue?.members[0]?.weakTo.map((type) => type.slug)).toEqual(["fire"]);
   });
 
-  it("reads the first team and says so while the choice isn't recorded", () => {
+  it("reads every team they could bring while the choice isn't recorded, the first one first", () => {
     const blue = build([])[2];
 
-    expect(blue?.party?.pokemon[0]?.name).toBe("Venusaur");
-    expect(blue?.party?.note).toBe(
-      "Their team depends on a choice this Play hasn't recorded, so this reads the one for Charmander.",
+    expect(blue?.party).toMatchObject({
+      note: null,
+      pokemon: [{ name: "Venusaur" }],
+    });
+    expect(blue?.versionsNote).toBe(
+      "It depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face.",
     );
+    expect(blue?.versions.map((version) => version.label)).toEqual([
+      "Charmander",
+      "Squirtle",
+      "Bulbasaur",
+    ]);
+    expect(blue?.versions[1]?.party?.pokemon[0]?.name).toBe("Charizard");
+    expect(blue?.versions[1]?.reading?.state).toBeDefined();
+    expect(
+      blue?.versions[1]?.members[0]?.weakTo.map((type) => type.slug),
+    ).toEqual(["fire"]);
   });
 
   it("keeps the specialty reading where Voydex has no team", () => {
@@ -599,9 +614,15 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
       }),
     ]);
 
-    expect(blue?.party?.note).toBe(
-      "Their team depends on something Voydex doesn't record, so this reads one way it can go: Rival's Eevee evolved into Jolteon.",
+    expect(blue?.party?.note).toBeNull();
+    expect(blue?.versionsNote).toBe(
+      "It depends on something Voydex doesn't record. Pick how it went to see the team you'd face.",
     );
+    expect(blue?.versions.map((version) => version.label)).toEqual([
+      "Rival's Eevee evolved into Jolteon",
+      "Rival's Eevee evolved into Flareon",
+    ]);
+    expect(blue?.versions[1]?.party?.pokemon[0]?.name).toBe("Ninetales");
   });
 });
 
@@ -696,13 +717,16 @@ describe("buildStoryMatchupsModel with an ally beside you", () => {
       allyRow({ ...after, level: 70 }),
     ]).chapters[0].battles;
 
-    expect(battle.party?.note).toBe(
-      "Their team depends on something Voydex doesn't record, so this reads one way it can go: You had not finished The Way Home yet.",
-    );
+    expect(battle.versions.map((version) => version.label)).toEqual([
+      before.variantLabel,
+      after.variantLabel,
+    ]);
     expect(battle.allies[0]).toEqual(
       expect.objectContaining({ name: "Carmine", note: null }),
     );
     expect(battle.allies[0].pokemon[0]?.level).toBe(28);
+    /* Each version brings the ally's team for the same outcome. */
+    expect(battle.versions[1]?.allies[0]?.pokemon[0]?.level).toBe(70);
   });
 
   it("follows the Play's recorded choice for the ally's team, and says so while it isn't recorded", () => {

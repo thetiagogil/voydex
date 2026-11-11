@@ -1,17 +1,18 @@
 import {
   addCompositeDuplicateErrors,
+  assertScopedContiguousSortOrder,
   assertSourceVerifiedRowsetFingerprint,
   mapRowsByColumn,
   relative,
 } from "../core.mjs";
 
-const EXPECTED_LOCATION_ROWS = 802;
-const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1541;
+const EXPECTED_LOCATION_ROWS = 812;
+const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1555;
 const EXPECTED_ENCOUNTER_ROWS = 26485;
 
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
 
-/* Every place, which groups have it in story order, and where each Pokémon is met. */
+/* Every place, which groups have it in story order, where each Pokémon is met, where Story milestones happen, and the Story roadmap's steps. */
 export function assertLocationRows(context, tableRows) {
   const locations = tableRows.get("reference.locations") ?? [];
   const placements = tableRows.get("reference.location_version_groups") ?? [];
@@ -70,7 +71,7 @@ export function assertLocationRows(context, tableRows) {
     {
       count: EXPECTED_LOCATION_ROWS,
       sha256:
-        "73930aef5ec5da2df7e67d9a3e7e960eff17dfcb364507a64d81e85e88130942",
+        "7f81810853ff844aa41f116e540bbba8fbc75f75adbf444ff0012cfa16b1b330",
     },
   );
   for (const { row, filePath } of locations) {
@@ -216,10 +217,101 @@ export function assertLocationRows(context, tableRows) {
       );
     }
   }
+  /* A Story milestone or battle sits at one of its version group's places.
+     Once a version group's milestones are placed, its places are the Story
+     roadmap, so a place there may have no wild Pokémon (a town, the S.S.
+     Anne); elsewhere every place still has encounters. */
+  const roadmapGroups = new Set();
+  for (const table of [
+    "tracking.mainline_milestones",
+    "tracking.mainline_milestone_opponent_refs",
+  ]) {
+    for (const { row, filePath } of tableRows.get(table) ?? []) {
+      if (row.location_id === null || row.location_id === undefined) continue;
+      if (table === "tracking.mainline_milestones")
+        roadmapGroups.add(row.version_group_id);
+      if (!placed.has(`${row.location_id}/${row.version_group_id}`)) {
+        context.errors.push(
+          `${relative(filePath)}: ${table} row places a Story point at place ${row.location_id}, which version group ${row.version_group_id} does not have.`,
+        );
+      }
+    }
+  }
   for (const { row, filePath } of placements) {
-    if (!met.has(`${row.location_id}/${row.version_group_id}`)) {
+    if (
+      !met.has(`${row.location_id}/${row.version_group_id}`) &&
+      !roadmapGroups.has(row.version_group_id)
+    ) {
       context.errors.push(
         `${relative(filePath)}: place ${row.location_id} in version group ${row.version_group_id} has no encounters.`,
+      );
+    }
+  }
+  assertRoadmapStepRows(context, tableRows, placed);
+}
+
+/* A roadmap step is one of its version group's places or one of its
+   milestones, never both. A version group with a roadmap lists every one of
+   its milestones exactly once, its steps counting 1, 2, 3. */
+function assertRoadmapStepRows(context, tableRows, placed) {
+  const table = "tracking.mainline_roadmap_steps";
+  const steps = tableRows.get(table) ?? [];
+  const milestones = tableRows.get("tracking.mainline_milestones") ?? [];
+  const milestonesById = mapRowsByColumn(milestones, "id");
+  const roadmapGroups = new Set();
+  const stepsByMilestone = new Map();
+  for (const { row, filePath } of steps) {
+    roadmapGroups.add(row.version_group_id);
+    const hasLocation =
+      row.location_id !== null && row.location_id !== undefined;
+    const hasMilestone =
+      row.milestone_id !== null && row.milestone_id !== undefined;
+    if (hasLocation === hasMilestone) {
+      context.errors.push(
+        `${relative(filePath)}: ${table} step ${row.version_group_id}/${row.sort_order} must name exactly one of a place or a milestone.`,
+      );
+    }
+    if (
+      hasLocation &&
+      !placed.has(`${row.location_id}/${row.version_group_id}`)
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: ${table} step ${row.version_group_id}/${row.sort_order} names place ${row.location_id}, which version group ${row.version_group_id} does not have.`,
+      );
+    }
+    if (hasMilestone) {
+      const milestone = milestonesById.get(row.milestone_id);
+      if (!milestone || milestone.version_group_id !== row.version_group_id) {
+        context.errors.push(
+          `${relative(filePath)}: ${table} step ${row.version_group_id}/${row.sort_order} names milestone ${row.milestone_id}, which is not one of version group ${row.version_group_id}'s.`,
+        );
+      }
+      stepsByMilestone.set(
+        row.milestone_id,
+        (stepsByMilestone.get(row.milestone_id) ?? 0) + 1,
+      );
+    }
+  }
+  addCompositeDuplicateErrors(
+    context,
+    table,
+    steps,
+    "version group and sort order",
+    (row) => `${row.version_group_id}/${row.sort_order}`,
+  );
+  assertScopedContiguousSortOrder(
+    context,
+    table,
+    steps,
+    "version group",
+    (row) => row.version_group_id,
+  );
+  for (const { row, filePath } of milestones) {
+    if (!roadmapGroups.has(row.version_group_id)) continue;
+    const count = stepsByMilestone.get(row.id) ?? 0;
+    if (count !== 1) {
+      context.errors.push(
+        `${relative(filePath)}: milestone ${row.slug} of version group ${row.version_group_id} is on its roadmap ${count} times; it must be there once.`,
       );
     }
   }

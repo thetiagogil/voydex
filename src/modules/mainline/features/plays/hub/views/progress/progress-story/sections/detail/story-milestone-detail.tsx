@@ -4,13 +4,13 @@ import {
   formatJourneyPosition,
   formatMilestoneRange,
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { ObjectiveEyebrow } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import {
   formatPlayMoment,
   type ViewerClock,
 } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { StatusBadge } from "@/shared/components/status-badge";
 
 import type { StoryMilestone } from "../../types";
 import {
@@ -26,28 +26,26 @@ const joinNames = (names: string[]) =>
     ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
     : (names[0] ?? "");
 
+/* Where it stands, as one badge: recorded, next, locked; none while simply ahead. */
 const getStatus = (
   milestone: StoryMilestone,
   isNext: boolean,
   clock: ViewerClock,
-) => {
+): { label: string; locked?: boolean; tone: "neutral" | "ok" } | null => {
   if (milestone.isCompleted) {
     const recordedOn = formatPlayMoment(milestone.completedAt, clock)?.date;
 
     return {
-      icon: appIcons.product.completion,
       label: recordedOn ? `Recorded ${recordedOn}` : "Recorded",
+      tone: "ok",
     };
   }
 
   if (!milestone.isAvailable) {
-    return { icon: appIcons.status.locked, label: "Locked" };
+    return { label: "Locked", locked: true, tone: "neutral" };
   }
 
-  return {
-    icon: appIcons.milestones.story,
-    label: isNext ? "Next objective" : "Not recorded yet",
-  };
+  return isNext ? { label: "Next objective", tone: "neutral" } : null;
 };
 
 const DetailBlock = ({
@@ -95,14 +93,24 @@ export const StoryMilestoneDetail = ({
 
   return (
     <div className="min-w-0">
-      <ObjectiveEyebrow icon={status.icon}>
-        {status.label} ·{" "}
-        {formatJourneyPosition({
-          sequence: milestone.sequence,
-          total: totalCount,
-        })}
-      </ObjectiveEyebrow>
-      <p className="text-ink-2 font-semibold">{meta.join(" · ")}</p>
+      {/* One line of where it sits, and one badge for where it stands. */}
+      <p className="text-ink-2 font-semibold">
+        {[
+          ...meta,
+          formatJourneyPosition({
+            sequence: milestone.sequence,
+            total: totalCount,
+          }),
+        ].join(" · ")}
+      </p>
+      {status ? (
+        <StatusBadge tone={status.tone} dot={!status.locked} className="mt-2">
+          {status.locked ? (
+            <AppIcon icon={appIcons.status.locked} size="xs" />
+          ) : null}
+          {status.label}
+        </StatusBadge>
+      ) : null}
       {milestone.description ? (
         <p className="text-ink-2 mt-3 leading-relaxed">
           {milestone.description}

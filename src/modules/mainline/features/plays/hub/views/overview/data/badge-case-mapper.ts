@@ -4,6 +4,7 @@ import {
   getPlayStampLabel,
   getPlayStampStates,
   getTypedStampKind,
+  inBadgeOrder,
   type MilestoneBadge,
   type PlayStamp,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
@@ -86,10 +87,13 @@ export const buildMainlinePlayBadgeCase = (
       milestone.version_group_id === typed[0].version_group_id,
   );
   /* In journey order: Gold's Champion comes after Johto's gyms, before Kanto's. */
-  const ordered = rows.milestones.filter(
-    (milestone) =>
-      milestone.milestone_id !== null &&
-      (getKind(milestone) !== null || milestone === league),
+  const ordered = inBadgeOrder(
+    rows.milestones.filter(
+      (milestone) =>
+        milestone.milestone_id !== null &&
+        (getKind(milestone) !== null || milestone === league),
+    ),
+    (milestone) => badgeByMilestoneId.get(milestone.milestone_id ?? -1)?.order,
   );
   const states = getPlayStampStates(ordered, (milestone) =>
     Boolean(milestone.is_completed),

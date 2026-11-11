@@ -4908,6 +4908,7 @@ export type Database = {
         Row: {
           created_at: string;
           id: number;
+          location_id: number | null;
           milestone_id: number;
           notes: string | null;
           opponent_id: number;
@@ -4921,6 +4922,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           id?: never;
+          location_id?: number | null;
           milestone_id: number;
           notes?: string | null;
           opponent_id: number;
@@ -4933,6 +4935,7 @@ export type Database = {
         Update: {
           created_at?: string;
           id?: never;
+          location_id?: number | null;
           milestone_id?: number;
           notes?: string | null;
           opponent_id?: number;
@@ -5118,6 +5121,7 @@ export type Database = {
           game_id: number | null;
           id: number;
           is_required_for_completion: boolean;
+          location_id: number | null;
           milestone_type_id: number;
           name: string;
           parent_milestone_id: number | null;
@@ -5134,6 +5138,7 @@ export type Database = {
           game_id?: number | null;
           id: number;
           is_required_for_completion?: boolean;
+          location_id?: number | null;
           milestone_type_id: number;
           name: string;
           parent_milestone_id?: number | null;
@@ -5149,6 +5154,7 @@ export type Database = {
           game_id?: number | null;
           id?: number;
           is_required_for_completion?: boolean;
+          location_id?: number | null;
           milestone_type_id?: number;
           name?: string;
           parent_milestone_id?: number | null;
@@ -5360,6 +5366,45 @@ export type Database = {
           version_group_id?: number;
         };
         Relationships: [];
+      };
+      mainline_roadmap_steps: {
+        Row: {
+          created_at: string;
+          id: number;
+          location_id: number | null;
+          milestone_id: number | null;
+          note: string | null;
+          sort_order: number;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id?: never;
+          location_id?: number | null;
+          milestone_id?: number | null;
+          note?: string | null;
+          sort_order: number;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: never;
+          location_id?: number | null;
+          milestone_id?: number | null;
+          note?: string | null;
+          sort_order?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mainline_roadmap_steps_milestone_version_group_fkey";
+            columns: ["milestone_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_milestones";
+            referencedColumns: ["id", "version_group_id"];
+          },
+        ];
       };
       mainline_snapshot_policies: {
         Row: {
@@ -5612,6 +5657,8 @@ export type Database = {
           is_completed: boolean | null;
           is_included_in_completion: boolean | null;
           is_required_for_completion: boolean | null;
+          location_id: number | null;
+          location_name: string | null;
           milestone_game_name: string | null;
           milestone_game_slug: string | null;
           milestone_id: number | null;

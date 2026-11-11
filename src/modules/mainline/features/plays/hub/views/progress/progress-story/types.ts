@@ -10,6 +10,8 @@ import type {
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import type { PokemonForm } from "@/modules/reference/types";
 
+import type { StoryPlacePokemonGroup } from "./data/story-place-pokemon";
+
 export type StoryMilestoneSource = Pick<
   MainlinePlayMilestone,
   | "badge_refs"
@@ -23,6 +25,8 @@ export type StoryMilestoneSource = Pick<
   | "description"
   | "is_completed"
   | "is_required_for_completion"
+  | "location_id"
+  | "location_name"
   | "milestone_id"
   | "milestone_name"
   | "milestone_type_name"
@@ -79,6 +83,43 @@ export type StoryMilestonePrerequisite = {
   name: string;
 };
 
+/* A place in the game: a town, route, cave or building on the Story's way. */
+export type StoryPlace = {
+  id: number;
+  name: string;
+};
+
+/* One step of a version group's roadmap, as the reader hands it over. */
+export type StoryRoadmapStepSource = {
+  id: number;
+  location_id: number | null;
+  /* The place's name, for a place step. */
+  location_name: string | null;
+  milestone_id: number | null;
+  note: string | null;
+  sort_order: number;
+  version_group_id: number;
+};
+
+/* The Pokémon found at one of a roadmap's places, read with the Story. */
+export type StoryPlacePokemonSource = {
+  groups: StoryPlacePokemonGroup[];
+  location_id: number;
+  version_group_id: number;
+};
+
+/*
+ * One step of a game's roadmap, from its walkthrough: a place you pass or a
+ * milestone (which carries its own place). A place may come again.
+ */
+export type StoryRoadmapStep = {
+  id: number;
+  milestoneId: number | null;
+  /* What happens at a place, in a line (pick up Oak's Parcel); null where nothing does. */
+  note: string | null;
+  place: StoryPlace | null;
+};
+
 /* A milestone named in another's offer or impact. */
 export type StoryMilestoneRef = {
   id: number;
@@ -114,6 +155,8 @@ export type StoryMilestone = {
   laterRecorded: StoryMilestoneRef[];
   name: string;
   notes: string | null;
+  /* Where it happens, which pins it on the route; null where Voydex has no place for it yet. */
+  place: StoryPlace | null;
   /* Side content: the beat that opens it, which places it on the route; never a lock. */
   opensAfter: StoryMilestoneRef | null;
   prerequisites: StoryMilestonePrerequisite[];
@@ -159,6 +202,10 @@ export type StoryScope = {
   label: string;
   /* The milestone this scope's side card offers to record next. */
   nextMilestone: StoryMilestone | null;
+  /* The Pokémon found at each of its roadmap's places, by place. */
+  placePokemon: ReadonlyMap<number, StoryPlacePokemonGroup[]>;
+  /* Its roadmap from the walkthrough; empty where Voydex has none for it. */
+  steps: StoryRoadmapStep[];
   sections: StorySection[];
   /* The badges (or Alola's trials) and the League; null when there are none. */
   stamps: PlayStamp[] | null;
@@ -171,6 +218,8 @@ export type MainlinePlayProgressStoryData = {
   categories: StoryCategorySource[];
   decisionForms: Pick<PokemonForm, "id" | "slug">[];
   milestones: StoryMilestoneSource[];
+  placePokemon: StoryPlacePokemonSource[];
+  steps: StoryRoadmapStepSource[];
   snapshotEvents: StorySnapshotEventSource[];
 };
 

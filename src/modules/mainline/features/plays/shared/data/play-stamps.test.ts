@@ -8,6 +8,7 @@ import {
   getPlayStampLabel,
   getPlayStampStates,
   getTypedStampKind,
+  inBadgeOrder,
 } from "./play-stamps";
 
 describe("play stamps", () => {
@@ -128,5 +129,21 @@ describe("stamp order", () => {
       [60005, 1],
       [60006, 2],
     ]);
+  });
+});
+
+describe("inBadgeOrder", () => {
+  it("sorts the badges by their place in the case and keeps the rest where they are", () => {
+    const items = [
+      { name: "Boulder", order: 1 },
+      { name: "Marsh", order: 6 },
+      { name: "Soul", order: 5 },
+      { name: "Champion", order: null },
+      { name: "Earth", order: 8 },
+    ];
+
+    expect(
+      inBadgeOrder(items, (item) => item.order).map((item) => item.name),
+    ).toEqual(["Boulder", "Soul", "Marsh", "Champion", "Earth"]);
   });
 });

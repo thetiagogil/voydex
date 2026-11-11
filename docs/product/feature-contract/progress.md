@@ -32,18 +32,33 @@ recorded`, not zero.
 
 Story progression is game/version-group-specific milestone tracking.
 
-Story opens inside the Progress context as one route: the stamp card above,
-then every milestone of the open journey as a stop on one line that runs
-through the chapters in order (each chapter a sign on the line), with side
-content hanging off the beat that opens it and chapters played in any order
-(Scarlet / Violet's three paths) as lanes that fork off the line and join
-back. The line is solid behind you and dashed ahead; stops still ahead are
-quieter, so how far you've come reads at a glance. The page head shows
-normalized Story completion, and a game with DLC switches journeys there.
-A stop opens its milestone in a sheet (from the right edge from 1024px, from
-the bottom below) with its battles inside: one line per battle with its
-verdict, and the battle's full report in the same sheet with a way back to
-the milestone. There is no separate list of battles anywhere.
+Story opens inside the Progress context as one route, read as a roadmap: the
+stamp card above, then every milestone of the open journey as a stop down one
+line that runs through the chapters in order (each chapter a sign on the
+line), with chapters played in any order (Scarlet / Violet's three paths) as
+bands the line turns into. Where Voydex has a game's roadmap (its
+walkthrough's places and milestones in order, `tracking.mainline_roadmap_steps`),
+the route follows it: the places the story passes sit between the milestones
+as quiet stops (Route 1, Viridian City, back to Pallet Town for the Pokédex),
+a place coming back as often as the story returns to it, and side content
+where the walkthrough meets it. Each chapter is its own card that folds; only
+the one you're in starts open, and a folded one shows its milestones as a
+strip. The line is solid behind you and dashed ahead; stops still
+ahead are quieter, so how far you've come reads at a glance. The page head shows normalized Story
+completion, and a game with DLC switches journeys there. A stop or place
+opens beside the route from 1024px (your next objective until you pick
+another) and in a bottom sheet below: a milestone with its battles inside,
+one line per battle with its verdict, and the battle's full report in the
+same place with a way back; a place with its full note, the battles fought
+there and the Pokémon found there (read with the Story, so a place opens with
+them at once). On the route a place shows only its name, with its battle
+count on the right; its note is in its detail. A Gym or the League lists only
+its own battles; a rival met on the way sits on the place where you meet
+them. While the choice that picks an opponent's team isn't recorded (Blue's
+team follows your starter), the battle's report switches between every team
+they could bring, starting on the first, and its row shows the range of
+verdicts (Strong to challenging). There is no separate list of battles
+anywhere.
 
 Story holds story beats, not one milestone per battle. A beat is a required
 visit where the story stops you: a Gym, trial or League match; a confrontation
@@ -55,7 +70,12 @@ fights and grunt raids never make a beat of their own. Each battle sits on one
 beat: the beat at whose place it is fought (Blue in Oak's lab on Choose
 Starter, Jupiter in Eterna City on Forest Badge, Hugh at the Driftveil
 tournament on Quake Badge) or, for a battle on the road between two beats, the
-beat it leads to (Silver at Cherrygrove on Zephyr Badge). A beat with no fight
+beat it leads to (Silver at Cherrygrove on Zephyr Badge). A battle fought
+away from its beat's place says where (`location_id` on its opponent row:
+Red / Blue's rival on Route 22) and shows on that place where the roadmap
+passes it on the way to the beat. The stamp card and badge case keep the
+game's badge order even where the walkthrough reaches the gyms in another. A beat
+with no fight
 of its own never carries later battles, a rematch is never a Story battle, and
 a character fought twice on one beat has one opponent row per battle.
 

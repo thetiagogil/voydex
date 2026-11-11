@@ -17,6 +17,7 @@ const milestone = (
     isCompleted: false,
     name: `Milestone ${id}`,
     opensAfter: null,
+    place: null,
     prerequisites: [],
     sequence: id,
     ...overrides,
@@ -50,16 +51,22 @@ const section = (
   totalCount: milestones.filter((item) => item.sequence !== null).length,
 });
 
-const scope = (sections: StorySection[]) => ({ sections }) as StoryScope;
+const scope = (sections: StorySection[]) =>
+  ({ sections, steps: [] }) as unknown as StoryScope;
 
-/* Each block as what it draws: a sign's name, a stop's id, `?` for optional. */
+/*
+ * Each block as what it draws: a sign's name, a stop's id, `?` for
+ * optional, `@` and its id for a place on the way.
+ */
 const read = (blocks: ReturnType<typeof buildStoryRoute>) =>
   blocks.map((block) =>
     (block.kind === "route" ? [block.entries] : block.routes).map((entries) =>
       entries.map((entry) =>
         entry.kind === "sign"
           ? `${entry.name}${entry.optional ? "?" : ""}`
-          : `${entry.milestone.id}${entry.optional ? "?" : ""}`,
+          : entry.kind === "place"
+            ? `@${entry.place.id}`
+            : `${entry.milestone.id}${entry.optional ? "?" : ""}`,
       ),
     ),
   );
@@ -178,7 +185,7 @@ describe("buildStoryRoute", () => {
 });
 
 describe("buildStoryRoute signs", () => {
-  it("calls a chapter finished once its required milestones are, optional ones aside", () => {
+  it("reaches a chapter once the required milestones before it are, optional ones aside", () => {
     const [block] = buildStoryRoute(
       scope([
         section(1, "main-story", [
@@ -193,13 +200,121 @@ describe("buildStoryRoute signs", () => {
         ? block.entries.filter((entry) => entry.kind === "sign")
         : [];
 
+    expect(signs.map((sign) => sign.kind === "sign" && sign.reached)).toEqual([
+      true,
+      true,
+    ]);
+  });
+});
+
+describe("buildStoryRoute from a roadmap", () => {
+  const place = (id: number) => ({
+    id: 100 + id,
+    milestoneId: null,
+    note: id === 2 ? "Pick up the Parcel." : null,
+    place: { id, name: `Place ${id}` },
+  });
+  const at = (milestoneId: number) => ({
+    id: 200 + milestoneId,
+    milestoneId,
+    note: null,
+    place: null,
+  });
+  const roadmap = (
+    sections: StorySection[],
+    steps: StoryScope["steps"],
+  ): StoryScope => ({ sections, steps }) as StoryScope;
+
+  it("follows the walkthrough, a place coming back as often as the story does", () => {
     expect(
-      signs.map(
-        (sign) => sign.kind === "sign" && [sign.finished, sign.reached],
+      read(
+        buildStoryRoute(
+          roadmap(
+            [section(1, "main-story", [milestone(11), milestone(12)])],
+            [place(1), at(11), place(2), place(3), place(1), at(12), place(3)],
+          ),
+        ),
+      ),
+    ).toEqual([[["main-story", "@1", "11", "@2", "@3", "@1", "12"]]]);
+  });
+
+  it("puts a chapter's sign before the places on the way to its first milestone", () => {
+    expect(
+      read(
+        buildStoryRoute(
+          roadmap(
+            [
+              section(1, "main-story", [milestone(11)]),
+              section(2, "pokemon-league", [milestone(21)]),
+            ],
+            [at(11), place(4), place(7), at(21)],
+          ),
+        ),
+      ),
+    ).toEqual([[["main-story", "11", "pokemon-league", "@4", "@7", "21"]]]);
+  });
+
+  it("leads each place to the next required milestone, walked once that one is recorded", () => {
+    const [block] = buildStoryRoute(
+      roadmap(
+        [
+          section(1, "main-story", [
+            milestone(11, { isCompleted: true }),
+            milestone(12),
+          ]),
+          section(4, "side-content", [optional(41)]),
+        ],
+        /* Place 1 leads to the recorded 11; 2 and 3 to 12, still ahead. */
+        [place(1), at(11), place(2), at(41), place(3), at(12)],
+      ),
+    );
+    const places =
+      block.kind === "route"
+        ? block.entries.flatMap((entry) =>
+            entry.kind === "place"
+              ? [[entry.place.id, entry.toward.id, entry.reached, entry.note]]
+              : [],
+          )
+        : [];
+
+    expect(places).toEqual([
+      [1, 11, true, null],
+      [2, 12, false, "Pick up the Parcel."],
+      [3, 12, false, null],
+    ]);
+  });
+
+  it("keeps side content where the walkthrough meets it", () => {
+    expect(
+      read(
+        buildStoryRoute(
+          roadmap(
+            [
+              section(1, "main-story", [milestone(11), milestone(12)]),
+              section(4, "side-content", [optional(41)]),
+            ],
+            [at(11), place(5), at(41), at(12)],
+          ),
+        ),
+      ),
+    ).toEqual([[["main-story", "11", "@5", "41?", "12"]]]);
+  });
+
+  it("still shows a milestone the roadmap leaves out", () => {
+    expect(
+      read(
+        buildStoryRoute(
+          roadmap(
+            [
+              section(1, "main-story", [milestone(11), milestone(12)]),
+              section(4, "side-content", [optional(41)]),
+            ],
+            [at(11)],
+          ),
+        ),
       ),
     ).toEqual([
-      [true, true],
-      [false, true],
+      [["main-story", "11", "main-story", "12", "side-content?", "41?"]],
     ]);
   });
 });

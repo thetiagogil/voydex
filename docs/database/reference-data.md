@@ -312,6 +312,31 @@ sources remain authoritative for game-specific mechanics and availability.
   cross-check and the fill for the gifts, fixed encounters, in-game trades and
   honey trees Bulbapedia keeps on other pages. SOS-only allies, Max Lair
   Pokémon and sub-areas Bulbapedia folds into a city page are not rows.
+- Story places: each Red / Blue milestone names the place it happens at
+  (`location_id`), a badge its Gym, and a battle fought elsewhere names its
+  own (Blue on Route 22 before the Boulder Badge and before Victory Road, and
+  in Cerulean City before Nugget Bridge). Once a version group's milestones
+  are placed, its place list also holds the places with no wild Pokémon the
+  story stops at (Pewter City, the S.S. Anne, the Pewter Museum of Science,
+  Lavender Town, the Underground Path between Routes 7 and 8, the Rocket
+  Hideout, Saffron City and the Gyms), in walkthrough order. A Gym or the
+  League lists only its own battles; a rival met on the way sits on the place
+  where you meet them. Red / Blue's
+  Main Story follows the walkthrough (Silph Co. and the Marsh Badge before
+  the Soul Badge, Bill's Sea Cottage, the Safari Zone and the Pokémon Mansion
+  as their own beats) and ends with one Pokémon League milestone (Champion
+  type, snapshot recommended): Blue on Route 22, the Elite Four and Champion
+  Blue are its six battles, fought back to back, and the team enters the Hall
+  of Fame, so Red / Blue has no League chapter and no separate Elite Four or
+  Hall of Fame milestones. Cerulean Cave is post-game. Source: Bulbapedia's
+  Red / Blue walkthrough and location pages. `590_story_places.sql` pins
+  them and `580_rb_pokemon_league.sql` pins the League.
+- Story roadmap (`tracking.mainline_roadmap_steps`): the walkthrough step by
+  step, copied from Bulbapedia's walkthrough for the version group, so a
+  place shows each time the story comes back to it (Red / Blue passes Pallet
+  Town three times). Every milestone of the version group is one step, side
+  content and post-game included, where the walkthrough reaches it.
+  `570_story_roadmap_steps.sql` pins Red / Blue's.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

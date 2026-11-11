@@ -553,16 +553,23 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   table rows, a sheet's or dialog's fixed header and footer, the app bars,
   menu separators and the hairlines between a toolbar's groups.
 - A list you read (History, Recent moments) is one card with rows inside.
-  Story is one route card (`StoryRouteCard` in
-  `.../progress-story/sections/route/`): the milestones as stops on one
-  line that snakes down the card (solid in the progress tint behind you,
-  dashed ahead, dotted to an optional stop), each chapter a sign on the
-  line, chapters played in any order as lanes side by side on a wide card
-  and stacked below. A stop is its `MilestoneMarker` (`lg`) with its name
-  and one quiet line under it; stops still ahead sink back (a grey ring on
-  `bg-surface-2`, a quieter name that keeps 4.5:1), the one open in the sheet
-  wears a `ring-select-ink` ring, and nothing changes weight. A stop opens
-  its milestone in an `OverlaySheet` with its battles inside.
+  Story is a roadmap (`StoryRoadmap` in
+  `.../progress-story/sections/route/`): each chapter its own card
+  (`StoryChapterCard`) with its milestones as stops down one vertical line
+  (solid in the progress tint behind you, dashed ahead, dotted to an
+  optional stop) and the places on the way between them as small quiet
+  dots. Every chapter folds from its head (Expand / Collapse); only the one
+  you're in starts open, wearing a ring, and a folded one shows its
+  milestones as a strip of small medallions. A stop is its `MilestoneMarker`
+  (`lg`) with its name and one quiet line beside it (its place, then where
+  it stands); a recorded one is a sticker in its badge's type with what you
+  got there on its right (the Pokémon you chose, the team then); only the
+  stickers lift on hover; stops still ahead sink back (a grey
+  ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
+  wears a `ring-select-ink` ring. From 1024px the open stop or place shows
+  in a sticky panel beside the route (`useStickyPanel`, as Team's roster)
+  and a battle opens in a sheet over it; below, everything opens in an
+  `OverlaySheet`.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha
@@ -606,7 +613,7 @@ Every screen is on Soft Clay, merged into `main` on 2026-10-16 (#8) after
 the owner's review, and every v3 screen is built: the app shell and
 bars, Mainline Home, Plays, New Play, the Play header and tabs (Overview with
 its partner and first steps, Team: Roster with Add and Edit Pokémon, Plan,
-Analysis; Story as one route with its battles in each milestone's sheet,
+Analysis; Story as one route with its battles in each milestone's detail,
 Pokédex, Collectibles, History and
 Settings), the Team Planner and My Plans, Statistics, Collection, You,
 Welcome, Account settings, the Codex (Pokémon list and entry, Games, game

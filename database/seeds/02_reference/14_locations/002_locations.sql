@@ -10,7 +10,10 @@
 -- ============================================================================
 -- Table: reference.locations
 -- Scope: every place a Pokémon is found in, one row per place across the
--- games that share it (Route 1 is one place in Red and in HeartGold).
+-- games that share it (Route 1 is one place in Red and in HeartGold), and
+-- the places a Story milestone or battle happens at that have no wild
+-- Pokémon (Red / Blue's S.S. Anne, Rocket Hideout, Underground Path
+-- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -223,7 +226,7 @@ VALUES
   -- Pewter City
   (104, 1, 'kanto-pewter-city', 'Pewter City'),
   -- Pewter Museum of Science
-  (105, 2, 'johto-pewter-museum-of-science', 'Pewter Museum of Science'),
+  (105, 1, 'kanto-pewter-museum-of-science', 'Pewter Museum of Science'),
   -- Pokémon Communication Center
   (106, 2, 'johto-pokemon-communication-center', 'Pokémon Communication Center'),
   -- Route 26
@@ -1617,4 +1620,24 @@ VALUES
   -- Bleu Sector 6
   (805, 6, 'kalos-bleu-sector-6', 'Bleu Sector 6'),
   -- Hyperspace Lumiose
-  (806, 6, 'kalos-hyperspace-lumiose', 'Hyperspace Lumiose');
+  (806, 6, 'kalos-hyperspace-lumiose', 'Hyperspace Lumiose'),
+  -- S.S. Anne: a Story place with no wild Pokémon (Red / Blue's S.S. Anne beat)
+  (807, 1, 'kanto-ss-anne', 'S.S. Anne'),
+  -- Rocket Hideout: a Story place with no wild Pokémon (Red / Blue's Rocket Hideout beat)
+  (808, 1, 'kanto-rocket-hideout', 'Rocket Hideout'),
+  -- Underground Path (Kanto Routes 7-8): a Story place with no wild Pokémon (Red / Blue's way from Route 8 to Route 7)
+  (809, 1, 'kanto-underground-path-kanto-routes-7-8', 'Underground Path (Kanto Routes 7-8)'),
+  -- Pewter Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (810, 1, 'kanto-pewter-gym', 'Pewter Gym'),
+  -- Vermilion Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (811, 1, 'kanto-vermilion-gym', 'Vermilion Gym'),
+  -- Celadon Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (812, 1, 'kanto-celadon-gym', 'Celadon Gym'),
+  -- Fuchsia Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (813, 1, 'kanto-fuchsia-gym', 'Fuchsia Gym'),
+  -- Saffron Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (814, 1, 'kanto-saffron-gym', 'Saffron Gym'),
+  -- Cinnabar Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (815, 1, 'kanto-cinnabar-gym', 'Cinnabar Gym'),
+  -- Viridian Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
+  (816, 1, 'kanto-viridian-gym', 'Viridian Gym');

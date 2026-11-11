@@ -4,12 +4,33 @@ import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatusBadge } from "@/shared/components/status-badge";
 
+import type { MatchupState } from "../../data/story-battle-reading";
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
 import { matchupStates } from "../battles/story-matchup-state";
 
 /* The row's button id, so focus can come back to it from the battle's report. */
 export const getStoryBattleRowId = (battleId: string) =>
   `story-battle-row-${battleId.replace("/", "-")}`;
+
+/* Best first, so a range reads from the best case to the worst. */
+const stateOrder: MatchupState[] = ["strong", "balanced", "challenging"];
+
+/*
+ * The verdicts across the teams they could bring, best to worst, while the
+ * choice that picks it is open; null when they all agree (or there's one).
+ */
+const getVerdictRange = (battle: StoryMatchupBattle) => {
+  const states = new Set(
+    battle.versions.flatMap((version) =>
+      version.reading?.state ? [version.reading.state] : [],
+    ),
+  );
+  const range = stateOrder.filter((state) => states.has(state));
+
+  return range.length > 1
+    ? { best: range[0], worst: range[range.length - 1] }
+    : null;
+};
 
 /* Where a battle stands, as one chip: won, done or the verdict on it. */
 const BattleState = ({ battle }: { battle: StoryMatchupBattle }) => {
@@ -18,6 +39,21 @@ const BattleState = ({ battle }: { battle: StoryMatchupBattle }) => {
       <StatusBadge tone="ok" dot={false}>
         <AppIcon icon={appIcons.status.active} />
         {battle.opponentKind === "legendary" ? "Done" : "Won"}
+      </StatusBadge>
+    );
+  }
+
+  const range = getVerdictRange(battle);
+
+  if (range) {
+    return (
+      <StatusBadge tone="neutral" dot={false}>
+        {battle.state === "next" ? (
+          <span className="sr-only">Next, </span>
+        ) : null}
+        <span className="sr-only">Depends on their team: </span>
+        {matchupStates[range.best].label} to{" "}
+        {matchupStates[range.worst].label.toLowerCase()}
       </StatusBadge>
     );
   }

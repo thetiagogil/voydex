@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openAllChapters } from "../support/story";
 import { forTheAnswer } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -15,16 +16,30 @@ const openBattle = async (
   await page.goto(`/mainline/plays/${playId}/progress/story`, {
     waitUntil: "networkidle",
   });
+  await openAllChapters(page);
   const stopButton = page.getByRole("button", { name: stop }).first();
   await expect(stopButton).toBeVisible(forTheAnswer);
   await stopButton.click();
-  const sheet = page.getByRole("dialog");
+  /* The sheet below 1024px, the panel beside the route above it. */
+  const sheet = page.getByRole("dialog").or(page.locator("[data-story-panel]"));
   const row = sheet.getByRole("button", { name: battle }).first();
   await expect(row).toBeVisible(forTheAnswer);
   await row.click();
 
   return {
-    report: sheet.getByRole("region", { name: reportName }),
+    /* Beside the route the report opens in a sheet of its own. */
+    report: page.getByRole("region", { exact: true, name: reportName }),
+    /* Back to the milestone: the sheet's way back, or closing the report's sheet. */
+    back: async () => {
+      const backButton = page.getByRole("button", { name: /^Back to / });
+
+      if (await backButton.count()) {
+        await backButton.click();
+      } else {
+        await page.keyboard.press("Escape");
+        await expect(page.getByRole("dialog")).toHaveCount(0);
+      }
+    },
     row,
     sheet,
   };
@@ -41,7 +56,7 @@ test.describe("Story battles", () => {
     });
 
     /* Roaming Raikou is optional Side Content: a legendary, not a Boss. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Roaming Raikou/,
@@ -54,16 +69,15 @@ test.describe("Story battles", () => {
       report.getByRole("heading", { name: "The Pokémon" }),
     ).toBeVisible();
     /* Gold's own data gives Raikou its moves for its level. */
-    await expect(report).toContainText(
-      "This reads its moves against your team",
-    );
+    await expect(
+      report.getByRole("button", { name: "Show moves" }),
+    ).toBeVisible();
+    await expect(report).not.toContainText("aren't in Voydex");
     await expect(report).not.toContainText("Their");
     await expectAccessible(page);
 
     /* Back to the milestone, where it sits as side content after the Burned Tower. */
-    await sheet
-      .getByRole("button", { name: /^Back to Roaming Raikou/ })
-      .click();
+    await back();
     await expect(sheet).toContainText("Opens after Burned Tower");
   });
 
@@ -85,9 +99,7 @@ test.describe("Story battles", () => {
     );
 
     /* The Giant Chasm Kyurem knows Glaciate at Lv. 75. */
-    await expect(report).toContainText(
-      "This reads its moves against your team",
-    );
+    await expect(report).not.toContainText("aren't in Voydex");
     await report.getByRole("button", { name: "Show moves" }).click();
     await expect(
       report.getByRole("listitem").filter({ hasText: /^Glaciate$/ }),
@@ -107,6 +119,7 @@ test.describe("Story battles", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
+    await openAllChapters(page);
 
     /* Ranks Y to V come before Mega Evolution, F to B after it, A in the Finale. */
     const route = page.getByRole("region", { name: "Main game route" });
@@ -130,7 +143,7 @@ test.describe("Story battles", () => {
     ]);
 
     /* Jacinthe's tournament: Canari, Ivor and Corbeau again, then the final. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Reach Rank B/,
@@ -140,9 +153,15 @@ test.describe("Story battles", () => {
     await expect(report).toContainText("Z-A Royale");
     await expect(report).toContainText("Clefable");
     await expect(report).toContainText("Hotel Richissime");
-    await sheet.getByRole("button", { name: /^Back to Reach Rank B/ }).click();
+    await back();
+    /* Each row's name, whatever its avatar shows (a portrait or initials). */
     const battleNames = (
-      await sheet.getByRole("list").last().getByRole("button").allTextContents()
+      await sheet
+        .getByRole("list")
+        .last()
+        .getByRole("button")
+        .locator("b")
+        .allTextContents()
     ).map((text) => text.match(/^[A-Z][a-z]+/)?.[0]);
     expect(battleNames).toEqual([
       "Canari",
@@ -197,9 +216,8 @@ test.describe("Story battles", () => {
       /^Brock/,
       "Brock",
     );
-    await expect(report).toContainText(
-      "This reads their moves against your team.",
-    );
+    /* Their moves are known, so no footnote says what it reads them by. */
+    await expect(report).not.toContainText("reads their types");
 
     /* Show moves turns each card over; Onix's Gym Leader move is Bide. */
     const bide = report.getByRole("listitem").filter({ hasText: /^Bide$/ });
@@ -279,6 +297,41 @@ test.describe("Story battles", () => {
     const squirtle = report.getByRole("row", { name: /Squirtle/ });
     await expect(squirtle).toContainText("Advantage");
     await expect(squirtle).toContainText(/Water type, 4× on (Geodude|Onix)/);
+    await expectAccessible(page);
+  });
+  test("switches between the teams a rival could bring while your starter isn't recorded", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Undecided run"),
+      partner: null,
+    });
+
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Choose Starter/,
+      /^Blue\b/,
+      "Blue",
+    );
+    const teams = report.getByRole("group", { name: "Their team" });
+
+    await expect(report).toContainText(
+      "It depends on a choice this Play hasn't recorded.",
+    );
+    await expect(teams.getByRole("button")).toHaveCount(3);
+    await expect(
+      teams.getByRole("button", { pressed: true }),
+    ).toHaveAccessibleName("Bulbasaur");
+    await expect(report).toContainText("Charmander");
+
+    /* Pick another starter: the report reads Blue's team for it. */
+    await teams.getByRole("button", { name: "Squirtle" }).click();
+    await expect(
+      teams.getByRole("button", { name: "Squirtle" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(report).toContainText(/Lv\. 5\s*Bulbasaur/);
     await expectAccessible(page);
   });
 });
