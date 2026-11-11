@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   describeChangedAt,
   describeDevices,
+  deviceKind,
   describeClash,
   describeClashOptions,
   describeValue,
@@ -69,6 +70,16 @@ describe("clash copy", () => {
       local: "This device",
       remote: "Your other device",
     });
+  });
+
+  it("draws phones and tablets as a phone, the rest as a computer", () => {
+    expect(["iPhone", "iPad", "Android", "Mac", null].map(deviceKind)).toEqual([
+      "phone",
+      "phone",
+      "phone",
+      "computer",
+      "computer",
+    ]);
   });
 
   it("says when a change was made, plainly", () => {

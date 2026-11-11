@@ -130,6 +130,14 @@ const dayFormat = new Intl.DateTimeFormat("en-GB", {
   month: "short",
 });
 
+/* A device as an icon shows it: a phone (or tablet) or a computer. */
+export type DeviceKind = "computer" | "phone";
+
+const phoneNames = new Set(["Android", "iPad", "iPhone"]);
+
+export const deviceKind = (name: string | null): DeviceKind =>
+  name && phoneNames.has(name) ? "phone" : "computer";
+
 /*
  * The two sides of a clash by their devices: "This Mac" and "Your iPhone";
  * "Your other Mac" when both are Macs; "device" when the name is unknown.
