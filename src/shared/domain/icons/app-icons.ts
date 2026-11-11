@@ -46,7 +46,6 @@ import {
   Home,
   Hourglass,
   Info,
-  Laptop,
   Layers3,
   LayoutDashboard,
   Library,
@@ -138,11 +137,6 @@ export const appIcons = {
     upload: Upload,
   },
   /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
-  /* Which device a change came from: a phone or tablet, or a computer. */
-  devices: {
-    computer: Laptop,
-    phone: Smartphone,
-  },
   matchup: {
     balanced: Scale,
     challenging: AlertTriangle,

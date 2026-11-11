@@ -7,7 +7,6 @@ import {
   describeClash,
   describeClashOptions,
   describeDevices,
-  deviceKind,
 } from "@/features/settings/utils/clash-copy";
 import { describeDevice } from "@/platform/local-db/account-backups";
 import {
@@ -15,15 +14,13 @@ import {
   useAccountSync,
 } from "@/platform/local-db/account-sync";
 import type { Clash, MergeChoices, Side } from "@/platform/local-db/sync-merge";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Button } from "@/shared/components/ui/button";
-import { IconDisc } from "@/shared/components/icon-disc";
 import { PickedMark } from "@/shared/components/picked-mark";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 
-type Device = { label: string; name: string | null };
+type Device = { label: string };
 
 const changedAtOf = (clash: Clash, side: Side) =>
   clash.kind === "item"
@@ -33,8 +30,8 @@ const changedAtOf = (clash: Clash, side: Side) =>
       : clash.remoteChangedAt;
 
 /*
- * One clash: what it is, then each device's version as a card to pick,
- * with the device it came from and when it changed there.
+ * One clash: what it is, then each device's version as a card to pick:
+ * the value, and under it the device it came from and when.
  */
 const ClashChoice = ({
   choice,
@@ -77,26 +74,14 @@ const ClashChoice = ({
               {choice === side ? (
                 <PickedMark size="sm" className="top-3 right-3" />
               ) : null}
-              <Field className="gap-0">
-                <span className="flex items-center gap-2.5 pr-8">
-                  <IconDisc size="sm">
-                    <AppIcon
-                      icon={appIcons.devices[deviceKind(devices[side].name)]}
-                    />
-                  </IconDisc>
-                  <span className="flex min-w-0 flex-col">
-                    <span className="text-14 font-extrabold">
-                      {devices[side].label}
-                    </span>
-                    {changedAt ? (
-                      <span className="text-ink-2 text-13 font-semibold">
-                        {describeChangedAt(changedAt)}
-                      </span>
-                    ) : null}
-                  </span>
-                </span>
-                <span className="border-line text-16 mt-3 border-t pt-3 font-extrabold wrap-anywhere">
+              <Field className="gap-0.5 pr-8">
+                <span className="text-16 font-extrabold wrap-anywhere">
                   {options[side]}
+                </span>
+                <span className="text-ink-2 text-13 font-semibold">
+                  {changedAt
+                    ? `${devices[side].label} · ${describeChangedAt(changedAt)}`
+                    : devices[side].label}
                 </span>
               </Field>
             </FieldLabel>
@@ -124,8 +109,8 @@ export const AccountClashDialog = () => {
   const thisName = describeDevice(navigator.userAgent);
   const labels = describeDevices(thisName, otherDevice.name);
   const devices: Record<Side, Device> = {
-    local: { label: labels.local, name: thisName },
-    remote: { label: labels.remote, name: otherDevice.name },
+    local: { label: labels.local },
+    remote: { label: labels.remote },
   };
   const answered = clashes.every((clash) => choices[clash.id]);
 
