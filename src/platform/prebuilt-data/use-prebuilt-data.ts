@@ -15,9 +15,26 @@ export type PrebuiltRead<Data> =
   | { status: "missing" }
   | { error: Error; status: "failed" };
 
-/* Files already asked for this visit, and those already read. */
+/*
+ * The last files asked for this visit, and those already read, so going
+ * back opens at once. Only the last few: a species' entry is large once
+ * read, and a visit may open hundreds.
+ */
+const keptFiles = 16;
 const requests = new Map<string, Promise<unknown>>();
 const readFiles = new Map<string, unknown>();
+
+/* Marks a file as just used, and lets go of the oldest beyond the last few. */
+const keep = (path: string, request: Promise<unknown>) => {
+  requests.delete(path);
+  requests.set(path, request);
+
+  for (const oldest of requests.keys()) {
+    if (requests.size <= keptFiles) break;
+    requests.delete(oldest);
+    readFiles.delete(oldest);
+  }
+};
 
 /*
  * One pre-built file, or null when there is none (a null path names none).
@@ -30,7 +47,11 @@ export const fetchPrebuiltData = <Data>(
 
   const cached = requests.get(path);
 
-  if (cached) return cached as Promise<Data | null>;
+  if (cached) {
+    keep(path, cached);
+
+    return cached as Promise<Data | null>;
+  }
 
   const request = fetch(`${prebuiltDataUrl}/${path}`).then(async (response) => {
     if (response.status === 404) return null;
@@ -46,10 +67,15 @@ export const fetchPrebuiltData = <Data>(
     );
   });
 
-  request.then((data) => readFiles.set(path, data)).catch(() => undefined);
-
-  requests.set(path, request);
-  request.catch(() => requests.delete(path));
+  keep(path, request);
+  request.then(
+    (data) => {
+      if (requests.get(path) === request) readFiles.set(path, data);
+    },
+    () => {
+      if (requests.get(path) === request) requests.delete(path);
+    },
+  );
 
   return request;
 };

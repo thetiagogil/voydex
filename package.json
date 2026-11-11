@@ -9,7 +9,7 @@
     "postcss": "8.5.15"
   },
   "scripts": {
-    "predev": "node scripts/database/device-schema.mjs",
+    "predev": "node scripts/database/device-schema.mjs && node scripts/codex/check-codex-data.mjs",
     "dev": "next dev",
     "prebuild": "node scripts/database/device-schema.mjs",
     "build": "next build",

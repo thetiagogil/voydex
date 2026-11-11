@@ -3,7 +3,6 @@ import {
   type SpeciesGeneration,
 } from "@/modules/reference/features/pokemon/data/species-generations";
 import { loadPagedReferenceRows } from "@/modules/reference/shared/server/reference-row-loaders";
-import type { PublicSupabaseClient } from "@/platform/supabase/public-client";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 type SpeciesGenerationRow = {
@@ -19,7 +18,7 @@ const ERROR_MESSAGE = "Unable to load the generations' species.";
  * generations.
  */
 export const readSpeciesGenerations = async (
-  supabase: PublicSupabaseClient | ServerSupabaseClient,
+  supabase: ServerSupabaseClient,
 ): Promise<SpeciesGeneration[]> => {
   const reference = supabase.schema("reference");
   const [generationsResult, species] = await Promise.all([

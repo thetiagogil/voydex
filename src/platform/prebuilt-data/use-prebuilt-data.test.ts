@@ -66,4 +66,22 @@ describe("fetchPrebuiltData", () => {
     });
     expect(fetch).toHaveBeenCalledTimes(2);
   });
+
+  it("keeps only the last few files", async () => {
+    const fetch = vi.fn(async () => gzippedResponse({ ok: true }));
+
+    vi.stubGlobal("fetch", fetch);
+
+    await fetchPrebuiltData("test/kept-0.json.gz");
+    for (let index = 1; index <= 16; index += 1) {
+      await fetchPrebuiltData(`test/kept-${index}.json.gz`);
+    }
+    expect(fetch).toHaveBeenCalledTimes(17);
+
+    /* The first went past the last sixteen; the newest is still kept. */
+    await fetchPrebuiltData("test/kept-16.json.gz");
+    expect(fetch).toHaveBeenCalledTimes(17);
+    await fetchPrebuiltData("test/kept-0.json.gz");
+    expect(fetch).toHaveBeenCalledTimes(18);
+  });
 });

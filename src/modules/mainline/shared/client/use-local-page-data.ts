@@ -6,7 +6,8 @@ import { useLocalRead } from "@/platform/local-db/local-db-context";
 
 /*
  * A page's data from the device, the way a route read it on the server:
- * nothing while the read runs (milliseconds, so no loading state), the
+ * nothing while the read runs (milliseconds on the device, a small download
+ * when it also reads a pre-built file), the
  * not-found page for null, and the error page for a failed read. `key`
  * names everything the read depends on.
  */

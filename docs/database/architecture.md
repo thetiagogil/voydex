@@ -134,14 +134,21 @@ download their file in the browser; no page reads a database for game data.
 - `cf:build`, `cf:preview` and `cf:deploy` build the game data files, then
   these. `npm run verify` builds both, so a reader that no longer fits the
   seeds fails before merging.
+- The pages answer every address with the app and settle it in the
+  browser: an address that names no file shows the not-found page, and a
+  game's or an expansion's old address moves on to its base group with a
+  client-side redirect (no 404 or 308 status from the server).
+- `npm run dev` warns when the files are missing (`scripts/codex/check-codex-data.mjs`):
+  without them every Codex page is not found.
 - `architecture:check` keeps Codex pages and routes off any database client
   and keeps the Codex's `server/` readers out of the app: only the build
   runs them.
 
 ### Release Checks
 
-`npm run game-data:check` runs them alone; `npm run verify` runs it, GitHub
-does not. Both compare against the last release, recorded in
+`npm run game-data:check` runs them alone; `npm run game-data:build` runs
+them before writing, so `npm run verify` (which builds the files) runs them,
+and GitHub's quality checks do not. Both compare against the last release, recorded in
 `database/game-data/last-release.json` by `npm run game-data:build --
 --release`. Until launch nothing is recorded and both pass, so IDs and the
 schema change freely; the first `--release` is run at launch.

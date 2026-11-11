@@ -74,10 +74,7 @@ const retiredFolderNames = new Set([
 
 /* Folders whose files stay free of Next.js, React and platform code. */
 const pureFolderNames = new Set(["data", "domain", "utils"]);
-const clientFactoryNames = new Set([
-  "createPublicSupabaseClient",
-  "createServerSupabaseClient",
-]);
+const clientFactoryNames = new Set(["createServerSupabaseClient"]);
 
 /* Product modules whose features must not reach into each other. */
 const featureBoundaryModules = new Set(["codex", "mainline"]);
@@ -272,7 +269,7 @@ function verifyCodexBuildBoundaryFixtures() {
     },
     {
       source: "app/(app-public)/codex/games/(browse)/page.tsx",
-      specifier: "@/platform/supabase/public-client",
+      specifier: "@/platform/supabase/browser-client",
       violates: true,
     },
     {

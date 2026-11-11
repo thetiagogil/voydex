@@ -17,6 +17,7 @@ import {
 import { useGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
+import { Spinner } from "@/shared/components/ui/spinner";
 
 /*
  * One opening, on its game (and partner) when a trigger or the address gave
@@ -134,9 +135,15 @@ export const NewPlayDialogProvider = ({
         fullScreenOnPhone
         size="2xl"
       >
-        {/* The wizard waits for the device and the games (milliseconds): it starts from what it reads. */}
-        {local.status === "loading" ||
-        games.status === "loading" ? null : opening && catalogue ? (
+        {/* The wizard waits for the device and the games: it starts from what it reads. */}
+        {local.status === "loading" || games.status === "loading" ? (
+          <div className="bg-surface mx-auto flex min-h-60 w-full max-w-220 items-center justify-center rounded-2xl max-sm:rounded-none">
+            <Spinner
+              aria-label="Loading New Play"
+              className="text-action size-7"
+            />
+          </div>
+        ) : opening && catalogue ? (
           <NewPlayWizard
             key={opening.id}
             data={{
