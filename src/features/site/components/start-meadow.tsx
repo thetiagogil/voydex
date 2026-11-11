@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useSearchParams } from "next/navigation";
 import type { MouseEvent, ReactNode } from "react";
 

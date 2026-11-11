@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
 import { TeamStrip } from "@/modules/mainline/shared/components/team-strip";

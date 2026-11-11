@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";

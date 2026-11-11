@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {

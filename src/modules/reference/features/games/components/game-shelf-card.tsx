@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import type { ReactNode } from "react";
 
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";

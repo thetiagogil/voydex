@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { SystemState } from "@/features/system/components/system-state";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

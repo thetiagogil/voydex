@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import {
   HomeBandGround,

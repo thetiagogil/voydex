@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { Logo } from "@/shared/components/brand/logo";
 import { cn } from "@/shared/utils/cn";

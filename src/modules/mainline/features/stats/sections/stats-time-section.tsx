@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useRef, useState, type CSSProperties } from "react";
 
 import { appRoutes } from "@/config/routes";

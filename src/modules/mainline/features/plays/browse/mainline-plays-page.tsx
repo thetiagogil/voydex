@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
 import { ArchivedPlaysList } from "@/modules/mainline/features/plays/browse/components/archived-plays-list";

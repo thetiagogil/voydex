@@ -17,7 +17,7 @@ import { AccountFoldsProvider } from "@/features/app-shell/components/account-fo
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { cn } from "@/shared/utils/cn";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 type AppShellProps = {
   /* The signed-in account's email, for the app frame; null when signed out. */

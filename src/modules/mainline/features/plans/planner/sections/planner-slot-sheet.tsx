@@ -2,7 +2,7 @@
 
 import { SheetSection } from "@/shared/components/sheet-section";
 import { TextLink } from "@/shared/components/text-link";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";

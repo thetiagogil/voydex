@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
 import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";

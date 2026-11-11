@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useId } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";

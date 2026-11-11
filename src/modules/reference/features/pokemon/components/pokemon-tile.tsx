@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { cn } from "@/shared/utils/cn";

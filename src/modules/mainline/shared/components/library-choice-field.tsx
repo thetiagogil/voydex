@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
