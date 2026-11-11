@@ -14,10 +14,39 @@ the owner reports, reviews and merges.
    problem, adds a test that fails, then fixes it.
 4. The agent runs `npm run verify` (and `npm run db:verify` for database work)
    and opens a pull request that closes the issue.
-5. GitHub Actions run the same checks; Vercel builds a preview.
-6. The owner opens the preview, reviews and presses Merge.
-7. Vercel deploys `main` to production. Database migrations reach production
-   only through a release step the owner approves.
+5. GitHub Actions run the same checks.
+6. The owner reviews (on a local `npm run cf:preview` when it helps) and
+   presses Merge.
+7. GitHub deploys `main` to the Cloudflare Worker once the checks pass (see
+   [Deploys](#deploys)). Database migrations reach production only through a
+   release step the owner approves.
+
+## Deploys
+
+The app runs as a Cloudflare Worker (`wrangler.jsonc`), built with OpenNext.
+The `deploy` job in `.github/workflows/quality.yml` publishes it: after every
+push to `main` whose checks pass, it runs `npm run cf:deploy`, which builds the
+game data files, the Codex files and the Worker, then uploads it.
+
+- A failed build or upload fails the `deploy` job on that commit, and the
+  Worker keeps serving the last good version.
+- One deploy runs at a time; a newer merge waits for the running one.
+- GitHub lists each deploy under the `production` environment, with a link to
+  the live site.
+- Pull requests are not deployed; check one locally with `npm run cf:preview`.
+- `npm run cf:deploy` from the owner's Mac still works for a manual deploy.
+
+The job reads these repository secrets (GitHub → Settings → Secrets and
+variables → Actions); none of them live in the repository:
+
+| Secret                                 | What it is                                                         |
+| -------------------------------------- | ------------------------------------------------------------------ |
+| `CLOUDFLARE_API_TOKEN`                 | A Cloudflare API token from the "Edit Cloudflare Workers" template |
+| `CLOUDFLARE_ACCOUNT_ID`                | The Cloudflare account that owns the Worker                        |
+| `NEXT_PUBLIC_SUPABASE_URL`             | The hosted Supabase project's URL                                  |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | The hosted Supabase project's publishable key                      |
+
+The images site (`NEXT_PUBLIC_ASSETS_URL`) is public and set in the workflow.
 
 ## Writing Commits, Pull Requests And Releases
 
@@ -86,23 +115,23 @@ Voydex until all six are done.
 
 ## Platform Features
 
-| Feature                   | What it is                                   | How Voydex uses it                                               | What the owner does         |
-| ------------------------- | -------------------------------------------- | ---------------------------------------------------------------- | --------------------------- |
-| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                   | Reports in chat             |
-| Milestones                | A group of issues with a goal                | One per phase above                                              | Watches the % done          |
-| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                | Reviews and merges          |
-| GitHub Actions            | Scripts GitHub runs on every pull request    | `verify`, database tests, end-to-end tests                       | Merges only when green      |
-| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                               | Nothing once set            |
-| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                     | Reads the notes             |
-| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves         | Merges the big ones         |
-| Vercel previews           | A live copy of the app per pull request      | Checking a change on a phone before merging                      | Opens the preview link      |
-| Vercel production         | The real site                                | Deploys when `main` changes                                      | Nothing                     |
-| Vercel function region    | Where the server code runs                   | Paris (`cdg1` in `vercel.json`), beside the hosted database      | Nothing                     |
-| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset` | Nothing                     |
-| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user       | Approves migration releases |
-| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                        | Nothing                     |
-| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling | Approves the wording        |
-| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                         | Nothing                     |
-| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                      | Reads the email; agents fix |
-| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                | Nothing                     |
-| Next.js caching           | Remembering results between visits           | Reference data only, never user data                             | Nothing                     |
+| Feature                   | What it is                                   | How Voydex uses it                                                      | What the owner does         |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------------------------------- | --------------------------- |
+| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                          | Reports in chat             |
+| Milestones                | A group of issues with a goal                | One per phase above                                                     | Watches the % done          |
+| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                       | Reviews and merges          |
+| GitHub Actions            | Scripts GitHub runs on every pull request    | `verify`, database tests, end-to-end tests                              | Merges only when green      |
+| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                                      | Nothing once set            |
+| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                            | Reads the notes             |
+| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves                | Merges the big ones         |
+| Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                              | Nothing                     |
+| Cloudflare Workers        | The real site                                | Deploys when `main` changes and its checks pass ([Deploys](#deploys))   | Keeps the deploy secrets    |
+| Worker placement          | Where the server code runs                   | Paris (`aws:eu-west-3` in `wrangler.jsonc`), beside the hosted database | Nothing                     |
+| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset`        | Nothing                     |
+| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user              | Approves migration releases |
+| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                               | Nothing                     |
+| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling        | Approves the wording        |
+| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                                | Nothing                     |
+| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                             | Reads the email; agents fix |
+| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                       | Nothing                     |
+| Next.js caching           | Remembering results between visits           | Reference data only, never user data                                    | Nothing                     |
