@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
@@ -51,7 +51,6 @@ export const MainlinePlayProgressCollectibles = ({
   playId: string;
 }) => {
   const pathname = usePathname();
-  const router = useRouter();
   const initialGroup =
     data.groups.find((group) => group.slug === initialGroupSlug) ??
     data.groups[0];
@@ -90,9 +89,8 @@ export const MainlinePlayProgressCollectibles = ({
 
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("collectible", group.slug);
-    router.replace(`${pathname}?${searchParams.toString()}`, {
-      scroll: false,
-    });
+    /* The address follows the group without asking the server. */
+    window.history.replaceState(null, "", `${pathname}?${searchParams}`);
   };
 
   /* Marks entries found or not, at once, and saves them. */

@@ -49,6 +49,24 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    ignores: ["src/shared/components/link.tsx"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "next/link",
+              message:
+                "Use Link from @/shared/components/link: it fetches the whole page ahead of the click.",
+            },
+          ],
+        },
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -25,7 +24,6 @@ type TagDialog =
  * sits in the page's head.
  */
 export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
-  const router = useRouter();
   const [dialog, setDialog] = useState<TagDialog | null>(null);
   const close = (open: boolean) => {
     if (!open) setDialog(null);
@@ -79,7 +77,6 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
 
             toast.success(result.message);
             setDialog(null);
-            router.refresh();
 
             return null;
           }}
@@ -99,7 +96,6 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
             if (result.status === "error") return result.message;
 
             toast.success(`${dialog.tag.name} deleted`);
-            router.refresh();
 
             return null;
           }}

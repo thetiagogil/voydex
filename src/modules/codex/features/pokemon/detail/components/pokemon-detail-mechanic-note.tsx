@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import { formatGenerationName } from "@/modules/reference/features/games/utils/game-display";

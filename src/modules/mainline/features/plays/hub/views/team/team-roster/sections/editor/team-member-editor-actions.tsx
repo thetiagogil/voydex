@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
@@ -110,7 +109,6 @@ export const TeamMemberEditorActions = ({
   options: TeamMemberEditorOptions | null;
   playId: string;
 }) => {
-  const router = useRouter();
   const [confirm, setConfirm] = useState<Confirm>(null);
   const [isPending, startTransition] = useTransition();
   const name = getPlayTeamMemberName(member);
@@ -134,7 +132,6 @@ export const TeamMemberEditorActions = ({
       setConfirm(null);
       onDone();
       toast.success(successMessage);
-      router.refresh();
     });
   };
 

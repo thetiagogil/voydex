@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import type { TrainerPlay } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";

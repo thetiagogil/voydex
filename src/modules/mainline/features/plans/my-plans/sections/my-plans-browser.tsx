@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/shared/components/ui/badge";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";

@@ -46,7 +46,6 @@ const setup = ({
       success: (message, options) => toasts.push({ message, options }),
     },
     record: vi.fn(() => record),
-    refresh: vi.fn(),
     undo: vi.fn(() => undo),
   };
   const options: InstantRecordOptions = {
@@ -78,7 +77,6 @@ describe("recordMilestoneInstantly", () => {
 
     expect(changes).toEqual([[[60005, 60006, 60007], true]]);
     expect(toasts[0]?.message).toBe(options.toastMessage);
-    expect(deps.refresh).not.toHaveBeenCalled();
   });
 
   it("puts it back and says why when the save fails", async () => {

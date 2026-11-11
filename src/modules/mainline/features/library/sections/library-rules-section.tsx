@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -85,7 +84,6 @@ export const LibraryRulesSection = ({
   kinds: LibraryRuleKind[];
   rules: LibraryRule[];
 }) => {
-  const router = useRouter();
   const [dialog, setDialog] = useState<RuleDialog | null>(null);
   const close = (open: boolean) => {
     if (!open) setDialog(null);
@@ -127,7 +125,6 @@ export const LibraryRulesSection = ({
 
             toast.success(result.message);
             setDialog(null);
-            router.refresh();
 
             return null;
           }}
@@ -147,7 +144,6 @@ export const LibraryRulesSection = ({
             if (result.status === "error") return result.message;
 
             toast.success(`${dialog.rule.name} deleted`);
-            router.refresh();
 
             return null;
           }}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
@@ -44,7 +43,6 @@ export const SettingsChoiceSection = <Value,>({
   /* Why the value can't be saved yet, such as Monotype without its type. */
   validate?: (value: Value) => string | null;
 }) => {
-  const router = useRouter();
   const [value, setValue] = useState(initialValue);
   const [served, setServed] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
@@ -79,7 +77,6 @@ export const SettingsChoiceSection = <Value,>({
       }
 
       toast.success(result.message);
-      router.refresh();
     });
   };
 

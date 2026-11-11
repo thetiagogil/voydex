@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -21,7 +20,6 @@ import { Button } from "@/shared/components/ui/button";
 export const LibraryNewButton = (
   props: { kinds: LibraryRuleKind[]; noun: "rule" } | { noun: "tag" },
 ) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const isRule = props.noun === "rule";
   const kinds = props.noun === "rule" ? props.kinds : undefined;
@@ -55,7 +53,6 @@ export const LibraryNewButton = (
             if (result.status === "error") return result.message;
 
             toast.success(result.message);
-            router.refresh();
 
             return null;
           }}

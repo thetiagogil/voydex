@@ -7,7 +7,7 @@ import {
 } from "@/features/system/utils/not-found-copy";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 type PublicNotFoundPageProps = {
   /* The Pokémon that looked for the page, when the route passes its art. */

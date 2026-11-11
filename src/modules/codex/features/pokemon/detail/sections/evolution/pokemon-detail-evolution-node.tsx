@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type { PokemonDetailEvolutionTreeNode } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-tree";

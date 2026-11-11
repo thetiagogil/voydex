@@ -293,7 +293,6 @@ export const AddPokemonSheet = ({
       }
 
       toast.success("Taken off again");
-      router.refresh();
     });
   };
 
@@ -323,7 +322,6 @@ export const AddPokemonSheet = ({
         onOpenChange(false);
         reset();
         toast.success(`${name} replaced ${mode.name}`);
-        router.refresh();
         return;
       }
 
@@ -368,8 +366,6 @@ export const AddPokemonSheet = ({
             : { action: undo }),
         });
       }
-
-      router.refresh();
     });
   };
 

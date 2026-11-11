@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -25,7 +24,6 @@ export const RestorePlayButton = ({
   playId,
   playName,
 }: RestorePlayButtonProps) => {
-  const router = useRouter();
   const { save } = useLocalDb();
   const [isRestoring, startRestoring] = useTransition();
 
@@ -53,7 +51,6 @@ export const RestorePlayButton = ({
           }
 
           toast.success(`${playName} restored`);
-          router.refresh();
         });
       }}
     >

@@ -27,7 +27,7 @@ export type InstantRecordOptions = {
   toastMessage: string;
 };
 
-/* What an instant record talks to: the Server Actions, the toast and a redraw. */
+/* What an instant record talks to: the device's saves and the toast. */
 export type InstantRecordDeps = {
   addTeam: (milestone: RecordableMilestone) => void;
   notify: {
@@ -40,7 +40,6 @@ export type InstantRecordDeps = {
     milestoneId: number;
     playId: string;
   }) => Promise<PlayMilestoneRecordResult>;
-  refresh: () => void;
   undo: (input: {
     earlierMilestoneIds: number[];
     milestoneId: number;
@@ -79,7 +78,6 @@ export const recordMilestoneInstantly = (
         return null;
       }
 
-      deps.refresh();
       return result.recordedEarlierIds;
     });
 
@@ -110,7 +108,6 @@ export const recordMilestoneInstantly = (
           ? `${milestone.name} and ${formatMilestoneRange(recordedEarlierIds.length, "before")} are no longer recorded`
           : `${milestone.name} is no longer recorded`,
       );
-      deps.refresh();
     });
   const undoAction = { label: "Undo", onClick: undo };
 

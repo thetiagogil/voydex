@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
@@ -40,7 +39,6 @@ export const TeamPlanFollowMenu = ({
   /* Starts a new Plan for this Play's game. */
   versionGroupSlug: string | null;
 }) => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const otherPlans = plans.filter((plan) => plan.planId !== currentPlanId);
 
@@ -58,7 +56,6 @@ export const TeamPlanFollowMenu = ({
       }
 
       toast.success(result.message);
-      router.refresh();
     });
   };
 

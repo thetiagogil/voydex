@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/sections/pokedex-numbers/pokemon-detail-pokedex-numbers-model";

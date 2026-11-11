@@ -582,7 +582,6 @@ export const PlannerWorkspace = ({
 
             setName(result.name);
             toast.success(`Renamed to ${result.name}`);
-            router.refresh();
 
             return null;
           }}

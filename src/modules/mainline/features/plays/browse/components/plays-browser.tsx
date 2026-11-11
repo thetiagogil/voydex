@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
@@ -43,42 +43,36 @@ const URL_UPDATE_DELAY_MS = 250;
  */
 export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
   const pathname = usePathname();
-  const router = useRouter();
   const options = useMemo(() => getPlayBrowseOptions(plays), [plays]);
   const initialFilters = useMemo(
     () => getInitialPlayBrowseFilters(params, options),
     [options, params],
   );
   const [filters, setFilters] = useState(initialFilters);
-  const [appliedFilters, setAppliedFilters] = useState(initialFilters);
+  /* Filtering happens on the device, so the list follows every pick at once. */
   const shownPlays = useMemo(
-    () => filterAndSortPlays(plays, appliedFilters),
-    [appliedFilters, plays],
-  );
-  /* Counted before the URL catches up, for the phone sheet's button. */
-  const matchingCount = useMemo(
-    () => filterAndSortPlays(plays, filters).length,
+    () => filterAndSortPlays(plays, filters),
     [filters, plays],
   );
-  const hasActiveFilters = hasActivePlayBrowseFilters(appliedFilters);
+  const hasActiveFilters = hasActivePlayBrowseFilters(filters);
   const fold = useFold({ defaultOpen: hasActiveFilters });
 
+  /* The address follows a moment later, without asking the server. */
   useEffect(() => {
     const updateTimer = window.setTimeout(() => {
-      setAppliedFilters(filters);
+      const query = getPlayBrowseUrlSearchParams(filters).toString();
 
-      const searchParams = getPlayBrowseUrlSearchParams(filters);
-      const query = searchParams.toString();
-
-      router.replace(query ? `${pathname}?${query}` : pathname, {
-        scroll: false,
-      });
+      window.history.replaceState(
+        null,
+        "",
+        query ? `${pathname}?${query}` : pathname,
+      );
     }, URL_UPDATE_DELAY_MS);
 
     return () => {
       window.clearTimeout(updateTimer);
     };
-  }, [filters, pathname, router]);
+  }, [filters, pathname]);
 
   const updateFilter = <FilterKey extends keyof PlayBrowseFilters>(
     key: FilterKey,
@@ -90,7 +84,7 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
     }));
   };
 
-  const isReordered = appliedFilters.sort !== defaultPlayBrowseFilters.sort;
+  const isReordered = filters.sort !== defaultPlayBrowseFilters.sort;
 
   /* The display is how you look at the list, not a filter: it stays. */
   const resetList = () => {
@@ -121,7 +115,7 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             generations={options.generations}
             statuses={options.statuses}
             tags={options.tags}
-            matchingCount={matchingCount}
+            matchingCount={shownPlays.length}
             onDisplayChange={(display) => {
               updateFilter("display", display);
             }}
@@ -162,14 +156,13 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
         {shownPlays.length ? (
           <ul
             className={
-              appliedFilters.display === "grid"
+              filters.display === "grid"
                 ? "mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:grid-cols-[repeat(auto-fill,minmax(210px,1fr))]"
                 : "mt-6 grid gap-3 sm:mt-8"
             }
           >
             {shownPlays.map((play) => {
-              const Item =
-                appliedFilters.display === "grid" ? PlayGridCard : PlayCard;
+              const Item = filters.display === "grid" ? PlayGridCard : PlayCard;
 
               return (
                 <Item

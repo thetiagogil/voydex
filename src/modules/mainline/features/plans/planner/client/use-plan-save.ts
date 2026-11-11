@@ -101,7 +101,6 @@ export const usePlanSave = ({
 
         setSavedSnapshot(toSnapshot(contents));
         toast.success(`${savedName} saved`);
-        router.refresh();
         resolve(null);
       }),
     );

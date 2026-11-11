@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import {
@@ -34,7 +33,6 @@ type RecordOptions = {
  * saves in the background (Story, Overview's next objective).
  */
 export const useRecordMilestone = (playId: string) => {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [pendingMilestoneId, setPendingMilestoneId] = useState<number | null>(
     null,
@@ -52,7 +50,6 @@ export const useRecordMilestone = (playId: string) => {
       }
 
       toast.success(`${milestone.name} is no longer recorded`);
-      router.refresh();
     });
   };
 
@@ -67,7 +64,6 @@ export const useRecordMilestone = (playId: string) => {
       }
 
       toast.success(result.message);
-      router.refresh();
     });
   };
 
@@ -80,7 +76,6 @@ export const useRecordMilestone = (playId: string) => {
         addTeam,
         notify: toast,
         record: recordMainlinePlayMilestoneAction,
-        refresh: router.refresh,
         undo: undoMainlinePlayMilestoneAction,
       },
       playId,
@@ -131,7 +126,6 @@ export const useRecordMilestone = (playId: string) => {
             }
           : { action: undoAction },
       );
-      router.refresh();
     });
   };
 

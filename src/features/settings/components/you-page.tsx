@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import type { TrainerIcon } from "@/features/settings/types";
 import { PageBand } from "@/shared/components/page-band";

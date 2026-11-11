@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 import { ProgressDonut } from "@/shared/components/progress-donut";

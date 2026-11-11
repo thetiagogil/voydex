@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState, useTransition, type ComponentProps } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
@@ -33,7 +32,6 @@ export const AddNoteDialog = ({
   playId,
   size = "default",
 }: AddNoteDialogProps) => {
-  const router = useRouter();
   const fieldId = useId();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -66,7 +64,6 @@ export const AddNoteDialog = ({
       setText("");
       setError(null);
       toast.success(result.message);
-      router.refresh();
     });
   };
 

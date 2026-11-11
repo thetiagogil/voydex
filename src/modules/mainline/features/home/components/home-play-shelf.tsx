@@ -1,7 +1,7 @@
 "use client";
 
 import { PickedMark } from "@/shared/components/picked-mark";
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import type { MouseEvent } from "react";
 
 import { appRoutes } from "@/config/routes";

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -18,7 +17,6 @@ import { Button } from "@/shared/components/ui/button";
  * first milestone (the Play's own partner flow), with Undo in the toast.
  */
 export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
-  const router = useRouter();
   const [pickedId, setPickedId] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
   const picked =
@@ -41,7 +39,6 @@ export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
         return;
       }
 
-      router.refresh();
       toast.success(`${result.partnerName} recorded as your partner`, {
         action: {
           label: "Undo",
@@ -56,7 +53,6 @@ export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
               }
 
               setPickedId(null);
-              router.refresh();
             });
           },
         },

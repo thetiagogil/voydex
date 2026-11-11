@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import type { CSSProperties } from "react";
 
 import type { PublicArt } from "@/config/public-art";

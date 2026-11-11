@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 
 import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";

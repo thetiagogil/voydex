@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/shared/components/link";
 import type { ComponentProps, ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

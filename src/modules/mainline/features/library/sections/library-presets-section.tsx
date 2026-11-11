@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -83,7 +82,6 @@ export const LibraryPresetsSection = ({
   /* Every rule you can pick, for names and the board. */
   rules: LibraryRule[];
 }) => {
-  const router = useRouter();
   const [dialog, setDialog] = useState<PresetDialog | null>(null);
   const close = (open: boolean) => {
     if (!open) setDialog(null);
@@ -110,7 +108,6 @@ export const LibraryPresetsSection = ({
 
       toast.success(result.message);
       setDialog(null);
-      router.refresh();
 
       return null;
     };
@@ -160,7 +157,6 @@ export const LibraryPresetsSection = ({
             if (result.status === "error") return result.message;
 
             toast.success(`${dialog.preset.name} deleted`);
-            router.refresh();
 
             return null;
           }}
