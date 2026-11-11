@@ -34,7 +34,7 @@ import {
 import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
 import { battleFormMechanics } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 
-import { moveMainlinePlayPokemonAction } from "./server/team-member-mutation-actions";
+import { moveMainlinePlayPokemonAction } from "./client/team-member-mutation-actions";
 import {
   applyRosterMove,
   describeRosterMove,

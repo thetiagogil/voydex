@@ -41,8 +41,12 @@ test.describe("Sign up and log in", () => {
     await page.getByRole("button", { name: "Log out" }).click();
     await page.waitForURL((url) => !url.pathname.startsWith("/settings"));
 
-    await page.goto("/mainline/plays");
-    await page.waitForURL("**/login**");
+    /* Signed out, the app still opens: signing in is only for backups. */
+    await page.goto("/settings");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Settings",
+    );
+    await expect(page.getByRole("button", { name: "Log out" })).toBeHidden();
   });
 
   test("says when the password is wrong", async ({ page }) => {
@@ -55,10 +59,15 @@ test.describe("Sign up and log in", () => {
     await expectAccessible(page);
   });
 
-  test("sends a signed-out visitor to Log in and back", async ({ page }) => {
+  test("opens the app without signing in", async ({ page }) => {
     await page.goto("/mainline/plays");
-    await page.waitForURL("**/login**");
 
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Plays");
+    expect(new URL(page.url()).pathname).toBe("/mainline/plays");
+  });
+
+  test("logs in and comes back to the page asked for", async ({ page }) => {
+    await page.goto("/login?next=%2Fmainline%2Fplays");
     await page
       .getByRole("textbox", { name: "Email" })
       .fill(seededAccounts.trainer);

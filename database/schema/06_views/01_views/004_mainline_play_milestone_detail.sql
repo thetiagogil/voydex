@@ -163,4 +163,4 @@ WHERE
     WHERE
         mainline_milestone_collectible_refs.milestone_id = mainline_milestones.id) AS collectible_refs ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with their place, progress, prerequisites, decisions, static refs (each battle with its own place when it is fought away from the milestone''s), and linked completion event state. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_milestone_detail IS 'Story milestones available to each play with their place, progress, prerequisites, decisions, static refs (each battle with its own place when it is fought away from the milestone''s), and linked completion event state. Uses security_invoker.';

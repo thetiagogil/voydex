@@ -74,4 +74,4 @@ FROM
     LEFT JOIN gameplay.mainline_play_pokedex_species_progress ON mainline_play_pokedex_species_progress.play_id = mainline_plays.id
         AND mainline_play_pokedex_species_progress.species_id = pokedex_entries.species_id;
 
-COMMENT ON VIEW views.mainline_play_pokedex_detail IS 'Available Pokedex entries for each play with species-level progress. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_pokedex_detail IS 'Available Pokedex entries for each play with species-level progress. Uses security_invoker.';

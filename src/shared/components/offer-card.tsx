@@ -4,9 +4,8 @@ import { cardVariants } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Something offered once that you can take or put aside (the game picked
- * before sign-up, an unsaved Plan): a card with its words, an optional
- * picture beside them, and its two buttons at the end, the quiet one first.
+ * Something offered once that you can take or put aside (an unsaved Plan):
+ * a card with its words, an optional picture beside them, and its two buttons at the end, the quiet one first.
  * Name it with `aria-labelledby` or `aria-label`.
  */
 export const OfferCard = ({

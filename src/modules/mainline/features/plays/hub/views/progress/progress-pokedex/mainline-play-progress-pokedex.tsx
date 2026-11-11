@@ -16,7 +16,7 @@ import {
 import {
   updatePokedexSpeciesProgress,
   updatePokedexSpeciesProgressBulk,
-} from "./server/pokedex-progress-action";
+} from "./client/pokedex-progress-action";
 import { PokedexProgressBrowserSection } from "./sections/browser/pokedex-progress-browser-section";
 import { PokedexScopeOverviewSection } from "./sections/scope-overview/pokedex-scope-overview-section";
 import type {

@@ -1769,6 +1769,40 @@ export type Database = {
           },
         ];
       };
+      user_backups: {
+        Row: {
+          byte_size: number;
+          created_at: string;
+          device_name: string | null;
+          format: number;
+          id: string;
+          object_path: string;
+          saved_at: string;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          byte_size: number;
+          created_at?: string;
+          device_name?: string | null;
+          format: number;
+          id?: string;
+          object_path: string;
+          saved_at: string;
+          user_id: string;
+        };
+        Update: {
+          byte_size?: number;
+          created_at?: string;
+          device_name?: string | null;
+          format?: number;
+          id?: string;
+          object_path?: string;
+          saved_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       user_preferences: {
         Row: {
           created_at: string;
@@ -1816,7 +1850,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      add_user_backup: {
+        Args: {
+          p_byte_size: number;
+          p_device_name?: string;
+          p_format: number;
+          p_object_path: string;
+          p_parent_id?: string;
+          p_saved_at: string;
+        };
+        Returns: string;
+      };
     };
     Enums: {
       [_ in never]: never;

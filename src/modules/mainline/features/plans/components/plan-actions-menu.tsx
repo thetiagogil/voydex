@@ -11,10 +11,10 @@ import {
   usePlayTeamsDialog,
 } from "@/modules/mainline/shared/components/play-teams-dialog";
 import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
-import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
-import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
-import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
-import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
+import { deletePlanAction } from "@/modules/mainline/features/plans/client/delete-plan-action";
+import { readPlanFollowersAction } from "@/modules/mainline/features/plans/client/plan-followers-action";
+import { setPlanArchivedAction } from "@/modules/mainline/features/plans/client/plan-archive-action";
+import { renamePlanAction } from "@/modules/mainline/features/plans/client/plan-rename-action";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   AlertDialog,

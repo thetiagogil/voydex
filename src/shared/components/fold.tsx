@@ -163,7 +163,15 @@ export const FoldsOpenProvider = ({
 export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
   const foldsOpen = useContext(FoldsOpenContext);
   const [open, setOpen] = useState(defaultOpen || foldsOpen);
+  const [seenFoldsOpen, setSeenFoldsOpen] = useState(foldsOpen);
   const panelId = useId();
+
+  /* The setting can arrive after the list draws (it's read from the device). */
+  if (foldsOpen !== seenFoldsOpen) {
+    setSeenFoldsOpen(foldsOpen);
+
+    if (foldsOpen) setOpen(true);
+  }
 
   return { open, panelId, setOpen };
 };

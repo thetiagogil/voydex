@@ -10,7 +10,7 @@ import { LibraryPresetDetails } from "@/modules/mainline/features/library/compon
 import {
   deleteLibraryPresetAction,
   saveLibraryPresetAction,
-} from "@/modules/mainline/features/library/server/library-actions";
+} from "@/modules/mainline/features/library/client/library-actions";
 import { orderPresetRules } from "@/modules/mainline/features/library/data/preset-board";
 import type {
   LibraryRule,

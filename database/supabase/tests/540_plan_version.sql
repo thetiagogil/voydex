@@ -33,7 +33,6 @@ SELECT
                 id = '50000000-0000-0000-0000-0000000000f0'), TRUE, 'a Plan written without a preference is for either version');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f5', TRUE);
-SET LOCAL ROLE authenticated;
 CREATE TEMP TABLE either_plan ON COMMIT DROP AS
 SELECT
     *

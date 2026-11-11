@@ -1,5 +1,5 @@
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
-import { getSignedInAccount } from "@/features/app-shell/server/signed-in-account-query";
+import { readSession } from "@/features/app-shell/server/session-query";
 import {
   ResetPasswordPage,
   type ResetPasswordSearchParams,
@@ -10,13 +10,13 @@ export default async function Page({
 }: {
   searchParams?: Promise<ResetPasswordSearchParams>;
 }) {
-  const account = await getSignedInAccount();
+  const session = await readSession();
 
   return (
     <PublicAppShell bar="none">
       <ResetPasswordPage
-        email={account?.email ?? null}
-        isSignedIn={Boolean(account)}
+        email={session?.email ?? null}
+        isSignedIn={Boolean(session)}
         searchParams={searchParams}
       />
     </PublicAppShell>

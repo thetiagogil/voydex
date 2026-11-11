@@ -2,33 +2,45 @@
 
 ## Access Model
 
-- Enable RLS on every app-facing table, including read-only reference and
-  tracking tables.
-- Grant `anon` and `authenticated` only the operations required to reach an
-  exposed schema. RLS then controls rows within that privilege boundary.
-- `reference` and `tracking` are client read-only. Signed-out visitors read
-  `reference` and, in `tracking`, only `mainline_badges` (Start a Play counts
-  the badges ahead, of kind `badge`; Alola's Z-Crystal rows don't count),
-  `mainline_collectibles` (the cached game list tells New Play which games
-  have collectibles), `mainline_opponents` and
+Your data lives on the device ([ADR 0008](../decisions/0008-user-data-on-the-device.md)),
+in PGlite, where `auth.uid()` returns one fixed local user who owns every
+row. Hosted Supabase serves only what the device can't hold for itself:
+
+- `reference` and `tracking`: client read-only, with RLS. Signed-out
+  visitors read `reference` and, in `tracking`, only `mainline_badges`
+  (Start a Play counts the badges ahead, of kind `badge`; Alola's Z-Crystal
+  rows don't count), `mainline_collectibles` (the cached game list tells New
+  Play which games have collectibles), `mainline_opponents` and
   `mainline_opponent_team_members` (the Codex game page lists each game's
   leaders with their place and the ace of their first team); every other
-  `tracking` table is signed-in only.
-- `public`, `gameplay`, and `planning` owner policies combine role targeting
-  with `auth.uid()` ownership.
-- Update policies require both `USING` and `WITH CHECK` so rows cannot be
-  reparented to another user.
+  `tracking` table is signed-in only. They leave hosted Supabase once the
+  Codex is pre-built (#256).
+- `public.user_backups` and the private `backups` storage bucket: each
+  account reads, adds and deletes only its own rows and the files in its
+  own folder (`<user id>/…`); nothing edits a backup. Update policies, where
+  a hosted table has them, require both `USING` and `WITH CHECK`.
+- Your tables (`public` profiles, preferences and tags, `gameplay`,
+  `planning`, and the `mainline_` views) have no RLS and no policies: on the
+  device they would protect nothing. Instead the API roles get nothing on
+  them (no grants, no `gameplay` or `planning` schema usage, no function
+  execute), so hosted Supabase never serves them. Moving user data back to
+  Supabase one day means writing the rules again; Git history keeps the old
+  ones.
 - Never use user-editable metadata or `auth.role()` for authorization.
+
+Deleting an account deletes its backup rows (a foreign key to `auth.users`);
+the account deletion operation (#227) also removes its backup files.
 
 ## Views And Functions
 
-- Every app-facing view uses `security_invoker = true` and inherits underlying
-  grants and RLS.
-- Client-callable workflow functions use `SECURITY INVOKER`.
+- Every view uses `security_invoker = true` and inherits underlying grants
+  and RLS.
+- Workflow functions use `SECURITY INVOKER`; on the device they run as the
+  database owner.
 - `SECURITY DEFINER` is reserved for reviewed private helpers, with an empty
   search path, explicit schema qualification, and execute revoked from public
   client roles unless specifically required.
-- Anonymous users cannot execute gameplay or planning mutation functions.
+- Neither API role can execute a gameplay or planning function.
 
 ## Index Ownership
 
@@ -53,8 +65,9 @@ Validate performance changes with query plans before adding redundant indexes.
 7. Compare generated types with the committed app types.
 
 The pgTAP suite covers structural invariants, anonymous/authenticated reference
-access, two-user owner isolation, reparenting protection, security-invoker view
-isolation, and representative gameplay/planning mutations including rollback.
+access, that the API roles reach none of your device-only tables, owner-only
+account backups, and representative gameplay/planning mutations including
+rollback.
 
 The `Database Quality` GitHub workflow runs this Docker-backed gate by hand from
 the Actions tab while the app is in fast development; until launch, database

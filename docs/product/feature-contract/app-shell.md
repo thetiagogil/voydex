@@ -4,9 +4,10 @@ This is the Accounts, Settings And System States part of the [Feature Contract](
 
 ## Authentication And Resumption
 
-Start a Play (`/start`) lets a visitor pick a game and partner before having
-an account; the pick travels through Sign up and Log in and waits on the
-account until Mainline starts the Play. Log in and Sign up share `/login`;
+The app opens without an account: your data lives on this device, and
+signing in is only for backups (#248). Start a Play (`/start`) lets a visitor
+pick a game and partner, then opens New Play over Mainline Home with both
+picked. Log in and Sign up share `/login`;
 Reset your password, Choose a new password and Check your email are their own
 routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
 password with Show and no confirmation field (v3), then Welcome (`/welcome`):
@@ -20,8 +21,8 @@ the normal last-active-module resolver. A user who is already authenticated is
 redirected to the validated destination or normal app entry rather than shown
 the form again.
 
-When authentication interrupts a protected route or Codex action, Login shows
-a compact summary of what will resume. Preserve the exact internal destination,
+When authentication interrupts a Codex action or a backup, Login shows a
+compact summary of what will resume. Preserve the exact internal destination,
 game, Pokémon/form, content scope, action branch, and public origin when they
 apply. Validate all continuation data, reject external or tampered targets, and
 revalidate the owning Mainline operation after authentication. Login never
@@ -36,7 +37,7 @@ Password recovery returns the same neutral Check Email response whether or not
 an account exists. Recovery links open a focused new-password mode and handle
 expired or reused links without losing a safe destination. When email
 confirmation is required after Sign up, show a clear Check Email state instead
-of redirecting into a protected loop.
+of looping back to Log in.
 
 Recoverable errors preserve Email and non-sensitive intent, clear passwords,
 associate field errors, translate provider messages into stable user-facing
@@ -53,10 +54,23 @@ pick or type and Save appears once it has changed), Look and feel, New Play defa
 `/you` gathers the trainer card, Statistics, Collection and Settings.
 
 Account shows your email with Change email (confirmed by a link Supabase
-sends; the change takes effect once it is opened), Change password, and Log
-out on this device. Your data offers Delete your account; there is no
-download or import of your data for now (a Plan's share link is the one
-import). Account deletion requires recent-auth handling when
+sends; the change takes effect once it is opened), Change password, Sync
+(when this device last synced with the account, with Sync now, or Choose
+while a clash waits) and Log out on this device. When two devices changed
+the same thing since they last synced, a dialog, wherever you are, asks
+which version to keep: each choice names its device (This Mac, your iPhone)
+and when it changed there; Later closes it and nothing syncs until you
+answer. Your data offers Save backup (every Play, Plan and
+setting as one gzipped file, `voydex-backup-<day>.json.gz`, with "Last backup
+N days ago"), Restore (reads a file, says when it was saved and how many
+Plays and Plans it holds, and after a confirm replaces everything on this
+device in one go; an older file is upgraded first, a broken or newer one is
+refused and nothing changes), whether this browser keeps the data (Install
+where the browser offers it, Share then Add to Home Screen on an iPhone, and
+a warning in an app's own browser), and Delete your account. On Home a quiet
+line under the moments says when the data needs a hand: an app's own
+browser, Safari on a phone without Voydex on the Home Screen, or 30 days
+without a backup. Account deletion requires recent-auth handling when
 necessary, a complete consequence summary, typed confirmation, one reviewed
 server-owned operation, and no partial success; it removes the Auth identity
 and dependent user-owned data, clears the session, and returns to the public

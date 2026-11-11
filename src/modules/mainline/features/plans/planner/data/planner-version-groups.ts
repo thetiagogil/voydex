@@ -1,4 +1,4 @@
-import type { PlannerCatalogueRows } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
+import type { PlannerCatalogueRows } from "@/modules/mainline/features/plans/planner/client/planner-pool-reader";
 import type {
   PlannerVersionGroup,
   PlannerVersionGroupOption,

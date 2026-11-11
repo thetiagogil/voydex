@@ -20,7 +20,7 @@ import type {
 import {
   choosePlayPartnerAction,
   undoPlayPartnerAction,
-} from "@/modules/mainline/features/plays/shared/server/play-partner-action";
+} from "@/modules/mainline/features/plays/shared/client/play-partner-action";
 import {
   ObjectiveCard,
   ObjectiveEyebrow,

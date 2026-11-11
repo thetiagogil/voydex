@@ -3,9 +3,6 @@ import {
   LoginPage,
   type LoginSearchParams,
 } from "@/features/auth/components/login-page";
-import { publicArt } from "@/modules/reference/public-art";
-
-import { resolveStartIntent } from "@/modules/reference/features/games/server/start-intent-resolver";
 
 export default function Page({
   searchParams,
@@ -14,11 +11,7 @@ export default function Page({
 }) {
   return (
     <PublicAppShell bar="none">
-      <LoginPage
-        art={publicArt}
-        resolveIntent={resolveStartIntent}
-        searchParams={searchParams}
-      />
+      <LoginPage searchParams={searchParams} />
     </PublicAppShell>
   );
 }

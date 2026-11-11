@@ -41,6 +41,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare (OpenNext build and wrangler state)
+.open-next
+.wrangler
+
 # Supabase local state and generated artifacts
 /database/supabase/.branches/
 /database/supabase/.temp/
@@ -56,3 +60,7 @@ next-env.d.ts
 /e2e/.auth/
 /e2e/.results/
 /e2e/.report/
+
+# device game data files (npm run game-data:build) and schema (prebuild)
+/public/game-data/
+/public/local-db/

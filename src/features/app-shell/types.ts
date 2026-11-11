@@ -10,11 +10,15 @@ export type AccountIcon = {
   url: string | null;
 };
 
-/* Who is signed in, as the bars, the account menu and the trainer card show it. */
-export type SignedInAccount = {
+/*
+ * You, as the bars, the account menu and the trainer card show it: the
+ * profile and settings saved on this device, and the email of the account
+ * you signed in with (only for backups; null when you haven't).
+ */
+export type AppAccount = {
   /* The name you chose on Welcome or in Settings; null until you choose one. */
   displayName: string | null;
-  /* Null when the claims carry no email. */
+  /* The signed-in account's email; null when you haven't signed in. */
   email: string | null;
   /* Your Pokémon icon; null until you pick one (your initial stands in). */
   icon: AccountIcon | null;

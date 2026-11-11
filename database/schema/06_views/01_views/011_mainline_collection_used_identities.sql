@@ -78,4 +78,4 @@ FROM
     JOIN reference.pokemon_forms ON pokemon_forms.species_id = mainline_play_event_team_snapshots.species_id
         AND pokemon_forms.id = mainline_play_event_team_snapshots.form_id;
 
-COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. event_id names the History moment for event refs and snapshots. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. event_id names the History moment for event refs and snapshots. Uses security_invoker.';

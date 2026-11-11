@@ -162,9 +162,6 @@ SELECT
             VALUES ('kanto'::text, 'kanto-pewter-museum-of-science'::text) $$, 'the Pewter Museum of Science is in Kanto');
 -- The milestone view keeps each badge's place in the badge case.
 SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
-SET LOCAL ROLE authenticated;
-SELECT
     results_eq ($$
         SELECT
             badge_ref ->> 'slug', (badge_ref ->> 'badge_sort_order')::integer FROM views.mainline_play_milestone_detail
@@ -174,6 +171,9 @@ SELECT
             AND milestone_slug IN ('marsh-badge', 'soul-badge')
         ORDER BY (badge_ref ->> 'badge_sort_order')::integer $$, $$
         VALUES ('soul-badge'::text, 5), ('marsh-badge'::text, 6) $$, 'a badge keeps its badge case place while the Marsh Badge comes first on the walkthrough');
+SELECT
+    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
+SET LOCAL ROLE authenticated;
 SELECT
     ok ((
             SELECT
@@ -192,15 +192,11 @@ SELECT
             sort_order = 1000
             WHERE
                 version_group_id = 1 $$, '42501', NULL, 'a signed-in trainer cannot move a step');
--- Another trainer reads the shared roadmap but nothing of the Play.
+-- The milestone view is the device's read model (ADR 0008): a signed-in trainer reads the roadmap, not the view.
 SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
-SELECT
-    is_empty ($$
+    throws_ok ($$
         SELECT
-            milestone_id FROM views.mainline_play_milestone_detail
-            WHERE
-                play_id = '60000000-0000-0000-0000-0000000000f1' $$, 'another trainer cannot read the Play''s milestones or badges');
+            milestone_id FROM views.mainline_play_milestone_detail $$, '42501', NULL, 'a signed-in trainer cannot read the milestone view, which only the device uses');
 RESET ROLE;
 SET LOCAL ROLE anon;
 SELECT

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { RestorePlayButton } from "@/modules/mainline/features/plays/shared/components/restore-play-button";
-import { setPlayArchivedAction } from "@/modules/mainline/features/plays/shared/server/play-archive-action";
+import { setPlayArchivedAction } from "@/modules/mainline/features/plays/shared/client/play-archive-action";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import {
   AlertDialog,
@@ -21,7 +21,7 @@ import { Button } from "@/shared/components/ui/button";
 import { SettingsRow } from "@/shared/components/settings-row";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import { deletePlayAction } from "../../server/play-settings-actions";
+import { deletePlayAction } from "../../client/play-settings-actions";
 
 /*
  * Archive or delete (v3 `settings` last card). Archiving hides the Play from

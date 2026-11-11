@@ -83,4 +83,4 @@ SELECT
 FROM
     public.profiles;
 
-COMMENT ON VIEW views.mainline_dashboard_summary IS 'Dashboard counters scoped by profile ownership. Uses security_invoker so public/gameplay/planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_dashboard_summary IS 'Dashboard counters scoped by profile ownership. Uses security_invoker.';

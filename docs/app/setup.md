@@ -26,6 +26,7 @@ NEXT_PUBLIC_ASSETS_URL=
 ```
 
 `NEXT_PUBLIC_ASSETS_URL` is the address of the separate `voydex-assets` site
+(`https://voydex-assets.thetiagogil.workers.dev`, static files on Cloudflare)
 that serves Pokémon images (HOME sprites at 160 and 384 px, official art at
 475 px, each normal and shiny, named by form slug), game covers, held item
 and Poké Ball sprites (named by item slug), the Physical, Special and
@@ -110,7 +111,7 @@ work can continue to use `npm run verify` without Docker.
 
 The app should use only public client keys in frontend environment variables.
 
-Reference and tracking data should be client-readable only. User-owned schemas must rely on RLS, ownership policies, and app-facing helper functions where multi-table mutations are needed.
+Reference and tracking data should be client-readable only. Your own data lives on the device (ADR 0008): hosted Supabase serves none of it, and holds only login and each account's backups, owner-only.
 
 ## Working Across Windows And Mac
 

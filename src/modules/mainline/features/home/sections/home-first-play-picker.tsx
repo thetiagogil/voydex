@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import type { StartIntent } from "@/config/start-intent";
 import {
   HomeBandGround,
   HomeBandHeading,
@@ -18,8 +17,6 @@ import { Spinner } from "@/shared/components/ui/spinner";
 
 type HomeFirstPlayPickerProps = {
   greeting: string;
-  /* The game (and partner) picked on Start a Play before signing up. */
-  intent: StartIntent | null;
   picker: NewPlayPickerData;
 };
 
@@ -31,24 +28,10 @@ type HomeFirstPlayPickerProps = {
  */
 export const HomeFirstPlayPicker = ({
   greeting,
-  intent,
   picker,
 }: HomeFirstPlayPickerProps) => {
-  const intentGame = picker.games.some((game) => game.slug === intent?.gameSlug)
-    ? (intent?.gameSlug ?? null)
-    : null;
-  const [gameSlug, setGameSlug] = useState<string | null>(intentGame);
-  const [partnerId, setPartnerId] = useState<number | null>(() => {
-    const starters = intentGame
-      ? (picker.startersByGameSlug[intentGame]?.starters ?? [])
-      : [];
-
-    return (
-      starters.find(
-        (starter) => starter.speciesSlug === intent?.partnerSpeciesSlug,
-      )?.speciesId ?? null
-    );
-  });
+  const [gameSlug, setGameSlug] = useState<string | null>(null);
+  const [partnerId, setPartnerId] = useState<number | null>(null);
   const { isPending, startPlay } = useStartPlay();
   const game = picker.games.find((candidate) => candidate.slug === gameSlug);
   const starters = gameSlug

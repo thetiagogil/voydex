@@ -1,11 +1,7 @@
 import { DEFAULT_MODULE_KEY, modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import { setStartIntentParams, type StartIntent } from "@/config/start-intent";
 import type { AuthErrorCode } from "@/features/auth/auth-errors";
-import {
-  DEFAULT_AUTH_REDIRECT_PATH,
-  getSafeAuthRedirectPath,
-} from "@/features/auth/auth-redirects";
+import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
 
 export type AuthMode = "log-in" | "sign-up";
 
@@ -19,14 +15,13 @@ export const isDefaultAuthNext = (next: string) =>
 
 type AuthHrefOptions = {
   error?: AuthErrorCode | null;
-  intent?: StartIntent | null;
   next: string;
 };
 
-/* A page of the sign-in family with its query: error first, then mode, next and the intent. */
+/* A page of the sign-in family with its query: error first, then mode and next. */
 const buildAuthHref = (
   path: string,
-  { error, intent, next }: AuthHrefOptions,
+  { error, next }: AuthHrefOptions,
   extra?: Record<string, string>,
 ) => {
   const params = new URLSearchParams();
@@ -40,14 +35,13 @@ const buildAuthHref = (
   if (!isDefaultAuthNext(next)) {
     params.set("next", next);
   }
-  setStartIntentParams(params, intent);
 
   const query = params.toString();
 
   return query ? `${path}?${query}` : path;
 };
 
-/* The Log in page in one mode, keeping where to go afterwards, the intent and any error to show. */
+/* The Log in page in one mode, keeping where to go afterwards and any error to show. */
 export const getAuthPageHref = ({
   mode,
   ...options
@@ -65,13 +59,12 @@ export type AuthLinkSent = "again" | "once";
 export const getForgotPasswordHref = ({
   sent,
   ...options
-}: Omit<AuthHrefOptions, "intent"> & { sent?: AuthLinkSent | null }) =>
+}: AuthHrefOptions & { sent?: AuthLinkSent | null }) =>
   buildAuthHref(appRoutes.forgotPassword, options, sent ? { sent } : undefined);
 
 /* Choose a new password, where the reset link lands. */
-export const getResetPasswordHref = (
-  options: Omit<AuthHrefOptions, "intent">,
-) => buildAuthHref(appRoutes.resetPassword, options);
+export const getResetPasswordHref = (options: AuthHrefOptions) =>
+  buildAuthHref(appRoutes.resetPassword, options);
 
 /* Check your email, after a sign-up that still needs its email confirmed. */
 export const getCheckEmailHref = ({
@@ -91,14 +84,3 @@ export const parseAuthLinkSent = (value: unknown): AuthLinkSent | null =>
 /* Welcome, the first run after signing up, keeping where to go afterwards. */
 export const getWelcomeHref = (next: string) =>
   buildAuthHref(appRoutes.welcome, { next });
-
-/*
- * Where a protected page sends you when you aren't signed in: Log in, then
- * back to the page you asked for. A path that isn't safe falls back to the
- * Log in page's own default.
- */
-export const getLoginRedirectHref = (requestPath: string | null) =>
-  getAuthPageHref({
-    mode: "log-in",
-    next: getSafeAuthRedirectPath(requestPath, LOGIN_DEFAULT_NEXT),
-  });

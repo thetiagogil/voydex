@@ -31,7 +31,7 @@ import {
 } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import { buildPlanTeamCheck } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import { keepPlannerMembersInGroup } from "@/modules/mainline/features/plans/planner/data/planner-group-members";
-import { checkPlannerGameSwitchAction } from "@/modules/mainline/features/plans/planner/server/planner-game-switch-action";
+import { checkPlannerGameSwitchAction } from "@/modules/mainline/features/plans/planner/client/planner-game-switch-action";
 import { PlannerFollowersSection } from "@/modules/mainline/features/plans/planner/sections/planner-followers-section";
 import {
   PlannerSwitchDialog,
@@ -45,7 +45,7 @@ import {
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
 import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
-import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
+import { renamePlanAction } from "@/modules/mainline/features/plans/client/plan-rename-action";
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";

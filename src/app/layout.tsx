@@ -10,6 +10,7 @@ import { nunito } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  appleWebApp: { capable: true, title: "Voydex" },
   title: "Voydex",
   description: "A Pokémon companion for tracking and planning playthroughs.",
 };

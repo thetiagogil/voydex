@@ -8,7 +8,7 @@ import { LibraryNameDialog } from "@/modules/mainline/features/library/component
 import {
   createLibraryRuleAction,
   createLibraryTagAction,
-} from "@/modules/mainline/features/library/server/library-actions";
+} from "@/modules/mainline/features/library/client/library-actions";
 import type { LibraryRuleKind } from "@/modules/mainline/features/library/types";
 import { libraryNameMaxLength } from "@/modules/mainline/shared/utils/library-names";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

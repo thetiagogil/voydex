@@ -28,6 +28,41 @@ The app should store user intent and meaningful user state. It should derive sum
 | Backlog/wishlist                 | User-owned game intent tables                                   |
 | Preferences                      | User-owned preference tables                                    |
 
+## Where Data Lives
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) keeps the tables
+above as the source of truth but moves where they live:
+
+- **User-owned tables** (profile, preferences, Plays and everything under them,
+  Plans, tags, rules, backlog and favourites) live on the user's device. The
+  device is the one source of truth for them; nothing else holds a live copy.
+- **`reference` and `tracking`** are the same for everyone. They ship as
+  versioned game data files built from the seeds, one per game, and the
+  device keeps a copy of each game it uses.
+- **Backups** are copies, never a second source of truth. A backup file is a
+  versioned, gzipped JSON of every row of yours with its change records
+  (Settings > Your data: Save backup and Restore; a restore replaces the
+  device's data in one go, and an older file is upgraded first). A quiet
+  note on Home reminds you after 30 days without one. Signed in, the device
+  uploads the same file to the account a few seconds after each change, and
+  hosted Supabase keeps the last 3.
+- **Sync** is event merge. Every change on the device leaves a small record
+  (the row added or deleted, the column changed, and when). When the app
+  opens or comes to the front it merges the account's newest backup: the
+  latest change wins per column, two devices' History moments keep their
+  order, and two tags or rules of one name become "Shiny" and "Shiny 2".
+  You're asked only on a true clash: both devices changed the same column of
+  the same row since they last synced, one deleted what the other changed,
+  or a Play's or Plan's rows no longer fit together (keep one side's
+  version). Nothing changes until you answer. Restoring a file is a
+  deliberate choice: the restored data replaces the account's.
+- **Login** stays with Supabase Auth.
+
+Data lives per browser: moving it to another browser or device takes a backup
+file or an account. A Play saves game data IDs, so an ID never disappears or
+changes meaning without an entry in the ID changes list shipped with the game
+data.
+
 ## Derived Data
 
 These should be calculated through queries, views, or app services:
@@ -59,16 +94,13 @@ choice (`search_filters_open`). Pokémon reuse is a Play's No Pokémon reuse
 rule.
 
 The game and partner picked on Start a Play are a wish, not a record: they
-travel as `?game=` and `?partner=`, then wait on the Auth user's metadata
-(`voydex_intent`) so a confirmation link opened on another device keeps them.
-Mainline reads them with `auth.getUser()`, validates them again when it starts
-the Play, and clears them once the Play is started or put aside. The email
-typed on an auth page is kept for half an hour in an HTTP-only cookie so the
+travel as `?new=` and `?partner=` into New Play, which validates them again
+when it starts the Play; nothing stores them. The email typed on an auth page is kept for half an hour in an HTTP-only cookie so the
 next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the
-change takes effect once it is opened. Voydex offers no export or import of
-your data for now; a Plan's share link is the one import.
+change takes effect once it is opened. The backup file is the export and
+import for everyone; a Plan's share link imports one Plan.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never
@@ -83,7 +115,8 @@ without an explicit product and data decision.
 
 Account deletion is an Auth-owned destructive workflow that must remove the
 Auth identity and allow reviewed foreign-key cascades to remove the profile and
-dependent owner-scoped data. A client must never delete application rows first
+dependent owner-scoped data, including the account's backups (their rows
+cascade; the operation also removes their files). A client must never delete application rows first
 or report success before Auth identity deletion succeeds. Sign out changes only
 the current session and must not delete user data.
 

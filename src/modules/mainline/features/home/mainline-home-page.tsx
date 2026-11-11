@@ -1,6 +1,5 @@
 import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
-import { HomeIntentOfferCard } from "@/modules/mainline/features/home/components/home-intent-offer";
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
 import { HomePlaysView } from "@/modules/mainline/features/home/sections/home-plays-view";
 import type { HomePageData } from "@/modules/mainline/features/home/types";
@@ -25,7 +24,6 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
     return (
       <HomeFirstPlayPicker
         greeting={withName("Welcome", data.displayName)}
-        intent={data.intent}
         picker={data.picker}
       />
     );
@@ -56,14 +54,6 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
             </TextLink>
           </>
         )
-      }
-      intentOffer={
-        data.intentOffer ? (
-          <HomeIntentOfferCard
-            offer={data.intentOffer}
-            trainerName={data.trainerName}
-          />
-        ) : null
       }
     />
   );

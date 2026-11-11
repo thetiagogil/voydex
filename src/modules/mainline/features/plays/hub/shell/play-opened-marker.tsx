@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { markPlayOpenedAction } from "@/modules/mainline/features/plays/hub/server/play-opened-action";
+import { markPlayOpenedAction } from "@/modules/mainline/features/plays/hub/client/play-opened-action";
 
 /*
  * Marks the Play opened once it shows, from the browser rather than while

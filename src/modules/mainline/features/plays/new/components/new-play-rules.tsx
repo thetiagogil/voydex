@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 
-import { createNewPlayRuleAction } from "@/modules/mainline/features/plays/new/server/new-play-rule-action";
+import { useCreateNewPlayRule } from "@/modules/mainline/features/plays/new/client/use-create-new-play-rule";
 import { ChallengeRulesField } from "@/modules/mainline/shared/components/challenge-rules-field";
 import type {
   ChallengeRuleChoice,
@@ -32,6 +32,7 @@ export const NewPlayRules = ({
   types: GameTypeChoice[];
 }) => {
   const labelId = useId();
+  const createRule = useCreateNewPlayRule();
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -43,7 +44,7 @@ export const NewPlayRules = ({
         selections={rules}
         types={types}
         showLibraryLink={false}
-        onCreate={createNewPlayRuleAction}
+        onCreate={createRule}
         onChange={onChange}
       />
     </div>

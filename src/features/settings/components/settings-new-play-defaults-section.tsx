@@ -11,7 +11,7 @@ import { SettingsChoiceSection } from "@/shared/components/settings-choice-secti
 import { SettingsRow } from "@/shared/components/settings-row";
 import { SettingsSwitchRow } from "@/shared/components/settings-switch-row";
 
-import { saveNewPlayDefaultsAction } from "../server/preferences-actions";
+import { saveNewPlayDefaultsAction } from "../client/preferences-actions";
 
 /*
  * New Play defaults: what a new Play starts tracking. A Play keeps its own

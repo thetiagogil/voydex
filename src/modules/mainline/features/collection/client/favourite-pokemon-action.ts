@@ -1,0 +1,56 @@
+import { notifyLocalSave } from "@/platform/local-db/local-db-context";
+import { z } from "zod";
+
+import { setFavouritePokemon } from "@/modules/mainline/features/collection/client/favourite-pokemon-command";
+import { readLocalClaims } from "@/platform/local-db/local-claims";
+import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
+import { parseInput, positiveIdSchema } from "@/shared/utils/input-schemas";
+
+export type FavouritePokemonActionResult =
+  | { status: "success" }
+  | { message: string; status: "error" };
+
+const favouriteInputSchema = z.object({
+  favourite: z.boolean(),
+  formId: positiveIdSchema("Pokémon form"),
+  speciesId: positiveIdSchema("Pokémon"),
+});
+
+/* The heart on a Codex entry: on or off for the signed-in trainer. */
+export const setFavouritePokemonAction = async (input: {
+  favourite: boolean;
+  formId: number;
+  speciesId: number;
+}): Promise<FavouritePokemonActionResult> => {
+  try {
+    const { favourite, formId, speciesId } = parseInput(
+      favouriteInputSchema,
+      input,
+    );
+    const supabase = await getLocalQueryClient();
+    const claimsResult = await readLocalClaims(supabase);
+    const userId = claimsResult?.data?.claims?.sub;
+
+    if (!userId) {
+      throw new Error("Sign in to keep your favourites.");
+    }
+
+    await setFavouritePokemon(supabase, {
+      favourite,
+      formId,
+      speciesId,
+      userId,
+    });
+    notifyLocalSave();
+
+    return { status: "success" };
+  } catch (error) {
+    return {
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to save your favourite right now.",
+      status: "error",
+    };
+  }
+};

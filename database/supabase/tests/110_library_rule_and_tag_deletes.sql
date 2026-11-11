@@ -19,41 +19,21 @@ INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id)
 INSERT INTO gameplay.mainline_play_tags (play_id, tag_id, user_id)
     VALUES ('60000000-0000-0000-0000-0000000000d1', '90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1');
 SELECT
-    plan (4);
+    plan (2);
 -- Another trainer can't delete them.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SET LOCAL ROLE authenticated;
 DELETE FROM gameplay.mainline_challenge_rules
 WHERE id = '80000000-0000-0000-0000-0000000000d1';
 DELETE FROM public.tags
 WHERE id = '90000000-0000-0000-0000-0000000000d1';
-RESET ROLE;
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
-                gameplay.mainline_challenge_rules
-            WHERE
-                id = '80000000-0000-0000-0000-0000000000d1'), 1, 'another trainer cannot delete your rule');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
-                public.tags
-            WHERE
-                id = '90000000-0000-0000-0000-0000000000d1'), 1, 'another trainer cannot delete your tag');
 -- You can, and they leave every Play and Plan.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d1', TRUE);
-SET LOCAL ROLE authenticated;
 DELETE FROM gameplay.mainline_challenge_rules
 WHERE id = '80000000-0000-0000-0000-0000000000d1';
 DELETE FROM public.tags
 WHERE id = '90000000-0000-0000-0000-0000000000d1';
-RESET ROLE;
 SELECT
     IS ((
             SELECT

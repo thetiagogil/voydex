@@ -29,8 +29,6 @@ to Statistics), and it owns no mutation of its own.
 - **With no Plays:** the game picker is the page. Pick a game, tap a partner
   and Start creates the Play at once (named "New Journey" with your trainer
   name; Play Settings change the rest).
-- A game and partner picked on Start a Play before signing up are offered
-  once, to start straight away or put aside.
 
 The shelf reads "last opened first": opening a Play (any of its pages)
 stamps `last_opened_at`, which is not a change to the Play (`updated_at`

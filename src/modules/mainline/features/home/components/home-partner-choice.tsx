@@ -8,7 +8,7 @@ import type { HomePartnerChoice } from "@/modules/mainline/features/home/types";
 import {
   choosePlayPartnerAction,
   undoPlayPartnerAction,
-} from "@/modules/mainline/features/plays/shared/server/play-partner-action";
+} from "@/modules/mainline/features/plays/shared/client/play-partner-action";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
 import { Button } from "@/shared/components/ui/button";
 

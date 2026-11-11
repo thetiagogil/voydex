@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
-import type { TrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
+import type { TrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
 
 import {
   buildStatsModel,

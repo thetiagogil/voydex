@@ -1,0 +1,169 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const playId = "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b";
+const writes: string[] = [];
+const state = {
+  pokedexMode: "caught_and_seen" as string,
+  records: [] as Record<string, unknown>[],
+};
+const caughtRecord = (seenAt: string) => ({
+  caught_at: "2026-10-20T10:00:00.000Z",
+  is_caught: true,
+  is_seen: true,
+  seen_at: seenAt,
+  species_id: 1,
+});
+
+vi.mock("@/platform/local-db/local-db-context", () => ({
+  notifyLocalSave: vi.fn(),
+}));
+vi.mock("@/platform/local-db/local-claims", () => ({
+  readLocalClaims: vi.fn(async () => ({
+    data: { claims: { sub: "user-1" } },
+  })),
+}));
+vi.mock(
+  "@/modules/mainline/features/plays/hub/client/play-tracking-reader",
+  () => ({
+    readPlayTracking: vi.fn(async () => ({
+      collectibles: true,
+      pokedexMode: state.pokedexMode,
+      story: true,
+    })),
+  }),
+);
+vi.mock("@/platform/local-db/open-local-db", () => ({
+  getLocalQueryClient: vi.fn(async () => ({
+    schema: () => ({
+      from: (table: string) => {
+        const builder: Record<string, unknown> & PromiseLike<unknown> = {
+          then: (onFulfilled, onRejected) =>
+            Promise.resolve({
+              data:
+                table === "mainline_play_pokedex_species_progress"
+                  ? state.records
+                  : [{ species_id: 1 }],
+              error: null,
+            }).then(onFulfilled, onRejected),
+        };
+
+        builder.select = () => builder;
+        builder.eq = () => builder;
+        builder.in = () => builder;
+
+        for (const method of ["delete", "update", "upsert"]) {
+          builder[method] = (values?: unknown) => {
+            writes.push(
+              `${method} ${table} ${values ? JSON.stringify(values) : ""}`.trim(),
+            );
+
+            return builder;
+          };
+        }
+
+        return builder;
+      },
+    }),
+  })),
+}));
+
+import { updatePokedexSpeciesProgress } from "./pokedex-progress-action";
+
+beforeEach(() => {
+  writes.length = 0;
+  state.pokedexMode = "caught_and_seen";
+  state.records = [];
+});
+
+describe("updatePokedexSpeciesProgress clearing a Pokémon", () => {
+  it("removes the entry when the Play tracks caught and seen", async () => {
+    const result = await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "missing",
+    });
+
+    expect(result.status).toBe("success");
+    expect(writes).toEqual(["delete mainline_play_pokedex_species_progress"]);
+  });
+
+  it("clears a catch in caught only, Seen included, when the Seen came with it", async () => {
+    state.pokedexMode = "caught_only";
+    state.records = [caughtRecord("2026-10-20T10:00:00.000Z")];
+
+    const result = await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "missing",
+    });
+
+    expect(result.status).toBe("success");
+    expect(writes).toEqual(["delete mainline_play_pokedex_species_progress"]);
+  });
+
+  it("keeps a Seen marked before the catch when un-catching in caught only", async () => {
+    state.pokedexMode = "caught_only";
+    state.records = [caughtRecord("2026-10-18T09:00:00.000Z")];
+
+    const result = await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "missing",
+    });
+
+    expect(result.status).toBe("success");
+    expect(writes).toEqual([
+      'update mainline_play_pokedex_species_progress {"caught_at":null,"is_caught":false}',
+    ]);
+  });
+
+  it("still marks a catch as caught and seen when the Play tracks caught only", async () => {
+    state.pokedexMode = "caught_only";
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes).toHaveLength(1);
+    expect(writes[0]).toContain(
+      "upsert mainline_play_pokedex_species_progress",
+    );
+    expect(writes[0]).toContain('"is_caught":true');
+    expect(writes[0]).toContain('"is_seen":true');
+  });
+
+  it("keeps the date you first saw a Pokémon when you catch it", async () => {
+    state.records = [
+      {
+        caught_at: null,
+        is_caught: false,
+        is_seen: true,
+        seen_at: "2026-10-18T09:00:00.000Z",
+        species_id: 1,
+      },
+    ];
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes[0]).toContain('"seen_at":"2026-10-18T09:00:00.000Z"');
+  });
+
+  it("keeps both dates when a caught Pokémon is caught again", async () => {
+    state.records = [caughtRecord("2026-10-20T10:00:00.000Z")];
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes[0]).toContain('"caught_at":"2026-10-20T10:00:00.000Z"');
+    expect(writes[0]).toContain('"seen_at":"2026-10-20T10:00:00.000Z"');
+  });
+});

@@ -622,46 +622,46 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT,
 
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO service_role;
 
-COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER.';
 
 COMMENT ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) IS 'The game''s partner milestone: its first milestone, in Story order, whose decision is a choice of Pokémon. Null when the game hands you your partner. Shared by the partner write functions. Runs as SECURITY INVOKER over client-readable tracking data.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) IS 'Atomically saves a Play''s general settings (name, trainer, start day, playtime and status; every field is written) and, when the status actually changes, adds one recorded-action status-change moment titled with the new status. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_general_settings (UUID, TEXT, INTEGER, TEXT, DATE, INTEGER) IS 'Atomically saves a Play''s general settings (name, trainer, start day, playtime and status; every field is written) and, when the status actually changes, adds one recorded-action status-change moment titled with the new status. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) IS 'Atomically records a Play''s partner choice: resolves the game partner milestone, accepts only one of its Pokémon options, adds the partner to slot 1 when the team is empty (no Added moment), and completes the milestone with that decision and one "<Species> chose you" moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) IS 'Atomically records a Play''s partner choice: resolves the game partner milestone, accepts only one of its Pokémon options, adds the partner to slot 1 when the team is empty (no Added moment), and completes the milestone with that decision and one "<Species> chose you" moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) IS 'Atomically undoes a Play''s partner choice: marks the partner milestone incomplete (refused when anything recorded since depends on it), removing its decision, moment and snapshot, and deletes the partner Pokémon that choice added. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) IS 'Atomically undoes a Play''s partner choice: marks the partner milestone incomplete (refused when anything recorded since depends on it), removing its decision, moment and snapshot, and deletes the partner Pokémon that choice added. Runs as SECURITY INVOKER.';

@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { seededAccounts, signedOut } from "../support/accounts";
-import { logIn } from "../support/auth";
+import { waitForAction } from "../support/actions";
+import { startPlay, uniquePlayName } from "../support/plays";
 import {
   expectCornerMarksOnTheirSide,
   expectCornerMarksShown,
@@ -12,9 +12,9 @@ import {
 
 /*
  * Nothing a card or a control draws outside its box (its keyboard focus ring,
- * its corner marks) is cut off by a parent that clips. The seeded fixture
- * account has Plays across every game, with shinies and full teams. See the
- * Design System, Focus rings and Card corners.
+ * its corner marks) is cut off by a parent that clips. Each test starts a
+ * Play on its own device, with a partner on the team. See the Design System,
+ * Focus rings and Card corners.
  */
 /* Each page, and whether it shows cards with corner marks. */
 const pages = [
@@ -24,14 +24,15 @@ const pages = [
   ["Team Planner", "/mainline/plans/new?vg=rb", false],
   ["Library", "/mainline/library", false],
   ["Collection", "/mainline/collection", true],
-  ["Statistics", "/mainline/stats", true],
+  /* Its corner marks need a family used across Plays, more than this test makes. */
+  ["Statistics", "/mainline/stats", false],
   ["Codex Pokémon", "/codex/pokemon", false],
   ["Codex Pokémon detail", "/codex/pokemon/pikachu", false],
   ["Codex Games", "/codex/games", false],
   ["Settings", "/settings", false],
 ] as const;
 
-/* A Play's views; the seeded Crystal Play has a full team and a shiny. */
+/* A Play's views. */
 const playViews = [
   ["Overview", ""],
   ["Team", "/team"],
@@ -44,16 +45,28 @@ const playViews = [
   ["Settings", "/settings"],
 ] as const;
 
-test.use({ storageState: signedOut });
-
 test.describe("Focus rings and corner marks", () => {
+  let playId = "";
+
   test.beforeEach(async ({ page }) => {
-    await logIn(page, seededAccounts.fixture);
-    await page.waitForURL("**/mainline");
+    playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Focus run"),
+      partner: "Squirtle",
+    });
   });
 
   for (const [name, path, hasMarks] of pages) {
     test(`${name} cuts nothing off @phone`, async ({ page }) => {
+      if (name === "Statistics") {
+        /* Statistics draws its board from a second Play. */
+        await startPlay(page, {
+          game: "Pokémon Blue, 1996",
+          name: uniquePlayName("Focus run"),
+          partner: "Squirtle",
+        });
+      }
+
       await page.goto(path);
       await expect(page.locator("main").first()).toBeVisible();
       if (hasMarks) {
@@ -112,15 +125,19 @@ test.describe("Focus rings and corner marks", () => {
 
   for (const [name, view] of playViews) {
     test(`a Play's ${name} cuts nothing off @phone`, async ({ page }) => {
-      await page.goto("/mainline/plays");
-      const href =
-        (await page
-          .getByRole("link", { name: /Crystal - Story Complete/ })
-          .first()
-          .getAttribute("href")) ?? "";
-      const base = href.split("?")[0].replace(/\/(team|progress|history)$/, "");
+      await page.goto(`/mainline/plays/${playId}${view}`, {
+        waitUntil: "networkidle",
+      });
 
-      await page.goto(`${base}${view}`);
+      if (view === "/progress/pokedex") {
+        /* A caught Pokémon is what draws the Pokédex's corner marks. */
+        const saved = waitForAction(page);
+
+        await page
+          .getByRole("button", { name: "Mark Pidgey as Caught" })
+          .click();
+        await saved;
+      }
       /* Progress and the Team pages open on a sub-view. */
       await page.waitForLoadState("load");
       await expect(page.locator("main").first()).toBeVisible();

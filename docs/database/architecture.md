@@ -32,16 +32,108 @@ already authenticated, optional `SUPABASE_ACCESS_TOKEN`. Browser configuration
 uses only `NEXT_PUBLIC_SUPABASE_URL` and
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.local`.
 
+## Where The Database Runs
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) runs one schema in
+three places:
+
+| Place                     | What it holds                                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files                                                                        |
+| The device (PGlite)       | Each user's own data, plus the game data files for the games they play                                                                                 |
+| Hosted Supabase           | Login (Auth), `user_backups` with each user's private backup folder, and (until the Codex is pre-built, #256) `reference` and `tracking` for the Codex |
+
+- The device loads the tables, functions and views from `database/schema`.
+  `auth.uid()` returns one fixed local user there, so functions that check
+  the owner work unchanged.
+- `reference` and `tracking` reach the device as files (see Game Data Files
+  below), served by the app itself on Cloudflare, so the files always fit
+  the schema of the app that serves them.
+- `database/schema/07_backups` is hosted only: the account backups table and
+  the private `backups` storage bucket. The device schema leaves it out
+  (`stripHostedOnly` in `scripts/database/device-schema.mjs`).
+- Your tables (`public` profiles, preferences and tags, `gameplay`,
+  `planning` and the `mainline_` views) carry no row security, and the API
+  roles get no access to them: hosted Supabase never serves them.
+- Hosted Supabase is reset (old user data and accounts dropped, game data
+  re-seeded) before launch, with the owner's approval. Once the Codex is
+  pre-built (#256) it holds only auth and backups.
+
+### The Device Database
+
+`src/platform/local-db` holds what the device runs (#245):
+
+- `device-schema.sql` runs first on a new device: the `anon`,
+  `authenticated` and `service_role` roles, a small `auth.users` and
+  `auth.uid()`, and the `device` schema that records the installed schema's
+  hash and the installed game data files. The built migration follows in the
+  same transaction, without its `CREATE EXTENSION pgcrypto` (nothing uses
+  it, and the device would download 1 MB for it).
+  `scripts/database/device-schema.mjs` writes both, with their hash, to
+  `public/local-db/` before every `dev` and `build`; a returning device only
+  fetches the hash.
+- `game-data.ts` installs game data files (below): `installGame` puts the
+  base file and a game's file on the device once, with progress, and
+  `installGameLearnsets` adds the game's learnsets after, for the background.
+  A game already on the device downloads nothing. Files go in with triggers
+  and foreign key checks off, one transaction per file.
+- The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
+  `/pglite/voydex`; one tab leads and the others send their queries to it.
+- `/device-check` starts it with Sword / Shield and times start, install and
+  saves, for the phone test.
+
+### Game Data Files
+
+`npm run game-data:build` builds them from the seeds without Docker
+(`scripts/database/game-data/`, about 40 seconds). It loads the device schema
+and the seeds (no development fixtures) into an in-memory PGlite, runs the
+release checks, and writes to `public/game-data/` (ignored by Git):
+
+| File                              | What it holds                                                                                      |
+| --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `base.<hash>.json.gz`             | Every row that belongs to no single game: Pokémon, moves, items, types, the game list and lookups  |
+| `<slug>.<hash>.json.gz`           | One game's rows: a version group with its expansions, its Pokédex, availability, Story and battles |
+| `<slug>-learnsets.<hash>.json.gz` | That game's learnsets, most of its rows, installed after the game                                  |
+| `versions.json`                   | The version list: each file's name, hash, size and rows, the schema it fits and the ID changes     |
+
+- Every row lands in exactly one file; a row that would land in two or in
+  none fails the build.
+- A file's name carries a hash of its content. Columns filled at insert time
+  (`created_at`) are left out, so the same seeds always give the same files
+  and a device downloads a file again only when its rows changed.
+- `cf:build`, `cf:preview` and `cf:deploy` build the files first, so a deploy
+  always ships files that fit its schema.
+- The device checks a downloaded file against the hash in the version list,
+  and refuses files built for another schema.
+
+### Release Checks
+
+`npm run game-data:check` runs them alone; `npm run verify` runs it, GitHub
+does not. Both compare against the last release, recorded in
+`database/game-data/last-release.json` by `npm run game-data:build --
+--release`. Until launch nothing is recorded and both pass, so IDs and the
+schema change freely; the first `--release` is run at launch.
+
+- **ID check:** every seeded ID that a user table points at (a foreign key
+  from `public`, `gameplay` or `planning`) must stay and keep its slug. An ID
+  that goes or is reused needs an entry in
+  `database/game-data/id-changes.json` (`{ table, id, becomes, reason }`,
+  where `becomes` is the new ID or `null`). The list ships in
+  `versions.json`, to be applied to saved Plays.
+- **Schema check:** a device schema that changed since the last release
+  needs a new device update in `database/device-updates/` (a `.sql` file,
+  run in name order), and a shipped device update is never removed.
+
 ## Schema Responsibilities
 
 | Schema      | Responsibility                                                               | Client access               |
 | ----------- | ---------------------------------------------------------------------------- | --------------------------- |
-| `public`    | Auth-linked profiles, preferences, and global tags                           | Authenticated owner CRUD    |
+| `public`    | Profiles, preferences and tags (device); `user_backups` (hosted)             | Backups: owner only         |
 | `reference` | Games, Pokémon identity/mechanics, availability, learnsets, and Pokedex data | Client read-only            |
 | `tracking`  | Story, milestone, collectible, decision, and snapshot definitions            | Client read-only            |
-| `gameplay`  | Plays, teams, progress, timeline, history, rules, and backlog                | Authenticated owner access  |
-| `planning`  | Reusable plans and plan-to-play realization                                  | Authenticated owner access  |
-| `views`     | App-facing derived read models                                               | Security-invoker reads      |
+| `gameplay`  | Plays, teams, progress, timeline, history, rules, and backlog                | None (device only)          |
+| `planning`  | Reusable plans and plan-to-play realization                                  | None (device only)          |
+| `views`     | App-facing derived read models                                               | `reference_resolved_` only  |
 | `private`   | Internal triggers and validation helpers                                     | Not exposed to client roles |
 
 Schemas describe data responsibility, not frontend module structure. Tables
@@ -69,22 +161,32 @@ database built from them alone must match every environment.
   into it on 2026-10-19. Do not add patch migrations; the hosted database is
   reset and re-seeded from source when the owner approves, which also resets
   its migration history.
-- **After launch**: every change ships as a patch migration under
-  `database/supabase/migrations` **and** the matching schema or seed edit in
-  the same change, so source and migrations never drift. Data corrections
-  follow the same rule as schema changes.
+- **After launch**: every change to the hosted tables ships as a patch
+  migration under `database/supabase/migrations` **and** the matching schema
+  edit in the same change, so source and migrations never drift. A
+  user-table change also ships as a device update that saves a copy first,
+  restores it on failure, and is tested against an old backup. A game data ID
+  never disappears or changes meaning silently: the change goes in the
+  ordered ID changes list shipped with the game data, and the release check
+  fails without it. Until launch, IDs may change freely.
 
 Every data fix adds a pgTAP check that failed before it (see
 `database/supabase/tests/080_reference_data_regressions.sql`).
 
 ## Application Integration
 
-- Browser and server clients are created only under `src/platform/supabase`.
+- The device database is started and queried only through
+  `src/platform/local-db`; every user-data read and save goes there once its
+  screen has moved (see
+  [Frontend Architecture](../app/architecture.md#where-data-lives)).
+- Browser and server Supabase clients are created only under
+  `src/platform/supabase`, for login, account backups and the Codex's game
+  data reads (until #256).
 - UI components do not issue raw schema queries.
 - Public reads use `reference`, `tracking`, and safe `views` contracts.
-- User-owned reads establish an authenticated identity and remain owner-scoped.
-- Simple direct CRUD is acceptable where one table and its RLS policy fully own
-  the mutation.
+- User-owned reads and saves run on the device, where the one local user
+  owns every row; simple direct CRUD is acceptable where one table owns the
+  change.
 - Multi-table or history-producing mutations use the reviewed gameplay or
   planning functions listed in [Schema Contract](./schema-contract.md).
 

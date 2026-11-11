@@ -179,4 +179,4 @@ SELECT
 FROM
     completion_totals;
 
-COMMENT ON VIEW views.mainline_play_completion_summary IS 'Derived completion counts and percentages per play. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_completion_summary IS 'Derived completion counts and percentages per play. Uses security_invoker.';

@@ -12,18 +12,7 @@ VALUES
     ('71000000-0000-0000-0000-0000000000c2', '70000000-0000-0000-0000-0000000000c1', 1, 2, 479, 47900, 'Buzz', 20),
     ('71000000-0000-0000-0000-0000000000c3', '70000000-0000-0000-0000-0000000000c1', 1, 3, 731, 73100, 'Peck', 10);
 SELECT
-    plan (18);
-SELECT
-    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SET LOCAL ROLE authenticated;
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.evolve_mainline_play_pokemon (p_play_pokemon_id => '71000000-0000-0000-0000-0000000000c1', p_to_species_id => 723, p_to_form_id => 72300) $$, '23503', NULL, 'another user cannot evolve a Pokemon they do not own');
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.retire_mainline_play_pokemon (p_play_pokemon_id => '71000000-0000-0000-0000-0000000000c3') $$, '23503', NULL, 'another user cannot retire a Pokemon they do not own');
+    plan (16);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
 SELECT

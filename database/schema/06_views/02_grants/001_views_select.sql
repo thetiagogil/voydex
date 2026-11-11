@@ -1,6 +1,7 @@
 -- ============================================================================
 -- Grants: app read models
--- Views are read-only app query models.
+-- Views are read-only app query models over your data, which lives only on
+-- the device (ADR 0008): the API roles get nothing.
 -- ============================================================================
 REVOKE ALL ON TABLE views.mainline_play_summary FROM PUBLIC, anon, authenticated;
 
@@ -34,34 +35,34 @@ REVOKE ALL ON TABLE views.mainline_dashboard_summary FROM PUBLIC, anon, authenti
 
 REVOKE ALL ON TABLE views.mainline_stats_summary FROM PUBLIC, anon, authenticated;
 
-GRANT SELECT ON TABLE views.mainline_play_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_completion_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_completion_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_overview TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_overview TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_milestone_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_milestone_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_milestone_category_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_milestone_category_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_team_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_team_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_timeline_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_timeline_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_pokedex_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_pokedex_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_collectible_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_collectible_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_team_plan_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_team_plan_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_team_plan_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_team_plan_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_play_team_plan_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_play_team_plan_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_collection_used_identities TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_collection_used_identities TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_collection_detail TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_collection_detail TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_dashboard_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_dashboard_summary TO service_role;
 
-GRANT SELECT ON TABLE views.mainline_stats_summary TO authenticated, service_role;
+GRANT SELECT ON TABLE views.mainline_stats_summary TO service_role;

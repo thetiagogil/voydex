@@ -5,5 +5,6 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  return <PublicAppShell>{children}</PublicAppShell>;
+  /* Everyone uses the Codex with their data on this device: the app's frame. */
+  return <PublicAppShell frame="app">{children}</PublicAppShell>;
 }

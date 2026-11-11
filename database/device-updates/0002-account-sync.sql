@@ -1,0 +1,240 @@
+-- Account sync: this device's sync state, the change records sync combines
+-- (see src/platform/local-db/device-changes.sql), and your tables without
+-- row security.
+
+-- Account sync on this device: the account it syncs with, the latest
+-- account backup it has merged or uploaded, and whether a restored backup
+-- waits to replace the account's (restoring a file is a deliberate choice).
+CREATE TABLE device.sync (
+    id boolean PRIMARY KEY DEFAULT TRUE CHECK (id),
+    account_id uuid,
+    backup_id uuid,
+    synced_at timestamptz,
+    restored boolean NOT NULL DEFAULT FALSE
+);
+
+-- One record per row (column_name '') and per changed column. A deleted
+-- row keeps only its row record, marked deleted. base_changed_at is
+-- changed_at as of the last sync: a record whose changed_at moved since
+-- changed on this device. seq counts every write on this device, whatever
+-- the clocks say, so a sync can tell what landed after it read.
+CREATE SEQUENCE device.change_seq;
+
+CREATE TABLE device.changes (
+    table_name text NOT NULL,
+    row_key text NOT NULL,
+    column_name text NOT NULL,
+    changed_at timestamptz NOT NULL,
+    base_changed_at timestamptz,
+    deleted boolean NOT NULL DEFAULT FALSE,
+    seq bigint NOT NULL DEFAULT nextval('device.change_seq'),
+    PRIMARY KEY (table_name, row_key, column_name)
+);
+
+-- A row's primary key as JSON text, such as '["5f0c…"]' or '["5f0c…", 3]'.
+CREATE FUNCTION device.row_key (row_data jsonb, key_columns text[])
+    RETURNS text
+    LANGUAGE sql
+    IMMUTABLE
+    AS $$
+    SELECT
+        jsonb_agg(row_data -> key_column ORDER BY position)::text
+    FROM
+        unnest(key_columns)
+        WITH ORDINALITY AS keys (key_column, position);
+$$;
+
+-- The trigger's arguments name the table's primary key columns.
+CREATE FUNCTION device.record_change ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    changed_table text := TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME;
+    changed_at timestamptz := clock_timestamp();
+    old_row jsonb;
+    new_row jsonb;
+    old_key text;
+    new_key text;
+BEGIN
+    IF TG_OP <> 'INSERT' THEN
+        old_row := to_jsonb (OLD);
+        old_key := device.row_key (old_row, TG_ARGV);
+    END IF;
+    IF TG_OP <> 'DELETE' THEN
+        new_row := to_jsonb (NEW);
+        new_key := device.row_key (new_row, TG_ARGV);
+    END IF;
+    -- A deleted row (or one whose key changed) keeps only its row record.
+    IF TG_OP = 'DELETE' OR old_key IS DISTINCT FROM new_key AND TG_OP = 'UPDATE' THEN
+        DELETE FROM device.changes
+        WHERE table_name = changed_table
+            AND row_key = old_key
+            AND column_name <> '';
+        INSERT INTO device.changes (table_name, row_key, column_name, changed_at, deleted)
+            VALUES (changed_table, old_key, '', changed_at, TRUE)
+        ON CONFLICT (table_name, row_key, column_name)
+            DO UPDATE SET
+                changed_at = EXCLUDED.changed_at, deleted = TRUE, seq = EXCLUDED.seq;
+    END IF;
+    IF TG_OP = 'INSERT' OR old_key IS DISTINCT FROM new_key AND TG_OP = 'UPDATE' THEN
+        DELETE FROM device.changes
+        WHERE table_name = changed_table
+            AND row_key = new_key
+            AND column_name <> '';
+        INSERT INTO device.changes (table_name, row_key, column_name, changed_at, deleted)
+            VALUES (changed_table, new_key, '', changed_at, FALSE)
+        ON CONFLICT (table_name, row_key, column_name)
+            DO UPDATE SET
+                changed_at = EXCLUDED.changed_at, deleted = FALSE, seq = EXCLUDED.seq;
+    ELSIF TG_OP = 'UPDATE' THEN
+        INSERT INTO device.changes (table_name, row_key, column_name, changed_at)
+        SELECT
+            changed_table,
+            new_key,
+            columns.key,
+            changed_at
+        FROM
+            jsonb_each(new_row) AS columns
+        WHERE
+            columns.value IS DISTINCT FROM old_row -> columns.key
+        ON CONFLICT (table_name, row_key, column_name)
+            DO UPDATE SET
+                changed_at = EXCLUDED.changed_at, seq = EXCLUDED.seq;
+    END IF;
+    RETURN NULL;
+END;
+$$;
+
+-- Every table that holds your rows (lookups too: game data fills them with
+-- triggers off, so they never record anything).
+DO $$
+DECLARE
+    user_table record;
+BEGIN
+    FOR user_table IN
+    SELECT
+        tables.oid::regclass AS name,
+        (
+            SELECT
+                string_agg(quote_literal(columns.attname), ', ' ORDER BY keys.position)
+            FROM
+                unnest(primary_keys.conkey)
+                WITH ORDINALITY AS keys (attnum, position)
+                JOIN pg_attribute columns ON columns.attrelid = tables.oid
+                    AND columns.attnum = keys.attnum) AS key_columns
+    FROM
+        pg_class tables
+        JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+        JOIN pg_constraint primary_keys ON primary_keys.conrelid = tables.oid
+            AND primary_keys.contype = 'p'
+    WHERE
+        tables.relkind = 'r'
+        AND schemas.nspname IN ('public', 'gameplay', 'planning')
+        LOOP
+            EXECUTE format('CREATE TRIGGER record_device_change AFTER INSERT OR UPDATE OR DELETE ON %s FOR EACH ROW EXECUTE FUNCTION device.record_change (%s)', user_table.name, user_table.key_columns);
+        END LOOP;
+END;
+$$;
+
+-- Rows saved before change records existed get one now, as added: so the
+-- first sync sends them to the account. (A new device starts with none:
+-- its own profile isn't a change of yours.) The list matches userTables in
+-- src/platform/local-db/user-data.ts.
+DO $$
+DECLARE
+    user_table record;
+    key_columns text[];
+BEGIN
+    FOR user_table IN
+    SELECT
+        *
+    FROM (
+        VALUES ('public.profiles', 'TRUE'),
+            ('public.user_preferences', 'TRUE'),
+            ('public.tags', 'TRUE'),
+            ('gameplay.mainline_challenge_rules', 'user_id IS NOT NULL'),
+            ('gameplay.mainline_challenge_rule_sets', 'user_id IS NOT NULL'),
+            ('gameplay.mainline_challenge_rule_set_rules', 'rule_set_id IN (SELECT id FROM gameplay.mainline_challenge_rule_sets WHERE user_id IS NOT NULL)'),
+            ('gameplay.user_game_library_entries', 'TRUE'),
+            ('gameplay.user_favourite_pokemon', 'TRUE'),
+            ('gameplay.mainline_plays', 'TRUE'),
+            ('gameplay.mainline_play_settings', 'TRUE'),
+            ('gameplay.mainline_play_optional_content_scopes', 'TRUE'),
+            ('gameplay.mainline_play_pokemon', 'TRUE'),
+            ('gameplay.mainline_play_pokemon_moves', 'TRUE'),
+            ('gameplay.mainline_play_milestone_progress', 'TRUE'),
+            ('gameplay.mainline_play_milestone_decisions', 'TRUE'),
+            ('gameplay.mainline_play_collectible_entry_progress', 'TRUE'),
+            ('gameplay.mainline_play_pokedex_species_progress', 'TRUE'),
+            ('gameplay.mainline_play_events', 'TRUE'),
+            ('gameplay.mainline_play_event_pokemon_refs', 'TRUE'),
+            ('gameplay.mainline_play_event_team_snapshots', 'TRUE'),
+            ('gameplay.mainline_play_event_team_snapshot_moves', 'TRUE'),
+            ('gameplay.mainline_play_tags', 'TRUE'),
+            ('gameplay.mainline_play_pokemon_tags', 'TRUE'),
+            ('gameplay.mainline_play_challenge_rules', 'TRUE'),
+            ('planning.mainline_team_plans', 'TRUE'),
+            ('planning.mainline_team_plan_optional_content_scopes', 'TRUE'),
+            ('planning.mainline_team_plan_members', 'TRUE'),
+            ('planning.mainline_team_plan_member_moves', 'TRUE'),
+            ('planning.mainline_play_plan_links', 'TRUE')) AS tables (name, row_filter)
+        LOOP
+            SELECT
+                array_agg(columns.attname::text ORDER BY keys.position) INTO key_columns
+            FROM
+                pg_constraint primary_keys
+                CROSS JOIN LATERAL unnest(primary_keys.conkey)
+                WITH ORDINALITY AS keys (attnum, position)
+                JOIN pg_attribute columns ON columns.attrelid = primary_keys.conrelid
+                    AND columns.attnum = keys.attnum
+            WHERE
+                primary_keys.conrelid = user_table.name::regclass
+                AND primary_keys.contype = 'p';
+            EXECUTE format('INSERT INTO device.changes (table_name, row_key, column_name, changed_at) SELECT %L, device.row_key (to_jsonb (t), %L), %L, clock_timestamp() FROM %s t WHERE %s ON CONFLICT DO NOTHING', user_table.name, key_columns, '', user_table.name, user_table.row_filter);
+        END LOOP;
+END;
+$$;
+
+-- Your tables lost their row security (ADR 0008): on the device the one
+-- local user owns every row, and it runs as the database owner, so the API
+-- roles' grants never mattered here.
+DO $$
+DECLARE
+    user_policy record;
+BEGIN
+    FOR user_policy IN
+    SELECT
+        policies.polname AS name,
+        policies.polrelid::regclass AS table_name
+    FROM
+        pg_policy policies
+        JOIN pg_class tables ON tables.oid = policies.polrelid
+        JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+    WHERE
+        schemas.nspname IN ('public', 'gameplay', 'planning')
+        LOOP
+            EXECUTE format('DROP POLICY %I ON %s', user_policy.name, user_policy.table_name);
+        END LOOP;
+END;
+$$;
+
+DO $$
+DECLARE
+    user_table record;
+BEGIN
+    FOR user_table IN
+    SELECT
+        tables.oid::regclass AS name
+    FROM
+        pg_class tables
+        JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+    WHERE
+        tables.relkind = 'r'
+        AND tables.relrowsecurity
+        AND schemas.nspname IN ('public', 'gameplay', 'planning')
+        LOOP
+            EXECUTE format('ALTER TABLE %s DISABLE ROW LEVEL SECURITY', user_table.name);
+        END LOOP;
+END;
+$$;

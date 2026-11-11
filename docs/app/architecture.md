@@ -67,9 +67,8 @@ The active source follows these ownership rules:
   `detail/components` tree. `plays/shared` owns what several Mainline
   features draw or read: the moment, stamp and milestone pieces, the timeline
   and moment-context readers, the partner action, the Play library reader and
-  mappers, the start-a-Play pieces (partner cast, create-Play action and
-  command, picker query, start intent, `use-start-play`) that Home and New
-  Play share, and Add Pokémon (the sheet and its steps, the Play's rule
+  mappers, the start-a-Play pieces (partner cast, create-Play command,
+  `use-start-play`) that Home and New Play share, and Add Pokémon (the sheet and its steps, the Play's rule
   checks, the choices and build-option reads, and the add, replace and
   remove actions) that the Roster and the Codex share.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
@@ -98,7 +97,8 @@ src/
   config/                      # static application contracts
   platform/                    # framework and external-service infrastructure
     env/
-    supabase/
+    local-db/                  # the database on the device (ADR 0008)
+    supabase/                  # login and backups only
   features/                    # global application features
     app-shell/
     auth/
@@ -141,9 +141,9 @@ depend on runtime infrastructure or feature implementations.
 ### `src/platform`
 
 Infrastructure adapters owned by the application: environment parsing,
-authenticated and public Supabase clients, proxy/session helpers, and health
-integration. Platform code must not depend on product modules or application
-features.
+the database on the device (`local-db`), authenticated and public Supabase
+clients, proxy/session helpers, and health integration. Platform code must not
+depend on product modules or application features.
 
 ### `src/features`
 
@@ -259,9 +259,8 @@ src/modules/reference/
 The three TypeScript root files are the public contracts for cross-module
 catalogue types, data helpers, and paged/chunked reference reads. The game
 picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
-(`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`,
-`start-intent-resolver.ts`) also live in reference, so Start a Play, the auth
-pages, New Play and the Planner share them. `readGameCatalogue` (every game,
+(`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`) also live
+in reference, so Start a Play, New Play and the Planner share them. `readGameCatalogue` (every game,
 its first partners and expansions) is the one cached read: static reference data read without a session through
 `createPublicSupabaseClient` and `unstable_cache` (a day, tag
 `reference-games`), so the Mainline layout can hand New Play its games on
@@ -273,7 +272,7 @@ which fills that contract's `PublicPlayArt` with the Play's own pieces for the
 example Play on Home and Intro; routes, not global features, import either
 entry. Two more Mainline entries follow the same pattern: `public-you.ts`
 gives the You page (a global feature) its figures, and `public-codex.tsx`
-fills the Codex's signed-in slots. `src/modules/codex/codex-slots.ts` types
+fills the Codex's slots about your Plays. `src/modules/codex/codex-slots.ts` types
 those slots (an entry's Add to a Play and In your Plays, a game page's Start a
 Play, Plan a team and Your Plays, the Played counts on Games; the first and
 last open Mainline's Add Pokémon and Team Planner over the Codex page); the Codex routes fill them
@@ -423,7 +422,8 @@ sit beside the tests that use them.
 | UI reused across modules, with no Pokémon rules | `src/shared/components/`     |
 | Pokémon or game UI used by Mainline and Codex   | `src/modules/reference/...`  |
 | A hook, state or optimistic logic for a client  | `<feature>/client/`          |
-| A database read, or a Server Action             | `<feature>/server/`          |
+| A user-data read, save or action (the device)   | `<feature>/client/`          |
+| A server read (game data, the session)          | `<feature>/server/`          |
 | Pure mapping, models or selectors               | `<feature>/data/`            |
 | Small pure helpers, validation or formatting    | `<feature>/utils/`           |
 | Types for one feature                           | `<feature>/types.ts`         |
@@ -433,58 +433,125 @@ sit beside the tests that use them.
 `domain/` stays only in `reference`; `shell/` and `views/` stay only in the
 Play Hub; `styles/` holds only the Pokémon type colour tokens.
 
+## Where Data Lives
+
+[ADR 0008](../decisions/0008-user-data-on-the-device.md) keeps user data on
+the device:
+
+- **User data** (Plays, Team, Progress, History, Plans, Library, Collection,
+  Statistics, Home, Settings and the profile) lives in PGlite in the browser,
+  in IndexedDB. Every read and save goes through `src/platform/local-db`.
+  `architecture:check` forbids `src/modules/mainline` and
+  `src/features/settings` from importing `src/platform/supabase` at runtime;
+  Settings' account actions (email, password) are the one exception.
+- **Game data** (`reference` and `tracking`) arrives as one versioned file per
+  game, built from the seeds, plus a shared base file. The base installs when
+  the device database first opens; a game downloads the first time something
+  needs it (a Play starting, the Team Planner opening on it), with its
+  learnsets after, in the background. The game catalogue New Play, Home and
+  Collection show is still a cached server read until Codex pages are
+  pre-built (#256).
+- **Supabase** keeps login and account backups only. The app opens without
+  signing in; signed in, the device syncs with the account's backups
+  (`account-sync.ts`, started by `AccountSyncRunner` in the app layout).
+- **Backups and sync**: a backup is every row of yours (`user-data.ts`
+  names the tables) with the device's change records (`device.changes`,
+  filled by triggers from `device-changes.sql`), as a gzipped JSON file
+  (`backup-file.ts`). Account sync reads the newest backup, merges it with
+  the device's data (`sync-merge.ts`, pure: latest change per column, a
+  clash only when both sides changed the same thing since the last sync),
+  puts the result in place (`sync-snapshot.ts`) and uploads it
+  (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog.
+- **User-table changes** ship as device updates: numbered SQL files in
+  `database/device-updates/`, run in name order, recorded in
+  `device.updates`, after a copy of the whole database is kept.
+
+### The Device Database
+
+```txt
+src/platform/local-db/
+  open-local-db.ts       # opens it once per visit: schema, updates, base file
+  prepare-device.ts      # what opening does, and the problems it can report
+  device-updates.ts      # the device update runner
+  local-query-client.ts  # the query interface readers take, as SQL on the device
+  local-db-context.tsx   # LocalDbProvider, useLocalRead, save, notifyLocalSave
+  game-downloads.ts      # game files on first need, with useGameDownload
+  user-data.ts           # your tables, read whole and replaced in one go
+  backup-file.ts         # the backup file: format, upgrades, gzip
+  backups.ts             # save and restore a file, the "Last backup" note
+  device-changes.sql     # change records, after the schema on a new device
+  sync-merge.ts          # event merge of two snapshots, and its clashes
+  sync-snapshot.ts       # the device's side: snapshot, shape, apply
+  device-sync.ts         # one sync with an account's backups
+  account-backups.ts     # the account's backups on Supabase
+  account-sync.ts        # syncing while signed in, with useAccountSync
+```
+
+The app's layout wraps every app page in the device gate
+(`src/features/system/components/device-gate.tsx`): one short start screen
+while the database opens, then the page; or a screen for offline on a new
+device, a full device, a failed update, or a fresh start. Codex pieces about
+your Plays use the quiet boundary, which shows nothing until it's open.
+
+The readers and commands were written against Supabase's query interface
+(`.schema().from().select().eq()…`, `.rpc()`). `createLocalQueryClient` gives
+them that interface over PGlite, turning each chain into one plain SQL
+statement (flat and embedded selects, the filters Voydex uses, writes with
+`.select()`, and function calls), so a reader the Codex shares with Mainline is
+written once. Rows come back as the API sent them (dates as ISO text, numeric
+as numbers).
+
 ## Reads, Writes, And File Responsibilities
 
 The design goal is separation of concerns, not a fixed filename ritual.
 
 ### Reads
 
-For a simple read, one server file may create the appropriate client, perform
-the query, handle errors, and return a small typed result. A required read
-failure is not an empty product result: readers throw an explicit error or
-return a typed degraded state that the caller deliberately renders.
+A screen's route stays a thin server file that hands the address on to a
+client route component. That component reads its data on the device with
+`useLocalRead(key, read)` (or `useLocalPageData`, which adds not-found and the
+error page): `key` names everything the read depends on, and every read on
+screen runs again after a save. Device reads take milliseconds, so there are
+no loading skeletons.
 
 For a complex read, separate the responsibilities that need independent review
 or reuse:
 
 ```txt
-<use-case>-query.ts       # orchestration and public server entry
-<use-case>-reader.ts      # raw Supabase reads
+<use-case>-query.ts       # orchestration: asks the device for its client
+<use-case>-reader.ts      # raw reads, taking their client as a parameter
 <use-case>-mappers.ts     # pure row-to-model transformation
 ```
 
-Existing `*-loaders.ts` files are the same raw-read responsibility and can keep
-their names until their feature is migrated. Prefer `reader` for new code when
-it communicates database I/O more clearly.
-
-Keep files for one endpoint or use case together. Do not centralize all
-Supabase reads in one global service, and do not combine raw I/O, workflow
-decisions, mapping, and presentation in one large file.
+A required read failure is not an empty product result: readers throw an
+explicit error or return a typed degraded state that the caller deliberately
+renders. Do not centralize all reads in one global service, and do not
+combine raw I/O, workflow decisions, mapping, and presentation in one large
+file.
 
 ### Writes
 
-Use this direction for interactive application writes:
+Use this direction for interactive writes:
 
 ```txt
 Client Component
-  -> Server Action
+  -> action (client/, runs on the device)
   -> Zod input schema
   -> command/use case
-  -> repository or database RPC
-  -> constraints, grants, and RLS
+  -> repository or database function
+  -> constraints and triggers
+  -> notifyLocalSave (every read on screen runs again)
 ```
 
-The exact number of files depends on complexity. These responsibilities may be
-separate files within one `server` folder rather than separate responsibility
-folders. Every Server Action parses its input with Zod before any
-database call, through the helpers in `src/shared/utils/input-schemas.ts`
-(`parseInput` throws the schema's first message, `safeParseInput` returns
-it). Schemas sit beside the action, or in the feature's `utils/` when a
-parser is shared or tested on its own; the messages are the ones the form
-shows. Database constraints and RLS remain authoritative; UI checks are not
-authorization.
+Every action parses its input with Zod before any database call, through the
+helpers in `src/shared/utils/input-schemas.ts` (`parseInput` throws the
+schema's first message, `safeParseInput` returns it). Schemas sit beside the
+action, or in the feature's `utils/` when a parser is shared or tested on its
+own; the messages are the ones the form shows. Database constraints remain
+authoritative.
 
-Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
+Per [ADR 0008](../decisions/0008-user-data-on-the-device.md) (carried over
+from ADR 0005), a write that
 touches more than one table or creates a History moment goes through one
 database function so it is all-or-nothing: starting a Play
 (`gameplay.create_mainline_play`), saving a Plan
@@ -494,11 +561,11 @@ database function so it is all-or-nothing: starting a Play
 moment (`gameplay.update_mainline_play_general_settings`), choosing or undoing
 the partner (`gameplay.choose_mainline_play_partner`,
 `gameplay.undo_mainline_play_partner`) and deleting a Pokémon with its Added
-moment (`gameplay.remove_mainline_play_pokemon`) are each one RPC call; no
-Server Action writes in steps or undoes by hand. Readers, loaders,
-commands, repositories and writers take a Supabase client as a parameter; the
-query or Server Action that calls them creates it (a simple read may still be
-one `*-query.ts` that does both). `data/`, `domain/` and `utils/` never import
+moment (`gameplay.remove_mainline_play_pokemon`) are each one function call;
+no action writes in steps or undoes by hand. Readers, loaders, commands,
+repositories and writers take their database client as a parameter; the
+query or action that calls them gets it (`getLocalQueryClient`, or a server
+client for the Codex's game data). `data/`, `domain/` and `utils/` never import
 Next.js, React or `src/platform` at runtime; type-only imports are fine.
 `architecture:check` enforces both rules.
 
@@ -509,13 +576,12 @@ Next.js, React or `src/platform` at runtime; type-only imports are fine.
 - Components render data and own local interaction state; they do not create
   Supabase clients or issue raw schema reads.
 - Client Components may import Server Actions, but not server queries or raw
-  readers.
+  readers from `server/` folders.
 - Route Handlers are for public APIs, webhooks, or client islands that need an
   HTTP boundary. Normal server-rendered pages should call server use cases
   directly.
-- `src/proxy.ts` may refresh sessions and perform coarse redirects, but protected
-  Server Components, Server Actions, and Route Handlers must enforce their own
-  authorization.
+- `src/proxy.ts` refreshes the session on app routes; it never sends anyone
+  to log in, since the app opens without signing in.
 
 ## File Size And Naming
 
@@ -543,7 +609,7 @@ Current route groups remain:
 - system: `/app`;
 - public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
   Pokedex routes;
-- protected app: Mainline Home (`/mainline`), Plays and New Play, every Play
+- app (open to everyone, data on the device): Mainline Home (`/mainline`), Plays and New Play, every Play
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
   (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,

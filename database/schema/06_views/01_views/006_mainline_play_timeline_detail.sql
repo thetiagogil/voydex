@@ -84,4 +84,4 @@ FROM
             mainline_play_event_team_snapshots.event_id = mainline_play_events.id
 ) AS team_snapshots ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_timeline_detail IS 'Timeline events with display labels and attached Pokémon history. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_timeline_detail IS 'Timeline events with display labels and attached Pokémon history. Uses security_invoker.';

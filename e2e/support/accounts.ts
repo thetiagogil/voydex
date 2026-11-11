@@ -20,8 +20,5 @@ export const testPassword = "123456";
 export const newTestEmail = (label: string) =>
   `e2e-${label}-${randomUUID().slice(0, 8)}@voydex.test`;
 
-/* The signed-in session the setup project saves for every other test. */
-export const trainerStatePath = "e2e/.auth/trainer.json";
-
 /* For tests that start signed out. */
 export const signedOut = { cookies: [], origins: [] };

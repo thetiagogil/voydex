@@ -5,6 +5,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
+import { getGameDataPercent } from "@/platform/local-db/game-data";
+import { useGameDownload } from "@/platform/local-db/game-downloads";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayExpansions } from "@/modules/mainline/features/plays/new/components/new-play-expansions";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
@@ -27,6 +29,7 @@ import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { FieldLabel } from "@/shared/components/ui/field";
+import { Progress } from "@/shared/components/ui/progress";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -139,6 +142,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const tracking =
     editedTracking ?? data.trackingDefaults ?? defaultPlayTracking;
   const { isPending, startPlay } = useStartPlay();
+  const download = useGameDownload();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
   const isFirstRender = useRef(true);
@@ -378,12 +382,26 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       ) : null}
 
       <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
-        <p
-          aria-live="polite"
-          className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto"
-        >
-          {summary}
-        </p>
+        {download ? (
+          <div className="mr-auto flex min-w-0 basis-full flex-col gap-1.5 sm:basis-64">
+            <p aria-live="polite" className="text-ink-2 text-14 font-semibold">
+              {download.progress.step === "downloading"
+                ? `Downloading ${download.name}`
+                : `Saving ${download.name} on this device`}
+            </p>
+            <Progress
+              aria-label="Game download"
+              value={getGameDataPercent(download.progress)}
+            />
+          </div>
+        ) : (
+          <p
+            aria-live="polite"
+            className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto"
+          >
+            {summary}
+          </p>
+        )}
         {step === 1 ? (
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancel

@@ -39,4 +39,4 @@ GROUP BY
     mainline_collection_used_identities.form_slug,
     mainline_collection_used_identities.form_name;
 
-COMMENT ON VIEW views.mainline_collection_detail IS 'Aggregated Pokémon usage by user and species/form. Uses security_invoker so underlying gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_collection_detail IS 'Aggregated Pokémon usage by user and species/form. Uses security_invoker.';

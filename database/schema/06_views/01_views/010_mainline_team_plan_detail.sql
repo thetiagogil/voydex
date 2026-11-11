@@ -53,4 +53,4 @@ FROM
             mainline_team_plan_member_moves.team_plan_member_id = mainline_team_plan_members.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_team_plan_detail IS 'Ordered team Plan members with target identity, optional build preferences, and planned moves. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_detail IS 'Ordered team Plan members with target identity, optional build preferences, and planned moves. Uses security_invoker.';

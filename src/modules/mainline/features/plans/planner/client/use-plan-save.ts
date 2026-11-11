@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { clearPlanDraft } from "@/modules/mainline/features/plans/planner/client/use-plan-draft";
-import { savePlanAction } from "@/modules/mainline/features/plans/planner/server/save-plan-action";
+import { savePlanAction } from "@/modules/mainline/features/plans/planner/client/save-plan-action";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
 

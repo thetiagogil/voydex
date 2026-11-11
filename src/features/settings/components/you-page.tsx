@@ -130,9 +130,12 @@ export const YouPage = ({
           />
         </nav>
       </Card>
-      <form action={signOutAction} className="mt-5.5">
-        <SettingsLogOutButton className="w-full" />
-      </form>
+      {/* Signing in is only for backups: Log out shows once you have. */}
+      {email ? (
+        <form action={signOutAction} className="mt-5.5">
+          <SettingsLogOutButton className="w-full" />
+        </form>
+      ) : null}
     </div>
   );
 };

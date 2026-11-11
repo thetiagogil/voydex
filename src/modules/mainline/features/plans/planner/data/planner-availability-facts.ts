@@ -1,4 +1,4 @@
-import type { PlannerAvailabilityRow } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
+import type { PlannerAvailabilityRow } from "@/modules/mainline/features/plans/planner/client/planner-pool-reader";
 import type { PlannerPokemonFacts } from "@/modules/mainline/features/plans/types";
 import { getVersionExclusives } from "@/modules/reference/features/games/domain/version-exclusives";
 

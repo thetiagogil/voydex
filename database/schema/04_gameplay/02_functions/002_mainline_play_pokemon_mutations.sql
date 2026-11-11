@@ -824,62 +824,62 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGE
 
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) TO service_role;
 
-COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds a play Pokémon with optional current moves and optional Pokémon Added timeline event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds a play Pokémon with optional current moves and optional Pokémon Added timeline event/ref. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER.';

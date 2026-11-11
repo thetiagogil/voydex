@@ -61,4 +61,4 @@ FROM
     JOIN reference.version_groups ON version_groups.id = mainline_team_plans.version_group_id
     JOIN reference.generations ON generations.id = games.generation_id;
 
-COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker so planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_team_plan_summary IS 'Compact team Plan summary rows with ordered-member and linked-Play counts. Uses security_invoker.';

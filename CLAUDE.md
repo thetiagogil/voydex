@@ -1,7 +1,8 @@
 # Voydex
 
 Voydex is a Pokémon companion app: Next.js 16 App Router, React 19, strict
-TypeScript, Tailwind v4, shadcn-style primitives on Base UI, and Supabase.
+TypeScript, Tailwind v4, shadcn-style primitives on Base UI, PGlite on the
+device for user data, and Supabase for login and backups.
 **Mainline** owns playthrough workflows (Plays, Team, Progress, History, Plans,
 Settings); **Codex** owns shared reference browsing; the internal
 **reference** module owns Pokémon and game contracts both consume.
@@ -32,10 +33,10 @@ Read only what the task needs:
   [Reference Data](./docs/database/reference-data.md) for database work.
 - [Workflow](./docs/app/workflow.md) for issues, labels, branches, releases
   and how each platform feature is used.
-- [ADR 0005](./docs/decisions/0005-postgres-is-the-backend.md),
+- [ADR 0008](./docs/decisions/0008-user-data-on-the-device.md),
   [0006](./docs/decisions/0006-installable-web-app-first.md) and
-  [0007](./docs/decisions/0007-development-workflow.md) for the backend,
-  phone and workflow decisions.
+  [0007](./docs/decisions/0007-development-workflow.md) for the data, phone
+  and workflow decisions.
 - Nearby code, generated types, tests, and configuration, always.
 
 Implementation evidence overrides stale documentation. Update the canonical
@@ -70,14 +71,22 @@ task; use more only when the user asks for parallel work on independent scopes.
 - Keep `src/app` routes thin. Product implementation belongs under
   `src/modules`; global workflows (auth, app shell, settings, site, system)
   belong under `src/features`.
-- Framework, environment and Supabase adapters belong under `src/platform`.
+- Framework, environment, device database and Supabase adapters belong under
+  `src/platform`.
+- User data lives on the device ([ADR 0008](./docs/decisions/0008-user-data-on-the-device.md)):
+  every user-data read and save goes through `src/platform/local-db`, never
+  Supabase (`architecture:check` enforces it for Mainline and Settings).
+  Readers, commands and actions that run on the device live in `client/`
+  folders. The app opens without signing in; Supabase is for login and
+  backups only.
 - Only domain-neutral primitives and documented app-wide visual primitives
   belong under `src/shared`. `src/lib` is retired; do not recreate root `lib`,
   `components`, `constants` or `types` buckets.
 - Cross-module dependencies point toward `reference`; product modules do not
   depend laterally on each other.
-- Never create Supabase clients or raw `.schema(...)` reads in UI components.
-  Client Components may import Server Actions, never server queries or readers.
+- Never create Supabase clients, run SQL or make raw `.schema(...)` reads in
+  UI components. Client Components may import Server Actions, never server
+  queries or readers.
 
 ## Database Boundaries
 
@@ -96,7 +105,15 @@ task; use more only when the user asks for parallel work on independent scopes.
   aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
 - A write that touches more than one table or creates a History moment goes
-  through one database function; Server Actions stay thin adapters.
+  through one database function; Server Actions and `local-db` calls stay thin
+  adapters.
+- Seeds stay the source of truth for game data; a release builds the game
+  data files from them. From launch on, a game data ID never disappears
+  without an entry in the ID changes list, and a user-table change ships as a
+  device update that saves a copy first and is tested against an old backup.
+- RLS guards only tables hosted Supabase serves. Every table keeps its
+  policies until the hosted reset that drops it (#248); after that only
+  `user_backups` has them.
 - Remote writes, linked-project operations, production mutation and
   destructive local state are separate authority gates: each needs the user's
   explicit approval in this conversation.

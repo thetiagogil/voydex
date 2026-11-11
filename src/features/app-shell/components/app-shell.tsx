@@ -7,26 +7,31 @@ import { NavigationLinks } from "@/features/app-shell/components/navigation/navi
 import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
-import type { SignedInAccount } from "@/features/app-shell/types";
+import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
 import {
   getBrandHref,
   mainlineLinks,
   publicLinks,
 } from "@/features/app-shell/utils/app-navigation";
-import { FoldsOpenProvider } from "@/shared/components/fold";
+import { AccountFoldsProvider } from "@/features/app-shell/components/account-folds-provider";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppShellProps = {
-  /* Who is signed in; null or left out for the signed-out frame. */
-  account?: SignedInAccount | null;
+  /* The signed-in account's email, for the app frame; null when signed out. */
+  email?: string | null;
   /*
-   * The signed-out top bar: `full` (the V and name, how it works, the Codex,
+   * `app` for the app and the Codex, which everyone uses with their data on
+   * this device; `site` (the default) for the site and the log-in pages.
+   */
+  frame?: "app" | "site";
+  /*
+   * The site's top bar: `full` (the V and name, how it works, the Codex,
    * Log in), `door` (the front door: Log in alone, no pill, the meadow
    * carries the name) or `none` (the log-in pages, which link home
-   * themselves). Signed in, the bar is always full.
+   * themselves). The app's bar is always full.
    */
   bar?: "door" | "full" | "none";
   children: React.ReactNode;
@@ -43,10 +48,12 @@ type AppShellProps = {
  * edge to edge under the bar, which sits on the band's colour.
  */
 export const AppShell = ({
-  account,
   bar = "full",
   children,
+  email = null,
+  frame = "site",
 }: AppShellProps) => {
+  const isApp = frame === "app";
   const logIn = (
     <Link
       href={appRoutes.login}
@@ -61,17 +68,17 @@ export const AppShell = ({
     </Link>
   );
 
-  return (
+  const frameTree = (
     <div
       className={cn(
         "relative isolate flex min-h-svh w-full flex-col overflow-x-clip",
-        account
+        isApp
           ? "pb-[calc(4.75rem+env(safe-area-inset-bottom))] [--toast-bottom:5.75rem] lg:pb-0 lg:[--toast-bottom:1.5rem]"
           : "[--toast-bottom:1.5rem]",
       )}
     >
-      {account ? <MotionPreferenceMark motion={account.motion} /> : null}
-      {account ? (
+      {isApp ? <MotionPreferenceMark /> : null}
+      {isApp ? (
         <AppNavbar
           brandHref={getBrandHref(true)}
           showName
@@ -88,7 +95,7 @@ export const AppShell = ({
           }
           end={
             <div className="hidden items-center lg:flex">
-              <UserMenu account={account} />
+              <UserMenu />
             </div>
           }
         />
@@ -118,13 +125,21 @@ export const AppShell = ({
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-          <FoldsOpenProvider open={account?.searchFilters === "open"}>
-            {children}
-          </FoldsOpenProvider>
+          {isApp ? (
+            <AccountFoldsProvider>{children}</AccountFoldsProvider>
+          ) : (
+            children
+          )}
         </div>
       </main>
-      {account ? <AppTabBar account={account} /> : <SiteFooter />}
+      {isApp ? <AppTabBar /> : <SiteFooter />}
       <Toaster />
     </div>
+  );
+
+  return isApp ? (
+    <AppAccountProvider email={email}>{frameTree}</AppAccountProvider>
+  ) : (
+    frameTree
   );
 };

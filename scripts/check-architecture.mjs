@@ -701,9 +701,19 @@ async function checkFile(filePath) {
   }
 
   const fileName = segments.at(-1) ?? "";
+  /* Readers and commands run on the server or, moved to client/, on the device. */
   const isPortableServerFile =
-    segments.at(-2) === "server" &&
+    ["client", "server"].includes(segments.at(-2) ?? "") &&
     /-(reader|loaders|command|commands|repository|writer)\.ts$/.test(fileName);
+  /*
+   * Code that reads or saves user data. Signing in (Settings' account
+   * actions) is the one thing here that still talks to Supabase.
+   */
+  const isUserDataFile =
+    (startsWithSegments(segments, ["modules", "mainline"]) ||
+      startsWithSegments(segments, ["features", "settings"])) &&
+    segments.join("/") !== "features/settings/server/account-actions.ts" &&
+    !/\.test\.tsx?$/.test(fileName);
   const isPureFile =
     ["modules", "features"].includes(segments[0]) &&
     segments.some((segment) => pureFolderNames.has(segment)) &&
@@ -739,7 +749,20 @@ async function checkFile(filePath) {
       addImportViolation(
         violations,
         normalizePath(path.relative(projectRoot, filePath)),
-        "readers, loaders, commands, repositories and writers take their Supabase client as a parameter; create it in the query or Server Action",
+        "readers, loaders, commands, repositories and writers take their database client as a parameter; create it in the query, Server Action or device hook",
+        specifier,
+      );
+    }
+
+    if (
+      isUserDataFile &&
+      hasRuntimeImport &&
+      specifier.startsWith("@/platform/supabase/")
+    ) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, filePath)),
+        "user data lives on the device (ADR 0008): Mainline and Settings read and save through src/platform/local-db, never Supabase",
         specifier,
       );
     }

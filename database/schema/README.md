@@ -11,9 +11,11 @@ Load order:
 5. `04_gameplay`
 6. `05_planning`
 7. `06_views`
-8. `07_private`, if later needed for additional internal-only objects
+8. `07_backups`: hosted Supabase only (account backups and their storage
+   bucket); the device schema leaves it out
+9. `08_private`, if later needed for additional internal-only objects
 
-Within a schema folder, numbered child folders define dependency order. For example, `01_public/01_tables` runs before `01_public/02_functions`, which runs before `01_public/03_policies`. Gameplay follows the same pattern with tables before app-facing mutation functions and policies. Reference tables use the same pattern, with table files before read policies.
+Within a schema folder, numbered child folders define dependency order. For example, `01_public/01_tables` runs before `01_public/02_functions`, which runs before `01_public/03_policies` (for your tables, now only grants: they live on the device and the API roles get nothing). Gameplay follows the same pattern with tables before mutation functions and grants. Reference tables use the same pattern, with table files before read policies.
 
 The local Supabase wrapper migration is generated from these reviewed source files at `../supabase/migrations/00000000000000_voydex_current_schema.sql`. Edit the source files here first, then regenerate through the existing npm scripts.
 

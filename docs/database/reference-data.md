@@ -329,7 +329,7 @@ sources remain authoritative for game-specific mechanics and availability.
   Blue are its six battles, fought back to back, and the team enters the Hall
   of Fame, so Red / Blue has no League chapter and no separate Elite Four or
   Hall of Fame milestones. Cerulean Cave is post-game. Source: Bulbapedia's
-  Red / Blue walkthrough and location pages. `560_story_places.sql` pins
+  Red / Blue walkthrough and location pages. `590_story_places.sql` pins
   them and `580_rb_pokemon_league.sql` pins the League.
 - Story roadmap (`tracking.mainline_roadmap_steps`): the walkthrough step by
   step, copied from Bulbapedia's walkthrough for the version group, so a
