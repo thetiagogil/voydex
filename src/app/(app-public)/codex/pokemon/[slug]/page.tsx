@@ -1,7 +1,4 @@
-import { notFound, redirect } from "next/navigation";
-
-import { getDefaultPokemonDetailVersionGroupSlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-route-query";
-import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
+import { PokemonSpeciesPage } from "@/modules/codex/features/pokemon/detail/pokemon-species-page";
 
 type PageProps = {
   params: Promise<{
@@ -21,26 +18,18 @@ const getSingleSearchParam = (value?: string | string[]) => {
 
 /* A species alone opens its entry in a version group; old query addresses keep their group. */
 export default async function Page({ params, searchParams }: PageProps) {
-  const { slug: speciesSlug } = await params;
-  const { form, game, generation, versionGroup } = await searchParams;
-  const versionGroupSlug = await getDefaultPokemonDetailVersionGroupSlug(
-    speciesSlug,
-    {
-      form: getSingleSearchParam(form),
-      game: getSingleSearchParam(game),
-      generation: getSingleSearchParam(generation),
-      versionGroup: getSingleSearchParam(versionGroup),
-    },
-  );
+  const [{ slug }, { form, game, generation, versionGroup }] =
+    await Promise.all([params, searchParams]);
 
-  if (!versionGroupSlug) {
-    notFound();
-  }
-
-  redirect(
-    getPokemonDetailScopeHref(speciesSlug, {
-      form: getSingleSearchParam(form),
-      versionGroup: versionGroupSlug,
-    }),
+  return (
+    <PokemonSpeciesPage
+      legacyScope={{
+        form: getSingleSearchParam(form),
+        game: getSingleSearchParam(game),
+        generation: getSingleSearchParam(generation),
+        versionGroup: getSingleSearchParam(versionGroup),
+      }}
+      speciesSlug={slug}
+    />
   );
 }

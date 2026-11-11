@@ -37,11 +37,11 @@ uses only `NEXT_PUBLIC_SUPABASE_URL` and
 [ADR 0008](../decisions/0008-user-data-on-the-device.md) runs one schema in
 three places:
 
-| Place                     | What it holds                                                                                                                                          |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files                                                                        |
-| The device (PGlite)       | Each user's own data, plus the game data files for the games they play                                                                                 |
-| Hosted Supabase           | Login (Auth), `user_backups` with each user's private backup folder, and (until the Codex is pre-built, #256) `reference` and `tracking` for the Codex |
+| Place                     | What it holds                                                                                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files                                                                                           |
+| The device (PGlite)       | Each user's own data, plus the game data files for the games they play                                                                                                    |
+| Hosted Supabase           | Login (Auth), `user_backups` with each user's private backup folder, and (until the hosted reset drops them) the `reference` and `tracking` tables nothing reads any more |
 
 - The device loads the tables, functions and views from `database/schema`.
   `auth.uid()` returns one fixed local user there, so functions that check
@@ -56,8 +56,9 @@ three places:
   `planning` and the `mainline_` views) carry no row security, and the API
   roles get no access to them: hosted Supabase never serves them.
 - Hosted Supabase is reset (old user data and accounts dropped, game data
-  re-seeded) before launch, with the owner's approval. Once the Codex is
-  pre-built (#256) it holds only auth and backups.
+  re-seeded) before launch, with the owner's approval. The Codex reads
+  pre-built files (#256, below), so no page reads hosted game data; dropping
+  `reference` and `tracking` there leaves only auth and backups.
 
 ### The Device Database
 
@@ -106,10 +107,48 @@ release checks, and writes to `public/game-data/` (ignored by Git):
 - The device checks a downloaded file against the hash in the version list,
   and refuses files built for another schema.
 
+### Codex Files
+
+`npm run codex:build` (`scripts/codex/build-codex-data.mts`, run with `tsx`,
+about 35 seconds after `game-data:build`) installs every game data file into
+an in-memory device database, exactly as a device would, runs the Codex's
+`server/` readers over it and writes one gzipped JSON file per page to
+`public/codex-data/` (ignored by Git). The Codex pages, and every game picker,
+download their file in the browser; no page reads a database for game data.
+
+| File                              | What it holds                                                          |
+| --------------------------------- | ---------------------------------------------------------------------- |
+| `pokemon/<species>.json.gz`       | A species' entry rows, every game's (the page builds and scopes them)  |
+| `pokemon.json.gz`                 | Pokémon browse                                                         |
+| `pokemon-menu/<group>.json.gz`    | The species picker of a base version group, every Pokémon in it        |
+| `games.json.gz`                   | Games browse rows (the page applies its filters)                       |
+| `games/<group>.json.gz`           | A base version group's page rows, every game of it                     |
+| `games/<group>/<pokedex>.json.gz` | One Pokédex of a base version group or its expansions                  |
+| `version-groups.json.gz`          | Every game and version group, which Codex addresses resolve against    |
+| `game-catalogue.json.gz`          | The game pickers' catalogue (Start a Play, New Play, Home, Collection) |
+
+- Image addresses depend on where the app runs, so a file keeps them as
+  `voydex-asset:/…` paths and reading it fills in the app's own assets site
+  (`src/platform/prebuilt-data`). Row timestamps are left out, so a file
+  only changes when its data does.
+- `cf:build`, `cf:preview` and `cf:deploy` build the game data files, then
+  these. `npm run verify` builds both, so a reader that no longer fits the
+  seeds fails before merging.
+- The pages answer every address with the app and settle it in the
+  browser: an address that names no file shows the not-found page, and a
+  game's or an expansion's old address moves on to its base group with a
+  client-side redirect (no 404 or 308 status from the server).
+- `npm run dev` warns when the files are missing (`scripts/codex/check-codex-data.mjs`):
+  without them every Codex page is not found.
+- `architecture:check` keeps Codex pages and routes off any database client
+  and keeps the Codex's `server/` readers out of the app: only the build
+  runs them.
+
 ### Release Checks
 
-`npm run game-data:check` runs them alone; `npm run verify` runs it, GitHub
-does not. Both compare against the last release, recorded in
+`npm run game-data:check` runs them alone; `npm run game-data:build` runs
+them before writing, so `npm run verify` (which builds the files) runs them,
+and GitHub's quality checks do not. Both compare against the last release, recorded in
 `database/game-data/last-release.json` by `npm run game-data:build --
 --release`. Until launch nothing is recorded and both pass, so IDs and the
 schema change freely; the first `--release` is run at launch.

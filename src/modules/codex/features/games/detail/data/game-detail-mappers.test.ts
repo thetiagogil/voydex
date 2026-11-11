@@ -5,7 +5,7 @@ import {
   buildGameFirstPartners,
   pickGameDetailVersion,
 } from "@/modules/codex/features/games/detail/data/game-detail-mappers";
-import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
+import type { GameDetailRows } from "@/modules/codex/features/games/detail/data/game-detail-mappers";
 import type {
   Game,
   GameStarters,

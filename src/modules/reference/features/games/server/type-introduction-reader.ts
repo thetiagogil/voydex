@@ -1,5 +1,4 @@
 import type { TypeIntroduction } from "@/modules/reference/features/games/domain/game-types";
-import type { PublicSupabaseClient } from "@/platform/supabase/public-client";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
@@ -7,7 +6,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
  * series' order, for `getGameTypes`.
  */
 export const readTypeIntroductions = async (
-  supabase: PublicSupabaseClient | ServerSupabaseClient,
+  supabase: ServerSupabaseClient,
 ): Promise<TypeIntroduction[]> => {
   const { data, error } = await supabase
     .schema("reference")

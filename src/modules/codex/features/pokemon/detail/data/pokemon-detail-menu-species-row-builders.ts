@@ -28,7 +28,7 @@ export const comparePokemonSpeciesByNationalNumber = (
 };
 
 export const matchesPokemonMenuQuery = (
-  pokemonSpecies: PokemonSpecies,
+  pokemonSpecies: Pick<PokemonSpecies, "name" | "national_number" | "slug">,
   query: string,
   pokedexNumber?: number | null,
 ) => {

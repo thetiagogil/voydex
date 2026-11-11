@@ -13,11 +13,10 @@ import type {
 } from "@/modules/reference/features/games/types";
 import type { Game } from "@/modules/reference/shared/database-types";
 import { loadChunkedReferenceRows } from "@/modules/reference/shared/server/reference-row-loaders";
-import type { PublicSupabaseClient } from "@/platform/supabase/public-client";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
-type ReferenceClient = PublicSupabaseClient | ServerSupabaseClient;
+type ReferenceClient = ServerSupabaseClient;
 
 const STARTER_METHOD_SLUG = "starter";
 

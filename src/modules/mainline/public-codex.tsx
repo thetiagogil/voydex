@@ -8,7 +8,6 @@ import { readIsFavouritePokemon } from "@/modules/mainline/features/collection/c
 import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/components/codex-add-to-play";
 import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";
-import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { filterPlaysWithSpecies } from "@/modules/mainline/features/plays/browse/data/codex-plays-model";
 import {
@@ -70,13 +69,9 @@ const onDevice = <Props extends object>(Piece: (props: Props) => ReactNode) => {
  * to the new Play. The card waits for the device database, which New Play
  * reads and saves through.
  */
-const CodexNewPlayHost = ({
-  children,
-  newPlay,
-}: {
-  children: ReactNode;
-  newPlay: NewPlayDialogData;
-}) => <NewPlayDialogProvider data={newPlay}>{children}</NewPlayDialogProvider>;
+const CodexNewPlayHost = ({ children }: { children: ReactNode }) => (
+  <NewPlayDialogProvider>{children}</NewPlayDialogProvider>
+);
 
 const getAddItems = (plays: CodexPlay[]) =>
   plays.map((play) => ({
@@ -256,8 +251,6 @@ export const CodexFavouriteButton = onDevice(
 type CodexInYourPlaysProps = {
   /* The shown form; left out for the default form. */
   formSlug?: string | null;
-  /* New Play's games, read on the server by the page. */
-  newPlay: NewPlayDialogData;
   speciesSlug: string;
 };
 
@@ -267,7 +260,7 @@ type CodexInYourPlaysProps = {
  * Pokémon over the entry) or Start a Play always in line with the title.
  */
 export const CodexInYourPlays = onDevice(
-  ({ formSlug = null, newPlay, speciesSlug }: CodexInYourPlaysProps) => {
+  ({ formSlug = null, speciesSlug }: CodexInYourPlaysProps) => {
     const read = usePieceRead(
       `codex-in-your-plays:${speciesSlug}`,
       async () => {
@@ -303,7 +296,7 @@ export const CodexInYourPlays = onDevice(
     );
 
     return (
-      <CodexNewPlayHost newPlay={newPlay}>
+      <CodexNewPlayHost>
         <DetailSectionCard
           title="In your Plays"
           aside={
@@ -364,8 +357,6 @@ type CodexGameYourPlaysProps = {
   /* The game picked in the page's version switch, as "Sword". */
   gameShortName: string;
   gameSlug: string;
-  /* New Play's games, read on the server by the page. */
-  newPlay: NewPlayDialogData;
   versionGroupSlug: string;
 };
 
@@ -375,12 +366,7 @@ type CodexGameYourPlaysProps = {
  * (New Play with the picked game) and Plan a team in line with the title.
  */
 export const CodexGameYourPlays = onDevice(
-  ({
-    gameShortName,
-    gameSlug,
-    newPlay,
-    versionGroupSlug,
-  }: CodexGameYourPlaysProps) => {
+  ({ gameShortName, gameSlug, versionGroupSlug }: CodexGameYourPlaysProps) => {
     const library = usePieceRead("codex-plays", () => readCodexPlays());
 
     /* A read failed: hide the card rather than claim "none yet". */
@@ -393,7 +379,7 @@ export const CodexGameYourPlays = onDevice(
     );
 
     return (
-      <CodexNewPlayHost newPlay={newPlay}>
+      <CodexNewPlayHost>
         <DetailSectionCard
           title="Your Plays"
           aside={

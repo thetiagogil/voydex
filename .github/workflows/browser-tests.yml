@@ -112,6 +112,11 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_URL=$api_url" >> "$GITHUB_ENV"
           echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$publishable_key" >> "$GITHUB_ENV"
 
+      # The game data files the device installs and the Codex's pre-built
+      # files the pages read (no Docker needed).
+      - name: Build the game data and Codex files
+        run: npm run game-data:build && npm run codex:build
+
       - name: Build
         run: npm run build
 

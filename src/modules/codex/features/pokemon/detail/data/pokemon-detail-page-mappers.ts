@@ -23,7 +23,8 @@ import type {
   PokemonDetailData,
 } from "@/modules/reference/types";
 
-type BuildPokemonDetailDataParams = {
+/* What a species' entry is built from (pre-built per species). */
+export type PokemonDetailRows = {
   baseRows: PokemonDetailBaseRows;
   evolutionMethods: EvolutionMethod[];
   learnsetMoveRows: PokemonDetailLearnsetMoveRows;
@@ -37,7 +38,7 @@ export const buildPokemonDetailData = ({
   learnsetMoveRows,
   relatedRows,
   speciesRows,
-}: BuildPokemonDetailDataParams): PokemonDetailData => {
+}: PokemonDetailRows): PokemonDetailData => {
   const typeById = byId(baseRows.types);
   const generationById = byId(baseRows.generations);
   const versionGroupById = byId(baseRows.versionGroups);

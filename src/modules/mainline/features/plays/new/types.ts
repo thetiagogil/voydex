@@ -2,7 +2,6 @@ import type { PlayTracking } from "@/config/play-tracking";
 import type { ChallengeRuleChoice } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
-import type { GameCatalogue } from "@/modules/reference/features/games/types";
 
 /* Where New Play opens: a game (and partner) from a trigger or the address. */
 export type NewPlayInitialChoice = {
@@ -19,13 +18,4 @@ export type NewPlayWizardData = NewPlayPickerData & {
   rules: ChallengeRuleChoice[];
   /* What a new Play starts tracking: your New Play defaults; null when they couldn't be read. */
   trackingDefaults: PlayTracking | null;
-};
-
-/*
- * What the server hands the New Play dialog for the visit to Mainline: the
- * game catalogue (null when the games couldn't be read). The rest (your
- * rules, defaults and trainer name) is read on the device.
- */
-export type NewPlayDialogData = {
-  catalogue: GameCatalogue | null;
 };

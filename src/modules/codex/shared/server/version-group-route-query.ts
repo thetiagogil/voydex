@@ -1,14 +1,5 @@
-import { cache } from "react";
-
-import {
-  createServerSupabaseClient,
-  type ServerSupabaseClient,
-} from "@/platform/supabase/server-client";
-import {
-  resolveVersionGroupRoute,
-  type VersionGroupRoute,
-  type VersionGroupRouteRows,
-} from "@/modules/reference/features/games/domain/version-groups";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import type { VersionGroupRouteRows } from "@/modules/reference/features/games/domain/version-groups";
 
 /* Every game and version group: two small tables the Codex addresses resolve against. */
 export const loadVersionGroupRouteRows = async (
@@ -35,23 +26,4 @@ export const loadVersionGroupRouteRows = async (
     games: gamesResult.data ?? [],
     versionGroups: versionGroupsResult.data ?? [],
   };
-};
-
-/* Read once per request: a route's guard and its page share it. */
-export const getCodexVersionGroupRouteRows = cache(
-  async (): Promise<VersionGroupRouteRows> => {
-    const supabase = await createServerSupabaseClient();
-
-    return loadVersionGroupRouteRows(supabase);
-  },
-);
-
-/*
- * What a Codex address segment names: a base version group (canonical), or a
- * game or expansion that redirects to one. Null for an unknown slug.
- */
-export const getCodexVersionGroupRoute = async (
-  slug: string,
-): Promise<VersionGroupRoute | null> => {
-  return resolveVersionGroupRoute(slug, await getCodexVersionGroupRouteRows());
 };

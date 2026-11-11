@@ -1,4 +1,3 @@
-import type { GamesPageRows } from "@/modules/codex/features/games/browse/server/games-page-loaders";
 import { isGameKind } from "@/modules/reference/features/games/domain/game-kinds";
 import {
   buildGameCards,
@@ -6,7 +5,27 @@ import {
   normalizeSearchQuery,
   normalizeSlug,
 } from "@/modules/reference/reference-data";
-import type { GamesPageData } from "@/modules/reference/types";
+import type {
+  Game,
+  GamePlatform,
+  GamesPageData,
+  GameType,
+  Generation,
+  Platform,
+  Region,
+  VersionGroup,
+} from "@/modules/reference/types";
+
+/* The Games browse page's rows (pre-built), mapped with the page's filters. */
+export type GamesPageRows = {
+  gamePlatforms: GamePlatform[];
+  gameTypes: GameType[];
+  games: Game[];
+  generations: Generation[];
+  platforms: Platform[];
+  regions: Region[];
+  versionGroups: VersionGroup[];
+};
 
 type GamesPageMapperParams = {
   kind?: string | null;

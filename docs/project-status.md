@@ -35,10 +35,11 @@ issues, in order:
    (#256).
 
 Left after #247: updating a game file that changed in a new release (a device
-keeps the one it has; Start fresh is the way out before launch), and the
-cached server read of the game catalogue, which moves with #256. The
-Milestones and collectibles review (#199, pull request #243) waits until this
-work is done.
+keeps the one it has; Start fresh is the way out before launch). #256 moves
+the Codex and the game catalogue to pre-built files (`npm run codex:build`),
+so no page reads hosted game data; hosted `reference` and `tracking` can then
+go in a hosted step (needs the owner's approval). The Milestones and
+collectibles review (#199, pull request #243) waits until this work is done.
 
 ## Checkpoint (2026-10-19)
 
