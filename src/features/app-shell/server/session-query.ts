@@ -6,6 +6,8 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 export type Session = {
   /* Null when the claims carry no email. */
   email: string | null;
+  /* The account's id, the folder its backups live in. */
+  userId: string;
 };
 
 /*
@@ -22,5 +24,8 @@ export const readSession = cache(async (): Promise<Session | null> => {
     return null;
   }
 
-  return { email: typeof claims.email === "string" ? claims.email : null };
+  return {
+    email: typeof claims.email === "string" ? claims.email : null,
+    userId: claims.sub,
+  };
 });

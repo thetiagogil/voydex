@@ -183,14 +183,14 @@ REVOKE ALL ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UU
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) TO service_role;
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) TO service_role;
 
-COMMENT ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) IS 'Sets or clears sparse collectible entry progress for a play. Row existence means collected. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.set_mainline_play_collectible_entry_progress (UUID, INTEGER, BOOLEAN, TIMESTAMPTZ) IS 'Sets or clears sparse collectible entry progress for a play. Row existence means collected. Runs as SECURITY INVOKER.';
 
-COMMENT ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) IS 'Sets or clears sparse species-level Pokedex progress for a play, enforcing caught-implies-seen behavior. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.set_mainline_play_pokedex_species_progress (UUID, INTEGER, BOOLEAN, BOOLEAN, TIMESTAMPTZ, TIMESTAMPTZ) IS 'Sets or clears sparse species-level Pokedex progress for a play, enforcing caught-implies-seen behavior. Runs as SECURITY INVOKER.';

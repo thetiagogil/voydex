@@ -185,8 +185,8 @@ Use reviewed security-invoker functions for atomic workflows:
   before the target in Story order (category, then milestone order), the
   journey must not be open world (`reference.version_groups.is_open_world`),
   and ones already recorded keep their record. They get no moment, note or
-  decision; `completed_milestone_ids` returns what was newly recorded. Snapshot replacement writes member rows before move rows so every
-  security-invoker write remains visible to the existing owner RLS policies.
+  decision; `completed_milestone_ids` returns what was newly recorded. Snapshot replacement writes member rows before move rows, so each move
+  row's snapshot already exists.
 - `gameplay.mark_mainline_play_milestone_incomplete` recomputes the completed
   transitive `required` and `story-unlock` dependent closure of the milestone
   and of `p_also_clear_milestone_ids` (Story's "the N after it", or an Undo's
@@ -209,7 +209,7 @@ Use reviewed security-invoker functions for atomic workflows:
   the version may change, since each Play checks its own game. Build validation against reference data stays with the
   caller.
 
-Database constraints, RLS, and function transactions remain authoritative even
+Database constraints and function transactions remain authoritative even
 when the app performs earlier validation.
 
 ## Derived Views

@@ -12,7 +12,7 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 INSERT INTO gameplay.mainline_challenge_rules (id, user_id, rule_type_id, slug, name)
     VALUES ('80000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000e2', 5, 'their_rule', 'Their rule');
 SELECT
-    plan (27);
+    plan (24);
 -- The catalogue
 SELECT
     results_eq ($$
@@ -55,10 +55,9 @@ SELECT
                     OR rule_type_id = 5)),
             0,
             'every Voydex rule has a description and a kind other than Custom');
--- Everyone can read them, nobody can change them
+-- Everyone sees them
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     IS ((
             SELECT
@@ -67,46 +66,9 @@ SELECT
                 gameplay.mainline_challenge_rules
             WHERE
                 user_id IS NULL), 12, 'a trainer sees every Voydex rule');
-UPDATE
-    gameplay.mainline_challenge_rules
-SET
-    name = 'Renamed'
-WHERE
-    slug = 'monotype'
-    AND user_id IS NULL;
-DELETE FROM gameplay.mainline_challenge_rules
-WHERE slug = 'level_caps'
-    AND user_id IS NULL;
-SELECT
-    throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rules (user_id, rule_type_id, slug, name)
-            VALUES (NULL, 1, 'fake_voydex_rule', 'Fake') $$, '42501', NULL, 'a trainer cannot add a Voydex rule');
-RESET ROLE;
-SELECT
-    IS ((
-            SELECT
-                name
-            FROM
-                gameplay.mainline_challenge_rules
-            WHERE
-                slug = 'monotype'
-                AND user_id IS NULL),
-            'Monotype',
-            'a trainer cannot rename a Voydex rule');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
-                gameplay.mainline_challenge_rules
-            WHERE
-                slug = 'level_caps'
-                AND user_id IS NULL),
-            1,
-            'a trainer cannot delete a Voydex rule');
 -- A Play's options for a rule
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e1', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$ INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
         SELECT
@@ -237,7 +199,6 @@ SELECT
                 slug IN ('pikachu', 'mewtwo', 'mew')
             ORDER BY slug $$, $$
             VALUES ('mew'::text, FALSE, TRUE), ('mewtwo'::text, TRUE, FALSE), ('pikachu'::text, FALSE, FALSE) $$, 'No legendaries reads a trainer-visible Legendary and Mythical flag');
-RESET ROLE;
 SELECT
     hasnt_column ('public', 'user_preferences', 'pokemon_reuse_scope', 'Pokémon reuse is a Play''s rule, not a global preference');
 SELECT

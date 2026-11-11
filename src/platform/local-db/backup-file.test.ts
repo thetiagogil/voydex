@@ -22,7 +22,7 @@ const encode = (value: unknown) =>
 
 describe("backup files", () => {
   it("reads back what it wrote", async () => {
-    const backup = createBackup(tables, new Date("2026-11-10T09:30:00Z"));
+    const backup = createBackup(tables, [], new Date("2026-11-10T09:30:00Z"));
 
     await expect(
       readBackupFile(await writeBackupFile(backup)),
@@ -30,7 +30,7 @@ describe("backup files", () => {
   });
 
   it("reads a file a server already unzipped", async () => {
-    const backup = createBackup(tables);
+    const backup = createBackup(tables, []);
 
     await expect(
       readBackupFile(new TextEncoder().encode(JSON.stringify(backup))),
@@ -45,21 +45,31 @@ describe("backup files", () => {
       BackupFileError,
     );
     await expect(
-      readBackupFile(encode({ ...createBackup(tables), tables: {} })),
+      readBackupFile(encode({ ...createBackup(tables, []), tables: {} })),
     ).rejects.toThrow("isn't a Voydex backup");
   });
 
   it("refuses a cut-off file", async () => {
-    const bytes = await writeBackupFile(createBackup(tables));
+    const bytes = await writeBackupFile(createBackup(tables, []));
 
     await expect(readBackupFile(bytes.slice(0, 20))).rejects.toThrow(
       BackupFileError,
     );
   });
 
+  it("upgrades a format 1 file, which had no change records", () => {
+    const { changes, ...older } = createBackup(tables, []);
+
+    expect(upgradeBackup({ ...older, format: 1 })).toEqual({
+      ...older,
+      changes,
+      format: 2,
+    });
+  });
+
   it("asks for a newer app for a newer file", () => {
     expect(() =>
-      upgradeBackup({ ...createBackup(tables), format: 99 }),
+      upgradeBackup({ ...createBackup(tables, []), format: 99 }),
     ).toThrow("newer Voydex");
   });
 

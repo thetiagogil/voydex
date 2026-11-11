@@ -452,7 +452,16 @@ the device:
   Collection show is still a cached server read until Codex pages are
   pre-built (#256).
 - **Supabase** keeps login and account backups only. The app opens without
-  signing in; signing in is only for backups (#248).
+  signing in; signed in, the device syncs with the account's backups
+  (`account-sync.ts`, started by `AccountSyncRunner` in the app layout).
+- **Backups and sync**: a backup is every row of yours (`user-data.ts`
+  names the tables) with the device's change records (`device.changes`,
+  filled by triggers from `device-changes.sql`), as a gzipped JSON file
+  (`backup-file.ts`). Account sync reads the newest backup, merges it with
+  the device's data (`sync-merge.ts`, pure: latest change per column, a
+  clash only when both sides changed the same thing since the last sync),
+  puts the result in place (`sync-snapshot.ts`) and uploads it
+  (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.
@@ -470,6 +479,12 @@ src/platform/local-db/
   user-data.ts           # your tables, read whole and replaced in one go
   backup-file.ts         # the backup file: format, upgrades, gzip
   backups.ts             # save and restore a file, the "Last backup" note
+  device-changes.sql     # change records, after the schema on a new device
+  sync-merge.ts          # event merge of two snapshots, and its clashes
+  sync-snapshot.ts       # the device's side: snapshot, shape, apply
+  device-sync.ts         # one sync with an account's backups
+  account-backups.ts     # the account's backups on Supabase
+  account-sync.ts        # syncing while signed in, with useAccountSync
 ```
 
 The app's layout wraps every app page in the device gate

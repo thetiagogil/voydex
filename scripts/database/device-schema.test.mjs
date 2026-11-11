@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildDeviceSchemaSql } from "./device-schema.mjs";
+import { buildDeviceSchemaSql, stripHostedOnly } from "./device-schema.mjs";
 
 describe("buildDeviceSchemaSql", () => {
   it("puts the device schema first and leaves pgcrypto out", () => {
@@ -48,5 +48,30 @@ describe("buildDeviceSchemaSql", () => {
         updateNames: ["notes.sql"],
       }),
     ).toThrow("0001-add-play-notes.sql");
+  });
+});
+
+describe("stripHostedOnly", () => {
+  const rule =
+    "-- ============================================================================";
+  const section = (source, sql) =>
+    `${rule}\n-- Source: ${source}\n${rule}\n${sql}\n\n`;
+
+  it("leaves out the hosted-only backups files", () => {
+    const migrationSql = [
+      `${rule}\n-- Voydex\n${rule}\n\n`,
+      section("database/schema/06_views/001_a.sql", "CREATE VIEW a;"),
+      section(
+        "database/schema/07_backups/01_tables/001_b.sql",
+        "CREATE TABLE b;",
+      ),
+      section("database/schema/08_later/001_c.sql", "CREATE TABLE c;"),
+    ].join("");
+    const sql = stripHostedOnly(migrationSql);
+
+    expect(sql).toContain("CREATE VIEW a;");
+    expect(sql).toContain("CREATE TABLE c;");
+    expect(sql).not.toContain("CREATE TABLE b;");
+    expect(sql).not.toContain("07_backups");
   });
 });

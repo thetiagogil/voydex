@@ -31,9 +31,10 @@ SELECT
                 INNER JOIN pg_catalog.pg_namespace AS namespace ON namespace.oid = relation.relnamespace
             WHERE
                 relation.relkind = 'r'
-                AND namespace.nspname IN ('public', 'reference', 'tracking', 'gameplay', 'planning')
+                AND (namespace.nspname IN ('reference', 'tracking')
+                    OR relation.oid = 'public.user_backups'::regclass)
                 AND NOT relation.relrowsecurity),
-            'all exposed Voydex tables have row-level security enabled');
+            'every table hosted Supabase serves has row-level security enabled');
 SELECT
     ok (NOT EXISTS (
             SELECT

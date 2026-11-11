@@ -31,8 +31,7 @@ The app should store user intent and meaningful user state. It should derive sum
 ## Where Data Lives
 
 [ADR 0008](../decisions/0008-user-data-on-the-device.md) keeps the tables
-above as the source of truth but moves where they live (the local-data issues,
-#245 to #248, build it; today hosted Supabase holds everything):
+above as the source of truth but moves where they live:
 
 - **User-owned tables** (profile, preferences, Plays and everything under them,
   Plans, tags, rules, backlog and favourites) live on the user's device. The
@@ -41,13 +40,22 @@ above as the source of truth but moves where they live (the local-data issues,
   versioned game data files built from the seeds, one per game, and the
   device keeps a copy of each game it uses.
 - **Backups** are copies, never a second source of truth. A backup file is a
-  versioned, gzipped JSON of every row of yours (Settings > Your data: Save
-  backup and Restore; a restore replaces the device's data in one go, and an
-  older file is upgraded first). For an account, hosted Supabase will keep
-  the last 3 backups. Sync uses event merge: every change is a small
-  timestamped record per Play, devices combine the records, the latest change
-  wins per field, and the user is asked only on a true clash (the same field
-  of the same item changed on two devices).
+  versioned, gzipped JSON of every row of yours with its change records
+  (Settings > Your data: Save backup and Restore; a restore replaces the
+  device's data in one go, and an older file is upgraded first). A quiet
+  note on Home reminds you after 30 days without one. Signed in, the device
+  uploads the same file to the account a few seconds after each change, and
+  hosted Supabase keeps the last 3.
+- **Sync** is event merge. Every change on the device leaves a small record
+  (the row added or deleted, the column changed, and when). When the app
+  opens or comes to the front it merges the account's newest backup: the
+  latest change wins per column, two devices' History moments keep their
+  order, and two tags or rules of one name become "Shiny" and "Shiny 2".
+  You're asked only on a true clash: both devices changed the same column of
+  the same row since they last synced, one deleted what the other changed,
+  or a Play's or Plan's rows no longer fit together (keep one side's
+  version). Nothing changes until you answer. Restoring a file is a
+  deliberate choice: the restored data replaces the account's.
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup
@@ -107,7 +115,8 @@ without an explicit product and data decision.
 
 Account deletion is an Auth-owned destructive workflow that must remove the
 Auth identity and allow reviewed foreign-key cascades to remove the profile and
-dependent owner-scoped data, including the account's backups. A client must never delete application rows first
+dependent owner-scoped data, including the account's backups (their rows
+cascade; the operation also removes their files). A client must never delete application rows first
 or report success before Auth identity deletion succeeds. Sign out changes only
 the current session and must not delete user data.
 

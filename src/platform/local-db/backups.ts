@@ -5,9 +5,14 @@ import {
   type BackupFile,
 } from "@/platform/local-db/backup-file";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
+import { rowKeyOf, type ChangeRecord } from "@/platform/local-db/sync-merge";
+import {
+  readSchemaShape,
+  readSyncSnapshot,
+  restoreChangeRecords,
+} from "@/platform/local-db/sync-snapshot";
 import {
   readNeededVersionGroups,
-  readUserData,
   replaceUserData,
 } from "@/platform/local-db/user-data";
 
@@ -67,7 +72,8 @@ export const recordBackup = async (
 
 /* Every row of yours as a backup file, with the name to save it under. */
 export const makeBackupFile = async (db: LocalDb, savedAt = new Date()) => {
-  const backup = createBackup(await readUserData(db), savedAt);
+  const { changes, tables } = await readSyncSnapshot(db);
+  const backup = createBackup(tables, changes, savedAt);
 
   return {
     backup,
@@ -77,10 +83,43 @@ export const makeBackupFile = async (db: LocalDb, savedAt = new Date()) => {
 };
 
 /*
+ * A backup's change records, with one for each row that has none (a file
+ * from before records): added when the backup was saved.
+ */
+const fillRecords = async (db: LocalDb, backup: BackupFile) => {
+  const shape = await readSchemaShape(db);
+  const recorded = new Set(
+    backup.changes.map((change) => `${change.table}\u0000${change.key}`),
+  );
+  const filled: ChangeRecord[] = [...backup.changes];
+
+  for (const { keyColumns, name } of shape.tables) {
+    for (const row of backup.tables[name] ?? []) {
+      const key = rowKeyOf(row, keyColumns);
+
+      if (recorded.has(`${name}\u0000${key}`)) continue;
+
+      filled.push({
+        baseChangedAt: null,
+        changedAt: backup.savedAt,
+        column: "",
+        deleted: false,
+        key,
+        table: name,
+      });
+    }
+  }
+
+  return filled;
+};
+
+/*
  * Puts a backup's data in place of this device's. The games its Plays and
  * Plans need are downloaded first (`ensureGame`), since your rows point at
  * their data; then every row is replaced in one go, so a backup that
- * doesn't fit leaves the device as it was.
+ * doesn't fit leaves the device as it was. Restoring is a deliberate
+ * choice: with an account, the restored data replaces the account's at
+ * the next sync instead of merging with it.
  */
 export const restoreBackup = async (
   db: LocalDb,
@@ -91,19 +130,33 @@ export const restoreBackup = async (
     await ensureGame(versionGroupId);
   }
 
-  await replaceUserData(db, backup.tables);
+  const changes = await fillRecords(db, backup);
+
+  await replaceUserData(db, backup.tables, {
+    after: async (tx) => {
+      await restoreChangeRecords(tx, changes);
+      await tx.exec(
+        `INSERT INTO device.sync (restored) VALUES (TRUE)
+         ON CONFLICT (id) DO UPDATE SET restored = TRUE`,
+      );
+    },
+  });
+};
+
+/* "today", "yesterday" or "3 days ago". */
+export const describeDaysAgo = (iso: string, now = new Date()) => {
+  const days = daysSince(iso, now);
+
+  if (days === 0) return "today";
+
+  return days === 1 ? "yesterday" : `${days} days ago`;
 };
 
 /* "Last backup today", "Last backup 3 days ago", or "No backup yet". */
 export const describeLastBackup = (
   lastBackupAt: string | null,
   now = new Date(),
-) => {
-  if (!lastBackupAt) return "No backup yet";
-
-  const days = daysSince(lastBackupAt, now);
-
-  if (days === 0) return "Last backup today";
-
-  return days === 1 ? "Last backup yesterday" : `Last backup ${days} days ago`;
-};
+) =>
+  lastBackupAt
+    ? `Last backup ${describeDaysAgo(lastBackupAt, now)}`
+    : "No backup yet";

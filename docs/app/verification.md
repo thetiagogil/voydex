@@ -82,9 +82,10 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 - Every test starts with an empty device (a fresh browser context has its own
   IndexedDB), so a test makes the Plays it needs through the app
   (`startPlay` in `e2e/support/plays.ts`); nothing reads seeded user data.
-  The setup project still signs up a throwaway account each run
-  (`e2e-…@voydex.test`) for the sign-in tests; the local Supabase stack is
-  only needed for those and for the game catalogue.
+  Every test also starts signed out: a signed-in device syncs with its
+  account, so tests sharing one would mix their data. A test that needs an
+  account signs up its own (`e2e-…@voydex.test`); the local Supabase stack
+  is only needed for those and for the game catalogue.
 - Tests tagged `@phone` also run at phone size (Pixel 7).
 - Tests wait for what they depend on, never for a fixed time: `waitForAction`
   (`e2e/support/actions.ts`) for a save on the device (each save counts itself
@@ -112,7 +113,8 @@ skips the tests; the check still reports as skipped, so it can be required.
   and Statistics, with axe on each page.
 - Offline database audits validate authored schema and the full deterministic
   seed corpus.
-- pgTAP covers structural security, client access, cross-user RLS, view
-  isolation, and representative transactional mutations.
+- pgTAP covers structural security, reference access, that the API roles
+  reach none of your device-only tables, owner-only account backups, and
+  representative transactional mutations.
 
 Exact current counts belong in [Project Status](../project-status.md).

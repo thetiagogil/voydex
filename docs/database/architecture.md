@@ -35,14 +35,13 @@ uses only `NEXT_PUBLIC_SUPABASE_URL` and
 ## Where The Database Runs
 
 [ADR 0008](../decisions/0008-user-data-on-the-device.md) runs one schema in
-three places. Today hosted Supabase still holds everything; the local-data
-issues (#245 to #248) move it to this target:
+three places:
 
-| Place                     | What it holds                                                                   |
-| ------------------------- | ------------------------------------------------------------------------------- |
-| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files |
-| The device (PGlite)       | Each user's own data, plus the game data files for the games they play          |
-| Hosted Supabase           | Login (Auth) and `user_backups` with each user's private backup folder only     |
+| Place                     | What it holds                                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Local Supabase (dev only) | Everything: schema work, seeds, `db:verify`, pgTAP and building game data files                                                                        |
+| The device (PGlite)       | Each user's own data, plus the game data files for the games they play                                                                                 |
+| Hosted Supabase           | Login (Auth), `user_backups` with each user's private backup folder, and (until the Codex is pre-built, #256) `reference` and `tracking` for the Codex |
 
 - The device loads the tables, functions and views from `database/schema`.
   `auth.uid()` returns one fixed local user there, so functions that check
@@ -50,8 +49,15 @@ issues (#245 to #248) move it to this target:
 - `reference` and `tracking` reach the device as files (see Game Data Files
   below), served by the app itself on Cloudflare, so the files always fit
   the schema of the app that serves them.
-- Hosted Supabase is reset to auth and backups only at the reset before
-  launch, with the owner's approval.
+- `database/schema/07_backups` is hosted only: the account backups table and
+  the private `backups` storage bucket. The device schema leaves it out
+  (`stripHostedOnly` in `scripts/database/device-schema.mjs`).
+- Your tables (`public` profiles, preferences and tags, `gameplay`,
+  `planning` and the `mainline_` views) carry no row security, and the API
+  roles get no access to them: hosted Supabase never serves them.
+- Hosted Supabase is reset (old user data and accounts dropped, game data
+  re-seeded) before launch, with the owner's approval. Once the Codex is
+  pre-built (#256) it holds only auth and backups.
 
 ### The Device Database
 
@@ -122,12 +128,12 @@ schema change freely; the first `--release` is run at launch.
 
 | Schema      | Responsibility                                                               | Client access               |
 | ----------- | ---------------------------------------------------------------------------- | --------------------------- |
-| `public`    | Auth-linked profiles, preferences, and global tags                           | Authenticated owner CRUD    |
+| `public`    | Profiles, preferences and tags (device); `user_backups` (hosted)             | Backups: owner only         |
 | `reference` | Games, Pokémon identity/mechanics, availability, learnsets, and Pokedex data | Client read-only            |
 | `tracking`  | Story, milestone, collectible, decision, and snapshot definitions            | Client read-only            |
-| `gameplay`  | Plays, teams, progress, timeline, history, rules, and backlog                | Authenticated owner access  |
-| `planning`  | Reusable plans and plan-to-play realization                                  | Authenticated owner access  |
-| `views`     | App-facing derived read models                                               | Security-invoker reads      |
+| `gameplay`  | Plays, teams, progress, timeline, history, rules, and backlog                | None (device only)          |
+| `planning`  | Reusable plans and plan-to-play realization                                  | None (device only)          |
+| `views`     | App-facing derived read models                                               | `reference_resolved_` only  |
 | `private`   | Internal triggers and validation helpers                                     | Not exposed to client roles |
 
 Schemas describe data responsibility, not frontend module structure. Tables
@@ -174,12 +180,13 @@ Every data fix adds a pgTAP check that failed before it (see
   screen has moved (see
   [Frontend Architecture](../app/architecture.md#where-data-lives)).
 - Browser and server Supabase clients are created only under
-  `src/platform/supabase`, for login, backups and the screens not yet moved.
+  `src/platform/supabase`, for login, account backups and the Codex's game
+  data reads (until #256).
 - UI components do not issue raw schema queries.
 - Public reads use `reference`, `tracking`, and safe `views` contracts.
-- User-owned reads establish an authenticated identity and remain owner-scoped.
-- Simple direct CRUD is acceptable where one table and its RLS policy fully own
-  the mutation.
+- User-owned reads and saves run on the device, where the one local user
+  owns every row; simple direct CRUD is acceptable where one table owns the
+  change.
 - Multi-table or history-producing mutations use the reviewed gameplay or
   planning functions listed in [Schema Contract](./schema-contract.md).
 

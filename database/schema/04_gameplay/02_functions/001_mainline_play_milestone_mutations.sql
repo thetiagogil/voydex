@@ -371,9 +371,9 @@ REVOKE ALL ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER,
 
 REVOKE ALL ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) TO service_role;
 
-COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally records the required milestones and choices before it in Story order (never in an open-world story, and without moments or decisions of their own), replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally records the required milestones and choices before it in Story order (never in an open-world story, and without moments or decisions of their own), replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot..';
 
 CREATE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[], p_also_clear_milestone_ids integer[] DEFAULT '{}'::integer[])
     RETURNS TABLE (
@@ -528,6 +528,6 @@ REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, I
 
 REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) TO service_role;
 
-COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) IS 'Atomically marks one completed milestone, any other milestones cleared with it, and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) IS 'Atomically marks one completed milestone, any other milestones cleared with it, and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set..';

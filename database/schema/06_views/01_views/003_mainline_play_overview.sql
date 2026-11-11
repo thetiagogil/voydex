@@ -92,4 +92,4 @@ FROM
             mainline_play_optional_content_scopes.play_id = mainline_play_summary.play_id
 ) AS optional_content ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_overview IS 'Play hub overview with settings and optional content. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_overview IS 'Play hub overview with settings and optional content. Uses security_invoker.';

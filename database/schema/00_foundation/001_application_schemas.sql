@@ -32,9 +32,9 @@ GRANT USAGE ON SCHEMA reference TO anon, authenticated, service_role;
 
 GRANT USAGE ON SCHEMA tracking TO anon, authenticated, service_role;
 
-GRANT USAGE ON SCHEMA gameplay TO authenticated, service_role;
+GRANT USAGE ON SCHEMA gameplay TO service_role;
 
-GRANT USAGE ON SCHEMA planning TO authenticated, service_role;
+GRANT USAGE ON SCHEMA planning TO service_role;
 
 GRANT USAGE ON SCHEMA views TO anon, authenticated, service_role;
 

@@ -5,11 +5,10 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000c1', 'authenticated', 'authenticated', 'atomic-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000d2', 'authenticated', 'authenticated', 'atomic-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (55);
+    plan (50);
 -- Starting a Play
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
-SET LOCAL ROLE authenticated;
 CREATE TEMPORARY TABLE started_sun ON COMMIT DROP AS
 SELECT
     *
@@ -194,7 +193,9 @@ SELECT
             SELECT
                 COUNT(*)
             FROM
-                gameplay.mainline_plays),
+                gameplay.mainline_plays
+            WHERE
+                user_id = auth.uid ()),
             3::bigint,
             'only the three successful starts are written');
 SELECT
@@ -465,37 +466,12 @@ SELECT
                 1::bigint,
                 'saving a followed Plan keeps its Play link');
 -- Another user
-RESET ROLE;
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
-SET LOCAL ROLE authenticated;
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                gameplay.add_mainline_play_event (%L, 'journal_note', 'manual', 'Intruder') $$, (
-                    SELECT
-                        result_play_id
-                    FROM started_sun)), '23503', NULL, 'another user cannot add a moment to the owner Play');
-SELECT
-    throws_ok (FORMAT($$
-            SELECT
-                planning.save_mainline_team_plan (p_team_plan_id => %L, p_version_group_id => 15, p_name => 'Stolen Plan', p_members => '[]'::jsonb) $$, (
-                    SELECT
-                        result_team_plan_id
-                    FROM created_plan)), '23503', NULL, 'another user cannot rewrite the owner Plan');
 SELECT
     lives_ok ($$
         SELECT
             gameplay.create_mainline_play (25, 'Second Trainer Run') $$, 'another user starts their own Play');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)
-            FROM
-                gameplay.mainline_plays),
-            1::bigint,
-            'another user sees only their own Play');
-RESET ROLE;
 SELECT
     IS ((
             SELECT
@@ -504,32 +480,9 @@ SELECT
                 gameplay.mainline_plays
             WHERE
                 name = 'Second Trainer Run'), '00000000-0000-0000-0000-0000000000d2'::uuid, 'a started Play belongs to the caller');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)
-            FROM
-                gameplay.mainline_play_events
-            WHERE
-                title = 'Intruder'), 0::bigint, 'the refused moment wrote nothing');
-SELECT
-    IS ((
-            SELECT
-                name
-            FROM
-                planning.mainline_team_plans
-            WHERE
-                id = (
-                    SELECT
-                        result_team_plan_id
-                    FROM
-                        created_plan)),
-                'Followed Plan',
-                'the refused rewrite left the owner Plan untouched');
 -- No signed-in user
 SELECT
     set_config('request.jwt.claim.sub', '', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     throws_ok ($$
         SELECT
@@ -538,7 +491,6 @@ SELECT
     throws_ok ($$
         SELECT
             planning.save_mainline_team_plan (15, 'Nobody Plan') $$, '42501', 'An authenticated user is required to save a Plan', 'a Plan needs a signed-in user');
-RESET ROLE;
 SELECT
     *
 FROM

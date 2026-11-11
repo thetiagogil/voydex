@@ -4,7 +4,9 @@
  * Writes the SQL a new device runs, and its hash, to public/local-db/ (run
  * before `dev` and `build`): the device schema
  * (src/platform/local-db/device-schema.sql), then the built migration, then
- * the device updates it already holds. The app serves them as static files,
+ * the device's change records on top of it
+ * (src/platform/local-db/device-changes.sql), then the device updates it
+ * already holds. The app serves them as static files,
  * so a returning device only fetches the hash. The device updates
  * (database/device-updates/) go to updates.json, which only a device with
  * an older schema fetches.
@@ -28,6 +30,26 @@ import {
  */
 const pgcryptoStatement = "CREATE EXTENSION IF NOT EXISTS pgcrypto;";
 
+/*
+ * Hosted Supabase's own part of the schema (account backups and their
+ * storage folder): the device leaves it out.
+ */
+const hostedOnlySource = "-- Source: database/schema/07_backups/";
+
+/* The migration without its hosted-only files, by their Source headers. */
+export function stripHostedOnly(migrationSql) {
+  const rule =
+    "-- ============================================================================";
+  const parts = migrationSql.split(`${rule}\n-- Source: `);
+
+  return [
+    parts[0],
+    ...parts
+      .slice(1)
+      .filter((part) => !`-- Source: ${part}`.startsWith(hostedOnlySource)),
+  ].join(`${rule}\n-- Source: `);
+}
+
 const updateNamePattern = /^[0-9]{4}-[a-z0-9]+(?:-[a-z0-9]+)*\.sql$/;
 
 const checkUpdateName = (name) => {
@@ -47,10 +69,11 @@ const checkUpdateName = (name) => {
  */
 export function buildDeviceSchemaSql({
   deviceSql,
+  deviceTailSql = "",
   migrationSql,
   updateNames = [],
 }) {
-  const schemaSql = migrationSql.replace(
+  const schemaSql = stripHostedOnly(migrationSql).replace(
     pgcryptoStatement,
     "-- pgcrypto: left out on the device, nothing uses it.",
   );
@@ -68,7 +91,9 @@ export function buildDeviceSchemaSql({
         .join(", ")};\n`
     : "";
 
-  return `${deviceSql.trimEnd()}\n\n${schemaSql.trimEnd()}\n${updatesSql}`;
+  const tailSql = deviceTailSql.trim() ? `\n${deviceTailSql.trimEnd()}\n` : "";
+
+  return `${deviceSql.trimEnd()}\n\n${schemaSql.trimEnd()}\n${tailSql}${updatesSql}`;
 }
 
 /* The device updates, in the order a device runs them, with their SQL. */
@@ -83,6 +108,10 @@ export function readDeviceSchemaSql() {
   return buildDeviceSchemaSql({
     deviceSql: fs.readFileSync(
       path.join(rootDir, "src/platform/local-db/device-schema.sql"),
+      "utf8",
+    ),
+    deviceTailSql: fs.readFileSync(
+      path.join(rootDir, "src/platform/local-db/device-changes.sql"),
       "utf8",
     ),
     migrationSql: fs.readFileSync(

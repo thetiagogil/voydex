@@ -76,4 +76,4 @@ FROM
             mainline_play_pokemon_moves.play_pokemon_id = mainline_play_pokemon.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker.';

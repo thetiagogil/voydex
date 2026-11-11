@@ -1,7 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 
-import { trainerStatePath } from "./e2e/support/accounts";
-
 const isCI = Boolean(process.env.CI);
 /* `E2E_PORT` runs the tests beside a dev server already on 3000. */
 const port = Number(process.env.E2E_PORT ?? 3000);
@@ -32,23 +30,22 @@ export default defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
+  /*
+   * Every test starts signed out, on a new device: the app needs no
+   * account, and a signed-in device syncs with its account, so tests that
+   * share one would mix their data. A test that needs an account signs up
+   * its own.
+   */
   projects: [
     {
-      name: "setup",
-      testMatch: /global\.setup\.ts/,
-      use: { ...devices["Desktop Chrome"] },
-    },
-    {
       name: "desktop",
-      dependencies: ["setup"],
-      use: { ...devices["Desktop Chrome"], storageState: trainerStatePath },
+      use: { ...devices["Desktop Chrome"] },
     },
     {
       /* A few key paths at phone width; tag a test `@phone` to include it. */
       name: "phone",
-      dependencies: ["setup"],
       grep: /@phone/,
-      use: { ...devices["Pixel 7"], storageState: trainerStatePath },
+      use: { ...devices["Pixel 7"] },
     },
   ],
   webServer: [

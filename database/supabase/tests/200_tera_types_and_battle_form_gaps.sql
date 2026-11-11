@@ -18,7 +18,7 @@ VALUES
     ('7c000000-0000-0000-0000-0000000000a2', '7b000000-0000-0000-0000-0000000000a0', 1, 2, 1017, 101701, 'Spring'),
     ('7c000000-0000-0000-0000-0000000000a3', '7b000000-0000-0000-0000-0000000000a0', 1, 3, 1024, 102400, 'Crown');
 SELECT
-    plan (33);
+    plan (32);
 -- Tera Types: every type from Scarlet / Violet with its own id, and Stellar
 -- from The Indigo Disk with no type.
 SELECT
@@ -98,7 +98,6 @@ SELECT
 -- The owner saves Tera Types through the editor's one call.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f4', TRUE);
-SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$
         SELECT
@@ -144,13 +143,6 @@ SELECT
 -- Another trainer sees none of it.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f5', TRUE);
-SELECT
-    is_empty ($$
-        SELECT
-            play_pokemon_id FROM views.mainline_play_team_detail
-            WHERE
-                play_id = '7b000000-0000-0000-0000-0000000000a0'::uuid $$, 'another trainer cannot read the team or its Tera Types');
-RESET ROLE;
 -- Primal orbs apply from Omega Ruby / Alpha Sapphire to Ultra Sun / Ultra
 -- Moon and in Mega Dimension, never in Sword / Shield or base Z-A.
 SELECT

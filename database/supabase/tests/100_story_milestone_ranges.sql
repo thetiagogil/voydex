@@ -15,10 +15,9 @@ VALUES
     ('60000000-0000-0000-0000-0000000000c4', '00000000-0000-0000-0000-0000000000c1', 36, 23, 2, 'Range Scarlet'),
     ('60000000-0000-0000-0000-0000000000c5', '00000000-0000-0000-0000-0000000000c1', 31, 18, 2, 'Range Sword');
 SELECT
-    plan (24);
+    plan (22);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
-SET LOCAL ROLE authenticated;
 -- The view tells Story which journeys are open world.
 SELECT
     results_eq ($$ SELECT DISTINCT
@@ -167,15 +166,6 @@ SELECT
 -- Another trainer can't reach this Play's Story.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c2', TRUE);
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '60000000-0000-0000-0000-0000000000c1', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004]) $$, '23503', 'Unknown or unavailable play_id 60000000-0000-0000-0000-0000000000c1', 'another trainer cannot record a range in the Play');
-SELECT
-    throws_ok ($$
-        SELECT
-            gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '60000000-0000-0000-0000-0000000000c1', p_milestone_id => 60001, p_expected_affected_milestone_ids => ARRAY[60001, 60002], p_also_clear_milestone_ids => ARRAY[60002]) $$, '23503', 'Unknown or unavailable play_id 60000000-0000-0000-0000-0000000000c1', 'another trainer cannot clear a range in the Play');
-RESET ROLE;
 SELECT
     *
 FROM

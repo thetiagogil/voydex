@@ -104,4 +104,4 @@ SELECT
 FROM
     public.profiles;
 
-COMMENT ON VIEW views.mainline_stats_summary IS 'User-level aggregate stats. Uses security_invoker so public/gameplay/planning RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_stats_summary IS 'User-level aggregate stats. Uses security_invoker.';

@@ -29,6 +29,17 @@ type SettingsProfileSectionProps = {
   trainerSince: string | null;
 };
 
+type ProfileValues = {
+  defaultTrainerName: string;
+  displayName: string;
+  iconFormId: number | null;
+};
+
+const sameProfile = (left: ProfileValues, right: ProfileValues) =>
+  left.defaultTrainerName === right.defaultTrainerName &&
+  left.displayName === right.displayName &&
+  left.iconFormId === right.iconFormId;
+
 const initialState: ProfileFormState = { message: null, status: "idle" };
 
 const fieldLabelClassName = "text-13 text-ink-2 font-bold";
@@ -49,15 +60,28 @@ export const SettingsProfileSection = ({
   const nameId = useId();
   const trainerNameId = useId();
   const trainerNameHintId = useId();
-  const [saved, setSaved] = useState({
+  const incoming = {
     defaultTrainerName: defaultTrainerName ?? "",
     displayName: displayName ?? "",
     /* An icon that is no longer offered reads as none, so Save never posts it. */
     iconFormId: choices.some((choice) => choice.formId === iconFormId)
       ? iconFormId
       : null,
-  });
+  };
+  const [saved, setSaved] = useState(incoming);
   const [draft, setDraft] = useState(saved);
+  const [served, setServed] = useState(incoming);
+
+  /*
+   * The saved profile changed under the form (another device's, through
+   * sync): follow it, unless you have unsaved changes of your own.
+   */
+  if (!sameProfile(served, incoming)) {
+    setServed(incoming);
+    setSaved(incoming);
+
+    if (sameProfile(draft, saved)) setDraft(incoming);
+  }
   const [, formAction, isSaving] = useActionState(
     async (previousState: ProfileFormState, formData: FormData) => {
       const result = await saveProfileAction(previousState, formData);
