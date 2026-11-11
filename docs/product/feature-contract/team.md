@@ -43,7 +43,7 @@ Roster for the team, the reserve and a past member a link opens on; a failed
 read leaves them out, not the Roster. Home's "Continue with {name}" opens here too. The Roster holds only the roster
 and the selected detail; Plan and Analysis are its sibling views in the Team
 menu. A link may name the member to open on
-(`/mainline/plays/[playId]/team?pokemon=[playPokemonId]`, as an Overview
+(`/mainline/plays/play/team?id=[playId]&pokemon=[playPokemonId]`, as an Overview
 sticker does). On narrow screens, member selection opens a focused Team detail
 sheet with a clear return to the roster.
 

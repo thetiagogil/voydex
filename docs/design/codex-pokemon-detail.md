@@ -7,7 +7,7 @@ history.
 ## Current Status
 
 - `/codex/pokemon` is the stable Codex browse view for now.
-- `/codex/pokemon/[versionGroupSlug]/[speciesSlug]` is on Soft Clay (v3's
+- `/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` is on Soft Clay (v3's
   entry): the head and the hero on the page's band, then quiet section cards
   one a row but the two short ones, the learnset and your Plays last.
 
@@ -18,7 +18,7 @@ still names one base version group, its expansions included, which picks the
 generation and the game the learnset is read in:
 
 ```txt
-/codex/pokemon/[versionGroupSlug]/[speciesSlug]?form=[formSlug]
+/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]&form=[formSlug]
 ```
 
 The version group determines the generation. Do not add generation or game to
@@ -26,10 +26,10 @@ the URL; the group already provides that context.
 
 Important rules:
 
-- A game's slug or an expansion's child-group slug redirects permanently (308)
-  to its base group; an unknown group or species is a 404. The route's layout
-  settles both before the loading state streams.
-- A group from before the species existed, and `/codex/pokemon/[speciesSlug]`,
+- A game's slug or an expansion's child-group slug in `?game=` moves on to
+  its base group; an unknown group or species shows the not-found page. One
+  page per species is made at build time, with its own title.
+- A group from before the species existed, and no `?game=` at all,
   open the introduced generation's first base group the species can be found
   in (Legends: Arceus for Wyrdeer, Let's Go for Meltan), as its generation
   pill does. The Pokémon list's cards still open the generation's first base

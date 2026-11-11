@@ -85,8 +85,13 @@ task; use more only when the user asks for parallel work on independent scopes.
 - Cross-module dependencies point toward `reference`; product modules do not
   depend laterally on each other.
 - Never create Supabase clients, run SQL or make raw `.schema(...)` reads in
-  UI components. Client Components may import Server Actions, never server
-  queries or readers.
+  UI components. Client Components never import server queries or readers;
+  only the build runs them.
+- The whole app is plain files made at build time
+  ([ADR 0009](./docs/decisions/0009-app-as-plain-files.md)): no Server
+  Actions, Route Handlers, proxy or request-time server code. Login and
+  account changes call Supabase from the browser; an id the build can't know
+  rides in the query (`/mainline/plays/play?id=`).
 
 ## Database Boundaries
 
@@ -105,8 +110,7 @@ task; use more only when the user asks for parallel work on independent scopes.
   aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
 - A write that touches more than one table or creates a History moment goes
-  through one database function; Server Actions and `local-db` calls stay thin
-  adapters.
+  through one database function; `local-db` calls stay thin adapters.
 - Seeds stay the source of truth for game data; a release builds the game
   data files from them. From launch on, a game data ID never disappears
   without an entry in the ID changes list, and a user-table change ships as a

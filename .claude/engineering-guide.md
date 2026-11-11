@@ -123,9 +123,9 @@ read/write file roles. The rules most often missed:
   ([ADR 0008](../docs/decisions/0008-user-data-on-the-device.md)). A screen
   that has moved reads and saves only through `src/platform/local-db`: plain
   SQL for reads, one database function call for a multi-table or History
-  save. Never add a new Supabase read or Server Action for user data; a screen
-  not yet moved keeps its server code until its move deletes it (Where Data
-  Lives in the architecture guide).
+  save. Never add a Supabase read for user data, and never add a Server Action
+  at all: the app is plain files
+  ([ADR 0009](../docs/decisions/0009-app-as-plain-files.md)).
 - Game data reaches the device as files built from the seeds; Codex pages are
   pre-built from the same data and read no database at runtime.
 - Readers distinguish an empty result from a failed read. Never turn a failed
@@ -134,10 +134,8 @@ read/write file roles. The rules most often missed:
 - Give each route the smallest cohesive read model it needs; an Overview
   preview must not reuse a detailed workspace reader that loads unrelated
   data.
-- Server Actions (and, once moved, `local-db` calls) parse their input with
-  Zod; Server Actions also authenticate explicitly. Multi-table writes follow
-  action → validated command → repository or RPC → database constraints and
-  RLS; these may be files in one `server` folder.
+- `local-db` commands parse their input with Zod. Multi-table writes follow
+  command → one database function → database constraints.
 - Long lists (Plays, Collection, History, Collectibles, Pokédexes) load
   their full read model and draw it in batches as you scroll, through the
   shared `LoadMoreTrigger`; search and filters stay local and instant. Page

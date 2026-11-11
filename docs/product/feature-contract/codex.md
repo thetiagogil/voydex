@@ -42,13 +42,13 @@ not V1 requirements. They remain personalization follow-ups; personal usage
 belongs primarily to Collection.
 
 Pokémon Detail uses the canonical
-`/codex/pokemon/[versionGroupSlug]/[speciesSlug]` route (a persistent form as
-`?form=`). A game's slug or an expansion's child-group slug redirects
-permanently (308) to its base group; an unknown group or species is a 404; a
-group from before the species existed redirects to the group it was
-introduced in. `/codex/pokemon/[speciesSlug]` opens the first base version
-group of the generation the species was introduced in (a legacy `?game=` names
-the group instead; a later `?form=` opens where that form can be found). It must:
+`/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` address (a persistent
+form as `?form=`), one pre-built page per species. A game's slug or an
+expansion's child-group slug in `?game=` moves on to its base group; an
+unknown group or species shows the not-found page; a group from before the
+species existed moves on to the group it was introduced in. Without `?game=`
+it opens the first base version group of the generation the species was
+introduced in (a later `?form=` opens where that form can be found). It must:
 
 - have an independent semantic `h1` for National number and species identity;
 - retain the active version group while switching species and update the
