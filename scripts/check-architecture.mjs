@@ -229,6 +229,95 @@ function verifyFeatureBoundaryFixtures() {
   }
 }
 
+/*
+ * The Codex reads pre-built files (ADR 0008, issue #256): its pages and
+ * routes never reach a database, and its server/ readers run only in the
+ * build (`npm run codex:build`), never in the app. `segments` is the
+ * importing file's path below src; type-only imports are fine.
+ */
+function getCodexBuildViolation(segments, specifier) {
+  const isTest = /\.test\.tsx?$/.test(segments.at(-1) ?? "");
+  const isCodexBuildReader =
+    startsWithSegments(segments, ["modules", "codex"]) &&
+    segments.includes("server");
+  const isCodexRuntime =
+    (startsWithSegments(segments, ["modules", "codex"]) ||
+      startsWithSegments(segments, ["app", "(app-public)", "codex"])) &&
+    !isCodexBuildReader;
+
+  if (isTest) {
+    return null;
+  }
+
+  if (isCodexRuntime && specifier.startsWith("@/platform/supabase/")) {
+    return "the Codex reads its pre-built files (npm run codex:build), never a database";
+  }
+
+  if (
+    !isCodexBuildReader &&
+    /^@\/modules\/codex\/(.+\/)?server\//.test(specifier)
+  ) {
+    return "the Codex's server/ readers run only in the build (npm run codex:build); pages read the pre-built files";
+  }
+
+  return null;
+}
+
+function verifyCodexBuildBoundaryFixtures() {
+  const fixtures = [
+    {
+      source: "modules/codex/features/pokemon/detail/pokemon-detail-page.tsx",
+      specifier: "@/platform/supabase/server-client",
+      violates: true,
+    },
+    {
+      source: "app/(app-public)/codex/games/(browse)/page.tsx",
+      specifier: "@/platform/supabase/public-client",
+      violates: true,
+    },
+    {
+      source: "app/(app-public)/codex/pokemon/[slug]/page.tsx",
+      specifier:
+        "@/modules/codex/features/pokemon/detail/server/pokemon-detail-page-query",
+      violates: true,
+    },
+    {
+      source: "modules/mainline/public-codex.tsx",
+      specifier: "@/modules/codex/shared/server/codex-data-build",
+      violates: true,
+    },
+    {
+      source: "modules/codex/features/games/browse/games-page.tsx",
+      specifier:
+        "@/modules/codex/features/games/browse/data/games-page-mappers",
+      violates: false,
+    },
+    {
+      source: "modules/codex/shared/server/codex-data-build.ts",
+      specifier:
+        "@/modules/codex/features/games/detail/server/game-detail-loaders",
+      violates: false,
+    },
+    {
+      source: "features/app-shell/server/session-query.ts",
+      specifier: "@/platform/supabase/server-client",
+      violates: false,
+    },
+  ];
+
+  for (const fixture of fixtures) {
+    const actual = Boolean(
+      getCodexBuildViolation(fixture.source.split("/"), fixture.specifier),
+    );
+
+    if (actual !== fixture.violates) {
+      throw new Error(
+        `Codex build boundary fixture failed: ${fixture.source} -> ${fixture.specifier}`,
+      );
+    }
+  }
+}
+
 function verifyPlayHubBoundaryFixtures() {
   const fixtures = [
     {
@@ -754,6 +843,19 @@ async function checkFile(filePath) {
       );
     }
 
+    const codexBuildViolation = hasRuntimeImport
+      ? getCodexBuildViolation(segments, specifier)
+      : null;
+
+    if (codexBuildViolation) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, filePath)),
+        codexBuildViolation,
+        specifier,
+      );
+    }
+
     if (
       isUserDataFile &&
       hasRuntimeImport &&
@@ -792,6 +894,7 @@ async function checkFile(filePath) {
 
 verifyPlayHubBoundaryFixtures();
 verifyFeatureBoundaryFixtures();
+verifyCodexBuildBoundaryFixtures();
 verifyFolderVocabularyFixtures();
 
 const sourceFiles = await collectSourceFiles(sourceRoot);
