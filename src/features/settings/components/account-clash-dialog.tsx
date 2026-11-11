@@ -18,7 +18,6 @@ import type { Clash, MergeChoices, Side } from "@/platform/local-db/sync-merge";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Button } from "@/shared/components/ui/button";
-import { PickedMark } from "@/shared/components/picked-mark";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 
@@ -69,17 +68,11 @@ const ClashChoice = ({
               htmlFor={`${titleId}-${side}`}
               className="relative"
             >
-              {/* The card is the control; the picked mark shows the pick. */}
+              {/* The card is the control; its tint shows the pick. */}
               <span className="sr-only">
                 <RadioGroupItem id={`${titleId}-${side}`} value={side} />
               </span>
-              {choice === side ? (
-                <PickedMark size="sm" className="top-3 right-3" />
-              ) : null}
-              <Field
-                orientation="horizontal"
-                className="items-center gap-3 pr-8"
-              >
+              <Field orientation="horizontal" className="items-center gap-3">
                 <AppIcon
                   icon={appIcons.devices[deviceKind(devices[side].name)]}
                   className="text-ink-2 size-5"
