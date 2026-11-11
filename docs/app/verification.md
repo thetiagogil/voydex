@@ -91,7 +91,8 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 - Tests tagged `@phone` also run at phone size (Pixel 7).
 - Tests wait for what they depend on, never for a fixed time: `waitForAction`
   (`e2e/support/actions.ts`) for a save on the device (each save counts itself
-  on the page's root, `data-saves`) before reloading or reading its result, `forTheAnswer` for what that answer draws,
+  on the page's root, `data-saves`, once it is in IndexedDB) before reloading
+  or reading its result, `forTheAnswer` for what that answer draws,
   and `waitUntil: "networkidle"` on a page whose first tap must be heard.
 - `expectAccessible` (`e2e/support/accessibility.ts`) fails on any WCAG 2.2 AA
   axe finding except the rules listed there as known issues; remove a rule

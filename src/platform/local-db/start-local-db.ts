@@ -13,7 +13,8 @@ export type LocalDbHandle = {
 export type StartLocalDbOptions = {
   /*
    * Relaxed durability answers a save before the data reaches IndexedDB, so
-   * saves feel instant; a crash in that moment can lose the last save.
+   * saves feel instant; the worker writes it right after, and
+   * `waitForWrites` waits for that write.
    */
   relaxedDurability?: boolean;
   /* A copy from `dumpDataDir` to start from; the database must not exist. */

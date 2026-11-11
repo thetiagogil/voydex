@@ -1,22 +1,19 @@
 import type { Page } from "@playwright/test";
 
 /*
- * The device answers a save before it reaches IndexedDB (relaxed
- * durability, ADR 0008), so a reload in that moment can lose it, as a crash
- * can. Long enough for the write to land.
- */
-const durableSaveMs = 300;
-
-/*
  * Waits for the next save on the device, or the next `count`: every save
- * counts itself on the page's root (`data-saves`) once it is in the device
- * database, then has a moment to reach IndexedDB. Start it just before the
- * tap that saves, and await it before reloading or reading the result.
+ * counts itself on the page's root as it starts (`data-saves-started`) and
+ * once it is written to IndexedDB (`data-saves`), so it survives a reload.
+ * Start it just before the tap that saves, and await it before reloading or
+ * reading the result.
  */
 export const waitForAction = async (page: Page, count = 1) => {
-  /* Read before the tap: Playwright runs a page's commands in order. */
+  /*
+   * Read before the tap: Playwright runs a page's commands in order. Counted
+   * from the saves started, so one still being written isn't taken for this.
+   */
   const start = await page.evaluate(() =>
-    Number(document.documentElement.dataset.saves ?? 0),
+    Number(document.documentElement.dataset.savesStarted ?? 0),
   );
 
   await page.waitForFunction(
@@ -24,7 +21,6 @@ export const waitForAction = async (page: Page, count = 1) => {
     start + count,
     { timeout: 0 },
   );
-  await page.waitForTimeout(durableSaveMs);
 };
 
 /*

@@ -131,7 +131,7 @@ const run = async () => {
       });
       await recordBackup(db, "account", new Date().toISOString());
       ownSave = true;
-      notifyLocalSave();
+      notifyLocalSave({ background: true });
       ownSave = false;
     }
 
