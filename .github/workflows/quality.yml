@@ -116,6 +116,11 @@ jobs:
               missing=1
             fi
           done
+          # The live site must talk to hosted Supabase, never a local one.
+          if [[ "$NEXT_PUBLIC_SUPABASE_URL" != https://*.supabase.co ]]; then
+            echo "::error::NEXT_PUBLIC_SUPABASE_URL must be the hosted https://….supabase.co address."
+            missing=1
+          fi
           exit "$missing"
 
       - name: Build and upload the files to Cloudflare
