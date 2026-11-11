@@ -273,7 +273,7 @@ function verifyCodexBuildBoundaryFixtures() {
       violates: true,
     },
     {
-      source: "app/(app-public)/codex/pokemon/[slug]/page.tsx",
+      source: "app/(app-public)/codex/pokemon/[speciesSlug]/page.tsx",
       specifier:
         "@/modules/codex/features/pokemon/detail/server/pokemon-detail-page-query",
       violates: true,
@@ -296,8 +296,8 @@ function verifyCodexBuildBoundaryFixtures() {
       violates: false,
     },
     {
-      source: "features/app-shell/server/session-query.ts",
-      specifier: "@/platform/supabase/server-client",
+      source: "features/auth/client/auth-actions.ts",
+      specifier: "@/platform/supabase/browser-client",
       violates: false,
     },
   ];
@@ -759,7 +759,7 @@ async function checkFile(filePath) {
     segments.length === retiredPokemonCompatibilityRoute.length
   ) {
     violations.push(
-      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon detail routes must use the neutral [slug] segment; do not restore src/app/(app-public)/codex/pokemon/[gameSlug]/page.tsx`,
+      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon detail routes must use the [speciesSlug] segment; do not restore src/app/(app-public)/codex/pokemon/[gameSlug]/page.tsx`,
     );
   }
 
@@ -793,12 +793,12 @@ async function checkFile(filePath) {
     /-(reader|loaders|command|commands|repository|writer)\.ts$/.test(fileName);
   /*
    * Code that reads or saves user data. Signing in (Settings' account
-   * actions) is the one thing here that still talks to Supabase.
+   * changes) is the one thing here that still talks to Supabase.
    */
   const isUserDataFile =
     (startsWithSegments(segments, ["modules", "mainline"]) ||
       startsWithSegments(segments, ["features", "settings"])) &&
-    segments.join("/") !== "features/settings/server/account-actions.ts" &&
+    segments.join("/") !== "features/settings/client/account-changes.ts" &&
     !/\.test\.tsx?$/.test(fileName);
   const isPureFile =
     ["modules", "features"].includes(segments[0]) &&

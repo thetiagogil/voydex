@@ -1,17 +1,14 @@
-import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
-import {
-  CheckEmailPage,
-  type CheckEmailSearchParams,
-} from "@/features/auth/components/check-email-page";
+import { Suspense } from "react";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams?: Promise<CheckEmailSearchParams>;
-}) {
+import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
+import { CheckEmailPage } from "@/features/auth/components/check-email-page";
+
+export default function Page() {
   return (
     <PublicAppShell bar="none">
-      <CheckEmailPage searchParams={searchParams} />
+      <Suspense>
+        <CheckEmailPage />
+      </Suspense>
     </PublicAppShell>
   );
 }

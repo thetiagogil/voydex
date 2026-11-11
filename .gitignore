@@ -41,8 +41,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# cloudflare (OpenNext build and wrangler state)
-.open-next
+# cloudflare (wrangler state)
 .wrangler
 
 # Supabase local state and generated artifacts

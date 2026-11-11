@@ -122,7 +122,7 @@ reference/filter context; they are not currently a required top-level view.
                         ?new= opens New Play over it (a game slug, or 1),
                         with ?partner= its first partner already picked
   /plays                ?view=archived lists archived Plays, each with Restore
-    /[playId]
+    /play               ?id= names the Play, on every view below
       /team             ?pokemon=, ?add= (with ?form=)
         /plan
         /analysis
@@ -134,15 +134,14 @@ reference/filter context; they are not currently a required top-level view.
       /settings
   /plans                My Plans
     /new                the Team Planner on a blank Plan: ?vg=
-    /[planId]           ?vg=
+    /plan               ?id= names the Plan, ?vg=
   /stats
   /collection           ?species=
   /library              ?tab=rules|tags
 
 /codex
   /pokemon
-    /[speciesSlug]
-    /[versionGroupSlug]/[speciesSlug]
+    /[speciesSlug]      ?game= names the base group, ?form=
   /games
     /[versionGroupSlug]
     /[versionGroupSlug]/pokedexes/[pokedexSlug]
@@ -154,32 +153,34 @@ reference/filter context; they are not currently a required top-level view.
 ```
 
 `src/config/routes.ts` builds every address. Thin route adapters compose feature-owned page entry points. Every
-route above is mounted. The Game List from the [Feature Contract](./feature-contract.md)
+route above is mounted, and every page is a plain file made at build time
+([ADR 0009](../decisions/0009-app-as-plain-files.md)): an id the build can't
+know (a Play, a Plan) rides in the query, and the Codex has one page per
+Pokémon, base game and Pokédex. The Game List from the [Feature Contract](./feature-contract.md)
 has no route yet.
 
 The Codex reads by **version group**: a base group (Sword and Shield) with its
 expansions' child groups (The Isle of Armor, The Crown Tundra) included. Every
 version-group segment resolves through one rule
 (`resolveVersionGroupRoute` in the reference module): a base group's slug is
-canonical; a game's slug or a child group's slug redirects permanently (308)
-to its base group; an unknown slug is a 404. Route layouts settle the 404 or
-redirect before the loading state streams.
+canonical; a game's slug or a child group's slug moves on to its base group
+in the browser; an unknown slug shows the not-found page.
 
 Pokémon Browse lives at `/codex/pokemon` (a stray query redirects to the bare
 path). Each species card opens
-`/codex/pokemon/[versionGroupSlug]/[speciesSlug]` in the first base group of
-the generation it was introduced in. A persistent form rides as `?form=`. An
-entry in a group from before the species existed, and
-`/codex/pokemon/[speciesSlug]`, open the introduced generation's first base
-group the species can be found in (Legends: Arceus for Wyrdeer, Let's Go for
-Meltan), the same rule as the entry's generation pills. On
-`/codex/pokemon/[speciesSlug]`, a legacy `?game=` or `?versionGroup=` names
-the group instead and a legacy `?generation=` the generation, when the
-species exists there; without those, a later `?form=` opens the first base
-group that form can be found in (Hisuian Arcanine in Legends: Arceus, Partner
-Pikachu in Let's Go), or a battle form's generation's first group (Mega
-Charizard X in X and Y). Collection's Favourites links this way. A layout cannot read the query, so the 308 from an old
-game address opens the default form. Back or an explicit return to Browse
+`/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` in the first base group
+of the generation it was introduced in. A persistent form rides as `?form=`. A
+game's or child group's slug in `?game=` moves on to its base group. An entry
+in a group from before the species existed, and `/codex/pokemon/[speciesSlug]`
+with no `?game=`, open the introduced generation's first base group the
+species can be found in (Legends: Arceus for Wyrdeer, Let's Go for Meltan),
+the same rule as the entry's generation pills, and the address stays as it
+is. Without `?game=`, a legacy `?versionGroup=` names the group instead and a
+legacy `?generation=` the generation, when the species exists there; without
+those, a later `?form=` opens the first base group that form can be found in
+(Hisuian Arcanine in Legends: Arceus, Partner Pikachu in Let's Go), or a
+battle form's generation's first group (Mega Charizard X in X and Y).
+Collection's Favourites links this way. Back or an explicit return to Browse
 should restore criteria, result position, scroll, and useful focus.
 
 Games Browse keeps Search (`q`) and the kind of game (`kind`) in URL state
@@ -225,7 +226,7 @@ Codex is an optional contextual entry, never a required funnel.
 ### Plan A Team
 
 ```txt
-Team Planner (/mainline/plans/new) -> Save -> /mainline/plans/[planId]
+Team Planner (/mainline/plans/new) -> Save -> /mainline/plans/plan?id=
 My Plans -> a Plan -> Team Planner
 A Play's Team -> Plan -> Follow a Plan, or Plan a team (the Planner on the
   Play's version group)
@@ -307,9 +308,9 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   remains active; it does not list an Overall destination. Named Pokédex and
   Collectible-group selectors stay inside their owning child views.
 - The contextual Team Plan comparison is a focused view inside the active Team
-  section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
+  section at `/mainline/plays/play/team/plan?id=`. The Play shell and primary
   navigation remain visible.
-- History is the Play's History tab at `/mainline/plays/[playId]/history`;
+- History is the Play's History tab at `/mainline/plays/play/history?id=`;
   its search and its Story, Team, Notes and Status filters are local state. Team History is
   retired: its old address is gone and its events are History's Team filter.
 - Settings is one route with four local cards (General, Tracking, Challenge

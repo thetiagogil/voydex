@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 
 import { appRoutes } from "@/config/routes";
 
+/* Written once by the build, a plain file like every page. */
+export const dynamic = "force-static";
+
 /*
  * What makes Voydex installable: from the Home Screen it opens as its own
  * app, and the browser keeps its data (Safari clears a site's data after

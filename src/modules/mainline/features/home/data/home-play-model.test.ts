@@ -41,7 +41,7 @@ describe("getHomeContinue", () => {
     expect(
       getHomeContinue({ id: "play-1", statusSlug: "playing" }, null),
     ).toEqual({
-      href: "/mainline/plays/play-1",
+      href: "/mainline/plays/play?id=play-1",
       label: "Continue",
     });
   });
@@ -50,7 +50,7 @@ describe("getHomeContinue", () => {
     expect(
       getHomeContinue({ id: "play-1", statusSlug: "playing" }, pikachu),
     ).toEqual({
-      href: "/mainline/plays/play-1/team?pokemon=pokemon-1",
+      href: "/mainline/plays/play/team?id=play-1&pokemon=pokemon-1",
       label: "Continue with Sparky",
     });
   });

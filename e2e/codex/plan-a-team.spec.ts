@@ -66,7 +66,7 @@ test.describe("Codex: Plan a team", () => {
 
     await details.getByRole("textbox", { name: "Plan name" }).fill(name);
     await details.getByRole("button", { name: "Save Plan" }).click();
-    await page.waitForURL(/\/mainline\/plans\/[0-9a-f-]{36}/);
+    await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
     await expect(
       page.getByRole("heading", { level: 1, name: new RegExp(name) }),
     ).toBeVisible();

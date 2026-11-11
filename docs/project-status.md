@@ -41,6 +41,13 @@ so no page reads hosted game data; hosted `reference` and `tracking` can then
 go in a hosted step (needs the owner's approval). The Milestones and
 collectibles review (#199, pull request #243) waits until this work is done.
 
+#269 makes the whole app plain files on Cloudflare, with no Worker
+([ADR 0009](./decisions/0009-app-as-plain-files.md)): Next.js static export,
+login and account changes in the browser, Plays and Plans addressed by
+`?id=`, one pre-built Codex page per Pokémon, base game and Pokédex, and the
+"Database unavailable" dot and `/api/health` gone. `npm run start` serves
+`out/` the way Cloudflare does.
+
 ## Checkpoint (2026-10-19)
 
 The Soft Clay redesign is finished and on `main`: the owner reviewed every view

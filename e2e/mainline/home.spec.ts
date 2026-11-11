@@ -26,7 +26,7 @@ test.describe("Home", () => {
     /* Nothing picked: Continue opens the Play. */
     await expect(continueToPlay).toHaveAttribute(
       "href",
-      `/mainline/plays/${playId}`,
+      `/mainline/plays/play?id=${playId}`,
     );
 
     /* A tap picks it and stays on Home; Continue now opens it. */
@@ -35,7 +35,7 @@ test.describe("Home", () => {
     await expect(page).toHaveURL(/\/mainline\?play=/);
     await expect(continueWithSquirtle).toHaveAttribute(
       "href",
-      new RegExp(`/mainline/plays/${playId}/team\\?pokemon=`),
+      new RegExp(`/mainline/plays/play/team\\?id=${playId}&pokemon=`),
     );
     await expectAccessible(page);
 
@@ -47,7 +47,7 @@ test.describe("Home", () => {
     await squirtle.click();
     await continueWithSquirtle.click();
     await expect(page).toHaveURL(
-      new RegExp(`/mainline/plays/${playId}/team\\?pokemon=`),
+      new RegExp(`/mainline/plays/play/team\\?id=${playId}&pokemon=`),
     );
     await expect(
       page
@@ -110,8 +110,10 @@ test.describe("Home", () => {
     });
     const shelfOrder = async () => {
       await page.goto("/mainline", { waitUntil: "networkidle" });
-      const labels = await page
-        .getByRole("navigation", { name: "Your Plays" })
+      /* The shelf draws once the device database has opened. */
+      const shelf = page.getByRole("navigation", { name: "Your Plays" });
+      await expect(shelf).toBeVisible();
+      const labels = await shelf
         .locator('a[href*="play="]')
         .evaluateAll((links) =>
           links.map((link) => link.getAttribute("aria-label") ?? ""),
@@ -123,7 +125,7 @@ test.describe("Home", () => {
       };
     };
     const moments = async () => {
-      await page.goto(`/mainline/plays/${olderId}/history`, {
+      await page.goto(`/mainline/plays/play/history?id=${olderId}`, {
         waitUntil: "networkidle",
       });
 

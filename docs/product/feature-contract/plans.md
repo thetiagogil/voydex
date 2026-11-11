@@ -9,7 +9,7 @@ Team plans are separate from plays.
 As built (v3):
 
 - **Team Planner** (`/mainline/plans/new`, a saved Plan at
-  `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
+  `/mainline/plans/plan?id=`, `?vg=` for the version group): pick a version
   group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
   per Pokédex, a Pokédex filter, search, Fully evolved only, type dots; each
   species in its Pokédex form, then every other variant the group has beside

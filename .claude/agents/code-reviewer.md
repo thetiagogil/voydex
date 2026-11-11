@@ -35,8 +35,8 @@ area before judging it. Rules come from `CLAUDE.md`,
 
 **Security and boundaries**
 
-- Server Actions without explicit authentication or input parsing;
-  authorization left to the proxy or the UI.
+- Saves without input parsing; a Server Action, Route Handler or other
+  request-time server code in a static-export app (ADR 0009).
 - Supabase clients outside `src/platform/supabase`; raw `.schema(...)` reads
   in components; Client Components importing queries or readers.
 - Lateral module imports, leaf views importing sibling-view internals, new

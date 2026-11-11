@@ -24,7 +24,7 @@ test.describe("Team", () => {
     });
 
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
   });

@@ -4,7 +4,7 @@ import { AccountFormDialog } from "@/features/settings/components/account-form-d
 import {
   changeEmailAction,
   changePasswordAction,
-} from "@/features/settings/server/account-actions";
+} from "@/features/settings/client/account-changes";
 import { PasswordInput } from "@/shared/components/password-input";
 import {
   Field,

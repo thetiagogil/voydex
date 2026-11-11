@@ -1,3 +1,5 @@
+"use client";
+
 import { appRoutes } from "@/config/routes";
 import type { AuthErrorCode } from "@/features/auth/auth-errors";
 import {
@@ -14,7 +16,8 @@ import { PasswordInput } from "@/shared/components/password-input";
 import {
   logInWithPassword,
   signUpWithPassword,
-} from "@/features/auth/server/auth-actions";
+} from "@/features/auth/client/auth-actions";
+import { useAuthFormAction } from "@/features/auth/client/use-auth-form-action";
 import {
   Field,
   FieldDescription,
@@ -64,7 +67,9 @@ export const AuthPanel = ({
   testAccounts,
 }: AuthPanelProps) => {
   const isSignUp = mode === "sign-up";
-  const action = isSignUp ? signUpWithPassword : logInWithPassword;
+  const action = useAuthFormAction(
+    isSignUp ? signUpWithPassword : logInWithPassword,
+  );
   const copy = copyByMode[mode];
 
   return (
@@ -79,6 +84,8 @@ export const AuthPanel = ({
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
+            /* The remembered email arrives after the page opens: fill it in then. */
+            key={email ?? ""}
             id="email"
             name="email"
             type="email"

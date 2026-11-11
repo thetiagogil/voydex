@@ -123,18 +123,17 @@ export const pickGameDetailVersion = (
   );
 };
 
-/* A Pokémon's entry in this group, with a special form as `?form=`. */
+/* A Pokémon's entry in this group, with a special form as `&form=`. */
 const getEntryHref = (
   versionGroupSlug: string,
   speciesSlug: string,
   form: { isDefault: boolean; slug: string },
-) => {
-  const href = appRoutes.codexPokemonEntry(versionGroupSlug, speciesSlug);
-
-  return form.isDefault
-    ? href
-    : `${href}?${new URLSearchParams({ form: form.slug })}`;
-};
+) =>
+  appRoutes.codexPokemonEntry(
+    versionGroupSlug,
+    speciesSlug,
+    form.isDefault ? undefined : form.slug,
+  );
 
 const toCardTypes = (typePair: PokemonTypePair) => {
   return [typePair.primaryType, typePair.secondaryType].flatMap((type) =>

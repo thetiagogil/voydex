@@ -1,7 +1,6 @@
 "use client";
 
 import { Link } from "@/shared/components/link";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 
 import type {
@@ -9,6 +8,7 @@ import type {
   MainlinePlayTeamPlanMemberComparison,
 } from "@/modules/mainline/features/plays/hub/types";
 import { appRoutes } from "@/config/routes";
+import { usePlayId } from "@/modules/mainline/features/plays/hub/client/use-play-id";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageHeader } from "@/shared/components/page-header";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -32,7 +32,7 @@ type MainlinePlayTeamPlanProps = {
  */
 export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
   const plan = data.teamPlan;
-  const { playId } = useParams<{ playId: string }>();
+  const playId = usePlayId();
   const [selectedComparison, setSelectedComparison] =
     useState<MainlinePlayTeamPlanMemberComparison | null>(null);
   const [isCompareOpen, setIsCompareOpen] = useState(false);

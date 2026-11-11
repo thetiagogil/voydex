@@ -21,7 +21,7 @@ test.describe("Codex", () => {
       .first()
       .click();
 
-    await page.waitForURL("**/codex/pokemon/rb/charizard");
+    await page.waitForURL("**/codex/pokemon/charizard?game=rb");
     await expect(
       page.getByRole("heading", { level: 1, name: "Charizard" }),
     ).toBeVisible();
@@ -33,7 +33,7 @@ test.describe("Codex", () => {
   test("reads a species' breeding facts in a game with eggs and gender", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/swsh/charizard");
+    await page.goto("/codex/pokemon/charizard?game=swsh");
 
     const breeding = page.getByRole("region", { name: "Breeding" });
     await expect(breeding.getByText("Egg cycles")).toBeVisible();
@@ -48,7 +48,7 @@ test.describe("Codex", () => {
   test("reads a form's training values from the open game", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/swsh/charizard");
+    await page.goto("/codex/pokemon/charizard?game=swsh");
     const training = page.getByRole("region", { name: "Training" });
     await expect(training.getByText("EV yield")).toBeVisible();
     await expect(training.getByText("3 Sp. Atk")).toBeVisible();
@@ -56,7 +56,7 @@ test.describe("Codex", () => {
     await expect(training.getByText("Medium Slow")).toBeVisible();
 
     /* Red / Blue counts no EVs and has no friendship; Yellow's Pikachu is harder to catch. */
-    await page.goto("/codex/pokemon/yellow/pikachu");
+    await page.goto("/codex/pokemon/pikachu?game=yellow");
     const early = page.getByRole("region", { name: "Training" });
     await expect(early.getByText("EV yield")).toHaveCount(0);
     await expect(early.getByText("Base friendship")).toHaveCount(0);
@@ -67,7 +67,7 @@ test.describe("Codex", () => {
   test("reads the open game's Pokédex words, a version each when they differ", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/swsh/charizard");
+    await page.goto("/codex/pokemon/charizard?game=swsh");
     const hero = page.getByRole("region", { name: "Charizard" });
     await expect(hero.getByText("Sword", { exact: true })).toBeVisible();
     await expect(hero.getByText("Shield", { exact: true })).toBeVisible();
@@ -76,7 +76,7 @@ test.describe("Codex", () => {
     ).toBeVisible();
 
     /* Red and Blue say the same, so one paragraph with no version label. */
-    await page.goto("/codex/pokemon/rb/charizard");
+    await page.goto("/codex/pokemon/charizard?game=rb");
     const early = page.getByRole("region", { name: "Charizard" });
     await expect(
       early.getByText(/Spits fire that is hot enough/),
@@ -91,7 +91,7 @@ test.describe("Codex", () => {
     const menu = page.getByRole("combobox", { name: "Form" });
     const options = page.getByRole("option");
 
-    await page.goto("/codex/pokemon/xy/charizard");
+    await page.goto("/codex/pokemon/charizard?game=xy");
     await menu.click();
     await expect(options).toHaveCount(3);
     await expect(options.nth(1)).toContainText("Mega Charizard X");
@@ -105,7 +105,7 @@ test.describe("Codex", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    await page.goto("/codex/pokemon/swsh/charizard");
+    await page.goto("/codex/pokemon/charizard?game=swsh");
     await menu.click();
     await expect(options).toHaveCount(2);
     await expect(options.nth(1)).toContainText("Gigantamax Charizard");
@@ -114,19 +114,19 @@ test.describe("Codex", () => {
   test("a species address with a later form opens where that form is found", async ({
     page,
   }) => {
+    /* The form's name only shows in a game that has it; the address stays. */
     const cases = [
-      ["arcanine", "hisuian-arcanine", "pla", "Hisuian Arcanine"],
-      ["pikachu", "pikachu-partner", "lgpe", "Pikachu (Partner)"],
+      ["arcanine", "hisuian-arcanine", "Hisuian Arcanine"],
+      ["pikachu", "pikachu-partner", "Pikachu (Partner)"],
       /* A battle form has no rows of its own: its generation's first game. */
-      ["charizard", "mega-charizard-x", "xy", "Mega Charizard X"],
+      ["charizard", "mega-charizard-x", "Mega Charizard X"],
     ] as const;
 
-    for (const [species, form, group, name] of cases) {
-      await page.goto(`/codex/pokemon/${species}?form=${form}`);
-      await page.waitForURL(
-        `**/codex/pokemon/${group}/${species}?form=${form}`,
-      );
+    for (const [species, form, name] of cases) {
+      const address = `/codex/pokemon/${species}?form=${form}`;
+      await page.goto(address);
       await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
+      await expect(page).toHaveURL(address);
     }
   });
 

@@ -1,3 +1,7 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getAuthPageHref,
@@ -12,29 +16,19 @@ import {
   AuthMailMark,
 } from "@/features/auth/components/auth-frame";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
-import { resendSignUpEmail } from "@/features/auth/server/auth-actions";
-import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
+import { resendSignUpEmail } from "@/features/auth/client/auth-actions";
+import { useRememberedAuthEmail } from "@/features/auth/client/auth-email";
 import { TextLink } from "@/shared/components/text-link";
-
-export type CheckEmailSearchParams = {
-  error?: string;
-  next?: string;
-  sent?: string;
-};
-
-type CheckEmailPageProps = {
-  searchParams?: Promise<CheckEmailSearchParams>;
-};
 
 /*
  * Check your email (v3 `checkemail`), after a sign-up that still needs its
  * email confirmed.
  */
-export const CheckEmailPage = async ({ searchParams }: CheckEmailPageProps) => {
-  const params = await searchParams;
-  const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
-  const error = parseAuthErrorCode(params?.error);
-  const email = await readAuthEmail();
+export const CheckEmailPage = () => {
+  const params = useSearchParams();
+  const next = getSafeAuthRedirectPath(params.get("next"), LOGIN_DEFAULT_NEXT);
+  const error = parseAuthErrorCode(params.get("error"));
+  const email = useRememberedAuthEmail();
 
   return (
     <AuthFrame>
@@ -53,7 +47,7 @@ export const CheckEmailPage = async ({ searchParams }: CheckEmailPageProps) => {
       {error ? <AuthErrorAlert error={error} /> : null}
       <EmailSentActions
         resendAction={resendSignUpEmail}
-        sentAgain={!error && parseAuthLinkSent(params?.sent) === "again"}
+        sentAgain={!error && parseAuthLinkSent(params.get("sent")) === "again"}
         hiddenFields={<input type="hidden" name="next" value={next} />}
         alternative={
           <TextLink href={getAuthPageHref({ mode: "sign-up", next })}>

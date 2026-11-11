@@ -65,7 +65,7 @@ test.describe("Challenge rules", () => {
     ).toBeVisible();
 
     await dialog.getByRole("button", { name: /^Start/ }).click();
-    await page.waitForURL(/\/mainline\/plays\/[0-9a-f-]{36}$/);
+    await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
     await page.getByRole("button", { name: "Play details" }).click();
@@ -86,7 +86,7 @@ test.describe("Challenge rules", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${playId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const rules = page.getByRole("region", { name: "Challenge rules" });

@@ -28,8 +28,18 @@ export const getMainlinePlayMarkedPath = (
   picked: MainlinePlayPickedTab | null,
 ) => (picked && picked.from === pathname ? picked.href : pathname);
 
+/*
+ * An address without its query and hash. Every page of a Play has the same
+ * query (`?id=`), so the path alone says which tab is current; a picked
+ * tab's href still carries its query.
+ */
+const pathOf = (href: string) => href.split(/[?#]/)[0] ?? href;
+
 const matchesPath = (pathname: string, href: string) => {
-  return pathname === href || pathname === `${href}/`;
+  const path = pathOf(pathname);
+  const target = pathOf(href);
+
+  return path === target || path === `${target}/`;
 };
 
 export const getMainlinePlayNavigationState = (
@@ -75,7 +85,7 @@ export const getMainlinePlayNavigationState = (
     };
   }
 
-  if (pathname.startsWith(`${teamHref}/`)) {
+  if (pathOf(pathname).startsWith(`${pathOf(teamHref)}/`)) {
     return {
       activeProgressView: null,
       activeSection: "team",
@@ -114,7 +124,7 @@ export const getMainlinePlayNavigationState = (
     };
   }
 
-  if (pathname.startsWith(`${progressHref}/`)) {
+  if (pathOf(pathname).startsWith(`${pathOf(progressHref)}/`)) {
     return {
       activeProgressView: null,
       activeSection: "progress",

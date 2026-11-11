@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppAccount } from "@/features/app-shell/components/app-account-provider";
+import { useSignOut } from "@/features/app-shell/client/sign-out";
 import { readUserPreferences } from "@/features/settings/client/preferences-query";
 import { readProfileIconChoices } from "@/features/settings/client/profile-icon-choices-query";
 import { readProfileSettings } from "@/features/settings/client/profile-settings-query";
@@ -8,12 +9,9 @@ import { SettingsPage } from "@/features/settings/components/settings-page";
 import { useLocalRead } from "@/platform/local-db/local-db-context";
 
 /* Settings, read on this device; the account part only when signed in. */
-export const SettingsRoute = ({
-  signOutAction,
-}: {
-  signOutAction: () => Promise<void>;
-}) => {
+export const SettingsRoute = () => {
   const account = useAppAccount();
+  const signOutAction = useSignOut();
   const read = useLocalRead("settings", (client) =>
     Promise.all([
       readProfileSettings(),

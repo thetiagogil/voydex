@@ -1,15 +1,16 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { MainlineCollectionRoute } from "@/modules/mainline/features/collection/mainline-collection-route";
 
-type PageProps = {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
-export default async function CollectionPage({ searchParams }: PageProps) {
-  const { species, view } = await searchParams;
+export default function Page() {
+  const query = useSearchParams();
+  const view = query.get("view");
 
   return (
     <MainlineCollectionRoute
-      initialSpeciesSlug={typeof species === "string" ? species : null}
+      initialSpeciesSlug={query.get("species")}
       view={view === "games" || view === "favourites" ? view : "pokemon"}
     />
   );

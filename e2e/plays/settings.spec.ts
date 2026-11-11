@@ -16,7 +16,7 @@ test.describe("Play settings", () => {
       partner: null,
     });
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
   });
@@ -87,7 +87,7 @@ test.describe("Play settings", () => {
 
     await page.waitForURL("**/mainline/plays");
 
-    await page.goto(`/mainline/plays/${playId}`);
+    await page.goto(`/mainline/plays/play?id=${playId}`);
     await expect(
       page.getByRole("heading", { name: "This page wandered off" }),
     ).toBeVisible();
@@ -100,7 +100,7 @@ test.describe("Play settings", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${swordId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${swordId}`, {
       waitUntil: "networkidle",
     });
     const expansions = page.getByRole("region", { name: "Expansions" });

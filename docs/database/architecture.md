@@ -110,8 +110,8 @@ release checks, and writes to `public/game-data/` (ignored by Git):
 - A file's name carries a hash of its content. Columns filled at insert time
   (`created_at`) are left out, so the same seeds always give the same files
   and a device downloads a file again only when its rows changed.
-- `cf:build`, `cf:preview` and `cf:deploy` build the files first, so a deploy
-  always ships files that fit its schema.
+- `cf:deploy` builds the files first, so a deploy always ships files that
+  fit its schema.
 - The device checks a downloaded file against the hash in the version list,
   and refuses files built for another schema.
 
@@ -139,13 +139,15 @@ download their file in the browser; no page reads a database for game data.
   `voydex-asset:/…` paths and reading it fills in the app's own assets site
   (`src/platform/prebuilt-data`). Row timestamps are left out, so a file
   only changes when its data does.
-- `cf:build`, `cf:preview` and `cf:deploy` build the game data files, then
-  these. `npm run verify` builds both, so a reader that no longer fits the
-  seeds fails before merging.
-- The pages answer every address with the app and settle it in the
-  browser: an address that names no file shows the not-found page, and a
-  game's or an expansion's old address moves on to its base group with a
-  client-side redirect (no 404 or 308 status from the server).
+- `cf:deploy` builds the game data files, then these, then the app.
+  `npm run verify` and GitHub's quality checks build both before the app,
+  because the app's build reads them: it makes one page per Pokémon, base
+  game and Pokédex ahead of time, with its title and description, so
+  search engines and links see a real page.
+- A page draws itself in the browser from its file. An address that names
+  no page or file shows the not-found page, and a game's or an
+  expansion's old address moves on to its base group with a client-side
+  redirect (no 404 or 308 status from the server).
 - `npm run dev` warns when the files are missing (`scripts/codex/check-codex-data.mjs`):
   without them every Codex page is not found.
 - `architecture:check` keeps Codex pages and routes off any database client

@@ -4,7 +4,7 @@ This is the History And Play Settings part of the [Feature Contract](../feature-
 
 ## Play Timeline And Journal
 
-As built, History (`/mainline/plays/[playId]/history`) draws every moment the
+As built, History (`/mainline/plays/play/history?id=`) draws every moment the
 Play kept on one continuous dashed line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's

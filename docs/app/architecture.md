@@ -32,7 +32,6 @@ src/
     env/
     supabase/
   shared/
-  proxy.ts
 ```
 
 The active source follows these ownership rules:
@@ -43,9 +42,12 @@ The active source follows these ownership rules:
   `cn` helper lives under `src/shared/utils`.
 - route adapters compose the app shell around auth, site, and system content;
   those global features do not import each other.
-- the proxy separates generic Supabase session refresh in `src/platform` from
-  Voydex route protection and active-module cookie orchestration in the app-shell
-  feature.
+- the whole app is plain files made at build time (Next.js static export,
+  [ADR 0009](../decisions/0009-app-as-plain-files.md)): no server code runs
+  for a page. Login and account changes call Supabase from the browser
+  (`src/features/auth/client`, `src/features/settings/client`), the signed-in
+  session is read through `useAuthSession` (`src/platform/local-db`), and the
+  module you were last in is kept in this browser (`src/config/active-module.ts`).
 - reusable Pokemon/game contracts, domain rules, artwork/type primitives,
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
@@ -79,9 +81,8 @@ The active source follows these ownership rules:
 - representative reads include a cohesive simple public read, a complex public
   Games read with independent I/O and mapping, and an authenticated Play Hub
   read with claim verification, owner-scoped readers, and pure page assembly.
-- the first non-trivial mutation uses separate Server Action, command,
-  validation, repository, and transactional database responsibilities, grouped
-  under the leaf view's `server` and `utils` folders.
+- saves run on the device through `local-db` commands in `client/` folders;
+  there are no Server Actions.
 - generated shared UI primitives remain documented size exceptions; the
   architecture checker rejects retired paths and prohibited dependencies.
 
@@ -119,7 +120,6 @@ src/
     providers/
     styles/
     utils/
-  proxy.ts
 ```
 
 Root folders are responsibilities, not convenience buckets. Do not add a new
@@ -127,8 +127,11 @@ root folder when an existing owner is appropriate.
 
 ### `src/app`
 
-Next.js route files, layouts, metadata, loading/error boundaries, redirects,
-and Route Handlers. Page routes should normally resolve route input and render
+Next.js route files, layouts, metadata and loading/error boundaries. Every
+route is made ahead of time as a plain file (`output: "export"`), so there are
+no Route Handlers, no proxy and no server-only reads at request time; a page
+that depends on its address reads it in the browser (`useSearchParams`, under
+the route's `loading.tsx`). Page routes should normally resolve route input and render
 one feature or module entry point. They must not become the application service
 or data-access layer.
 
@@ -579,17 +582,19 @@ Next.js, React or `src/platform` at runtime; type-only imports are fine.
 
 ### UI And Client Boundaries
 
-- Server Components are the default.
+- Server Components are the default; at build time they make the page's
+  first HTML, nothing more.
 - Add `"use client"` at the smallest interactive boundary.
 - Components render data and own local interaction state; they do not create
   Supabase clients or issue raw schema reads.
-- Client Components may import Server Actions, but not server queries or raw
-  readers from `server/` folders.
-- Route Handlers are for public APIs, webhooks, or client islands that need an
-  HTTP boundary. Normal server-rendered pages should call server use cases
-  directly.
-- `src/proxy.ts` refreshes the session on app routes; it never sends anyone
-  to log in, since the app opens without signing in.
+- Client Components never import server queries or raw readers from `server/`
+  folders; only the build runs those.
+- A page whose id lives in the address takes it from the query, not from a
+  path segment, because a file host can't make a page for an id it has never
+  seen: `/mainline/plays/play?id=`, `/mainline/plans/plan?id=`. The Codex
+  makes a page per Pokémon, base game and Pokédex ahead of time
+  (`generateStaticParams`, `dynamicParams = false`), each with its own title
+  and description.
 
 ### Page Changes
 
@@ -597,13 +602,16 @@ A page's data is read on the device, so what the server sends for a page is
 small and doesn't change while you use the app. Page changes never wait on
 it:
 
-- Links come from `@/shared/components/link`, which fetches each page on
-  screen in full ahead of the click (lint forbids `next/link` elsewhere).
+- Links come from `@/shared/components/link` (lint forbids `next/link`
+  elsewhere). Next.js fetches each page on screen ahead of the click from the
+  small files the build writes beside it. The shared link never asks for a
+  full prefetch (`prefetch={true}`): on a file host that request gets the
+  page's HTML instead, and the click then never moves.
 - The router keeps each page opened or fetched for an hour
   (`experimental.staleTimes` in `next.config.ts`), so going back is instant.
 - A save on the device redraws through `notifyLocalSave`; it never calls
-  `router.refresh()`, which asks the server for the page again and drops every
-  page fetched ahead.
+  `router.refresh()`, which fetches the page again and drops every page
+  fetched ahead.
 - A filter or scope kept in the address updates it with
   `window.history.replaceState`, not `router.replace`.
 
@@ -637,8 +645,7 @@ Current route groups remain:
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
   (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
-  `/welcome` and `/you`;
-- API: `/api/health`.
+  `/welcome` and `/you`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every
 address; code is the evidence for what is mounted.

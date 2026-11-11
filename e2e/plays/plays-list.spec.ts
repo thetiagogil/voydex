@@ -24,7 +24,7 @@ test.describe("Plays list", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${pausedId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${pausedId}`, {
       waitUntil: "networkidle",
     });
     const saved = waitForAction(page);
@@ -95,7 +95,9 @@ test.describe("Plays list", () => {
       .getByRole("heading", { level: 3 });
     await expect(titles).toHaveText([newer, older], forTheAnswer);
 
-    await page.goto(`/mainline/plays/${olderId}`, { waitUntil: "networkidle" });
+    await page.goto(`/mainline/plays/play?id=${olderId}`, {
+      waitUntil: "networkidle",
+    });
     const partnerChoice = page.getByRole("region", {
       name: "Which Pokémon did you choose?",
     });
@@ -132,7 +134,7 @@ test.describe("Plays list", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${taggedId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${taggedId}`, {
       waitUntil: "networkidle",
     });
     const tags = page.getByRole("region", { name: "Tags" });

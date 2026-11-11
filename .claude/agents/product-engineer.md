@@ -41,12 +41,12 @@ product and Pokémon-domain playbook; `CLAUDE.md` and
 4. Implement with these boundaries:
    - routes stay thin and pass one cohesive `data` model to the feature entry;
    - Supabase clients come only from `src/platform/supabase`; components never
-     read the database; Client Components import Server Actions, never
-     queries or readers;
+     read the database; Client Components never import server queries or
+     readers, and there are no Server Actions (ADR 0009);
    - readers distinguish empty from failed; each route gets its own smallest
      read model;
-   - Server Actions authenticate and parse input; multi-table writes go
-     through the reviewed RPCs in `docs/database/schema-contract.md`;
+   - `local-db` commands parse input; multi-table writes go through the
+     reviewed database functions in `docs/database/schema-contract.md`;
    - game-dependent behavior goes through `resolveGameMechanics` in
      `src/modules/reference/features/games/domain/game-mechanics.ts`;
    - derived values (completion, comparison status, coverage) stay derived;

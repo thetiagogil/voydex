@@ -29,9 +29,9 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   const details = page.getByRole("dialog", { name: "Save Plan" });
   await details.getByRole("textbox", { name: "Plan name" }).fill(name);
   await details.getByRole("button", { name: "Save Plan" }).click();
-  await page.waitForURL(/\/mainline\/plans\/[0-9a-f-]{36}/);
+  await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
 
-  return page.url().split("/").at(-1)!.split("?")[0];
+  return new URL(page.url()).searchParams.get("id")!;
 };
 
 test.describe("Team Planner", () => {
@@ -62,7 +62,7 @@ test.describe("Team Planner", () => {
     await page.goto("/mainline/plans");
     await expect(
       page.getByRole("link", { name: new RegExp(name) }),
-    ).toHaveAttribute("href", `/mainline/plans/${planId}`);
+    ).toHaveAttribute("href", `/mainline/plans/plan?id=${planId}`);
     await expectAccessible(page);
   });
 
@@ -99,7 +99,7 @@ test.describe("Team Planner", () => {
     const details = page.getByRole("dialog", { name: "Save Plan" });
     await details.getByRole("textbox", { name: "Plan name" }).fill(name);
     await details.getByRole("button", { name: "Save Plan" }).click();
-    await page.waitForURL(/\/mainline\/plans\/[0-9a-f-]{36}/);
+    await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
 
     /* It reopens as a Shield Plan; going back to Either is a change to save. */
     await page.reload();
@@ -215,7 +215,7 @@ test.describe("Team Planner", () => {
       name: playName,
       partner: "Charmander",
     });
-    await page.goto(`/mainline/plays/${playId}/team/plan`);
+    await page.goto(`/mainline/plays/play/team/plan?id=${playId}`);
     await page.getByRole("button", { name: "Follow a Plan" }).click();
     await page
       .getByRole("menu", { name: "Follow a Plan" })
@@ -235,7 +235,7 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
 
     /* Followed, the Plan opens locked: it reads, and Unlock comes first. */
-    await page.goto(`/mainline/plans/${planId}`);
+    await page.goto(`/mainline/plans/plan?id=${planId}`);
     await expect(page.getByText("Locked: followed by 1 Play.")).toBeVisible();
     const team = page.getByRole("region", { name: "Your team" });
     await expect(
@@ -281,7 +281,7 @@ test.describe("Team Planner", () => {
     await expect(plays.getByRole("img", { name: "Charmander" })).toBeVisible();
     await expectAccessible(page);
     await plays.getByRole("link", { name: new RegExp(playName) }).click();
-    await page.waitForURL(`**/mainline/plays/${playId}`);
+    await page.waitForURL(`**/mainline/plays/play?id=${playId}`);
   });
 
   test("asks before a game switch drops Pokémon", async ({ page }) => {
@@ -310,7 +310,7 @@ test.describe("Team Planner", () => {
 
     await pickGame("Sun / Moon");
     await confirm.getByRole("button", { name: "Switch game" }).click();
-    await page.waitForURL(`**/mainline/plans/${planId}?vg=sm`);
+    await page.waitForURL(`**/mainline/plans/plan?id=${planId}&vg=sm`);
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
     ).toBeVisible();
@@ -342,7 +342,7 @@ test.describe("Team Planner", () => {
       page.getByRole("link", { name: new RegExp(name) }),
     ).toBeHidden();
     await expect(page.getByRole("heading", { name })).toBeVisible();
-    await page.goto(`/mainline/plans/${planId}`);
+    await page.goto(`/mainline/plans/plan?id=${planId}`);
     await page.waitForURL("**/mainline/plans?view=archived");
 
     /* Restored, it's back in My Plans. */

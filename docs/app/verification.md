@@ -102,7 +102,8 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 
 The Browser Tests workflow runs the suite on every pull request and on `main`:
 it starts local Supabase (only the services the app uses, with images from
-`ghcr.io`), builds the app, runs the tests against the production build and
+`ghcr.io`), builds the app, runs the tests against the built files (served by
+`npm run start` the way Cloudflare serves them) and
 keeps the report when a test fails. A pull request that only changes docs
 skips the tests; the check still reports as skipped, so it can be required.
 

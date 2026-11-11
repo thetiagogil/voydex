@@ -13,10 +13,8 @@
     "dev": "next dev",
     "prebuild": "node scripts/database/device-schema.mjs",
     "build": "next build",
-    "start": "next start",
-    "cf:build": "npm run game-data:build && npm run codex:build && opennextjs-cloudflare build",
-    "cf:preview": "npm run game-data:build && npm run codex:build && opennextjs-cloudflare build && opennextjs-cloudflare preview --port 3100",
-    "cf:deploy": "npm run game-data:build && npm run codex:build && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "start": "wrangler dev",
+    "cf:deploy": "npm run game-data:build && npm run codex:build && npm run build && wrangler deploy",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --pool=threads",
@@ -58,7 +56,6 @@
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@electric-sql/pglite": "0.5.12",
-    "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -73,7 +70,6 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@opennextjs/cloudflare": "1.20.16",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
