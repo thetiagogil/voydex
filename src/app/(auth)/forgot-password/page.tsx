@@ -1,17 +1,14 @@
-import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
-import {
-  ForgotPasswordPage,
-  type ForgotPasswordSearchParams,
-} from "@/features/auth/components/forgot-password-page";
+import { Suspense } from "react";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams?: Promise<ForgotPasswordSearchParams>;
-}) {
+import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
+import { ForgotPasswordPage } from "@/features/auth/components/forgot-password-page";
+
+export default function Page() {
   return (
     <PublicAppShell bar="none">
-      <ForgotPasswordPage searchParams={searchParams} />
+      <Suspense>
+        <ForgotPasswordPage />
+      </Suspense>
     </PublicAppShell>
   );
 }

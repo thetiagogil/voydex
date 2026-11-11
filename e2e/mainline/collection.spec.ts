@@ -96,7 +96,7 @@ test.describe("Collection", () => {
     await expect(sheet).toBeVisible();
     await expect(sheet.getByRole("link", { name: playName })).toHaveAttribute(
       "href",
-      `/mainline/plays/${playId}`,
+      `/mainline/plays/play?id=${playId}`,
     );
     await expect(
       sheet.getByRole("link", { name: "Open in Codex" }),

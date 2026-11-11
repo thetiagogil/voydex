@@ -77,10 +77,10 @@ export const startPlay = async (
 
   await dialog.getByRole("button", { name: /^Start/ }).click();
   await started;
-  await page.waitForURL(/\/mainline\/plays\/[0-9a-f-]{36}$/);
+  await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
   await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
-  return page.url().split("/").at(-1)!;
+  return new URL(page.url()).searchParams.get("id")!;
 };
 
 /* A name no other test's Play shares. */

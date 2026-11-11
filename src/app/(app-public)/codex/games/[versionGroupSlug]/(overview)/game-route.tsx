@@ -1,5 +1,7 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+
 import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
 import { GameDetailPage } from "@/modules/codex/features/games/detail/game-detail-page";
 import {
@@ -21,12 +23,22 @@ const mainlineSlots: CodexVersionGroupSlots = {
   ),
 };
 
-type GameRouteProps = {
+/*
+ * A version group's page with Mainline's pieces in its slots, the game
+ * picked in its version switch read from the address (`?version=`).
+ */
+export const GameRoute = ({
+  versionGroupSlug,
+}: {
   versionGroupSlug: string;
-  versionSlug?: string;
-};
+}) => {
+  const versionSlug = useSearchParams().get("version") ?? undefined;
 
-/* A version group's page with Mainline's pieces in its slots. */
-export const GameRoute = (props: GameRouteProps) => (
-  <GameDetailPage {...props} slots={mainlineSlots} />
-);
+  return (
+    <GameDetailPage
+      slots={mainlineSlots}
+      versionGroupSlug={versionGroupSlug}
+      versionSlug={versionSlug}
+    />
+  );
+};

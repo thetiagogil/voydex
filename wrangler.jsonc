@@ -1,19 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "voydex",
-  "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-01",
-  // Run beside the hosted database in Paris, not near each visitor.
-  "placement": { "region": "aws:eu-west-3" },
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  /*
+   * Plain files only: the app is built as files (`npm run build` writes
+   * out/), and Cloudflare hands them out with no Worker script running, so
+   * any number of visits stays free. `/codex/pokemon` serves
+   * `codex/pokemon.html`; an address with no file gets the 404 page.
+   */
   "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS",
+    "directory": "out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
   },
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "voydex",
-    },
-  ],
 }

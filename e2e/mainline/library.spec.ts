@@ -38,7 +38,7 @@ test.describe("Library", () => {
     });
 
     /* On the Play: "Add tag" makes the tag and adds it; Save keeps it. */
-    await page.goto(`/mainline/plays/${playId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const tags = page.getByRole("region", { name: "Tags" });
@@ -72,7 +72,7 @@ test.describe("Library", () => {
       page.getByRole("button", { name: `${renamed}, In 1 Play` }),
     ).toBeVisible(forTheAnswer);
 
-    await page.goto(`/mainline/plays/${playId}/settings`);
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`);
     await expect(
       page.getByRole("region", { name: "Tags" }).getByText(renamed, {
         exact: true,
@@ -97,7 +97,7 @@ test.describe("Library", () => {
       page.getByRole("button", { name: new RegExp(renamed) }),
     ).toBeHidden(forTheAnswer);
 
-    await page.goto(`/mainline/plays/${playId}/settings`);
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`);
     await expect(
       page.getByRole("region", { name: "Tags" }).getByText(renamed),
     ).toBeHidden();

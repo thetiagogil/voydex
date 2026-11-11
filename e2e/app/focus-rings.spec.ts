@@ -125,7 +125,7 @@ test.describe("Focus rings and corner marks", () => {
 
   for (const [name, view] of playViews) {
     test(`a Play's ${name} cuts nothing off @phone`, async ({ page }) => {
-      await page.goto(`/mainline/plays/${playId}${view}`, {
+      await page.goto(`/mainline/plays/play${view}?id=${playId}`, {
         waitUntil: "networkidle",
       });
 

@@ -23,7 +23,7 @@ test.describe("New Play", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    await page.goto(`/mainline/plays/${playId}/history`);
+    await page.goto(`/mainline/plays/play/history?id=${playId}`);
     await expect(page.getByText("Charmander chose you")).toBeVisible();
 
     await page.goto("/mainline/plays");

@@ -1,24 +1,18 @@
+import { getCodexGamePageParams } from "@/modules/codex/codex-pages";
+
 import { GameRoute } from "./game-route";
 
 type PageProps = {
-  params: Promise<{
-    versionGroupSlug: string;
-  }>;
-  searchParams: Promise<{
-    version?: string | string[];
-  }>;
+  params: Promise<{ versionGroupSlug: string }>;
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const [{ versionGroupSlug }, { version }] = await Promise.all([
-    params,
-    searchParams,
-  ]);
+/* One ready page per game; every other address is not found. */
+export const dynamicParams = false;
 
-  return (
-    <GameRoute
-      versionGroupSlug={versionGroupSlug}
-      versionSlug={Array.isArray(version) ? version[0] : version}
-    />
-  );
+export const generateStaticParams = getCodexGamePageParams;
+
+export default async function Page({ params }: PageProps) {
+  const { versionGroupSlug } = await params;
+
+  return <GameRoute versionGroupSlug={versionGroupSlug} />;
 }

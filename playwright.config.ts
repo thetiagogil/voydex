@@ -8,7 +8,8 @@ const baseURL = `http://localhost:${port}`;
 /*
  * Browser tests against the app and the local seeded database. On a Mac they
  * reuse the dev server already on port 3000 (or start one); on GitHub they
- * run the production build the workflow made. See docs/app/verification.md.
+ * serve the plain files the workflow built the way Cloudflare does
+ * (`npm run start`). See docs/app/verification.md.
  */
 export default defineConfig({
   testDir: "./e2e",

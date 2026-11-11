@@ -63,12 +63,18 @@ jobs:
       - name: Run unit tests
         run: npm run test
 
+      # The pages are made ahead of time from these files (one per Pokémon,
+      # game and Pokédex), so the build needs them first. No Docker needed.
+      - name: Build the game data and Codex files
+        run: npm run game-data:build && npm run codex:build
+
       - name: Build
         run: npm run build
 
-  # Every push to `main` that passes the checks above goes live on the
-  # Cloudflare Worker. If the build or upload fails, the job fails on the
-  # commit and the Worker keeps serving the last good version.
+  # Every push to `main` that passes the checks above goes live on
+  # Cloudflare as plain files (no Worker code runs). If the build or upload
+  # fails, the job fails on the commit and the site keeps serving the last
+  # good version.
   deploy:
     needs: quality
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -112,5 +118,5 @@ jobs:
           done
           exit "$missing"
 
-      - name: Build and deploy to Cloudflare
+      - name: Build and upload the files to Cloudflare
         run: npm run cf:deploy

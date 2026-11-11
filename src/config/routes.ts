@@ -3,6 +3,17 @@ export const NEW_PLAY_PARAM = "new";
 /* With `?new=<game>`, the first partner New Play opens with picked. */
 export const NEW_PLAY_PARTNER_PARAM = "partner";
 
+/* Where a Play's pages live; the Play's id goes in the query. */
+export const PLAY_PATH = "/mainline/plays/play";
+/* Where a Plan opens in the Team Planner; the Plan's id goes in the query. */
+export const PLAN_PATH = "/mainline/plans/plan";
+
+const playHref = (
+  view: string,
+  playId: string,
+  query: Record<string, string> = {},
+) => `${PLAY_PATH}${view}?${new URLSearchParams({ id: playId, ...query })}`;
+
 export const appRoutes = {
   appEntry: "/app",
   authCallback: "/auth/callback",
@@ -11,9 +22,24 @@ export const appRoutes = {
   codex: "/codex",
   codexGames: "/codex/games",
   codexPokemon: "/codex/pokemon",
-  /* A Pokémon's entry read in one version group, such as `/codex/pokemon/swsh/arcanine`. */
-  codexPokemonEntry: (versionGroupSlug: string, speciesSlug: string) =>
-    `/codex/pokemon/${versionGroupSlug}/${speciesSlug}`,
+  /*
+   * A Pokémon's entry read in one version group, with a special form as
+   * `&form=`: `/codex/pokemon/arcanine?game=swsh`. One page per species, so
+   * the group is in the query.
+   */
+  codexPokemonEntry: (
+    versionGroupSlug: string,
+    speciesSlug: string,
+    formSlug?: string,
+  ) => {
+    const query = new URLSearchParams({ game: versionGroupSlug });
+
+    if (formSlug) {
+      query.set("form", formSlug);
+    }
+
+    return `/codex/pokemon/${speciesSlug}?${query.toString()}`;
+  },
   /* A Pokémon's entry in the version group it was introduced in. */
   codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
   /* A version group's page, with one of its games picked in the version switch. */
@@ -27,7 +53,6 @@ export const appRoutes = {
   deviceCheck: "/device-check",
   /* Ask for a password reset link. */
   forgotPassword: "/forgot-password",
-  health: "/api/health",
   home: "/",
   intro: "/intro",
   login: "/login",
@@ -58,15 +83,18 @@ export const appRoutes = {
   /* The Collection with one species' sheet open. */
   mainlineCollectionSpecies: (speciesSlug: string) =>
     `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,
-  /* A Plan in the Team Planner, optionally read in another version group. */
   /* Your challenge rules and tags, kept for every Play and Plan. */
   mainlineLibrary: "/mainline/library",
   mainlineLibraryTab: (tab: "presets" | "rules" | "tags") =>
     `/mainline/library?tab=${tab}`,
+  /*
+   * A Plan in the Team Planner, optionally read in another version group.
+   * Plans live on the device, so the id is in the query: one page for all.
+   */
   mainlinePlan: (planId: string, versionGroupSlug?: string) =>
     versionGroupSlug
-      ? `/mainline/plans/${planId}?vg=${encodeURIComponent(versionGroupSlug)}`
-      : `/mainline/plans/${planId}`,
+      ? `${PLAN_PATH}?id=${encodeURIComponent(planId)}&vg=${encodeURIComponent(versionGroupSlug)}`
+      : `${PLAN_PATH}?id=${encodeURIComponent(planId)}`,
   /* The Team Planner on a blank Plan, optionally for one version group. */
   mainlinePlanNew: (versionGroupSlug?: string) =>
     versionGroupSlug
@@ -74,24 +102,26 @@ export const appRoutes = {
       : "/mainline/plans/new",
   mainlinePlans: "/mainline/plans",
   mainlinePlansArchived: "/mainline/plans?view=archived",
-  mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
-  mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
+  /*
+   * A Play's pages. Plays live on the device, so the id is in the query
+   * (`?id=`): one page serves every Play.
+   */
+  mainlinePlay: (playId: string) => playHref("", playId),
+  mainlinePlayHistory: (playId: string) => playHref("/history", playId),
   /* One moment in a Play's History: the page scrolls to it and marks it. */
   mainlinePlayHistoryMoment: (playId: string, eventId: string) =>
-    `/mainline/plays/${playId}/history#moment-${eventId}`,
-  mainlinePlayProgress: (playId: string) =>
-    `/mainline/plays/${playId}/progress`,
+    `${playHref("/history", playId)}#moment-${eventId}`,
+  mainlinePlayProgress: (playId: string) => playHref("/progress", playId),
   mainlinePlayProgressCollectibles: (playId: string) =>
-    `/mainline/plays/${playId}/progress/collectibles`,
+    playHref("/progress/collectibles", playId),
   mainlinePlayProgressPokedex: (playId: string) =>
-    `/mainline/plays/${playId}/progress/pokedex`,
+    playHref("/progress/pokedex", playId),
   mainlinePlayProgressStory: (playId: string) =>
-    `/mainline/plays/${playId}/progress/story`,
+    playHref("/progress/story", playId),
   mainlinePlayProgressStoryRecord: (playId: string, milestoneId: number) =>
-    `/mainline/plays/${playId}/progress/story?record=${milestoneId}`,
-  mainlinePlaySettings: (playId: string) =>
-    `/mainline/plays/${playId}/settings`,
-  mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
+    playHref("/progress/story", playId, { record: String(milestoneId) }),
+  mainlinePlaySettings: (playId: string) => playHref("/settings", playId),
+  mainlinePlayTeam: (playId: string) => playHref("/team", playId),
   /*
    * The Roster with the Add Pokémon sheet open, optionally on one species
    * (and form) already picked.
@@ -100,22 +130,17 @@ export const appRoutes = {
     playId: string,
     speciesSlug?: string,
     formSlug?: string,
-  ) => {
-    const query = new URLSearchParams({ add: speciesSlug ?? "" });
-
-    if (formSlug) {
-      query.set("form", formSlug);
-    }
-
-    return `/mainline/plays/${playId}/team?${query.toString()}`;
-  },
+  ) =>
+    playHref("/team", playId, {
+      add: speciesSlug ?? "",
+      ...(formSlug ? { form: formSlug } : {}),
+    }),
   /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
   mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
-    `/mainline/plays/${playId}/team?pokemon=${encodeURIComponent(playPokemonId)}`,
+    playHref("/team", playId, { pokemon: playPokemonId }),
   mainlinePlayTeamAnalysis: (playId: string) =>
-    `/mainline/plays/${playId}/team/analysis`,
-  mainlinePlayTeamPlan: (playId: string) =>
-    `/mainline/plays/${playId}/team/plan`,
+    playHref("/team/analysis", playId),
+  mainlinePlayTeamPlan: (playId: string) => playHref("/team/plan", playId),
   mainlinePlays: "/mainline/plays",
   /* The Plays you archived, each with Restore. */
   mainlinePlaysArchived: "/mainline/plays?view=archived",

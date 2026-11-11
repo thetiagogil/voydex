@@ -13,16 +13,28 @@ vi.mock("next/link", () => ({
 }));
 
 describe("Link", () => {
-  /* So opening a page on screen never waits on the server. */
-  it("fetches its whole page ahead of the click", () => {
+  /*
+   * Pages are plain files: Next.js's own prefetch reads them whole. A full
+   * prefetch asks for a server render, which a file host answers with the
+   * page's HTML, and the click then goes nowhere.
+   */
+  it("prefetches the page's files, never a server render", () => {
     renderToStaticMarkup(<Link href="/codex/pokemon">Pokémon</Link>);
-
     expect(nextLink).toHaveBeenLastCalledWith(
-      expect.objectContaining({ href: "/codex/pokemon", prefetch: true }),
+      expect.objectContaining({ href: "/codex/pokemon", prefetch: undefined }),
+    );
+
+    renderToStaticMarkup(
+      <Link href="/codex/pokemon" prefetch>
+        Pokémon
+      </Link>,
+    );
+    expect(nextLink).toHaveBeenLastCalledWith(
+      expect.objectContaining({ prefetch: undefined }),
     );
   });
 
-  it("keeps a link's own prefetch choice", () => {
+  it("keeps a link that asks for no prefetch", () => {
     renderToStaticMarkup(
       <Link href="/codex/pokemon" prefetch={false}>
         Pokémon

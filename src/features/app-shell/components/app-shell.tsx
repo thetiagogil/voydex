@@ -1,4 +1,5 @@
 import { appRoutes } from "@/config/routes";
+import { ActiveModuleMark } from "@/features/app-shell/components/active-module-mark";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
@@ -20,8 +21,6 @@ import { cn } from "@/shared/utils/cn";
 import { Link } from "@/shared/components/link";
 
 type AppShellProps = {
-  /* The signed-in account's email, for the app frame; null when signed out. */
-  email?: string | null;
   /*
    * `app` for the app and the Codex, which everyone uses with their data on
    * this device; `site` (the default) for the site and the log-in pages.
@@ -50,7 +49,6 @@ type AppShellProps = {
 export const AppShell = ({
   bar = "full",
   children,
-  email = null,
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
@@ -77,6 +75,7 @@ export const AppShell = ({
           : "[--toast-bottom:1.5rem]",
       )}
     >
+      <ActiveModuleMark />
       {isApp ? <MotionPreferenceMark /> : null}
       {isApp ? (
         <AppNavbar
@@ -138,7 +137,7 @@ export const AppShell = ({
   );
 
   return isApp ? (
-    <AppAccountProvider email={email}>{frameTree}</AppAccountProvider>
+    <AppAccountProvider>{frameTree}</AppAccountProvider>
   ) : (
     frameTree
   );

@@ -14,7 +14,7 @@ test.describe("Team analysis", () => {
       partner: "Squirtle",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis`, {
+    await page.goto(`/mainline/plays/play/team/analysis?id=${playId}`, {
       waitUntil: "networkidle",
     });
 
@@ -59,7 +59,7 @@ test.describe("Team analysis", () => {
         partner: "Squirtle",
       });
 
-      await page.goto(`/mainline/plays/${playId}/team/analysis`, {
+      await page.goto(`/mainline/plays/play/team/analysis?id=${playId}`, {
         waitUntil: "networkidle",
       });
 

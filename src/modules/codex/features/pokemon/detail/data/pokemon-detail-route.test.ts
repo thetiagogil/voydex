@@ -95,11 +95,11 @@ describe("resolvePokemonDetailEntryRoute", () => {
 
   it("moves a game's or an expansion's address to its base group", () => {
     expect(resolvePokemonDetailEntryRoute(rows, "ruby")).toEqual({
-      href: "/codex/pokemon/rs/deoxys",
+      href: "/codex/pokemon/deoxys?game=rs",
       status: "redirect",
     });
     expect(resolvePokemonDetailEntryRoute(rows, "dp-expansion")).toEqual({
-      href: "/codex/pokemon/dp/deoxys",
+      href: "/codex/pokemon/deoxys?game=dp",
       status: "redirect",
     });
   });
@@ -107,11 +107,11 @@ describe("resolvePokemonDetailEntryRoute", () => {
   /* Where its generation's pill opens: the first group it can be found in. */
   it("moves a group from before the species to where it can first be found", () => {
     expect(resolvePokemonDetailEntryRoute(rows, "rb")).toEqual({
-      href: "/codex/pokemon/frlg/deoxys",
+      href: "/codex/pokemon/deoxys?game=frlg",
       status: "redirect",
     });
     expect(resolvePokemonDetailEntryRoute(rows, "red")).toEqual({
-      href: "/codex/pokemon/rb/deoxys",
+      href: "/codex/pokemon/deoxys?game=rb",
       status: "redirect",
     });
   });

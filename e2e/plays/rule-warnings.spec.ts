@@ -26,7 +26,7 @@ test.describe("Rule warnings", () => {
       ],
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     /* Squirtle is Water, but has no nickname yet. */
@@ -43,10 +43,10 @@ test.describe("Rule warnings", () => {
     /* Settings changes the rules; Team changes the Pokémon. */
     await expect(
       breaks.getByRole("button", { name: "Open Settings" }),
-    ).toHaveAttribute("href", `/mainline/plays/${playId}/settings`);
+    ).toHaveAttribute("href", `/mainline/plays/play/settings?id=${playId}`);
     await expect(
       breaks.getByRole("button", { name: "Open Team" }),
-    ).toHaveAttribute("href", `/mainline/plays/${playId}/team`);
+    ).toHaveAttribute("href", `/mainline/plays/play/team?id=${playId}`);
     await page.keyboard.press("Escape");
     await expect(breaks).toBeHidden();
 
@@ -121,7 +121,7 @@ test.describe("Rule warnings", () => {
       rules: [{ name: "No Pokémon reuse", withOptions: true }],
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
 
@@ -154,7 +154,7 @@ test.describe("Rule warnings", () => {
       partner: "Charmander",
     });
 
-    await page.goto(`/mainline/plays/${firstId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${firstId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "Edit Charmander" }).click();
@@ -174,7 +174,7 @@ test.describe("Rule warnings", () => {
       rules: [{ name: "No Pokémon reuse", withOptions: true }],
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     /* By exact form: the Charmander it was still counts. */
@@ -202,7 +202,7 @@ test.describe("Rule warnings", () => {
       ),
     ).toBeVisible();
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByText(/rules? broken/)).toHaveCount(0);
@@ -262,7 +262,7 @@ test.describe("Rule warnings", () => {
       partner: "Squirtle",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

@@ -6,7 +6,7 @@ import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Signed in, the Codex adds to your Plays without leaving the entry. */
 test.describe("Codex: Add to a Play", () => {
-  const entry = "/codex/pokemon/rb/pikachu";
+  const entry = "/codex/pokemon/pikachu?game=rb";
   let playName: string;
   let playId: string;
 
@@ -42,7 +42,7 @@ test.describe("Codex: Add to a Play", () => {
     await expect(sheet).toBeHidden(forTheAnswer);
 
     /* Still on the entry, now with Pikachu on the Play. */
-    await expect(page).toHaveURL(new RegExp(`${entry}$`));
+    await expect(page).toHaveURL(entry);
     await expect(
       page.getByRole("link", {
         name: new RegExp(`Open Pikachu in ${playName}`),
@@ -50,7 +50,7 @@ test.describe("Codex: Add to a Play", () => {
     ).toBeVisible(forTheAnswer);
 
     await page.getByRole("button", { name: "Open the roster" }).click();
-    await page.waitForURL(`**/mainline/plays/${playId}/team`);
+    await page.waitForURL(`**/mainline/plays/play/team?id=${playId}`);
     await expect(
       page
         .getByRole("region", { name: /^Active team/ })
@@ -66,13 +66,13 @@ test.describe("Codex: Add to a Play", () => {
     await expect(sheet).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(sheet).toBeHidden();
-    await expect(page).toHaveURL(new RegExp(`${entry}$`));
+    await expect(page).toHaveURL(entry);
     await expect(
       page.getByRole("button", { name: "Add to a Play" }),
     ).toBeFocused();
     await expect(onThisPlay(page)).toHaveCount(0);
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByRole("button", { name: /^Pikachu\b/ })).toHaveCount(
@@ -89,7 +89,7 @@ test.describe("Codex: Add to a Play", () => {
     await expect(sheet).toBeHidden(forTheAnswer);
     await page.getByRole("button", { name: "Undo" }).click();
     await expect(page.getByText("Taken off again")).toBeVisible(forTheAnswer);
-    await expect(page).toHaveURL(new RegExp(`${entry}$`));
+    await expect(page).toHaveURL(entry);
     await expect(onThisPlay(page)).toHaveCount(0, forTheAnswer);
   });
 

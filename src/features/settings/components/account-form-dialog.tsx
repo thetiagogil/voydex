@@ -3,7 +3,7 @@
 import { type ReactNode, useActionState, useState } from "react";
 import { toast } from "sonner";
 
-import type { AccountFormState } from "@/features/settings/server/account-actions";
+import type { AccountFormState } from "@/features/settings/client/account-changes";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { Button } from "@/shared/components/ui/button";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";

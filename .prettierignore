@@ -5,7 +5,6 @@ build
 coverage
 .turbo
 .vercel
-.open-next
 .wrangler
 .claude/skills/shadcn
 package-lock.json

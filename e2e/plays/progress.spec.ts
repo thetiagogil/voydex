@@ -19,7 +19,7 @@ test.describe("Progress", () => {
 
   test("records the next Story milestone", async ({ page }) => {
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByText("1 of 19 milestones")).toBeVisible();
@@ -46,7 +46,7 @@ test.describe("Progress", () => {
     await page.reload();
     await expect(page.getByText("2 of 19 milestones")).toBeVisible();
 
-    await page.goto(`/mainline/plays/${playId}/history`);
+    await page.goto(`/mainline/plays/play/history?id=${playId}`);
     await expect(page.getByText("Receive Pokédex").first()).toBeVisible();
   });
 
@@ -54,7 +54,7 @@ test.describe("Progress", () => {
     page,
   }) => {
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByText("1 of 19 milestones")).toBeVisible();
@@ -90,7 +90,7 @@ test.describe("Progress", () => {
     page,
   }) => {
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: /^Boulder Badge(?!,)/ }).click();
@@ -134,7 +134,7 @@ test.describe("Progress", () => {
 
   test("opens a milestone from its stamp", async ({ page }) => {
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: /^Thunder Badge.*Open it/ }).click();
@@ -144,7 +144,7 @@ test.describe("Progress", () => {
   test("shows the places on the way, with their battles and Pokémon", async ({
     page,
   }) => {
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const route = page.getByRole("region", { name: "Main game route" });
@@ -230,7 +230,7 @@ test.describe("Progress", () => {
   test("lists only the Play's own game's Pokémon at a place @phone", async ({
     page,
   }, testInfo) => {
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page
@@ -260,7 +260,7 @@ test.describe("Progress", () => {
 
   test("marks a Pokémon caught in the Pokédex @phone", async ({ page }) => {
     /* Wait for the page to finish loading, so the first tap is heard. */
-    await page.goto(`/mainline/plays/${playId}/progress/pokedex`, {
+    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByText("0% complete · 0 of 151")).toBeVisible();

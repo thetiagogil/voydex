@@ -1,3 +1,7 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { Link } from "@/shared/components/link";
 
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
@@ -10,7 +14,10 @@ import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
 import { AuthFrame, AuthHeading } from "@/features/auth/components/auth-frame";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { PasswordInput } from "@/shared/components/password-input";
-import { saveNewPassword } from "@/features/auth/server/password-reset-actions";
+import { saveNewPassword } from "@/features/auth/client/auth-actions";
+import { useAuthFormAction } from "@/features/auth/client/use-auth-form-action";
+import { useAuthSession } from "@/platform/local-db/account-session";
+import { PageLoadingState } from "@/shared/components/page-loading-state";
 import { buttonVariants } from "@/shared/components/ui/button";
 import {
   Field,
@@ -18,32 +25,25 @@ import {
   FieldLabel,
 } from "@/shared/components/ui/field";
 
-export type ResetPasswordSearchParams = {
-  error?: string;
-  next?: string;
-};
+/*
+ * Choose a new password (v3 `resetpw`): where the reset link lands, signed
+ * in on this device. Nobody signed in means the link expired, was used, or
+ * was opened elsewhere.
+ */
+export const ResetPasswordPage = () => {
+  const params = useSearchParams();
+  const session = useAuthSession();
+  const saveAction = useAuthFormAction(saveNewPassword);
+  const next = getSafeAuthRedirectPath(params.get("next"), LOGIN_DEFAULT_NEXT);
+  const error = parseAuthErrorCode(params.get("error"));
+  const email = session?.email ?? null;
 
-type ResetPasswordPageProps = {
-  /*
-   * Who the reset link signed in, from the route; null when nobody is
-   * signed in, because the link expired, was used, or opened elsewhere.
-   */
-  email: string | null;
-  isSignedIn: boolean;
-  searchParams?: Promise<ResetPasswordSearchParams>;
-};
+  /* The browser's session is still being read. */
+  if (session === undefined) {
+    return <PageLoadingState />;
+  }
 
-/* Choose a new password (v3 `resetpw`): where the reset link lands, signed in on this device. */
-export const ResetPasswordPage = async ({
-  email,
-  isSignedIn,
-  searchParams,
-}: ResetPasswordPageProps) => {
-  const params = await searchParams;
-  const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
-  const error = parseAuthErrorCode(params?.error);
-
-  if (!isSignedIn) {
+  if (!session) {
     return (
       <AuthFrame>
         <AuthHeading className="mt-2.5" title="That link didn't work">
@@ -71,7 +71,7 @@ export const ResetPasswordPage = async ({
         You&apos;ll stay logged in on this device.
       </AuthHeading>
       {error ? <AuthErrorAlert error={error} /> : null}
-      <form action={saveNewPassword} className="flex flex-col gap-4">
+      <form action={saveAction} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />
         <Field>
           <FieldLabel htmlFor="password">New password</FieldLabel>

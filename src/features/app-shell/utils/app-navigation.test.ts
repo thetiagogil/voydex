@@ -18,7 +18,7 @@ describe("app navigation", () => {
 
     expect(plays).toBeDefined();
     expect(isCurrentLink("/mainline/plays", plays!)).toBe(true);
-    expect(isCurrentLink("/mainline/plays/abc/team", plays!)).toBe(true);
+    expect(isCurrentLink("/mainline/plays/play/team", plays!)).toBe(true);
   });
 
   it("keeps Home current only on Home itself", () => {

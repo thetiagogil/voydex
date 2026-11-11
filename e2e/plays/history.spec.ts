@@ -13,7 +13,7 @@ test.describe("History", () => {
       partner: "Bulbasaur",
     });
 
-    await page.goto(`/mainline/plays/${playId}/history`, {
+    await page.goto(`/mainline/plays/play/history?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const line = page.getByRole("list", { name: "Moments" });

@@ -145,7 +145,7 @@ describe("buildGameFirstPartners", () => {
       isSolo: true,
       pokemon: [
         {
-          href: "/codex/pokemon/lgpe/pikachu?form=pikachu-partner",
+          href: "/codex/pokemon/pikachu?game=lgpe&form=pikachu-partner",
           imageUrl: null,
           key: "2501",
           name: "Pikachu (Partner)",
@@ -172,11 +172,11 @@ describe("buildGameDetailData version exclusives", () => {
       data?.versionExclusives[1].pokemon.map((pokemon) => pokemon.name),
     ).toEqual(["Galarian Farfetch'd", "Deino"]);
     expect(data?.versionExclusives[1].pokemon[0]).toMatchObject({
-      href: "/codex/pokemon/swsh/farfetch'd?form=galarian-farfetch-d",
+      href: "/codex/pokemon/farfetch'd?game=swsh&form=galarian-farfetch-d",
       types: [{ name: "Fighting", slug: "fighting" }],
     });
     expect(data?.versionExclusives[1].pokemon[1].href).toBe(
-      "/codex/pokemon/swsh/deino",
+      "/codex/pokemon/deino?game=swsh",
     );
   });
 

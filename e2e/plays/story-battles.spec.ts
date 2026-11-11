@@ -13,7 +13,7 @@ const openBattle = async (
   battle: RegExp,
   reportName: string,
 ) => {
-  await page.goto(`/mainline/plays/${playId}/progress/story`, {
+  await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
     waitUntil: "networkidle",
   });
   await openAllChapters(page);
@@ -116,16 +116,17 @@ test.describe("Story battles", () => {
       partner: "Chikorita",
     });
 
-    await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await openAllChapters(page);
 
     /* Ranks Y to V come before Mega Evolution, F to B after it, A in the Finale. */
     const route = page.getByRole("region", { name: "Main game route" });
-    const stopNames = await route
-      .getByRole("button", { name: /^Reach Rank/ })
-      .allTextContents();
+    const stops = route.getByRole("button", { name: /^Reach Rank/ });
+    /* The route draws once the device database has read the Play. */
+    await expect(stops).toHaveCount(10);
+    const stopNames = await stops.allTextContents();
     expect(
       /* A stop's text opens with its marker's number, then its name. */
       stopNames.map((text) => text.match(/Reach Rank [A-Z]/)?.[0]),

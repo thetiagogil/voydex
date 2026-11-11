@@ -1,7 +1,3 @@
-import {
-  DatabaseHealthProvider,
-  DatabaseHealthStatus,
-} from "@/features/system/components/database-health-status";
 import { FirstVisitGuard } from "@/shared/components/first-visit-guard";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
@@ -33,10 +29,8 @@ export default function RootLayout({
         className="flex min-h-full flex-col antialiased"
         suppressHydrationWarning
       >
-        <DatabaseHealthProvider />
         <TooltipProvider>
           <div className="relative flex min-h-full flex-col">{children}</div>
-          <DatabaseHealthStatus />
         </TooltipProvider>
       </body>
     </html>

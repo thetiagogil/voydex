@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
-import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
+import { AppEntryPage } from "@/features/app-shell/components/app-entry-page";
 
-export default async function AppEntryPage() {
-  redirect(await getAuthDefaultRouteFromCookies());
+export default function Page() {
+  return <AppEntryPage />;
 }

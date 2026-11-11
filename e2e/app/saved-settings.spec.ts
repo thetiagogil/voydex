@@ -134,8 +134,8 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     const started = waitForAction(page);
     await dialog.getByRole("button", { name: /^Start/ }).click();
     await started;
-    await page.waitForURL(/\/mainline\/plays\/[0-9a-f-]{36}$/);
-    const playId = page.url().split("/").at(-1)!;
+    await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
+    const playId = new URL(page.url()).searchParams.get("id")!;
 
     /* With Story off, Home never asks which partner was decided later. */
     await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
@@ -143,7 +143,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await expect(
       page.getByRole("group", { name: "First partners" }),
     ).toHaveCount(0);
-    await page.goto(`/mainline/plays/${playId}`);
+    await page.goto(`/mainline/plays/play?id=${playId}`);
 
     /* The Play kept what was off: no Story tab, and its link goes to the Pokédex. */
     await page.getByRole("button", { name: "Progress" }).first().click();
@@ -152,12 +152,12 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /^Story/ })).toHaveCount(0);
     await page.keyboard.press("Escape");
-    await page.goto(`/mainline/plays/${playId}/progress/story`);
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
     await page.waitForURL("**/progress/pokedex");
     await expect(page.getByText("Tap marks as")).toHaveCount(0);
 
     /* Play settings shows the same switches, and turning Story on restores it. */
-    await page.goto(`/mainline/plays/${playId}/settings`, {
+    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const tracking = page.getByRole("region", { name: "Tracking" });
@@ -173,9 +173,9 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await tracked;
     await expect(page.getByText("Tracking saved")).toBeVisible(forTheAnswer);
 
-    await page.goto(`/mainline/plays/${playId}/progress/story`);
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
     await expect(page).toHaveURL(/\/progress\/story$/);
-    await page.goto(`/mainline/plays/${playId}/progress/pokedex`);
+    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`);
     await expect(page.getByText("Tap marks as").first()).toBeVisible();
   });
 
@@ -213,7 +213,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
       partner: null,
     });
     const setPokedexMode = async (mode: "Caught and seen" | "Caught only") => {
-      await page.goto(`/mainline/plays/${playId}/settings`, {
+      await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
         waitUntil: "networkidle",
       });
       const tracking = page.getByRole("region", { name: "Tracking" });
@@ -226,7 +226,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     };
 
     await setPokedexMode("Caught only");
-    await page.goto(`/mainline/plays/${playId}/progress/pokedex`, {
+    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const caught = waitForAction(page);
@@ -239,7 +239,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await cleared;
 
     await setPokedexMode("Caught and seen");
-    await page.goto(`/mainline/plays/${playId}/progress/pokedex`, {
+    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const { filters } = await openFilters(page);
@@ -261,7 +261,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${playId}/progress/story`);
+    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
     await expect(page).toHaveURL(/\/progress\/story$/);
   });
 });

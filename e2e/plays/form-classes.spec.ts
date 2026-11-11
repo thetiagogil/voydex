@@ -14,7 +14,7 @@ test.describe("Form classes", () => {
       partner: "Fuecoco",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "Add Pokémon" }).click();
@@ -39,7 +39,7 @@ test.describe("Form classes", () => {
       partner: "Fuecoco",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "Add Pokémon" }).click();
@@ -70,7 +70,7 @@ test.describe("Form classes", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/${playId}/team?add=rotom`, {
+    await page.goto(`/mainline/plays/play/team?id=${playId}&add=rotom`, {
       waitUntil: "networkidle",
     });
     const details = page.getByRole("dialog", { name: "Rotom" });

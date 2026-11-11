@@ -13,13 +13,13 @@ import { openFilters } from "../support/filters";
 const subjects = {
   desktop: {
     codexHref: "/codex/pokemon/spinda",
-    entry: "/codex/pokemon/rs/spinda",
+    entry: "/codex/pokemon/spinda?game=rs",
     name: "Spinda",
     number: "#327",
   },
   phone: {
     codexHref: "/codex/pokemon/smeargle",
-    entry: "/codex/pokemon/gs/smeargle",
+    entry: "/codex/pokemon/smeargle?game=gs",
     name: "Smeargle",
     number: "#235",
   },

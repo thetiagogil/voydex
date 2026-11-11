@@ -1,16 +1,14 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { MainlinePlannerRoute } from "@/modules/mainline/features/plans/planner/mainline-planner-route";
 
-type PageProps = {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
-export default async function NewPlanPage({ searchParams }: PageProps) {
-  const { vg } = await searchParams;
-
+export default function Page() {
   return (
     <MainlinePlannerRoute
       planId={null}
-      versionGroupSlug={typeof vg === "string" ? vg : null}
+      versionGroupSlug={useSearchParams().get("vg")}
     />
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 import { codexFiles } from "@/modules/codex/codex-files";
@@ -11,18 +12,12 @@ import {
 import { useCodexFile } from "@/modules/codex/shared/client/use-codex-file";
 import { PageLoadingState } from "@/shared/components/page-loading-state";
 
-type GamesPageProps = {
-  params?: {
-    kind?: string | null;
-    q?: string | null;
-  };
-};
-
 /* Every game, from the pre-built browse rows, with the address's filters. */
-export const GamesPage = ({ params }: GamesPageProps) => {
+export const GamesPage = () => {
   const rows = useCodexFile<GamesPageRows>(codexFiles.games());
-  const kind = params?.kind;
-  const q = params?.q;
+  const query = useSearchParams();
+  const kind = query.get("kind");
+  const q = query.get("q");
   const data = useMemo(
     () => rows && buildGamesPageData(rows, { kind, q }),
     [rows, kind, q],

@@ -1,4 +1,4 @@
-import { connection } from "next/server";
+import { Suspense } from "react";
 
 import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
 
@@ -6,14 +6,14 @@ import { StartRoute } from "./start-route";
 
 /*
  * Start a Play: its games load in the browser from the game catalogue; its
- * picks live in the address, read as the page renders.
+ * picks live in the address, read in the browser.
  */
-export default async function Page() {
-  await connection();
-
+export default function Page() {
   return (
     <PublicAppShell>
-      <StartRoute />
+      <Suspense>
+        <StartRoute />
+      </Suspense>
     </PublicAppShell>
   );
 }

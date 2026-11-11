@@ -13,7 +13,6 @@ import { MeadowCard } from "@/features/site/components/meadow-card";
 import { MeadowPartners } from "@/features/site/components/meadow-partners";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
-import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
 import { PageBand } from "@/shared/components/page-band";
 import { Card } from "@/shared/components/ui/card";
 
@@ -47,9 +46,7 @@ const IntroSideCard = ({
  * one, along the way, months later), two smaller things, and the meadow to
  * finish.
  */
-export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
-  const { isAuthenticated } = await getSiteVisitor();
-
+export const IntroPage = ({ art, playArt }: IntroPageProps) => {
   return (
     <div className="flex min-w-0 flex-col">
       {/* The page's head opens on the band, as every page but Home does. */}
@@ -118,7 +115,7 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
         <p className="text-17 text-ink-2 mt-2.5 mb-6 font-semibold">
           Pick your game and meet your first partner.
         </p>
-        <SiteActions isAuthenticated={isAuthenticated} />
+        <SiteActions />
       </MeadowCard>
     </div>
   );

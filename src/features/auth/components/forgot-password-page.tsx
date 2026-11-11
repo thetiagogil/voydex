@@ -1,3 +1,7 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getAuthPageHref,
@@ -13,37 +17,27 @@ import {
 } from "@/features/auth/components/auth-frame";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
-import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
 import {
   requestPasswordReset,
   resendPasswordReset,
-} from "@/features/auth/server/password-reset-actions";
+} from "@/features/auth/client/auth-actions";
+import { useRememberedAuthEmail } from "@/features/auth/client/auth-email";
+import { useAuthFormAction } from "@/features/auth/client/use-auth-form-action";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { TextLink } from "@/shared/components/text-link";
 import { Input } from "@/shared/components/ui/input";
-
-export type ForgotPasswordSearchParams = {
-  error?: string;
-  next?: string;
-  sent?: string;
-};
-
-type ForgotPasswordPageProps = {
-  searchParams?: Promise<ForgotPasswordSearchParams>;
-};
 
 /*
  * Reset your password (v3 `forgot`): one email field and "Send the link",
  * then its sent state, which never says whether the email has an account.
  */
-export const ForgotPasswordPage = async ({
-  searchParams,
-}: ForgotPasswordPageProps) => {
-  const params = await searchParams;
-  const next = getSafeAuthRedirectPath(params?.next, LOGIN_DEFAULT_NEXT);
-  const error = parseAuthErrorCode(params?.error);
-  const sent = parseAuthLinkSent(params?.sent);
-  const email = await readAuthEmail();
+export const ForgotPasswordPage = () => {
+  const params = useSearchParams();
+  const next = getSafeAuthRedirectPath(params.get("next"), LOGIN_DEFAULT_NEXT);
+  const error = parseAuthErrorCode(params.get("error"));
+  const sent = parseAuthLinkSent(params.get("sent"));
+  const email = useRememberedAuthEmail();
+  const requestAction = useAuthFormAction(requestPasswordReset);
   const logInHref = getAuthPageHref({ mode: "log-in", next });
 
   if (sent) {
@@ -79,11 +73,12 @@ export const ForgotPasswordPage = async ({
         choose a new one.
       </AuthHeading>
       {error ? <AuthErrorAlert error={error} /> : null}
-      <form action={requestPasswordReset} className="flex flex-col gap-4">
+      <form action={requestAction} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
+            key={email ?? ""}
             id="email"
             name="email"
             type="email"
