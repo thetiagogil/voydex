@@ -153,7 +153,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await expect(page.getByRole("link", { name: /^Story/ })).toHaveCount(0);
     await page.keyboard.press("Escape");
     await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
-    await page.waitForURL("**/progress/pokedex");
+    await page.waitForURL(`**/progress/pokedex?id=${playId}`);
     await expect(page.getByText("Tap marks as")).toHaveCount(0);
 
     /* Play settings shows the same switches, and turning Story on restores it. */
@@ -174,7 +174,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await expect(page.getByText("Tracking saved")).toBeVisible(forTheAnswer);
 
     await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
-    await expect(page).toHaveURL(/\/progress\/story$/);
+    await expect(page).toHaveURL(new RegExp(`/progress/story\\?id=${playId}$`));
     await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`);
     await expect(page.getByText("Tap marks as").first()).toBeVisible();
   });
@@ -262,6 +262,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     });
 
     await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
-    await expect(page).toHaveURL(/\/progress\/story$/);
+    await expect(page).toHaveURL(new RegExp(`/progress/story\\?id=${playId}$`));
   });
 });

@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { waitForAction } from "../support/actions";
 import { newTestEmail, signedOut } from "../support/accounts";
 import { signUp } from "../support/auth";
 
@@ -67,8 +68,11 @@ test.describe("Profile: icon, default trainer name and Welcome", () => {
       .getByRole("textbox", { name: "Default trainer name" })
       .fill("Gary");
     await expectAccessible(page);
+    /* Written to the device before the reload reads it back. */
+    const saved = waitForAction(page);
     await profile.getByRole("button", { name: "Save" }).click();
     await expect(page.getByText("Profile saved")).toBeVisible();
+    await saved;
 
     await page.reload();
     await expect(
