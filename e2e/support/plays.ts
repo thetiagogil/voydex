@@ -1,5 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 
+import { waitForAction } from "./actions";
+
 type NewPlay = {
   /* The game as New Play lists it, such as "Pokémon Red, 1996". */
   game: string;
@@ -70,8 +72,11 @@ export const startPlay = async (
     }
   }
 
-  await dialog.getByRole("button", { name: /^Start/ }).click();
+  /* Saved before a test reloads or leaves the page. */
+  const started = waitForAction(page);
 
+  await dialog.getByRole("button", { name: /^Start/ }).click();
+  await started;
   await page.waitForURL(/\/mainline\/plays\/[0-9a-f-]{36}$/);
   await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
