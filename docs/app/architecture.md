@@ -456,7 +456,10 @@ the device:
   game, built from the seeds, plus a shared base file. The base installs when
   the device database first opens; a game downloads the first time something
   needs it (a Play starting, the Team Planner opening on it), with its
-  learnsets after, in the background.
+  learnsets after, in the background. Once the device gate opens, the
+  games the device should have download quietly in the background
+  (`game-data-background.ts`): the games of your Plays and Plans, and any
+  missing learnsets.
 - **The Codex and the game pickers** read pre-built files (#256): the build
   runs the Codex's `server/` readers once over every game data file and
   writes a gzipped JSON file per page to `/codex-data/` (see
@@ -492,7 +495,8 @@ src/platform/local-db/
   local-query-client.ts  # the query interface readers take, as SQL on the device
   local-db-context.tsx   # LocalDbProvider, useLocalPageRead, useLocalRead, save
   page-reads.ts          # the reads pages wait on, shared by their renders
-  game-downloads.ts      # game files on first need, with useGameDownload
+  game-downloads.ts      # game files on first need (useGameDownload), and when the background runs
+  game-data-background.ts # which games the device should have, downloaded one at a time
   user-data.ts           # your tables, read whole and replaced in one go
   backup-file.ts         # the backup file: format, upgrades, gzip
   backups.ts             # save and restore a file, the "Last backup" note

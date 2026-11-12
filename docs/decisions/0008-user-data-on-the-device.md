@@ -37,8 +37,8 @@ and should stay. What has to change is where they run.
   builds one versioned file per game (version group), one shared base file and
   one small version list. They are published to Cloudflare Pages, with the
   images.
-- A game downloads when its first Play is created. Games in the Library
-  download in the background.
+- A game downloads when its first Play is created. The games your Plays and
+  Plans use download in the background when one is missing (#277).
 - Codex becomes pre-built pages made from the same data, with no database
   read at runtime.
 
