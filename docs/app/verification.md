@@ -99,6 +99,10 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   from that list once its findings are fixed.
 - Local Supabase allows 30 sign-ups and log-ins per five minutes, so several
   full runs in a row can hit its limit; wait a few minutes.
+- Tests run with service workers blocked. The offline tests
+  (`e2e/app/offline.spec.ts`) allow them and need the built app, so under
+  `next dev` they skip: run `npm run build`, `npm run start -- --port 3100`,
+  then `E2E_PORT=3100 npx playwright test e2e/app/offline.spec.ts`.
 
 The Browser Tests workflow runs the suite on every pull request and on `main`:
 it starts local Supabase (only the services the app uses, with images from

@@ -30,6 +30,12 @@ export default defineConfig({
     baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    /*
+     * The built app keeps itself for offline use in a service worker, which
+     * downloads the whole release on each new device: only the offline
+     * tests (`e2e/app/offline.spec.ts`) let it run.
+     */
+    serviceWorkers: "block",
   },
   /*
    * Every test starts signed out, on a new device: the app needs no
