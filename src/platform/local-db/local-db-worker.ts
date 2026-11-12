@@ -7,6 +7,7 @@ import {
 } from "@/platform/local-db/durable-writes";
 import { isGzip } from "@/platform/local-db/gzip";
 import { localDbOptions } from "@/platform/local-db/local-db-options";
+import { answerWorkerQueries } from "@/platform/local-db/worker-queries";
 
 /* Set by the build (`next.config.ts`): PGlite's gzipped bundle. */
 declare const __PGLITE_BUNDLE__: string;
@@ -65,6 +66,15 @@ class QueuedIdbFs extends IdbFs {
 
 const idbPrefix = "idb://";
 
+/* The database, once this worker leads it and it has started. */
+let started: (db: PGlite) => void = () => undefined;
+const database = new Promise<PGlite>((resolve) => {
+  started = resolve;
+});
+
+/* Its tab's queries in one message each (`worker-queries`). */
+answerWorkerQueries(self, database);
+
 /*
  * Runs the device database off the main thread. One tab leads and owns the
  * database; other tabs send their queries to it, so two tabs never write the
@@ -90,6 +100,7 @@ void worker({
     await db.waitReady;
 
     answerWriteRequests(fs.writeAll);
+    started(db);
 
     return db;
   },
