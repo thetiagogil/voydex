@@ -1,6 +1,7 @@
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
+import { forgetKeptPageReads } from "@/platform/local-db/page-reads";
 import { safeParseInput } from "@/shared/utils/input-schemas";
 
 /*
@@ -30,4 +31,7 @@ export const markPlayOpenedAction = async (playId: string): Promise<void> => {
     .update({ last_opened_at: new Date().toISOString() })
     .eq("id", parsed.data)
     .eq("user_id", userId);
+
+  /* Home reads its shelf again next time; nothing else shows the stamp. */
+  forgetKeptPageReads((key) => key.startsWith("home:"));
 };

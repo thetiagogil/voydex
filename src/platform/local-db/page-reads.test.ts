@@ -1,14 +1,22 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+  currentPageReadRevision,
   forgetFailedPageReads,
+  forgetKeptPageReads,
   holdPageRead,
+  keptPageReadLimit,
+  movePageReadRevision,
   startPageRead,
+  subscribePageReadRevision,
 } from "@/platform/local-db/page-reads";
 
 const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe("page reads", () => {
+  /* Kept reads outlive a test; each test starts with none. */
+  beforeEach(() => forgetKeptPageReads());
+
   it("shares one read between the renders of a page", () => {
     const client = {};
     const read = vi.fn(async () => "data");
@@ -32,19 +40,120 @@ describe("page reads", () => {
     expect(read).toHaveBeenCalledTimes(4);
   });
 
-  it("reads again once no page on screen holds the read", () => {
+  it("keeps a read for the next visit until the device's data changes", () => {
     const client = {};
     const read = vi.fn(async () => "data");
-    const promise = startPageRead(client, "home", 0, read);
-    const releaseLayout = holdPageRead(client, "home", 0, promise);
-    const releasePage = holdPageRead(client, "home", 0, promise);
+    const revision = currentPageReadRevision();
+    const promise = startPageRead(client, "plays", revision, read);
+    const releaseLayout = holdPageRead(client, "plays", revision, promise);
+    const releasePage = holdPageRead(client, "plays", revision, promise);
 
     releaseLayout();
-    expect(startPageRead(client, "home", 0, read)).toBe(promise);
-
     releasePage();
-    expect(startPageRead(client, "home", 0, read)).not.toBe(promise);
+
+    /* Back on the page: the same read, shown at once. */
+    expect(startPageRead(client, "plays", revision, read)).toBe(promise);
+    expect(read).toHaveBeenCalledOnce();
+
+    movePageReadRevision();
+
+    expect(startPageRead(client, "plays", revision, read)).not.toBe(promise);
     expect(read).toHaveBeenCalledTimes(2);
+  });
+
+  it("tells the screens when the data changes", () => {
+    const listener = vi.fn();
+    const stop = subscribePageReadRevision(listener);
+    const before = currentPageReadRevision();
+
+    movePageReadRevision();
+    stop();
+    movePageReadRevision();
+
+    expect(listener).toHaveBeenCalledOnce();
+    expect(currentPageReadRevision()).toBe(before + 2);
+  });
+
+  it("doesn't keep a read a save overtook while it was on screen", () => {
+    const client = {};
+    const read = vi.fn(async () => "data");
+    const revision = currentPageReadRevision();
+    const promise = startPageRead(client, "stats", revision, read);
+    const release = holdPageRead(client, "stats", revision, promise);
+
+    movePageReadRevision();
+    release();
+
+    expect(startPageRead(client, "stats", revision, read)).not.toBe(promise);
+  });
+
+  it("lets kept reads go when asked, without moving on", () => {
+    const client = {};
+    const read = vi.fn(async () => "data");
+    const revision = currentPageReadRevision();
+    const promise = startPageRead(client, "home", revision, read);
+
+    holdPageRead(client, "home", revision, promise)();
+    forgetKeptPageReads();
+
+    expect(currentPageReadRevision()).toBe(revision);
+    expect(startPageRead(client, "home", revision, read)).not.toBe(promise);
+  });
+
+  it("lets only the kept reads it is asked about go", () => {
+    const client = {};
+    const read = vi.fn(async () => "data");
+    const revision = currentPageReadRevision();
+    const home = startPageRead(client, "home:", revision, read);
+    const plays = startPageRead(client, "plays:active", revision, read);
+
+    holdPageRead(client, "home:", revision, home)();
+    holdPageRead(client, "plays:active", revision, plays)();
+    forgetKeptPageReads((key) => key.startsWith("home:"));
+
+    expect(startPageRead(client, "home:", revision, read)).not.toBe(home);
+    expect(startPageRead(client, "plays:active", revision, read)).toBe(plays);
+  });
+
+  it("shares a read the page says not to keep, but reads again next visit", async () => {
+    const client = {};
+    const read = vi.fn(async () => ({ hasGames: false }));
+    const keep = (data: { hasGames: boolean }) => data.hasGames;
+    const revision = currentPageReadRevision();
+    const promise = startPageRead(client, "home:", revision, read, keep);
+
+    await promise;
+    /* React draws the page again once the read is in: the same read. */
+    expect(startPageRead(client, "home:", revision, read, keep)).toBe(promise);
+
+    holdPageRead(client, "home:", revision, promise)();
+
+    expect(startPageRead(client, "home:", revision, read, keep)).not.toBe(
+      promise,
+    );
+  });
+
+  it("keeps only the latest reads", () => {
+    const client = {};
+    const read = vi.fn(async () => "data");
+    const revision = currentPageReadRevision();
+    const visit = (key: string) => {
+      const promise = startPageRead(client, key, revision, read);
+
+      holdPageRead(client, key, revision, promise)();
+
+      return promise;
+    };
+
+    const first = visit("play:0");
+    const second = visit("play:1");
+
+    for (let index = 2; index <= keptPageReadLimit; index += 1) {
+      visit(`play:${index}`);
+    }
+
+    expect(startPageRead(client, "play:0", revision, read)).not.toBe(first);
+    expect(startPageRead(client, "play:1", revision, read)).toBe(second);
   });
 
   it("lets an overtaken read go, but keeps the one on screen", () => {
@@ -73,6 +182,23 @@ describe("page reads", () => {
 
     expect(startPageRead(client, "home", 0, read)).toBe(promise);
     expect(read).toHaveBeenCalledOnce();
+  });
+
+  it("doesn't keep a failed read for the next visit", async () => {
+    const client = {};
+    const read = vi.fn(async (): Promise<string> => {
+      throw new Error("The device database is closed.");
+    });
+    const revision = currentPageReadRevision();
+    const failed = startPageRead(client, "plans", revision, read);
+    const release = holdPageRead(client, "plans", revision, failed);
+
+    await expect(failed).rejects.toThrow("closed");
+    release();
+    forgetFailedPageReads();
+
+    expect(startPageRead(client, "plans", revision, read)).not.toBe(failed);
+    await settle();
   });
 
   it("keeps a failed read until the error page lets it go", async () => {

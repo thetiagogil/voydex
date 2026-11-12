@@ -20,6 +20,7 @@ import {
 } from "@/platform/local-db/game-data";
 import { waitForWrites } from "@/platform/local-db/durable-writes";
 import { runQuery } from "@/platform/local-db/local-db";
+import { movePageReadRevision } from "@/platform/local-db/page-reads";
 import {
   deleteLocalDb,
   startLocalDb,
@@ -342,6 +343,8 @@ export const useDeviceCheck = (durability: Durability) => {
       } catch (error) {
         setActionError(readErrorMessage(error));
       } finally {
+        /* Its test Plays show on the app's pages too. */
+        movePageReadRevision();
         setBusy(false);
       }
     },

@@ -494,7 +494,8 @@ src/platform/local-db/
   device-updates.ts      # the device update runner
   local-query-client.ts  # the query interface readers take, as SQL on the device
   local-db-context.tsx   # LocalDbProvider, useLocalPageRead, useLocalRead, save
-  page-reads.ts          # the reads pages wait on, shared by their renders
+  page-reads.ts          # the reads pages wait on, kept until the data changes
+  worker-queries.ts      # one message per query to the worker that leads the database
   game-downloads.ts      # game files on first need (useGameDownload), and when the background runs
   game-data-background.ts # which games the device should have, downloaded one at a time
   user-data.ts           # your tables, read whole and replaced in one go
@@ -571,7 +572,12 @@ not-found): the page waits for its read before it shows, and since a link and
 a save are React transitions, the page you came from stays on screen until
 then, the way Next.js waits for a server page, so changing pages never
 flashes empty. `key` names everything the read depends on, and every read on
-screen runs again after a save. A piece of a page that can show without its
+screen runs again after a save. A page's read is kept when you leave it, so
+going back shows at once; any change to the device's data (a save in any
+tab, or a game added) lets every kept read go. A change no page on screen
+shows but another page does (opening a Play reorders Home) calls
+`forgetKeptPageReads`. Queries reach the device database's worker in one
+message each (`worker-queries.ts`), not PGlite's dozen. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
 state instead. The Team Planner reads like any page unless its game still has
 to download (`findGameToDownload`): that takes seconds, so it shows at once
