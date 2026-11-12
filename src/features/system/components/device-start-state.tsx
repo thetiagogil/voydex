@@ -14,6 +14,12 @@ const describeStep = (step: PrepareStep | null) => {
         detail: "This happens once, the first time you open Voydex here.",
         title: "Setting up Voydex on this device",
       };
+    case "game-data":
+      return {
+        detail:
+          "New game data came out. Your Plays and Plans stay as they are.",
+        title: "Updating game data",
+      };
     default:
       return { detail: null, title: "Opening your Plays" };
   }
@@ -27,7 +33,7 @@ export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => (
   <ProgressState
     {...describeStep(step)}
     progress={
-      step?.step === "base"
+      step?.step === "base" || step?.step === "game-data"
         ? {
             label:
               step.progress.step === "downloading"

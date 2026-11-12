@@ -21,35 +21,46 @@ import {
 const schemaSql = readDeviceSchemaSql();
 const schemaHash = hashDeviceSchemaSql(schemaSql);
 
-const baseJson = JSON.stringify({
-  format: 2,
-  kind: "base",
-  slug: "base",
-  tables: [
-    {
-      columns: ["id", "slug", "name", "start_year", "sort_order"],
-      copy: "8\tgeneration-8\tGeneration VIII\t2019\t8\n",
-      name: "reference.generations",
+/* A release whose only file is a base naming generation 8 `name`. */
+const buildBase = (name: string) => {
+  const json = JSON.stringify({
+    format: 2,
+    kind: "base",
+    slug: "base",
+    tables: [
+      {
+        columns: ["id", "slug", "name", "start_year", "sort_order"],
+        copy: `8\tgeneration-8\t${name}\t2019\t8\n`,
+        name: "reference.generations",
+        rows: 1,
+      },
+    ],
+  });
+  const hash = createHash("sha256").update(json).digest("hex");
+  const bytes = new Uint8Array(gzipSync(json));
+  const versions: GameDataVersions = {
+    base: {
+      bytes: bytes.byteLength,
+      hash,
+      name: "base",
+      path: `base.${hash.slice(0, 16)}.json.gz`,
       rows: 1,
     },
-  ],
-});
-const baseHash = createHash("sha256").update(baseJson).digest("hex");
-const baseBytes = new Uint8Array(gzipSync(baseJson));
-const versions: GameDataVersions = {
-  base: {
-    bytes: baseBytes.byteLength,
-    hash: baseHash,
-    name: "base",
-    path: `base.${baseHash.slice(0, 16)}.json.gz`,
-    rows: 1,
-  },
-  builtAt: "2026-11-10T02:00:00.000Z",
-  format: 2,
-  games: [],
-  idChanges: [],
-  schemaHash,
+    builtAt: "2026-11-10T02:00:00.000Z",
+    format: 2,
+    games: [],
+    idChanges: [],
+    schemaHash,
+  };
+
+  return { bytes, hash, versions };
 };
+
+const {
+  bytes: baseBytes,
+  hash: baseHash,
+  versions,
+} = buildBase("Generation VIII");
 
 const openDbs: PGlite[] = [];
 
@@ -122,6 +133,57 @@ describe("prepareDevice", () => {
     await prepareDevice(db, sources({ download, readSchemaSql }));
     expect(readSchemaSql).not.toHaveBeenCalled();
     expect(download).not.toHaveBeenCalled();
+  });
+
+  it("takes a new game data release before the screens open", async () => {
+    const db = await setUpDevice();
+    const steps: PrepareStep["step"][] = [];
+    const next = buildBase("Generation 8");
+
+    await expect(
+      prepareDevice(
+        db,
+        sources({
+          download: async (_path, onBytes) => {
+            onBytes(next.bytes.byteLength);
+
+            return next.bytes;
+          },
+          fetchVersions: () => Promise.resolve(next.versions),
+        }),
+        (item) => steps.push(item.step),
+      ),
+    ).resolves.toEqual(next.versions);
+
+    const { rows } = await db.query(
+      "SELECT (SELECT name FROM reference.generations) AS name, (SELECT hash FROM device.game_data_files) AS hash",
+    );
+
+    expect(rows).toEqual([
+      { hash: next.versions.base.hash, name: "Generation 8" },
+    ]);
+    expect(steps).toContain("game-data");
+  });
+
+  it("opens with the release it has when the new one doesn't download", async () => {
+    const db = await setUpDevice();
+    const next = buildBase("Generation 8");
+
+    await expect(
+      prepareDevice(
+        db,
+        sources({
+          download: () => Promise.reject(new Error("offline")),
+          fetchVersions: () => Promise.resolve(next.versions),
+        }),
+      ),
+    ).resolves.toEqual(next.versions);
+
+    const { rows } = await db.query(
+      "SELECT (SELECT name FROM reference.generations) AS name, (SELECT hash FROM device.game_data_files) AS hash",
+    );
+
+    expect(rows).toEqual([{ hash: baseHash, name: "Generation VIII" }]);
   });
 
   it("works offline once the device is set up", async () => {

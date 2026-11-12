@@ -8,7 +8,9 @@ import {
 } from "@/platform/local-db/device-updates";
 import {
   installGameBase,
+  isGameDataOutdated,
   readInstalledGameData,
+  updateGameData,
   type DownloadGameDataFile,
   type GameDataProgress,
   type GameDataVersions,
@@ -25,7 +27,8 @@ import { LocalDbError, type LocalDb } from "@/platform/local-db/local-db";
 export type PrepareStep =
   | { step: "checking" }
   | { step: "updating" }
-  | { progress: GameDataProgress; step: "base" };
+  | { progress: GameDataProgress; step: "base" }
+  | { progress: GameDataProgress; step: "game-data" };
 
 /* Why the device database can't be used as it is; each has its own screen. */
 export type DeviceProblem =
@@ -152,15 +155,24 @@ export const prepareDevice = async (
       );
     }
 
-    /*
-     * A base file from an older release stays until game data updates
-     * arrive; the screens keep working with it.
-     */
     if (!installed.has("base")) {
       await installGameBase(db, {
         download: sources.download,
         onProgress: (progress) => onStep({ progress, step: "base" }),
         versions,
+      });
+    } else if (isGameDataOutdated(installed, versions)) {
+      /*
+       * A new release of the game data: the device takes it before the
+       * screens open. If it can't (a dropped connection), the screens keep
+       * the release the device has, and the next game download tries again.
+       */
+      await updateGameData(db, {
+        download: sources.download,
+        onProgress: (progress) => onStep({ progress, step: "game-data" }),
+        versions,
+      }).catch((error: unknown) => {
+        if (isStorageFullError(error)) throw error;
       });
     }
 

@@ -26,6 +26,7 @@ import { rootDir } from "../context.mjs";
 import { hashDeviceSchemaSql, readDeviceSchemaSql } from "../device-schema.mjs";
 import { relativePath } from "../files.mjs";
 import {
+  findIdChangeProblems,
   findIdProblems,
   findSchemaProblems,
   lastReleasePath,
@@ -71,6 +72,7 @@ try {
   const ids = await readReleaseIds(db);
   const problems = [
     ...findIdProblems({ idChanges, ids, lastRelease }),
+    ...findIdChangeProblems(idChanges),
     ...findSchemaProblems({ deviceUpdates, lastRelease, schemaHash }),
   ];
 

@@ -121,6 +121,20 @@ export const openLocalDb = (
 };
 
 /*
+ * Asks for the game data version list again, for a visit that may have
+ * started before a release: what it downloads then comes from the list the
+ * server has now. Null offline.
+ */
+export const refreshGameDataVersions = async () => {
+  const opened = await openLocalDb();
+  const versions = await fetchGameDataVersions().catch(() => null);
+
+  if (versions) opened.versions = versions;
+
+  return versions;
+};
+
+/*
  * Deletes everything Voydex keeps on this device and opens a new, empty
  * database. Only for a device the app can't read any more; the caller
  * confirms with the user first.

@@ -2,6 +2,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { describe, expect, it } from "vitest";
 
 import {
+  findIdChangeProblems,
   findIdProblems,
   findSchemaProblems,
   readReleaseIds,
@@ -71,6 +72,25 @@ describe("findIdProblems", () => {
         lastRelease,
       }),
     ).toEqual([]);
+  });
+});
+
+describe("findIdChangeProblems", () => {
+  it("passes an empty ID changes list", () => {
+    expect(findIdChangeProblems([])).toEqual([]);
+  });
+
+  it("fails while devices can't apply an ID change", () => {
+    expect(
+      findIdChangeProblems([
+        {
+          becomes: "13",
+          id: "12",
+          reason: "Merged.",
+          table: "reference.moves",
+        },
+      ]),
+    ).toEqual([expect.stringContaining("can't apply ID changes")]);
   });
 });
 

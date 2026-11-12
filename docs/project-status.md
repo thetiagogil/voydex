@@ -34,8 +34,10 @@ issues, in order:
    hosted `reference` and `tracking` stay until the Codex is pre-built
    (#256).
 
-Left after #247: updating a game file that changed in a new release (a device
-keeps the one it has; Start fresh is the way out before launch). #256 moves
+A new game data release now reaches a device that has an older one: it
+swaps all its game data on opening and keeps your rows
+([Game Data Updates](./database/architecture.md#game-data-updates)). Applying
+the ID changes list to saved data is left for before its first entry. #256 moves
 the Codex and the game catalogue to pre-built files (`npm run codex:build`),
 so no page reads hosted game data; hosted `reference` and `tracking` can then
 go in a hosted step (needs the owner's approval). The Milestones and
