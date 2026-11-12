@@ -114,6 +114,10 @@ describe("cacheKeyFor", () => {
 });
 
 describe("keptAddressFor", () => {
+  it("leaves out Cloudflare's settings file, which it never serves", () => {
+    expect(keptAddressFor("_headers")).toBeNull();
+  });
+
   it("keeps every app page under the address that serves it", () => {
     expect(keptAddressFor("index.html")).toBe("/");
     expect(keptAddressFor("mainline.html")).toBe("/mainline");

@@ -67,23 +67,29 @@ const open = async (
   onStep: (step: PrepareStep) => void,
 ): Promise<OpenedLocalDb> => {
   void requestPersistentStorage().catch(() => false);
+  /*
+   * Asked for while the database starts, so opening waits on the network
+   * once, beside the start, rather than twice after it.
+   */
+  const schemaHash = fetchOk(schemaHashUrl).then(
+    async (response) => (await response.text()).trim(),
+    () => null,
+  );
+  const versions = fetchGameDataVersions().catch(() => null);
+
   handle = await startLocalDb({ relaxedDurability: true });
 
   const started = handle;
   let copy: Blob | null = null;
 
   try {
-    const versions = await prepareDevice(
+    const prepared = await prepareDevice(
       started.db,
       {
-        fetchSchemaHash: () =>
-          fetchOk(schemaHashUrl).then(
-            async (response) => (await response.text()).trim(),
-            () => null,
-          ),
+        fetchSchemaHash: () => schemaHash,
         fetchUpdates: async () =>
           parseDeviceUpdates(await (await fetchOk(updatesUrl)).json()),
-        fetchVersions: () => fetchGameDataVersions().catch(() => null),
+        fetchVersions: () => versions,
         readSchemaSql: async () => (await fetchOk(schemaUrl)).text(),
         saveCopy: async () => {
           copy = await started.db.dumpDataDir("gzip");
@@ -93,7 +99,7 @@ const open = async (
       onStep,
     );
 
-    return { db: started.db, versions };
+    return { db: started.db, versions: prepared };
   } catch (error) {
     const restored =
       error instanceof DeviceProblemError &&
