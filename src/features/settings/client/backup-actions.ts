@@ -1,6 +1,9 @@
 "use client";
 
-import { withSyncPaused } from "@/platform/local-db/account-sync";
+import {
+  leavePlaysOut,
+  withSyncPaused,
+} from "@/platform/local-db/account-sync";
 import {
   BackupFileError,
   readBackupFile,
@@ -100,6 +103,33 @@ export const restoreBackupFile = async (
       message: toMessage(
         error,
         "The backup didn't restore, so nothing changed. Try again.",
+      ),
+      status: "error",
+    };
+  }
+};
+
+/*
+ * "Leave them out" for Plays from another account: they go to a backup
+ * file first, then this device takes the signed-in account's data. If the
+ * file doesn't save, nothing changes.
+ */
+export const leaveOtherAccountOut = async (
+  db: LocalDb,
+): Promise<BackupResult> => {
+  const saved = await saveBackupFile(db);
+
+  if (saved.status === "error") return saved;
+
+  try {
+    await leavePlaysOut();
+
+    return { status: "success" };
+  } catch (error) {
+    return {
+      message: toMessage(
+        error,
+        "Voydex couldn't leave them out, so nothing changed. Try again.",
       ),
       status: "error",
     };
