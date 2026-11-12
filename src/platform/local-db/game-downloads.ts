@@ -8,9 +8,17 @@ import {
   installGameLearnsets,
   readInstalledGameData,
   type GameDataProgress,
+  type GameDataVersions,
 } from "@/platform/local-db/game-data";
-import { LocalDbError, runQuery } from "@/platform/local-db/local-db";
-import { openLocalDb } from "@/platform/local-db/open-local-db";
+import {
+  LocalDbError,
+  runQuery,
+  type LocalDb,
+} from "@/platform/local-db/local-db";
+import {
+  openLocalDb,
+  refreshGameDataVersions,
+} from "@/platform/local-db/open-local-db";
 
 /*
  * A game's data on the device, downloaded the first time something needs
@@ -47,13 +55,23 @@ export const useGameDownload = () =>
     () => null,
   );
 
+/* Only the move pickers need learnsets; a failure retries next time. */
+const installLearnsetsLater = (
+  db: LocalDb,
+  slug: string,
+  versions: GameDataVersions,
+) => {
+  void installGameLearnsets(db, slug, { versions }).catch(() => undefined);
+};
+
 /*
- * Makes sure a version group's game is on the device, downloading it (and
- * the base file) when it isn't, then its learnsets in the background.
- * Offline, a game already on the device still opens.
+ * Makes sure a version group's game is on the device, from the latest game
+ * data release, downloading it (and the base file) when it isn't, then its
+ * learnsets in the background. A device on an older release takes the new
+ * one whole first. Offline, a game already on the device still opens.
  */
 export const ensureVersionGroupData = async (versionGroupId: number) => {
-  const { db, versions } = await openLocalDb();
+  const { db, versions: known } = await openLocalDb();
   const [root] = await runQuery<{ id: number; name: string; slug: string }>(
     db,
     `SELECT COALESCE(parent.id, groups.id) AS id,
@@ -67,8 +85,27 @@ export const ensureVersionGroupData = async (versionGroupId: number) => {
 
   if (!root) throw new LocalDbError("That game isn't one Voydex knows.");
 
+  const installed = await readInstalledGameData(db);
+  const knownFile = known && findGameData(known, root.id);
+
+  /* On the device, from the release this visit knows: nothing to fetch. */
+  if (
+    known &&
+    knownFile &&
+    [known.base, knownFile.data].every(
+      (entry) => installed.get(entry.name) === entry.hash,
+    )
+  ) {
+    installLearnsetsLater(db, knownFile.slug, known);
+
+    return;
+  }
+
+  /* This visit may have started before a release: ask for the list again. */
+  const versions = await refreshGameDataVersions();
+
   if (!versions) {
-    if ((await readInstalledGameData(db)).has(root.slug)) return;
+    if (installed.has(root.slug)) return;
 
     throw new LocalDbError(
       "You're offline. Connect once to download this game.",
@@ -84,10 +121,7 @@ export const ensureVersionGroupData = async (versionGroupId: number) => {
       onProgress: (progress) => setCurrent({ name: root.name, progress }),
       versions,
     });
-    /* Only the move pickers need learnsets; a failure retries next time. */
-    void installGameLearnsets(db, file.slug, { versions }).catch(
-      () => undefined,
-    );
+    installLearnsetsLater(db, file.slug, versions);
   } finally {
     setCurrent(null);
   }

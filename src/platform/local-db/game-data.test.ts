@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -13,12 +14,14 @@ import {
   parseGameDataVersions,
   readGameDataFile,
   readInstalledGameData,
+  updateGameData,
   type GameDataFile,
   type GameDataProgress,
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
+import { readUserData } from "@/platform/local-db/user-data";
 import {
   hashDeviceSchemaSql,
   readDeviceSchemaSql,
@@ -281,19 +284,6 @@ describe("installGame", () => {
     ).rejects.toThrow("another version of Voydex");
   });
 
-  it("refuses to install over an older copy of a file", async () => {
-    const db = await createDevice();
-
-    await db.query(
-      "INSERT INTO device.game_data_files (name, hash, format) VALUES ('base', $1, 2)",
-      ["f".repeat(64)],
-    );
-
-    await expect(
-      installGame(db, "swsh", { download: createDownload(), versions }),
-    ).rejects.toThrow("older than this app's");
-  });
-
   it("refuses a game that isn't in the list", async () => {
     const db = await createDevice();
 
@@ -362,4 +352,520 @@ describe("installGameLearnsets", () => {
       }),
     ).resolves.toEqual({ status: "already-installed" });
   });
+});
+
+/*
+ * Releases of the game data, as a device meets them over time. The second
+ * renames a generation, adds a Challenge rule type and a form, and drops
+ * Fire.
+ */
+type Release = {
+  base: ReturnType<typeof buildFile>;
+  games: {
+    data: ReturnType<typeof buildFile>;
+    learnsets: ReturnType<typeof buildFile>;
+    slug: string;
+    versionGroupIds: number[];
+  }[];
+  idChanges?: GameDataVersions["idChanges"];
+};
+
+const generationsTable = (name: string) => ({
+  columns: ["id", "slug", "name", "start_year", "sort_order"],
+  copy: `8\tgeneration-8\t${name}\t2019\t8\n`,
+  name: "reference.generations",
+  rows: 1,
+});
+const ruleTypesTable = (ids: number[]) => ({
+  columns: ["id", "slug", "name", "sort_order"],
+  copy: ids.map((id) => `${id}\ttype_${id}\tType ${id}\t${id}\n`).join(""),
+  name: "gameplay.mainline_challenge_rule_types",
+  rows: ids.length,
+});
+/* Voydex's own rule, shipped in the table that also holds yours. */
+const nuzlockeRuleId = "20000000-0000-4000-8000-000000000001";
+const systemRulesTable = {
+  columns: ["id", "user_id", "rule_type_id", "slug", "name"],
+  copy: `${nuzlockeRuleId}\t\\N\t5\tnuzlocke\tNuzlocke\n`,
+  name: "gameplay.mainline_challenge_rules",
+  rows: 1,
+};
+const typesTable = (slugs: string[]) => ({
+  columns: ["id", "slug", "name", "introduced_generation_id", "sort_order"],
+  copy: slugs
+    .map((slug, index) => `${index + 1}\t${slug}\t${slug}\t1\t${index + 1}\n`)
+    .join(""),
+  name: "reference.types",
+  rows: slugs.length,
+});
+const formsTable = (forms: [number, string][]) => ({
+  columns: [
+    "id",
+    "species_id",
+    "slug",
+    "name",
+    "introduced_generation_id",
+    "form_order",
+  ],
+  copy: forms
+    .map(([id, slug]) => `${id}\t${id}\t${slug}\t${slug}\t8\t1\n`)
+    .join(""),
+  name: "reference.pokemon_forms",
+  rows: forms.length,
+});
+
+const buildRelease = (
+  baseTables: GameDataFile["tables"],
+  swshTables: GameDataFile["tables"],
+  idChanges: GameDataVersions["idChanges"] = [],
+): Release => ({
+  base: buildFile("base", "base", "base", baseTables),
+  games: [
+    {
+      data: buildFile("swsh", "game", "swsh", swshTables),
+      learnsets: buildFile("swsh-learnsets", "learnsets", "swsh", [
+        {
+          columns: [
+            "id",
+            "slug",
+            "name",
+            "introduced_generation_id",
+            "sort_order",
+          ],
+          copy: "1\tmonster\tMonster\t1\t1\n",
+          name: "reference.egg_groups",
+          rows: 1,
+        },
+      ]),
+      slug: "swsh",
+      versionGroupIds: [18, 19, 20],
+    },
+    {
+      data: sv,
+      learnsets: svLearnsets,
+      slug: "sv",
+      versionGroupIds: [23, 24, 25],
+    },
+  ],
+  idChanges,
+});
+
+const firstRelease = buildRelease(
+  [generationsTable("Generation VIII"), ruleTypesTable([5]), systemRulesTable],
+  [typesTable(["normal", "fire"]), formsTable([[25, "pikachu"]])],
+);
+const secondRelease = buildRelease(
+  [generationsTable("Generation 8"), ruleTypesTable([5, 6]), systemRulesTable],
+  [
+    typesTable(["normal"]),
+    formsTable([
+      [25, "pikachu"],
+      [26, "raichu"],
+    ]),
+  ],
+);
+
+const toVersions = (release: Release): GameDataVersions => ({
+  base: release.base.entry,
+  builtAt: "2026-11-12T02:00:00.000Z",
+  format: 2,
+  games: release.games.map((game) => ({
+    data: game.data.entry,
+    learnsets: game.learnsets.entry,
+    slug: game.slug,
+    versionGroupIds: game.versionGroupIds,
+  })),
+  idChanges: release.idChanges ?? [],
+  schemaHash,
+});
+
+/* Serves a release's files and remembers what was asked for. */
+const serve = (release: Release) => {
+  const served = [
+    release.base,
+    ...release.games.flatMap((game) => [game.data, game.learnsets]),
+  ];
+
+  return vi.fn(async (path: string, onBytes: (bytes: number) => void) => {
+    const file = served.find((item) => item.entry.path === path);
+
+    if (!file) throw new Error(`No file ${path}`);
+
+    onBytes(file.bytes.byteLength);
+
+    return file.bytes;
+  });
+};
+
+const myRuleId = "30000000-0000-4000-8000-000000000001";
+
+/* A device on the first release with Sword and Shield and rows of yours. */
+const createDeviceOnFirstRelease = async () => {
+  const db = await createDevice();
+  const options = {
+    download: serve(firstRelease),
+    versions: toVersions(firstRelease),
+  };
+
+  await installGame(db, "swsh", options);
+  await installGameLearnsets(db, "swsh", options);
+  await db.exec(`
+    UPDATE public.profiles SET icon_form_id = 25;
+    INSERT INTO gameplay.mainline_challenge_rules (id, user_id, rule_type_id, slug, name)
+      VALUES ('${myRuleId}', auth.uid(), 5, 'my_rule', 'My rule');
+  `);
+
+  return db;
+};
+
+const readDevice = async (db: PGlite) => {
+  const { rows } = await db.query<Record<string, unknown>>(`
+    SELECT
+      (SELECT name FROM reference.generations) AS generation,
+      (SELECT array_agg(slug ORDER BY id) FROM reference.types) AS types,
+      (SELECT array_agg(id ORDER BY id) FROM gameplay.mainline_challenge_rule_types) AS rule_types,
+      (SELECT array_agg(slug ORDER BY slug) FROM gameplay.mainline_challenge_rules) AS rules,
+      (SELECT icon_form_id FROM public.profiles) AS icon
+  `);
+
+  return rows[0];
+};
+
+const hashesOf = (release: Release, names: string[]) =>
+  new Map(
+    [
+      release.base,
+      ...release.games.flatMap((game) => [game.data, game.learnsets]),
+    ]
+      .filter((file) => names.includes(file.entry.name))
+      .map((file) => [file.entry.name, file.entry.hash]),
+  );
+
+describe("updateGameData", () => {
+  it("swaps every file for the new release and keeps your rows", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const download = serve(secondRelease);
+
+    await expect(
+      updateGameData(db, { download, versions: toVersions(secondRelease) }),
+    ).resolves.toMatchObject({
+      files: ["base", "swsh", "swsh-learnsets"],
+      status: "updated",
+    });
+    expect(download).toHaveBeenCalledTimes(3);
+    await expect(readDevice(db)).resolves.toEqual({
+      generation: "Generation 8",
+      icon: 25,
+      rule_types: [5, 6],
+      rules: ["my_rule", "nuzlocke"],
+      types: ["normal"],
+    });
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(secondRelease, ["base", "swsh", "swsh-learnsets"]),
+    );
+  });
+
+  it("downloads nothing on a device that has the list's release", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const download = serve(firstRelease);
+
+    await expect(
+      updateGameData(db, { download, versions: toVersions(firstRelease) }),
+    ).resolves.toEqual({ status: "already-installed" });
+    expect(download).not.toHaveBeenCalled();
+  });
+
+  it("takes the new release before adding another game", async () => {
+    const db = await createDeviceOnFirstRelease();
+
+    await expect(
+      installGame(db, "sv", {
+        download: serve(secondRelease),
+        versions: toVersions(secondRelease),
+      }),
+    ).resolves.toMatchObject({
+      files: ["base", "swsh", "swsh-learnsets", "sv"],
+      status: "updated",
+    });
+    await expect(readDevice(db)).resolves.toMatchObject({ types: ["normal"] });
+  });
+
+  it("updates a base the device has from an older release", async () => {
+    const db = await createDevice();
+
+    await db.query(
+      "INSERT INTO device.game_data_files (name, hash, format) VALUES ('base', $1, 2)",
+      ["f".repeat(64)],
+    );
+
+    await expect(
+      installGame(db, "swsh", { download: createDownload(), versions }),
+    ).resolves.toMatchObject({ files: ["base", "swsh"], status: "updated" });
+  });
+
+  it("drops a game the new release no longer has", async () => {
+    const db = await createDeviceOnFirstRelease();
+
+    /* Your icon was a Sword and Shield form; with it, the update is refused. */
+    await db.exec("UPDATE public.profiles SET icon_form_id = NULL");
+
+    const withoutSwsh: Release = {
+      ...secondRelease,
+      games: secondRelease.games.filter((game) => game.slug !== "swsh"),
+    };
+
+    await expect(
+      updateGameData(db, {
+        download: serve(withoutSwsh),
+        versions: toVersions(withoutSwsh),
+      }),
+    ).resolves.toMatchObject({ files: ["base"], status: "updated" });
+    await expect(readDevice(db)).resolves.toMatchObject({ types: null });
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(withoutSwsh, ["base"]),
+    );
+  });
+
+  it("keeps the device as it was when the new release leaves out what your rows use", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const before = await readDevice(db);
+    const withoutPikachu = buildRelease(
+      [generationsTable("Generation 8"), ruleTypesTable([5]), systemRulesTable],
+      [typesTable(["normal"]), formsTable([[26, "raichu"]])],
+    );
+
+    await expect(
+      updateGameData(db, {
+        download: serve(withoutPikachu),
+        versions: toVersions(withoutPikachu),
+      }),
+    ).rejects.toThrow("leaves out something your Plays or Plans use");
+    await expect(readDevice(db)).resolves.toEqual(before);
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(firstRelease, ["base", "swsh", "swsh-learnsets"]),
+    );
+  });
+
+  it("keeps the device as it was when a download fails", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const before = await readDevice(db);
+    const download = serve(secondRelease);
+
+    download.mockImplementation(async (path) => {
+      if (path.startsWith("swsh.")) throw new Error("offline");
+
+      return secondRelease.base.bytes;
+    });
+
+    await expect(
+      updateGameData(db, { download, versions: toVersions(secondRelease) }),
+    ).rejects.toThrow("offline");
+    await expect(readDevice(db)).resolves.toEqual(before);
+  });
+
+  it("does the work once when two tabs update at the same time", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const options = {
+      download: serve(secondRelease),
+      versions: toVersions(secondRelease),
+    };
+    const results = await Promise.all([
+      updateGameData(db, options),
+      updateGameData(db, options),
+    ]);
+
+    expect(results.map((result) => result.status).sort()).toEqual([
+      "already-installed",
+      "updated",
+    ]);
+    await expect(readDevice(db)).resolves.toMatchObject({
+      rules: ["my_rule", "nuzlocke"],
+    });
+  });
+});
+
+describe("ID changes", () => {
+  const pikachuBecomesRaichu = {
+    becomes: "26",
+    id: "25",
+    reason: "Pikachu's form moved.",
+    table: "reference.pokemon_forms",
+  };
+  const movedRelease = buildRelease(
+    [generationsTable("Generation 8"), ruleTypesTable([5]), systemRulesTable],
+    [typesTable(["normal"]), formsTable([[26, "raichu"]])],
+    [pikachuBecomesRaichu],
+  );
+
+  it("moves your rows to the ID a removed one became, once", async () => {
+    const db = await createDeviceOnFirstRelease();
+
+    await updateGameData(db, {
+      download: serve(movedRelease),
+      versions: toVersions(movedRelease),
+    });
+    await expect(readDevice(db)).resolves.toMatchObject({ icon: 26 });
+
+    /* A later release reuses 25; you pick it, and it must stay picked. */
+    const reusedRelease = buildRelease(
+      [generationsTable("Generation 9"), ruleTypesTable([5]), systemRulesTable],
+      [
+        typesTable(["normal"]),
+        formsTable([
+          [25, "pichu"],
+          [26, "raichu"],
+        ]),
+      ],
+      [pikachuBecomesRaichu],
+    );
+
+    await updateGameData(db, {
+      download: serve(reusedRelease),
+      versions: toVersions(reusedRelease),
+    });
+    await db.exec("UPDATE public.profiles SET icon_form_id = 25");
+
+    const thirdRelease = buildRelease(
+      [
+        generationsTable("Generation IX"),
+        ruleTypesTable([5]),
+        systemRulesTable,
+      ],
+      [
+        typesTable(["normal"]),
+        formsTable([
+          [25, "pichu"],
+          [26, "raichu"],
+        ]),
+      ],
+      [pikachuBecomesRaichu],
+    );
+
+    await updateGameData(db, {
+      download: serve(thirdRelease),
+      versions: toVersions(thirdRelease),
+    });
+    await expect(readDevice(db)).resolves.toMatchObject({
+      generation: "Generation IX",
+      icon: 25,
+    });
+  });
+
+  it("clears an optional reference to an ID that became nothing, and drops a row that needs it", async () => {
+    const db = await createDeviceOnFirstRelease();
+    /* Voydex's own rule moves to the new type with the release. */
+    const goneRelease = buildRelease(
+      [
+        generationsTable("Generation 8"),
+        ruleTypesTable([6]),
+        {
+          ...systemRulesTable,
+          copy: systemRulesTable.copy.replace("\t5\t", "\t6\t"),
+        },
+      ],
+      [typesTable(["normal"]), formsTable([[26, "raichu"]])],
+      [
+        { ...pikachuBecomesRaichu, becomes: null },
+        {
+          becomes: null,
+          id: "5",
+          reason: "Custom rules are gone.",
+          table: "gameplay.mainline_challenge_rule_types",
+        },
+      ],
+    );
+
+    await updateGameData(db, {
+      download: serve(goneRelease),
+      versions: toVersions(goneRelease),
+    });
+    await expect(readDevice(db)).resolves.toMatchObject({
+      icon: null,
+      rule_types: [6],
+      rules: ["nuzlocke"],
+    });
+  });
+
+  it("counts every change in the list as done on a new device", async () => {
+    const db = await createDevice();
+
+    await installGame(db, "swsh", {
+      download: serve(movedRelease),
+      versions: toVersions(movedRelease),
+    });
+
+    const { rows } = await db.query<{ change: string }>(
+      "SELECT change FROM device.id_changes",
+    );
+
+    expect(rows).toEqual([{ change: '["reference.pokemon_forms","25","26"]' }]);
+  });
+});
+
+/* The files `npm run game-data:build` wrote; `verify` builds them first. */
+const builtDir = "public/game-data";
+const hasBuiltFiles = existsSync(`${builtDir}/versions.json`);
+
+describe.skipIf(!hasBuiltFiles)("updateGameData with the built files", () => {
+  it("swaps the real game data under a real Play and keeps every row", async () => {
+    const built = parseGameDataVersions(
+      JSON.parse(readFileSync(`${builtDir}/versions.json`, "utf8")),
+    );
+    const download = async (path: string, onBytes: (bytes: number) => void) => {
+      const bytes = new Uint8Array(readFileSync(`${builtDir}/${path}`));
+
+      onBytes(bytes.byteLength);
+
+      return bytes;
+    };
+    const db = await createDevice();
+
+    for (const slug of ["swsh", "sv"]) {
+      await installGame(db, slug, { download, versions: built });
+      await installGameLearnsets(db, slug, { download, versions: built });
+    }
+
+    await db.exec(`
+      INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, name)
+        SELECT '10000000-0000-4000-8000-000000000001', auth.uid(), id, version_group_id, 'Run'
+        FROM reference.games WHERE slug = 'sword';
+      INSERT INTO gameplay.mainline_play_settings (play_id)
+        VALUES ('10000000-0000-4000-8000-000000000001');
+      UPDATE public.profiles
+        SET icon_form_id = (SELECT min(id) FROM reference.pokemon_forms);
+      INSERT INTO gameplay.mainline_challenge_rules (user_id, rule_type_id, slug, name)
+        SELECT auth.uid(), min(id), 'mine', 'Mine'
+        FROM gameplay.mainline_challenge_rule_types;
+    `);
+
+    /* Every row in the app's tables, game data and yours. */
+    const countRows = async () => {
+      const { rows } = await db.query<{ count: number }>(
+        `SELECT sum((xpath('/row/c/text()', query_to_xml(
+             format('SELECT count(*) AS c FROM %I.%I', table_schema, table_name),
+             false, true, '')))[1]::text::int)::int AS count
+         FROM information_schema.tables
+         WHERE table_type = 'BASE TABLE'
+           AND table_schema IN ('public', 'reference', 'tracking', 'gameplay', 'planning')`,
+      );
+
+      return rows[0].count;
+    };
+    const rowsBefore = await countRows();
+    const yoursBefore = await readUserData(db);
+    const installed = await readInstalledGameData(db);
+
+    /* As if every file on the device came from an older release. */
+    await db.exec("UPDATE device.game_data_files SET hash = repeat('0', 64)");
+
+    await expect(
+      updateGameData(db, { download, versions: built }),
+    ).resolves.toMatchObject({
+      files: ["base", "swsh", "swsh-learnsets", "sv", "sv-learnsets"],
+      status: "updated",
+    });
+    expect(await countRows()).toBe(rowsBefore);
+    await expect(readUserData(db)).resolves.toEqual(yoursBefore);
+    await expect(readInstalledGameData(db)).resolves.toEqual(installed);
+  }, 120_000);
 });

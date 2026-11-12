@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+import {
+  applyIdChanges,
+  deleteGameRows,
+  findMissingReferences,
+  recordIdChanges,
+} from "@/platform/local-db/game-data-swap";
 import { readMaybeGzippedText } from "@/platform/local-db/gzip";
 import {
   LocalDbError,
@@ -7,6 +13,7 @@ import {
   toLocalDbError,
   type LocalDb,
 } from "@/platform/local-db/local-db";
+import type { Transaction } from "@/platform/local-db/user-data";
 
 /*
  * The game data files, built from the seeds by `npm run game-data:build` and
@@ -15,7 +22,9 @@ import {
  * list, versions.json, that names them. A device installs the base and a
  * game's file when it needs the game, and the game's learnsets after, in the
  * background. File names carry a hash of their content, so a file that
- * didn't change is never downloaded again.
+ * didn't change is never downloaded again. When a release changes any file
+ * the device has, the device swaps all its game data for the new release at
+ * once (`replaceGameData`), so its files always come from one release.
  */
 export const gameDataFormat = 2;
 
@@ -174,16 +183,47 @@ END
 $$;`;
 
 /*
- * Copies one file into the device database in one transaction, with
- * triggers and foreign key checks off (the release build already checked
- * the rows), which is what makes a large file fast. A file another tab
- * installed meanwhile is left alone.
+ * Copies a file's rows in, with triggers and foreign key checks off (the
+ * release build already checked the rows), which is what makes a large
+ * file fast. The caller turns the checks off for its transaction.
+ */
+const copyFile = async (
+  tx: Transaction,
+  file: GameDataFile,
+  onRows: (rows: number) => void,
+) => {
+  for (const table of file.tables) {
+    if (!table.rows) continue;
+
+    /* exec, not query: one round trip, so one IndexedDB write per table. */
+    await tx.exec(
+      `COPY ${table.name} (${table.columns.join(", ")}) FROM '/dev/blob'`,
+      { blob: new Blob([table.copy]) },
+    );
+    onRows(table.rows);
+  }
+};
+
+const recordFile = (
+  tx: Transaction,
+  entry: GameDataFileEntry,
+  format: number,
+) =>
+  tx.query(
+    "INSERT INTO device.game_data_files (name, hash, format) VALUES ($1, $2, $3)",
+    [entry.name, entry.hash, format],
+  );
+
+/*
+ * Installs one file in one transaction, with `inside` run in it too. A file
+ * another tab installed meanwhile is left alone.
  */
 const installFile = async (
   db: LocalDb,
   entry: GameDataFileEntry,
   file: GameDataFile,
   onRows: (rows: number) => void,
+  inside?: (tx: Transaction) => Promise<void>,
 ) => {
   try {
     await db.transaction(async (tx) => {
@@ -195,29 +235,98 @@ const installFile = async (
       if (installed.length) return;
 
       await tx.exec("SET LOCAL session_replication_role = replica");
-
-      for (const table of file.tables) {
-        if (!table.rows) continue;
-
-        /* exec, not query: one round trip, so one IndexedDB write per table. */
-        await tx.exec(
-          `COPY ${table.name} (${table.columns.join(", ")}) FROM '/dev/blob'`,
-          { blob: new Blob([table.copy]) },
-        );
-        onRows(table.rows);
-      }
-
+      await copyFile(tx, file, onRows);
       await tx.exec(resetSequencesSql);
-      await tx.query(
-        "INSERT INTO device.game_data_files (name, hash, format) VALUES ($1, $2, $3)",
-        [entry.name, entry.hash, file.format],
-      );
+      await recordFile(tx, entry, file.format);
+      await inside?.(tx);
     });
     /* Lets Postgres reuse the log the import wrote instead of keeping it. */
     await db.exec("CHECKPOINT");
   } catch (error) {
     throw toLocalDbError(error);
   }
+};
+
+/*
+ * Swaps all the game data on the device for `entries`, the newer release of
+ * the files it has (and any it asked for), in one transaction: game data
+ * rows can't be told apart by file, so every one goes and the new files
+ * come in whole. Your rows stay; the ID changes the device hasn't had are
+ * applied to them, and a release that would leave one of them pointing at
+ * nothing is refused, with the device left as it was. Returns null when
+ * another tab changed the files after `before` was read.
+ */
+const replaceGameData = async (
+  db: LocalDb,
+  entries: GameDataFileEntry[],
+  before: Map<string, string>,
+  options: InstallOptions,
+): Promise<GameDataInstall | null> => {
+  const { files, totalBytes } = await downloadFiles(entries, options);
+  const totalRows = entries.reduce((sum, entry) => sum + entry.rows, 0);
+  let installedRows = 0;
+
+  options.onProgress?.({ done: 0, step: "installing", total: totalRows });
+
+  try {
+    const replaced = await db.transaction(async (tx) => {
+      const { rows: current } = await tx.query<{ hash: string; name: string }>(
+        "SELECT name, hash FROM device.game_data_files",
+      );
+
+      if (
+        current.length !== before.size ||
+        current.some((row) => before.get(row.name) !== row.hash)
+      ) {
+        return false;
+      }
+
+      await tx.exec("SET LOCAL session_replication_role = replica");
+      await deleteGameRows(tx);
+      await tx.exec("DELETE FROM device.game_data_files");
+
+      for (const [index, entry] of entries.entries()) {
+        await copyFile(tx, files[index], (rows) => {
+          installedRows += rows;
+          options.onProgress?.({
+            done: installedRows,
+            step: "installing",
+            total: totalRows,
+          });
+        });
+        await recordFile(tx, entry, files[index].format);
+      }
+
+      await tx.exec(resetSequencesSql);
+      /* Your rows move with every check and trigger on. */
+      await tx.exec("SET LOCAL session_replication_role = origin");
+      await applyIdChanges(tx, options.versions.idChanges);
+
+      const missing = await findMissingReferences(tx);
+
+      if (missing.length) {
+        throw new LocalDbError(
+          "This game data update leaves out something your Plays or Plans use, so this device keeps the game data it has.",
+          { cause: new Error(missing.join("; ")) },
+        );
+      }
+
+      return true;
+    });
+
+    if (!replaced) return null;
+
+    await db.exec("CHECKPOINT");
+  } catch (error) {
+    throw toLocalDbError(error);
+  }
+
+  return {
+    bytes: totalBytes,
+    files: entries.map((entry) => entry.name),
+    rows: totalRows,
+    status: "updated",
+  };
 };
 
 export type GameDataProgress = {
@@ -239,7 +348,13 @@ export type DownloadGameDataFile = (
 
 export type GameDataInstall =
   | { status: "already-installed" }
-  | { bytes: number; files: string[]; rows: number; status: "installed" };
+  | {
+      bytes: number;
+      files: string[];
+      rows: number;
+      /* Added to the device, or every file swapped for a newer release. */
+      status: "installed" | "updated";
+    };
 
 type InstallOptions = {
   download?: DownloadGameDataFile;
@@ -256,42 +371,39 @@ const readInstalledSchemaHash = async (db: LocalDb) => {
   return row?.schema_hash ?? null;
 };
 
-const installFiles = async (
-  db: LocalDb,
-  entries: GameDataFileEntry[],
-  { download = downloadGameDataFile, onProgress, versions }: InstallOptions,
-): Promise<GameDataInstall> => {
-  if ((await readInstalledSchemaHash(db)) !== versions.schemaHash) {
-    throw new LocalDbError(
-      "This game data is for another version of Voydex; reload the app first.",
-    );
-  }
+/* Every file the version list names, base first, each game's learnsets after it. */
+const listGameDataFiles = (versions: GameDataVersions) => [
+  versions.base,
+  ...versions.games.flatMap((game) => [game.data, game.learnsets]),
+];
 
-  const installed = await readInstalledGameData(db);
-  const outdated = entries.find(
-    (entry) =>
-      installed.has(entry.name) && installed.get(entry.name) !== entry.hash,
+/*
+ * Whether any file on the device is from another release than the list's:
+ * changed since, or no longer in it.
+ */
+export const isGameDataOutdated = (
+  installed: Map<string, string>,
+  versions: GameDataVersions,
+) => {
+  const latest = new Map(
+    listGameDataFiles(versions).map((entry) => [entry.name, entry.hash]),
   );
 
-  if (outdated) {
-    throw new LocalDbError(
-      `The ${outdated.name} game data on this device is older than this app's; updating it comes with device updates.`,
-    );
-  }
+  return [...installed].some(([name, hash]) => latest.get(name) !== hash);
+};
 
-  const missing = entries.filter((entry) => !installed.has(entry.name));
-
-  if (!missing.length) return { status: "already-installed" };
-
-  const totalBytes = missing.reduce((sum, entry) => sum + entry.bytes, 0);
-  const totalRows = missing.reduce((sum, entry) => sum + entry.rows, 0);
+/* Downloads files one by one and checks each is the one the list names. */
+const downloadFiles = async (
+  entries: GameDataFileEntry[],
+  { download = downloadGameDataFile, onProgress }: InstallOptions,
+) => {
+  const totalBytes = entries.reduce((sum, entry) => sum + entry.bytes, 0);
   let downloadedBytes = 0;
-  let installedRows = 0;
   const files: GameDataFile[] = [];
 
   onProgress?.({ done: 0, step: "downloading", total: totalBytes });
 
-  for (const entry of missing) {
+  for (const entry of entries) {
     const bytes = await download(entry.path, (chunk) => {
       downloadedBytes += chunk;
       onProgress?.({
@@ -304,17 +416,41 @@ const installFiles = async (
     files.push(await readGameDataFile(bytes, entry));
   }
 
-  onProgress?.({ done: 0, step: "installing", total: totalRows });
+  return { files, totalBytes };
+};
+
+/* Installs the files the device doesn't have; nothing on it changes. */
+const installMissing = async (
+  db: LocalDb,
+  missing: GameDataFileEntry[],
+  firstInstall: boolean,
+  options: InstallOptions,
+): Promise<GameDataInstall> => {
+  if (!missing.length) return { status: "already-installed" };
+
+  const { files, totalBytes } = await downloadFiles(missing, options);
+  const totalRows = missing.reduce((sum, entry) => sum + entry.rows, 0);
+  let installedRows = 0;
+
+  options.onProgress?.({ done: 0, step: "installing", total: totalRows });
 
   for (const [index, entry] of missing.entries()) {
-    await installFile(db, entry, files[index], (rows) => {
-      installedRows += rows;
-      onProgress?.({
-        done: installedRows,
-        step: "installing",
-        total: totalRows,
-      });
-    });
+    await installFile(
+      db,
+      entry,
+      files[index],
+      (rows) => {
+        installedRows += rows;
+        options.onProgress?.({
+          done: installedRows,
+          step: "installing",
+          total: totalRows,
+        });
+      },
+      firstInstall && index === 0
+        ? (tx) => recordIdChanges(tx, options.versions.idChanges)
+        : undefined,
+    );
   }
 
   return {
@@ -323,6 +459,51 @@ const installFiles = async (
     rows: totalRows,
     status: "installed",
   };
+};
+
+const installFiles = async (
+  db: LocalDb,
+  entries: GameDataFileEntry[],
+  options: InstallOptions,
+): Promise<GameDataInstall> => {
+  if ((await readInstalledSchemaHash(db)) !== options.versions.schemaHash) {
+    throw new LocalDbError(
+      "This game data is for another version of Voydex; reload the app first.",
+    );
+  }
+
+  /* Another tab can change the files meanwhile; then this one looks again. */
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    const installed = await readInstalledGameData(db);
+
+    if (!isGameDataOutdated(installed, options.versions)) {
+      return installMissing(
+        db,
+        entries.filter((entry) => !installed.has(entry.name)),
+        installed.size === 0,
+        options,
+      );
+    }
+
+    const wanted = new Set([
+      ...installed.keys(),
+      ...entries.map((entry) => entry.name),
+    ]);
+    const result = await replaceGameData(
+      db,
+      listGameDataFiles(options.versions).filter((entry) =>
+        wanted.has(entry.name),
+      ),
+      installed,
+      options,
+    );
+
+    if (result) return result;
+  }
+
+  throw new LocalDbError(
+    "The game data on this device kept changing in another tab; try again.",
+  );
 };
 
 const findGame = (versions: GameDataVersions, slug: string) => {
@@ -370,6 +551,13 @@ export const installGameLearnsets = async (
 
   return installFiles(db, [game.learnsets], options);
 };
+
+/*
+ * Brings the files on the device to the list's release, downloading the new
+ * release of each one it has; a device that is current downloads nothing.
+ */
+export const updateGameData = (db: LocalDb, options: InstallOptions) =>
+  installFiles(db, [], options);
 
 /* The version list; always asked fresh, it is small and names the files. */
 export const fetchGameDataVersions = async () => {

@@ -115,6 +115,35 @@ release checks, and writes to `public/game-data/` (ignored by Git):
 - The device checks a downloaded file against the hash in the version list,
   and refuses files built for another schema.
 
+### Game Data Updates
+
+A device keeps every game data file it has from one release. When the
+version list names another hash for any of them (or no longer names one),
+the device swaps all its game data for the new release in one transaction
+(`replaceGameData` in `src/platform/local-db/game-data.ts`):
+
+- It downloads the new release of every file it has, plus the file it was
+  asked for, before it changes anything. A failed download leaves the device
+  as it was.
+- It deletes every game data row (each table that isn't in `userTables`,
+  and the rows Voydex ships in a table that also holds yours, its own
+  Challenge rules) with triggers and foreign key checks off, and copies the
+  new files in. Your rows stay.
+- It applies the ID changes it hasn't had to your rows, with every check
+  and trigger on: a row moves to the ID it became; for an ID that became
+  nothing, the reference is cleared where the column allows it, otherwise
+  the row goes. `device.id_changes` records each one, so a reused ID never
+  moves your rows twice; a new device records the whole list as done.
+- It refuses the release, leaving the device as it was, when one of your
+  rows would still point at game data that isn't there. Before launch the
+  ID check doesn't run, so a seed edit that removes an ID something saved
+  uses leaves that device on its release until the ID is back or listed.
+- The app takes a new release on opening, before the screens (a bar on the
+  start screen). If it can't, the screens keep the release the device has
+  and the next game download tries again. A game download asks for the
+  version list again first, so a tab opened before a deploy downloads the
+  files the server has now.
+
 ### Codex Files
 
 `npm run codex:build` (`scripts/codex/build-codex-data.mts`, run with `tsx`,
@@ -168,7 +197,8 @@ schema change freely; the first `--release` is run at launch.
   that goes or is reused needs an entry in
   `database/game-data/id-changes.json` (`{ table, id, becomes, reason }`,
   where `becomes` is the new ID or `null`). The list ships in
-  `versions.json`, to be applied to saved Plays.
+  `versions.json`, and each device applies it to your rows (see
+  [Game Data Updates](#game-data-updates)).
 - **Schema check:** a device schema that changed since the last release
   needs a new device update in `database/device-updates/` (a `.sql` file,
   run in name order), and a shipped device update is never removed.
