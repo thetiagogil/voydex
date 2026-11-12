@@ -2,7 +2,7 @@
 
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import {
-  askAboutClashesAgain,
+  askAgain,
   readLastSync,
   syncNow,
   useAccountSync,
@@ -16,9 +16,9 @@ import { Spinner } from "@/shared/components/ui/spinner";
 const syncLine = "Your Plays back up to your account by themselves.";
 
 /*
- * Account sync on this device: when it last synced, a clash waiting for
- * your answer, or why it didn't sync; with Sync now, or Choose for the
- * clashes.
+ * Account sync on this device: when it last synced, a question waiting
+ * for your answer (a clash, or Plays from another account), or why it
+ * didn't sync; with Sync now, or Choose to answer.
  */
 export const SettingsSyncRow = () => {
   const { db } = useLocalDb();
@@ -29,19 +29,21 @@ export const SettingsSyncRow = () => {
   const description =
     sync.status === "clashes"
       ? "Waiting for you: two devices changed the same things."
-      : sync.status === "failed"
-        ? sync.message
-        : syncedAt
-          ? `Synced ${describeDaysAgo(syncedAt)}. ${syncLine}`
-          : syncLine;
+      : sync.status === "other-account"
+        ? "Waiting for you: this device has Plays from another account."
+        : sync.status === "failed"
+          ? sync.message
+          : syncedAt
+            ? `Synced ${describeDaysAgo(syncedAt)}. ${syncLine}`
+            : syncLine;
 
   return (
     <SettingsRow title="Sync" description={description}>
-      {sync.status === "clashes" ? (
+      {sync.status === "clashes" || sync.status === "other-account" ? (
         <Button
           type="button"
           className={SETTINGS_ACTION_CLASS_NAME}
-          onClick={askAboutClashesAgain}
+          onClick={askAgain}
         >
           Choose
         </Button>

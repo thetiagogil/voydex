@@ -54,8 +54,12 @@ above as the source of truth but moves where they live:
   You're asked only on a true clash: both devices changed the same column of
   the same row since they last synced, one deleted what the other changed,
   or a Play's or Plan's rows no longer fit together (keep one side's
-  version). Nothing changes until you answer. Restoring a file is a
-  deliberate choice: the restored data replaces the account's.
+  version). Nothing changes until you answer. Restoring a file while signed
+  in is a deliberate choice: the restored data replaces that account's. A
+  file restored while signed out, or under another account, merges like
+  any sync. A device that last synced with another account asks first:
+  add its Plays to this account, or leave them out (saved to a backup file
+  first, then the device takes this account's data).
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup

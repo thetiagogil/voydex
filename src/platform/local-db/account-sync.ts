@@ -6,9 +6,12 @@ import { createAccountBackups } from "@/platform/local-db/account-backups";
 import { recordBackup } from "@/platform/local-db/backups";
 import {
   type BackupDevice,
+  hasPlaysOrPlans,
+  joinAccount,
   readDeviceSyncState,
   saveDeviceSyncState,
   syncDevice,
+  takeAccountData,
 } from "@/platform/local-db/device-sync";
 import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
@@ -25,7 +28,9 @@ import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
  * Account sync while you're signed in: a few seconds after each save the
  * device's data goes up as the account's backup, and whenever the app
  * opens or comes back to the front it checks for a newer one and merges
- * it. A clash waits for your answer; nothing syncs until then.
+ * it. A clash waits for your answer; nothing syncs until then. So do Plays
+ * from another account this device last synced with: you add them to this
+ * account or leave them out.
  */
 
 /* When this device last synced with its account; null if never. */
@@ -43,7 +48,13 @@ export type AccountSyncStatus =
   | { status: "idle" }
   | { status: "syncing" }
   | { clashes: Clash[]; otherDevice: BackupDevice; status: "clashes" }
+  /* This device's Plays came from another account: add them, or leave them out. */
+  | { status: "other-account" }
   | { message: string; status: "failed" };
+
+/* Waiting for your answer: nothing syncs until you give it. */
+const isWaiting = (status: AccountSyncStatus) =>
+  status.status === "clashes" || status.status === "other-account";
 
 /* After a save, wait this long for more before uploading. */
 const saveDelayMs = 5000;
@@ -98,11 +109,25 @@ const run = async () => {
 
   try {
     const { db } = await openLocalDb();
+    let state = await readDeviceSyncState(db, userId);
+
+    /* With no Plays or Plans to ask about, what's here simply joins. */
+    if (state.otherAccount) {
+      if (await hasPlaysOrPlans(db)) {
+        setStatus({ status: "other-account" });
+
+        return;
+      }
+
+      await joinAccount(db, userId);
+      state = await readDeviceSyncState(db, userId);
+    }
+
     const outcome = await syncDevice(db, {
       account: createAccountBackups(getBrowserSupabaseClient(), { userId }),
       choices: answers,
       ensureGame: ensureVersionGroupData,
-      state: await readDeviceSyncState(db, userId),
+      state,
     });
 
     if (outcome.status === "clashes") {
@@ -156,11 +181,11 @@ const run = async () => {
 };
 
 /*
- * Syncs now, or once more after the sync already running. A clash waiting
- * for your answer, or a restore under way, holds it.
+ * Syncs now, or once more after the sync already running. A question
+ * waiting for your answer, or a restore under way, holds it.
  */
 export const syncNow = (): Promise<void> => {
-  if (!accountId || current.status === "clashes") return Promise.resolve();
+  if (!accountId || isWaiting(current)) return Promise.resolve();
 
   if (running || paused) {
     runAgain = true;
@@ -189,10 +214,12 @@ const schedule = (delayMs: number) => {
   }, delayMs);
 };
 
-/* Opens the clash dialog again after "Later". */
-export const askAboutClashesAgain = () => {
+/* Opens the waiting question again after "Later". */
+export const askAgain = () => {
   if (current.status === "clashes") {
     setStatus({ ...current, clashes: [...current.clashes] });
+  } else if (current.status === "other-account") {
+    setStatus({ status: "other-account" });
   }
 };
 
@@ -200,6 +227,45 @@ export const askAboutClashesAgain = () => {
 export const resolveAccountClashes = (choices: MergeChoices) => {
   answers = { ...answers, ...choices };
   setStatus({ status: "idle" });
+
+  return syncNow();
+};
+
+/* "Add them": this device's Plays from another account join this one. */
+export const addPlaysToAccount = async () => {
+  const userId = accountId;
+
+  if (!userId || current.status !== "other-account") return;
+
+  const { db } = await openLocalDb();
+
+  await joinAccount(db, userId);
+  setStatus({ status: "idle" });
+
+  return syncNow();
+};
+
+/*
+ * "Leave them out": this device takes this account's data in place of the
+ * other account's. Save a backup file of the device first; if this
+ * fails, the question stays and nothing changed.
+ */
+export const leavePlaysOut = async () => {
+  const userId = accountId;
+
+  if (!userId || current.status !== "other-account") return;
+
+  const { db } = await openLocalDb();
+
+  await takeAccountData(db, {
+    account: createAccountBackups(getBrowserSupabaseClient(), { userId }),
+    accountId: userId,
+    ensureGame: ensureVersionGroupData,
+  });
+  setStatus({ status: "idle" });
+  ownSave = true;
+  notifyLocalSave({ background: true });
+  ownSave = false;
 
   return syncNow();
 };

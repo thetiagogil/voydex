@@ -241,15 +241,26 @@ const sendRestore = async (
   });
 };
 
+/* This device's sync state for the signed-in account. */
+export type DeviceSyncState = SyncState & {
+  /*
+   * The device last synced with another account: its data waits for you
+   * to add it to this one or leave it out (`joinAccount`,
+   * `takeAccountData`).
+   */
+  otherAccount: boolean;
+};
+
 /*
- * This device's sync state for an account. A device that synced with
- * another account before starts over with this one: none of its records
- * count as synced.
+ * This device's sync state for an account. A restore waits to replace
+ * only the account it was made under: with any other account, or none
+ * yet, the device merges like any sync, so another device's data is never
+ * dropped for a file restored elsewhere.
  */
 export const readDeviceSyncState = async (
   db: LocalDb,
   accountId: string,
-): Promise<SyncState> => {
+): Promise<DeviceSyncState> => {
   const [row] = await runQuery<{
     account_id: string | null;
     backup_id: string | null;
@@ -257,14 +268,102 @@ export const readDeviceSyncState = async (
   }>(db, "SELECT account_id, backup_id, restored FROM device.sync");
 
   if (row?.account_id === accountId) {
-    return { backupId: row.backup_id, restored: row.restored };
+    return {
+      backupId: row.backup_id,
+      otherAccount: false,
+      restored: row.restored,
+    };
   }
 
-  if (row?.account_id) {
-    await db.query("UPDATE device.changes SET base_changed_at = NULL");
+  return {
+    backupId: null,
+    otherAccount: Boolean(row?.account_id),
+    restored: false,
+  };
+};
+
+/* Whether this device holds any Plays or Plans: what is worth asking about. */
+export const hasPlaysOrPlans = async (db: LocalDb) => {
+  const [row] = await runQuery<{ found: boolean }>(
+    db,
+    `SELECT EXISTS (SELECT 1 FROM gameplay.mainline_plays)
+       OR EXISTS (SELECT 1 FROM planning.mainline_team_plans) AS found`,
+  );
+
+  return row?.found ?? false;
+};
+
+/*
+ * "Add them": this device's data joins `accountId`. None of it counts as
+ * synced, so the next sync merges all of it with the account's.
+ */
+export const joinAccount = async (db: LocalDb, accountId: string) => {
+  await db.transaction(async (tx) => {
+    await tx.exec("UPDATE device.changes SET base_changed_at = NULL");
+    await tx.query(
+      `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
+       VALUES ($1, NULL, NULL, FALSE)
+       ON CONFLICT (id) DO UPDATE SET account_id = EXCLUDED.account_id,
+         backup_id = NULL, restored = FALSE`,
+      [accountId],
+    );
+  });
+};
+
+/* Your name, icon and settings stay when the rest is left out. */
+const keptOnLeaving = new Set(["public.profiles", "public.user_preferences"]);
+
+/*
+ * "Leave them out": this device's data gives way to `accountId`'s newest
+ * backup, as synced; with no backup yet, only your profile and settings
+ * stay. Save a backup file of the device first.
+ */
+export const takeAccountData = async (
+  db: LocalDb,
+  {
+    account,
+    accountId,
+    ensureGame,
+  }: {
+    account: AccountBackups;
+    accountId: string;
+    ensureGame: (versionGroupId: number) => Promise<void>;
+  },
+) => {
+  const remoteId = await account.latestId();
+  const local = await readSyncSnapshot(db);
+  let snapshot: SyncSnapshot;
+
+  if (remoteId) {
+    const remote = (await account.read(remoteId)).snapshot;
+
+    for (const versionGroupId of readNeededVersionGroups(remote.tables)) {
+      await ensureGame(versionGroupId);
+    }
+
+    snapshot = withAccountBase(remote, remote);
+  } else {
+    snapshot = {
+      changes: local.changes
+        .filter((record) => keptOnLeaving.has(record.table))
+        .map((record) => ({ ...record, baseChangedAt: null })),
+      tables: Object.fromEntries(
+        Object.entries(local.tables).filter(([table]) =>
+          keptOnLeaving.has(table),
+        ),
+      ),
+    };
   }
 
-  return { backupId: null, restored: row?.restored ?? false };
+  await applySyncSnapshot(db, snapshot, local.seq);
+  await db.query(
+    `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
+     VALUES ($1, $2, NOW(), FALSE)
+     ON CONFLICT (id) DO UPDATE SET account_id = EXCLUDED.account_id,
+       backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
+       restored = FALSE`,
+    [accountId, remoteId],
+  );
 };
 
 export const saveDeviceSyncState = async (
@@ -275,13 +374,17 @@ export const saveDeviceSyncState = async (
     sentRestore,
   }: { accountId: string; backupId: string; sentRestore: boolean },
 ) => {
-  /* A restore made while this sync ran still waits to go up. */
+  /*
+   * A restore made while this sync ran still waits to go up; one made
+   * under another account, or none, never will.
+   */
   await db.query(
     `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
      VALUES ($1, $2, NOW(), FALSE)
      ON CONFLICT (id) DO UPDATE SET account_id = EXCLUDED.account_id,
        backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
-       restored = device.sync.restored AND NOT $3::boolean`,
+       restored = device.sync.restored AND NOT $3::boolean
+         AND device.sync.account_id IS NOT DISTINCT FROM EXCLUDED.account_id`,
     [accountId, backupId, sentRestore],
   );
 };

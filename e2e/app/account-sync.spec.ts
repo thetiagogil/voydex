@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { newTestEmail, signedOut } from "../support/accounts";
+import { newTestEmail, signedOut, testPassword } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { expectAccessible } from "../support/accessibility";
 import { logIn, signUp } from "../support/auth";
@@ -21,6 +21,25 @@ const rename = async (page: Page, name: string) => {
 
 /* The account's side of Supabase (data and files), not the app or login. */
 const accountRequests = /127\.0\.0\.1:54621\/(rest|storage)\//;
+
+/* Logs out, then makes a second account on the same device. */
+const switchAccount = async (page: Page, email: string) => {
+  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page
+    .getByRole("region", { name: "Account" })
+    .getByRole("button", { name: "Log out" })
+    .click();
+  await page.waitForURL("**/login**");
+  await page.goto("/login?mode=sign-up");
+  await page.getByRole("textbox", { name: "Email" }).fill(email);
+  await page.getByRole("textbox", { name: "Password" }).fill(testPassword);
+  await page.getByRole("button", { name: "Create account" }).click();
+};
+
+const otherPlaysQuestion = (page: Page) =>
+  page.getByRole("dialog", {
+    name: "Add this device's Plays to your account?",
+  });
 
 const waitForSync = async (page: Page) => {
   await page.goto("/settings", { waitUntil: "networkidle" });
@@ -121,5 +140,71 @@ test.describe("Account sync: backups that follow you between devices", () => {
     } finally {
       await other.close();
     }
+  });
+
+  test("asks before Plays from another account join this one, then adds them", async ({
+    browser,
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const name = uniquePlayName("First account");
+    const second = newTestEmail("second");
+
+    await signUp(page, newTestEmail("first"));
+    await page.getByRole("button", { name: "Skip for now" }).click();
+    await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
+    await waitForSync(page);
+    await switchAccount(page, second);
+
+    const question = otherPlaysQuestion(page);
+
+    await expect(question).toBeVisible(forTheAnswer);
+    await expectAccessible(page);
+    await question.getByRole("button", { name: "Add them" }).click();
+    await expect(question).toBeHidden();
+    await waitForSync(page);
+
+    const other = await browser.newContext({ storageState: signedOut });
+    const laptop = await other.newPage();
+
+    try {
+      await logIn(laptop, second);
+      await laptop.waitForURL("**/mainline**");
+      await waitForSync(laptop);
+      await laptop.goto("/mainline/plays");
+      await expect(laptop.getByText(name)).toBeVisible(forTheAnswer);
+    } finally {
+      await other.close();
+    }
+  });
+
+  test("leaving another account's Plays out saves them to a file first", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const name = uniquePlayName("Left out");
+
+    await signUp(page, newTestEmail("first"));
+    await page.getByRole("button", { name: "Skip for now" }).click();
+    await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
+    await waitForSync(page);
+    await switchAccount(page, newTestEmail("second"));
+
+    const question = otherPlaysQuestion(page);
+
+    await expect(question).toBeVisible(forTheAnswer);
+
+    const download = page.waitForEvent("download");
+
+    await question.getByRole("button", { name: "Leave them out" }).click();
+    expect((await download).suggestedFilename()).toMatch(
+      /^voydex-backup-\d{4}-\d{2}-\d{2}\.json\.gz$/,
+    );
+    await expect(question).toBeHidden(forTheAnswer);
+    await page.goto("/mainline/plays", { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { name: "Plays" })).toBeVisible();
+    await expect(page.getByText(name)).toBeHidden();
   });
 });

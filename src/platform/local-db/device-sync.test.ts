@@ -2,7 +2,12 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import {
+  hasPlaysOrPlans,
+  joinAccount,
+  readDeviceSyncState,
+  saveDeviceSyncState,
   syncDevice,
+  takeAccountData,
   type AccountBackups,
   type SyncOutcome,
   type SyncState,
@@ -34,7 +39,8 @@ const createAccount = () => {
     upload: async (snapshot, parentId) => {
       if ((backups.at(-1)?.id ?? null) !== parentId) return null;
 
-      const id = `backup-${backups.length + 1}`;
+      /* Ids are uuids, as the device keeps them. */
+      const id = `00000000-0000-4000-9000-${String(backups.length + 1).padStart(12, "0")}`;
 
       backups.push({ id, snapshot: structuredClone(snapshot) });
 
@@ -425,5 +431,160 @@ describe("account sync by event merge", () => {
       name: "Saved meanwhile",
       notes: "Phone note.",
     });
+  });
+});
+
+describe("a device that joins an account", () => {
+  const otherPlayId = "10000000-0000-4000-8000-000000000002";
+  const accountA = "a0000000-0000-4000-8000-000000000001";
+  const accountB = "b0000000-0000-4000-8000-000000000001";
+  let phone: Device;
+  let laptop: Device;
+
+  const addPlay = (db: PGlite, id: string, name: string) =>
+    db.query(
+      `INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, name)
+       VALUES ($1, auth.uid(), 1, 1, $2)`,
+      [id, name],
+    );
+
+  const readPlayNames = async (db: PGlite) =>
+    (
+      await db.query<{ name: string }>(
+        "SELECT name FROM gameplay.mainline_plays ORDER BY name",
+      )
+    ).rows.map((row) => row.name);
+
+  /* Syncs as the app does: the device's own state, saved after. */
+  const syncAs = async (
+    device: Device,
+    accountId: string,
+    account: AccountBackups,
+  ) => {
+    const outcome = await syncDevice(device.db, {
+      account,
+      ensureGame: async () => undefined,
+      state: await readDeviceSyncState(device.db, accountId),
+    });
+
+    if (outcome.status === "synced") {
+      await saveDeviceSyncState(device.db, {
+        accountId,
+        backupId: outcome.backupId,
+        sentRestore: outcome.sentRestore,
+      });
+    }
+
+    return outcome;
+  };
+
+  beforeEach(async () => {
+    phone = await newDevice();
+    laptop = await newDevice();
+  });
+
+  afterEach(async () => {
+    await phone.db.close();
+    await laptop.db.close();
+  });
+
+  it("merges a backup restored while signed out, instead of dropping the account's Plays", async () => {
+    const { account } = createAccount();
+
+    await addPlay(phone.db, playId, "Phone run");
+    await syncAs(phone, accountB, account);
+    /* The laptop restored a file before ever signing in. */
+    await addPlay(laptop.db, otherPlayId, "Restored run");
+    await laptop.db.exec("INSERT INTO device.sync (restored) VALUES (TRUE)");
+
+    await expect(syncAs(laptop, accountB, account)).resolves.toMatchObject({
+      sentRestore: false,
+      status: "synced",
+    });
+    await syncAs(phone, accountB, account);
+
+    for (const device of [phone, laptop]) {
+      await expect(readPlayNames(device.db)).resolves.toEqual([
+        "Phone run",
+        "Restored run",
+      ]);
+    }
+
+    /* The restore never waits to replace the account later on. */
+    await expect(
+      readDeviceSyncState(laptop.db, accountB),
+    ).resolves.toMatchObject({ restored: false });
+  });
+
+  it("waits for an answer when its Plays came from another account", async () => {
+    const accounts = { a: createAccount().account, b: createAccount().account };
+
+    await addPlay(laptop.db, otherPlayId, "Account A run");
+    await syncAs(laptop, accountA, accounts.a);
+
+    await expect(
+      readDeviceSyncState(laptop.db, accountB),
+    ).resolves.toMatchObject({ otherAccount: true });
+    await expect(hasPlaysOrPlans(laptop.db)).resolves.toBe(true);
+    await expect(
+      readDeviceSyncState(laptop.db, accountA),
+    ).resolves.toMatchObject({ otherAccount: false });
+  });
+
+  it("adds them: the other account's Plays join this one", async () => {
+    const accounts = { a: createAccount().account, b: createAccount().account };
+
+    await addPlay(phone.db, playId, "Phone run");
+    await syncAs(phone, accountB, accounts.b);
+    await addPlay(laptop.db, otherPlayId, "Account A run");
+    await syncAs(laptop, accountA, accounts.a);
+
+    await joinAccount(laptop.db, accountB);
+    await syncAs(laptop, accountB, accounts.b);
+    await syncAs(phone, accountB, accounts.b);
+
+    await expect(readPlayNames(phone.db)).resolves.toEqual([
+      "Account A run",
+      "Phone run",
+    ]);
+  });
+
+  it("leaves them out: the device takes this account's Plays only", async () => {
+    const accounts = { a: createAccount().account, b: createAccount().account };
+
+    await addPlay(phone.db, playId, "Phone run");
+    await syncAs(phone, accountB, accounts.b);
+    await addPlay(laptop.db, otherPlayId, "Account A run");
+    await syncAs(laptop, accountA, accounts.a);
+
+    await takeAccountData(laptop.db, {
+      account: accounts.b,
+      accountId: accountB,
+      ensureGame: async () => undefined,
+    });
+
+    await expect(readPlayNames(laptop.db)).resolves.toEqual(["Phone run"]);
+    /* Already in step with the account: nothing to send back. */
+    await expect(syncAs(laptop, accountB, accounts.b)).resolves.toEqual({
+      status: "unchanged",
+    });
+  });
+
+  it("leaves them out of an empty account, keeping only your profile", async () => {
+    const accounts = { a: createAccount().account, b: createAccount().account };
+
+    await addPlay(laptop.db, otherPlayId, "Account A run");
+    await syncAs(laptop, accountA, accounts.a);
+
+    await takeAccountData(laptop.db, {
+      account: accounts.b,
+      accountId: accountB,
+      ensureGame: async () => undefined,
+    });
+
+    await expect(readPlayNames(laptop.db)).resolves.toEqual([]);
+    await expect(
+      laptop.db.query("SELECT 1 FROM public.profiles"),
+    ).resolves.toMatchObject({ rows: [{}] });
   });
 });
