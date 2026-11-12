@@ -1,10 +1,15 @@
 "use client";
 
 import { notFound, redirect } from "next/navigation";
+import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { getPlannerPageData } from "@/modules/mainline/features/plans/planner/client/planner-page-query";
+import {
+  getPlannerPageData,
+  openPlannerPage,
+} from "@/modules/mainline/features/plans/planner/client/planner-page-query";
 import { MainlinePlannerPage } from "@/modules/mainline/features/plans/planner/mainline-planner-page";
+import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
 import { getGameDataPercent } from "@/platform/local-db/game-data";
 import { useGameDownload } from "@/platform/local-db/game-downloads";
 import { useLocalRead } from "@/platform/local-db/local-db-context";
@@ -12,49 +17,36 @@ import { ProgressState } from "@/shared/components/progress-state";
 
 /*
  * The Team Planner, read on the device: a saved Plan (by id) or a blank
- * one. A game the device doesn't have yet downloads first, with its bar,
- * so unlike other pages it shows at once rather than waiting on its read
- * (`useLocalPageData`) behind the page you came from.
+ * one. Like every page, the page you came from stays until the Planner is
+ * read (`useLocalPageData`). A game the device doesn't have yet is the one
+ * wait that takes seconds, so then the Planner shows at once with the
+ * game's download bar, which stays until the Planner is read, so nothing
+ * flashes empty before the download starts or after it ends.
  */
-export const MainlinePlannerRoute = ({
-  planId,
-  versionGroupSlug,
-}: {
+export const MainlinePlannerRoute = (input: {
   planId: string | null;
   versionGroupSlug: string | null;
 }) => {
-  const download = useGameDownload();
-  const read = useLocalRead(
-    `planner:${planId ?? "new"}:${versionGroupSlug ?? ""}`,
-    async () => {
-      const planner = await getPlannerPageData({ planId, versionGroupSlug });
-
-      if (!planner && !planId) {
-        throw new Error("Unable to open the Team Planner.");
-      }
-
-      return planner;
-    },
+  const key = `planner:${input.planId ?? "new"}:${input.versionGroupSlug ?? ""}`;
+  const opening = useLocalPageData(key, () => openPlannerPage(input));
+  const downloaded = useLocalRead(`${key}:${opening.status}`, async () =>
+    opening.status === "download" ? getPlannerPageData(input) : null,
   );
 
-  if (read.status === "failed") throw read.error;
+  if (downloaded.status === "failed") throw downloaded.error;
 
-  if (read.status === "ready" && read.data === null) notFound();
-
-  const data = read.status === "ready" ? read.data : null;
-
-  if (!data) {
-    return download ? (
-      <ProgressState
-        title={`Downloading ${download.name}`}
-        detail="Once a game is on this device, it opens offline too."
-        progress={{
-          label: "Game download",
-          value: getGameDataPercent(download.progress),
-        }}
-      />
-    ) : null;
+  if (opening.status === "download" && downloaded.status !== "ready") {
+    return <PlannerGameDownload gameName={opening.gameName} />;
   }
+
+  const data =
+    opening.status === "ready"
+      ? opening.data
+      : downloaded.status === "ready"
+        ? downloaded.data
+        : null;
+
+  if (!data) notFound();
 
   /* An archived Plan stays in the archived list; it doesn't open. */
   if (data.plan?.statusSlug === "archived") {
@@ -62,4 +54,26 @@ export const MainlinePlannerRoute = ({
   }
 
   return <MainlinePlannerPage data={data} />;
+};
+
+/*
+ * The game's download bar. It shows before the download starts and stays
+ * full after it ends, while the Planner is read.
+ */
+const PlannerGameDownload = ({ gameName }: { gameName: string }) => {
+  const download = useGameDownload();
+  const [lastPercent, setLastPercent] = useState(0);
+  const percent = download
+    ? getGameDataPercent(download.progress)
+    : lastPercent;
+
+  if (percent !== lastPercent) setLastPercent(percent);
+
+  return (
+    <ProgressState
+      title={`Downloading ${download?.name ?? gameName}`}
+      detail="Once a game is on this device, it opens offline too."
+      progress={{ label: "Game download", value: percent }}
+    />
+  );
 };

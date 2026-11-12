@@ -108,9 +108,11 @@ export const ensureVersionGroupData = async (versionGroupId: number) => {
   }
 };
 
-const ensureVersionGroup = async (versionGroupId: number) => {
-  const { db, versions: known } = await openLocalDb();
-  const [root] = await runQuery<{ id: number; name: string; slug: string }>(
+type RootGame = { id: number; name: string; slug: string };
+
+/* The game a version group's data comes in: an expansion's is its game's. */
+const readRootGame = async (db: LocalDb, versionGroupId: number) => {
+  const [root] = await runQuery<RootGame>(
     db,
     `SELECT COALESCE(parent.id, groups.id) AS id,
        COALESCE(parent.name, groups.name) AS name,
@@ -123,18 +125,58 @@ const ensureVersionGroup = async (versionGroupId: number) => {
 
   if (!root) throw new LocalDbError("That game isn't one Voydex knows.");
 
-  const installed = await readInstalledGameData(db);
+  return root;
+};
+
+/*
+ * The game's file when it is on the device from the release this visit
+ * knows (nothing to fetch), else null.
+ */
+const findCurrentGameData = (
+  known: GameDataVersions | null,
+  installed: Map<string, string>,
+  root: RootGame,
+) => {
   const knownFile = known && findGameData(known, root.id);
 
-  /* On the device, from the release this visit knows: nothing to fetch. */
-  if (
-    known &&
+  return known &&
     knownFile &&
     [known.base, knownFile.data].every(
       (entry) => installed.get(entry.name) === entry.hash,
     )
-  ) {
-    installLearnsetsLater(db, knownFile.slug, known);
+    ? knownFile
+    : null;
+};
+
+/*
+ * The name of the game a version group has to download before it opens, or
+ * null when nothing needs fetching: on the device from this visit's release,
+ * or, opened offline, on the device at all. A screen asks first, so it can
+ * show the download bar from the start rather than wait behind the page you
+ * came from.
+ */
+export const findGameToDownload = async (
+  versionGroupId: number,
+): Promise<string | null> => {
+  const { db, versions: known } = await openLocalDb();
+  const root = await readRootGame(db, versionGroupId);
+  const installed = await readInstalledGameData(db);
+
+  if (known) {
+    return findCurrentGameData(known, installed, root) ? null : root.name;
+  }
+
+  return installed.has(root.slug) ? null : root.name;
+};
+
+const ensureVersionGroup = async (versionGroupId: number) => {
+  const { db, versions: known } = await openLocalDb();
+  const root = await readRootGame(db, versionGroupId);
+  const installed = await readInstalledGameData(db);
+  const current = findCurrentGameData(known, installed, root);
+
+  if (known && current) {
+    installLearnsetsLater(db, current.slug, known);
 
     return;
   }
