@@ -25,6 +25,7 @@
     "docs:check": "node scripts/docs/check-docs.mjs",
     "design:check": "node scripts/design/check-design-leftovers.mjs",
     "architecture:check": "node scripts/check-architecture.mjs",
+    "assets:check": "node scripts/assets/check-asset-images.mjs",
     "knip": "knip",
     "verify": "npm run docs:check && npm run design:check && npm run format:check && npm run lint && npm run typecheck && npm run architecture:check && npm run game-data:build && npm run codex:build && npm run knip && npm run test && npm run build",
     "verify:all": "npm run db:verify && npm run verify",
