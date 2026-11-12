@@ -14,6 +14,7 @@ import path from "node:path";
 import { build } from "esbuild";
 
 import {
+  isBuildFile,
   keptAddressFor,
   type OfflineRelease,
 } from "@/platform/offline/offline-rules";
@@ -22,6 +23,7 @@ const root = process.cwd();
 const outDirectory = path.join(root, "out");
 const workerSource = path.join(root, "src/platform/offline/service-worker.ts");
 const offlinePage = "/offline";
+const hashLength = 32;
 
 const listFiles = (directory: string): string[] =>
   fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -37,6 +39,7 @@ if (!fs.existsSync(outDirectory)) {
 const hash = createHash("sha256");
 let bytes = 0;
 const files: string[] = [];
+const hashes: Record<string, string> = {};
 
 for (const full of listFiles(outDirectory).sort()) {
   const relative = path.relative(outDirectory, full).split(path.sep).join("/");
@@ -49,6 +52,13 @@ for (const full of listFiles(outDirectory).sort()) {
   hash.update(`${address}\n`).update(content);
   bytes += content.byteLength;
   files.push(address);
+
+  if (!isBuildFile(address)) {
+    hashes[address] = createHash("sha256")
+      .update(content)
+      .digest("hex")
+      .slice(0, hashLength);
+  }
 }
 
 if (!files.includes(offlinePage)) {
@@ -57,6 +67,8 @@ if (!files.includes(offlinePage)) {
 
 const release: OfflineRelease = {
   files,
+  hashLength,
+  hashes,
   id: hash.digest("hex").slice(0, 16),
   offlinePage,
 };

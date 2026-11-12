@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   cacheKeyFor,
   cachesToDelete,
+  isPrefetch,
   keptAddressFor,
   metaCacheName,
   nextReleases,
@@ -18,6 +19,7 @@ const request = (
   path: string,
   overrides: Partial<OfflineRequest> = {},
 ): OfflineRequest => ({
+  isPrefetch: false,
   method: "GET",
   mode: "cors",
   url: path.startsWith("http") ? path : `${origin}${path}`,
@@ -80,6 +82,18 @@ describe("ruleFor", () => {
         origin,
       ),
     ).toBe("pass");
+  });
+});
+
+describe("isPrefetch", () => {
+  it("knows Next.js's and the browser's prefetches from a page opened", () => {
+    expect(isPrefetch(new Headers({ "Next-Router-Prefetch": "1" }))).toBe(true);
+    expect(
+      isPrefetch(new Headers({ "Next-Router-Segment-Prefetch": "/_tree" })),
+    ).toBe(true);
+    expect(isPrefetch(new Headers({ "Sec-Purpose": "prefetch" }))).toBe(true);
+    expect(isPrefetch(new Headers({ RSC: "1" }))).toBe(false);
+    expect(isPrefetch(new Headers())).toBe(false);
   });
 });
 

@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -112,6 +114,8 @@ type Listener = (event: unknown) => void;
 let caches: MemoryCaches;
 let listeners: Record<string, Listener>;
 let network: Map<string, string>;
+/* Addresses the server redirects, to the address it ends at. */
+let redirects: Map<string, string>;
 let online: boolean;
 let fetchCalls: string[];
 let worker: {
@@ -126,11 +130,20 @@ const fakeFetch = vi.fn(async (input: RequestInfo | URL) => {
 
   if (!online) throw new TypeError("Failed to fetch");
 
-  const body = network.get(url.pathname);
+  const target = redirects.get(url.pathname);
+  const path = target ? new URL(target, origin).pathname : url.pathname;
+  const body = network.get(path.replace(/(.)\/$/, "$1"));
+  const response =
+    body === undefined
+      ? new Response("not found", { status: 404 })
+      : new Response(body, { status: 200 });
 
-  return body === undefined
-    ? new Response("not found", { status: 404 })
-    : new Response(body, { status: 200 });
+  return target
+    ? Object.defineProperties(response, {
+        redirected: { value: true },
+        url: { value: new URL(target, origin).href },
+      })
+    : response;
 });
 
 /* Starts a worker for a release, as the browser would after a deploy. */
@@ -158,9 +171,13 @@ const install = async (release: OfflineRelease) => {
 };
 
 /* Sends a request through the worker; null when it leaves it alone. */
-const request = async (path: string, init: { mode?: RequestMode } = {}) => {
+const request = async (
+  path: string,
+  init: { headers?: Record<string, string>; mode?: RequestMode } = {},
+) => {
   /* A page request's mode can't be set on a Request made outside a browser. */
   const fake = {
+    headers: new Headers(init.headers),
     method: "GET",
     mode: init.mode ?? "cors",
     url: `${origin}${path}`,
@@ -175,10 +192,27 @@ const request = async (path: string, init: { mode?: RequestMode } = {}) => {
   return answer as Promise<Response> | null;
 };
 
+/* A release built from what the server holds now, as the build would. */
 const release = (
   id: string,
   files: string[] = ["/", "/mainline", "/offline", "/_next/static/a.js"],
-): OfflineRelease => ({ files, id, offlinePage: "/offline" });
+): OfflineRelease => ({
+  files,
+  hashLength: 32,
+  hashes: Object.fromEntries(
+    files
+      .filter((file) => !file.startsWith("/_next/static/"))
+      .map((file) => [
+        file,
+        createHash("sha256")
+          .update(network.get(file) ?? "")
+          .digest("hex")
+          .slice(0, 32),
+      ]),
+  ),
+  id,
+  offlinePage: "/offline",
+});
 
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -195,6 +229,7 @@ beforeEach(() => {
     ["/game-data/versions.json", "versions"],
   ]);
   online = true;
+  redirects = new Map();
   fetchCalls = [];
   worker = {
     clients: { claim: vi.fn(async () => undefined) },
@@ -232,8 +267,10 @@ describe("install", () => {
   });
 
   it("never takes over with a partial copy", async () => {
+    const r1 = release("r1");
+
     network.delete("/mainline");
-    await loadWorker(release("r1"));
+    await loadWorker(r1);
 
     await expect(runLifecycle("install")).rejects.toThrow("/mainline");
     expect(worker.skipWaiting).not.toHaveBeenCalled();
@@ -253,9 +290,53 @@ describe("install", () => {
     ).toBe("script a");
   });
 
-  it("picks up where a dropped install stopped", async () => {
-    network.delete("/offline");
+  it("never keeps a page from a deploy that landed while it installed", async () => {
+    const r1 = release("r1");
+
+    network.set("/mainline", "home v2");
+    await loadWorker(r1);
+
+    await expect(runLifecycle("install")).rejects.toThrow("/mainline");
+    expect(worker.skipWaiting).not.toHaveBeenCalled();
+  });
+
+  it("never keeps a file the server answered from another address", async () => {
+    redirects.set("/mainline", "/");
     await loadWorker(release("r1"));
+
+    await expect(runLifecycle("install")).rejects.toThrow("/mainline");
+  });
+
+  it("keeps a page the server answered from its address with a slash", async () => {
+    redirects.set("/mainline", "/mainline/");
+    await loadWorker(release("r1"));
+    await runLifecycle("install");
+
+    expect(await caches.text(releaseCacheName("r1"), "/mainline")).toBe(
+      "home v1",
+    );
+  });
+
+  it("never takes over when its copy was deleted while it filled", async () => {
+    const download = fakeFetch.getMockImplementation()!;
+
+    await loadWorker(release("r1"));
+    /* An older release activating late deletes caches it doesn't know. */
+    fakeFetch.mockImplementationOnce(async (input) => {
+      await caches.delete(releaseCacheName("r1"));
+
+      return download(input);
+    });
+
+    await expect(runLifecycle("install")).rejects.toThrow("incomplete");
+    expect(worker.skipWaiting).not.toHaveBeenCalled();
+  });
+
+  it("picks up where a dropped install stopped", async () => {
+    const r1 = release("r1");
+
+    network.delete("/offline");
+    await loadWorker(r1);
     await expect(runLifecycle("install")).rejects.toThrow();
 
     network.set("/offline", "offline page v1");
@@ -356,6 +437,44 @@ describe("pages", () => {
       await request("/codex/pokemon/pikachu", { mode: "navigate" })
     )?.text();
     await flush();
+    online = false;
+
+    const answer = await request("/codex/pokemon/pikachu", {
+      mode: "navigate",
+    });
+
+    expect(await answer?.text()).toBe("pikachu page");
+  });
+
+  it("never keep a prefetch, which would push out the pages opened", async () => {
+    await install(release("r1"));
+
+    await (
+      await request("/codex/pokemon/pikachu.txt", {
+        headers: { "Next-Router-Prefetch": "1" },
+      })
+    )?.text();
+    await (
+      await request("/codex/pokemon/pikachu/__next._tree.txt", {
+        headers: { "Next-Router-Segment-Prefetch": "/_tree" },
+      })
+    )?.text();
+    await flush();
+
+    expect(caches.stores.get(visitedCacheName("r1"))?.entries.size ?? 0).toBe(
+      0,
+    );
+  });
+
+  it("still open offline after a deploy, from the release before", async () => {
+    await install(release("r1"));
+    await (
+      await request("/codex/pokemon/pikachu", { mode: "navigate" })
+    )?.text();
+    await flush();
+
+    network.set("/mainline", "home v2");
+    await install(release("r2"));
     online = false;
 
     const answer = await request("/codex/pokemon/pikachu", {

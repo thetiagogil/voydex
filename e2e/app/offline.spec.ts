@@ -66,8 +66,11 @@ test.describe("Offline", () => {
     await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
     /* Moving between a Play's views reads their kept data files. */
-    await page.getByRole("link", { name: "Team" }).first().click();
-    await expect(page).toHaveURL(/\/mainline\/plays\/play\/team\?id=/);
+    await page
+      .getByRole("navigation", { name: "Play sections" })
+      .getByRole("link", { name: "History" })
+      .click();
+    await expect(page).toHaveURL(/\/mainline\/plays\/play\/history\?id=/);
     await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
     for (const path of [

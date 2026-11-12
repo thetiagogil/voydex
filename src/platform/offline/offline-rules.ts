@@ -9,12 +9,19 @@
  * from the network first, so a new deploy shows at once.
  */
 
-/* What the build tells the worker about its release (`build-service-worker.mjs`). */
+/* What the build tells the worker about its release (`build-service-worker.mts`). */
 export type OfflineRelease = {
   /* A hash of every kept file: the same build gives the same release. */
   id: string;
   /* The addresses kept before the release takes over. */
   files: string[];
+  /*
+   * Each kept file's SHA-256 (hex, cut to `hashLength`), except the build's
+   * scripts, whose names already change with their content: the install
+   * checks every page and data file is the one this release was built with.
+   */
+  hashes: Record<string, string>;
+  hashLength: number;
   /* The page shown for a page that isn't kept, offline. */
   offlinePage: string;
 };
@@ -63,10 +70,24 @@ export const cachesToDelete = (names: string[], keep: Releases) => {
 };
 
 export type OfflineRequest = {
+  /* Asked for ahead of a tap (`isPrefetch`), not opened. */
+  isPrefetch: boolean;
   method: string;
   mode: string;
   url: string;
 };
+
+/*
+ * Next.js marks the data it fetches ahead of a tap with its own headers;
+ * browsers mark prefetched pages with `Sec-Purpose`.
+ */
+export const isPrefetch = (headers: Pick<Headers, "get">) =>
+  headers.get("Next-Router-Prefetch") !== null ||
+  headers.get("Next-Router-Segment-Prefetch") !== null ||
+  /prefetch/i.test(headers.get("Sec-Purpose") ?? headers.get("Purpose") ?? "");
+
+/* Build files: their names change with their content. */
+export const isBuildFile = (path: string) => path.startsWith("/_next/static/");
 
 /*
  * How the worker answers a request:
@@ -108,7 +129,7 @@ export const ruleFor = (
   if (url.pathname === "/sw.js") return "pass";
   if (url.pathname.startsWith(gameDataPath)) return "pass";
   if (request.mode === "navigate") return "page";
-  if (url.pathname.startsWith("/_next/static/")) return "script";
+  if (isBuildFile(url.pathname)) return "script";
 
   return "file";
 };
