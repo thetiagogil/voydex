@@ -4,6 +4,7 @@ import { Suspense, useEffect, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
+import { watchBackgroundDownloads } from "@/platform/local-db/game-downloads";
 import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import { LocalDbProvider } from "@/platform/local-db/local-db-context";
 import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
@@ -18,11 +19,16 @@ import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
  * are all transitions, the start screen or the page you came from stays
  * until the next page is ready. Its fallback shows only if something else
  * waits outside a transition.
+ *
+ * Once open, the games the device should have download in the background.
  */
 export const DeviceGate = ({ children }: { children: ReactNode }) => {
   const { retry, startFresh, state } = useOpenLocalDb();
 
+  const open = state.status === "open";
+
   useEffect(listenForInstallPrompt, []);
+  useEffect(() => (open ? watchBackgroundDownloads() : undefined), [open]);
 
   return (
     <Suspense fallback={<DeviceStartState step={null} />}>

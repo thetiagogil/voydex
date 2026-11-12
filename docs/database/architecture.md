@@ -145,6 +145,33 @@ the device swaps all its game data for the new release in one transaction
   now. A background learnsets download never swaps releases, and a file
   never goes in after another tab moved the device to another release.
 
+### Background Downloads
+
+`game-data-background.ts` downloads the games a device should have before
+anyone waits for them; `watchBackgroundDownloads` (in `game-downloads.ts`)
+starts it from the device gate.
+
+- What: the missing learnsets of games already on the device, then the
+  games of your Plays (open ones first), Plans and archived Plays, each with
+  its learnsets. That covers a Play or Plan whose game isn't on the device
+  (restored or synced while offline) and learnsets that didn't finish.
+- When: 3 seconds after the app opens, 3 seconds after the last of a run of
+  saves, and when the connection comes back. A run only asks for the version
+  list when the device is missing something by the one it knows.
+- How: one file at a time, each in its own transaction, so a run cut short
+  keeps what it finished and the next run picks up the rest. Before each
+  file it waits for any download someone is waiting for (New Play, the
+  Planner), and stops when the browser goes offline. A file that fails (or
+  takes over two minutes) is left out, with its game's learnsets, until the
+  connection comes back or the app opens anew; a full device stops the
+  background for the visit. It brings its own version list, so a release
+  that came out during the visit still waits for its update.
+- Learnsets a game download starts right after the game count as waited
+  for too, so the background never fetches the same file beside them.
+- Never: offline, on data saver, in two tabs at once (tabs take turns with a
+  Web Lock), or on a device from another release than the list's: the swap
+  stays with the update on opening or a game download.
+
 ### Codex Files
 
 `npm run codex:build` (`scripts/codex/build-codex-data.mts`, run with `tsx`,

@@ -570,15 +570,20 @@ export const installGameBase = (db: LocalDb, options: InstallOptions) =>
 /*
  * Makes a game ready to play on this device: the base file (once per device)
  * and the game's own file. A game already on the device downloads nothing.
+ * With `update` false it never swaps the device's release, and refuses
+ * instead when the device is on another one (the background downloads).
  */
 export const installGame = async (
   db: LocalDb,
   slug: string,
   options: InstallOptions,
+  { update = true }: { update?: boolean } = {},
 ) => {
   const game = findGame(options.versions, slug);
 
-  return installFiles(db, [options.versions.base, game.data], options);
+  return installFiles(db, [options.versions.base, game.data], options, {
+    update,
+  });
 };
 
 /*
@@ -626,11 +631,25 @@ export const fetchGameDataVersions = async () => {
  * Downloads a file in chunks, so the progress bar moves. A file's name
  * changes with its content, so the browser may keep it as long as it likes.
  */
-export const downloadGameDataFile: DownloadGameDataFile = async (
-  path,
-  onBytes,
+export const downloadGameDataFile: DownloadGameDataFile = (path, onBytes) =>
+  fetchGameDataFile(path, onBytes);
+
+/*
+ * The same, given up after `ms` (the body included), for a download nobody
+ * waits on: a stalled one would otherwise hold the background for the
+ * whole visit.
+ */
+export const downloadGameDataFileWithin =
+  (ms: number): DownloadGameDataFile =>
+  (path, onBytes) =>
+    fetchGameDataFile(path, onBytes, AbortSignal.timeout(ms));
+
+const fetchGameDataFile = async (
+  path: string,
+  onBytes: (bytes: number) => void,
+  signal?: AbortSignal,
 ) => {
-  const response = await fetch(`${gameDataUrl}/${path}`);
+  const response = await fetch(`${gameDataUrl}/${path}`, { signal });
 
   if (!response.ok || !response.body) {
     throw new LocalDbError(

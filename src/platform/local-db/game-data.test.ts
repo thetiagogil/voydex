@@ -1,12 +1,11 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
-import { gzipSync } from "node:zlib";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import { ensureDeviceSchema } from "@/platform/local-db/device-schema";
 import {
+  downloadGameDataFileWithin,
   findGameData,
   GameDataRefusedError,
   installGame,
@@ -20,6 +19,7 @@ import {
   type GameDataProgress,
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
+import { buildFile } from "@/platform/local-db/game-data-test-support";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
 import { readUserData } from "@/platform/local-db/user-data";
@@ -30,30 +30,6 @@ import {
 
 const schemaSql = readDeviceSchemaSql();
 const schemaHash = hashDeviceSchemaSql(schemaSql);
-
-/* A file as the release build writes it: its JSON, gzipped and hashed. */
-const buildFile = (
-  name: string,
-  kind: GameDataFile["kind"],
-  slug: string,
-  tables: GameDataFile["tables"],
-) => {
-  const json = JSON.stringify({ format: 2, kind, slug, tables });
-  const hash = createHash("sha256").update(json).digest("hex");
-  const bytes = new Uint8Array(gzipSync(json));
-
-  return {
-    bytes,
-    entry: {
-      bytes: bytes.byteLength,
-      hash,
-      name,
-      path: `${name}.${hash.slice(0, 16)}.json.gz`,
-      rows: tables.reduce((sum, table) => sum + table.rows, 0),
-    },
-    json,
-  };
-};
 
 const base = buildFile("base", "base", "base", [
   {
@@ -182,6 +158,28 @@ describe("readGameDataFile", () => {
     await expect(readGameDataFile(bad.bytes, bad.entry)).rejects.toThrow(
       "broken",
     );
+  });
+});
+
+describe("downloadGameDataFileWithin", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("gives up on a download that stalls", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        (_url: string, { signal }: { signal: AbortSignal }) =>
+          new Promise((_resolve, reject) => {
+            signal.addEventListener("abort", () => reject(signal.reason));
+          }),
+      ),
+    );
+
+    await expect(
+      downloadGameDataFileWithin(20)("sv.0123456789abcdef.json.gz", () => {}),
+    ).rejects.toMatchObject({ name: "TimeoutError" });
   });
 });
 
