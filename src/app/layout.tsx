@@ -1,3 +1,4 @@
+import { ServiceWorkerRegistration } from "@/platform/offline/service-worker-registration";
 import { FirstVisitGuard } from "@/shared/components/first-visit-guard";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
@@ -32,6 +33,7 @@ export default function RootLayout({
         <TooltipProvider>
           <div className="relative flex min-h-full flex-col">{children}</div>
         </TooltipProvider>
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

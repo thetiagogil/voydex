@@ -30,6 +30,9 @@ src/
     reference/
   platform/
     env/
+    local-db/
+    offline/
+    prebuilt-data/
     supabase/
   shared/
 ```
@@ -99,6 +102,7 @@ src/
   platform/                    # framework and external-service infrastructure
     env/
     local-db/                  # the database on the device (ADR 0008)
+    offline/                   # the service worker that keeps the app offline
     supabase/                  # login and backups only
   features/                    # global application features
     app-shell/
@@ -144,8 +148,9 @@ depend on runtime infrastructure or feature implementations.
 ### `src/platform`
 
 Infrastructure adapters owned by the application: environment parsing,
-the database on the device (`local-db`), authenticated and public Supabase
-clients, proxy/session helpers, and health integration. Platform code must not
+the database on the device (`local-db`), the offline copy of the app
+(`offline`), the Codex's pre-built files (`prebuilt-data`), and the Supabase
+clients for login and backups. Platform code must not
 depend on product modules or application features.
 
 ### `src/features`
@@ -510,6 +515,41 @@ statement (flat and embedded selects, the filters Voydex uses, writes with
 `.select()`, and function calls), so a reader the Codex shares with Mainline is
 written once. Rows come back as the API sent them (dates as ISO text, numeric
 as numbers).
+
+### The Offline Copy
+
+After the first visit the app opens with no connection (#274). The build
+writes a service worker, `out/sw.js`
+(`scripts/offline/build-service-worker.mts`, run as `postbuild`), from
+`src/platform/offline/service-worker.ts` and the rules in
+`offline-rules.ts`; `ServiceWorkerRegistration` in the root layout starts it
+in the built app only, never under `next dev`.
+
+- **A release** is one build: every page except the Codex's thousands of
+  entries, the data files Next.js reads to move between pages, the build's
+  scripts (PGlite included) and the app's own small files, about 25 MB. The
+  worker downloads all of it into one cache and takes over only once the
+  copy is complete, so offline pages and scripts always come from one build.
+- **Online, pages come from the network first**, so a deploy shows at once;
+  the kept copy answers only when the network fails. Build files
+  (`/_next/static/`) change name with their content, so they come from the
+  copy first.
+- **Codex entries and Codex files** are kept as they are opened (the newest
+  400 per release). An offline page never opened shows `/offline`.
+- **A new release** takes over open tabs as soon as its copy is complete.
+  The release before it is kept, so a tab still on it can load its scripts;
+  older ones are deleted. The app checks for a new release when it comes
+  back to the screen, at most every 30 minutes.
+- **The device schema** (`/local-db/`) is kept with its release: a release
+  that took over in the background and first opens offline still finds the
+  schema its code was built for, and updates the device before any screen
+  reads it.
+- **Never kept:** `/game-data/`. The device asks for the game data list on
+  each visit and keeps the release it has when the list doesn't answer
+  (`prepare-device.ts`); game data files go into the device database, which
+  is what makes installed games work offline.
+- Images come from the images site and stay in the browser's own cache (30
+  days).
 
 ## Reads, Writes, And File Responsibilities
 

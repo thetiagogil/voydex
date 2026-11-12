@@ -152,19 +152,6 @@ deliberately ask for hard enforcement and every Team, Plan, import,
 correction, and historical workflow can explain and override conflicts
 safely.
 
-## Offline And Cached Read Experience
-
-A later version may keep selected recently viewed Plays or Codex reference data
-available during a connection outage. That requires an explicit freshness,
-privacy, invalidation, sign-out cleanup, and conflict model rather than treating
-the current service-health indicator as offline support.
-
-V1 uses honest loading, local retry, page error, and a persistent broad service-
-status banner. It does not promise cached reads or queued writes. Reconsider an
-offline read experience only when usage shows that unreliable connections
-regularly interrupt in-game companion tasks. Do not queue personal mutations
-until duplicate prevention and stale conflict handling are designed end to end.
-
 ## Team Score
 
 Explore a playful Team Score after the V1 Quick Team Analysis and full Team
