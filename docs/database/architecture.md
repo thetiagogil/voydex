@@ -337,6 +337,12 @@ A gym badge's picture is `badges/<sprite_slug>.webp` from
 that returns in a later game keeps its slug, and Galar's and Paldea's
 type-named badges carry their region (`galar-grass-badge`). The app asks for a
 picture only for a gym milestone; Alola's Z-Crystals keep their type icon.
+A missing picture never breaks a page (it shows a letter or the type icon), so
+run `npm run assets:check` after adding a form, game, portrait or badge: it
+compares the seeds with a `voydex-assets` checkout (`../voydex-assets`, or the
+folder in `VOYDEX_ASSETS_DIR`) and lists every picture that isn't there. The
+few that exist nowhere yet are listed with why in
+`scripts/assets/check-asset-images.mjs`.
 
 The local Auth fixture must never be loaded into a linked project. When hosted
 development data is explicitly authorized, apply only gameplay seed files `002`
