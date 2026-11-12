@@ -9,7 +9,8 @@
  * already holds. The app serves them as static files,
  * so a returning device only fetches the hash. The device updates
  * (database/device-updates/) go to updates.json, which only a device with
- * an older schema fetches.
+ * an older schema fetches. PGlite's own file system bundle goes beside them,
+ * gzipped (`pglite-bundle.mjs`).
  */
 
 import { createHash } from "node:crypto";
@@ -18,6 +19,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rootDir, supabaseDir } from "./context.mjs";
+import { writePgliteBundle } from "./pglite-bundle.mjs";
 import {
   deviceUpdatesDir,
   readDeviceUpdates,
@@ -145,4 +147,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     path.join(outputDir, "updates.json"),
     JSON.stringify({ updates: readDeviceUpdateFiles() }),
   );
+  writePgliteBundle(path.join(rootDir, "public"));
 }

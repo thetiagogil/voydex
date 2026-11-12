@@ -533,13 +533,14 @@ in the built app only, never under `next dev`.
 
 - **A release** is one build: every page except the Codex's thousands of
   entries, the data files Next.js reads to move between pages, the build's
-  scripts (PGlite included) and the app's own small files, about 25 MB. The
+  scripts (PGlite included, its bundle as the gzipped copy in
+  `/local-db/engine/`) and the app's own small files, about 23 MB. The
   worker downloads all of it into one cache and takes over only once the
   copy is complete, so offline pages and scripts always come from one build.
 - **Online, pages come from the network first**, so a deploy shows at once;
   the kept copy answers only when the network fails. Build files
-  (`/_next/static/`) change name with their content, so they come from the
-  copy first.
+  (`/_next/static/`, `/local-db/engine/`) change name with their content, so
+  they come from the copy first.
 - **Codex entries and Codex files** are kept as they are opened (the newest
   400 per release). An offline page never opened shows `/offline`.
 - **A new release** takes over open tabs as soon as its copy is complete.

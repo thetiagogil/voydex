@@ -80,6 +80,10 @@ three places:
   and foreign key checks off, one transaction per file.
 - The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
   `/pglite/voydex`; one tab leads and the others send their queries to it.
+- PGlite's file system bundle (`pglite.data`, 6 MB, which the host sends
+  uncompressed) is read from a gzipped copy the build writes to
+  `/local-db/engine/` (`scripts/database/pglite-bundle.mjs`, about 2 MB),
+  named by its content so browsers keep it.
 - Saves answer before they reach IndexedDB (relaxed durability), so they feel
   instant; the worker writes them right after, through one queue
   (`durable-writes.ts`). `notifyLocalSave` redraws the screen at once, then

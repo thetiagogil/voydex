@@ -5,7 +5,33 @@ import {
   answerWriteRequests,
   createWriteQueue,
 } from "@/platform/local-db/durable-writes";
+import { isGzip } from "@/platform/local-db/gzip";
 import { localDbOptions } from "@/platform/local-db/local-db-options";
+
+/* Set by the build (`next.config.ts`): PGlite's gzipped bundle. */
+declare const __PGLITE_BUNDLE__: string;
+
+/*
+ * PGlite's file system bundle, from the build's gzipped copy
+ * (`scripts/database/pglite-bundle.mjs`): about 1 MB to download instead
+ * of 6, since the host sends PGlite's own `.data` file uncompressed. A host
+ * that unzips it on the way is fine too.
+ */
+const readFsBundle = async () => {
+  const response = await fetch(__PGLITE_BUNDLE__);
+
+  if (!response.ok) {
+    throw new Error(`${__PGLITE_BUNDLE__} answered ${response.status}.`);
+  }
+
+  const bytes = new Uint8Array(await response.arrayBuffer());
+
+  return isGzip(bytes)
+    ? new Response(
+        new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip")),
+      ).blob()
+    : new Blob([bytes]);
+};
 
 /*
  * Every query asks PGlite to write its changes to IndexedDB; counting the
@@ -55,6 +81,7 @@ void worker({
     const db = new CountedPGlite({
       ...localDbOptions,
       fs,
+      fsBundle: await readFsBundle(),
       /* A saved copy to start from, when restoring one. */
       loadDataDir: options.loadDataDir,
       relaxedDurability: options.relaxedDurability,

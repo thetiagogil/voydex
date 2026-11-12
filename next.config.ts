@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { pgliteBundleAddress } from "./scripts/database/pglite-bundle.mjs";
+
 const nextConfig: NextConfig = {
   /* Keep `next dev` from writing its own block into CLAUDE.md. */
   agentRules: false,
@@ -9,6 +11,10 @@ const nextConfig: NextConfig = {
    * reads your data and its address in the browser, so no server runs.
    */
   output: "export",
+  compiler: {
+    /* Where the device database reads PGlite's gzipped bundle. */
+    define: { __PGLITE_BUNDLE__: pgliteBundleAddress() },
+  },
   /* Images come from the voydex-assets site as they are. */
   images: { unoptimized: true },
   experimental: {
