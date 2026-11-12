@@ -84,7 +84,7 @@ const open = async (
 
   try {
     const prepared = await prepareDevice(
-      started.db,
+      started.localDb,
       {
         fetchSchemaHash: () => schemaHash,
         fetchUpdates: async () =>
@@ -99,7 +99,7 @@ const open = async (
       onStep,
     );
 
-    return { db: started.db, versions: prepared };
+    return { db: started.localDb, versions: prepared };
   } catch (error) {
     const restored =
       error instanceof DeviceProblemError &&

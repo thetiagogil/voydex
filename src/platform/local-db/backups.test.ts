@@ -11,6 +11,7 @@ import {
   recordBackup,
   restoreBackup,
 } from "@/platform/local-db/backups";
+import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import {
   addTestGameData as addGameData,
   createTestDevice,
@@ -105,6 +106,15 @@ describe("backups on the device", () => {
         "SELECT 1 FROM gameplay.mainline_challenge_rules WHERE slug = 'nuzlocke'",
       ),
     ).resolves.toMatchObject({ rows: [{}] });
+  });
+
+  it("tells the pages to read again once the backup is in", async () => {
+    const { backup } = await makeBackupFile(db);
+    const before = currentPageReadRevision();
+
+    await restoreBackup(db, backup, { ensureGame: async () => undefined });
+
+    expect(currentPageReadRevision()).toBeGreaterThan(before);
   });
 
   it("restores an older backup, filling a column it didn't have", async () => {

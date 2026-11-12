@@ -11,12 +11,18 @@ export const MainlineHomeRoute = ({
 }: {
   requestedPlayId: string | null;
 }) => {
-  const data = useLocalPageData(`home:${requestedPlayId ?? ""}`, async () =>
-    getHomePageData(requestedPlayId, {
+  const read = useLocalPageData(
+    `home:${requestedPlayId ?? ""}`,
+    async () => {
       /* Without the games, Home still shows your Plays. */
-      catalogue: await fetchGameCatalogue().catch(() => null),
-    }),
+      const catalogue = await fetchGameCatalogue().catch(() => null);
+      const data = await getHomePageData(requestedPlayId, { catalogue });
+
+      return data && { data, hasGames: catalogue !== null };
+    },
+    /* Without the games, the next visit asks for them again. */
+    (result) => result?.hasGames ?? false,
   );
 
-  return <MainlineHomePage data={data} />;
+  return <MainlineHomePage data={read.data} />;
 };

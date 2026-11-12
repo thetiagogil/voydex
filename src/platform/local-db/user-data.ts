@@ -4,6 +4,7 @@ import {
   toLocalDbError,
   type LocalDb,
 } from "@/platform/local-db/local-db";
+import { movePageReadRevision } from "@/platform/local-db/page-reads";
 
 /*
  * Your own rows on this device, table by table: what a backup holds and
@@ -153,7 +154,7 @@ const switchTriggers = async (
  * triggers that stamp times or move a Play's "last changed" are off
  * meanwhile, while foreign keys, checks and the triggers that check a row
  * still hold. A column the data lacks takes its default; one the table
- * lacks is left out. `inside` runs in the same transaction first (a check)
+ * lacks is left out. Once the rows are in, kept page reads are let go. `inside` runs in the same transaction first (a check)
  * and `after` once the rows are in (the change records that go with them).
  */
 export const replaceUserData = async (
@@ -205,6 +206,8 @@ export const replaceUserData = async (
       await switchTriggers(tx, triggers, "ENABLE");
       await after?.(tx);
     });
+    /* A restore or a sync merge: pages read before it read again. */
+    movePageReadRevision();
   } catch (error) {
     if (error instanceof LocalDbError) throw error;
 

@@ -11,6 +11,7 @@ import {
   toLocalDbError,
   type LocalDb,
 } from "@/platform/local-db/local-db";
+import { movePageReadRevision } from "@/platform/local-db/page-reads";
 import type { Transaction } from "@/platform/local-db/user-data";
 
 /*
@@ -489,6 +490,29 @@ const installFiles = async (
   entries: GameDataFileEntry[],
   options: InstallOptions,
   { update = true }: { update?: boolean } = {},
+): Promise<GameDataInstall> => {
+  let changed = true;
+
+  try {
+    const result = await installFilesOnce(db, entries, options, { update });
+
+    changed = result.status !== "already-installed";
+
+    return result;
+  } finally {
+    /*
+     * Pages read before the game was on the device read it again; so do
+     * they after a failure, which may have put in some files.
+     */
+    if (changed) movePageReadRevision();
+  }
+};
+
+const installFilesOnce = async (
+  db: LocalDb,
+  entries: GameDataFileEntry[],
+  options: InstallOptions,
+  { update }: { update: boolean },
 ): Promise<GameDataInstall> => {
   if ((await readInstalledSchemaHash(db)) !== options.versions.schemaHash) {
     throw new LocalDbError(

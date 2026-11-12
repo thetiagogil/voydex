@@ -17,14 +17,22 @@ import { waitForWrites } from "@/platform/local-db/durable-writes";
 import type { GameDataVersions } from "@/platform/local-db/game-data";
 import { toLocalDbError, type LocalDb } from "@/platform/local-db/local-db";
 import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
-import { holdPageRead, startPageRead } from "@/platform/local-db/page-reads";
+import {
+  currentPageReadRevision,
+  holdPageRead,
+  movePageReadRevision,
+  startPageRead,
+  subscribePageReadRevision,
+} from "@/platform/local-db/page-reads";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
 
 /*
  * The opened device database, shared with every screen under the device
- * gate. `revision` moves on after each save, so every read on screen runs
- * again and shows the saved data; device reads take milliseconds.
+ * gate. `revision` moves on whenever the device's data changes (a save in
+ * any tab, or a game added), so every read on screen runs again and shows
+ * the new data, and a page's kept read (`page-reads`) is only reused while
+ * nothing changed.
  */
 export type LocalDbSession = {
   /* The device database behind the query interface readers and commands take. */
@@ -100,6 +108,8 @@ const keepSave = async (counted: boolean) => {
 export const notifyLocalSave = ({ background = false } = {}) => {
   if (typeof window !== "undefined") void keepSave(!background);
 
+  movePageReadRevision();
+
   for (const listener of saveListeners) listener();
 };
 
@@ -124,7 +134,7 @@ export const LocalDbProvider = ({
   db: LocalDb;
   versions: GameDataVersions | null;
 }) => {
-  const [revision, setRevision] = useState(0);
+  const [revision, setRevision] = useState(currentPageReadRevision);
   const client = useMemo(() => createLocalQueryClient(db), [db]);
   const save = useCallback(
     async <Result,>(write: (client: LocalQueryClient) => Promise<Result>) => {
@@ -142,13 +152,15 @@ export const LocalDbProvider = ({
    * A transition, so a page waiting on its new read (`useLocalPageRead`)
    * keeps the saved-over data on screen until the new data is in.
    */
-  useEffect(
-    () =>
-      subscribeLocalSaves(() =>
-        startTransition(() => setRevision((current) => current + 1)),
-      ),
-    [],
-  );
+  useEffect(() => {
+    const show = () =>
+      startTransition(() => setRevision(currentPageReadRevision()));
+
+    /* Data that changed before this provider listened shows now. */
+    show();
+
+    return subscribePageReadRevision(show);
+  }, []);
   const session = useMemo(
     () => ({ client, db, save, versions }),
     [client, db, save, versions],
@@ -238,6 +250,8 @@ export const useLocalRead = <Data,>(
 export const useLocalPageRead = <Data,>(
   key: string,
   read: (client: LocalQueryClient) => Promise<Data>,
+  /* Whether a later visit may show this data again (see `startPageRead`). */
+  keep?: (data: Data) => boolean,
 ): Data => {
   const { client, db } = useLocalDb();
   const revision = useContext(RevisionContext);
@@ -246,7 +260,7 @@ export const useLocalPageRead = <Data,>(
    * first open, and React makes a new client each time it retries a render
    * that waited before it ever showed.
    */
-  const promise = startPageRead(db, key, revision, () => read(client));
+  const promise = startPageRead(db, key, revision, () => read(client), keep);
 
   useEffect(
     () => holdPageRead(db, key, revision, promise),

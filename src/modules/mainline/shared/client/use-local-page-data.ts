@@ -14,8 +14,9 @@ import { useLocalPageRead } from "@/platform/local-db/local-db-context";
 export const useLocalPageData = <Data>(
   key: string,
   read: () => Promise<Data | null>,
+  keep?: (data: Data | null) => boolean,
 ): Data => {
-  const data = useLocalPageRead(key, () => read());
+  const data = useLocalPageRead(key, () => read(), keep);
 
   if (data === null) notFound();
 

@@ -1,11 +1,16 @@
 import { PGliteWorker } from "@electric-sql/pglite/worker";
 
+import type { LocalDb } from "@/platform/local-db/local-db";
+import { connectWorkerQueries } from "@/platform/local-db/worker-queries";
+
 /* The IndexedDB database PGlite keeps the device data in ("/pglite/voydex"). */
 const dataDir = "idb://voydex";
 const indexedDbName = "/pglite/voydex";
 
 export type LocalDbHandle = {
   db: PGliteWorker;
+  /* The database the app reads and saves through (`connectWorkerQueries`). */
+  localDb: LocalDb;
   /* Closes the database and ends its worker, letting go of IndexedDB. */
   stop: () => Promise<void>;
 };
@@ -30,6 +35,8 @@ export const startLocalDb = async ({
     type: "module",
   });
 
+  const withWorkerQueries = connectWorkerQueries(worker);
+
   try {
     const db = await PGliteWorker.create(worker, {
       dataDir,
@@ -39,6 +46,7 @@ export const startLocalDb = async ({
 
     return {
       db,
+      localDb: withWorkerQueries(db),
       stop: async () => {
         await db.close().catch(() => undefined);
         worker.terminate();

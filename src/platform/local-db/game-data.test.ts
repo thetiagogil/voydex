@@ -22,6 +22,7 @@ import {
 import { buildFile } from "@/platform/local-db/game-data-test-support";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
+import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import { readUserData } from "@/platform/local-db/user-data";
 import {
   hashDeviceSchemaSql,
@@ -257,6 +258,21 @@ describe("installGame", () => {
       installGame(db, "swsh", { download, versions }),
     ).resolves.toEqual({ status: "already-installed" });
     expect(download).not.toHaveBeenCalled();
+  });
+
+  it("tells the pages to read again once a game is on the device, and only then", async () => {
+    const db = await createDevice();
+    const before = currentPageReadRevision();
+
+    await installGame(db, "swsh", { download: createDownload(), versions });
+
+    const after = currentPageReadRevision();
+
+    expect(after).toBeGreaterThan(before);
+
+    await installGame(db, "swsh", { download: createDownload(), versions });
+
+    expect(currentPageReadRevision()).toBe(after);
   });
 
   it("downloads only the new game's file for a second game", async () => {
