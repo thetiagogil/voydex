@@ -18,5 +18,5 @@ export const MainlineHomeRoute = ({
     }),
   );
 
-  return data ? <MainlineHomePage data={data} /> : null;
+  return <MainlineHomePage data={data} />;
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { startTransition, useCallback, useEffect, useState } from "react";
 
 import type { GameDataVersions } from "@/platform/local-db/game-data";
 import type { LocalDb } from "@/platform/local-db/local-db";
@@ -29,6 +29,15 @@ const toFailedState = (error: unknown): LocalDbOpenState => ({
 });
 
 /*
+ * Shows the open database as a transition, so the start screen stays until
+ * the page under the gate has its data (`useLocalPageRead`).
+ */
+const showOpen = (
+  setState: (state: LocalDbOpenState) => void,
+  state: LocalDbOpenState,
+) => startTransition(() => setState(state));
+
+/*
  * Opens the device database (once per visit) for the screens under a gate, with the step
  * it is on for the start screen. `retry` tries again; `startFresh` deletes
  * the device's data first (the caller confirms).
@@ -43,7 +52,8 @@ export const useOpenLocalDb = () => {
     setState({ status: "opening", step: null });
 
     return open((step) => setState({ status: "opening", step })).then(
-      ({ db, versions }) => setState({ db, status: "open", versions }),
+      ({ db, versions }) =>
+        showOpen(setState, { db, status: "open", versions }),
       (error: unknown) => setState(toFailedState(error)),
     );
   }, []);
@@ -55,7 +65,7 @@ export const useOpenLocalDb = () => {
       if (current) setState({ status: "opening", step });
     }).then(
       ({ db, versions }) => {
-        if (current) setState({ db, status: "open", versions });
+        if (current) showOpen(setState, { db, status: "open", versions });
       },
       (error: unknown) => {
         if (current) setState(toFailedState(error));

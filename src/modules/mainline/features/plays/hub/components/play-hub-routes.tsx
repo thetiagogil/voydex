@@ -54,8 +54,6 @@ export const PlayShellRoute = ({
     return shell ? { editing, shell } : null;
   });
 
-  if (!data) return null;
-
   return (
     <MainlinePlayShell
       data={data.shell}
@@ -71,8 +69,6 @@ export const PlayOverviewRoute = ({ playId }: PlayRouteProps) => {
   const data = useLocalPageData(`play:${playId}:overview`, () =>
     getMainlinePlayOverviewData(playId),
   );
-
-  if (!data) return null;
 
   return (
     <MainlinePlayOverview
@@ -104,8 +100,6 @@ export const PlayTeamRosterRoute = ({
     getMainlinePlayTeamRosterData(playId, pokemon ?? null),
   );
 
-  if (!data) return null;
-
   return (
     <MainlinePlayTeamRoster
       key={pokemon ?? ""}
@@ -128,7 +122,7 @@ export const PlayTeamPlanRoute = ({ playId }: PlayRouteProps) => {
     getMainlinePlayTeamPlanData(playId),
   );
 
-  return data ? <MainlinePlayTeamPlan data={data} /> : null;
+  return <MainlinePlayTeamPlan data={data} />;
 };
 
 export const PlayTeamAnalysisRoute = ({ playId }: PlayRouteProps) => {
@@ -136,7 +130,7 @@ export const PlayTeamAnalysisRoute = ({ playId }: PlayRouteProps) => {
     getMainlinePlayTeamAnalysisData(playId),
   );
 
-  return data ? <MainlinePlayTeamAnalysis data={data} playId={playId} /> : null;
+  return <MainlinePlayTeamAnalysis data={data} playId={playId} />;
 };
 
 export const PlayHistoryRoute = ({ playId }: PlayRouteProps) => {
@@ -144,7 +138,7 @@ export const PlayHistoryRoute = ({ playId }: PlayRouteProps) => {
     getMainlinePlayHistoryData(playId),
   );
 
-  return data ? <MainlinePlayHistory data={data} playId={playId} /> : null;
+  return <MainlinePlayHistory data={data} playId={playId} />;
 };
 
 /* Progress opens on Story, or on the Pokédex for a Play that doesn't track it. */
@@ -152,8 +146,6 @@ export const PlayProgressRoute = ({ playId }: PlayRouteProps) => {
   const tracking = useLocalPageData(`play:${playId}:tracking`, () =>
     getMainlinePlayTracking(playId),
   );
-
-  if (!tracking) return null;
 
   redirect(
     tracking.story
@@ -175,8 +167,6 @@ export const PlayProgressStoryRoute = ({
 
     return story ? { matchups, story, tracking } : null;
   });
-
-  if (!data) return null;
 
   if (!data.tracking.story) {
     redirect(appRoutes.mainlinePlayProgressPokedex(playId));
@@ -200,13 +190,13 @@ export const PlayProgressPokedexRoute = ({
     getMainlinePlayProgressPokedexData(playId),
   );
 
-  return data ? (
+  return (
     <MainlinePlayProgressPokedex
       data={data}
       initialScopeSlug={initialScopeSlug}
       playId={playId}
     />
-  ) : null;
+  );
 };
 
 export const PlayProgressCollectiblesRoute = ({
@@ -221,8 +211,6 @@ export const PlayProgressCollectiblesRoute = ({
 
     return collectibles ? { collectibles, tracking } : null;
   });
-
-  if (!data) return null;
 
   if (!data.tracking.collectibles) {
     redirect(appRoutes.mainlinePlayProgressPokedex(playId));
@@ -242,5 +230,5 @@ export const PlaySettingsRoute = ({ playId }: PlayRouteProps) => {
     getMainlinePlaySettingsData(playId),
   );
 
-  return data ? <MainlinePlaySettings data={data} playId={playId} /> : null;
+  return <MainlinePlaySettings data={data} playId={playId} />;
 };

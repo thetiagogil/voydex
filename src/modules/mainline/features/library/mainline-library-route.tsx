@@ -9,5 +9,5 @@ import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-pag
 export const MainlineLibraryRoute = ({ tab }: { tab: LibraryTab }) => {
   const data = useLocalPageData("library", getLibraryPageData);
 
-  return data ? <MainlineLibraryPage data={data} tab={tab} /> : null;
+  return <MainlineLibraryPage data={data} tab={tab} />;
 };

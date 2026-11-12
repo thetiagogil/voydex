@@ -490,7 +490,8 @@ src/platform/local-db/
   prepare-device.ts      # what opening does, and the problems it can report
   device-updates.ts      # the device update runner
   local-query-client.ts  # the query interface readers take, as SQL on the device
-  local-db-context.tsx   # LocalDbProvider, useLocalRead, save, notifyLocalSave
+  local-db-context.tsx   # LocalDbProvider, useLocalPageRead, useLocalRead, save
+  page-reads.ts          # the reads pages wait on, shared by their renders
   game-downloads.ts      # game files on first need, with useGameDownload
   user-data.ts           # your tables, read whole and replaced in one go
   backup-file.ts         # the backup file: format, upgrades, gzip
@@ -560,10 +561,15 @@ The design goal is separation of concerns, not a fixed filename ritual.
 
 A screen's route stays a thin server file that hands the address on to a
 client route component. That component reads its data on the device with
-`useLocalRead(key, read)` (or `useLocalPageData`, which adds not-found and the
-error page): `key` names everything the read depends on, and every read on
-screen runs again after a save. Device reads take milliseconds, so there are
-no loading skeletons.
+`useLocalPageRead(key, read)` (or Mainline's `useLocalPageData`, which adds
+not-found): the page waits for its read before it shows, and since a link and
+a save are React transitions, the page you came from stays on screen until
+then, the way Next.js waits for a server page, so changing pages never
+flashes empty. `key` names everything the read depends on, and every read on
+screen runs again after a save. A piece of a page that can show without its
+data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
+state instead; so does the Team Planner, which shows a game's download bar.
+Device reads take milliseconds, so there are no loading skeletons.
 
 For a complex read, separate the responsibilities that need independent review
 or reuse:

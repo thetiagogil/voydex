@@ -14,7 +14,7 @@ import type {
   PlaysPageView,
 } from "@/modules/mainline/features/plays/browse/types";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
-import { useLocalRead } from "@/platform/local-db/local-db-context";
+import { useLocalPageRead } from "@/platform/local-db/local-db-context";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -73,19 +73,15 @@ const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
 );
 
 /*
- * The Plays page, read on the device. The read takes milliseconds, so there
- * is no loading state; a failed read goes to the page's error screen.
+ * The Plays page, read on the device before it shows; a failed read goes to
+ * the page's error screen.
  */
 export const MainlinePlaysPage = ({ params, view }: MainlinePlaysPageProps) => {
-  const read = useLocalRead(`plays:${view}`, (client) =>
+  const data = useLocalPageRead(`plays:${view}`, (client) =>
     readLocalPlaysPageData(client, view),
   );
 
-  if (read.status === "failed") throw read.error;
-
-  if (read.status === "loading") return null;
-
-  return <PlaysPageContent data={read.data} params={params} />;
+  return <PlaysPageContent data={data} params={params} />;
 };
 
 const PlaysPageContent = ({

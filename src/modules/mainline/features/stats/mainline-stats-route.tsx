@@ -8,5 +8,5 @@ import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-pag
 export const MainlineStatsRoute = () => {
   const stats = useLocalPageData("stats", getStatsPageData);
 
-  return stats ? <MainlineStatsPage stats={stats} /> : null;
+  return <MainlineStatsPage stats={stats} />;
 };
