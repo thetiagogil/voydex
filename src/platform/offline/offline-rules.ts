@@ -114,6 +114,7 @@ export type RequestRule = "pass" | "script" | "page" | "file";
  *   database, which is what makes an installed game work offline, so a
  *   second copy would only use room.
  * - the worker itself, which the browser checks for updates on its own.
+ * - `_headers`, Cloudflare's own settings, which it never serves.
  */
 const gameDataPath = "/game-data/";
 
@@ -159,7 +160,7 @@ export const cacheKeyFor = (url: string) => {
  */
 export const keptAddressFor = (path: string): string | null => {
   if (`/${path}`.startsWith(gameDataPath)) return null;
-  if (path === "sw.js") return null;
+  if (path === "sw.js" || path === "_headers") return null;
   if (isCodexEntry(path) || isCodexEntryFile(path)) return null;
   if (path.endsWith(".html")) return pageAddress(path.slice(0, -5));
 

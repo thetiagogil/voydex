@@ -1,0 +1,4 @@
+# Cloudflare reads this file; it is never served. Build files change name
+# with their content, so a browser keeps them for a year without asking again.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -33,6 +33,9 @@ the Codex files and the app's pages into `out/`, then uploads them.
 - A failed build or upload fails the `deploy` job on that commit, and the
   site keeps serving the last good version.
 - One deploy runs at a time; a newer merge waits for the running one.
+- `public/_headers` (Cloudflare's settings file, never served) lets browsers
+  keep the build's own files (`/_next/static/`) for a year without asking
+  again: their names change with their content.
 - GitHub lists each deploy under the `production` environment, with a link to
   the live site.
 - Pull requests are not deployed; check one locally with `npm run build`
