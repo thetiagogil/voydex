@@ -45,15 +45,6 @@ CREATE TABLE device.game_data_files (
     imported_at timestamptz NOT NULL DEFAULT NOW()
 );
 
--- One row per ID change (database/game-data/id-changes.json) this device's
--- data already has: applied to your rows when new game data came in, or
--- already true of the game data it was set up with. `change` is the change
--- as JSON: ["reference.moves", "12", "13"].
-CREATE TABLE device.id_changes (
-    change text PRIMARY KEY,
-    applied_at timestamptz NOT NULL DEFAULT NOW()
-);
-
 -- One row per device update (database/device-updates/) this device's data
 -- already has: run on it, or part of the schema it was installed with.
 CREATE TABLE device.updates (

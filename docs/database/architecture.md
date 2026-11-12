@@ -129,20 +129,21 @@ the device swaps all its game data for the new release in one transaction
   and the rows Voydex ships in a table that also holds yours, its own
   Challenge rules) with triggers and foreign key checks off, and copies the
   new files in. Your rows stay.
-- It applies the ID changes it hasn't had to your rows, with every check
-  and trigger on: a row moves to the ID it became; for an ID that became
-  nothing, the reference is cleared where the column allows it, otherwise
-  the row goes. `device.id_changes` records each one, so a reused ID never
-  moves your rows twice; a new device records the whole list as done.
 - It refuses the release, leaving the device as it was, when one of your
-  rows would still point at game data that isn't there. Before launch the
-  ID check doesn't run, so a seed edit that removes an ID something saved
-  uses leaves that device on its release until the ID is back or listed.
+  rows would point at game data that isn't there, and doesn't download that
+  release again until the app opens anew. Before launch the ID check doesn't
+  run, so a seed edit that removes an ID something saved uses keeps that
+  device on its release until the ID is back.
+- Devices don't apply the ID changes list yet, so the build fails while it
+  has entries; applying it (two-column keys, merges, backups from before a
+  change) comes before the list's first entry.
 - The app takes a new release on opening, before the screens (a bar on the
-  start screen). If it can't, the screens keep the release the device has
-  and the next game download tries again. A game download asks for the
-  version list again first, so a tab opened before a deploy downloads the
-  files the server has now.
+  start screen). If it can't, the screens keep the release the device has:
+  a game already on the device opens as it is, and a new game's download
+  tries the update again. A game download asks for the version list again
+  first, so a tab opened before a deploy downloads the files the server has
+  now. A background learnsets download never swaps releases, and a file
+  never goes in after another tab moved the device to another release.
 
 ### Codex Files
 
@@ -197,8 +198,8 @@ schema change freely; the first `--release` is run at launch.
   that goes or is reused needs an entry in
   `database/game-data/id-changes.json` (`{ table, id, becomes, reason }`,
   where `becomes` is the new ID or `null`). The list ships in
-  `versions.json`, and each device applies it to your rows (see
-  [Game Data Updates](#game-data-updates)).
+  `versions.json`; until devices apply it to your rows, the build fails
+  while it has entries (see [Game Data Updates](#game-data-updates)).
 - **Schema check:** a device schema that changed since the last release
   needs a new device update in `database/device-updates/` (a `.sql` file,
   run in name order), and a shipped device update is never removed.

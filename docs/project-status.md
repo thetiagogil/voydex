@@ -35,8 +35,9 @@ issues, in order:
    (#256).
 
 A new game data release now reaches a device that has an older one: it
-swaps all its game data on opening and applies the ID changes to your rows
-([Game Data Updates](./database/architecture.md#game-data-updates)). #256 moves
+swaps all its game data on opening and keeps your rows
+([Game Data Updates](./database/architecture.md#game-data-updates)). Applying
+the ID changes list to saved data is left for before its first entry. #256 moves
 the Codex and the game catalogue to pre-built files (`npm run codex:build`),
 so no page reads hosted game data; hosted `reference` and `tracking` can then
 go in a hosted step (needs the owner's approval). The Milestones and

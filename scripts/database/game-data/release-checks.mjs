@@ -136,6 +136,19 @@ export function findIdProblems({ idChanges, ids, lastRelease }) {
   return problems;
 }
 
+/*
+ * Devices don't apply ID changes to your rows yet: a release with any would
+ * be refused by every device whose rows use a removed ID, and a reused ID
+ * would keep its old meaning. Until they do, the list stays empty.
+ */
+export function findIdChangeProblems(idChanges) {
+  return idChanges.length
+    ? [
+        `${path.relative(databaseDir, idChangesPath)} has ${idChanges.length} entries, but devices can't apply ID changes to saved data yet; keep the ID or build that first.`,
+      ]
+    : [];
+}
+
 /* What the schema check reports: a schema change with no device update. */
 export function findSchemaProblems({ deviceUpdates, lastRelease, schemaHash }) {
   if (!lastRelease) return [];

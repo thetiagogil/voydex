@@ -19,6 +19,7 @@ import {
   openLocalDb,
   refreshGameDataVersions,
 } from "@/platform/local-db/open-local-db";
+import { isStorageFullError } from "@/platform/local-db/prepare-device";
 
 /*
  * A game's data on the device, downloaded the first time something needs
@@ -122,6 +123,14 @@ export const ensureVersionGroupData = async (versionGroupId: number) => {
       versions,
     });
     installLearnsetsLater(db, file.slug, versions);
+  } catch (error) {
+    /*
+     * A game already on the device keeps the release it has when the new
+     * one can't come in (a dropped connection, a refused release).
+     */
+    if (installed.has(root.slug) && !isStorageFullError(error)) return;
+
+    throw error;
   } finally {
     setCurrent(null);
   }

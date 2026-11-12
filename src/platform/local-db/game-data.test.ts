@@ -8,6 +8,7 @@ import type { PGlite } from "@electric-sql/pglite";
 import { ensureDeviceSchema } from "@/platform/local-db/device-schema";
 import {
   findGameData,
+  GameDataRefusedError,
   installGame,
   installGameBase,
   installGameLearnsets,
@@ -684,121 +685,85 @@ describe("updateGameData", () => {
   });
 });
 
-describe("ID changes", () => {
-  const pikachuBecomesRaichu = {
-    becomes: "26",
-    id: "25",
-    reason: "Pikachu's form moved.",
-    table: "reference.pokemon_forms",
-  };
-  const movedRelease = buildRelease(
-    [generationsTable("Generation 8"), ruleTypesTable([5]), systemRulesTable],
+describe("a refused release", () => {
+  /* Its own release: a refused one is remembered for the whole visit. */
+  const withoutPikachu = buildRelease(
+    [
+      generationsTable("Generation Eight"),
+      ruleTypesTable([5]),
+      systemRulesTable,
+    ],
     [typesTable(["normal"]), formsTable([[26, "raichu"]])],
-    [pikachuBecomesRaichu],
   );
 
-  it("moves your rows to the ID a removed one became, once", async () => {
+  it("isn't downloaded again in the same visit", async () => {
     const db = await createDeviceOnFirstRelease();
+    const options = {
+      download: serve(withoutPikachu),
+      versions: toVersions(withoutPikachu),
+    };
 
-    await updateGameData(db, {
-      download: serve(movedRelease),
-      versions: toVersions(movedRelease),
-    });
-    await expect(readDevice(db)).resolves.toMatchObject({ icon: 26 });
-
-    /* A later release reuses 25; you pick it, and it must stay picked. */
-    const reusedRelease = buildRelease(
-      [generationsTable("Generation 9"), ruleTypesTable([5]), systemRulesTable],
-      [
-        typesTable(["normal"]),
-        formsTable([
-          [25, "pichu"],
-          [26, "raichu"],
-        ]),
-      ],
-      [pikachuBecomesRaichu],
+    await expect(updateGameData(db, options)).rejects.toBeInstanceOf(
+      GameDataRefusedError,
     );
-
-    await updateGameData(db, {
-      download: serve(reusedRelease),
-      versions: toVersions(reusedRelease),
-    });
-    await db.exec("UPDATE public.profiles SET icon_form_id = 25");
-
-    const thirdRelease = buildRelease(
-      [
-        generationsTable("Generation IX"),
-        ruleTypesTable([5]),
-        systemRulesTable,
-      ],
-      [
-        typesTable(["normal"]),
-        formsTable([
-          [25, "pichu"],
-          [26, "raichu"],
-        ]),
-      ],
-      [pikachuBecomesRaichu],
+    options.download.mockClear();
+    await expect(installGame(db, "sv", options)).rejects.toBeInstanceOf(
+      GameDataRefusedError,
     );
-
-    await updateGameData(db, {
-      download: serve(thirdRelease),
-      versions: toVersions(thirdRelease),
-    });
-    await expect(readDevice(db)).resolves.toMatchObject({
-      generation: "Generation IX",
-      icon: 25,
-    });
+    expect(options.download).not.toHaveBeenCalled();
   });
+});
 
-  it("clears an optional reference to an ID that became nothing, and drops a row that needs it", async () => {
-    const db = await createDeviceOnFirstRelease();
-    /* Voydex's own rule moves to the new type with the release. */
-    const goneRelease = buildRelease(
-      [
-        generationsTable("Generation 8"),
-        ruleTypesTable([6]),
-        {
-          ...systemRulesTable,
-          copy: systemRulesTable.copy.replace("\t5\t", "\t6\t"),
-        },
-      ],
-      [typesTable(["normal"]), formsTable([[26, "raichu"]])],
-      [
-        { ...pikachuBecomesRaichu, becomes: null },
-        {
-          becomes: null,
-          id: "5",
-          reason: "Custom rules are gone.",
-          table: "gameplay.mainline_challenge_rule_types",
-        },
-      ],
-    );
-
-    await updateGameData(db, {
-      download: serve(goneRelease),
-      versions: toVersions(goneRelease),
-    });
-    await expect(readDevice(db)).resolves.toMatchObject({
-      icon: null,
-      rule_types: [6],
-      rules: ["nuzlocke"],
-    });
-  });
-
-  it("counts every change in the list as done on a new device", async () => {
+describe("a list older than the device's", () => {
+  it("never swaps the device back for learnsets", async () => {
     const db = await createDevice();
 
     await installGame(db, "swsh", {
-      download: serve(movedRelease),
-      versions: toVersions(movedRelease),
+      download: serve(secondRelease),
+      versions: toVersions(secondRelease),
     });
 
-    const { rows } = await db.query<{ change: string }>(
-      "SELECT change FROM device.id_changes",
+    const download = serve(firstRelease);
+
+    await expect(
+      installGameLearnsets(db, "swsh", {
+        download,
+        versions: toVersions(firstRelease),
+      }),
+    ).rejects.toThrow("from another release");
+    expect(download).not.toHaveBeenCalled();
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(secondRelease, ["base", "swsh"]),
+    );
+  });
+
+  it("doesn't mix a file in after another tab moved the device on", async () => {
+    const db = await createDevice();
+    const firstOptions = {
+      download: serve(firstRelease),
+      versions: toVersions(firstRelease),
+    };
+
+    await installGame(db, "swsh", firstOptions);
+
+    /* While this tab downloads the learnsets, another takes the new release. */
+    const download = vi.fn(
+      async (path: string, onBytes: (bytes: number) => void) => {
+        await updateGameData(db, {
+          download: serve(secondRelease),
+          versions: toVersions(secondRelease),
+        });
+
+        return firstOptions.download(path, onBytes);
+      },
     );
 
-    expect(rows).toEqual([{ change: '["reference.pokemon_forms","25","26"]' }]);
+    await expect(
+      installGameLearnsets(db, "swsh", { ...firstOptions, download }),
+    ).rejects.toThrow("from another release");
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(secondRelease, ["base", "swsh"]),
+    );
   });
 });
 

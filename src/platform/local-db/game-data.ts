@@ -1,10 +1,8 @@
 import { z } from "zod";
 
 import {
-  applyIdChanges,
   deleteGameRows,
   findMissingReferences,
-  recordIdChanges,
 } from "@/platform/local-db/game-data-swap";
 import { readMaybeGzippedText } from "@/platform/local-db/gzip";
 import {
@@ -215,46 +213,72 @@ const recordFile = (
   );
 
 /*
- * Installs one file in one transaction, with `inside` run in it too. A file
- * another tab installed meanwhile is left alone.
+ * Installs one file in one transaction. A file another tab installed
+ * meanwhile is left alone. Returns false, changing nothing, when another
+ * tab moved the device to another release since: one release never mixes
+ * with another.
  */
 const installFile = async (
   db: LocalDb,
   entry: GameDataFileEntry,
   file: GameDataFile,
+  versions: GameDataVersions,
   onRows: (rows: number) => void,
-  inside?: (tx: Transaction) => Promise<void>,
 ) => {
   try {
-    await db.transaction(async (tx) => {
-      const { rows: installed } = await tx.query(
-        "SELECT 1 FROM device.game_data_files WHERE name = $1",
-        [entry.name],
+    const sameRelease = await db.transaction(async (tx) => {
+      const { rows } = await tx.query<{ hash: string; name: string }>(
+        "SELECT name, hash FROM device.game_data_files",
       );
+      const installed = new Map(rows.map((row) => [row.name, row.hash]));
 
-      if (installed.length) return;
+      if (isGameDataOutdated(installed, versions)) return false;
+      if (installed.has(entry.name)) return true;
 
       await tx.exec("SET LOCAL session_replication_role = replica");
       await copyFile(tx, file, onRows);
       await tx.exec(resetSequencesSql);
       await recordFile(tx, entry, file.format);
-      await inside?.(tx);
+
+      return true;
     });
+
     /* Lets Postgres reuse the log the import wrote instead of keeping it. */
-    await db.exec("CHECKPOINT");
+    if (sameRelease) await db.exec("CHECKPOINT");
+
+    return sameRelease;
   } catch (error) {
     throw toLocalDbError(error);
   }
 };
 
 /*
+ * A release the device can't take: it leaves out game data your rows point
+ * at. The device keeps the release it has.
+ */
+export class GameDataRefusedError extends LocalDbError {
+  constructor(missing: string[]) {
+    super(
+      "This game data update leaves out something your Plays or Plans use, so this device keeps the game data it has.",
+      { cause: new Error(missing.join("; ")) },
+    );
+    this.name = "GameDataRefusedError";
+  }
+}
+
+/*
+ * Releases refused this visit, by their files' hashes: not downloaded again
+ * until the app is opened anew.
+ */
+const refusedReleases = new Map<string, GameDataRefusedError>();
+
+/*
  * Swaps all the game data on the device for `entries`, the newer release of
  * the files it has (and any it asked for), in one transaction: game data
  * rows can't be told apart by file, so every one goes and the new files
- * come in whole. Your rows stay; the ID changes the device hasn't had are
- * applied to them, and a release that would leave one of them pointing at
- * nothing is refused, with the device left as it was. Returns null when
- * another tab changed the files after `before` was read.
+ * come in whole. Your rows stay, and a release that would leave one of
+ * them pointing at nothing is refused, with the device left as it was.
+ * Returns null when another tab changed the files after `before` was read.
  */
 const replaceGameData = async (
   db: LocalDb,
@@ -298,18 +322,10 @@ const replaceGameData = async (
       }
 
       await tx.exec(resetSequencesSql);
-      /* Your rows move with every check and trigger on. */
-      await tx.exec("SET LOCAL session_replication_role = origin");
-      await applyIdChanges(tx, options.versions.idChanges);
 
       const missing = await findMissingReferences(tx);
 
-      if (missing.length) {
-        throw new LocalDbError(
-          "This game data update leaves out something your Plays or Plans use, so this device keeps the game data it has.",
-          { cause: new Error(missing.join("; ")) },
-        );
-      }
+      if (missing.length) throw new GameDataRefusedError(missing);
 
       return true;
     });
@@ -419,13 +435,15 @@ const downloadFiles = async (
   return { files, totalBytes };
 };
 
-/* Installs the files the device doesn't have; nothing on it changes. */
+/*
+ * Installs the files the device doesn't have; nothing on it changes.
+ * Returns null when another tab moved the device to another release.
+ */
 const installMissing = async (
   db: LocalDb,
   missing: GameDataFileEntry[],
-  firstInstall: boolean,
   options: InstallOptions,
-): Promise<GameDataInstall> => {
+): Promise<GameDataInstall | null> => {
   if (!missing.length) return { status: "already-installed" };
 
   const { files, totalBytes } = await downloadFiles(missing, options);
@@ -435,10 +453,11 @@ const installMissing = async (
   options.onProgress?.({ done: 0, step: "installing", total: totalRows });
 
   for (const [index, entry] of missing.entries()) {
-    await installFile(
+    const installed = await installFile(
       db,
       entry,
       files[index],
+      options.versions,
       (rows) => {
         installedRows += rows;
         options.onProgress?.({
@@ -447,10 +466,9 @@ const installMissing = async (
           total: totalRows,
         });
       },
-      firstInstall && index === 0
-        ? (tx) => recordIdChanges(tx, options.versions.idChanges)
-        : undefined,
     );
+
+    if (!installed) return null;
   }
 
   return {
@@ -461,10 +479,16 @@ const installMissing = async (
   };
 };
 
+/*
+ * Installs `entries` from the list's release. A device on another release
+ * takes the list's whole, unless `update` is false (a caller whose list may
+ * be older than the device's).
+ */
 const installFiles = async (
   db: LocalDb,
   entries: GameDataFileEntry[],
   options: InstallOptions,
+  { update = true }: { update?: boolean } = {},
 ): Promise<GameDataInstall> => {
   if ((await readInstalledSchemaHash(db)) !== options.versions.schemaHash) {
     throw new LocalDbError(
@@ -477,13 +501,28 @@ const installFiles = async (
     const installed = await readInstalledGameData(db);
 
     if (!isGameDataOutdated(installed, options.versions)) {
-      return installMissing(
+      const result = await installMissing(
         db,
         entries.filter((entry) => !installed.has(entry.name)),
-        installed.size === 0,
         options,
       );
+
+      if (result) return result;
+      continue;
     }
+
+    if (!update) {
+      throw new LocalDbError(
+        "The game data on this device is from another release; this waits for the update.",
+      );
+    }
+
+    const release = listGameDataFiles(options.versions)
+      .map((entry) => entry.hash)
+      .join(" ");
+    const refused = refusedReleases.get(release);
+
+    if (refused) throw refused;
 
     const wanted = new Set([
       ...installed.keys(),
@@ -496,7 +535,13 @@ const installFiles = async (
       ),
       installed,
       options,
-    );
+    ).catch((error: unknown) => {
+      if (error instanceof GameDataRefusedError) {
+        refusedReleases.set(release, error);
+      }
+
+      throw error;
+    });
 
     if (result) return result;
   }
@@ -536,7 +581,10 @@ export const installGame = async (
   return installFiles(db, [options.versions.base, game.data], options);
 };
 
-/* A game's learnsets, after the game itself; meant for the background. */
+/*
+ * A game's learnsets, after the game itself; meant for the background. It
+ * never swaps releases: its list may be older than the device's.
+ */
 export const installGameLearnsets = async (
   db: LocalDb,
   slug: string,
@@ -549,7 +597,7 @@ export const installGameLearnsets = async (
     throw new LocalDbError(`Install ${slug} before its learnsets.`);
   }
 
-  return installFiles(db, [game.learnsets], options);
+  return installFiles(db, [game.learnsets], options, { update: false });
 };
 
 /*
