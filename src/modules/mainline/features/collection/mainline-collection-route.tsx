@@ -17,11 +17,11 @@ export const MainlineCollectionRoute = ({
     getCollectionPageData(await fetchGameCatalogue()),
   );
 
-  return data ? (
+  return (
     <MainlineCollectionPage
       data={data}
       initialSpeciesSlug={initialSpeciesSlug}
       view={view}
     />
-  ) : null;
+  );
 };

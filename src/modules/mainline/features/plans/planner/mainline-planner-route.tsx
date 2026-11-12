@@ -1,18 +1,20 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import { getPlannerPageData } from "@/modules/mainline/features/plans/planner/client/planner-page-query";
 import { MainlinePlannerPage } from "@/modules/mainline/features/plans/planner/mainline-planner-page";
-import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
 import { getGameDataPercent } from "@/platform/local-db/game-data";
 import { useGameDownload } from "@/platform/local-db/game-downloads";
+import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { ProgressState } from "@/shared/components/progress-state";
 
 /*
  * The Team Planner, read on the device: a saved Plan (by id) or a blank
- * one. A game the device doesn't have yet downloads first, with its bar.
+ * one. A game the device doesn't have yet downloads first, with its bar,
+ * so unlike other pages it shows at once rather than waiting on its read
+ * (`useLocalPageData`) behind the page you came from.
  */
 export const MainlinePlannerRoute = ({
   planId,
@@ -22,7 +24,7 @@ export const MainlinePlannerRoute = ({
   versionGroupSlug: string | null;
 }) => {
   const download = useGameDownload();
-  const data = useLocalPageData(
+  const read = useLocalRead(
     `planner:${planId ?? "new"}:${versionGroupSlug ?? ""}`,
     async () => {
       const planner = await getPlannerPageData({ planId, versionGroupSlug });
@@ -34,6 +36,12 @@ export const MainlinePlannerRoute = ({
       return planner;
     },
   );
+
+  if (read.status === "failed") throw read.error;
+
+  if (read.status === "ready" && read.data === null) notFound();
+
+  const data = read.status === "ready" ? read.data : null;
 
   if (!data) {
     return download ? (

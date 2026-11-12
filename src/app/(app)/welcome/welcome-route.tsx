@@ -6,7 +6,7 @@ import { useAppAccount } from "@/features/app-shell/components/app-account-provi
 import { readProfileIconChoices } from "@/features/settings/client/profile-icon-choices-query";
 import { readProfileSettings } from "@/features/settings/client/profile-settings-query";
 import { WelcomePage } from "@/features/settings/components/welcome-page";
-import { useLocalRead } from "@/platform/local-db/local-db-context";
+import { useLocalPageRead } from "@/platform/local-db/local-db-context";
 
 /*
  * Welcome, read on this device. It shows once: finished or skipped, it
@@ -14,7 +14,7 @@ import { useLocalRead } from "@/platform/local-db/local-db-context";
  */
 export const WelcomeRoute = ({ destination }: { destination: string }) => {
   const account = useAppAccount();
-  const read = useLocalRead("welcome", async (client) => {
+  const { choices, profile } = useLocalPageRead("welcome", async (client) => {
     const profile = await readProfileSettings();
 
     /* Only a Welcome that shows needs the icons to pick from. */
@@ -22,12 +22,6 @@ export const WelcomeRoute = ({ destination }: { destination: string }) => {
       ? { choices: [], profile }
       : { choices: await readProfileIconChoices(client), profile };
   });
-
-  if (read.status === "failed") throw read.error;
-
-  if (read.status === "loading") return null;
-
-  const { choices, profile } = read.data;
 
   if (profile.welcomeCompletedAt) {
     redirect(destination);

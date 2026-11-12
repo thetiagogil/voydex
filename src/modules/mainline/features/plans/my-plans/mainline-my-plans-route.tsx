@@ -12,5 +12,5 @@ export const MainlineMyPlansRoute = ({
 }) => {
   const plans = useLocalPageData("plans", getMyPlansPageData);
 
-  return plans ? <MainlineMyPlansPage plans={plans} view={view} /> : null;
+  return <MainlineMyPlansPage plans={plans} view={view} />;
 };

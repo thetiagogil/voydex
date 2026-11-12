@@ -2,6 +2,8 @@
 
 import {
   createContext,
+  startTransition,
+  use,
   useCallback,
   useContext,
   useEffect,
@@ -15,6 +17,7 @@ import { waitForWrites } from "@/platform/local-db/durable-writes";
 import type { GameDataVersions } from "@/platform/local-db/game-data";
 import { toLocalDbError, type LocalDb } from "@/platform/local-db/local-db";
 import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
+import { holdPageRead, startPageRead } from "@/platform/local-db/page-reads";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { useOpenLocalDb } from "@/platform/local-db/use-open-local-db";
 
@@ -135,8 +138,15 @@ export const LocalDbProvider = ({
     [client],
   );
 
+  /*
+   * A transition, so a page waiting on its new read (`useLocalPageRead`)
+   * keeps the saved-over data on screen until the new data is in.
+   */
   useEffect(
-    () => subscribeLocalSaves(() => setRevision((current) => current + 1)),
+    () =>
+      subscribeLocalSaves(() =>
+        startTransition(() => setRevision((current) => current + 1)),
+      ),
     [],
   );
   const session = useMemo(
@@ -215,6 +225,35 @@ export const useLocalRead = <Data,>(
   }
 
   return state;
+};
+
+/*
+ * A page's data from the device, read before the page shows. While it is
+ * read, React keeps the page you came from on screen (a link or a save is a
+ * transition), the way Next.js waits for a server page, so changing pages
+ * never flashes empty. Use it for what a whole page needs; a piece of a page
+ * that can show without its data uses `useLocalRead`. A failed read throws
+ * to the page's error screen. `key` names everything the read depends on.
+ */
+export const useLocalPageRead = <Data,>(
+  key: string,
+  read: (client: LocalQueryClient) => Promise<Data>,
+): Data => {
+  const { client, db } = useLocalDb();
+  const revision = useContext(RevisionContext);
+  /*
+   * Kept by the database, not the query client: the provider is new on the
+   * first open, and React makes a new client each time it retries a render
+   * that waited before it ever showed.
+   */
+  const promise = startPageRead(db, key, revision, () => read(client));
+
+  useEffect(
+    () => holdPageRead(db, key, revision, promise),
+    [db, key, promise, revision],
+  );
+
+  return use(promise);
 };
 
 /*
