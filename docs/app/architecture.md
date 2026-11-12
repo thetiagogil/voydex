@@ -572,7 +572,9 @@ then, the way Next.js waits for a server page, so changing pages never
 flashes empty. `key` names everything the read depends on, and every read on
 screen runs again after a save. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
-state instead; so does the Team Planner, which shows a game's download bar.
+state instead. The Team Planner reads like any page unless its game still has
+to download (`findGameToDownload`): that takes seconds, so it shows at once
+with the download bar, kept until the Planner is read.
 Device reads take milliseconds, so there are no loading skeletons.
 
 For a complex read, separate the responsibilities that need independent review

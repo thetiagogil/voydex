@@ -94,4 +94,33 @@ test.describe("Page changes", () => {
     await expect(shelf).toBeVisible();
     expect(await emptyFrames(page)).toEqual([]);
   });
+
+  test("the Team Planner never opens empty, a game's first download included", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Page change planner"),
+      partner: "Squirtle",
+    });
+    const pool = page.getByRole("region", { name: "Pick your Pokémon" });
+
+    /* A game already on the device: the Play's page stays until it's read. */
+    await page.goto(`/mainline/plays/play/team/plan?id=${playId}`, {
+      waitUntil: "networkidle",
+    });
+    await watchFrames(page);
+    await page.getByRole("button", { name: "Plan a team" }).click();
+    await expect(page).toHaveURL("/mainline/plans/new?vg=rb");
+    await expect(pool).toBeVisible();
+    expect(await emptyFrames(page)).toEqual([]);
+
+    /* The newest game isn't: its download bar shows from the first frame. */
+    await page.goto("/mainline/plans", { waitUntil: "networkidle" });
+    await watchFrames(page);
+    await page.getByRole("link", { name: "New Plan" }).first().click();
+    await expect(page.getByText(/^Downloading /)).toBeVisible();
+    await expect(pool).toBeVisible({ timeout: 30_000 });
+    expect(await emptyFrames(page)).toEqual([]);
+  });
 });
