@@ -46,6 +46,12 @@ describe("ruleFor", () => {
     expect(
       ruleFor(request("/_next/static/media/pglite.abc.wasm"), origin),
     ).toBe("script");
+    expect(
+      ruleFor(
+        request("/local-db/engine/pglite-0123456789abcdef.data.gz"),
+        origin,
+      ),
+    ).toBe("script");
   });
 
   it("answers page data, icons and Codex files network first", () => {
@@ -116,6 +122,15 @@ describe("cacheKeyFor", () => {
 describe("keptAddressFor", () => {
   it("leaves out Cloudflare's settings file, which it never serves", () => {
     expect(keptAddressFor("_headers")).toBeNull();
+  });
+
+  it("keeps PGlite's gzipped bundle, not the 6 MB one the device never reads", () => {
+    expect(
+      keptAddressFor("_next/static/media/pglite.2y_764f3ek9gd.data"),
+    ).toBeNull();
+    expect(
+      keptAddressFor("local-db/engine/pglite-0123456789abcdef.data.gz"),
+    ).toBe("/local-db/engine/pglite-0123456789abcdef.data.gz");
   });
 
   it("keeps every app page under the address that serves it", () => {

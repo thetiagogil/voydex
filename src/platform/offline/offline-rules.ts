@@ -86,8 +86,12 @@ export const isPrefetch = (headers: Pick<Headers, "get">) =>
   headers.get("Next-Router-Segment-Prefetch") !== null ||
   /prefetch/i.test(headers.get("Sec-Purpose") ?? headers.get("Purpose") ?? "");
 
-/* Build files: their names change with their content. */
-export const isBuildFile = (path: string) => path.startsWith("/_next/static/");
+/*
+ * Build files: their names change with their content. PGlite's gzipped
+ * bundle (`/local-db/engine/`) is named the same way.
+ */
+export const isBuildFile = (path: string) =>
+  path.startsWith("/_next/static/") || path.startsWith("/local-db/engine/");
 
 /*
  * How the worker answers a request:
@@ -115,6 +119,8 @@ export type RequestRule = "pass" | "script" | "page" | "file";
  *   second copy would only use room.
  * - the worker itself, which the browser checks for updates on its own.
  * - `_headers`, Cloudflare's own settings, which it never serves.
+ * - PGlite's own bundle (`pglite.<hash>.data`, 6 MB as the host sends it):
+ *   the device database reads the build's gzipped copy in /local-db/engine/.
  */
 const gameDataPath = "/game-data/";
 
@@ -161,6 +167,7 @@ export const cacheKeyFor = (url: string) => {
 export const keptAddressFor = (path: string): string | null => {
   if (`/${path}`.startsWith(gameDataPath)) return null;
   if (path === "sw.js" || path === "_headers") return null;
+  if (isPgliteRawBundle(path)) return null;
   if (isCodexEntry(path) || isCodexEntryFile(path)) return null;
   if (path.endsWith(".html")) return pageAddress(path.slice(0, -5));
 
@@ -174,6 +181,9 @@ const pageAddress = (path: string) => {
 
   return `/${path}`;
 };
+
+const isPgliteRawBundle = (path: string) =>
+  /^_next\/static\/media\/pglite\.[^/]+\.data$/.test(path);
 
 /*
  * One page per Pokémon, base game and Pokédex, with its data files: kept as

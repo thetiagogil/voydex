@@ -2,3 +2,6 @@
 # with their content, so a browser keeps them for a year without asking again.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+
+/local-db/engine/*
+  Cache-Control: public, max-age=31536000, immutable
