@@ -95,7 +95,7 @@ test.describe("Page changes", () => {
     expect(await emptyFrames(page)).toEqual([]);
   });
 
-  test("the Team Planner never opens empty, a game's first download included", async ({
+  test("the Team Planner never opens empty, on a game the device doesn't have too", async ({
     page,
   }) => {
     const playId = await startPlay(page, {
@@ -115,12 +115,15 @@ test.describe("Page changes", () => {
     await expect(pool).toBeVisible();
     expect(await emptyFrames(page)).toEqual([]);
 
-    /* The newest game isn't: its download bar shows from the first frame. */
+    /*
+     * The newest game isn't: the Planner opens from its file, with no
+     * download to wait on.
+     */
     await page.goto("/mainline/plans", { waitUntil: "networkidle" });
     await watchFrames(page);
     await page.getByRole("link", { name: "New Plan" }).first().click();
-    await expect(page.getByText(/^Downloading /)).toBeVisible();
-    await expect(pool).toBeVisible({ timeout: 30_000 });
+    await expect(pool).toBeVisible();
+    await expect(page.getByText(/^Downloading /)).toHaveCount(0);
     expect(await emptyFrames(page)).toEqual([]);
   });
 });

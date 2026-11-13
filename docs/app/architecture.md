@@ -455,12 +455,13 @@ the device:
 - **Game data** (`reference` and `tracking`) arrives as one versioned file per
   game, built from the seeds, plus a shared base file. The base installs when
   the device database first opens; a game downloads the first time something
-  needs it (a Play starting, the Team Planner opening on it), with its
+  needs it (a Play starting, a Plan's moves or save), with its
   learnsets after, in the background. Once the device gate opens, the
   games the device should have download quietly in the background
   (`game-data-background.ts`): the games of your Plays and Plans, and any
   missing learnsets.
-- **The Codex and the game pickers** read pre-built files (#256): the build
+- **The Codex, the game pickers and the Team Planner's Pokémon** read
+  pre-built files (#256, #289): the build
   runs the Codex's `server/` readers once over every game data file and
   writes a gzipped JSON file per page to `/codex-data/` (see
   [Codex Files](../database/architecture.md#codex-files)). Pages download
@@ -579,9 +580,10 @@ shows but another page does (opening a Play reorders Home) calls
 `forgetKeptPageReads`. Queries reach the device database's worker in one
 message each (`worker-queries.ts`), not PGlite's dozen. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
-state instead. The Team Planner reads like any page unless its game still has
-to download (`findGameToDownload`): that takes seconds, so it shows at once
-with the download bar, kept until the Planner is read.
+state instead. The Team Planner reads its game's Pokémon from a pre-built
+file and only the Plan from the device, so it never waits on a download; the
+game downloads in the background for the reads that need it later (a
+Pokémon's moves, the checks a save runs), which wait for it themselves.
 Device reads take milliseconds, so there are no loading skeletons.
 
 For a complex read, separate the responsibilities that need independent review

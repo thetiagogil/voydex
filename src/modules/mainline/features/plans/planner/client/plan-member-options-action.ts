@@ -14,6 +14,7 @@ import {
   resolveVersionGroupMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import {
   parseInput,
@@ -73,6 +74,9 @@ export const loadPlanMemberOptionsAction = async (input: {
     if (!group || group.parent_version_group_id !== null) {
       throw new Error("Pick a game for the Plan.");
     }
+
+    /* The Planner opens from its pre-built file, before its game downloads. */
+    await ensureVersionGroupData(group.id);
 
     const [gamesResult, addOnsResult, learnsets] = await Promise.all([
       supabase

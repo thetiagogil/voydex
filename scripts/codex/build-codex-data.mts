@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /*
- * Builds the Codex's pre-built files (and the game catalogue the game
- * pickers read) from the game data files:
+ * Builds the Codex's pre-built files (with the game catalogue the game
+ * pickers read and the Team Planner's games) from the game data files:
  *
  *   npm run codex:build     after npm run game-data:build
  *
@@ -19,6 +19,7 @@ import zlib from "node:zlib";
 import { PGlite } from "@electric-sql/pglite";
 
 import { buildCodexFiles } from "@/modules/codex/shared/server/codex-data-build";
+import { buildPlannerFiles } from "@/modules/mainline/features/plans/planner/server/planner-files-build";
 import { gameCatalogueFile } from "@/modules/reference/features/games/client/game-catalogue";
 import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import { ensureDeviceSchema } from "@/platform/local-db/device-schema";
@@ -116,6 +117,7 @@ try {
 
   await write(gameCatalogueFile, await readGameCatalogue(supabase));
   await buildCodexFiles(supabase, write);
+  await buildPlannerFiles(supabase, write);
 
   console.log(
     `Wrote ${files} files to public/codex-data/: ${(bytes / 1024 / 1024).toFixed(1)} MB gzipped, ${seconds(writingAt)}.`,

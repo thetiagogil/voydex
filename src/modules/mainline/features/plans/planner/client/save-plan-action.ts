@@ -5,6 +5,7 @@ import {
   parsePlanSaveInput,
   PlanSaveInputError,
 } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
+import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { readLocalClaims } from "@/platform/local-db/local-claims";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 
@@ -26,7 +27,11 @@ export const savePlanAction = async (
       throw new PlanSaveInputError("Log in to save a Plan.");
     }
 
-    const result = await savePlan({ input, supabase });
+    const result = await savePlan({
+      ensureGame: ensureVersionGroupData,
+      input,
+      supabase,
+    });
 
     notifyLocalSave();
 
