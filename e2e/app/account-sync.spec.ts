@@ -3,7 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { newTestEmail, signedOut, testPassword } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { expectAccessible } from "../support/accessibility";
-import { logIn, signUp } from "../support/auth";
+import { leaveWelcome, logIn, signUp } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Each test signs up its own account, so no other test's backups mix in. */
@@ -57,8 +57,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const name = uniquePlayName("Synced");
 
     await signUp(page, email);
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
     await startPlay(page, {
       game: "Pokémon Red, 1996",
       name,
@@ -90,8 +89,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const email = newTestEmail("clash");
 
     await signUp(page, email);
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });
@@ -152,7 +150,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const second = newTestEmail("second");
 
     await signUp(page, newTestEmail("first"));
-    await page.getByRole("button", { name: "Skip for now" }).click();
+    await leaveWelcome(page);
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, second);
@@ -187,7 +185,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const name = uniquePlayName("Left out");
 
     await signUp(page, newTestEmail("first"));
-    await page.getByRole("button", { name: "Skip for now" }).click();
+    await leaveWelcome(page);
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, newTestEmail("second"));

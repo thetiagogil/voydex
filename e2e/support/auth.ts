@@ -1,6 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 
 import { testPassword } from "./accounts";
+import { waitForAction } from "./actions";
 
 /* Creates an account through Sign up; it lands on Welcome. */
 export const signUp = async (page: Page, email: string) => {
@@ -13,6 +14,22 @@ export const signUp = async (page: Page, email: string) => {
   await expect(
     page.getByRole("heading", { name: "Welcome to Voydex" }),
   ).toBeVisible();
+};
+
+/*
+ * Leaves Welcome by `Skip for now` or `Continue` once the save that marks it
+ * done is written to the device, so a page opened next never finds Welcome
+ * still to do.
+ */
+export const leaveWelcome = async (
+  page: Page,
+  button: "Continue" | "Skip for now" = "Skip for now",
+) => {
+  const saved = waitForAction(page);
+
+  await page.getByRole("button", { exact: true, name: button }).click();
+  await saved;
+  await page.waitForURL("**/mainline");
 };
 
 export const logIn = async (

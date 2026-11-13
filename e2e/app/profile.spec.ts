@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 import { expectAccessible } from "../support/accessibility";
 import { waitForAction } from "../support/actions";
 import { newTestEmail, signedOut } from "../support/accounts";
-import { signUp } from "../support/auth";
+import { leaveWelcome, signUp } from "../support/auth";
 
 test.use({ storageState: signedOut });
 
@@ -25,8 +25,7 @@ test.describe("Profile: icon, default trainer name and Welcome", () => {
     await aboutYou
       .getByRole("textbox", { name: "What should we call you?" })
       .fill("Red");
-    await aboutYou.getByRole("button", { name: "Continue" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page, "Continue");
 
     /* The same link now just moves on. */
     await page.goto("/welcome");
@@ -43,8 +42,7 @@ test.describe("Profile: icon, default trainer name and Welcome", () => {
   test("Skipping Welcome ends it too", async ({ page }) => {
     await signUp(page, newTestEmail("skip"));
 
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
 
     await page.goto("/welcome");
     await page.waitForURL("**/mainline");
@@ -54,8 +52,7 @@ test.describe("Profile: icon, default trainer name and Welcome", () => {
     page,
   }) => {
     await signUp(page, newTestEmail("trainer"));
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
 
     await page.goto("/settings");
     const profile = page.getByRole("form", { name: "Profile" });
