@@ -586,7 +586,11 @@ shows but another page does (opening a Play reorders Home) calls
 names its read once (a `PageReadPlan`, such as `statsPageRead`), Mainline
 lists them in `public-page-reads.ts`, and the device gate reads them behind
 the start screen and again in the background whenever kept reads go
-(`preparePageReads`), so changing tabs never waits on the device. Queries
+(`preparePageReads`), so changing tabs never waits on the device. A Play
+does the same for its sections (`playSectionReads`, kept ready by
+`useKeepPageReadsReady` while the Play is open). A page that does wait shows
+its loading state for at least 300 ms (React holds a fallback that long), so
+getting pages ready ahead is what makes them instant. Queries
 reach the device database's worker in one message each (`worker-queries.ts`),
 not PGlite's dozen. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading

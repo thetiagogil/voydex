@@ -47,57 +47,85 @@ const waitForQuiet = (page: Page) =>
     .toBe(0);
 
 const tabs = [
-  { link: "Plays", path: "/mainline/plays" },
-  { link: "Team Planner", path: "/mainline/plans/new" },
-  { link: "Statistics", path: "/mainline/stats" },
-  { link: "Home", path: "/mainline" },
+  "/mainline/plays",
+  "/mainline/plans/new",
+  "/mainline/stats",
+  "/mainline",
 ];
 
 /*
- * Goes through every tab from the bar; none may read the device before it
- * shows. Counted up to the change that draws the tab's heading (a mutation
- * observer runs before any effect), so what a tab starts once it is on
- * screen (a note's own small read) isn't taken for a read it waited on.
+ * Follows the link to `href` (path and query) on the page and says whether
+ * the next page had to wait: whether its loading state was drawn, even for
+ * one change, before the page itself.
  */
-const switchTabsWithoutReading = async (page: Page) => {
-  for (const tab of tabs) {
-    const sent = await page.evaluate(
-      ({ path }) =>
-        new Promise<number>((resolve, reject) => {
-          const counted = window as unknown as { voydexQueries: number };
-          const anchor = [
-            ...document.querySelectorAll<HTMLAnchorElement>(
-              'nav[aria-label="Main"] a',
-            ),
-          ].find((candidate) => new URL(candidate.href).pathname === path);
+const waitsBeforeShowing = (page: Page, href: string) =>
+  page.evaluate(
+    (href) =>
+      new Promise<boolean>((resolve, reject) => {
+        const target = new URL(href, location.origin);
+        const anchor = [
+          ...document.querySelectorAll<HTMLAnchorElement>("a[href]"),
+        ].find((candidate) => {
+          const url = new URL(candidate.href);
 
-          if (!anchor) {
-            reject(new Error(`No link to ${path} in the bar.`));
+          return (
+            url.pathname === target.pathname && url.search === target.search
+          );
+        });
+
+        if (!anchor) {
+          reject(new Error(`No link to ${href} on the page.`));
+          return;
+        }
+
+        const main = () => document.querySelector("main");
+        const loading = () =>
+          Boolean(main()?.querySelector("[aria-busy='true']"));
+        const shown = () => main()?.innerText.trim() ?? "";
+        const left = shown();
+        let waited = false;
+        const observer = new MutationObserver(() => {
+          if (loading()) {
+            waited = true;
             return;
           }
 
-          const heading = () =>
-            document.querySelector("main h1")?.textContent ?? "";
-          const left = heading();
-          const before = counted.voydexQueries;
-          const observer = new MutationObserver(() => {
-            if (location.pathname === path && heading() && heading() !== left) {
-              observer.disconnect();
-              resolve(counted.voydexQueries - before);
-            }
-          });
+          if (
+            location.pathname === target.pathname &&
+            shown() &&
+            shown() !== left
+          ) {
+            observer.disconnect();
+            resolve(waited);
+          }
+        });
 
-          observer.observe(document.body, {
-            characterData: true,
-            childList: true,
-            subtree: true,
-          });
-          anchor.click();
-        }),
-      tab,
-    );
+        setTimeout(() => {
+          observer.disconnect();
+          reject(
+            new Error(
+              `${href} didn't show: at ${location.pathname}${location.search}, showing "${shown().slice(0, 80)}".`,
+            ),
+          );
+        }, 10_000);
+        observer.observe(document.body, {
+          attributes: true,
+          characterData: true,
+          childList: true,
+          subtree: true,
+        });
+        anchor.click();
+      }),
+    href,
+  );
 
-    expect(sent, `${tab.link} read the device before it showed`).toBe(0);
+/* Goes through every tab from the bar; none may have to wait. */
+const switchTabsWithoutWaiting = async (page: Page) => {
+  for (const tab of tabs) {
+    expect(
+      await waitsBeforeShowing(page, tab),
+      `${tab} waited on the device`,
+    ).toBe(false);
   }
 };
 
@@ -125,21 +153,29 @@ test.describe("Ready tabs", () => {
       waitUntil: "networkidle",
     });
     await waitForQuiet(page);
-    await switchTabsWithoutReading(page);
+    await switchTabsWithoutWaiting(page);
+
+    /* A Play on Home's shelf opens without waiting, from the Plays list too. */
+    expect(
+      await waitsBeforeShowing(page, "/mainline/plays"),
+      "it waited on the device",
+    ).toBe(false);
+    expect(
+      await waitsBeforeShowing(page, `/mainline/plays/play?id=${playId}`),
+      "the Play waited on the device",
+    ).toBe(false);
+
+    /* The Play's sections get ready while it is open. */
+    await waitForQuiet(page);
+    expect(
+      await waitsBeforeShowing(
+        page,
+        `/mainline/plays/play/settings?id=${playId}`,
+      ),
+      "the Play's Settings waited on the device",
+    ).toBe(false);
 
     /* A save: the tabs get ready again in the background, with it. */
-    await page
-      .getByRole("navigation", { name: "Main" })
-      .getByRole("link", { exact: true, name: "Plays" })
-      .click();
-    await page
-      .getByRole("link", { name: new RegExp(name) })
-      .first()
-      .click();
-    await page
-      .getByRole("navigation", { name: "Play sections" })
-      .getByRole("link", { name: "Settings" })
-      .click();
     const general = page.getByRole("region", { name: "General" });
     const saved = waitForAction(page);
 
@@ -150,7 +186,7 @@ test.describe("Ready tabs", () => {
     await general.getByRole("button", { name: "Save" }).click();
     await saved;
     await waitForQuiet(page);
-    await switchTabsWithoutReading(page);
+    await switchTabsWithoutWaiting(page);
 
     await page
       .getByRole("navigation", { name: "Main" })

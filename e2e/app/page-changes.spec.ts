@@ -16,7 +16,7 @@ const watchFrames = (page: Page) =>
       const main = document.querySelector("main");
       const text = main?.innerText.trim() ?? "";
       /* A page still reading shows its loading state, which counts. */
-      const loading = Boolean(main?.querySelector("[aria-busy]"));
+      const loading = Boolean(main?.querySelector("[aria-busy='true']"));
 
       frames.push(
         `${location.pathname}${location.search} ${text || loading ? "" : "empty"}`,
@@ -125,7 +125,9 @@ test.describe("Page changes", () => {
     await watchFrames(page);
     await page.getByRole("button", { name: "Plan a team" }).click();
     await expect(page).toHaveURL("/mainline/plans/new?vg=rb");
-    await expect(page.getByRole("main").locator("[aria-busy]")).toBeVisible();
+    await expect(
+      page.getByRole("main").locator("[aria-busy='true']"),
+    ).toBeVisible();
     await expect(pool).toBeHidden();
     sendFile();
     await expect(pool).toBeVisible();

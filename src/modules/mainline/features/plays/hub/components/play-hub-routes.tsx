@@ -6,20 +6,9 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { MilestoneDecisionRecordButton } from "@/modules/mainline/features/plays/hub/components/milestone-decision-record-button";
 import {
-  getMainlinePlayHistoryData,
-  getMainlinePlayOverviewData,
-  getMainlinePlayProgressCollectiblesData,
-  getMainlinePlayProgressPokedexData,
-  getMainlinePlayProgressStoryData,
-  getMainlinePlaySettingsData,
-  getMainlinePlayShellData,
-  getMainlinePlayStoryMatchups,
-  getMainlinePlayTeamAnalysisData,
-  getMainlinePlayTeamPlanData,
-  getMainlinePlayTeamRosterData,
-  getMainlinePlayTracking,
-  getPlayHeaderEditing,
-} from "@/modules/mainline/features/plays/hub/client/play-hub-query";
+  playPageReads,
+  playSectionReads,
+} from "@/modules/mainline/features/plays/hub/client/play-page-reads";
 import { MainlinePlayShell } from "@/modules/mainline/features/plays/hub/shell/mainline-play-shell";
 import { MainlinePlayHistory } from "@/modules/mainline/features/plays/hub/views/history/mainline-play-history";
 import { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/views/overview/mainline-play-overview";
@@ -31,6 +20,7 @@ import { MainlinePlayTeamAnalysis } from "@/modules/mainline/features/plays/hub/
 import { MainlinePlayTeamPlan } from "@/modules/mainline/features/plays/hub/views/team/team-plan/mainline-play-team-plan";
 import { MainlinePlayTeamRoster } from "@/modules/mainline/features/plays/hub/views/team/team-roster/mainline-play-team-roster";
 import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
+import { useKeepPageReadsReady } from "@/platform/local-db/local-db-context";
 
 /*
  * The Play hub's routes, read on the device. Each route file stays thin and
@@ -44,15 +34,11 @@ export const PlayShellRoute = ({
   children,
   playId,
 }: PlayRouteProps & { children: ReactNode }) => {
-  const data = useLocalPageData(`play:${playId}:shell`, async () => {
-    const [shell, editing] = await Promise.all([
-      getMainlinePlayShellData(playId),
-      /* Only the tap-to-edit badges need it: without it the head reads as plain text. */
-      getPlayHeaderEditing(playId).catch(() => null),
-    ]);
+  const { key, read } = playPageReads(playId).shell;
+  const data = useLocalPageData(key, read);
 
-    return shell ? { editing, shell } : null;
-  });
+  /* Every section of the Play gets ready while you look at the first. */
+  useKeepPageReadsReady(playSectionReads(playId));
 
   return (
     <MainlinePlayShell
@@ -66,9 +52,8 @@ export const PlayShellRoute = ({
 };
 
 export const PlayOverviewRoute = ({ playId }: PlayRouteProps) => {
-  const data = useLocalPageData(`play:${playId}:overview`, () =>
-    getMainlinePlayOverviewData(playId),
-  );
+  const { key, read } = playPageReads(playId).overview;
+  const data = useLocalPageData(key, read);
 
   return (
     <MainlinePlayOverview
@@ -96,9 +81,8 @@ export const PlayTeamRosterRoute = ({
   form: string | undefined;
   pokemon: string | undefined;
 }) => {
-  const data = useLocalPageData(`play:${playId}:team:${pokemon ?? ""}`, () =>
-    getMainlinePlayTeamRosterData(playId, pokemon ?? null),
-  );
+  const { key, read } = playPageReads(playId).team(pokemon ?? null);
+  const data = useLocalPageData(key, read);
 
   return (
     <MainlinePlayTeamRoster
@@ -118,34 +102,30 @@ export const PlayTeamRosterRoute = ({
 };
 
 export const PlayTeamPlanRoute = ({ playId }: PlayRouteProps) => {
-  const data = useLocalPageData(`play:${playId}:team-plan`, () =>
-    getMainlinePlayTeamPlanData(playId),
-  );
+  const { key, read } = playPageReads(playId).teamPlan;
+  const data = useLocalPageData(key, read);
 
   return <MainlinePlayTeamPlan data={data} />;
 };
 
 export const PlayTeamAnalysisRoute = ({ playId }: PlayRouteProps) => {
-  const data = useLocalPageData(`play:${playId}:team-analysis`, () =>
-    getMainlinePlayTeamAnalysisData(playId),
-  );
+  const { key, read } = playPageReads(playId).teamAnalysis;
+  const data = useLocalPageData(key, read);
 
   return <MainlinePlayTeamAnalysis data={data} playId={playId} />;
 };
 
 export const PlayHistoryRoute = ({ playId }: PlayRouteProps) => {
-  const data = useLocalPageData(`play:${playId}:history`, () =>
-    getMainlinePlayHistoryData(playId),
-  );
+  const { key, read } = playPageReads(playId).history;
+  const data = useLocalPageData(key, read);
 
   return <MainlinePlayHistory data={data} playId={playId} />;
 };
 
 /* Progress opens on Story, or on the Pokédex for a Play that doesn't track it. */
 export const PlayProgressRoute = ({ playId }: PlayRouteProps) => {
-  const tracking = useLocalPageData(`play:${playId}:tracking`, () =>
-    getMainlinePlayTracking(playId),
-  );
+  const { key, read } = playPageReads(playId).tracking;
+  const tracking = useLocalPageData(key, read);
 
   redirect(
     tracking.story
@@ -158,15 +138,8 @@ export const PlayProgressStoryRoute = ({
   playId,
   recordMilestoneId,
 }: PlayRouteProps & { recordMilestoneId: number | null }) => {
-  const data = useLocalPageData(`play:${playId}:story`, async () => {
-    const [story, matchups, tracking] = await Promise.all([
-      getMainlinePlayProgressStoryData(playId),
-      getMainlinePlayStoryMatchups(playId),
-      getMainlinePlayTracking(playId),
-    ]);
-
-    return story ? { matchups, story, tracking } : null;
-  });
+  const { key, read } = playPageReads(playId).story;
+  const data = useLocalPageData(key, read);
 
   if (!data.tracking.story) {
     redirect(appRoutes.mainlinePlayProgressPokedex(playId));
@@ -186,9 +159,8 @@ export const PlayProgressPokedexRoute = ({
   initialScopeSlug,
   playId,
 }: PlayRouteProps & { initialScopeSlug: string | undefined }) => {
-  const data = useLocalPageData(`play:${playId}:pokedex`, () =>
-    getMainlinePlayProgressPokedexData(playId),
-  );
+  const { key, read } = playPageReads(playId).pokedex;
+  const data = useLocalPageData(key, read);
 
   return (
     <MainlinePlayProgressPokedex
@@ -203,14 +175,8 @@ export const PlayProgressCollectiblesRoute = ({
   initialGroupSlug,
   playId,
 }: PlayRouteProps & { initialGroupSlug: string | undefined }) => {
-  const data = useLocalPageData(`play:${playId}:collectibles`, async () => {
-    const [collectibles, tracking] = await Promise.all([
-      getMainlinePlayProgressCollectiblesData(playId),
-      getMainlinePlayTracking(playId),
-    ]);
-
-    return collectibles ? { collectibles, tracking } : null;
-  });
+  const { key, read } = playPageReads(playId).collectibles;
+  const data = useLocalPageData(key, read);
 
   if (!data.tracking.collectibles) {
     redirect(appRoutes.mainlinePlayProgressPokedex(playId));
@@ -226,9 +192,8 @@ export const PlayProgressCollectiblesRoute = ({
 };
 
 export const PlaySettingsRoute = ({ playId }: PlayRouteProps) => {
-  const data = useLocalPageData(`play:${playId}:settings`, () =>
-    getMainlinePlaySettingsData(playId),
-  );
+  const { key, read } = playPageReads(playId).settings;
+  const data = useLocalPageData(key, read);
 
   return <MainlinePlaySettings data={data} playId={playId} />;
 };

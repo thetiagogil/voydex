@@ -10,7 +10,7 @@ import {
   LocalDbProvider,
   useLocalDb,
 } from "@/platform/local-db/local-db-context";
-import { subscribeForgottenPageReads } from "@/platform/local-db/page-reads";
+import { keepPagesReady } from "@/platform/local-db/page-reads";
 import {
   useOpenLocalDb,
   type PreparePages,
@@ -70,49 +70,12 @@ export const DeviceGate = ({
 /*
  * After the device's data changes (or a kept page is let go, as opening a
  * Play does to Home), gets the pages ready again once things settle, so the
- * next tab shows the new data at once. One round at a time:
- * a change during a round starts another after it.
+ * next tab shows the new data at once.
  */
-const settleMs = 300;
-
 const KeepPagesReady = ({ prepare }: { prepare: PreparePages }) => {
   const { db } = useLocalDb();
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    let running = false;
-    let again = false;
-    let stopped = false;
-
-    const round = async () => {
-      if (running) {
-        again = true;
-        return;
-      }
-
-      running = true;
-
-      try {
-        do {
-          again = false;
-          await prepare(db).catch(() => undefined);
-        } while (again && !stopped);
-      } finally {
-        running = false;
-      }
-    };
-
-    const stop = subscribeForgottenPageReads(() => {
-      clearTimeout(timer);
-      timer = setTimeout(() => void round(), settleMs);
-    });
-
-    return () => {
-      stopped = true;
-      clearTimeout(timer);
-      stop();
-    };
-  }, [db, prepare]);
+  useEffect(() => keepPagesReady(() => prepare(db)), [db, prepare]);
 
   return null;
 };

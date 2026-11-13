@@ -33,7 +33,7 @@ const failedReads = new Set<() => void>();
 const keptReads = new Map<PageRead, { forget: () => void; key: string }>();
 
 /* Enough for the pages you move between; each is a page's worth of rows. */
-export const keptPageReadLimit = 20;
+export const keptPageReadLimit = 40;
 
 let revision = 0;
 const revisionListeners = new Set<() => void>();
@@ -277,27 +277,79 @@ export const holdPageRead = (
 /*
  * Reads a page before anyone opens it, and keeps it the way a page you
  * left is kept, so its first visit shows at once. A page opened meanwhile
- * shares the same read. Settles when the read does, never failing: a page
- * whose read failed reads again when it opens.
+ * shares the same read. Settles with its data when the read does, never
+ * failing (undefined): a page whose read failed reads again when it opens.
  */
 export const preparePageRead = async <Data>(
   owner: object,
   key: string,
   read: () => Promise<Data>,
   keep?: (data: Data) => boolean,
-) => {
+): Promise<Data | undefined> => {
   const at = currentPageReadRevision();
   const promise = startPageRead(owner, key, at, read, keep);
   const release = holdPageRead(owner, key, at, promise);
 
   try {
-    await promise;
+    return await promise;
   } catch {
     /* The page shows its error when it opens and reads again. */
+    return undefined;
   } finally {
     release();
   }
 };
+
+/*
+ * Keeps pages ready: runs `prepare` (at once when `immediately`, else only
+ * after a change) and again whenever kept reads go, once things settle. One
+ * round at a time: a change during a round starts another after it.
+ * Returns the way to stop.
+ */
+export const keepPagesReady = (
+  prepare: () => Promise<void>,
+  { immediately = false }: { immediately?: boolean } = {},
+) => {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let running = false;
+  let again = false;
+  let stopped = false;
+
+  const round = async () => {
+    if (running) {
+      again = true;
+      return;
+    }
+
+    running = true;
+
+    try {
+      do {
+        again = false;
+        await prepare().catch(() => undefined);
+      } while (again && !stopped);
+    } finally {
+      running = false;
+    }
+  };
+
+  const later = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => void round(), keepReadySettleMs);
+  };
+  const stop = subscribeForgottenPageReads(later);
+
+  if (immediately) later();
+
+  return () => {
+    stopped = true;
+    clearTimeout(timer);
+    stop();
+  };
+};
+
+/* How long a burst of changes settles before the pages get ready again. */
+export const keepReadySettleMs = 300;
 
 /* Lets every failed read go, so the next render reads again. */
 export const forgetFailedPageReads = () => {

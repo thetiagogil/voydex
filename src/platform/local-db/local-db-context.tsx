@@ -20,6 +20,7 @@ import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import {
   currentPageReadRevision,
   holdPageRead,
+  keepPagesReady,
   movePageReadRevision,
   preparePageRead,
   startPageRead,
@@ -298,6 +299,31 @@ export const preparePageReads = async (
   for (const { keep, key, read } of plans) {
     await preparePageRead(db, key, () => read(client), keep);
   }
+};
+
+/*
+ * Keeps pages a screen leads to ready while it is on screen: read once it
+ * has shown, and again whenever the device's data changes (a Play's other
+ * sections, while you look at one).
+ */
+export const useKeepPageReadsReady = (
+  plans: readonly PageReadPlan<unknown>[],
+) => {
+  const { db } = useLocalDb();
+  const plansRef = useRef(plans);
+  const keys = plans.map((plan) => plan.key).join("\n");
+
+  useEffect(() => {
+    plansRef.current = plans;
+  });
+
+  useEffect(
+    () =>
+      keepPagesReady(() => preparePageReads(db, plansRef.current), {
+        immediately: true,
+      }),
+    [db, keys],
+  );
 };
 
 /*

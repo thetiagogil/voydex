@@ -5,6 +5,8 @@ import {
   forgetFailedPageReads,
   forgetKeptPageReads,
   holdPageRead,
+  keepPagesReady,
+  keepReadySettleMs,
   keptPageReadLimit,
   movePageReadRevision,
   preparePageRead,
@@ -354,5 +356,44 @@ describe("page reads", () => {
     await expect(failing).rejects.toThrow("boom");
     expect(failing).toMatchObject({ status: "rejected" });
     forgetFailedPageReads();
+  });
+
+  it("keeps pages ready: once things settle, again after each change, one round at a time", async () => {
+    vi.useFakeTimers();
+
+    try {
+      let finish = () => {};
+      const prepare = vi.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            finish = resolve;
+          }),
+      );
+      const stop = keepPagesReady(prepare, { immediately: true });
+
+      expect(prepare).not.toHaveBeenCalled();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledOnce();
+
+      /* Two changes during the round: one more round after it, not two. */
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledOnce();
+
+      finish();
+      await vi.advanceTimersByTimeAsync(0);
+      expect(prepare).toHaveBeenCalledTimes(2);
+      finish();
+      await vi.advanceTimersByTimeAsync(0);
+
+      stop();
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledTimes(2);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
