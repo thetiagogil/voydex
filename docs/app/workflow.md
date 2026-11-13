@@ -13,8 +13,9 @@ the owner reports, reviews and merges.
 3. The agent branches from `main` as `fix/...` or `feat/...`, reproduces the
    problem, adds a test that fails, then fixes it.
 4. The agent runs `npm run verify`, plus `npm run db:verify` for database work
-   and `npm run test:e2e` for app changes, and opens a pull request that closes
-   the issue.
+   and the browser tests for the area it touched (the full suite before a
+   deploy batch; see [Verification](./verification.md#browser-tests)), and
+   opens a pull request that closes the issue.
 5. GitHub runs only the quick `quality` check (about 3 minutes: docs, design
    guard, format, lint, types, architecture, Knip, unit tests). The build, the
    database gate and the browser tests stay on the Mac to save Actions minutes.
