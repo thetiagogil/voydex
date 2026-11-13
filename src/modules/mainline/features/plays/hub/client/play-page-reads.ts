@@ -13,6 +13,7 @@ import {
   getMainlinePlayTracking,
   getPlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/client/play-hub-query";
+import type { PlayTracking } from "@/config/play-tracking";
 import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
 
 /*
@@ -97,20 +98,26 @@ export const playPageReads = (playId: string) => {
   >;
 };
 
-/* Every section of a Play, in the order they are most likely opened. */
-export const playSectionReads = (playId: string) => {
+/*
+ * The sections a Play shows, in the order they are most likely opened: Story
+ * and Collectibles only when the Play tracks them.
+ */
+export const playSectionReads = (
+  playId: string,
+  tracking: Pick<PlayTracking, "collectibles" | "story">,
+) => {
   const reads = playPageReads(playId);
 
   return [
     reads.overview,
     reads.team(null),
     reads.tracking,
-    reads.story,
+    ...(tracking.story ? [reads.story] : []),
     reads.pokedex,
     reads.history,
     reads.settings,
     reads.teamPlan,
     reads.teamAnalysis,
-    reads.collectibles,
+    ...(tracking.collectibles ? [reads.collectibles] : []),
   ];
 };

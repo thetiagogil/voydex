@@ -81,8 +81,24 @@ const forgottenListeners = new Set<() => void>();
 export const forgetKeptPageReads = (
   matches: (key: string) => boolean = () => true,
 ) => {
+  forgetCount += 1;
+  recentForgets.push({ count: forgetCount, matches });
+  recentForgets.splice(0, recentForgets.length - recentForgetLimit);
+
   if (forgetKept(matches)) tellForgotten();
 };
+
+/*
+ * The last few forgets, so a read getting ready while one happened (not
+ * kept yet, so not let go) isn't kept with what the forget made old.
+ */
+let forgetCount = 0;
+const recentForgetLimit = 20;
+const recentForgets: { count: number; matches: (key: string) => boolean }[] =
+  [];
+
+const forgottenSince = (count: number, key: string) =>
+  recentForgets.some((forget) => forget.count > count && forget.matches(key));
 
 /* Lets the kept reads `matches` names go; says whether there were any. */
 const forgetKept = (matches: (key: string) => boolean) => {
@@ -287,6 +303,7 @@ export const preparePageRead = async <Data>(
   keep?: (data: Data) => boolean,
 ): Promise<Data | undefined> => {
   const at = currentPageReadRevision();
+  const since = forgetCount;
   const promise = startPageRead(owner, key, at, read, keep);
   const release = holdPageRead(owner, key, at, promise);
 
@@ -296,7 +313,15 @@ export const preparePageRead = async <Data>(
     /* The page shows its error when it opens and reads again. */
     return undefined;
   } finally {
+    /* Let go of this key while it was read: it isn't kept, and reads again. */
+    const stale = forgottenSince(since, key);
+    const entry = readsFor(owner, key).reads.get(at);
+
+    if (stale && entry?.promise === promise) entry.keep = false;
+
     release();
+
+    if (stale) tellForgotten();
   }
 };
 

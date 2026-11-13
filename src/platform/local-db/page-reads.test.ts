@@ -396,4 +396,28 @@ describe("page reads", () => {
       vi.useRealTimers();
     }
   });
+
+  it("doesn't keep a read getting ready while its key was let go, and says so", async () => {
+    const db = {};
+    const listener = vi.fn();
+    const stop = subscribeForgottenPageReads(listener);
+    let finish: (data: string) => void = () => {};
+    const read = vi.fn(
+      () =>
+        new Promise<string>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const preparing = preparePageRead(db, "home:", read);
+
+    /* Opening a Play reorders Home's shelf while Home is read. */
+    forgetKeptPageReads((key) => key.startsWith("home:"));
+    finish("old shelf");
+    await preparing;
+
+    expect(listener).toHaveBeenCalledOnce();
+    startPageRead(db, "home:", currentPageReadRevision(), read);
+    expect(read).toHaveBeenCalledTimes(2);
+    stop();
+  });
 });

@@ -38,7 +38,7 @@ export const PlayShellRoute = ({
   const data = useLocalPageData(key, read);
 
   /* Every section of the Play gets ready while you look at the first. */
-  useKeepPageReadsReady(playSectionReads(playId));
+  useKeepPageReadsReady(playSectionReads(playId, data.shell.tracking));
 
   return (
     <MainlinePlayShell

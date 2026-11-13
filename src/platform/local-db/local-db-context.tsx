@@ -285,19 +285,32 @@ export type PageReadPlan<Data> = {
   keep?(data: Data): boolean;
 };
 
+/* Lets the page's own work run before the next read that gets ready. */
+const giveWay = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, 0);
+  });
+
 /*
  * Gets pages ready before they open: each read runs, one after another so
  * a page you open meanwhile isn't kept waiting long, and is kept like a
- * page you left. Resolves once all have settled.
+ * page you left. Resolves once all have settled, or early when the device's
+ * data changes meanwhile (the round after it reads them anew).
  */
 export const preparePageReads = async (
   db: LocalDb,
   plans: readonly PageReadPlan<unknown>[],
 ) => {
   const client = createLocalQueryClient(db);
+  const at = currentPageReadRevision();
 
   for (const { keep, key, read } of plans) {
+    /* The data changed meanwhile: the next round reads the rest anew. */
+    if (currentPageReadRevision() !== at) return;
+
     await preparePageRead(db, key, () => read(client), keep);
+    /* A page you open meanwhile asks the device first. */
+    await giveWay();
   }
 };
 

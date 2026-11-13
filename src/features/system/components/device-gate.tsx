@@ -21,8 +21,8 @@ import {
  * when it's ready: the start screen until then, or why it couldn't open.
  * The server renders the start screen too, so a page never flashes blank.
  *
- * Opening the database is a transition, so the start screen stays until
- * the first page is ready; after that, a page still reading the device
+ * The start screen stays while the database opens and `prepare` gets the
+ * tabs ready (at most a few seconds); a page still reading the device then
  * shows its own loading state (each folder's `loading.tsx`). This fallback
  * shows only if something else waits outside a transition.
  *
@@ -75,7 +75,11 @@ export const DeviceGate = ({
 const KeepPagesReady = ({ prepare }: { prepare: PreparePages }) => {
   const { db } = useLocalDb();
 
-  useEffect(() => keepPagesReady(() => prepare(db)), [db, prepare]);
+  /* Once at first too: a change while the start screen showed cut it short. */
+  useEffect(
+    () => keepPagesReady(() => prepare(db), { immediately: true }),
+    [db, prepare],
+  );
 
   return null;
 };

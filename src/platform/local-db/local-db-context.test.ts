@@ -11,8 +11,10 @@ vi.mock("@/platform/local-db/durable-writes", () => ({
     }),
 }));
 
-const { notifyLocalSave, subscribeLocalSaves } =
+const { notifyLocalSave, preparePageReads, subscribeLocalSaves } =
   await import("@/platform/local-db/local-db-context");
+const { currentPageReadRevision, movePageReadRevision, startPageRead } =
+  await import("@/platform/local-db/page-reads");
 
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -97,5 +99,33 @@ describe("notifyLocalSave", () => {
     expect(root.dataset.saves).toBeUndefined();
     expect(leaving()).toBe("leaves");
     expect(logged).toHaveBeenCalledOnce();
+  });
+});
+
+describe("preparePageReads", () => {
+  it("reads each page in turn, and stops when the data changes meanwhile", async () => {
+    const db = {} as Parameters<typeof preparePageReads>[0];
+    const read = (page: string) => vi.fn(async () => page);
+    const home = read("home");
+    const plays = vi.fn(async () => {
+      /* A save lands while Plays is read. */
+      movePageReadRevision();
+
+      return "plays";
+    });
+    const stats = read("stats");
+
+    await preparePageReads(db, [
+      { key: "home:", read: home },
+      { key: "plays:active", read: plays },
+      { key: "stats", read: stats },
+    ]);
+
+    expect(home).toHaveBeenCalledOnce();
+    expect(plays).toHaveBeenCalledOnce();
+    /* The next round reads it, at the new revision. */
+    expect(stats).not.toHaveBeenCalled();
+    startPageRead(db, "stats", currentPageReadRevision(), stats);
+    expect(stats).toHaveBeenCalledOnce();
   });
 });
