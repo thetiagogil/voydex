@@ -45,7 +45,7 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       # Pull the Supabase images from GitHub's registry; the default public
       # registry often refuses GitHub's shared runners ("Data limit exceeded").

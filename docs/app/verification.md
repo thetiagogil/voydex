@@ -117,7 +117,7 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 
 A pull request that changes the app runs `npm run test:e2e` on the Mac before
 merging. The Browser Tests workflow runs the same suite by hand from the
-Actions tab (about 25 minutes): it starts local Supabase (only the services the app uses, with images from
+Actions tab (about 25 minutes, with a 40-minute limit): it starts local Supabase (only the services the app uses, with images from
 `ghcr.io`), builds the app, runs the tests against the built files (served by
 `npm run start` the way Cloudflare serves them) and
 keeps the report when a test fails. A run on a branch whose changes are only
