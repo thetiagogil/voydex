@@ -455,12 +455,13 @@ the device:
 - **Game data** (`reference` and `tracking`) arrives as one versioned file per
   game, built from the seeds, plus a shared base file. The base installs when
   the device database first opens; a game downloads the first time something
-  needs it (a Play starting, the Team Planner opening on it), with its
+  needs it (a Play starting, a Plan's moves or save), with its
   learnsets after, in the background. Once the device gate opens, the
   games the device should have download quietly in the background
   (`game-data-background.ts`): the games of your Plays and Plans, and any
   missing learnsets.
-- **The Codex and the game pickers** read pre-built files (#256): the build
+- **The Codex, the game pickers and the Team Planner's Pokémon** read
+  pre-built files (#256, #289): the build
   runs the Codex's `server/` readers once over every game data file and
   writes a gzipped JSON file per page to `/codex-data/` (see
   [Codex Files](../database/architecture.md#codex-files)). Pages download
@@ -511,7 +512,9 @@ src/platform/local-db/
 
 The app's layout wraps every app page in the device gate
 (`src/features/system/components/device-gate.tsx`): one short start screen
-while the database opens, then the page; or a screen for offline on a new
+while the database opens and the tabs get ready (`AppDeviceGate` passes
+Mainline's tab reads; at most four seconds, the rest carry on in the
+background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. Codex pieces about
 your Plays use the quiet boundary, which shows nothing until it's open.
 
@@ -568,21 +571,33 @@ The design goal is separation of concerns, not a fixed filename ritual.
 A screen's route stays a thin server file that hands the address on to a
 client route component. That component reads its data on the device with
 `useLocalPageRead(key, read)` (or Mainline's `useLocalPageData`, which adds
-not-found): the page waits for its read before it shows, and since a link and
-a save are React transitions, the page you came from stays on screen until
-then, the way Next.js waits for a server page, so changing pages never
-flashes empty. `key` names everything the read depends on, and every read on
+not-found). A link changes the page at once: every folder with pages under
+it has a `loading.tsx` with the shared `PageLoadingState` (the page band, or
+none under a Play's head, and a spinner that shows only after 200 ms), which
+stays until the new page has read. A read already in (kept, or got ready
+ahead) is marked settled, so that page draws at once and never shows it. A
+save is a React transition, so the page you are on keeps showing until its
+new read is in. `key` names everything the read depends on, and every read on
 screen runs again after a save. A page's read is kept when you leave it, so
 going back shows at once; any change to the device's data (a save in any
 tab, or a game added) lets every kept read go. A change no page on screen
 shows but another page does (opening a Play reorders Home) calls
-`forgetKeptPageReads`. Queries reach the device database's worker in one
-message each (`worker-queries.ts`), not PGlite's dozen. A piece of a page that can show without its
+`forgetKeptPageReads`. The app's tabs are read before they open: each tab
+names its read once (a `PageReadPlan`, such as `statsPageRead`), Mainline
+lists them in `public-page-reads.ts`, and the device gate reads them behind
+the start screen and again in the background whenever kept reads go
+(`preparePageReads`), so changing tabs never waits on the device. A Play
+does the same for its sections (`playSectionReads`, kept ready by
+`useKeepPageReadsReady` while the Play is open). A page that does wait shows
+its loading state for at least 300 ms (React holds a fallback that long), so
+getting pages ready ahead is what makes them instant. Queries
+reach the device database's worker in one message each (`worker-queries.ts`),
+not PGlite's dozen. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
-state instead. The Team Planner reads like any page unless its game still has
-to download (`findGameToDownload`): that takes seconds, so it shows at once
-with the download bar, kept until the Planner is read.
-Device reads take milliseconds, so there are no loading skeletons.
+state instead. The Team Planner reads its game's Pokémon from a pre-built
+file and only the Plan from the device, so it never waits on a download; the
+game downloads in the background for the reads that need it later (a
+Pokémon's moves, the checks a save runs), which wait for it themselves.
 
 For a complex read, separate the responsibilities that need independent review
 or reuse:

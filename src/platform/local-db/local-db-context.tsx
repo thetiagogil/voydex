@@ -20,7 +20,9 @@ import { createLocalQueryClient } from "@/platform/local-db/local-query-client";
 import {
   currentPageReadRevision,
   holdPageRead,
+  keepPagesReady,
   movePageReadRevision,
+  preparePageRead,
   startPageRead,
   subscribePageReadRevision,
 } from "@/platform/local-db/page-reads";
@@ -241,9 +243,10 @@ export const useLocalRead = <Data,>(
 
 /*
  * A page's data from the device, read before the page shows. While it is
- * read, React keeps the page you came from on screen (a link or a save is a
- * transition), the way Next.js waits for a server page, so changing pages
- * never flashes empty. Use it for what a whole page needs; a piece of a page
+ * read after a link, the page's loading state shows (its `loading.tsx`);
+ * after a save (a transition), the page keeps showing until the new data is
+ * in. A read already in draws at once. Use it for what a whole page needs; a
+ * piece of a page
  * that can show without its data uses `useLocalRead`. A failed read throws
  * to the page's error screen. `key` names everything the read depends on.
  */
@@ -268,6 +271,72 @@ export const useLocalPageRead = <Data,>(
   );
 
   return use(promise);
+};
+
+/*
+ * A page's read named once: by its page (`useLocalPageRead`) and by the
+ * app getting that page ready before it opens (`preparePageReads`), which
+ * must read the same key the same way.
+ */
+export type PageReadPlan<Data> = {
+  key: string;
+  read(client: LocalQueryClient): Promise<Data>;
+  /* Whether a later visit may show this data again (see `startPageRead`). */
+  keep?(data: Data): boolean;
+};
+
+/* Lets the page's own work run before the next read that gets ready. */
+const giveWay = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, 0);
+  });
+
+/*
+ * Gets pages ready before they open: each read runs, one after another so
+ * a page you open meanwhile isn't kept waiting long, and is kept like a
+ * page you left. Resolves once all have settled, or early when the device's
+ * data changes meanwhile (the round after it reads them anew).
+ */
+export const preparePageReads = async (
+  db: LocalDb,
+  plans: readonly PageReadPlan<unknown>[],
+) => {
+  const client = createLocalQueryClient(db);
+  const at = currentPageReadRevision();
+
+  for (const { keep, key, read } of plans) {
+    /* The data changed meanwhile: the next round reads the rest anew. */
+    if (currentPageReadRevision() !== at) return;
+
+    await preparePageRead(db, key, () => read(client), keep);
+    /* A page you open meanwhile asks the device first. */
+    await giveWay();
+  }
+};
+
+/*
+ * Keeps pages a screen leads to ready while it is on screen: read once it
+ * has shown, and again whenever the device's data changes (a Play's other
+ * sections, while you look at one).
+ */
+export const useKeepPageReadsReady = (
+  plans: readonly PageReadPlan<unknown>[],
+) => {
+  const { db } = useLocalDb();
+  const plansRef = useRef(plans);
+  const keys = plans.map((plan) => plan.key).join("\n");
+
+  useEffect(() => {
+    plansRef.current = plans;
+  });
+
+  useEffect(
+    () =>
+      keepPagesReady(() => preparePageReads(db, plansRef.current), {
+        immediately: true,
+      }),
+    [db, keys],
+  );
 };
 
 /*

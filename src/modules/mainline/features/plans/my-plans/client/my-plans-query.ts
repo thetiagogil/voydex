@@ -6,6 +6,7 @@ import type {
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { uniqueNumberIds } from "@/shared/utils/collections";
+import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
 
 /*
  * My Plans: every Plan with its version group, who follows it and its six
@@ -139,4 +140,10 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
       },
     ];
   });
+};
+
+/* My Plans' read, both views. */
+export const myPlansPageRead: MainlinePageRead<MyPlan[]> = {
+  key: "plans",
+  read: getMyPlansPageData,
 };

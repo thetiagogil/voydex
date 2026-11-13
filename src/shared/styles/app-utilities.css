@@ -188,6 +188,20 @@
   }
 }
 
+/*
+ * Shown only once a wait is long enough to notice (a page still reading),
+ * so a page that opens at once never flashes it. It appears; nothing moves.
+ */
+@keyframes appear-late {
+  from {
+    visibility: hidden;
+  }
+}
+
+@utility appear-late {
+  animation: appear-late 0s linear 200ms both;
+}
+
 /* A card or token unmarked a moment ago settles softly into its new state. */
 @keyframes settle {
   from {

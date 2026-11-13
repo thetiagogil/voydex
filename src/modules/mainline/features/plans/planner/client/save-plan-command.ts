@@ -123,12 +123,16 @@ const toSaveError = (error: { code: string; message: string }) => {
  * Pokémon fits the version group. The Plan row, its Pokémon, their planned
  * moves and its expansions are written in one transaction by
  * `planning.save_mainline_team_plan`, which refuses a new version group while
- * a Play follows the Plan; its version may change.
+ * a Play follows the Plan; its version may change. The check reads the
+ * game's data on the device, so `ensureGame` makes sure it is there first
+ * (the Planner opens from its pre-built file, before the game downloads).
  */
 export const savePlan = async ({
+  ensureGame,
   input,
   supabase,
 }: {
+  ensureGame: (versionGroupId: number) => Promise<void>;
   input: PlanSaveInput;
   supabase: ServerSupabaseClient;
 }): Promise<{ created: boolean; planId: string }> => {
@@ -149,6 +153,9 @@ export const savePlan = async ({
   const expansionIds = input.expansionVersionGroupIds.filter((id) =>
     game.expansionIds.includes(id),
   );
+
+  if (input.members.length) await ensureGame(game.versionGroupId);
+
   const members = await fitMembersToVersionGroup(supabase, game, input.members);
   const { data, error } = await supabase
     .schema("planning")

@@ -148,27 +148,6 @@ const findCurrentGameData = (
     : null;
 };
 
-/*
- * The name of the game a version group has to download before it opens, or
- * null when nothing needs fetching: on the device from this visit's release,
- * or, opened offline, on the device at all. A screen asks first, so it can
- * show the download bar from the start rather than wait behind the page you
- * came from.
- */
-export const findGameToDownload = async (
-  versionGroupId: number,
-): Promise<string | null> => {
-  const { db, versions: known } = await openLocalDb();
-  const root = await readRootGame(db, versionGroupId);
-  const installed = await readInstalledGameData(db);
-
-  if (known) {
-    return findCurrentGameData(known, installed, root) ? null : root.name;
-  }
-
-  return installed.has(root.slug) ? null : root.name;
-};
-
 const ensureVersionGroup = async (versionGroupId: number) => {
   const { db, versions: known } = await openLocalDb();
   const root = await readRootGame(db, versionGroupId);

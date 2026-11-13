@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
@@ -15,7 +17,9 @@ import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-po
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { takePokemonFromGroups } from "@/modules/reference/features/pokemon/utils/take-pokemon-from-groups";
 import { EmptyState } from "@/shared/components/empty-state";
+import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SelectControl } from "@/shared/components/select-control";
 import { SearchControl } from "@/shared/components/search-control";
@@ -39,6 +43,10 @@ import {
   TipRows,
   TipStack,
 } from "@/shared/components/tip-parts";
+
+/* About the rows a phone or a wide window shows at once, then a page more. */
+const INITIAL_VISIBLE_POKEMON = 48;
+const VISIBLE_POKEMON_INCREMENT = 48;
 
 export type PlannerPoolFilters = {
   /* One Pokédex's key (the base game or an expansion), or "" for all. */
@@ -112,7 +120,34 @@ export const PlannerPoolSection = ({
   const scopedSections = shownSections.filter(
     (section) => !filters.dex || section.key === filters.dex,
   );
-  const hasAny = scopedSections.some((section) => section.pokemon.length);
+  const listedSections = scopedSections.filter(
+    (section) => section.pokemon.length,
+  );
+  const listedCount = listedSections.reduce(
+    (total, section) => total + section.pokemon.length,
+    0,
+  );
+  const hasAny = listedCount > 0;
+
+  /*
+   * The tiles draw in batches as you scroll, so the Planner opens without
+   * drawing every Pokémon of the game; a new search, filter or game starts
+   * over from the first batch.
+   */
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
+  const listKey = JSON.stringify([versionGroup.slug, filters]);
+  const [shownListKey, setShownListKey] = useState(listKey);
+
+  if (shownListKey !== listKey) {
+    setShownListKey(listKey);
+    setVisibleCount(INITIAL_VISIBLE_POKEMON);
+  }
+
+  const drawnSections = takePokemonFromGroups(listedSections, visibleCount);
+  const loadMore = () =>
+    setVisibleCount((count) =>
+      Math.min(count + VISIBLE_POKEMON_INCREMENT, listedCount),
+    );
 
   /* The search and filter bar folds under the heading, opened from its row. */
   const fold = useFold({
@@ -247,131 +282,128 @@ export const PlannerPoolSection = ({
       </FoldPanel>
 
       {hasAny ? (
-        scopedSections
-          .filter((section) => section.pokemon.length)
-          .map((section) => (
-            <section
-              key={section.key}
-              id={`dex-${section.key}`}
-              aria-labelledby={`dex-${section.key}-title`}
-              /*
-               * Skipped while off screen, which clips its paint to its box:
-               * a little room round the cards keeps their focus rings whole.
-               */
-              className="-m-2 flex scroll-mt-24 flex-col gap-3 p-2 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
-            >
-              <RangeHeading
-                headingLevel={3}
-                titleId={`dex-${section.key}-title`}
-                title={section.name}
-                count={`${section.pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
-              />
-              <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
-                {section.pokemon.map((pokemon) => {
-                  const slot = slotByFormId.get(pokemon.formId);
-                  const notes = getPoolTileNotes(pokemon, versionGroup, {
-                    includedExpansionIds,
-                    versionGame,
-                  });
+        drawnSections.map((section, index) => (
+          <section
+            key={section.key}
+            id={`dex-${section.key}`}
+            aria-labelledby={`dex-${section.key}-title`}
+            /*
+             * Skipped while off screen, which clips its paint to its box:
+             * a little room round the cards keeps their focus rings whole.
+             */
+            className="-m-2 flex scroll-mt-24 flex-col gap-3 p-2 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
+          >
+            <RangeHeading
+              headingLevel={3}
+              titleId={`dex-${section.key}-title`}
+              title={section.name}
+              count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
+            />
+            <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+              {section.pokemon.map((pokemon) => {
+                const slot = slotByFormId.get(pokemon.formId);
+                const notes = getPoolTileNotes(pokemon, versionGroup, {
+                  includedExpansionIds,
+                  versionGame,
+                });
 
-                  return (
-                    <li
-                      key={pokemon.formId}
-                      className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
-                    >
-                      <IconTip
-                        label={notes.join(" ") || undefined}
-                        trigger={
-                          <button
-                            type="button"
-                            aria-pressed={slot !== undefined}
-                            onClick={() => onPick(pokemon)}
-                            style={getPokemonTypeCssVariables(
-                              pokemon.types[0] &&
-                                isPokemonTypeSlug(pokemon.types[0].slug)
-                                ? pokemon.types[0].slug
-                                : null,
+                return (
+                  <li
+                    key={pokemon.formId}
+                    className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
+                  >
+                    <IconTip
+                      label={notes.join(" ") || undefined}
+                      trigger={
+                        <button
+                          type="button"
+                          aria-pressed={slot !== undefined}
+                          onClick={() => onPick(pokemon)}
+                          style={getPokemonTypeCssVariables(
+                            pokemon.types[0] &&
+                              isPokemonTypeSlug(pokemon.types[0].slug)
+                              ? pokemon.types[0].slug
+                              : null,
+                          )}
+                          className="focus-ring block w-full rounded-lg"
+                        >
+                          <PokemonCard
+                            state="plain"
+                            size="fluid"
+                            imageAlt=""
+                            imageUrl={pokemon.imageUrl}
+                            name={pokemon.name}
+                            number={formatNationalNumber(
+                              pokemon.nationalNumber,
                             )}
-                            className="focus-ring block w-full rounded-lg"
-                          >
-                            <PokemonCard
-                              state="plain"
-                              size="fluid"
-                              imageAlt=""
-                              imageUrl={pokemon.imageUrl}
-                              name={pokemon.name}
-                              number={formatNationalNumber(
-                                pokemon.nationalNumber,
-                              )}
-                              /* The "!" takes the number's place; its words stay. */
-                              numberHidden={notes.length > 0}
-                              types={pokemon.types}
-                              picked={slot !== undefined}
-                              className={cn(
-                                /* The whole tile lifts, carrying its marks. */
-                                "hover:translate-y-0",
-                                replacingId === pokemon.formId &&
-                                  "outline-action outline-3 outline-offset-2 outline-solid",
-                              )}
-                            ></PokemonCard>
-                            {slot || notes.length ? (
-                              <span className="sr-only">
-                                {[slot ? `, in slot ${slot}` : null, ...notes]
-                                  .filter(Boolean)
-                                  .join(". ")}
-                              </span>
-                            ) : null}
-                          </button>
-                        }
-                      />
-                      {/*
-                       * The tile's marks inside it so they lift with it (the
-                       * list's sections clip anything outside): the "!" of
-                       * Your team's slots top-left, where the number would
-                       * be, the slot number top-right.
-                       */}
-                      {notes.length ? (
-                        <CornerBubble corner="inside-top-left">
-                          <ExplanatoryTip
-                            triggerVariant="raised"
-                            triggerTone="warn"
-                            triggerLabel={`${pokemon.name}: ${notes[0]}`}
-                            contentClassName="w-64"
-                            content={
-                              <TipStack>
-                                <TipHead>
-                                  {notes.length === 1
-                                    ? "One thing to check"
-                                    : `${notes.length} things to check`}
-                                </TipHead>
-                                <TipRows>
-                                  {notes.map((note) => (
-                                    <TipRow
-                                      key={note}
-                                      name={note}
-                                      tone="warn"
-                                    />
-                                  ))}
-                                </TipRows>
-                              </TipStack>
-                            }
-                          />
-                        </CornerBubble>
-                      ) : null}
-                      {slot !== undefined ? (
-                        <CornerBubble corner="inside-top-right">
-                          <SlotMark>{slot}</SlotMark>
-                        </CornerBubble>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))
+                            /* The "!" takes the number's place; its words stay. */
+                            numberHidden={notes.length > 0}
+                            types={pokemon.types}
+                            picked={slot !== undefined}
+                            className={cn(
+                              /* The whole tile lifts, carrying its marks. */
+                              "hover:translate-y-0",
+                              replacingId === pokemon.formId &&
+                                "outline-action outline-3 outline-offset-2 outline-solid",
+                            )}
+                          ></PokemonCard>
+                          {slot || notes.length ? (
+                            <span className="sr-only">
+                              {[slot ? `, in slot ${slot}` : null, ...notes]
+                                .filter(Boolean)
+                                .join(". ")}
+                            </span>
+                          ) : null}
+                        </button>
+                      }
+                    />
+                    {/*
+                     * The tile's marks inside it so they lift with it (the
+                     * list's sections clip anything outside): the "!" of
+                     * Your team's slots top-left, where the number would
+                     * be, the slot number top-right.
+                     */}
+                    {notes.length ? (
+                      <CornerBubble corner="inside-top-left">
+                        <ExplanatoryTip
+                          triggerVariant="raised"
+                          triggerTone="warn"
+                          triggerLabel={`${pokemon.name}: ${notes[0]}`}
+                          contentClassName="w-64"
+                          content={
+                            <TipStack>
+                              <TipHead>
+                                {notes.length === 1
+                                  ? "One thing to check"
+                                  : `${notes.length} things to check`}
+                              </TipHead>
+                              <TipRows>
+                                {notes.map((note) => (
+                                  <TipRow key={note} name={note} tone="warn" />
+                                ))}
+                              </TipRows>
+                            </TipStack>
+                          }
+                        />
+                      </CornerBubble>
+                    ) : null}
+                    {slot !== undefined ? (
+                      <CornerBubble corner="inside-top-right">
+                        <SlotMark>{slot}</SlotMark>
+                      </CornerBubble>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))
       ) : (
         <EmptyState variant="bare" title="Nothing matches." />
       )}
+      {visibleCount < listedCount ? (
+        <LoadMoreTrigger label="Show more Pokémon" onLoadMore={loadMore} />
+      ) : null}
     </section>
   );
 };

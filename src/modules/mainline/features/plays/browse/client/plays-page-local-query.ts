@@ -7,7 +7,10 @@ import type {
   PlaysPageView,
 } from "@/modules/mainline/features/plays/browse/types";
 import { localUserId } from "@/platform/local-db/device-schema";
-import type { LocalQueryClient } from "@/platform/local-db/local-db-context";
+import type {
+  LocalQueryClient,
+  PageReadPlan,
+} from "@/platform/local-db/local-db-context";
 
 /* The Plays page from the device: the library (with tags) or the archived ones. */
 export const readLocalPlaysPageData = async (
@@ -24,3 +27,11 @@ export const readLocalPlaysPageData = async (
 
   return { archivedCount, plays, view };
 };
+
+/* The Plays page's read, one per view. */
+export const playsPageRead = (
+  view: PlaysPageView,
+): PageReadPlan<PlaysPageData> => ({
+  key: `plays:${view}`,
+  read: (client) => readLocalPlaysPageData(client, view),
+});

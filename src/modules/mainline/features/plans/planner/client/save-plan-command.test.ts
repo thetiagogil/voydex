@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { PlanSaveInput } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -88,6 +88,9 @@ const baseInput: PlanSaveInput = {
   versionGroupSlug: "sword-shield",
 };
 
+/* The game is already on the device. */
+const noDownload = () => Promise.resolve();
+
 describe("savePlan", () => {
   it("saves the whole Plan in one call, keeping only the group's expansions", async () => {
     const { client, rpcCalls } = createFakeClient({
@@ -100,6 +103,7 @@ describe("savePlan", () => {
 
     await expect(
       savePlan({
+        ensureGame: noDownload,
         input: { ...baseInput, expansionVersionGroupIds: [21, 99] },
         supabase: client,
       }),
@@ -130,6 +134,7 @@ describe("savePlan", () => {
     });
 
     await savePlan({
+      ensureGame: noDownload,
       input: { ...baseInput, versionGameSlug: "shield" },
       supabase: client,
     });
@@ -138,6 +143,7 @@ describe("savePlan", () => {
 
     await expect(
       savePlan({
+        ensureGame: noDownload,
         input: { ...baseInput, versionGameSlug: "sun" },
         supabase: client,
       }),
@@ -155,7 +161,11 @@ describe("savePlan", () => {
     });
 
     await expect(
-      savePlan({ input: { ...baseInput, planId: "plan-1" }, supabase: client }),
+      savePlan({
+        ensureGame: noDownload,
+        input: { ...baseInput, planId: "plan-1" },
+        supabase: client,
+      }),
     ).rejects.toThrow("Restore this Plan to change it.");
     expect(rpcCalls).toEqual([]);
   });
@@ -170,18 +180,61 @@ describe("savePlan", () => {
 
     await expect(
       savePlan({
+        ensureGame: noDownload,
         input,
         supabase: refuse("55000", "A Play follows team plan plan-1"),
       }),
     ).rejects.toThrow("A Play follows this Plan, so its game stays the same.");
     await expect(
       savePlan({
+        ensureGame: noDownload,
         input,
         supabase: refuse("23503", "Unknown or unavailable team_plan_id plan-1"),
       }),
     ).rejects.toThrow("That Plan isn't one of yours.");
     await expect(
-      savePlan({ input, supabase: refuse("XX000", "boom") }),
+      savePlan({
+        ensureGame: noDownload,
+        input,
+        supabase: refuse("XX000", "boom"),
+      }),
     ).rejects.toThrow("Unable to save the Plan right now.");
+  });
+
+  it("makes sure the game is on the device before checking its Pokémon", async () => {
+    const { client, rpcCalls } = createFakeClient({
+      read: readSwordShield,
+      rpc: () => ({ data: null, error: null }),
+    });
+    const ensureGame = vi.fn(() =>
+      Promise.reject(
+        new Error("You're offline. Connect once to download this game."),
+      ),
+    );
+
+    await expect(
+      savePlan({
+        ensureGame,
+        input: {
+          ...baseInput,
+          members: [
+            {
+              abilityId: null,
+              formId: 1,
+              gender: null,
+              heldItemId: null,
+              moveIds: [null, null, null, null],
+              natureId: null,
+              notes: null,
+              slot: 1,
+              speciesId: 1,
+            },
+          ],
+        },
+        supabase: client,
+      }),
+    ).rejects.toThrow("You're offline.");
+    expect(ensureGame).toHaveBeenCalledExactlyOnceWith(20);
+    expect(rpcCalls).toEqual([]);
   });
 });

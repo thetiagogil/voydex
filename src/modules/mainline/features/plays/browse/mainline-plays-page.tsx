@@ -8,7 +8,7 @@ import { PlaysBrowser } from "@/modules/mainline/features/plays/browse/component
 import { PlaysPageHeader } from "@/modules/mainline/features/plays/browse/components/plays-page-header";
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseParams } from "@/modules/mainline/features/plays/browse/play-browse-model";
-import { readLocalPlaysPageData } from "@/modules/mainline/features/plays/browse/client/plays-page-local-query";
+import { playsPageRead } from "@/modules/mainline/features/plays/browse/client/plays-page-local-query";
 import type {
   PlaysPageData,
   PlaysPageView,
@@ -77,9 +77,8 @@ const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
  * the page's error screen.
  */
 export const MainlinePlaysPage = ({ params, view }: MainlinePlaysPageProps) => {
-  const data = useLocalPageRead(`plays:${view}`, (client) =>
-    readLocalPlaysPageData(client, view),
-  );
+  const { key, read } = playsPageRead(view);
+  const data = useLocalPageRead(key, read);
 
   return <PlaysPageContent data={data} params={params} />;
 };

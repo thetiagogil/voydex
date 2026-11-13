@@ -1,28 +1,21 @@
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
-import { buildPlannerContext } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import {
-  buildPlannerVersionGroupOptions,
-  getPlannerFamilyIds,
-  resolvePlannerVersionGroup,
-} from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
-import {
-  readPlannerCatalogue,
-  readPlannerPoolRows,
-} from "@/modules/mainline/features/plans/planner/client/planner-pool-reader";
+  plannerFiles,
+  type PlannerGameFile,
+  type PlannerGamesFile,
+} from "@/modules/mainline/features/plans/planner/planner-files";
 import type {
   PlanGender,
   PlannerPageData,
   SavedPlan,
 } from "@/modules/mainline/features/plans/types";
-import {
-  ensureVersionGroupData,
-  findGameToDownload,
-} from "@/platform/local-db/game-downloads";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
+import { fetchPrebuiltData } from "@/platform/prebuilt-data/use-prebuilt-data";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { isUuid } from "@/shared/utils/identifiers";
 
 import { toPlanMoveSlots } from "../utils/plan-move-slots";
+import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
 
 const toGender = (value: string | null): PlanGender | null =>
   value === "female" || value === "male" || value === "genderless"
@@ -130,22 +123,29 @@ type PlannerPageInput = {
   versionGroupSlug: string | null;
 };
 
-/*
- * What the Team Planner opens on: its data, or the game it has to download
- * first, named so the page can show the bar.
- */
-export type PlannerPageOpening =
-  | { data: PlannerPageData; status: "ready" }
-  | { gameName: string; status: "download" };
+const readPlannerFile = async <Data>(path: string | null) => {
+  const data = await fetchPrebuiltData<Data>(path);
 
-const readPlannerPage = async (
-  { planId, versionGroupSlug }: PlannerPageInput,
-  { stopForDownload }: { stopForDownload: boolean },
-): Promise<PlannerPageOpening | null> => {
+  if (!data) throw new Error("Unable to find a game for the Team Planner.");
+
+  return data;
+};
+
+/*
+ * The Team Planner: a saved Plan (by id) or a blank one, read in the
+ * version group asked for (`?vg=`), else the Plan's own, else the newest.
+ * The game's Pokémon come from its pre-built file, so nothing waits on the
+ * game's download (the page starts it in the background). Null when the
+ * Plan doesn't exist or isn't the trainer's.
+ */
+export const getPlannerPageData = async ({
+  planId,
+  versionGroupSlug,
+}: PlannerPageInput): Promise<PlannerPageData | null> => {
   const supabase = await getLocalQueryClient();
   const userId = await getSignedInTrainerId(supabase);
-  const [catalogue, plan, planCount] = await Promise.all([
-    readPlannerCatalogue(supabase),
+  const [games, plan, planCount] = await Promise.all([
+    readPlannerFile<PlannerGamesFile>(plannerFiles.games()),
     planId ? readSavedPlan(supabase, userId, planId) : null,
     readPlanCount(supabase, userId),
   ]);
@@ -154,62 +154,26 @@ const readPlannerPage = async (
     return null;
   }
 
-  const versionGroups = buildPlannerVersionGroupOptions(catalogue);
-  const versionGroup = resolvePlannerVersionGroup(
-    catalogue,
-    versionGroupSlug ?? plan?.versionGroupSlug ?? null,
-    versionGroups,
-  );
-
-  if (!versionGroup) {
-    throw new Error("Unable to find a game for the Team Planner.");
-  }
-
-  if (stopForDownload) {
-    const gameName = await findGameToDownload(versionGroup.id);
-
-    if (gameName) return { gameName, status: "download" };
-  }
-
-  /* The picked game's Pokémon come from its game data, downloaded if new. */
-  await ensureVersionGroupData(versionGroup.id);
-
-  const pool = await readPlannerPoolRows(
-    supabase,
-    getPlannerFamilyIds(catalogue, versionGroup),
-    plan?.members.map((member) => member.speciesId) ?? [],
+  const slug =
+    games.baseSlugBySlug[versionGroupSlug ?? plan?.versionGroupSlug ?? ""] ??
+    games.versionGroups[0]?.slug;
+  const { context } = await readPlannerFile<PlannerGameFile>(
+    slug ? plannerFiles.game(slug) : null,
   );
 
   return {
-    data: {
-      context: buildPlannerContext({ catalogue, pool, versionGroup }),
-      plan,
-      planCount,
-      trainerId: userId,
-      versionGroups,
-    },
-    status: "ready",
+    context,
+    plan,
+    planCount,
+    trainerId: userId,
+    versionGroups: games.versionGroups,
   };
 };
 
-/*
- * The Team Planner: a saved Plan (by id) or a blank one, read in the
- * version group asked for (`?vg=`), else the Plan's own, else the newest,
- * downloading that game first when the device doesn't have it.
- * Null when the Plan doesn't exist or isn't the trainer's.
- */
-export const getPlannerPageData = async (
+/* The Team Planner's read: a saved Plan, or a blank one on a game. */
+export const plannerPageRead = (
   input: PlannerPageInput,
-): Promise<PlannerPageData | null> => {
-  const opening = await readPlannerPage(input, { stopForDownload: false });
-
-  return opening?.status === "ready" ? opening.data : null;
-};
-
-/*
- * The same, except a game the device doesn't have yet isn't downloaded:
- * the page reads this before it shows (the page you came from stays
- * meanwhile), so a download, which takes seconds, shows its bar instead.
- */
-export const openPlannerPage = (input: PlannerPageInput) =>
-  readPlannerPage(input, { stopForDownload: true });
+): MainlinePageRead<PlannerPageData> => ({
+  key: `planner:${input.planId ?? "new"}:${input.versionGroupSlug ?? ""}`,
+  read: () => getPlannerPageData(input),
+});

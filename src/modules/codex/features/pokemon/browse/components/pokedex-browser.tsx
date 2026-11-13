@@ -20,7 +20,6 @@ import {
   groupPokemonByCategory,
   groupPokemonByGeneration,
   groupPokemonByType,
-  takePokemonFromGroups,
   ungroupPokemon,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
@@ -43,6 +42,7 @@ import {
   useFold,
 } from "@/shared/components/fold";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
+import { takePokemonFromGroups } from "@/modules/reference/features/pokemon/utils/take-pokemon-from-groups";
 import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";

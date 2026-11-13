@@ -5,9 +5,13 @@ import {
   forgetFailedPageReads,
   forgetKeptPageReads,
   holdPageRead,
+  keepPagesReady,
+  keepReadySettleMs,
   keptPageReadLimit,
   movePageReadRevision,
+  preparePageRead,
   startPageRead,
+  subscribeForgottenPageReads,
   subscribePageReadRevision,
 } from "@/platform/local-db/page-reads";
 
@@ -230,5 +234,190 @@ describe("page reads", () => {
     await expect(startPageRead({}, "play", 0, read)).rejects.toThrow(
       "No such Play.",
     );
+  });
+
+  it("gets a page ready before its first visit, which then shows at once", async () => {
+    const db = {};
+    const read = vi.fn(async () => "plays");
+
+    await preparePageRead(db, "plays:active", read);
+
+    const visit = startPageRead(
+      db,
+      "plays:active",
+      currentPageReadRevision(),
+      read,
+    );
+
+    await expect(visit).resolves.toBe("plays");
+    expect(read).toHaveBeenCalledOnce();
+  });
+
+  it("shares a read still getting ready with the page opened meanwhile", async () => {
+    const db = {};
+    let finish: (data: string) => void = () => {};
+    const read = vi.fn(
+      () =>
+        new Promise<string>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const preparing = preparePageRead(db, "stats", read);
+    const revision = currentPageReadRevision();
+    const page = startPageRead(db, "stats", revision, read);
+    const release = holdPageRead(db, "stats", revision, page);
+
+    finish("stats");
+    await preparing;
+
+    await expect(page).resolves.toBe("stats");
+    expect(read).toHaveBeenCalledOnce();
+    release();
+  });
+
+  it("doesn't keep a ready read the data changed under", async () => {
+    const db = {};
+    let finish: (data: string) => void = () => {};
+    const read = vi.fn(
+      () =>
+        new Promise<string>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const preparing = preparePageRead(db, "home:", read);
+
+    movePageReadRevision();
+    finish("old home");
+    await preparing;
+
+    startPageRead(db, "home:", currentPageReadRevision(), async () => "home");
+    expect(read).toHaveBeenCalledOnce();
+    await expect(
+      startPageRead(db, "home:", currentPageReadRevision(), read),
+    ).resolves.toBe("home");
+  });
+
+  it("reads a page again when getting it ready failed", async () => {
+    const db = {};
+    const read = vi
+      .fn<() => Promise<string>>()
+      .mockRejectedValueOnce(new Error("boom"))
+      .mockResolvedValue("collection");
+
+    await expect(
+      preparePageRead(db, "collection", read),
+    ).resolves.toBeUndefined();
+    await expect(
+      startPageRead(db, "collection", currentPageReadRevision(), read),
+    ).resolves.toBe("collection");
+    expect(read).toHaveBeenCalledTimes(2);
+  });
+
+  it("doesn't keep a ready read its page said not to keep", async () => {
+    const db = {};
+    const read = vi.fn(async () => ({ hasGames: false }));
+
+    await preparePageRead(db, "home:", read, (data) => data.hasGames);
+    startPageRead(db, "home:", currentPageReadRevision(), read);
+
+    expect(read).toHaveBeenCalledTimes(2);
+  });
+
+  it("says when kept reads go, so the pages can get ready again", async () => {
+    const db = {};
+    const listener = vi.fn();
+    const stop = subscribeForgottenPageReads(listener);
+
+    await preparePageRead(db, "home:", async () => "home");
+    forgetKeptPageReads((key) => key.startsWith("plays:"));
+    expect(listener).not.toHaveBeenCalled();
+
+    forgetKeptPageReads((key) => key.startsWith("home:"));
+    expect(listener).toHaveBeenCalledOnce();
+
+    /* A save says so even with nothing kept. */
+    movePageReadRevision();
+    expect(listener).toHaveBeenCalledTimes(2);
+    stop();
+  });
+
+  it("marks a read once it is in, so a ready page draws at once", async () => {
+    const db = {};
+    const promise = startPageRead(db, "library", 0, async () => "library");
+
+    expect(promise).not.toHaveProperty("status");
+    await promise;
+    expect(promise).toMatchObject({ status: "fulfilled", value: "library" });
+
+    const failing = startPageRead(db, "you", 0, async () => {
+      throw new Error("boom");
+    });
+
+    await expect(failing).rejects.toThrow("boom");
+    expect(failing).toMatchObject({ status: "rejected" });
+    forgetFailedPageReads();
+  });
+
+  it("keeps pages ready: once things settle, again after each change, one round at a time", async () => {
+    vi.useFakeTimers();
+
+    try {
+      let finish = () => {};
+      const prepare = vi.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            finish = resolve;
+          }),
+      );
+      const stop = keepPagesReady(prepare, { immediately: true });
+
+      expect(prepare).not.toHaveBeenCalled();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledOnce();
+
+      /* Two changes during the round: one more round after it, not two. */
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledOnce();
+
+      finish();
+      await vi.advanceTimersByTimeAsync(0);
+      expect(prepare).toHaveBeenCalledTimes(2);
+      finish();
+      await vi.advanceTimersByTimeAsync(0);
+
+      stop();
+      movePageReadRevision();
+      await vi.advanceTimersByTimeAsync(keepReadySettleMs);
+      expect(prepare).toHaveBeenCalledTimes(2);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("doesn't keep a read getting ready while its key was let go, and says so", async () => {
+    const db = {};
+    const listener = vi.fn();
+    const stop = subscribeForgottenPageReads(listener);
+    let finish: (data: string) => void = () => {};
+    const read = vi.fn(
+      () =>
+        new Promise<string>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const preparing = preparePageRead(db, "home:", read);
+
+    /* Opening a Play reorders Home's shelf while Home is read. */
+    forgetKeptPageReads((key) => key.startsWith("home:"));
+    finish("old shelf");
+    await preparing;
+
+    expect(listener).toHaveBeenCalledOnce();
+    startPageRead(db, "home:", currentPageReadRevision(), read);
+    expect(read).toHaveBeenCalledTimes(2);
+    stop();
   });
 });

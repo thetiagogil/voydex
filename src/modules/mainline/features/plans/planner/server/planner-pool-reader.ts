@@ -39,7 +39,7 @@ export type PlannerAvailabilityRow = {
   target_version_group_id: number | null;
 };
 
-/* The catalogue every Planner page reads, whichever version group is open. */
+/* The catalogue every Planner file is built from, whichever game it is for. */
 export type PlannerCatalogueRows = {
   games: Game[];
   generations: Generation[];
@@ -124,14 +124,14 @@ export const readPlannerCatalogue = async (
 };
 
 /*
- * A version group family's Pokédexes and their Pokémon (plus any species a
- * saved Plan names), with forms, attributes, abilities, evolutions and the
- * resolved availability the Team check reads.
+ * A version group family's Pokédexes and their Pokémon, with forms,
+ * attributes, abilities, evolutions and the resolved availability the Team
+ * check reads. Build only: the Planner reads its pre-built files
+ * (`planner-files-build`).
  */
 export const readPlannerPoolRows = async (
   supabase: ServerSupabaseClient,
   familyVersionGroupIds: number[],
-  extraSpeciesIds: number[],
 ): Promise<PlannerPoolRows> => {
   const reference = supabase.schema("reference");
   const [pokedexesResult, availability, methods] = await Promise.all([
@@ -186,7 +186,6 @@ export const readPlannerPoolRows = async (
         ? [row.species_id]
         : [],
     ),
-    ...extraSpeciesIds,
   ]);
 
   const [

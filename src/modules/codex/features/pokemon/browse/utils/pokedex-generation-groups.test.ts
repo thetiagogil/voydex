@@ -4,7 +4,6 @@ import {
   groupPokemonByCategory,
   groupPokemonByGeneration,
   groupPokemonByType,
-  takePokemonFromGroups,
   ungroupPokemon,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import type {
@@ -117,34 +116,6 @@ describe("groupPokemonByCategory", () => {
       ),
     ).toEqual(["Regular"]);
     expect(groupPokemonByCategory([])).toEqual([]);
-  });
-});
-
-describe("takePokemonFromGroups", () => {
-  it("fills each range before starting the next", () => {
-    const group = (key: string, ids: number[]) => ({
-      key,
-      label: key,
-      pokemon: ids.map((id) => buildPokemon(id, null)),
-    });
-    const taken = takePokemonFromGroups(
-      [
-        group("normal", [16, 17, 18]),
-        group("fire", [4, 5]),
-        group("water", [7]),
-      ],
-      4,
-    );
-
-    expect(
-      taken.map((range) => [
-        range.key,
-        range.pokemon.map((pokemon) => pokemon.id),
-      ]),
-    ).toEqual([
-      ["normal", [16, 17, 18]],
-      ["fire", [4]],
-    ]);
   });
 });
 

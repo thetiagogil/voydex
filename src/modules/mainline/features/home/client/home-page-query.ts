@@ -27,6 +27,8 @@ import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/t
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
+import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
+import { fetchGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 
 /*
  * Each active team member's primary type at its Play's generation, for the
@@ -280,3 +282,21 @@ export const getHomePageData = async (
     kind: "plays",
   };
 };
+
+/*
+ * Home's read (`?play=` picks the current Play), with the games from the
+ * pre-built catalogue. Without them Home still shows your Plays, and the
+ * next visit asks for them again.
+ */
+export const homePageRead = (
+  requestedPlayId: string | null,
+): MainlinePageRead<{ data: HomePageData; hasGames: boolean }> => ({
+  key: `home:${requestedPlayId ?? ""}`,
+  keep: (result) => result?.hasGames ?? false,
+  read: async () => {
+    const catalogue = await fetchGameCatalogue().catch(() => null);
+    const data = await getHomePageData(requestedPlayId, { catalogue });
+
+    return data && { data, hasGames: catalogue !== null };
+  },
+});

@@ -181,9 +181,10 @@ starts it from the device gate.
 `npm run codex:build` (`scripts/codex/build-codex-data.mts`, run with `tsx`,
 about 35 seconds after `game-data:build`) installs every game data file into
 an in-memory device database, exactly as a device would, runs the Codex's
-`server/` readers over it and writes one gzipped JSON file per page to
-`public/codex-data/` (ignored by Git). The Codex pages, and every game picker,
-download their file in the browser; no page reads a database for game data.
+`server/` readers (and the Team Planner's, `planner-files-build.ts`) over it
+and writes one gzipped JSON file per page to `public/codex-data/` (ignored by
+Git). The Codex pages, every game picker and the Team Planner download their
+file in the browser; no page reads a database for game data it only shows.
 
 | File                              | What it holds                                                          |
 | --------------------------------- | ---------------------------------------------------------------------- |
@@ -195,6 +196,8 @@ download their file in the browser; no page reads a database for game data.
 | `games/<group>/<pokedex>.json.gz` | One Pokédex of a base version group or its expansions                  |
 | `version-groups.json.gz`          | Every game and version group, which Codex addresses resolve against    |
 | `game-catalogue.json.gz`          | The game pickers' catalogue (Start a Play, New Play, Home, Collection) |
+| `planner.json.gz`                 | The games a Plan can be for, and the base group each address opens     |
+| `planner/<group>.json.gz`         | The Team Planner's Pokémon of a base version group and its expansions  |
 
 - Image addresses depend on where the app runs, so a file keeps them as
   `voydex-asset:/…` paths and reading it fills in the app's own assets site

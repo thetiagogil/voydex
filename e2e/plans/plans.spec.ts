@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { waitForAction } from "../support/actions";
 import { openSearchBar } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -28,8 +29,11 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   await page.getByRole("button", { name: "Save Plan" }).click();
   const details = page.getByRole("dialog", { name: "Save Plan" });
   await details.getByRole("textbox", { name: "Plan name" }).fill(name);
+  /* Written to the device before a test leaves or reloads the page. */
+  const saved = waitForAction(page);
   await details.getByRole("button", { name: "Save Plan" }).click();
   await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+  await saved;
 
   return new URL(page.url()).searchParams.get("id")!;
 };
@@ -66,6 +70,34 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
   });
 
+  test("opens from its game's file, before the game downloads, and draws its Pokémon as you scroll", async ({
+    page,
+  }) => {
+    /* The game never reaches the device: the Planner shows from its file. */
+    await page.route(/\/game-data\/swsh[.-]/, (route) => route.abort());
+    await page.goto("/mainline/plans/new?vg=swsh");
+
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    const tiles = picker.getByRole("listitem");
+
+    await expect(tiles.first()).toBeVisible();
+
+    const firstBatch = await tiles.count();
+
+    expect(firstBatch).toBeGreaterThan(0);
+    expect(firstBatch).toBeLessThan(400);
+
+    await tiles.last().scrollIntoViewIfNeeded();
+    await expect.poll(() => tiles.count()).toBeGreaterThan(firstBatch);
+
+    /* A search looks through every Pokémon, drawn yet or not. */
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Eternatus");
+    await expect(
+      picker.getByRole("button", { name: /^#890 Eternatus\b/ }),
+    ).toBeVisible();
+  });
+
   test("saves a Plan for one version, whose exclusives follow it", async ({
     page,
   }) => {
@@ -98,8 +130,10 @@ test.describe("Team Planner", () => {
     await page.getByRole("button", { name: "Save Plan" }).click();
     const details = page.getByRole("dialog", { name: "Save Plan" });
     await details.getByRole("textbox", { name: "Plan name" }).fill(name);
+    const created = waitForAction(page);
     await details.getByRole("button", { name: "Save Plan" }).click();
     await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+    await created;
 
     /* It reopens as a Shield Plan; going back to Either is a change to save. */
     await page.reload();
@@ -110,10 +144,13 @@ test.describe("Team Planner", () => {
     await expect(saveChanges).toBeDisabled();
     await version.getByRole("button", { name: "Either" }).click();
     await expect(saveChanges).toBeEnabled();
+    /* Written to the device before the reload reads it back. */
+    const saved = waitForAction(page);
     await saveChanges.click();
     await expect(
       page.getByText(`${name} saved`, { exact: true }),
     ).toBeVisible();
+    await saved;
     await page.reload();
     await expect(
       version.getByRole("button", { name: "Either" }),
@@ -150,9 +187,9 @@ test.describe("Team Planner", () => {
     });
 
     /* The treat legendaries sit in no Paldean Pokédex, and still can be planned. */
-    await expect(extras).toBeVisible();
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Articuno");
+    await expect(extras).toBeVisible();
     /* The treats bring the Kantonian bird; the Galarian one only by transfer. */
     await expect(
       extras.getByRole("button", { name: /^#144 Articuno\b/ }),
