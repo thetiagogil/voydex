@@ -101,13 +101,13 @@ task; use more only when the user asks for parallel work on independent scopes.
 - Do not hand-edit generated wrappers or `src/shared/types/database.types.ts`;
   rebuild them through the `db:*` package scripts.
 - Browser-safe values live in `.env.local`, private database tooling values in
-  `.env.database`; start from the tracked `*.example` files and never move
+  `.env.database`; never move
   private credentials into `NEXT_PUBLIC_*` variables.
 - The app accepts only `NEXT_PUBLIC_SUPABASE_URL`,
   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `NEXT_PUBLIC_ASSETS_URL` (the
   `voydex-assets` site serving Pokémon images and game covers, read only by
   `src/shared/utils/asset-url.ts`); do not restore legacy anon-key
-  aliases. Database tooling accepts only the names in `.env.database.example`.
+  aliases. Database tooling accepts only `SUPABASE_ACCESS_TOKEN` and `SUPABASE_DB_PASSWORD`.
 - Keep active indexes beside their owning table schema.
 - A write that touches more than one table or creates a History moment goes
   through one database function; `local-db` calls stay thin adapters.

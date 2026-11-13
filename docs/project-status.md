@@ -4,51 +4,24 @@ This document is the only canonical source for Voydex's current implementation
 checkpoint. Product contracts describe accepted behavior; code and tests remain
 the evidence for exact implementation details.
 
-## Current Step: Local Data (2026-11-10)
+## Current Step: Fixes Before Launch (2026-11-13)
 
-Voydex can't be funded and free tiers can't hold everyone's data, so user data
-moves onto the device, game data ships as files, and Supabase keeps only login
-and backups ([ADR 0008](./decisions/0008-user-data-on-the-device.md)). Five
-issues, in order:
+The order of all open work is the checklist in #148. Done: bugs, data, Story,
+Team, Plays, Codex, Collection, and the move to local data (user data in PGlite
+on the device, game data as files, plain-file hosting with no Worker; see
+[ADR 0008](./decisions/0008-user-data-on-the-device.md) and
+[ADR 0009](./decisions/0009-app-as-plain-files.md)). What is left, in order:
 
-1. #244 Decision record and architecture docs.
-2. #245 iPhone test and the data layer: PGlite on a real phone, a go or
-   no-go, and `src/platform/local-db`. On a no-go the plan switches to plain
-   browser storage before anything else starts.
-3. #246 Game data files on Cloudflare: one file per game built from the
-   seeds, the ID check, images moved (#251). Pre-built Codex pages are #256.
-4. #247 Every Mainline screen moved to the device, in one pull request: the
-   device database opens behind one start screen, every Mainline, Settings,
-   You and Welcome read and save runs on the device, games download on first
-   need, device updates run with a copy kept first, and the app opens without
-   signing in (the sign-up pick from Start a Play is gone: Start leads
-   straight into New Play). Hosted Supabase data was left behind; the app
-   starts anew.
-5. #248 Backup file and account sync: Save backup and Restore in Settings,
-   a 30-day reminder on Home, an installable app (manifest) with install and
-   in-app-browser notes, change records on the device, event merge with a
-   clash dialog, account backups on Supabase (last 3), and no row security or
-   API access on device-only tables, in two pull requests (the backup file
-   first). Hosted Supabase was reset on 2026-11-10 with the owner's
-   approval: no accounts or user data, the new schema, game data re-seeded;
-   hosted `reference` and `tracking` stay until the Codex is pre-built
-   (#256).
-
-A new game data release now reaches a device that has an older one: it
-swaps all its game data on opening and keeps your rows
-([Game Data Updates](./database/architecture.md#game-data-updates)). Applying
-the ID changes list to saved data is left for before its first entry. #256 moves
-the Codex and the game catalogue to pre-built files (`npm run codex:build`),
-so no page reads hosted game data; hosted `reference` and `tracking` can then
-go in a hosted step (needs the owner's approval). The Milestones and
-collectibles review (#199, pull request #243) waits until this work is done.
-
-#269 makes the whole app plain files on Cloudflare, with no Worker
-([ADR 0009](./decisions/0009-app-as-plain-files.md)): Next.js static export,
-login and account changes in the browser, Plays and Plans addressed by
-`?id=`, one pre-built Codex page per Pokémon, base game and Pokédex, and the
-"Database unavailable" dot and `/api/health` gone. `npm run start` serves
-`out/` the way Cloudflare does.
+1. Launch fixes (#291 to #299 in #148's list): failing browser tests on
+   `main`, Browser Tests and Database Quality back on for pull requests,
+   ID changes applied to saved Plays, Privacy and Terms text, hosted database
+   keep-awake and backup size cap, Sentry, Renovate.
+2. #199 Milestones and collectibles review, game by game.
+3. #201 Redesign pass over the whole app.
+4. #202 Architecture audit of the code and the database.
+5. Tests and checks brought up to date for the new design and architecture.
+6. Launch: delete the old hosted Supabase and Vercel projects (not before
+   2026-12-08) and a live check with a real account.
 
 ## Checkpoint (2026-10-19)
 

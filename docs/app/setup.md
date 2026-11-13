@@ -17,7 +17,7 @@ npm install
 
 ## Environment
 
-Create `.env.local` from `.env.local.example`.
+Create `.env.local` with these names.
 
 ```txt
 NEXT_PUBLIC_SUPABASE_URL=
@@ -40,7 +40,7 @@ runtime configuration.
 Do not commit `.env.local`.
 
 Private database tooling uses the separate repository-root `.env.database`.
-Create it from `.env.database.example` only when an explicitly authorized
+Create it only when an explicitly authorized
 linked or remote operation needs credentials. The database wrappers load this
 file directly; local start, reset, lint, pgTAP, and type generation do not
 require it. Never put private keys or database passwords in `NEXT_PUBLIC_*`
