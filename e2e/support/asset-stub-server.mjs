@@ -1,7 +1,8 @@
 /*
- * Stands in for the voydex-assets site in CI: every path answers with the same
- * 1px WebP, so images load without the browser tests calling the real site
- * (Vercel Hobby counts each request against a monthly allowance).
+ * Stands in for the voydex-assets site in the browser tests, on the port
+ * `NEXT_PUBLIC_ASSETS_URL` names (playwright.config.ts starts it): every path
+ * answers with the same 1px WebP, so images load without the tests calling
+ * the real site.
  */
 import { createServer } from "node:http";
 
