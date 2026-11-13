@@ -726,6 +726,35 @@ describe("a refused release", () => {
     );
     expect(options.download).not.toHaveBeenCalled();
   });
+
+  it("is tried again once its ID changes list says how to follow it", async () => {
+    const db = await createDeviceOnFirstRelease();
+    const options = {
+      download: serve(withoutPikachu),
+      versions: toVersions(withoutPikachu),
+    };
+
+    await expect(updateGameData(db, options)).rejects.toBeInstanceOf(
+      GameDataRefusedError,
+    );
+    await expect(
+      updateGameData(db, {
+        ...options,
+        versions: {
+          ...options.versions,
+          idChanges: [
+            {
+              becomes: "26",
+              id: "25",
+              reason: "Merged into Raichu.",
+              table: "reference.pokemon_forms",
+            },
+          ],
+        },
+      }),
+    ).resolves.toMatchObject({ status: "updated" });
+    await expect(readDevice(db)).resolves.toMatchObject({ icon: 26 });
+  });
 });
 
 describe("a list older than the device's", () => {
@@ -778,6 +807,198 @@ describe("a list older than the device's", () => {
     await expect(readInstalledGameData(db)).resolves.toEqual(
       hashesOf(secondRelease, ["base", "swsh"]),
     );
+  });
+});
+
+describe("ID changes in a game data update", () => {
+  const raichuFor = (
+    forms: [number, string][],
+    idChanges: GameDataVersions["idChanges"],
+  ) =>
+    buildRelease(
+      [generationsTable("Generation 8"), ruleTypesTable([5]), systemRulesTable],
+      [typesTable(["normal"]), formsTable(forms)],
+      idChanges,
+    );
+  const pikachuToRaichu = {
+    becomes: "26",
+    id: "25",
+    reason: "Merged into Raichu.",
+    table: "reference.pokemon_forms",
+  };
+  const raichuToAlolan = {
+    becomes: "27",
+    id: "26",
+    reason: "Renumbered.",
+    table: "reference.pokemon_forms",
+  };
+  const second = raichuFor([[26, "raichu"]], [pikachuToRaichu]);
+  const third = raichuFor(
+    [[27, "raichu-alola"]],
+    [pikachuToRaichu, raichuToAlolan],
+  );
+
+  const update = (db: PGlite, release: Release) =>
+    updateGameData(db, {
+      download: serve(release),
+      versions: toVersions(release),
+    });
+
+  /* Your icon and favourite, with their change records' keys and times. */
+  const readYours = async (db: PGlite) => {
+    const { rows } = await db.query<Record<string, unknown>>(`
+      SELECT
+        (SELECT icon_form_id FROM public.profiles) AS icon,
+        (SELECT array_agg(form_id || '/' || species_id) FROM gameplay.user_favourite_pokemon) AS favourites,
+        (SELECT array_agg(row_key || ' ' || changed_at::text ORDER BY row_key)
+           FROM device.changes WHERE table_name = 'gameplay.user_favourite_pokemon') AS records,
+        (SELECT array_agg(id || '>' || coalesce(becomes, '-') ORDER BY position)
+           FROM device.id_changes) AS applied
+    `);
+
+    return rows[0];
+  };
+
+  const createDeviceWithFavourite = async () => {
+    const db = await createDeviceOnFirstRelease();
+
+    await db.exec(`
+      INSERT INTO gameplay.user_favourite_pokemon (user_id, species_id, form_id)
+        VALUES (auth.uid(), 25, 25);
+    `);
+
+    return db;
+  };
+
+  it("moves your rows to the IDs a release changed, keeping their change times", async () => {
+    const db = await createDeviceWithFavourite();
+    const before = await readYours(db);
+
+    await expect(update(db, second)).resolves.toMatchObject({
+      status: "updated",
+    });
+    await expect(readYours(db)).resolves.toEqual({
+      applied: ["25>26"],
+      favourites: ["26/26"],
+      icon: 26,
+      records: [(before.records as string[])[0].replace(", 25]", ", 26]")],
+    });
+  });
+
+  it("follows only the entries the device hasn't had, across skipped releases", async () => {
+    const skipped = await createDeviceWithFavourite();
+    const caughtUp = await createDeviceWithFavourite();
+
+    await update(caughtUp, second);
+    await update(skipped, third);
+    await update(caughtUp, third);
+
+    for (const db of [skipped, caughtUp]) {
+      await expect(readYours(db)).resolves.toMatchObject({
+        applied: ["25>26", "26>27"],
+        favourites: ["27/27"],
+        icon: 27,
+      });
+    }
+  });
+
+  it("follows a release's entries when none of the device's files changed", async () => {
+    const db = await createDeviceWithFavourite();
+    /* The entry is for a file this device doesn't have: its files stay. */
+    const listOnly: Release = {
+      ...firstRelease,
+      idChanges: [
+        {
+          becomes: "98",
+          id: "99",
+          reason: "Merged in another game.",
+          table: "reference.pokemon_forms",
+        },
+      ],
+    };
+    const download = serve(listOnly);
+
+    await expect(
+      updateGameData(db, { download, versions: toVersions(listOnly) }),
+    ).resolves.toEqual({ status: "already-installed" });
+    expect(download).not.toHaveBeenCalled();
+    await expect(readYours(db)).resolves.toMatchObject({
+      applied: ["99>98"],
+      favourites: ["25/25"],
+      icon: 25,
+    });
+
+    /* A later release follows only what comes after it. */
+    const next = raichuFor(
+      [[26, "raichu"]],
+      [...(listOnly.idChanges ?? []), pikachuToRaichu],
+    );
+
+    await update(db, next);
+    await expect(readYours(db)).resolves.toMatchObject({
+      applied: ["99>98", "25>26"],
+      favourites: ["26/26"],
+    });
+  });
+
+  it("starts a new device with its release's entries already followed", async () => {
+    const db = await createDevice();
+
+    await installGame(db, "swsh", {
+      download: serve(third),
+      versions: toVersions(third),
+    });
+
+    await expect(readYours(db)).resolves.toMatchObject({
+      applied: ["25>26", "26>27"],
+      icon: null,
+    });
+  });
+
+  it("refuses a list that differs from the one the device followed", async () => {
+    const db = await createDeviceWithFavourite();
+
+    await update(db, second);
+
+    const before = await readYours(db);
+    const rewritten = raichuFor(
+      [[27, "raichu-alola"]],
+      [{ ...pikachuToRaichu, becomes: "27" }],
+    );
+
+    await expect(update(db, rewritten)).rejects.toBeInstanceOf(
+      GameDataRefusedError,
+    );
+    await expect(readYours(db)).resolves.toEqual(before);
+    await expect(readInstalledGameData(db)).resolves.toEqual(
+      hashesOf(second, ["base", "swsh", "swsh-learnsets"]),
+    );
+  });
+
+  it("refuses a release whose ID change your rows can't follow, changing nothing", async () => {
+    const db = await createDeviceWithFavourite();
+    const before = await readDevice(db);
+    /* Your own rule needs its rule type; a rule type can't just go. */
+    const withoutRuleType = raichuFor(
+      [
+        [25, "pikachu"],
+        [26, "raichu"],
+      ],
+      [
+        {
+          becomes: null,
+          id: "5",
+          reason: "Removed.",
+          table: "gameplay.mainline_challenge_rule_types",
+        },
+      ],
+    );
+
+    await expect(update(db, withoutRuleType)).rejects.toThrow(
+      "leaves out something your Plays or Plans use",
+    );
+    await expect(readDevice(db)).resolves.toEqual(before);
+    await expect(readYours(db)).resolves.toMatchObject({ applied: null });
   });
 });
 
@@ -846,5 +1067,78 @@ describe.skipIf(!hasBuiltFiles)("updateGameData with the built files", () => {
     expect(await countRows()).toBe(rowsBefore);
     await expect(readUserData(db)).resolves.toEqual(yoursBefore);
     await expect(readInstalledGameData(db)).resolves.toEqual(installed);
+  }, 120_000);
+});
+
+describe.skipIf(!hasBuiltFiles)("ID changes with the built files", () => {
+  it("merges a ticked milestone into another under a real Play, keeping its moment", async () => {
+    const built = parseGameDataVersions(
+      JSON.parse(readFileSync(`${builtDir}/versions.json`, "utf8")),
+    );
+    const download = async (path: string, onBytes: (bytes: number) => void) => {
+      const bytes = new Uint8Array(readFileSync(`${builtDir}/${path}`));
+
+      onBytes(bytes.byteLength);
+
+      return bytes;
+    };
+    const db = await createDevice();
+    const playId = "10000000-0000-4000-8000-000000000001";
+
+    await installGame(db, "swsh", { download, versions: built });
+    await db.query(
+      `INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, name)
+         SELECT $1, auth.uid(), id, version_group_id, 'Run'
+         FROM reference.games WHERE slug = 'sword'`,
+      [playId],
+    );
+
+    /* Two of Sword's milestones, both ticked; a moment on the first. */
+    const { rows: picked } = await db.query<{ id: number }>(
+      `SELECT m.id FROM tracking.mainline_milestones m
+       JOIN gameplay.mainline_plays p ON p.version_group_id = m.version_group_id
+       WHERE p.id = $1 AND (m.game_id IS NULL OR m.game_id = p.game_id)
+       ORDER BY m.sort_order, m.id LIMIT 2`,
+      [playId],
+    );
+    const [merged, kept] = picked.map((row) => row.id);
+
+    await db.query(
+      `INSERT INTO gameplay.mainline_play_milestone_progress (play_id, milestone_id)
+         VALUES ($1, $2), ($1, $3)`,
+      [playId, merged, kept],
+    );
+    await db.query(
+      `INSERT INTO gameplay.mainline_play_events
+         (play_id, event_type_id, event_origin_id, title, timeline_order, milestone_id)
+       SELECT $1, (SELECT min(id) FROM gameplay.mainline_play_event_types),
+         (SELECT min(id) FROM gameplay.mainline_play_event_origins), 'Got there', 1, $2`,
+      [playId, merged],
+    );
+    await db.exec("UPDATE device.game_data_files SET hash = repeat('0', 64)");
+
+    await updateGameData(db, {
+      download,
+      versions: {
+        ...built,
+        idChanges: [
+          ...built.idChanges,
+          {
+            becomes: String(kept),
+            id: String(merged),
+            reason: "Merged in a milestones review.",
+            table: "tracking.mainline_milestones",
+          },
+        ],
+      },
+    });
+
+    const { rows } = await db.query(
+      `SELECT
+         (SELECT array_agg(milestone_id) FROM gameplay.mainline_play_milestone_progress) AS ticked,
+         (SELECT array_agg(title || ' ' || milestone_id) FROM gameplay.mainline_play_events) AS moments`,
+    );
+
+    expect(rows).toEqual([{ moments: [`Got there ${kept}`], ticked: [kept] }]);
   }, 120_000);
 });

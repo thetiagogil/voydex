@@ -69,3 +69,15 @@ CREATE TABLE device.sync (
     synced_at timestamptz,
     restored boolean NOT NULL DEFAULT FALSE
 );
+
+-- The ID changes (database/game-data/id-changes.json) this device's rows
+-- have followed, in the release list's order. A new device starts with
+-- every entry of the release it installs; a game data update applies the
+-- rest. Backups and account syncs from before an entry follow it too.
+CREATE TABLE device.id_changes (
+    position integer PRIMARY KEY CHECK (position > 0),
+    table_name text NOT NULL,
+    id text NOT NULL,
+    becomes text,
+    applied_at timestamptz NOT NULL DEFAULT NOW()
+);

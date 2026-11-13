@@ -3,12 +3,14 @@ import {
   runQuery,
   type LocalDb,
 } from "@/platform/local-db/local-db";
+import { countAppliedIdChanges } from "@/platform/local-db/device-id-changes";
+import type { VersionedSnapshot } from "@/platform/local-db/id-changes";
 import {
   type ChangeRecord,
   type ForeignKey,
   type SchemaShape,
-  type SyncSnapshot,
 } from "@/platform/local-db/sync-merge";
+import { readUserConstraints } from "@/platform/local-db/user-constraints";
 import {
   readUserData,
   replaceUserData,
@@ -39,44 +41,11 @@ const deleteActions: Record<string, ForeignKey["onDelete"]> = {
 
 /* The tables of yours as this device's schema has them. */
 export const readSchemaShape = async (db: LocalDb): Promise<SchemaShape> => {
-  const columnsOf = (attnums: string, table: string) =>
-    `(SELECT array_agg(a.attname::text ORDER BY k.position)
-        FROM unnest(${attnums}) WITH ORDINALITY k(attnum, position)
-        JOIN pg_attribute a ON a.attrelid = ${table} AND a.attnum = k.attnum)`;
-  /* "public.profiles", never the bare name the search path allows. */
-  const nameOf = (oid: string) =>
-    `(SELECT n.nspname || '.' || r.relname FROM pg_class r
-        JOIN pg_namespace n ON n.oid = r.relnamespace WHERE r.oid = ${oid})`;
-  const constraints = await runQuery<{
-    child: string;
-    child_columns: string[];
-    kind: string;
-    on_delete: string;
-    parent: string | null;
-    parent_columns: string[] | null;
-  }>(
-    db,
-    `SELECT * FROM (
-     SELECT ${nameOf("c.conrelid")} AS child, c.contype AS kind,
-       c.confdeltype AS on_delete,
-       ${nameOf("NULLIF(c.confrelid, 0)")} AS parent,
-       ${columnsOf("c.conkey", "c.conrelid")} AS child_columns,
-       ${columnsOf("c.confkey", "c.confrelid")} AS parent_columns
-     FROM pg_constraint c
-     WHERE c.contype IN ('p', 'u', 'f')
-     UNION ALL
-     SELECT ${nameOf("i.indrelid")}, 'i', '', NULL,
-       ${columnsOf("i.indkey::int2[]", "i.indrelid")}, NULL
-     FROM pg_index i
-     WHERE i.indisunique AND NOT i.indisprimary AND i.indexprs IS NULL
-       AND NOT EXISTS (SELECT 1 FROM pg_constraint c WHERE c.conindid = i.indexrelid)
-     ) found WHERE child = ANY ($1)`,
-    [userTableNames],
-  );
+  const constraints = await readUserConstraints(db);
   const keyColumns = new Map(
     constraints
       .filter((constraint) => constraint.kind === "p")
-      .map((constraint) => [constraint.child, constraint.child_columns]),
+      .map((constraint) => [constraint.child, constraint.childColumns]),
   );
 
   return {
@@ -84,10 +53,10 @@ export const readSchemaShape = async (db: LocalDb): Promise<SchemaShape> => {
       .filter((constraint) => constraint.kind === "f")
       .map((constraint) => ({
         child: constraint.child,
-        childColumns: constraint.child_columns,
-        onDelete: deleteActions[constraint.on_delete] ?? "restrict",
+        childColumns: constraint.childColumns,
+        onDelete: deleteActions[constraint.onDelete] ?? "restrict",
         parent: constraint.parent!,
-        parentColumns: constraint.parent_columns ?? [],
+        parentColumns: constraint.parentColumns,
       })),
     tables: userTableNames.map((name) => {
       const columns = keyColumns.get(name);
@@ -99,7 +68,7 @@ export const readSchemaShape = async (db: LocalDb): Promise<SchemaShape> => {
     uniqueKeys: constraints
       .filter((constraint) => ["i", "u"].includes(constraint.kind))
       .map((constraint) => ({
-        columns: constraint.child_columns,
+        columns: constraint.childColumns,
         table: constraint.child,
       })),
   };
@@ -111,7 +80,7 @@ const recordColumns = `table_name AS "table", row_key AS "key",
   to_jsonb(changed_at) #>> '{}' AS "changedAt",
   to_jsonb(base_changed_at) #>> '{}' AS "baseChangedAt"`;
 
-export const readChangeRecords = (db: LocalDb) =>
+export const readChangeRecords = (db: Pick<LocalDb, "query">) =>
   runQuery<ChangeRecord>(
     db,
     `SELECT ${recordColumns} FROM device.changes ORDER BY 1, 2, 3`,
@@ -120,24 +89,31 @@ export const readChangeRecords = (db: LocalDb) =>
 /*
  * This device's side of a sync, with `seq`: the last write the device had
  * counted when it was read (null before any). Later writes count higher,
- * whatever the clocks of the devices merged into it say.
+ * whatever the clocks of the devices merged into it say. Read in one
+ * transaction, so its rows, records and ID changes count agree.
  */
-export type DeviceSnapshot = SyncSnapshot & { seq: number | null };
+export type DeviceSnapshot = VersionedSnapshot & { seq: number | null };
 
-export const readSyncSnapshot = async (
-  db: LocalDb,
-): Promise<DeviceSnapshot> => {
-  /* The count first: a write that lands after it still counts as new. */
-  const [{ seq }] = await runQuery<{ seq: number | null }>(
-    db,
-    "SELECT max(seq)::float8 AS seq FROM device.changes",
-  );
-  const changes = await readChangeRecords(db);
+export const readSyncSnapshot = (db: LocalDb): Promise<DeviceSnapshot> =>
+  db.transaction(async (tx) => {
+    const [{ idChanges, seq }] = await runQuery<{
+      idChanges: number;
+      seq: number | null;
+    }>(
+      tx,
+      `SELECT (SELECT max(seq)::float8 FROM device.changes) AS seq,
+         (SELECT count(*)::int FROM device.id_changes) AS "idChanges"`,
+    );
+    const changes = await readChangeRecords(tx);
 
-  return { changes, seq, tables: await readUserData(db) };
-};
+    return { changes, idChanges, seq, tables: await readUserData(tx) };
+  });
 
-const writeRecords = async (tx: Transaction, changes: ChangeRecord[]) => {
+/* Puts `changes` in place of every change record, inside `tx`. */
+export const writeRecords = async (
+  tx: Transaction,
+  changes: ChangeRecord[],
+) => {
   await tx.exec("DELETE FROM device.changes");
 
   if (!changes.length) return;
@@ -170,17 +146,23 @@ const movedOn = async (tx: Transaction, seq: number | null) => {
  * as given (their base is the account's version they were merged with),
  * in one transaction. `readSeq` is the device's write count when the
  * merge read it: a later write means you saved (or restored) meanwhile,
- * and nothing changes (SyncMovedOnError) so the next sync takes it in.
+ * and nothing changes (SyncMovedOnError) so the next sync takes it in. So
+ * does a game data update that followed ID changes the snapshot hasn't.
  */
 export const applySyncSnapshot = async (
   db: LocalDb,
-  snapshot: SyncSnapshot,
+  snapshot: VersionedSnapshot,
   readSeq: number | null,
 ) => {
   await replaceUserData(db, snapshot.tables, {
     after: (tx) => writeRecords(tx, snapshot.changes),
     inside: async (tx) => {
-      if (await movedOn(tx, readSeq)) throw new SyncMovedOnError();
+      if (
+        (await movedOn(tx, readSeq)) ||
+        (await countAppliedIdChanges(tx)) !== snapshot.idChanges
+      ) {
+        throw new SyncMovedOnError();
+      }
     },
   });
 };

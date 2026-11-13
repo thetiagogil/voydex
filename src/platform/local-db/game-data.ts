@@ -3,7 +3,10 @@ import { z } from "zod";
 import {
   deleteGameRows,
   findMissingReferences,
+  followIdChanges,
 } from "@/platform/local-db/game-data-swap";
+import { recordIdChanges } from "@/platform/local-db/device-id-changes";
+import { IdChangeError } from "@/platform/local-db/id-changes";
 import { readMaybeGzippedText } from "@/platform/local-db/gzip";
 import {
   LocalDbError,
@@ -268,8 +271,54 @@ export class GameDataRefusedError extends LocalDbError {
 }
 
 /*
- * Releases refused this visit, by their files' hashes: not downloaded again
- * until the app is opened anew.
+ * Your rows can't follow the release's ID changes: one is refused, or one
+ * breaks a rule (a check, a key) once followed. Anything else (storage, a
+ * dropped worker) is no refusal and is tried again.
+ */
+const asRefusal = (error: unknown) => {
+  const cause = toLocalDbError(error);
+
+  return error instanceof IdChangeError ||
+    /^(23\d{3}|P0001)$/.test(cause.code ?? "")
+    ? new GameDataRefusedError([cause.message])
+    : cause;
+};
+
+/*
+ * A device on the list's release follows the list's ID changes it hasn't
+ * had: a release may list entries for a game file the device doesn't
+ * have, and its rows must have them before that file goes in. A device
+ * with no game data yet has no rows that point at any, so it takes the
+ * list as followed. Returns false, changing nothing, when the device is on
+ * another release (the update follows them).
+ */
+const catchUpIdChanges = async (db: LocalDb, versions: GameDataVersions) => {
+  try {
+    return await db.transaction(async (tx) => {
+      const { rows } = await tx.query<{ hash: string; name: string }>(
+        "SELECT name, hash FROM device.game_data_files",
+      );
+      const installed = new Map(rows.map((row) => [row.name, row.hash]));
+
+      if (isGameDataOutdated(installed, versions)) return false;
+
+      if (!installed.size) {
+        await tx.exec("DELETE FROM device.id_changes");
+        await recordIdChanges(tx, versions.idChanges);
+      } else {
+        await followIdChanges(tx, versions.idChanges);
+      }
+
+      return true;
+    });
+  } catch (error) {
+    throw asRefusal(error);
+  }
+};
+
+/*
+ * Releases refused this visit, by their files' hashes and ID changes: not
+ * downloaded again until the app is opened anew.
  */
 const refusedReleases = new Map<string, GameDataRefusedError>();
 
@@ -277,8 +326,9 @@ const refusedReleases = new Map<string, GameDataRefusedError>();
  * Swaps all the game data on the device for `entries`, the newer release of
  * the files it has (and any it asked for), in one transaction: game data
  * rows can't be told apart by file, so every one goes and the new files
- * come in whole. Your rows stay, and a release that would leave one of
- * them pointing at nothing is refused, with the device left as it was.
+ * come in whole. Your rows stay, following the release's new ID changes,
+ * and a release that would leave one of them pointing at nothing (or
+ * can't be followed) is refused, with the device left as it was.
  * Returns null when another tab changed the files after `before` was read.
  */
 const replaceGameData = async (
@@ -323,6 +373,12 @@ const replaceGameData = async (
       }
 
       await tx.exec(resetSequencesSql);
+
+      try {
+        await followIdChanges(tx, options.versions.idChanges);
+      } catch (error) {
+        throw asRefusal(error);
+      }
 
       const missing = await findMissingReferences(tx);
 
@@ -525,6 +581,8 @@ const installFilesOnce = async (
     const installed = await readInstalledGameData(db);
 
     if (!isGameDataOutdated(installed, options.versions)) {
+      if (!(await catchUpIdChanges(db, options.versions))) continue;
+
       const result = await installMissing(
         db,
         entries.filter((entry) => !installed.has(entry.name)),
@@ -541,9 +599,11 @@ const installFilesOnce = async (
       );
     }
 
-    const release = listGameDataFiles(options.versions)
-      .map((entry) => entry.hash)
-      .join(" ");
+    /* The same files with a longer ID changes list are another release. */
+    const release = [
+      ...listGameDataFiles(options.versions).map((entry) => entry.hash),
+      JSON.stringify(options.versions.idChanges),
+    ].join(" ");
     const refused = refusedReleases.get(release);
 
     if (refused) throw refused;

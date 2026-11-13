@@ -1,0 +1,18 @@
+{
+  "about": "Tables of yours whose rows an ID change may drop: rows that only mark progress against game data, or a choice of it (a game in your library, a rule in a set), and mean nothing once it is gone or when the row already on the new ID says the same. Any other row needs the ID to become another (or a link that can be cleared). Read by src/platform/local-db/id-changes.ts and the release checks.",
+  "tables": [
+    "gameplay.mainline_play_milestone_progress",
+    "gameplay.mainline_play_milestone_decisions",
+    "gameplay.mainline_play_collectible_entry_progress",
+    "gameplay.mainline_play_pokedex_species_progress",
+    "gameplay.mainline_play_pokemon_moves",
+    "gameplay.mainline_play_event_team_snapshot_moves",
+    "gameplay.mainline_play_optional_content_scopes",
+    "gameplay.mainline_play_challenge_rules",
+    "gameplay.user_favourite_pokemon",
+    "planning.mainline_team_plan_member_moves",
+    "planning.mainline_team_plan_optional_content_scopes",
+    "gameplay.user_game_library_entries",
+    "gameplay.mainline_challenge_rule_set_rules"
+  ]
+}

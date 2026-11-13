@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { gzipText, readMaybeGzippedText } from "@/platform/local-db/gzip";
+import type { VersionedSnapshot } from "@/platform/local-db/id-changes";
 import type { ChangeRecord } from "@/platform/local-db/sync-merge";
 import type { UserData } from "@/platform/local-db/user-data";
 
@@ -9,13 +10,15 @@ import type { UserData } from "@/platform/local-db/user-data";
  * when the file's shape changes; an older file is upgraded step by step
  * before it is read, and a newer one asks for a newer Voydex.
  */
-export const backupFormat = 2;
+export const backupFormat = 3;
 
 export type BackupFile = {
   app: "voydex";
   /* When each row was added and each column last changed, for account sync. */
   changes: ChangeRecord[];
   format: typeof backupFormat;
+  /* How many game data ID changes its rows have had (see id-changes.ts). */
+  idChanges: number;
   kind: "backup";
   /* When the backup was saved, as ISO text. */
   savedAt: string;
@@ -45,6 +48,7 @@ const backupSchema = z.object({
     }),
   ),
   format: z.literal(backupFormat),
+  idChanges: z.number().int().nonnegative(),
   kind: z.literal("backup"),
   savedAt: z.iso.datetime({ offset: true }),
   tables: z
@@ -66,6 +70,11 @@ type Upgrade = (file: Record<string, unknown>) => Record<string, unknown>;
 const upgrades: Record<number, Upgrade> = {
   /* Format 2 added the change records; a format 1 file has none. */
   1: (file) => ({ ...file, changes: [] }),
+  /*
+   * Format 3 added the ID changes count. No release listed an ID change
+   * before it, so a format 2 file's rows have had none.
+   */
+  2: (file) => ({ ...file, idChanges: 0 }),
 };
 
 const brokenFile = (cause?: unknown) =>
@@ -112,8 +121,7 @@ export const upgradeBackup = (value: unknown): BackupFile => {
 };
 
 export const createBackup = (
-  tables: UserData,
-  changes: ChangeRecord[],
+  { changes, idChanges, tables }: VersionedSnapshot,
   savedAt = new Date(),
 ) =>
   ({
@@ -121,6 +129,7 @@ export const createBackup = (
     /* The base is this device's own sync point: it means nothing elsewhere. */
     changes: changes.map((change) => ({ ...change, baseChangedAt: null })),
     format: backupFormat,
+    idChanges,
     kind: "backup",
     savedAt: savedAt.toISOString(),
     tables,

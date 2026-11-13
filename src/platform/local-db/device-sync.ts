@@ -1,3 +1,12 @@
+import {
+  bringSnapshotUpToDate,
+  prepareSnapshot,
+  readAppliedIdChanges,
+} from "@/platform/local-db/device-id-changes";
+import {
+  IdChangeError,
+  type VersionedSnapshot,
+} from "@/platform/local-db/id-changes";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import {
   mergeSnapshots,
@@ -12,6 +21,7 @@ import {
   readSchemaShape,
   readSyncSnapshot,
   recordDeletions,
+  SyncMovedOnError,
   type DeviceSnapshot,
 } from "@/platform/local-db/sync-snapshot";
 import { readNeededVersionGroups } from "@/platform/local-db/user-data";
@@ -29,7 +39,8 @@ export type BackupDevice = { name: string | null; savedAt: string };
 
 export type AccountBackup = BackupDevice & {
   id: string;
-  snapshot: SyncSnapshot;
+  /* With how many game data ID changes its rows have had. */
+  snapshot: VersionedSnapshot;
 };
 
 export type AccountBackups = {
@@ -43,7 +54,7 @@ export type AccountBackups = {
    * when another device saved on top of that one first.
    */
   upload: (
-    snapshot: SyncSnapshot,
+    snapshot: VersionedSnapshot,
     parentId: string | null,
   ) => Promise<string | null>;
 };
@@ -117,7 +128,7 @@ export const syncDevice = async (
     return sendRestore(db, { account, remoteId });
   }
 
-  const local = await readSyncSnapshot(db);
+  let local = await readSyncSnapshot(db);
   const localChanged = hasUnsynced(local);
   const remote: AccountBackup | null =
     remoteId !== null && remoteId !== state.backupId
@@ -129,10 +140,25 @@ export const syncDevice = async (
   let snapshot = local;
 
   if (remote) {
+    /*
+     * The account's rows, brought up to this device's ID changes; or the
+     * device takes the newer release they come from first, which moves
+     * its own rows too, so they are read again.
+     */
+    const remoteSnapshot = await prepareSnapshot(
+      db,
+      remote.snapshot,
+      ensureGame,
+    );
+
+    if (remoteSnapshot.idChanges !== local.idChanges) {
+      local = await readSyncSnapshot(db);
+    }
+
     const result = mergeSnapshots({
       choices,
       local,
-      remote: remote.snapshot,
+      remote: remoteSnapshot,
       shape: await readSchemaShape(db),
     });
 
@@ -152,7 +178,10 @@ export const syncDevice = async (
 
     await applySyncSnapshot(
       db,
-      withAccountBase(result.snapshot, remote.snapshot),
+      {
+        ...withAccountBase(result.snapshot, remoteSnapshot),
+        idChanges: remoteSnapshot.idChanges,
+      },
       local.seq,
     );
     snapshot = await readSyncSnapshot(db);
@@ -216,11 +245,27 @@ const sendRestore = async (
   { account, remoteId }: { account: AccountBackups; remoteId: string | null },
 ): Promise<SyncOutcome> => {
   if (remoteId) {
-    const [shape, remote, local] = await Promise.all([
+    const [shape, stored, local, applied] = await Promise.all([
       readSchemaShape(db),
       account.read(remoteId).then((backup) => backup.snapshot),
       readSyncSnapshot(db),
+      readAppliedIdChanges(db),
     ]);
+
+    /* Read across a game data update: sync again. */
+    if (applied.length !== local.idChanges) throw new SyncMovedOnError();
+
+    /*
+     * The account's rows by today's keys, so only what is really gone is
+     * recorded as gone. From newer game data, they wait for the update.
+     */
+    if (stored.idChanges > local.idChanges) {
+      throw new IdChangeError(
+        "The account's data uses newer game data than this device has. Reopen Voydex to update it.",
+      );
+    }
+
+    const remote = await bringSnapshotUpToDate(db, stored, applied);
     const kept = liveKeys(local, shape);
     const gone = [...liveKeys(remote, shape)]
       .filter((id) => !kept.has(id))
@@ -331,19 +376,28 @@ export const takeAccountData = async (
   },
 ) => {
   const remoteId = await account.latestId();
-  const local = await readSyncSnapshot(db);
-  let snapshot: SyncSnapshot;
+  let local = await readSyncSnapshot(db);
+  let snapshot: VersionedSnapshot;
 
   if (remoteId) {
-    const remote = (await account.read(remoteId)).snapshot;
+    const remote = await prepareSnapshot(
+      db,
+      (await account.read(remoteId)).snapshot,
+      ensureGame,
+    );
 
-    for (const versionGroupId of readNeededVersionGroups(remote.tables)) {
-      await ensureGame(versionGroupId);
+    /* Taking a newer release may have moved this device's writes on. */
+    if (remote.idChanges !== local.idChanges) {
+      local = await readSyncSnapshot(db);
     }
 
-    snapshot = withAccountBase(remote, remote);
+    snapshot = {
+      ...withAccountBase(remote, remote),
+      idChanges: remote.idChanges,
+    };
   } else {
     snapshot = {
+      idChanges: local.idChanges,
       changes: local.changes
         .filter((record) => keptOnLeaving.has(record.table))
         .map((record) => ({ ...record, baseChangedAt: null })),

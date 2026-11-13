@@ -65,7 +65,7 @@ export const rowParsers = {
 
 /* A plain SQL read; a failed read throws, it never reads as empty. */
 export const runQuery = async <Row>(
-  db: LocalDb,
+  db: Pick<LocalDb, "query">,
   sql: string,
   params: unknown[] = [],
 ): Promise<Row[]> => {

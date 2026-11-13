@@ -8,7 +8,6 @@ import {
 } from "@/platform/local-db/device-updates";
 import {
   installGameBase,
-  isGameDataOutdated,
   readInstalledGameData,
   updateGameData,
   type DownloadGameDataFile,
@@ -161,10 +160,11 @@ export const prepareDevice = async (
         onProgress: (progress) => onStep({ progress, step: "base" }),
         versions,
       });
-    } else if (isGameDataOutdated(installed, versions)) {
+    } else {
       /*
        * A new release of the game data: the device takes it before the
-       * screens open. If it can't (a dropped connection), the screens keep
+       * screens open (on the same release, it only follows ID changes it
+       * hasn't had). If it can't (a dropped connection), the screens keep
        * the release the device has, and the next game download tries again.
        */
       await updateGameData(db, {

@@ -1,4 +1,24 @@
-import { userTables, type Transaction } from "@/platform/local-db/user-data";
+import {
+  readAppliedIdChanges,
+  readIdChangeShape,
+  readIdChangeTargets,
+  recordIdChanges,
+} from "@/platform/local-db/device-id-changes";
+import {
+  applyIdChanges,
+  findPendingIdChanges,
+  type IdChange,
+} from "@/platform/local-db/id-changes";
+import {
+  readChangeRecords,
+  writeRecords,
+} from "@/platform/local-db/sync-snapshot";
+import {
+  readUserData,
+  userTables,
+  writeUserData,
+  type Transaction,
+} from "@/platform/local-db/user-data";
 
 /*
  * The parts of a game data update that reach past the game data: which rows
@@ -39,6 +59,42 @@ export const deleteGameRows = async (tx: Transaction) => {
       await tx.exec(`DELETE FROM ${name} WHERE (${filter}) IS NOT TRUE`);
     }
   }
+};
+
+/*
+ * Your rows follow the ID changes of `list` the device hasn't applied (see
+ * id-changes.ts), against the game data in place: read, changed and put
+ * back with every check on, change records moved along. Most devices have
+ * no rows on a changed ID, and then nothing is written but the list. Throws
+ * IdChangeError, or the failed check, when a row can't follow; the
+ * caller's transaction then keeps the device as it was.
+ */
+export const followIdChanges = async (
+  tx: Transaction,
+  list: readonly IdChange[],
+) => {
+  const pending = findPendingIdChanges(await readAppliedIdChanges(tx), list);
+
+  if (!pending.length) return;
+
+  const shape = await readIdChangeShape(tx);
+  const snapshot = {
+    changes: await readChangeRecords(tx),
+    tables: await readUserData(tx),
+  };
+  const followed = applyIdChanges(snapshot, pending, {
+    shape,
+    targets: await readIdChangeTargets(tx, pending, shape),
+  });
+
+  if (followed !== snapshot) {
+    /* Checks back on: the rows go back in against the game data. */
+    await tx.exec("SET LOCAL session_replication_role = origin");
+    await writeUserData(tx, followed.tables);
+    await writeRecords(tx, followed.changes);
+  }
+
+  await recordIdChanges(tx, list);
 };
 
 type ForeignKey = {
