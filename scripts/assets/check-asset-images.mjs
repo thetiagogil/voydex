@@ -76,9 +76,9 @@ export const knownImageGaps = new Map([
     "ruchbah-starmobile",
     "caph-starmobile",
   ].flatMap((slug) =>
-    pokemonImageFolders.map((folder) => [
+    shinyFolders.map((folder) => [
       `${folder}/${slug}.webp`,
-      "Team Star's Starmobiles have no image source yet",
+      "Team Star's Starmobiles are never shiny",
     ]),
   ),
 ]);
