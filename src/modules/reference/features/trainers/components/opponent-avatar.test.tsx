@@ -39,7 +39,7 @@ describe("OpponentAvatar", () => {
       />,
     );
 
-    expect(markup).toContain(">JJ</span>");
+    expect(markup).toContain('data-stand-in="JJ"');
     expect(markup).not.toContain("trainers/");
     expect(markup).toContain("bubble absolute");
     expect(markup).toContain('src="https://assets.test/pokemon/starmie.webp"');

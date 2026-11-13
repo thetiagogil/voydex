@@ -25,7 +25,7 @@ describe("FallbackImage", () => {
     );
 
     expect(markup).not.toContain("<img");
-    expect(markup).toContain(">P</span>");
+    expect(markup).toContain('data-stand-in="P"');
     expect(markup).toContain("size-10");
     expect(markup).toContain('aria-hidden="true"');
   });
@@ -51,8 +51,8 @@ describe("FallbackImage", () => {
 
     expect(markup).not.toContain("<img");
     expect(markup).toContain("sticker");
-    expect(markup).toContain(">Bulbasaur</span>");
-    expect(markup).toContain(">B</span>");
+    expect(markup).toContain('data-stand-in="Bulbasaur"');
+    expect(markup).toContain('data-stand-in="B"');
   });
 
   it("shows the letters it is given instead of the first letter", () => {
@@ -60,7 +60,17 @@ describe("FallbackImage", () => {
       <FallbackImage src={null} name="Lt. Surge" letters="LS" />,
     );
 
-    expect(markup).toContain(">LS</span>");
+    expect(markup).toContain('data-stand-in="LS"');
+  });
+
+  it("draws its letters and name as picture, never as text a control's name must hold", () => {
+    for (const fallback of ["letter", "badge"] as const) {
+      const markup = renderToStaticMarkup(
+        <FallbackImage src={null} name="Squirtle" fallback={fallback} />,
+      );
+
+      expect(markup.replace(/<[^>]*>/g, "")).toBe("");
+    }
   });
 
   it("shows the stand-in it is given instead of the letter", () => {
@@ -75,7 +85,7 @@ describe("FallbackImage", () => {
 
     expect(markup).not.toContain("<img");
     expect(markup).toContain('data-testid="type-icon"');
-    expect(markup).not.toContain(">B</span>");
+    expect(markup).not.toContain('data-stand-in="B"');
     expect(markup).toContain("size-10");
   });
 });

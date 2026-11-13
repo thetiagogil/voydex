@@ -19,4 +19,19 @@ describe("GameCover", () => {
     expect(markup).toContain('src="https://assets.test/games/covers/red.webp"');
     expect(markup).not.toContain("/_next/image");
   });
+
+  it("draws a missing cover's initials as picture, not as text", () => {
+    const markup = renderToStaticMarkup(
+      <GameCover
+        alt=""
+        coverImageUrl={null}
+        gameName="Pokémon Brilliant Diamond"
+        gameSlug="brilliant-diamond"
+        size="playShelf"
+      />,
+    );
+
+    expect(markup).toContain('data-stand-in="BD"');
+    expect(markup.replace(/<[^>]*>/g, "")).toBe("");
+  });
 });
