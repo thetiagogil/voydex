@@ -130,6 +130,21 @@ const switchTabsWithoutWaiting = async (page: Page) => {
 };
 
 test.describe("Ready tabs", () => {
+  /*
+   * A tab is ready when its page file is prefetched and its read is in. Only
+   * the built app prefetches pages (`next dev` fetches each on the tap, so
+   * every tab shows its loading state): these run against `npm run build`
+   * then `npm run start` (GitHub does); `next dev` skips them.
+   */
+  test.beforeEach(async ({ request }) => {
+    const built = await request.get("/sw.js");
+
+    test.skip(
+      !built.ok(),
+      "Only the built app prefetches pages: npm run build, then npm run start.",
+    );
+  });
+
   test("every tab is ready once the app opens, and again after a save", async ({
     page,
   }) => {
