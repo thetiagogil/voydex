@@ -114,8 +114,16 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   `npm run start -- --port 3200`, then
   `E2E_PORT=3200 npx playwright test e2e/app/offline.spec.ts e2e/app/ready-tabs.spec.ts`.
 
-The suite runs only on the Mac: a pull request that changes the app runs
-`npm run test:e2e` before merging.
+The suite runs only on the Mac, and how much of it depends on the change:
+
+| Change                                                                                                        | Browser tests                                                                                   |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Docs or CI only                                                                                               | None                                                                                            |
+| One area (Plays, Plans, Codex, Home, Library, Settings...)                                                    | That area's folder or file, e.g. `npx playwright test e2e/plays` or `e2e/mainline/home.spec.ts` |
+| Something every screen uses: app shell, navigation, local database, login and sync, shared components, styles | The full `npm run test:e2e`                                                                     |
+| Before a deploy batch or a release                                                                            | The full `npm run test:e2e`                                                                     |
+
+When unsure which area a change reaches, run the full suite.
 
 ## Current Automated Coverage
 
