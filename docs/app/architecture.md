@@ -512,7 +512,9 @@ src/platform/local-db/
 
 The app's layout wraps every app page in the device gate
 (`src/features/system/components/device-gate.tsx`): one short start screen
-while the database opens, then the page; or a screen for offline on a new
+while the database opens and the tabs get ready (`AppDeviceGate` passes
+Mainline's tab reads; at most four seconds, the rest carry on in the
+background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. Codex pieces about
 your Plays use the quiet boundary, which shows nothing until it's open.
 
@@ -569,22 +571,29 @@ The design goal is separation of concerns, not a fixed filename ritual.
 A screen's route stays a thin server file that hands the address on to a
 client route component. That component reads its data on the device with
 `useLocalPageRead(key, read)` (or Mainline's `useLocalPageData`, which adds
-not-found): the page waits for its read before it shows, and since a link and
-a save are React transitions, the page you came from stays on screen until
-then, the way Next.js waits for a server page, so changing pages never
-flashes empty. `key` names everything the read depends on, and every read on
+not-found). A link changes the page at once: every folder with pages under
+it has a `loading.tsx` with the shared `PageLoadingState` (the page band, or
+none under a Play's head, and a spinner that shows only after 200 ms), which
+stays until the new page has read. A read already in (kept, or got ready
+ahead) is marked settled, so that page draws at once and never shows it. A
+save is a React transition, so the page you are on keeps showing until its
+new read is in. `key` names everything the read depends on, and every read on
 screen runs again after a save. A page's read is kept when you leave it, so
 going back shows at once; any change to the device's data (a save in any
 tab, or a game added) lets every kept read go. A change no page on screen
 shows but another page does (opening a Play reorders Home) calls
-`forgetKeptPageReads`. Queries reach the device database's worker in one
-message each (`worker-queries.ts`), not PGlite's dozen. A piece of a page that can show without its
+`forgetKeptPageReads`. The app's tabs are read before they open: each tab
+names its read once (a `PageReadPlan`, such as `statsPageRead`), Mainline
+lists them in `public-page-reads.ts`, and the device gate reads them behind
+the start screen and again in the background whenever kept reads go
+(`preparePageReads`), so changing tabs never waits on the device. Queries
+reach the device database's worker in one message each (`worker-queries.ts`),
+not PGlite's dozen. A piece of a page that can show without its
 data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
 state instead. The Team Planner reads its game's Pokémon from a pre-built
 file and only the Plan from the device, so it never waits on a download; the
 game downloads in the background for the reads that need it later (a
 Pokémon's moves, the checks a save runs), which wait for it themselves.
-Device reads take milliseconds, so there are no loading skeletons.
 
 For a complex read, separate the responsibilities that need independent review
 or reuse:

@@ -338,4 +338,21 @@ describe("page reads", () => {
     expect(listener).toHaveBeenCalledTimes(2);
     stop();
   });
+
+  it("marks a read once it is in, so a ready page draws at once", async () => {
+    const db = {};
+    const promise = startPageRead(db, "library", 0, async () => "library");
+
+    expect(promise).not.toHaveProperty("status");
+    await promise;
+    expect(promise).toMatchObject({ status: "fulfilled", value: "library" });
+
+    const failing = startPageRead(db, "you", 0, async () => {
+      throw new Error("boom");
+    });
+
+    await expect(failing).rejects.toThrow("boom");
+    expect(failing).toMatchObject({ status: "rejected" });
+    forgetFailedPageReads();
+  });
 });

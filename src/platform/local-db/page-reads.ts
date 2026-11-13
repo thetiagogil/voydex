@@ -164,6 +164,27 @@ export const subscribePageReadRevision = (listener: () => void) => {
 };
 
 /*
+ * A read's promise says once it has settled, the way React marks one it
+ * waited on, so a page whose read is already in (kept, or got ready ahead)
+ * draws at once with `use` instead of waiting a turn behind its loading
+ * state.
+ */
+type SettledPromise<Data> = Promise<Data> & {
+  reason?: unknown;
+  status?: "fulfilled" | "rejected";
+  value?: Data;
+};
+
+const markSettled = <Data>(
+  promise: SettledPromise<Data>,
+  settled:
+    | { status: "fulfilled"; value: Data }
+    | { reason: unknown; status: "rejected" },
+) => {
+  Object.assign(promise, settled);
+};
+
+/*
  * The read for `key` at `revision`, started now if nothing has started it.
  * `keep` says whether its data may be shown again on a later visit (not a
  * page that came back without a part it could read later).
@@ -185,15 +206,20 @@ export const startPageRead = <Data>(
   }
 
   /* A read that throws at once fails the same way as one that rejects. */
-  const promise = new Promise<Data>((resolve) => resolve(read()));
+  const promise: SettledPromise<Data> = new Promise<Data>((resolve) =>
+    resolve(read()),
+  );
   const entry: PageRead = { keep: true, promise, revision, users: 0 };
 
   promise.then(
     (data) => {
+      markSettled(promise, { status: "fulfilled", value: data });
+
       /* Still shared by this visit's renders; let go when the page leaves. */
       if (!keep(data)) entry.keep = false;
     },
-    () => {
+    (reason: unknown) => {
+      markSettled(promise, { reason, status: "rejected" });
       entry.keep = false;
       keptReads.delete(entry);
       failedReads.add(() => forget(entry));

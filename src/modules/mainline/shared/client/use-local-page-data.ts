@@ -17,9 +17,9 @@ export type MainlinePageRead<Data> = {
 
 /*
  * A page's data from the device, the way a route read it on the server:
- * the page you came from stays on screen while the read runs (milliseconds
- * on the device, a small download when it also reads a pre-built file),
- * the not-found page for null, and the error page for a failed read. `key`
+ * the page's loading state shows while the read runs (milliseconds on the
+ * device, a small download when it also reads a pre-built file), the
+ * not-found page for null, and the error page for a failed read. `key`
  * names everything the read depends on.
  */
 export const useLocalPageData = <Data>(

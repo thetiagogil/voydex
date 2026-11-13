@@ -51,7 +51,8 @@ The site (`/`, `/intro`, `/start`, Privacy, Terms) and the log-in pages.
   works, Codex, Log in, Privacy, Terms and the fan-project notice).
 - Nothing sends you to log in: the app's pages (`/mainline`, `/settings`,
   `/welcome`, `/you` and everything under them) open on this device's data
-  behind one short start screen while its database opens.
+  behind one short start screen while its database opens and every tab
+  gets ready, so changing tabs afterwards never waits.
 
 ### Inside A Module
 

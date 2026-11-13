@@ -29,8 +29,11 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   await page.getByRole("button", { name: "Save Plan" }).click();
   const details = page.getByRole("dialog", { name: "Save Plan" });
   await details.getByRole("textbox", { name: "Plan name" }).fill(name);
+  /* Written to the device before a test leaves or reloads the page. */
+  const saved = waitForAction(page);
   await details.getByRole("button", { name: "Save Plan" }).click();
   await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+  await saved;
 
   return new URL(page.url()).searchParams.get("id")!;
 };

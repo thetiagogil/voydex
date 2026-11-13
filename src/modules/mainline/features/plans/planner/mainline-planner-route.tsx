@@ -9,8 +9,7 @@ import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-pag
 
 /*
  * The Team Planner: a saved Plan (by id) or a blank one. The game's
- * Pokémon come from its pre-built file and the Plan from the device, so
- * like every page, the page you came from stays until both are read
+ * Pokémon come from its pre-built file and the Plan from the device
  * (`useLocalPageData`), with no download to wait on.
  */
 export const MainlinePlannerRoute = (input: {

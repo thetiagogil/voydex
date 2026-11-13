@@ -242,9 +242,10 @@ export const useLocalRead = <Data,>(
 
 /*
  * A page's data from the device, read before the page shows. While it is
- * read, React keeps the page you came from on screen (a link or a save is a
- * transition), the way Next.js waits for a server page, so changing pages
- * never flashes empty. Use it for what a whole page needs; a piece of a page
+ * read after a link, the page's loading state shows (its `loading.tsx`);
+ * after a save (a transition), the page keeps showing until the new data is
+ * in. A read already in draws at once. Use it for what a whole page needs; a
+ * piece of a page
  * that can show without its data uses `useLocalRead`. A failed read throws
  * to the page's error screen. `key` names everything the read depends on.
  */

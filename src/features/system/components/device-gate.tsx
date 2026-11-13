@@ -21,11 +21,10 @@ import {
  * when it's ready: the start screen until then, or why it couldn't open.
  * The server renders the start screen too, so a page never flashes blank.
  *
- * The app's one loading boundary: a page waits on its device read
- * (`useLocalPageRead`), and since opening the database, a link and a save
- * are all transitions, the start screen or the page you came from stays
- * until the next page is ready. Its fallback shows only if something else
- * waits outside a transition.
+ * Opening the database is a transition, so the start screen stays until
+ * the first page is ready; after that, a page still reading the device
+ * shows its own loading state (each folder's `loading.tsx`). This fallback
+ * shows only if something else waits outside a transition.
  *
  * Once open, the games the device should have download in the background.
  *

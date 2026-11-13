@@ -13,10 +13,13 @@ const watchFrames = (page: Page) =>
     const note = () => {
       if (watched.voydexFrames !== frames) return;
 
-      const text = document.querySelector("main")?.innerText.trim() ?? "";
+      const main = document.querySelector("main");
+      const text = main?.innerText.trim() ?? "";
+      /* A page still reading shows its loading state, which counts. */
+      const loading = Boolean(main?.querySelector("[aria-busy]"));
 
       frames.push(
-        `${location.pathname}${location.search} ${text ? "" : "empty"}`,
+        `${location.pathname}${location.search} ${text || loading ? "" : "empty"}`,
       );
       requestAnimationFrame(note);
     };
@@ -36,9 +39,7 @@ const emptyFrames = (page: Page) =>
   });
 
 test.describe("Page changes", () => {
-  test("the page you leave stays until the next one is ready", async ({
-    page,
-  }) => {
+  test("a page change never shows a bare page", async ({ page }) => {
     const firstId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
       name: uniquePlayName("Page change first"),
@@ -95,7 +96,7 @@ test.describe("Page changes", () => {
     expect(await emptyFrames(page)).toEqual([]);
   });
 
-  test("the Team Planner never opens empty, on a game the device doesn't have too", async ({
+  test("the Team Planner opens at once, with its loading state until its game's file is in", async ({
     page,
   }) => {
     const playId = await startPlay(page, {
@@ -105,13 +106,28 @@ test.describe("Page changes", () => {
     });
     const pool = page.getByRole("region", { name: "Pick your Pokémon" });
 
-    /* A game already on the device: the Play's page stays until it's read. */
+    /*
+     * A game's file that takes a while: the Planner opens at once, on its
+     * loading state, and draws its Pokémon once the file is in.
+     */
+    let sendFile = () => {};
+    const fileSent = new Promise<void>((resolve) => {
+      sendFile = resolve;
+    });
+
+    await page.route("**/codex-data/planner/rb.json.gz", async (route) => {
+      await fileSent;
+      await route.continue();
+    });
     await page.goto(`/mainline/plays/play/team/plan?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await watchFrames(page);
     await page.getByRole("button", { name: "Plan a team" }).click();
     await expect(page).toHaveURL("/mainline/plans/new?vg=rb");
+    await expect(page.getByRole("main").locator("[aria-busy]")).toBeVisible();
+    await expect(pool).toBeHidden();
+    sendFile();
     await expect(pool).toBeVisible();
     expect(await emptyFrames(page)).toEqual([]);
 
