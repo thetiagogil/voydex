@@ -88,6 +88,10 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   account, so tests sharing one would mix their data. A test that needs an
   account signs up its own (`e2e-…@voydex.test`); the local Supabase stack
   is only needed for those and for the game catalogue.
+- Images come from a local stand-in (`e2e/support/asset-stub-server.mjs`,
+  the same 1px picture for every path): when `NEXT_PUBLIC_ASSETS_URL` (from
+  the environment or `.env.local`) is on this machine, the run starts it on
+  that port, or reuses whatever already serves there.
 - Tests tagged `@phone` also run at phone size (Pixel 7).
 - Tests wait for what they depend on, never for a fixed time: `waitForAction`
   (`e2e/support/actions.ts`) for a save on the device (each save counts itself
@@ -99,10 +103,12 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   from that list once its findings are fixed.
 - Local Supabase allows 30 sign-ups and log-ins per five minutes, so several
   full runs in a row can hit its limit; wait a few minutes.
-- Tests run with service workers blocked. The offline tests
-  (`e2e/app/offline.spec.ts`) allow them and need the built app, so under
-  `next dev` they skip: run `npm run build`, `npm run start -- --port 3100`,
-  then `E2E_PORT=3100 npx playwright test e2e/app/offline.spec.ts`.
+- Tests run with service workers blocked. Two need the built app, so under
+  `next dev` they skip: the offline tests (`e2e/app/offline.spec.ts`), which
+  allow the service worker, and the ready tabs (`e2e/app/ready-tabs.spec.ts`),
+  since only the build prefetches pages. Run `npm run build`,
+  `npm run start -- --port 3200`, then
+  `E2E_PORT=3200 npx playwright test e2e/app/offline.spec.ts e2e/app/ready-tabs.spec.ts`.
 
 The Browser Tests workflow runs the suite on every pull request and on `main`:
 it starts local Supabase (only the services the app uses, with images from

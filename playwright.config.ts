@@ -6,6 +6,25 @@ const port = Number(process.env.E2E_PORT ?? 3000);
 const baseURL = `http://localhost:${port}`;
 
 /*
+ * Where the app looks for its images: GitHub sets it, a Mac reads it from
+ * `.env.local` the way the dev server does. When it is this machine, the tests
+ * serve the images there from a local stand-in (unless something already
+ * does), so no test depends on an images server someone remembered to start.
+ */
+try {
+  process.loadEnvFile(".env.local");
+} catch {
+  /* No `.env.local` (GitHub): the workflow sets the address. */
+}
+const assetsUrl = URL.parse(process.env.NEXT_PUBLIC_ASSETS_URL ?? "");
+const assetStubPort =
+  assetsUrl &&
+  ["127.0.0.1", "localhost"].includes(assetsUrl.hostname) &&
+  assetsUrl.port
+    ? Number(assetsUrl.port)
+    : null;
+
+/*
  * Browser tests against the app and the local seeded database. On a Mac they
  * reuse the dev server already on port 3000 (or start one); on GitHub they
  * serve the plain files the workflow built the way Cloudflare does
@@ -62,13 +81,14 @@ export default defineConfig({
       reuseExistingServer: !isCI,
       timeout: 180_000,
     },
-    /* On GitHub the images come from a local stand-in, not the real site. */
-    ...(isCI
+    /* Images on this machine come from the local stand-in. */
+    ...(assetStubPort
       ? [
           {
             command: "node e2e/support/asset-stub-server.mjs",
-            url: "http://127.0.0.1:3999",
-            reuseExistingServer: false,
+            env: { ASSET_STUB_PORT: String(assetStubPort) },
+            url: `http://127.0.0.1:${assetStubPort}`,
+            reuseExistingServer: !isCI,
           },
         ]
       : []),

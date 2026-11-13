@@ -3,7 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { newTestEmail, signedOut, testPassword } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { expectAccessible } from "../support/accessibility";
-import { logIn, signUp } from "../support/auth";
+import { leaveWelcome, logIn, signUp } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Each test signs up its own account, so no other test's backups mix in. */
@@ -57,8 +57,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const name = uniquePlayName("Synced");
 
     await signUp(page, email);
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
     await startPlay(page, {
       game: "Pokémon Red, 1996",
       name,
@@ -90,8 +89,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const email = newTestEmail("clash");
 
     await signUp(page, email);
-    await page.getByRole("button", { name: "Skip for now" }).click();
-    await page.waitForURL("**/mainline");
+    await leaveWelcome(page);
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });
@@ -152,7 +150,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const second = newTestEmail("second");
 
     await signUp(page, newTestEmail("first"));
-    await page.getByRole("button", { name: "Skip for now" }).click();
+    await leaveWelcome(page);
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, second);
@@ -161,8 +159,12 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     await expect(question).toBeVisible(forTheAnswer);
     await expectAccessible(page);
+    /* The device joins this account: written before the page changes. */
+    const joined = waitForAction(page);
+
     await question.getByRole("button", { name: "Add them" }).click();
     await expect(question).toBeHidden();
+    await joined;
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });
@@ -187,7 +189,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const name = uniquePlayName("Left out");
 
     await signUp(page, newTestEmail("first"));
-    await page.getByRole("button", { name: "Skip for now" }).click();
+    await leaveWelcome(page);
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, newTestEmail("second"));
@@ -197,12 +199,15 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(question).toBeVisible(forTheAnswer);
 
     const download = page.waitForEvent("download");
+    /* The device takes this account's data: written before the page changes. */
+    const saved = waitForAction(page);
 
     await question.getByRole("button", { name: "Leave them out" }).click();
     expect((await download).suggestedFilename()).toMatch(
       /^voydex-backup-\d{4}-\d{2}-\d{2}\.json\.gz$/,
     );
     await expect(question).toBeHidden(forTheAnswer);
+    await saved;
     await page.goto("/mainline/plays", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: "Plays" })).toBeVisible();
     await expect(page.getByText(name)).toBeHidden();

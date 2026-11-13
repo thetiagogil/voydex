@@ -9,6 +9,7 @@ import {
 } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { getGameInitials } from "@/modules/reference/features/games/utils/game-display";
+import { StandInText } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 /*
@@ -172,7 +173,7 @@ const GameCoverBox = ({
           className,
         )}
       >
-        {getGameInitials(gameName)}
+        <StandInText text={getGameInitials(gameName)} />
       </span>
     );
   }

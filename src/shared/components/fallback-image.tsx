@@ -35,6 +35,26 @@ type FallbackImageProps = Omit<
 };
 
 /*
+ * A stand-in's letters or name, drawn as part of the picture rather than as
+ * text. A control named for what the picture shows ("Pick Squirtle", a game's
+ * full name) must hold all of its visible text in that name, so a voice
+ * command that says what it sees still works; drawn letters are picture, not
+ * a label.
+ */
+export const StandInText = ({
+  className,
+  text,
+}: {
+  className?: string;
+  text: string;
+}) => (
+  <span
+    data-stand-in={text}
+    className={cn("before:content-[attr(data-stand-in)]", className)}
+  />
+);
+
+/*
  * An image that, when it has no address or fails to load, shows what it
  * pictures (a Pokémon, a game, a trainer) by name in the same box, so the
  * layout never moves and no broken-image icon or squashed alt text shows.
@@ -78,26 +98,27 @@ export const FallbackImage = ({
             standIn
           ) : fallback === "badge" ? (
             <>
-              <span className="text-[clamp(0.75rem,40cqw,4rem)] leading-none @min-[3.5rem]:hidden">
-                {letter}
-              </span>
+              <StandInText
+                text={letter}
+                className="text-[clamp(0.75rem,40cqw,4rem)] leading-none @min-[3.5rem]:hidden"
+              />
               <span className="hidden w-full px-[8%] @min-[3.5rem]:block">
-                <span className="line-clamp-2 text-[clamp(0.75rem,15cqw,1.125rem)] leading-tight text-balance wrap-break-word">
-                  {name.trim() || letter}
-                </span>
+                <StandInText
+                  text={name.trim() || letter}
+                  className="line-clamp-2 text-[clamp(0.75rem,15cqw,1.125rem)] leading-tight text-balance wrap-break-word"
+                />
               </span>
             </>
           ) : (
-            <span
+            <StandInText
+              text={letter}
               className={cn(
                 "leading-none",
                 letter.length > 1
                   ? "text-[clamp(0.75rem,32cqw,4.5rem)]"
                   : "text-[clamp(0.75rem,45cqw,6rem)]",
               )}
-            >
-              {letter}
-            </span>
+            />
           )}
         </span>
       </span>
