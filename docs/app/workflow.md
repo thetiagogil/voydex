@@ -12,12 +12,15 @@ the owner reports, reviews and merges.
    a milestone.
 3. The agent branches from `main` as `fix/...` or `feat/...`, reproduces the
    problem, adds a test that fails, then fixes it.
-4. The agent runs `npm run verify` (and `npm run db:verify` for database work)
-   and opens a pull request that closes the issue.
-5. GitHub Actions run the same checks.
+4. The agent runs `npm run verify`, plus `npm run db:verify` for database work
+   and `npm run test:e2e` for app changes, and opens a pull request that closes
+   the issue.
+5. GitHub runs only the quick `quality` check (about 3 minutes: docs, design
+   guard, format, lint, types, architecture, Knip, unit tests). The build, the
+   database gate and the browser tests stay on the Mac to save Actions minutes.
 6. The owner reviews (on a local `npm run build && npm run start` when it
    helps) and presses Merge.
-7. GitHub deploys `main` to Cloudflare once the checks pass (see
+7. GitHub deploys `main` to Cloudflare (see
    [Deploys](#deploys)). Database migrations reach production only through a
    release step the owner approves.
 
@@ -26,8 +29,8 @@ the owner reports, reviews and merges.
 The whole app is plain files on Cloudflare (`wrangler.jsonc` names only the
 `out/` folder; no Worker code runs, see
 [ADR 0009](../decisions/0009-app-as-plain-files.md)). The `deploy` job in
-`.github/workflows/quality.yml` publishes it: after every push to `main` whose
-checks pass, it runs `npm run cf:deploy`, which builds the game data files,
+`.github/workflows/quality.yml` publishes it: after every push to `main` (the
+pull request already passed its checks) it runs `npm run cf:deploy`, which builds the game data files,
 the Codex files and the app's pages into `out/`, then uploads them.
 
 - A failed build or upload fails the `deploy` job on that commit, and the
@@ -113,7 +116,7 @@ Voydex until all six are done.
 | Milestone         | Contents                                                                                                                                 |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Tidy up           | Dead code, unused packages, Knip, Project Status truth, the to-do list on GitHub                                                         |
-| Browser tests     | Playwright and axe on the local database, run on every pull request                                                                      |
+| Browser tests     | Playwright and axe on the local database, run on the Mac before merging                                                                  |
 | Restructure       | One folder vocabulary, portable readers and commands, multi-table writes as database functions, Zod, split the largest files             |
 | Components        | Rebuild every component family on shared pieces; each family's look is settled with the owner while it is rebuilt                        |
 | Data and features | Reference data one section at a time, and the backlog features                                                                           |
@@ -121,22 +124,22 @@ Voydex until all six are done.
 
 ## Platform Features
 
-| Feature                   | What it is                                   | How Voydex uses it                                                    | What the owner does         |
-| ------------------------- | -------------------------------------------- | --------------------------------------------------------------------- | --------------------------- |
-| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                        | Reports in chat             |
-| Milestones                | A group of issues with a goal                | One per phase above                                                   | Watches the % done          |
-| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                     | Reviews and merges          |
-| GitHub Actions            | Scripts GitHub runs on every pull request    | `verify`, database tests, end-to-end tests                            | Merges only when green      |
-| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                                    | Nothing once set            |
-| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                          | Reads the notes             |
-| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves              | Merges the big ones         |
-| Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                            | Nothing                     |
-| Cloudflare                | The real site, as plain files                | Deploys when `main` changes and its checks pass ([Deploys](#deploys)) | Keeps the deploy secrets    |
-| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset`      | Nothing                     |
-| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user            | Approves migration releases |
-| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                             | Nothing                     |
-| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling      | Approves the wording        |
-| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                              | Nothing                     |
-| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                           | Reads the email; agents fix |
-| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                     | Nothing                     |
-| Next.js caching           | Remembering results between visits           | Reference data only, never user data                                  | Nothing                     |
+| Feature                   | What it is                                   | How Voydex uses it                                               | What the owner does         |
+| ------------------------- | -------------------------------------------- | ---------------------------------------------------------------- | --------------------------- |
+| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                   | Reports in chat             |
+| Milestones                | A group of issues with a goal                | One per phase above                                              | Watches the % done          |
+| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                | Reviews and merges          |
+| GitHub Actions            | Scripts GitHub runs on every pull request    | Quick checks only; slow gates run on the Mac                     | Merges only when green      |
+| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                               | Nothing once set            |
+| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                     | Reads the notes             |
+| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves         | Merges the big ones         |
+| Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                       | Nothing                     |
+| Cloudflare                | The real site, as plain files                | Deploys when `main` changes ([Deploys](#deploys))                | Keeps the deploy secrets    |
+| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset` | Nothing                     |
+| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user       | Approves migration releases |
+| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                        | Nothing                     |
+| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling | Approves the wording        |
+| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                         | Nothing                     |
+| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                      | Reads the email; agents fix |
+| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                | Nothing                     |
+| Next.js caching           | Remembering results between visits           | Reference data only, never user data                             | Nothing                     |

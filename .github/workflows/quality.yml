@@ -15,13 +15,14 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# GitHub runs only the quick checks (about 3 minutes). The slow gates (the
+# build, `db:verify`, the browser tests) run on the Mac before merging; see
+# docs/app/verification.md.
 jobs:
   quality:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      # Pokémon images come from the separate voydex-assets site.
-      NEXT_PUBLIC_ASSETS_URL: https://voydex-assets.thetiagogil.workers.dev
+    timeout-minutes: 10
 
     steps:
       - name: Check out repository
@@ -35,9 +36,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Audit database sources
-        run: npm run db:audit
 
       - name: Check documentation
         run: npm run docs:check
@@ -63,20 +61,11 @@ jobs:
       - name: Run unit tests
         run: npm run test
 
-      # The pages are made ahead of time from these files (one per Pokémon,
-      # game and Pokédex), so the build needs them first. No Docker needed.
-      - name: Build the game data and Codex files
-        run: npm run game-data:build && npm run codex:build
-
-      - name: Build
-        run: npm run build
-
-  # Every push to `main` that passes the checks above goes live on
-  # Cloudflare as plain files (no Worker code runs). If the build or upload
-  # fails, the job fails on the commit and the site keeps serving the last
-  # good version.
+  # Every push to `main` goes live on Cloudflare as plain files (no Worker
+  # code runs). The pull request already passed the checks above, so this
+  # only builds and uploads. If the build or upload fails, the job fails on
+  # the commit and the site keeps serving the last good version.
   deploy:
-    needs: quality
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20

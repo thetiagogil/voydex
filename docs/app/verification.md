@@ -19,6 +19,10 @@ on a file, export, type or package nothing uses; its settings are in
 generated database types may keep unused exports, and the Supabase CLI and
 `sharp` are reached outside imports).
 
+GitHub's Quality check on a pull request runs only the quick part of this
+gate (no game data, Codex files or build), so run the full `verify` on the Mac
+before merging. The build runs on GitHub only when `main` deploys.
+
 Individual commands remain available:
 
 ```bash
@@ -47,9 +51,10 @@ npm run db:verify
 database lint, pgTAP, and generated-type parity. `npm run verify:all` runs
 `db:verify` followed by the application gate.
 
-The offline `db:audit` does not require Docker and runs in the normal Quality
-workflow. The Docker-backed Database Quality workflow runs by hand from the Actions tab
-until launch; until then, database changes rely on the local `db:verify`.
+The offline `db:audit` does not require Docker; `db:verify` runs it too. The
+Docker-backed Database Quality workflow runs only by hand from the Actions
+tab: a pull request that changes the database runs `npm run db:verify` on the
+Mac before merging.
 
 ## Browser Gate
 
@@ -110,12 +115,13 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   `npm run start -- --port 3200`, then
   `E2E_PORT=3200 npx playwright test e2e/app/offline.spec.ts e2e/app/ready-tabs.spec.ts`.
 
-The Browser Tests workflow runs the suite on every pull request and on `main`:
-it starts local Supabase (only the services the app uses, with images from
+A pull request that changes the app runs `npm run test:e2e` on the Mac before
+merging. The Browser Tests workflow runs the same suite by hand from the
+Actions tab (about 25 minutes): it starts local Supabase (only the services the app uses, with images from
 `ghcr.io`), builds the app, runs the tests against the built files (served by
 `npm run start` the way Cloudflare serves them) and
-keeps the report when a test fails. A pull request that only changes docs
-skips the tests; the check still reports as skipped, so it can be required.
+keeps the report when a test fails. A run on a branch whose changes are only
+docs skips the tests.
 
 ## Current Automated Coverage
 

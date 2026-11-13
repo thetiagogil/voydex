@@ -1,13 +1,8 @@
 name: Browser Tests
 
-# Manual runs only while the app is in fast development: run it from the
-# Actions tab. Before launch, restore the triggers below (a required check
-# needs `pull_request`):
-#
-#   pull_request:
-#   push:
-#     branches:
-#       - main
+# Runs by hand from the Actions tab only. The full suite takes about 25
+# minutes, so it runs on the Mac before merging (`npm run test:e2e`) and
+# pull requests keep only the Quality check.
 on:
   workflow_dispatch:
 
@@ -50,7 +45,7 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       # Pull the Supabase images from GitHub's registry; the default public
       # registry often refuses GitHub's shared runners ("Data limit exceeded").
