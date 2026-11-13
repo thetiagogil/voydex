@@ -38,8 +38,11 @@ export default defineConfig({
   /* On GitHub, stop once several tests fail: something is broken for all. */
   maxFailures: isCI ? 5 : undefined,
   retries: isCI ? 1 : 0,
-  /* The dev server compiles pages on first visit, so keep the load modest. */
-  workers: isCI ? 2 : 3,
+  /*
+   * The dev server compiles pages on first visit, so keep the load modest on
+   * a Mac. GitHub serves the built files and its runners have four cores.
+   */
+  workers: isCI ? 4 : 3,
   timeout: 60_000,
   reporter: isCI
     ? [["github"], ["html", { open: "never", outputFolder: "e2e/.report" }]]

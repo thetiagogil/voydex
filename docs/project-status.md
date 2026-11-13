@@ -12,9 +12,7 @@ on the device, game data as files, plain-file hosting with no Worker; see
 [ADR 0008](./decisions/0008-user-data-on-the-device.md) and
 [ADR 0009](./decisions/0009-app-as-plain-files.md)). What is left, in order:
 
-1. Launch fixes (#291 to #299 in #148's list): failing browser tests on
-   `main`, Browser Tests and Database Quality back on for pull requests,
-   ID changes applied to saved Plays, Privacy and Terms text, hosted database
+1. Launch fixes (#293 to #299 in #148's list): ID changes applied to saved Plays, Privacy and Terms text, hosted database
    keep-awake and backup size cap, Sentry, Renovate.
 2. #199 Milestones and collectibles review, game by game.
 3. #201 Redesign pass over the whole app.

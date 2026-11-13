@@ -113,7 +113,7 @@ Voydex until all six are done.
 | Milestone         | Contents                                                                                                                                 |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Tidy up           | Dead code, unused packages, Knip, Project Status truth, the to-do list on GitHub                                                         |
-| Browser tests     | Playwright and axe on the local database, run on every pull request                                                                      |
+| Browser tests     | Playwright and axe on the local database, run on the Mac before merging                                                                  |
 | Restructure       | One folder vocabulary, portable readers and commands, multi-table writes as database functions, Zod, split the largest files             |
 | Components        | Rebuild every component family on shared pieces; each family's look is settled with the owner while it is rebuilt                        |
 | Data and features | Reference data one section at a time, and the backlog features                                                                           |

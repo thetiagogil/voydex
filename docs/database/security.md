@@ -69,7 +69,7 @@ access, that the API roles reach none of your device-only tables, owner-only
 account backups, and representative gameplay/planning mutations including
 rollback.
 
-The `Database Quality` GitHub workflow runs this Docker-backed gate by hand from
-the Actions tab while the app is in fast development; until launch, database
-changes rely on the local `npm run db:verify`. The normal Quality workflow keeps the faster offline audit on every
-change.
+The `Database Quality` GitHub workflow runs this Docker-backed gate only by hand
+from the Actions tab; a database pull request runs `npm run db:verify` on the
+Mac before merging. The normal
+Quality workflow keeps the faster offline audit on every change.
