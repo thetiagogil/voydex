@@ -13,12 +13,6 @@ import type { StoryPlacePokemonGroup } from "../../data/story-place-pokemon";
 import type { StoryPlace } from "../../types";
 import { StoryMilestoneBattles } from "./story-milestone-battles";
 
-/* Fishing's rod isn't recorded yet (#240), so it says so rather than mislead. */
-const wayLabel = (group: StoryPlacePokemonGroup) =>
-  group.waySlug === "fishing"
-    ? `${group.way} (rod not recorded yet)`
-    : group.way;
-
 const imageOf = (pokemon: { name: string; slug: string }) =>
   getPokemonFormImageUrl({ name: pokemon.name, slug: pokemon.slug }, "sm");
 
@@ -27,7 +21,7 @@ const PokemonRows = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
   <div className="grid gap-5">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{wayLabel(group)}</h4>
+        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
         <ul className="grid gap-2">
           {group.pokemon.map((pokemon) => (
             <li
@@ -64,7 +58,7 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
   <div className="grid gap-4">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{wayLabel(group)}</h4>
+        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
         <ul className="flex flex-wrap gap-2">
           {group.pokemon.map((pokemon) => (
             <li key={pokemon.formId}>

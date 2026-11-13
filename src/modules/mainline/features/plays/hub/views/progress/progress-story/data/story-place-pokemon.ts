@@ -7,7 +7,6 @@ export type StoryPlaceEncounterRow = {
   levelMax: number | null;
   levelMin: number | null;
   wayName: string;
-  waySlug: string;
   /* The way's place in Voydex's order (tall grass first). */
   waySortOrder: number;
 };
@@ -25,7 +24,6 @@ export type StoryPlacePokemon = {
 export type StoryPlacePokemonGroup = {
   pokemon: StoryPlacePokemon[];
   way: string;
-  waySlug: string;
 };
 
 const formatLevels = (min: number | null, max: number | null) =>
@@ -46,7 +44,6 @@ export const groupStoryPlacePokemon = (
   const groups = new Map<
     string,
     {
-      slug: string;
       sortOrder: number;
       forms: Map<
         number,
@@ -58,7 +55,6 @@ export const groupStoryPlacePokemon = (
   for (const row of rows) {
     const group = groups.get(row.wayName) ?? {
       forms: new Map(),
-      slug: row.waySlug,
       sortOrder: row.waySortOrder,
     };
     const form = group.forms.get(row.formId);
@@ -95,6 +91,5 @@ export const groupStoryPlacePokemon = (
         slug: form.slug,
       })),
       way,
-      waySlug: group.slug,
     }));
 };

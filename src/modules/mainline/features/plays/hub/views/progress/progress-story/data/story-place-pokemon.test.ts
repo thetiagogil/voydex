@@ -14,7 +14,6 @@ const row = (
   levelMax: 5,
   levelMin: 2,
   wayName: "Tall grass",
-  waySlug: "tall-grass",
   waySortOrder: 1,
   ...overrides,
 });

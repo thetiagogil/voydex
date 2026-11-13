@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (14);
+    plan (20);
 SELECT
     IS ((
             SELECT
@@ -20,7 +20,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_encounters),
-            26485,
+            27853,
             'every encounter row is seeded');
 SELECT
     is_empty ($$
@@ -112,6 +112,68 @@ SELECT
                 AND f.species_id IN (26, 79)
             ORDER BY f.slug $$, $$
             VALUES ('alolan-raichu'), ('galarian-slowpoke') $$, 'Legends: Z-A trades hand over an Alolan Raichu and a Galarian Slowpoke');
+SELECT
+    results_eq ($$
+        SELECT
+            w.slug, e.level_min, e.level_max FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE
+                e.form_id = 12900
+                AND e.version_group_id = 1
+                AND l.slug = 'kanto-route-12' ORDER BY w.sort_order $$, $$
+            VALUES ('old-rod', 5, 5), ('super-rod', 15, 15) $$, 'Magikarp on Red / Blue''s Route 12 bites on the Old Rod at Lv 5 and the Super Rod at Lv 15');
+SELECT
+    results_eq ($$
+        SELECT
+            w.slug, e.level_min, e.condition FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE
+                e.form_id = 13000
+                AND e.version_group_id = 10
+                AND l.slug = 'johto-mt-silver-cave' ORDER BY w.sort_order $$, $$
+            VALUES ('good-rod', 20, 'Night'::text), ('super-rod', 40, NULL) $$, 'Gyarados in Mt. Silver Cave takes the Good Rod only at night, the Super Rod always');
+SELECT
+    results_eq ($$
+        SELECT
+            w.slug, e.condition FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE
+                e.form_id = 34000
+                AND e.version_group_id = 10
+                AND l.slug = 'johto-violet-city' ORDER BY w.sort_order $$, $$
+            VALUES ('old-rod', 'During a swarm'), ('good-rod', 'During a swarm'), ('super-rod', 'During a swarm') $$, 'Whiscash bites in Violet City only during a swarm');
+SELECT
+    results_eq ($$
+        SELECT
+            w.slug, e.level_min, e.level_max FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE
+                e.form_id = 14700
+                AND e.version_group_id = 3
+                AND l.slug = 'johto-route-45' ORDER BY w.sort_order $$, $$
+            VALUES ('good-rod', 20, 20), ('super-rod', 40, 40) $$, 'Dratini on Gold / Silver''s Route 45 comes at the Good Rod''s Lv 20 and the Super Rod''s Lv 40');
+SELECT
+    is_empty ($$ SELECT DISTINCT
+            vg.slug, w.slug FROM reference.pokemon_encounters e
+            JOIN reference.version_groups vg ON vg.id = e.version_group_id
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE (w.slug IN ('old-rod', 'good-rod')
+                AND vg.slug NOT IN ('rb', 'yellow', 'gs', 'crystal', 'rs', 'frlg', 'emerald', 'dp', 'platinum', 'hgss', 'xy', 'oras', 'bdsp'))
+            OR (w.slug = 'super-rod'
+                AND vg.slug NOT IN ('rb', 'yellow', 'gs', 'crystal', 'rs', 'frlg', 'emerald', 'dp', 'platinum', 'hgss', 'bw', 'b2w2', 'xy', 'oras', 'bdsp'))
+            OR (w.slug = 'fishing-rod'
+                AND vg.slug NOT IN ('sm', 'usum', 'swsh', 'swsh-ioa', 'swsh-ct')) $$, 'each game fishes only with the rods it has');
+SELECT
+    results_eq ($$
+        SELECT
+            slug FROM reference.encounter_ways
+            WHERE
+                sort_order BETWEEN 7 AND 10 ORDER BY sort_order $$, $$
+            VALUES ('old-rod'), ('good-rod'), ('super-rod'), ('fishing-rod') $$, 'the rods read right after surfing, Old Rod first');
 SELECT
     is_empty ($$
         SELECT

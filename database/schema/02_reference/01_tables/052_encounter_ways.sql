@@ -1,7 +1,7 @@
 -- ============================================================================
 -- Table: reference.encounter_ways
--- The ways a Pokémon is met at a place: walking, surfing, fishing, a raid
--- den, a gift.
+-- The ways a Pokémon is met at a place: walking, surfing, fishing with the
+-- rod it takes, a raid den, a gift.
 -- ============================================================================
 CREATE TABLE reference.encounter_ways (
     id integer PRIMARY KEY,
@@ -15,4 +15,4 @@ CREATE TABLE reference.encounter_ways (
     CONSTRAINT encounter_ways_sort_order_positive_check CHECK (sort_order > 0)
 );
 
-COMMENT ON TABLE reference.encounter_ways IS 'The ways a Pokémon is met at a place, from walking in tall grass to a gift, in the order they read.';
+COMMENT ON TABLE reference.encounter_ways IS 'The ways a Pokémon is met at a place, from walking in tall grass to a gift, in the order they read; fishing names the rod it takes.';

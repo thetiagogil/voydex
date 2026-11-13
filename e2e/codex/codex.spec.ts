@@ -85,6 +85,25 @@ test.describe("Codex", () => {
     await expectAccessible(page);
   });
 
+  test("names the rod a fished Pokémon takes, and when it bites", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/whiscash?game=hgss");
+    const whereToFind = page.getByRole("region", { name: "Where to find" });
+    /* Violet City's Whiscash bites on every rod, but only during a swarm. */
+    await expect(
+      whereToFind.getByText(
+        "Old Rod, Lv 10 (during a swarm) · Good Rod, Lv 20 (during a swarm) · Super Rod, Lv 40 (during a swarm)",
+      ),
+    ).toHaveCount(2);
+    /* Platinum's Route 210 takes the Good Rod and the Super Rod, each at its own levels. */
+    await expect(
+      whereToFind.getByText("Good Rod, Lv 25–35 · Super Rod, Lv 30–55").first(),
+    ).toBeVisible();
+    await expect(whereToFind.getByText(/Fishing/)).toHaveCount(0);
+    await expectAccessible(page);
+  });
+
   test("shows a battle form only in the games that have it", async ({
     page,
   }) => {

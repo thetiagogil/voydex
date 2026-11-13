@@ -299,11 +299,20 @@ sources remain authoritative for game-specific mechanics and availability.
   orders its own); one encounter row per form, place, game and way with the
   level range, and no game when every version of the group meets it there the
   same way, and a short condition where it only shows at some times of day,
-  seasons or weather ("Night", "Winter", "In rain"); no odds. The ways
-  follow the games' own terms (tall grass, ground for sand, snow and marsh,
-  cave, indoors, overworld for the games with visible spawns, then surfing,
-  fishing and the rest); shaking spots cover rustling grass, dust clouds and
-  rippling water; raid dens take their levels from the star ranks.
+  seasons or weather ("Night", "Winter", "In rain"), during a swarm ("During
+  a swarm") or on a weekly event night ("On Monday nights", Mt. Moon
+  Square's Clefairy); no odds. The ways follow the games' own terms (tall
+  grass, ground for sand, snow and marsh, cave, indoors, overworld for the
+  games with visible spawns, then surfing, the rods and the rest); shaking
+  spots cover rustling grass, dust clouds and rippling water; raid dens take
+  their levels from the star ranks. Fishing names the rod it takes, with
+  that rod's own levels and time of day: Old, Good and Super Rod through
+  Generation IV, X / Y, Omega Ruby / Alpha Sapphire and Brilliant Diamond /
+  Shining Pearl; the Super Rod alone in Black / White and Black 2 / White 2;
+  one Fishing Rod from Sun / Moon to Sword / Shield. The rods are checked
+  against PokeAPI (Generation I to IV) and the games' own encounter tables
+  (X / Y to Brilliant Diamond / Shining Pearl); Gold / Silver / Crystal's
+  Route 45 takes the rods' usual Lv 20 and 40 where its page says 10.
   Source: Bulbapedia's location pages for the rows and its walkthroughs for
   the story order (Scarlet / Violet's and Legends: Arceus's stop partway and
   the expansions have none, so those tails and Kitakami, Blueberry Academy and

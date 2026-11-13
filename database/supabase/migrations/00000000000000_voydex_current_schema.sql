@@ -2040,8 +2040,8 @@ COMMENT ON COLUMN reference.pokemon_pokedex_texts.entry_text IS 'The entry as th
 -- ============================================================================
 -- ============================================================================
 -- Table: reference.encounter_ways
--- The ways a Pokémon is met at a place: walking, surfing, fishing, a raid
--- den, a gift.
+-- The ways a Pokémon is met at a place: walking, surfing, fishing with the
+-- rod it takes, a raid den, a gift.
 -- ============================================================================
 CREATE TABLE reference.encounter_ways (
     id integer PRIMARY KEY,
@@ -2055,7 +2055,7 @@ CREATE TABLE reference.encounter_ways (
     CONSTRAINT encounter_ways_sort_order_positive_check CHECK (sort_order > 0)
 );
 
-COMMENT ON TABLE reference.encounter_ways IS 'The ways a Pokémon is met at a place, from walking in tall grass to a gift, in the order they read.';
+COMMENT ON TABLE reference.encounter_ways IS 'The ways a Pokémon is met at a place, from walking in tall grass to a gift, in the order they read; fishing names the rod it takes.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/053_locations.sql
@@ -2154,7 +2154,7 @@ COMMENT ON COLUMN reference.pokemon_encounters.id IS 'Generated surrogate key; s
 
 COMMENT ON COLUMN reference.pokemon_encounters.game_id IS 'NULL when every version of the group meets it there the same way; set for a version exclusive or a version-specific level range.';
 
-COMMENT ON COLUMN reference.pokemon_encounters.condition IS 'When it shows, where that is only some of the time: a time of day (Night), a season (Winter) or weather (In rain); NULL when it is always there.';
+COMMENT ON COLUMN reference.pokemon_encounters.condition IS 'When it shows, where that is only some of the time: a time of day (Night), a season (Winter), weather (In rain), a swarm (During a swarm) or a weekly event (On Monday nights); NULL when it is always there.';
 
 COMMENT ON COLUMN reference.pokemon_encounters.level_min IS 'The lowest level it comes at there; NULL with level_max for an in-game trade whose level follows the Pokémon given, or a fixed encounter whose level the source leaves unsaid.';
 
