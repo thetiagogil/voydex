@@ -90,12 +90,16 @@ export const createAccountBackups = (
       return {
         name: row?.device_name ?? null,
         savedAt: backup.savedAt,
-        snapshot: { changes: backup.changes, tables: backup.tables },
+        snapshot: {
+          changes: backup.changes,
+          idChanges: backup.idChanges,
+          tables: backup.tables,
+        },
       };
     },
     upload: async (snapshot, parentId) => {
       const savedAt = new Date();
-      const backup = createBackup(snapshot.tables, snapshot.changes, savedAt);
+      const backup = createBackup(snapshot, savedAt);
       const bytes = await writeBackupFile(backup);
       const objectPath = `${userId}/${savedAt.getTime()}-${crypto.randomUUID()}.json.gz`;
       const stored = await supabase.storage

@@ -32,8 +32,10 @@ import {
   lastReleasePath,
   readDeviceUpdates,
   readIdChanges,
+  readDroppableTables,
   readLastRelease,
   readReleaseIds,
+  readUserLinks,
 } from "./release-checks.mjs";
 import { loadSeededDb } from "./seeded-db.mjs";
 import { splitGameData } from "./split-game-data.mjs";
@@ -72,7 +74,13 @@ try {
   const ids = await readReleaseIds(db);
   const problems = [
     ...findIdProblems({ idChanges, ids, lastRelease }),
-    ...findIdChangeProblems(idChanges),
+    ...findIdChangeProblems({
+      droppable: readDroppableTables(),
+      idChanges,
+      ids,
+      lastRelease,
+      links: await readUserLinks(db),
+    }),
     ...findSchemaProblems({ deviceUpdates, lastRelease, schemaHash }),
   ];
 
@@ -169,6 +177,7 @@ try {
         `${JSON.stringify(
           {
             deviceUpdate: deviceUpdates.at(-1) ?? null,
+            idChanges,
             ids,
             releasedAt: versions.builtAt,
             schemaHash,

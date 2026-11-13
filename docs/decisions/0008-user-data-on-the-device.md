@@ -57,8 +57,8 @@ and should stay. What has to change is where they run.
 ### Rules from launch on
 
 - A game data ID never disappears silently. ID changes ship as an ordered list
-  with the game data, applied to saved Plays before a new game file is used,
-  and a release check fails without one. Until launch IDs may change freely.
+  with the game data, applied to saved Plays before a new game file is used
+  (and to backups saved before them), and a release check fails without one. Until launch IDs may change freely.
 - Every user-table change ships as a device update: it saves a copy first,
   restores it if the update fails, and is tested against an old backup.
 

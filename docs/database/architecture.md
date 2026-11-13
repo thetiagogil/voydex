@@ -133,14 +133,15 @@ the device swaps all its game data for the new release in one transaction
   and the rows Voydex ships in a table that also holds yours, its own
   Challenge rules) with triggers and foreign key checks off, and copies the
   new files in. Your rows stay.
+- Your rows follow the release's ID changes the device hasn't had yet (see
+  [ID Changes](#id-changes)), in the same transaction.
 - It refuses the release, leaving the device as it was, when one of your
-  rows would point at game data that isn't there, and doesn't download that
-  release again until the app opens anew. Before launch the ID check doesn't
-  run, so a seed edit that removes an ID something saved uses keeps that
-  device on its release until the ID is back.
-- Devices don't apply the ID changes list yet, so the build fails while it
-  has entries; applying it (two-column keys, merges, backups from before a
-  change) comes before the list's first entry.
+  rows would point at game data that isn't there or can't follow an ID
+  change, and doesn't download that release again until the app opens anew
+  (the same files with a longer ID changes list count as a new release).
+  Before launch the ID check doesn't run, so a seed edit that removes an ID
+  something saved uses, with no ID change entry, keeps that device on its
+  release until the ID is back.
 - The app takes a new release on opening, before the screens (a bar on the
   start screen). If it can't, the screens keep the release the device has:
   a game already on the device opens as it is, and a new game's download
@@ -148,6 +149,44 @@ the device swaps all its game data for the new release in one transaction
   first, so a tab opened before a deploy downloads the files the server has
   now. A background learnsets download never swaps releases, and a file
   never goes in after another tab moved the device to another release.
+
+### ID Changes
+
+`database/game-data/id-changes.json` is the ordered list of what became of
+each game data ID a release removed or reused (`{ table, id, becomes,
+reason }`; a two-column key joins with ":", as `"31:18"`). Every release
+ships the whole list in `versions.json`, and your rows follow it
+(`src/platform/local-db/id-changes.ts`):
+
+- **Becomes another ID** (renumbered or merged): every row of yours that
+  pointed at it points at the new one, and rows of yours that point at
+  those follow too (a Play's new game moves its Plan link). Columns the link
+  carries come from the new row (a form's species). When a row already on
+  the new ID is in the way (both milestones ticked), that one stays and this
+  one clears its link (a History moment keeps its title) or goes, if it only
+  marks progress.
+- **Becomes nothing** (removed): a link that may be empty is cleared; a row
+  that only marks progress goes (the tables in
+  `src/platform/local-db/id-change-drops.json`: ticked milestones,
+  decisions, collectibles, Pokédex marks, move slots, content scopes,
+  chosen rules, favourites, library games, rules in a set). A Play, Pokémon or History moment never goes.
+- An ID change isn't your edit: change records move with their rows and
+  keep their times, so account sync never takes it for one.
+- The device keeps the entries its rows followed in `device.id_changes`
+  (`device-id-changes.ts`), and follows the rest during a game data update,
+  or on opening when the release only added entries for files it doesn't
+  have. A new device starts with every entry of the release it installs.
+  Most devices have no rows on a changed ID, and then only the list is
+  recorded.
+- A backup (file format 3) carries how many entries its rows had. Restoring
+  one, or merging the account's backup, brings it up to date first; one
+  from newer game data waits until the device takes that release. Older
+  backups had none, since the list was empty until this existed.
+
+When a seed edit removes, merges or renumbers an ID that saved rows can
+point at (a milestone, a move, a form), add an entry at the end of the list
+in the same change. The release checks hold the list to what devices can
+follow (see [Release Checks](#release-checks)).
 
 ### Background Downloads
 
@@ -232,8 +271,15 @@ schema change freely; the first `--release` is run at launch.
   that goes or is reused needs an entry in
   `database/game-data/id-changes.json` (`{ table, id, becomes, reason }`,
   where `becomes` is the new ID or `null`). The list ships in
-  `versions.json`; until devices apply it to your rows, the build fails
-  while it has entries (see [Game Data Updates](#game-data-updates)).
+  `versions.json` and only grows: an entry that shipped never changes or
+  goes. Each entry must name an ID of a table user data points at, become
+  an ID that exists (or one a later entry changes again), and a removal
+  must only touch links that may be empty or tables in
+  `id-change-drops.json`; so must a merge where a row already on the new
+  ID could be in the way. An ID that user rows only carry through another
+  table's link (a favourite's species, through its form) can't be followed,
+  and neither can a new entry for an ID that kept its meaning (see
+  [ID Changes](#id-changes)).
 - **Schema check:** a device schema that changed since the last release
   needs a new device update in `database/device-updates/` (a `.sql` file,
   run in name order), and a shipped device update is never removed.

@@ -187,6 +187,33 @@ describe("runDeviceUpdates", () => {
   });
 });
 
+describe("the shipped device updates", () => {
+  it("bring a device from before ID changes to the schema a new device gets", async () => {
+    const db = await openOldBackup();
+    const tableSql = `SELECT column_name, data_type, is_nullable
+      FROM information_schema.columns
+      WHERE table_schema = 'device' AND table_name = 'id_changes'
+      ORDER BY ordinal_position`;
+    const fresh = (await db.query(tableSql)).rows;
+
+    /* As a device had it before 0003: no table, the update not run. */
+    await db.exec(`
+      DROP TABLE device.id_changes;
+      DELETE FROM device.updates WHERE name = '0003-id-changes.sql';
+    `);
+
+    await expect(
+      runDeviceUpdates(db, {
+        saveCopy: () => Promise.resolve(),
+        schemaHash,
+        updates: readDeviceUpdateFiles(),
+      }),
+    ).resolves.toEqual({ names: ["0003-id-changes.sql"], status: "updated" });
+    expect(fresh).toHaveLength(5);
+    await expect(db.query(tableSql)).resolves.toMatchObject({ rows: fresh });
+  });
+});
+
 describe("parseDeviceUpdates", () => {
   it("reads the update list and refuses a broken one", () => {
     expect(parseDeviceUpdates({ updates: [addColour] })).toEqual([addColour]);

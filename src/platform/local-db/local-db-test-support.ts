@@ -1,6 +1,7 @@
 import { PGlite } from "@electric-sql/pglite";
 
 import { ensureDeviceSchema } from "@/platform/local-db/device-schema";
+import { followIdChanges } from "@/platform/local-db/game-data-swap";
 import {
   hashDeviceSchemaSql,
   readDeviceSchemaSql,
@@ -45,4 +46,22 @@ export const addTestGameData = async (db: PGlite) => {
       VALUES ('20000000-0000-4000-8000-000000000001', NULL, 5, 'nuzlocke', 'Nuzlocke');
     SET session_replication_role = origin;
   `);
+};
+
+/*
+ * A later release on top of `addTestGameData`: Red's ID 1 became Blue's ID
+ * 2 (as if they were merged), followed by the device's rows as a game data
+ * update follows it. Red stays, so only following the ID change moves a
+ * row to Blue.
+ */
+export const addTestIdChange = async (db: PGlite) => {
+  await db.exec(`
+    SET session_replication_role = replica;
+    INSERT INTO reference.games (id, slug, name, product_family_id, generation_id, region_id, version_group_id, game_type_id, release_year, sort_order)
+      VALUES (2, 'blue', 'Pokémon Blue', 1, 1, 1, 1, 1, 1996, 2);
+    SET session_replication_role = origin;
+  `);
+  await db.transaction((tx) =>
+    followIdChanges(tx, [{ becomes: "2", id: "1", table: "reference.games" }]),
+  );
 };

@@ -4,6 +4,11 @@ import {
   writeBackupFile,
   type BackupFile,
 } from "@/platform/local-db/backup-file";
+import {
+  countAppliedIdChanges,
+  prepareSnapshot,
+} from "@/platform/local-db/device-id-changes";
+import { IdChangeError } from "@/platform/local-db/id-changes";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import { rowKeyOf, type ChangeRecord } from "@/platform/local-db/sync-merge";
 import {
@@ -11,10 +16,7 @@ import {
   readSyncSnapshot,
   restoreChangeRecords,
 } from "@/platform/local-db/sync-snapshot";
-import {
-  readNeededVersionGroups,
-  replaceUserData,
-} from "@/platform/local-db/user-data";
+import { replaceUserData } from "@/platform/local-db/user-data";
 
 /*
  * Saving and restoring backups on this device, and when it last saved one,
@@ -72,8 +74,7 @@ export const recordBackup = async (
 
 /* Every row of yours as a backup file, with the name to save it under. */
 export const makeBackupFile = async (db: LocalDb, savedAt = new Date()) => {
-  const { changes, tables } = await readSyncSnapshot(db);
-  const backup = createBackup(tables, changes, savedAt);
+  const backup = createBackup(await readSyncSnapshot(db), savedAt);
 
   return {
     backup,
@@ -116,8 +117,9 @@ const fillRecords = async (db: LocalDb, backup: BackupFile) => {
 /*
  * Puts a backup's data in place of this device's. The games its Plays and
  * Plans need are downloaded first (`ensureGame`), since your rows point at
- * their data; then every row is replaced in one go, so a backup that
- * doesn't fit leaves the device as it was. Restoring is a deliberate
+ * their data, and a backup saved before some of the game data's ID
+ * changes follows them; then every row is replaced in one go, so a backup
+ * that doesn't fit leaves the device as it was. Restoring is a deliberate
  * choice: with an account, the restored data replaces the account's at
  * the next sync instead of merging with it.
  */
@@ -126,19 +128,30 @@ export const restoreBackup = async (
   backup: BackupFile,
   { ensureGame }: { ensureGame: (versionGroupId: number) => Promise<void> },
 ) => {
-  for (const versionGroupId of readNeededVersionGroups(backup.tables)) {
-    await ensureGame(versionGroupId);
-  }
+  const prepared = await prepareSnapshot(
+    db,
+    {
+      changes: await fillRecords(db, backup),
+      idChanges: backup.idChanges,
+      tables: backup.tables,
+    },
+    ensureGame,
+  );
 
-  const changes = await fillRecords(db, backup);
-
-  await replaceUserData(db, backup.tables, {
+  await replaceUserData(db, prepared.tables, {
     after: async (tx) => {
-      await restoreChangeRecords(tx, changes);
+      await restoreChangeRecords(tx, prepared.changes);
       await tx.exec(
         `INSERT INTO device.sync (restored) VALUES (TRUE)
          ON CONFLICT (id) DO UPDATE SET restored = TRUE`,
       );
+    },
+    inside: async (tx) => {
+      if ((await countAppliedIdChanges(tx)) !== prepared.idChanges) {
+        throw new IdChangeError(
+          "The game data on this device changed while restoring; try again.",
+        );
+      }
     },
   });
 };

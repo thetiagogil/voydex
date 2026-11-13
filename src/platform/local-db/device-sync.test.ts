@@ -14,19 +14,18 @@ import {
 } from "@/platform/local-db/device-sync";
 import {
   addTestGameData,
+  addTestIdChange,
   createTestDevice,
 } from "@/platform/local-db/local-db-test-support";
-import type {
-  MergeChoices,
-  SyncSnapshot,
-} from "@/platform/local-db/sync-merge";
+import type { VersionedSnapshot } from "@/platform/local-db/id-changes";
+import type { MergeChoices } from "@/platform/local-db/sync-merge";
 
 const playId = "10000000-0000-4000-8000-000000000001";
 const tagId = "30000000-0000-4000-8000-000000000001";
 
 /* The account: its backups in a list, the latest last. */
 const createAccount = () => {
-  const backups: { id: string; snapshot: SyncSnapshot }[] = [];
+  const backups: { id: string; snapshot: VersionedSnapshot }[] = [];
   const account: AccountBackups = {
     latestId: async () => backups.at(-1)?.id ?? null,
     read: async (id) => ({
@@ -586,5 +585,120 @@ describe("a device that joins an account", () => {
     await expect(
       laptop.db.query("SELECT 1 FROM public.profiles"),
     ).resolves.toMatchObject({ rows: [{}] });
+  });
+});
+
+describe("account sync across an ID change", () => {
+  const { account, backups } = createAccount();
+  let phone: Device;
+  let laptop: Device;
+
+  /* The phone saved a Play on Red; the laptop took the release merging it. */
+  beforeEach(async () => {
+    backups.length = 0;
+    phone = await newDevice();
+    laptop = await newDevice();
+    await addTestIdChange(laptop.db);
+    await phone.db.query(
+      `INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, name)
+       VALUES ($1, auth.uid(), 1, 1, 'Kanto run')`,
+      [playId],
+    );
+    await sync(phone, account);
+  });
+
+  afterEach(async () => {
+    await phone.db.close();
+    await laptop.db.close();
+  });
+
+  const readGame = async (db: PGlite) =>
+    (
+      await db.query<{ game_id: number }>(
+        "SELECT game_id FROM gameplay.mainline_plays WHERE id = $1",
+        [playId],
+      )
+    ).rows[0]?.game_id ?? null;
+
+  it("brings the account's rows up to date before merging, as no edit of yours", async () => {
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(readGame(laptop.db)).resolves.toBe(2);
+
+    /* The ID change isn't sent back: the laptop has nothing new. */
+    await expect(sync(laptop, account)).resolves.toEqual({
+      status: "unchanged",
+    });
+    expect(backups).toHaveLength(1);
+  });
+
+  it("sends a restore across an ID change, recording nothing as gone that only moved", async () => {
+    /* The phone's library has Red; the account's backup says so, on ID 1. */
+    await phone.db.exec(`
+      SET session_replication_role = replica;
+      INSERT INTO gameplay.user_game_library_statuses (id, slug, name, sort_order)
+        VALUES (1, 'owned', 'Owned', 1);
+      SET session_replication_role = origin;
+      INSERT INTO gameplay.user_game_library_entries (user_id, game_id, library_status_id)
+        VALUES (auth.uid(), 1, 1);
+    `);
+    await sync(phone, account);
+    await laptop.db.exec(`
+      SET session_replication_role = replica;
+      INSERT INTO gameplay.user_game_library_statuses (id, slug, name, sort_order)
+        VALUES (1, 'owned', 'Owned', 1);
+      SET session_replication_role = origin;
+    `);
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+
+    /* A restored file on the laptop holds the same library, now on Blue. */
+    laptop.state = { ...laptop.state, restored: true };
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      sentRestore: true,
+      status: "synced",
+    });
+
+    const { rows } = await laptop.db.query(
+      `SELECT row_key FROM device.changes
+       WHERE table_name = 'gameplay.user_game_library_entries' AND deleted`,
+    );
+
+    expect(rows).toEqual([]);
+    expect(
+      backups.at(-1)?.snapshot.tables["gameplay.user_game_library_entries"],
+    ).toEqual([expect.objectContaining({ game_id: 2 })]);
+  });
+
+  it("uploads with its count, so an older device waits for the update", async () => {
+    await sync(laptop, account);
+    await laptop.db.query(
+      "UPDATE gameplay.mainline_plays SET name = 'Blue run' WHERE id = $1",
+      [playId],
+    );
+    await expect(sync(laptop, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    expect(backups.at(-1)?.snapshot.idChanges).toBe(1);
+
+    /* The phone hasn't taken that release: it merges nothing yet. */
+    await expect(sync(phone, account)).rejects.toThrow("newer game data");
+    await expect(readGame(phone.db)).resolves.toBe(1);
+
+    /* Once it has (its own Play following too), the merge goes through. */
+    await addTestIdChange(phone.db);
+    await expect(readGame(phone.db)).resolves.toBe(2);
+    await expect(sync(phone, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(
+      phone.db.query("SELECT game_id, name FROM gameplay.mainline_plays"),
+    ).resolves.toMatchObject({ rows: [{ game_id: 2, name: "Blue run" }] });
+    /* Neither side's ID change counted as an edit: nothing to send. */
+    await expect(sync(phone, account)).resolves.toEqual({
+      status: "unchanged",
+    });
   });
 });

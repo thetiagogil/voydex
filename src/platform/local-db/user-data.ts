@@ -65,8 +65,10 @@ export type UserData = Record<string, UserRow[]>;
 const selectRows = ({ name, where }: UserTable) =>
   `SELECT to_jsonb(t) AS row FROM ${name} t${where ? ` WHERE ${where}` : ""}`;
 
-/* Every row of yours on this device. */
-export const readUserData = async (db: LocalDb): Promise<UserData> => {
+/* Every row of yours on this device (or in a transaction on it). */
+export const readUserData = async (
+  db: Pick<LocalDb, "query">,
+): Promise<UserData> => {
   const data: UserData = {};
 
   for (const table of userTables) {
@@ -148,14 +150,54 @@ const switchTriggers = async (
 };
 
 /*
- * Replaces every row of yours with `data`, in one transaction: on any
- * failure (a row that breaks a rule, a game that isn't on the device) the
- * device keeps what it had. Rows go back exactly as they were: the
- * triggers that stamp times or move a Play's "last changed" are off
- * meanwhile, while foreign keys, checks and the triggers that check a row
- * still hold. A column the data lacks takes its default; one the table
- * lacks is left out. Once the rows are in, kept page reads are let go. `inside` runs in the same transaction first (a check)
- * and `after` once the rows are in (the change records that go with them).
+ * Puts `data` in place of every row of yours, inside `tx`. Rows go back
+ * exactly as they were: the triggers that stamp times, move a Play's "last
+ * changed" or record changes are off meanwhile, while foreign keys, checks
+ * and the triggers that check a row still hold. A column the data lacks
+ * takes its default; one the table lacks is left out.
+ */
+export const writeUserData = async (tx: Transaction, data: UserData) => {
+  const triggers = await stampingTriggers(tx);
+
+  await switchTriggers(tx, triggers, "DISABLE");
+
+  for (const table of [...userTables].reverse()) {
+    await tx.exec(
+      `DELETE FROM ${table.name}${table.where ? ` WHERE ${table.where}` : ""}`,
+    );
+  }
+
+  for (const { name } of userTables) {
+    const rows = data[name] ?? [];
+
+    if (!rows.length) continue;
+
+    const tableColumns = await readColumns(tx, name);
+    const rowColumns = new Set(rows.flatMap((row) => Object.keys(row)));
+    const columns = [...tableColumns]
+      .filter((column) => rowColumns.has(column))
+      .map(quoteName)
+      .join(", ");
+
+    await tx.query(
+      `INSERT INTO ${name} (${columns})
+       SELECT ${columns} FROM jsonb_populate_recordset(NULL::${name}, $1::jsonb)`,
+      [JSON.stringify(rows)],
+    );
+  }
+
+  /* Deferred checks run now, so the triggers can come back on. */
+  await tx.exec("SET CONSTRAINTS ALL IMMEDIATE");
+  await switchTriggers(tx, triggers, "ENABLE");
+};
+
+/*
+ * Replaces every row of yours with `data` (see `writeUserData`), in one
+ * transaction: on any failure (a row that breaks a rule, a game that isn't
+ * on the device) the device keeps what it had. Once the rows are in, kept
+ * page reads are let go. `inside` runs in the same transaction first (a
+ * check) and `after` once the rows are in (the change records that go
+ * with them).
  */
 export const replaceUserData = async (
   db: LocalDb,
@@ -171,39 +213,7 @@ export const replaceUserData = async (
   try {
     await db.transaction(async (tx) => {
       await inside?.(tx);
-
-      const triggers = await stampingTriggers(tx);
-
-      await switchTriggers(tx, triggers, "DISABLE");
-
-      for (const table of [...userTables].reverse()) {
-        await tx.exec(
-          `DELETE FROM ${table.name}${table.where ? ` WHERE ${table.where}` : ""}`,
-        );
-      }
-
-      for (const { name } of userTables) {
-        const rows = data[name] ?? [];
-
-        if (!rows.length) continue;
-
-        const tableColumns = await readColumns(tx, name);
-        const rowColumns = new Set(rows.flatMap((row) => Object.keys(row)));
-        const columns = [...tableColumns]
-          .filter((column) => rowColumns.has(column))
-          .map(quoteName)
-          .join(", ");
-
-        await tx.query(
-          `INSERT INTO ${name} (${columns})
-           SELECT ${columns} FROM jsonb_populate_recordset(NULL::${name}, $1::jsonb)`,
-          [JSON.stringify(rows)],
-        );
-      }
-
-      /* Deferred checks run now, so the triggers can come back on. */
-      await tx.exec("SET CONSTRAINTS ALL IMMEDIATE");
-      await switchTriggers(tx, triggers, "ENABLE");
+      await writeUserData(tx, data);
       await after?.(tx);
     });
     /* A restore or a sync merge: pages read before it read again. */

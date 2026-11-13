@@ -14,6 +14,7 @@ import {
 import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import {
   addTestGameData as addGameData,
+  addTestIdChange,
   createTestDevice,
 } from "@/platform/local-db/local-db-test-support";
 import {
@@ -219,6 +220,56 @@ describe("backups on the device", () => {
     );
 
     expect(rows).toEqual([{ off: 0 }]);
+  });
+
+  it("brings a backup from before an ID change up to date", async () => {
+    await addUserData(db);
+
+    const { bytes } = await makeBackupFile(db);
+    const other = await createTestDevice();
+
+    try {
+      await addGameData(other);
+      await addTestIdChange(other);
+      await restoreBackup(other, await readBackupFile(bytes), {
+        ensureGame: async () => undefined,
+      });
+
+      const { rows } = await other.query(
+        "SELECT game_id, name FROM gameplay.mainline_plays",
+      );
+
+      expect(rows).toEqual([{ game_id: 2, name: "First run" }]);
+      /* Its next backup says its rows had the ID change. */
+      await expect(makeBackupFile(other)).resolves.toMatchObject({
+        backup: { idChanges: 1 },
+      });
+    } finally {
+      await other.close();
+    }
+  });
+
+  it("refuses a backup from newer game data and keeps the device's data", async () => {
+    await addTestIdChange(db);
+    await addUserData(db);
+
+    const { bytes } = await makeBackupFile(db);
+    const older = await createTestDevice();
+
+    try {
+      await addGameData(older);
+
+      const before = await readUserData(older);
+      const ensureGame = vi.fn().mockResolvedValue(undefined);
+
+      await expect(
+        restoreBackup(older, await readBackupFile(bytes), { ensureGame }),
+      ).rejects.toThrow("newer game data");
+      expect(ensureGame).toHaveBeenCalledWith(1);
+      await expect(readUserData(older)).resolves.toEqual(before);
+    } finally {
+      await older.close();
+    }
   });
 
   it("reminds you after 30 days without a backup", async () => {
