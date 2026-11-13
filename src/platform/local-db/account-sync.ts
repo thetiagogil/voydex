@@ -264,7 +264,8 @@ export const leavePlaysOut = async () => {
   });
   setStatus({ status: "idle" });
   ownSave = true;
-  notifyLocalSave({ background: true });
+  /* Counted like any save you make: it follows your tap. */
+  notifyLocalSave();
   ownSave = false;
 
   return syncNow();
