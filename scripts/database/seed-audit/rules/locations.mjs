@@ -8,7 +8,38 @@ import {
 
 const EXPECTED_LOCATION_ROWS = 812;
 const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1555;
-const EXPECTED_ENCOUNTER_ROWS = 26485;
+const EXPECTED_ENCOUNTER_ROWS = 27853;
+
+/* Which rods each version group fishes with, by way slug: Old, Good and
+   Super Rod through Generation IV, X / Y, Omega Ruby / Alpha Sapphire and
+   Brilliant Diamond / Shining Pearl; only the Super Rod in Black / White and
+   Black 2 / White 2; one Fishing Rod from Sun / Moon to Sword / Shield and
+   its expansions. Groups not listed have no fishing. */
+const THREE_RODS = ["old-rod", "good-rod", "super-rod"];
+const RODS_BY_VERSION_GROUP_SLUG = new Map([
+  ...[
+    "rb",
+    "yellow",
+    "gs",
+    "crystal",
+    "rs",
+    "frlg",
+    "emerald",
+    "dp",
+    "platinum",
+    "hgss",
+    "xy",
+    "oras",
+    "bdsp",
+  ].map((slug) => [slug, THREE_RODS]),
+  ["bw", ["super-rod"]],
+  ["b2w2", ["super-rod"]],
+  ...["sm", "usum", "swsh", "swsh-ioa", "swsh-ct"].map((slug) => [
+    slug,
+    ["fishing-rod"],
+  ]),
+]);
+const FISHING_WAY_SLUGS = new Set([...THREE_RODS, "fishing-rod"]);
 
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
 
@@ -210,6 +241,7 @@ export function assertLocationRows(context, tableRows) {
       );
     }
   }
+  assertFishingRods(context, encounters, ways, versionGroups);
   for (const wayKey of groupWideRows) {
     if (gameRows.has(wayKey)) {
       context.errors.push(
@@ -248,6 +280,35 @@ export function assertLocationRows(context, tableRows) {
     }
   }
   assertRoadmapStepRows(context, tableRows, placed);
+}
+
+/* Every fishing row names a rod its version group has, and every group that
+   fishes uses each of its rods somewhere. */
+function assertFishingRods(context, encounters, ways, versionGroups) {
+  const waySlugs = new Map(ways.map(({ row }) => [row.id, row.slug]));
+  const used = new Map();
+  for (const { row, filePath } of encounters) {
+    const slug = waySlugs.get(row.encounter_way_id);
+    if (!FISHING_WAY_SLUGS.has(slug)) continue;
+    const groupSlug = versionGroups.get(row.version_group_id)?.slug;
+    const rods = RODS_BY_VERSION_GROUP_SLUG.get(groupSlug) ?? [];
+    if (!rods.includes(slug)) {
+      context.errors.push(
+        `${relative(filePath)}: form ${row.form_id} at place ${row.location_id} is fished with ${slug} in ${groupSlug}, which fishes with ${rods.join(", ") || "no rod"}.`,
+      );
+    }
+    if (!used.has(groupSlug)) used.set(groupSlug, new Set());
+    used.get(groupSlug).add(slug);
+  }
+  for (const [groupSlug, rods] of RODS_BY_VERSION_GROUP_SLUG) {
+    for (const rod of rods) {
+      if (!used.get(groupSlug)?.has(rod)) {
+        context.errors.push(
+          `reference.pokemon_encounters: ${groupSlug} has the ${rod} but no row fishes with it.`,
+        );
+      }
+    }
+  }
 }
 
 /* A roadmap step is one of its version group's places or one of its

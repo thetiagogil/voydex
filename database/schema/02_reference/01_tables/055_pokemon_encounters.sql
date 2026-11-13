@@ -43,6 +43,6 @@ COMMENT ON COLUMN reference.pokemon_encounters.id IS 'Generated surrogate key; s
 
 COMMENT ON COLUMN reference.pokemon_encounters.game_id IS 'NULL when every version of the group meets it there the same way; set for a version exclusive or a version-specific level range.';
 
-COMMENT ON COLUMN reference.pokemon_encounters.condition IS 'When it shows, where that is only some of the time: a time of day (Night), a season (Winter) or weather (In rain); NULL when it is always there.';
+COMMENT ON COLUMN reference.pokemon_encounters.condition IS 'When it shows, where that is only some of the time: a time of day (Night), a season (Winter), weather (In rain), a swarm (During a swarm) or a weekly event (On Monday nights); NULL when it is always there.';
 
 COMMENT ON COLUMN reference.pokemon_encounters.level_min IS 'The lowest level it comes at there; NULL with level_max for an in-game trade whose level follows the Pokémon given, or a fixed encounter whose level the source leaves unsaid.';

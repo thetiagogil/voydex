@@ -212,9 +212,14 @@ test.describe("Progress", () => {
     ).toBeVisible();
     await routeDetail.getByRole("button", { name: "See details" }).click();
     const details = page.getByRole("dialog", { name: "Pokémon at Route 22" });
+    /* Each rod is its own group: Magikarp on the Old Rod, Poliwag from the Good Rod on. */
     await expect(
-      details.getByRole("region", { name: "Fishing" }),
+      details.getByRole("region", { name: "Old Rod" }),
     ).toContainText("Magikarp");
+    await expect(
+      details.getByRole("region", { name: "Good Rod" }),
+    ).toContainText("Poliwag");
+    await expect(details.getByText(/rod not recorded/)).toHaveCount(0);
     await page.keyboard.press("Escape");
     await expect(details).toBeHidden();
     await expectAccessible(page);

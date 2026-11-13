@@ -63,7 +63,6 @@ describe("buildStoryProgressModel", () => {
           { formId: 16, levels: "Lv. 2–5", name: "Pidgey", slug: "pidgey" },
         ],
         way: "Walking",
-        waySlug: "walk",
       },
     ];
     const model = buildStoryProgressModel({

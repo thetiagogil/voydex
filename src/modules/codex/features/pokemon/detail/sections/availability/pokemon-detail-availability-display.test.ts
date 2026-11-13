@@ -51,7 +51,7 @@ const place = (id: number, name: string) =>
 const way = (id: number, slug: string, name: string) =>
   ({ id, name, slug, sort_order: id }) as EncounterWay;
 const walking = way(1, "walking", "Walking");
-const fishing = way(3, "fishing", "Fishing");
+const fishing = way(3, "fishing-rod", "Fishing Rod");
 const raid = way(19, "raid", "Raid dens");
 
 const met = (
@@ -107,7 +107,7 @@ describe("getPokemonDetailWhereToFindRows places", () => {
     expect(rows[0]?.places).toEqual([
       { detail: "Walking, Lv 2–5 (night)", key: "place-1", label: "Route 1" },
       {
-        detail: "Walking, Lv 10–14 · Fishing, Lv 20",
+        detail: "Walking, Lv 10–14 · Fishing Rod, Lv 20",
         key: "place-4",
         label: "Route 4",
       },
@@ -119,6 +119,27 @@ describe("getPokemonDetailWhereToFindRows places", () => {
       "Route 4",
     ]);
     expect(rows[1]?.places[1]?.detail).toBe("Raid dens, Lv 15–65");
+  });
+
+  it("names the rod each line takes, with a rod's own condition", () => {
+    const oldRod = way(7, "old-rod", "Old Rod");
+    const goodRod = way(8, "good-rod", "Good Rod");
+    const superRod = way(9, "super-rod", "Super Rod");
+    const rows = getPokemonDetailWhereToFindRows({
+      availability: [],
+      encounters: [
+        /* The summaries arrive in the ways' order, Old Rod first. */
+        met(7, route4, oldRod, 5, [10, 10], { condition: "During a swarm" }),
+        met(8, route4, goodRod, 5, [20, 20], { condition: "Night" }),
+        met(9, route4, superRod, 5, [40, 40]),
+      ],
+      listWhenAbsent: true,
+      versionGroup: scope,
+    });
+
+    expect(rows[0]?.places[0]?.detail).toBe(
+      "Old Rod, Lv 10 (during a swarm) · Good Rod, Lv 20 (night) · Super Rod, Lv 40",
+    );
   });
 
   it("adds an expansion's row for its places alone, marks its version exclusives, and reads a trade without levels", () => {

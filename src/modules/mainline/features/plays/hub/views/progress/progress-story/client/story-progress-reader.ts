@@ -14,7 +14,7 @@ import type {
 } from "../types";
 
 type PlaceEncounterRow = {
-  encounter_ways: { name: string; slug: string; sort_order: number } | null;
+  encounter_ways: { name: string; sort_order: number } | null;
   form_id: number;
   game_id: number | null;
   level_max: number | null;
@@ -46,7 +46,7 @@ const readStoryPlacePokemon = async (
         .schema("reference")
         .from("pokemon_encounters")
         .select(
-          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, slug, sort_order)",
+          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, sort_order)",
         )
         .in("location_id", ids)
         .in("version_group_id", versionGroupIds)
@@ -86,7 +86,6 @@ const readStoryPlacePokemon = async (
       levelMax: row.level_max ?? row.level_min ?? null,
       levelMin: row.level_min ?? row.level_max ?? null,
       wayName: row.encounter_ways.name,
-      waySlug: row.encounter_ways.slug,
       waySortOrder: row.encounter_ways.sort_order,
     });
   }
