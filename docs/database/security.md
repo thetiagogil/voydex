@@ -69,6 +69,5 @@ access, that the API roles reach none of your device-only tables, owner-only
 account backups, and representative gameplay/planning mutations including
 rollback.
 
-The `Database Quality` GitHub workflow runs this Docker-backed gate only by hand
-from the Actions tab; a database pull request runs `npm run db:verify` on the
-Mac before merging.
+This Docker-backed gate runs only on the Mac: a database pull request runs
+`npm run db:verify` before merging.
