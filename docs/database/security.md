@@ -71,5 +71,4 @@ rollback.
 
 The `Database Quality` GitHub workflow runs this Docker-backed gate only by hand
 from the Actions tab; a database pull request runs `npm run db:verify` on the
-Mac before merging. The normal
-Quality workflow keeps the faster offline audit on every change.
+Mac before merging.

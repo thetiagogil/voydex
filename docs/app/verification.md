@@ -19,6 +19,10 @@ on a file, export, type or package nothing uses; its settings are in
 generated database types may keep unused exports, and the Supabase CLI and
 `sharp` are reached outside imports).
 
+GitHub's Quality check on a pull request runs only the quick part of this
+gate (no game data, Codex files or build), so run the full `verify` on the Mac
+before merging. The build runs on GitHub only when `main` deploys.
+
 Individual commands remain available:
 
 ```bash
@@ -47,8 +51,8 @@ npm run db:verify
 database lint, pgTAP, and generated-type parity. `npm run verify:all` runs
 `db:verify` followed by the application gate.
 
-The offline `db:audit` does not require Docker and runs in the normal Quality
-workflow. The Docker-backed Database Quality workflow runs only by hand from the Actions
+The offline `db:audit` does not require Docker; `db:verify` runs it too. The
+Docker-backed Database Quality workflow runs only by hand from the Actions
 tab: a pull request that changes the database runs `npm run db:verify` on the
 Mac before merging.
 
