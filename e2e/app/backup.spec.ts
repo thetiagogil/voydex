@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { forTheAnswer } from "../support/actions";
+import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 const dayMs = 24 * 60 * 60 * 1000;
@@ -62,12 +62,17 @@ test.describe("Backups: save a file, restore it on another device", () => {
       });
 
       await expect(confirm).toContainText("with 1 Play.");
+
+      /* Written to the device before the next page reads it. */
+      const restored = waitForAction(fresh);
+
       await confirm
         .getByRole("button", { name: "Replace with the backup" })
         .click();
       await expect(fresh.getByText("Backup restored")).toBeVisible(
         forTheAnswer,
       );
+      await restored;
 
       await fresh.goto("/mainline/plays");
       await expect(fresh.getByText(name)).toBeVisible();

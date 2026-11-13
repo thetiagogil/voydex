@@ -195,12 +195,15 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(question).toBeVisible(forTheAnswer);
 
     const download = page.waitForEvent("download");
+    /* The device takes this account's data: written before the page changes. */
+    const saved = waitForAction(page);
 
     await question.getByRole("button", { name: "Leave them out" }).click();
     expect((await download).suggestedFilename()).toMatch(
       /^voydex-backup-\d{4}-\d{2}-\d{2}\.json\.gz$/,
     );
     await expect(question).toBeHidden(forTheAnswer);
+    await saved;
     await page.goto("/mainline/plays", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: "Plays" })).toBeVisible();
     await expect(page.getByText(name)).toBeHidden();
