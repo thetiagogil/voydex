@@ -198,7 +198,7 @@ npm run db:verify   # reset + seed, audits, SQL format, db lint, pgTAP, type par
 
 `npm run verify:all` runs both gates. Browser tests (Playwright and axe, in
 `e2e/`) need the local stack too: `npm run test:e2e`, run on the Mac before
-merging app changes (GitHub runs them only by hand). Meaningful UI work also requires desktop
+merging app changes (GitHub does not run them). Meaningful UI work also requires desktop
 and phone browser checks (the `voydex-dev` entry in `.claude/launch.json`
 serves the app on port 3000) with keyboard, focus and console inspection.
 Report exact commands and outcomes; never claim a check that was not run.
