@@ -21,6 +21,7 @@ import {
   currentPageReadRevision,
   holdPageRead,
   movePageReadRevision,
+  preparePageRead,
   startPageRead,
   subscribePageReadRevision,
 } from "@/platform/local-db/page-reads";
@@ -268,6 +269,34 @@ export const useLocalPageRead = <Data,>(
   );
 
   return use(promise);
+};
+
+/*
+ * A page's read named once: by its page (`useLocalPageRead`) and by the
+ * app getting that page ready before it opens (`preparePageReads`), which
+ * must read the same key the same way.
+ */
+export type PageReadPlan<Data> = {
+  key: string;
+  read(client: LocalQueryClient): Promise<Data>;
+  /* Whether a later visit may show this data again (see `startPageRead`). */
+  keep?(data: Data): boolean;
+};
+
+/*
+ * Gets pages ready before they open: each read runs, one after another so
+ * a page you open meanwhile isn't kept waiting long, and is kept like a
+ * page you left. Resolves once all have settled.
+ */
+export const preparePageReads = async (
+  db: LocalDb,
+  plans: readonly PageReadPlan<unknown>[],
+) => {
+  const client = createLocalQueryClient(db);
+
+  for (const { keep, key, read } of plans) {
+    await preparePageRead(db, key, () => read(client), keep);
+  }
 };
 
 /*

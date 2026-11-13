@@ -70,6 +70,9 @@ const readsFor = (owner: object, key: string) => {
   };
 };
 
+/* Told whenever kept reads are let go, so the pages can get ready again. */
+const forgottenListeners = new Set<() => void>();
+
 /*
  * Lets kept reads go without reading the screen again (every one, or those
  * whose key `matches`): for a change only another page shows (opening a
@@ -78,9 +81,37 @@ const readsFor = (owner: object, key: string) => {
 export const forgetKeptPageReads = (
   matches: (key: string) => boolean = () => true,
 ) => {
+  if (forgetKept(matches)) tellForgotten();
+};
+
+/* Lets the kept reads `matches` names go; says whether there were any. */
+const forgetKept = (matches: (key: string) => boolean) => {
+  let forgotten = false;
+
   for (const { forget, key } of [...keptReads.values()]) {
-    if (matches(key)) forget();
+    if (!matches(key)) continue;
+
+    forget();
+    forgotten = true;
   }
+
+  return forgotten;
+};
+
+const tellForgotten = () => {
+  for (const listener of forgottenListeners) listener();
+};
+
+/*
+ * Runs `listener` whenever kept reads are let go: the device's data changed,
+ * or a change only another page shows. Returns the way to stop.
+ */
+export const subscribeForgottenPageReads = (listener: () => void) => {
+  forgottenListeners.add(listener);
+
+  return () => {
+    forgottenListeners.delete(listener);
+  };
 };
 
 /* The revision of the device's data the screens read now. */
@@ -95,7 +126,9 @@ let channel: BroadcastChannel | null = null;
 
 const moveOn = () => {
   revision += 1;
-  forgetKeptPageReads();
+  forgetKept(() => true);
+  /* Even with nothing kept: a page held on screen read the old data too. */
+  tellForgotten();
 
   for (const listener of revisionListeners) listener();
 };
@@ -213,6 +246,31 @@ export const holdPageRead = (
       oldest?.forget();
     }
   };
+};
+
+/*
+ * Reads a page before anyone opens it, and keeps it the way a page you
+ * left is kept, so its first visit shows at once. A page opened meanwhile
+ * shares the same read. Settles when the read does, never failing: a page
+ * whose read failed reads again when it opens.
+ */
+export const preparePageRead = async <Data>(
+  owner: object,
+  key: string,
+  read: () => Promise<Data>,
+  keep?: (data: Data) => boolean,
+) => {
+  const at = currentPageReadRevision();
+  const promise = startPageRead(owner, key, at, read, keep);
+  const release = holdPageRead(owner, key, at, promise);
+
+  try {
+    await promise;
+  } catch {
+    /* The page shows its error when it opens and reads again. */
+  } finally {
+    release();
+  }
 };
 
 /* Lets every failed read go, so the next render reads again. */

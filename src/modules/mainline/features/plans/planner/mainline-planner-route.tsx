@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
-import { getPlannerPageData } from "@/modules/mainline/features/plans/planner/client/planner-page-query";
+import { plannerPageRead } from "@/modules/mainline/features/plans/planner/client/planner-page-query";
 import { MainlinePlannerPage } from "@/modules/mainline/features/plans/planner/mainline-planner-page";
 import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
 
@@ -17,10 +17,8 @@ export const MainlinePlannerRoute = (input: {
   planId: string | null;
   versionGroupSlug: string | null;
 }) => {
-  const data = useLocalPageData(
-    `planner:${input.planId ?? "new"}:${input.versionGroupSlug ?? ""}`,
-    () => getPlannerPageData(input),
-  );
+  const { key, read } = plannerPageRead(input);
+  const data = useLocalPageData(key, read);
 
   /* An archived Plan stays in the archived list; it doesn't open. */
   if (data.plan?.statusSlug === "archived") {

@@ -1,6 +1,6 @@
 "use client";
 
-import { getMyPlansPageData } from "@/modules/mainline/features/plans/my-plans/client/my-plans-query";
+import { myPlansPageRead } from "@/modules/mainline/features/plans/my-plans/client/my-plans-query";
 import { MainlineMyPlansPage } from "@/modules/mainline/features/plans/my-plans/mainline-my-plans-page";
 import { useLocalPageData } from "@/modules/mainline/shared/client/use-local-page-data";
 
@@ -10,7 +10,7 @@ export const MainlineMyPlansRoute = ({
 }: {
   view: "active" | "archived";
 }) => {
-  const plans = useLocalPageData("plans", getMyPlansPageData);
+  const plans = useLocalPageData(myPlansPageRead.key, myPlansPageRead.read);
 
   return <MainlineMyPlansPage plans={plans} view={view} />;
 };

@@ -9,13 +9,13 @@ import type {
   PlannerPageData,
   SavedPlan,
 } from "@/modules/mainline/features/plans/types";
-import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { fetchPrebuiltData } from "@/platform/prebuilt-data/use-prebuilt-data";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { isUuid } from "@/shared/utils/identifiers";
 
 import { toPlanMoveSlots } from "../utils/plan-move-slots";
+import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
 
 const toGender = (value: string | null): PlanGender | null =>
   value === "female" || value === "male" || value === "genderless"
@@ -135,9 +135,8 @@ const readPlannerFile = async <Data>(path: string | null) => {
  * The Team Planner: a saved Plan (by id) or a blank one, read in the
  * version group asked for (`?vg=`), else the Plan's own, else the newest.
  * The game's Pokémon come from its pre-built file, so nothing waits on the
- * game's download; it downloads in the background for what the Planner
- * reads later on the device (a Pokémon's moves, the checks a save runs).
- * Null when the Plan doesn't exist or isn't the trainer's.
+ * game's download (the page starts it in the background). Null when the
+ * Plan doesn't exist or isn't the trainer's.
  */
 export const getPlannerPageData = async ({
   planId,
@@ -162,8 +161,6 @@ export const getPlannerPageData = async ({
     slug ? plannerFiles.game(slug) : null,
   );
 
-  void ensureVersionGroupData(context.versionGroup.id).catch(() => undefined);
-
   return {
     context,
     plan,
@@ -172,3 +169,11 @@ export const getPlannerPageData = async ({
     versionGroups: games.versionGroups,
   };
 };
+
+/* The Team Planner's read: a saved Plan, or a blank one on a game. */
+export const plannerPageRead = (
+  input: PlannerPageInput,
+): MainlinePageRead<PlannerPageData> => ({
+  key: `planner:${input.planId ?? "new"}:${input.versionGroupSlug ?? ""}`,
+  read: () => getPlannerPageData(input),
+});

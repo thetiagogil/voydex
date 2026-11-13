@@ -8,6 +8,8 @@ import type { CollectionPageData } from "@/modules/mainline/features/collection/
 import type { GameCatalogue } from "@/modules/reference/features/games/types";
 import { readSpeciesGenerations } from "@/modules/reference/features/pokemon/server/species-generations-reader";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
+import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
+import { fetchGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 
 /* `catalogue` is game data, from the pre-built game catalogue. */
 export const getCollectionPageData = async (
@@ -44,4 +46,10 @@ export const getCollectionPageData = async (
     totalPlayCount: rows.plays.length,
     types: rows.types.map((type) => ({ name: type.name, slug: type.slug })),
   };
+};
+
+/* Collection's read, every view, with the games from the pre-built catalogue. */
+export const collectionPageRead: MainlinePageRead<CollectionPageData> = {
+  key: "collection",
+  read: async () => getCollectionPageData(await fetchGameCatalogue()),
 };

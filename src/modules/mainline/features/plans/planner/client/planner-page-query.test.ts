@@ -8,13 +8,9 @@ import type {
 import { getPlannerPageData } from "./planner-page-query";
 
 const fetchPrebuiltData = vi.fn();
-const ensureVersionGroupData = vi.fn();
 
 vi.mock("@/platform/prebuilt-data/use-prebuilt-data", () => ({
   fetchPrebuiltData: (path: string | null) => fetchPrebuiltData(path),
-}));
-vi.mock("@/platform/local-db/game-downloads", () => ({
-  ensureVersionGroupData: (id: number) => ensureVersionGroupData(id),
 }));
 vi.mock("@/modules/mainline/shared/client/signed-in-trainer", () => ({
   getSignedInTrainerId: () => Promise.resolve("trainer-1"),
@@ -91,18 +87,9 @@ describe("getPlannerPageData", () => {
     fetchPrebuiltData.mockImplementation((path: string | null) =>
       Promise.resolve(path ? (files[path] ?? null) : null),
     );
-    ensureVersionGroupData.mockResolvedValue(undefined);
   });
 
-  it("opens the newest game from its file, without waiting on its download", async () => {
-    let finishDownload = () => {};
-
-    ensureVersionGroupData.mockReturnValue(
-      new Promise<void>((resolve) => {
-        finishDownload = resolve;
-      }),
-    );
-
+  it("opens the newest game from its file", async () => {
     const data = await getPlannerPageData({
       planId: null,
       versionGroupSlug: null,
@@ -111,8 +98,6 @@ describe("getPlannerPageData", () => {
     expect(data?.context.versionGroup.slug).toBe("swsh");
     expect(data?.versionGroups).toBe(games.versionGroups);
     expect(data).toMatchObject({ plan: null, planCount: 2 });
-    expect(ensureVersionGroupData).toHaveBeenCalledExactlyOnceWith(20);
-    finishDownload();
   });
 
   it("opens an expansion's address on its base game", async () => {
@@ -162,14 +147,6 @@ describe("getPlannerPageData", () => {
       }),
     ).resolves.toBeNull();
     expect(fetchPrebuiltData).not.toHaveBeenCalledWith("planner/rb.json.gz");
-  });
-
-  it("still opens when the game can't download now (offline)", async () => {
-    ensureVersionGroupData.mockRejectedValue(new Error("You're offline."));
-
-    await expect(
-      getPlannerPageData({ planId: null, versionGroupSlug: "rb" }),
-    ).resolves.toMatchObject({ context: { versionGroup: { slug: "rb" } } });
   });
 
   it("fails plainly when the game's file is missing", async () => {
