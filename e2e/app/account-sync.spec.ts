@@ -159,8 +159,12 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     await expect(question).toBeVisible(forTheAnswer);
     await expectAccessible(page);
+    /* The device joins this account: written before the page changes. */
+    const joined = waitForAction(page);
+
     await question.getByRole("button", { name: "Add them" }).click();
     await expect(question).toBeHidden();
+    await joined;
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });

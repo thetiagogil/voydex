@@ -241,6 +241,13 @@ export const addPlaysToAccount = async () => {
 
   await joinAccount(db, userId);
   setStatus({ status: "idle" });
+  /*
+   * A save like any you make: counted, and a reload waits for its write, so
+   * the question doesn't come back.
+   */
+  ownSave = true;
+  notifyLocalSave();
+  ownSave = false;
 
   return syncNow();
 };
