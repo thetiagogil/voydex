@@ -284,6 +284,31 @@ describe("buildStoryRoute from a roadmap", () => {
     ]);
   });
 
+  it("marks only the first pass of a place on the way to a milestone", () => {
+    const [block] = buildStoryRoute(
+      roadmap(
+        [section(1, "main-story", [milestone(11), milestone(12)])],
+        /* Place 1 twice before 11 (its battle there shows once), then again toward 12. */
+        [place(1), place(2), place(1), at(11), place(1), at(12)],
+      ),
+    );
+
+    expect(
+      block.kind === "route"
+        ? block.entries.flatMap((entry) =>
+            entry.kind === "place"
+              ? [[entry.place.id, entry.toward.id, entry.firstPass]]
+              : [],
+          )
+        : [],
+    ).toEqual([
+      [1, 11, true],
+      [2, 11, true],
+      [1, 11, false],
+      [1, 12, true],
+    ]);
+  });
+
   it("keeps side content where the walkthrough meets it", () => {
     expect(
       read(
