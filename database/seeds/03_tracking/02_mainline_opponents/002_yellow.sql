@@ -13,6 +13,9 @@
 -- File Scope
 -- ============================================================================
 -- Version-group-wide opponent definitions for Yellow major required fights.
+-- The ghost Marowak in Pokémon Tower is the one battle with a Pokémon the
+-- story makes you win: it can't be caught, and the stairs stay shut until it
+-- is beaten (the game's Pokémon Tower 6F script).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_opponents (
@@ -67,4 +70,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Mewtwo (boss)
   (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19),
   -- Jessie & James (boss; Team Rocket, four forced fights)
-  (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 20);
+  (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 20),
+  -- Marowak (boss): the ghost on Pokémon Tower's sixth floor
+  (2021, 2, NULL, 'marowak', 'Marowak', 'boss', 9, NULL, NULL, NULL, 21);

@@ -356,6 +356,42 @@ sources remain authoritative for game-specific mechanics and availability.
   Town three times). Every milestone of the version group is one step, side
   content and post-game included, where the walkthrough reaches it.
   `570_story_roadmap_steps.sql` pins Red / Blue's.
+- The Story pattern, for every game as its review reaches it (Red / Blue
+  first, then Yellow; `610_story_pattern.sql` holds every game with a roadmap
+  to it):
+  - Each milestone is at a place (`location_id`), a badge at its Gym, and is
+    one roadmap step. A battle fought elsewhere names its own place.
+  - Main Story follows the walkthrough's order. Only what the game forces is
+    required; optional beats sit where the story meets them (or right after
+    the beat that opens them) and get no route of their own.
+  - The Pokémon League is one milestone that closes Main Story (Champion
+    type, snapshot recommended), with the last rival battle, the Elite Four
+    and the Champion as its battles. There is no League chapter and no
+    separate Elite Four or Hall of Fame milestone. Merged milestones get an
+    entry in `database/game-data/id-changes.json`.
+  - Opponents are the characters the game names (Leaders, the Elite Four,
+    rivals, villain bosses and named admins) and the Pokémon the story makes
+    you face. Plain trainer classes stay out, and so does a blocker you can
+    catch, beat or run from (a Snorlax). Teams and moves come from the game's
+    own data.
+  - A description says what to do, then what you get or unlock, and a badge
+    names what it does outside battle. A place step's note says who gives you
+    what, what a path needs, what blocks the way and the Gym's type, up to
+    300 characters. Both use short full sentences with no semicolon, say
+    "Team Rocket Grunt" rather than "a Rocket", and a note never names the
+    Pokémon found there.
+  - A collectible set is something scattered that the game counts and
+    rewards. A game without one has none.
+- Yellow follows Red / Blue step for step (the same Kanto, the same 81
+  roadmap steps and place list). What differs comes from Yellow's own data
+  (the pret pokeyellow disassembly): Receive Pikachu is not a choice, Jessie
+  & James are fought at Mt. Moon once a Fossil is taken, in the Rocket
+  Hideout, on Pokémon Tower's seventh floor and in Silph Co., the ghost
+  Marowak knows Bone Club, Tail Whip, Headbutt and Leer, Brock's Pokémon are
+  immune to Electric moves, and Route 19 has the Pikachu's Beach house (a
+  note, not a milestone, like the gift Bulbasaur, Charmander and Squirtle,
+  which show under their places). Its four Elite Four milestones and Hall of
+  Fame merged into the Pokémon League milestone through the ID changes list.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

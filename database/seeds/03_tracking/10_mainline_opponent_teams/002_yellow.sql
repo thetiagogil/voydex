@@ -78,45 +78,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Giovanni 5: Rhydon Lv. 55
   (20012, 2008, 2, NULL, NULL, NULL, NULL, NULL, 5, 112, 11200, 55),
   -- Lorelei 1: Dewgong Lv. 54
-  (20013, 2009, 2, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 54),
+  (20017, 2009, 2, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 54),
   -- Lorelei 2: Cloyster Lv. 53
-  (20013, 2009, 2, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 53),
+  (20017, 2009, 2, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 53),
   -- Lorelei 3: Slowbro Lv. 54
-  (20013, 2009, 2, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 54),
+  (20017, 2009, 2, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 54),
   -- Lorelei 4: Jynx Lv. 56
-  (20013, 2009, 2, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 56),
+  (20017, 2009, 2, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 56),
   -- Lorelei 5: Lapras Lv. 56
-  (20013, 2009, 2, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 56),
+  (20017, 2009, 2, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 56),
   -- Bruno 1: Onix Lv. 53
-  (20014, 2010, 2, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 53),
+  (20017, 2010, 2, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 53),
   -- Bruno 2: Hitmonchan Lv. 55
-  (20014, 2010, 2, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 55),
+  (20017, 2010, 2, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 55),
   -- Bruno 3: Hitmonlee Lv. 55
-  (20014, 2010, 2, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 55),
+  (20017, 2010, 2, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 55),
   -- Bruno 4: Onix Lv. 56
-  (20014, 2010, 2, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 56),
+  (20017, 2010, 2, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 56),
   -- Bruno 5: Machamp Lv. 58
-  (20014, 2010, 2, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 58),
+  (20017, 2010, 2, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 58),
   -- Agatha 1: Gengar Lv. 56
-  (20015, 2011, 2, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 56),
+  (20017, 2011, 2, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 56),
   -- Agatha 2: Golbat Lv. 56
-  (20015, 2011, 2, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 56),
+  (20017, 2011, 2, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 56),
   -- Agatha 3: Haunter Lv. 55
-  (20015, 2011, 2, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 55),
+  (20017, 2011, 2, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 55),
   -- Agatha 4: Arbok Lv. 58
-  (20015, 2011, 2, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 58),
+  (20017, 2011, 2, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 58),
   -- Agatha 5: Gengar Lv. 60
-  (20015, 2011, 2, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 60),
+  (20017, 2011, 2, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 60),
   -- Lance 1: Gyarados Lv. 58
-  (20016, 2012, 2, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 58),
+  (20017, 2012, 2, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 58),
   -- Lance 2: Dragonair Lv. 56
-  (20016, 2012, 2, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 56),
+  (20017, 2012, 2, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 56),
   -- Lance 3: Dragonair Lv. 56
-  (20016, 2012, 2, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 56),
+  (20017, 2012, 2, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 56),
   -- Lance 4: Aerodactyl Lv. 60
-  (20016, 2012, 2, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 60),
+  (20017, 2012, 2, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 60),
   -- Lance 5: Dragonite Lv. 62
-  (20016, 2012, 2, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 62),
+  (20017, 2012, 2, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 62),
   -- Blue (Rival's Eevee evolved into Jolteon) 1: Sandslash Lv. 61
   (20017, 2013, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 1, 28, 2800, 61),
   -- Blue (Rival's Eevee evolved into Jolteon) 2: Alakazam Lv. 59
@@ -249,42 +249,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 3, 111, 11100, 37),
   -- Giovanni, Silph Co. 4: Nidoqueen Lv. 41
   (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 4, 31, 3100, 41),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 1: Sandslash Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 1, 28, 2800, 47),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 2: Exeggcute Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 2, 102, 10200, 45),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 3: Ninetales Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 3, 38, 3800, 45),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 4: Cloyster Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 4, 91, 9100, 47),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 5: Kadabra Lv. 50
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 5, 64, 6400, 50),
-  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 6: Jolteon Lv. 53
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 6, 135, 13500, 53),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 1: Sandslash Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 1, 28, 2800, 47),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 2: Exeggcute Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 2, 102, 10200, 45),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 3: Cloyster Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 3, 91, 9100, 45),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 4: Magneton Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 4, 82, 8200, 47),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 5: Kadabra Lv. 50
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 5, 64, 6400, 50),
-  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 6: Flareon Lv. 53
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 6, 136, 13600, 53),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 1: Sandslash Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 1, 28, 2800, 47),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 2: Exeggcute Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 2, 102, 10200, 45),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 3: Magneton Lv. 45
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 3, 82, 8200, 45),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 4: Ninetales Lv. 47
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 4, 38, 3800, 47),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 5: Kadabra Lv. 50
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 64, 6400, 50),
-  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 6: Vaporeon Lv. 53
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 53),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 1: Sandslash Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 2: Exeggcute Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 3: Ninetales Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 3, 38, 3800, 45),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 4: Cloyster Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 4, 91, 9100, 47),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 5: Kadabra Lv. 50
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Jolteon), Pokémon League (Route 22) 6: Jolteon Lv. 53
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 6, 135, 13500, 53),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 1: Sandslash Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 2: Exeggcute Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 3: Cloyster Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 3, 91, 9100, 45),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 4: Magneton Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 4, 82, 8200, 47),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 5: Kadabra Lv. 50
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Flareon), Pokémon League (Route 22) 6: Flareon Lv. 53
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 6, 136, 13600, 53),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 1: Sandslash Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 2: Exeggcute Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 3: Magneton Lv. 45
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 3, 82, 8200, 45),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 4: Ninetales Lv. 47
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 4, 38, 3800, 47),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 5: Kadabra Lv. 50
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Pokémon League (Route 22) 6: Vaporeon Lv. 53
+  (20017, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 53),
   -- Zapdos, Power Plant 1: Zapdos Lv. 50
   (20023, 2016, 2, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
   -- Articuno, Seafoam Islands 1: Articuno Lv. 50
@@ -316,4 +316,6 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Jessie & James, Silph Co. 2: Arbok Lv. 31
   (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 2, 24, 2400, 31),
   -- Jessie & James, Silph Co. 3: Meowth Lv. 31
-  (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 52, 5200, 31);
+  (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 52, 5200, 31),
+  -- Marowak, Pokémon Tower 1: Marowak Lv. 30
+  (20021, 2021, 2, NULL, NULL, NULL, NULL, NULL, 1, 105, 10500, 30);

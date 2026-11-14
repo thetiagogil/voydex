@@ -19,7 +19,7 @@ SELECT
                 refs.version_group_id = 2
                 AND refs.milestone_id IN (20004, 20020, 20021, 20022)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (20004, 'jessie-james', 1), (20020, 'jessie-james', 1), (20020, 'giovanni-boss', 2), (20021, 'blue-rival', 1), (20021, 'jessie-james', 2), (20022, 'blue-rival', 1), (20022, 'jessie-james', 2), (20022, 'giovanni-boss', 3) $$, 'Yellow: Jessie & James at Mt. Moon, the Rocket Hideout, the Pokemon Tower and Silph Co.');
+            VALUES (20004, 'jessie-james', 1), (20020, 'jessie-james', 1), (20020, 'giovanni-boss', 2), (20021, 'blue-rival', 1), (20021, 'marowak', 2), (20021, 'jessie-james', 3), (20022, 'blue-rival', 1), (20022, 'jessie-james', 2), (20022, 'giovanni-boss', 3) $$, 'Yellow: Jessie & James at Mt. Moon, the Rocket Hideout, the Pokemon Tower (after the ghost Marowak) and Silph Co.');
 SELECT
     results_eq ($$
         SELECT
