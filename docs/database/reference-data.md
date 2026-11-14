@@ -412,8 +412,18 @@ sources remain authoritative for game-specific mechanics and availability.
   red Gyarados, Sudowoodo, the hideout's Electrode and Snorlax all leave
   whether caught, beaten or fled, so they are notes. The Executives keep the
   names HeartGold / SoulSilver gave them (the games only say Executive).
-  Known gaps: the Tin Tower's place is the row named Bell Tower, and
-  Crystal still has the old layout.
+  Known gap: the Tin Tower's place is the row named Bell Tower.
+- Crystal walks Gold / Silver's route (`630_crystal_story.sql`; 139 steps),
+  read from its own walkthrough against Gold / Silver's and checked on the
+  pret pokecrystal disassembly. What differs: the Burned Tower is a required
+  Main Story beat (Ecruteak Gym is closed until it), the Radio Tower hands
+  over the Clear Bell, the Rising Badge needs the elder's quiz, Suicune is
+  its own optional beat at the Tin Tower after the Radio Tower (the Wise
+  Trio are plain trainers and stay in its text), the Tin Tower beat is
+  Ho-Oh's and opens after the Hall of Fame, the Whirl Islands open after the
+  Boulder Badge (the Silver Wing), and Eusine, who is not seeded for any
+  later game yet, battles you in Cianwood City (optional, role `boss` until
+  a better label exists). Crystal has the same Unown set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

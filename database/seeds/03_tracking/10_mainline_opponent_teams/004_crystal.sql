@@ -84,45 +84,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Clair 4: Kingdra Lv. 40
   (40010, 4008, 4, NULL, NULL, NULL, NULL, NULL, 4, 230, 23000, 40, NULL),
   -- Will 1: Xatu Lv. 40
-  (40011, 4009, 4, NULL, NULL, NULL, NULL, NULL, 1, 178, 17800, 40, NULL),
+  (40015, 4009, 4, NULL, NULL, NULL, NULL, NULL, 1, 178, 17800, 40, NULL),
   -- Will 2: Jynx Lv. 41
-  (40011, 4009, 4, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 41, NULL),
+  (40015, 4009, 4, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 41, NULL),
   -- Will 3: Exeggutor Lv. 41
-  (40011, 4009, 4, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 41, NULL),
+  (40015, 4009, 4, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 41, NULL),
   -- Will 4: Slowbro Lv. 41
-  (40011, 4009, 4, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 41, NULL),
+  (40015, 4009, 4, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 41, NULL),
   -- Will 5: Xatu Lv. 42
-  (40011, 4009, 4, NULL, NULL, NULL, NULL, NULL, 5, 178, 17800, 42, NULL),
+  (40015, 4009, 4, NULL, NULL, NULL, NULL, NULL, 5, 178, 17800, 42, NULL),
   -- Koga 1: Ariados Lv. 40
-  (40012, 4010, 4, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 40, NULL),
+  (40015, 4010, 4, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 40, NULL),
   -- Koga 2: Venomoth Lv. 41
-  (40012, 4010, 4, NULL, NULL, NULL, NULL, NULL, 2, 49, 4900, 41, NULL),
+  (40015, 4010, 4, NULL, NULL, NULL, NULL, NULL, 2, 49, 4900, 41, NULL),
   -- Koga 3: Forretress Lv. 43
-  (40012, 4010, 4, NULL, NULL, NULL, NULL, NULL, 3, 205, 20500, 43, NULL),
+  (40015, 4010, 4, NULL, NULL, NULL, NULL, NULL, 3, 205, 20500, 43, NULL),
   -- Koga 4: Muk Lv. 42
-  (40012, 4010, 4, NULL, NULL, NULL, NULL, NULL, 4, 89, 8900, 42, NULL),
+  (40015, 4010, 4, NULL, NULL, NULL, NULL, NULL, 4, 89, 8900, 42, NULL),
   -- Koga 5: Crobat Lv. 44
-  (40012, 4010, 4, NULL, NULL, NULL, NULL, NULL, 5, 169, 16900, 44, NULL),
+  (40015, 4010, 4, NULL, NULL, NULL, NULL, NULL, 5, 169, 16900, 44, NULL),
   -- Bruno 1: Hitmontop Lv. 42
-  (40013, 4011, 4, NULL, NULL, NULL, NULL, NULL, 1, 237, 23700, 42, NULL),
+  (40015, 4011, 4, NULL, NULL, NULL, NULL, NULL, 1, 237, 23700, 42, NULL),
   -- Bruno 2: Hitmonlee Lv. 42
-  (40013, 4011, 4, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 42, NULL),
+  (40015, 4011, 4, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 42, NULL),
   -- Bruno 3: Hitmonchan Lv. 42
-  (40013, 4011, 4, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 42, NULL),
+  (40015, 4011, 4, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 42, NULL),
   -- Bruno 4: Onix Lv. 43
-  (40013, 4011, 4, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 43, NULL),
+  (40015, 4011, 4, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 43, NULL),
   -- Bruno 5: Machamp Lv. 46
-  (40013, 4011, 4, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 46, NULL),
+  (40015, 4011, 4, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 46, NULL),
   -- Karen 1: Umbreon Lv. 42
-  (40014, 4012, 4, NULL, NULL, NULL, NULL, NULL, 1, 197, 19700, 42, NULL),
+  (40015, 4012, 4, NULL, NULL, NULL, NULL, NULL, 1, 197, 19700, 42, NULL),
   -- Karen 2: Vileplume Lv. 42
-  (40014, 4012, 4, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 42, NULL),
+  (40015, 4012, 4, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 42, NULL),
   -- Karen 3: Gengar Lv. 45
-  (40014, 4012, 4, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 45, NULL),
+  (40015, 4012, 4, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 45, NULL),
   -- Karen 4: Murkrow Lv. 44
-  (40014, 4012, 4, NULL, NULL, NULL, NULL, NULL, 4, 198, 19800, 44, NULL),
+  (40015, 4012, 4, NULL, NULL, NULL, NULL, NULL, 4, 198, 19800, 44, NULL),
   -- Karen 5: Houndoom Lv. 47
-  (40014, 4012, 4, NULL, NULL, NULL, NULL, NULL, 5, 229, 22900, 47, NULL),
+  (40015, 4012, 4, NULL, NULL, NULL, NULL, NULL, 5, 229, 22900, 47, NULL),
   -- Lance 1: Gyarados Lv. 44
   (40015, 4013, 4, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 44, NULL),
   -- Lance 2: Dragonite Lv. 47
@@ -217,30 +217,30 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 77, NULL),
   -- Red 6: Blastoise Lv. 77
   (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77, NULL),
-  -- Silver (chose Chikorita), Receive Pokedex 1: Cyndaquil Lv. 5
+  -- Silver (chose Chikorita), Zephyr Badge (Cherrygrove City) 1: Cyndaquil Lv. 5
   (40003, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 155, 15500, 5, NULL),
-  -- Silver (chose Cyndaquil), Receive Pokedex 1: Totodile Lv. 5
+  -- Silver (chose Cyndaquil), Zephyr Badge (Cherrygrove City) 1: Totodile Lv. 5
   (40003, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 158, 15800, 5, NULL),
-  -- Silver (chose Totodile), Receive Pokedex 1: Chikorita Lv. 5
+  -- Silver (chose Totodile), Zephyr Badge (Cherrygrove City) 1: Chikorita Lv. 5
   (40003, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 152, 15200, 5, NULL),
-  -- Silver (chose Chikorita), Hive Badge 1: Gastly Lv. 12
-  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 92, 9200, 12, NULL),
-  -- Silver (chose Chikorita), Hive Badge 2: Zubat Lv. 14
-  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 41, 4100, 14, NULL),
-  -- Silver (chose Chikorita), Hive Badge 3: Quilava Lv. 16
-  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 156, 15600, 16, NULL),
-  -- Silver (chose Cyndaquil), Hive Badge 1: Gastly Lv. 12
-  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 92, 9200, 12, NULL),
-  -- Silver (chose Cyndaquil), Hive Badge 2: Zubat Lv. 14
-  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 41, 4100, 14, NULL),
-  -- Silver (chose Cyndaquil), Hive Badge 3: Croconaw Lv. 16
-  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 159, 15900, 16, NULL),
-  -- Silver (chose Totodile), Hive Badge 1: Gastly Lv. 12
-  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 92, 9200, 12, NULL),
-  -- Silver (chose Totodile), Hive Badge 2: Zubat Lv. 14
-  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 41, 4100, 14, NULL),
-  -- Silver (chose Totodile), Hive Badge 3: Bayleef Lv. 16
-  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 153, 15300, 16, NULL),
+  -- Silver (chose Chikorita), Ilex Forest (Azalea Town) 1: Gastly Lv. 12
+  (40034, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 92, 9200, 12, NULL),
+  -- Silver (chose Chikorita), Ilex Forest (Azalea Town) 2: Zubat Lv. 14
+  (40034, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 41, 4100, 14, NULL),
+  -- Silver (chose Chikorita), Ilex Forest (Azalea Town) 3: Quilava Lv. 16
+  (40034, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 156, 15600, 16, NULL),
+  -- Silver (chose Cyndaquil), Ilex Forest (Azalea Town) 1: Gastly Lv. 12
+  (40034, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 92, 9200, 12, NULL),
+  -- Silver (chose Cyndaquil), Ilex Forest (Azalea Town) 2: Zubat Lv. 14
+  (40034, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 41, 4100, 14, NULL),
+  -- Silver (chose Cyndaquil), Ilex Forest (Azalea Town) 3: Croconaw Lv. 16
+  (40034, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 159, 15900, 16, NULL),
+  -- Silver (chose Totodile), Ilex Forest (Azalea Town) 1: Gastly Lv. 12
+  (40034, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 92, 9200, 12, NULL),
+  -- Silver (chose Totodile), Ilex Forest (Azalea Town) 2: Zubat Lv. 14
+  (40034, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 41, 4100, 14, NULL),
+  -- Silver (chose Totodile), Ilex Forest (Azalea Town) 3: Bayleef Lv. 16
+  (40034, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 153, 15300, 16, NULL),
   -- Silver (chose Chikorita), Burned Tower 1: Haunter Lv. 20
   (40026, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 93, 9300, 20, NULL),
   -- Silver (chose Chikorita), Burned Tower 2: Magnemite Lv. 18
@@ -295,84 +295,84 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 215, 21500, 32, NULL),
   -- Silver (chose Totodile), Radio Tower 5: Meganium Lv. 32
   (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 154, 15400, 32, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 1: Sneasel Lv. 34
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 34, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 2: Golbat Lv. 36
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 36, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 3: Magneton Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 35, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 4: Haunter Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 93, 9300, 35, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 5: Kadabra Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 64, 6400, 35, NULL),
-  -- Silver (chose Chikorita), Elite Four Will 6: Typhlosion Lv. 38
-  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 38, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 1: Sneasel Lv. 34
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 34, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 2: Golbat Lv. 36
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 36, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 3: Magneton Lv. 34
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 34, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 4: Haunter Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 93, 9300, 35, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 5: Kadabra Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 64, 6400, 35, NULL),
-  -- Silver (chose Cyndaquil), Elite Four Will 6: Feraligatr Lv. 38
-  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 38, NULL),
-  -- Silver (chose Totodile), Elite Four Will 1: Sneasel Lv. 34
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 34, NULL),
-  -- Silver (chose Totodile), Elite Four Will 2: Golbat Lv. 36
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 36, NULL),
-  -- Silver (chose Totodile), Elite Four Will 3: Magneton Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 35, NULL),
-  -- Silver (chose Totodile), Elite Four Will 4: Haunter Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 93, 9300, 35, NULL),
-  -- Silver (chose Totodile), Elite Four Will 5: Kadabra Lv. 35
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 64, 6400, 35, NULL),
-  -- Silver (chose Totodile), Elite Four Will 6: Meganium Lv. 38
-  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 38, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 1: Sneasel Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 41, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 2: Golbat Lv. 42
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 42, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 3: Magneton Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 41, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 4: Gengar Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 94, 9400, 43, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 5: Alakazam Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 65, 6500, 43, NULL),
-  -- Silver (chose Chikorita), Boulder Badge 6: Typhlosion Lv. 45
-  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 45, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 1: Sneasel Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 41, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 2: Golbat Lv. 42
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 42, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 3: Magneton Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 41, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 4: Gengar Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 94, 9400, 43, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 5: Alakazam Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 65, 6500, 43, NULL),
-  -- Silver (chose Cyndaquil), Boulder Badge 6: Feraligatr Lv. 45
-  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 45, NULL),
-  -- Silver (chose Totodile), Boulder Badge 1: Sneasel Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 41, NULL),
-  -- Silver (chose Totodile), Boulder Badge 2: Golbat Lv. 42
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 42, NULL),
-  -- Silver (chose Totodile), Boulder Badge 3: Magneton Lv. 41
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 41, NULL),
-  -- Silver (chose Totodile), Boulder Badge 4: Gengar Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 94, 9400, 43, NULL),
-  -- Silver (chose Totodile), Boulder Badge 5: Alakazam Lv. 43
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 65, 6500, 43, NULL),
-  -- Silver (chose Totodile), Boulder Badge 6: Meganium Lv. 45
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 45, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 1: Sneasel Lv. 34
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 34, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 2: Golbat Lv. 36
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 36, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 3: Magneton Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 35, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 4: Haunter Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 93, 9300, 35, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 5: Kadabra Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 64, 6400, 35, NULL),
+  -- Silver (chose Chikorita), Pokémon League (Victory Road) 6: Typhlosion Lv. 38
+  (40015, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 38, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 1: Sneasel Lv. 34
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 34, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 2: Golbat Lv. 36
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 36, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 3: Magneton Lv. 34
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 34, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 4: Haunter Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 93, 9300, 35, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 5: Kadabra Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 64, 6400, 35, NULL),
+  -- Silver (chose Cyndaquil), Pokémon League (Victory Road) 6: Feraligatr Lv. 38
+  (40015, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 38, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 1: Sneasel Lv. 34
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 34, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 2: Golbat Lv. 36
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 36, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 3: Magneton Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 35, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 4: Haunter Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 93, 9300, 35, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 5: Kadabra Lv. 35
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 64, 6400, 35, NULL),
+  -- Silver (chose Totodile), Pokémon League (Victory Road) 6: Meganium Lv. 38
+  (40015, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 38, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 1: Sneasel Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 41, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 2: Golbat Lv. 42
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 42, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 3: Magneton Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 41, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 4: Gengar Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 94, 9400, 43, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 5: Alakazam Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 65, 6500, 43, NULL),
+  -- Silver (chose Chikorita), Volcano Badge (Mt. Moon) 6: Typhlosion Lv. 45
+  (40023, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 45, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 1: Sneasel Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 41, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 2: Golbat Lv. 42
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 42, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 3: Magneton Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 41, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 4: Gengar Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 94, 9400, 43, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 5: Alakazam Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 65, 6500, 43, NULL),
+  -- Silver (chose Cyndaquil), Volcano Badge (Mt. Moon) 6: Feraligatr Lv. 45
+  (40023, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 45, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 1: Sneasel Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 41, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 2: Golbat Lv. 42
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 42, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 3: Magneton Lv. 41
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 41, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 4: Gengar Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 94, 9400, 43, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 5: Alakazam Lv. 43
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 65, 6500, 43, NULL),
+  -- Silver (chose Totodile), Volcano Badge (Mt. Moon) 6: Meganium Lv. 45
+  (40023, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 45, NULL),
   -- Raikou, Roaming Raikou 1: Raikou Lv. 40
   (40028, 4024, 4, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 40, NULL),
   -- Entei, Roaming Entei 1: Entei Lv. 40
   (40029, 4025, 4, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 40, NULL),
   -- Suicune, Tin Tower 1: Suicune Lv. 40
-  (40030, 4026, 4, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 40, NULL),
+  (40039, 4026, 4, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 40, NULL),
   -- Ho-Oh, Tin Tower 1: Ho-Oh Lv. 60, holds Sacred Ash
   (40030, 4027, 4, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 60, 503),
   -- Lugia, Whirl Islands 1: Lugia Lv. 60
@@ -380,17 +380,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Celebi, Ilex Forest Shrine 1: Celebi Lv. 30
   (40032, 4029, 4, NULL, NULL, NULL, NULL, NULL, 1, 251, 25100, 30, NULL),
   -- Petrel, Team Rocket HQ 1: Zubat Lv. 22
-  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 22, NULL),
+  (40037, 4030, 4, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 22, NULL),
   -- Petrel, Team Rocket HQ 2: Raticate Lv. 24
-  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 2, 20, 2000, 24, NULL),
+  (40037, 4030, 4, NULL, NULL, NULL, NULL, NULL, 2, 20, 2000, 24, NULL),
   -- Petrel, Team Rocket HQ 3: Koffing Lv. 22
-  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 22, NULL),
+  (40037, 4030, 4, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 22, NULL),
   -- Ariana, Team Rocket HQ 1: Arbok Lv. 23
-  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 23, NULL),
+  (40037, 4031, 4, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 23, NULL),
   -- Ariana, Team Rocket HQ 2: Gloom Lv. 23
-  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 2, 44, 4400, 23, NULL),
+  (40037, 4031, 4, NULL, NULL, NULL, NULL, NULL, 2, 44, 4400, 23, NULL),
   -- Ariana, Team Rocket HQ 3: Murkrow Lv. 25
-  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 25, NULL),
+  (40037, 4031, 4, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 25, NULL),
   -- Petrel, Goldenrod Radio Tower 1: Koffing Lv. 30
   (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 30, NULL),
   -- Petrel, Goldenrod Radio Tower 2: Koffing Lv. 30
@@ -416,4 +416,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Archer, Goldenrod Radio Tower 2: Koffing Lv. 33
   (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 33, NULL),
   -- Archer, Goldenrod Radio Tower 3: Houndoom Lv. 35
-  (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 35, NULL);
+  (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 35, NULL),
+  -- Eusine, Cianwood City 1: Drowzee Lv. 23
+  (40035, 4034, 4, NULL, NULL, NULL, NULL, NULL, 1, 96, 9600, 23, NULL),
+  -- Eusine, Cianwood City 2: Haunter Lv. 23
+  (40035, 4034, 4, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 23, NULL),
+  -- Eusine, Cianwood City 3: Electrode Lv. 25
+  (40035, 4034, 4, NULL, NULL, NULL, NULL, NULL, 3, 101, 10100, 25, NULL);

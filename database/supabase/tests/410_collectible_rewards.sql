@@ -16,7 +16,7 @@ SELECT
             slug FROM tracking.mainline_collectibles
             WHERE
                 CHAR_LENGTH(BTRIM(reward_summary)) > 0 $$, $$
-            VALUES ('zygarde-cells'), ('zygarde-cores'), ('totem-stickers'), ('alolan-diglett'), ('purple-stakes'), ('yellow-stakes'), ('green-stakes'), ('blue-stakes'), ('wisps'), ('unown-forms') $$, 'each of the ten seeded sets carries a reward line (a new set must be added here)');
+            VALUES ('zygarde-cells'), ('zygarde-cores'), ('totem-stickers'), ('alolan-diglett'), ('purple-stakes'), ('yellow-stakes'), ('green-stakes'), ('blue-stakes'), ('wisps'), ('unown-forms') $$, 'each seeded set carries a reward line (a new set must be added here)');
 SELECT
     throws_ok ($$ UPDATE
             tracking.mainline_collectibles

@@ -37,9 +37,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 4
-                AND refs.milestone_id IN (40009, 40027)
+                AND refs.milestone_id IN (40009, 40027, 40037)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (40009, 'petrel', 1), (40009, 'ariana', 2), (40009, 'pryce', 3), (40027, 'petrel', 1), (40027, 'silver', 2), (40027, 'proton', 3), (40027, 'ariana', 4), (40027, 'archer', 5) $$, 'Crystal: the same Executives in the same order');
+            VALUES (40009, 'pryce', 1), (40027, 'petrel', 1), (40027, 'silver', 2), (40027, 'proton', 3), (40027, 'ariana', 4), (40027, 'archer', 5), (40037, 'petrel', 1), (40037, 'ariana', 2) $$, 'Crystal: the same Executives in the same order');
 SELECT
     results_eq ($$
         SELECT

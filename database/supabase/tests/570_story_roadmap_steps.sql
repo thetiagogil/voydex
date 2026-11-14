@@ -39,13 +39,16 @@ SELECT
                 AND sort_order = 4),
             'The Poké Mart clerk asks you to take Oak''s Parcel back to Professor Oak, and you can''t shop until you do. An old man blocks the road north. The Gym is locked for now.',
             'Viridian City''s first visit says to pick up Oak''s Parcel');
--- A step belongs to its version group: Route 26 and Crystal's Choose Starter are not Red / Blue's.
+-- A step belongs to its version group: Route 26 and Yellow's Receive Pikachu are not Red / Blue's
+-- (its own step is taken off first, so the version group check is what refuses it).
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, location_id)
             VALUES (1, 999, 107) $$, '23503', NULL, 'a step cannot pass a place its version group does not have');
+DELETE FROM tracking.mainline_roadmap_steps
+WHERE milestone_id = 20001;
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, milestone_id)
-            VALUES (1, 999, 40001) $$, '23503', NULL, 'a step cannot be another version group''s milestone');
+            VALUES (1, 999, 20001) $$, '23503', NULL, 'a step cannot be another version group''s milestone');
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, milestone_id)
             VALUES (1, 999, 10001) $$, '23505', NULL, 'a milestone appears on the roadmap once');
