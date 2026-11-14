@@ -47,9 +47,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 5
-                AND refs.milestone_id IN (50018, 50009, 50010, 50019)
+                AND refs.milestone_id IN (50018, 50009, 50010, 50019, 50027, 50029)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (50009, 'courtney', 1), (50009, 'shelly', 2), (50009, 'may-brendan', 3), (50009, 'winona', 4), (50010, 'may-brendan', 1), (50010, 'tabitha', 2), (50010, 'matt', 3), (50010, 'tate-liza', 4), (50018, 'tabitha', 1), (50018, 'maxie', 2), (50018, 'matt', 3), (50018, 'archie', 4), (50019, 'courtney', 1), (50019, 'maxie', 2), (50019, 'shelly', 3), (50019, 'archie', 4) $$, 'Ruby / Sapphire: an admin before each leader, the hideout before the Mind Badge');
+            VALUES (50009, 'may-brendan', 1), (50009, 'winona', 2), (50010, 'tate-liza', 1), (50018, 'tabitha', 1), (50018, 'maxie', 2), (50018, 'matt', 3), (50018, 'archie', 4), (50019, 'courtney', 1), (50019, 'maxie', 2), (50019, 'shelly', 3), (50019, 'archie', 4), (50027, 'courtney', 1), (50027, 'shelly', 2), (50029, 'may-brendan', 1), (50029, 'tabitha', 2), (50029, 'matt', 3) $$, 'Ruby / Sapphire: an admin before each leader, on the Weather Institute and the hideout beats');
 SELECT
     results_eq ($$
         SELECT

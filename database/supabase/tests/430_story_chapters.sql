@@ -210,6 +210,7 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'receive-pokedex'
                 AND mainline_opponents.opponent_role = 'rival'
+                AND mainline_milestone_opponent_refs.location_id IS NULL
                 AND mainline_milestone_opponent_refs.notes NOT IN ('Route 103', 'Professor Oak''s Laboratory, Pallet Town', 'Poco Path lighthouse', 'South gate of Mesagoza (South Province Area One)') $$, 'Receive Pokedex only keeps the battles fought on the way to it or there');
 SELECT
     *

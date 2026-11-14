@@ -16,7 +16,9 @@
 -- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them,
 -- and Gold / Silver's Johto Gyms, Mahogany Town, Professor Elm's Laboratory,
 -- Mr. Pokémon's House, Olivine Lighthouse, Team Rocket HQ, Goldenrod Radio
--- Tower and Underground and the S.S. Aqua, named as those games name them).
+-- Tower and Underground and the S.S. Aqua, named as those games name them,
+-- and Hoenn's Gyms, towns without wild Pokémon, Professor Birch's Laboratory,
+-- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1673,4 +1675,34 @@ VALUES
   -- Goldenrod Underground: a Story place with no wild Pokémon (Gold / Silver's rival battle before the Radio Tower)
   (830, 2, 'johto-goldenrod-underground', 'Goldenrod Underground'),
   -- S.S. Aqua: a Story place with no wild Pokémon (Gold / Silver's ship to Kanto)
-  (831, 2, 'johto-ss-aqua', 'S.S. Aqua');
+  (831, 2, 'johto-ss-aqua', 'S.S. Aqua'),
+  -- Oldale Town: a Story place with no wild Pokémon (Ruby / Sapphire's way out of Littleroot Town)
+  (832, 3, 'hoenn-oldale-town', 'Oldale Town'),
+  -- Professor Birch's Laboratory: a Story place with no wild Pokémon (Ruby / Sapphire's Receive Pokédex beat)
+  (833, 3, 'hoenn-professor-birchs-laboratory', 'Professor Birch''s Laboratory'),
+  -- Rustboro Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (834, 3, 'hoenn-rustboro-gym', 'Rustboro Gym'),
+  -- Dewford Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (835, 3, 'hoenn-dewford-gym', 'Dewford Gym'),
+  -- Oceanic Museum: a Story place with no wild Pokémon (Ruby / Sapphire's Oceanic Museum beat)
+  (836, 3, 'hoenn-oceanic-museum', 'Oceanic Museum'),
+  -- Mauville City: a Story place with no wild Pokémon (Ruby / Sapphire's crossroads and Wally's battle)
+  (837, 3, 'hoenn-mauville-city', 'Mauville City'),
+  -- Mauville Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (838, 3, 'hoenn-mauville-gym', 'Mauville Gym'),
+  -- Verdanturf Town: a Story place with no wild Pokémon (Ruby / Sapphire's way to Rusturf Tunnel)
+  (839, 3, 'hoenn-verdanturf-town', 'Verdanturf Town'),
+  -- Fallarbor Town: a Story place with no wild Pokémon (Ruby / Sapphire's way to Meteor Falls)
+  (840, 3, 'hoenn-fallarbor-town', 'Fallarbor Town'),
+  -- Mt. Chimney: a Story place with no wild Pokémon (Ruby / Sapphire's Mt. Chimney beat)
+  (841, 3, 'hoenn-mt-chimney', 'Mt. Chimney'),
+  -- Lavaridge Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (842, 3, 'hoenn-lavaridge-gym', 'Lavaridge Gym'),
+  -- Petalburg Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (843, 3, 'hoenn-petalburg-gym', 'Petalburg Gym'),
+  -- Fortree Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (844, 3, 'hoenn-fortree-gym', 'Fortree Gym'),
+  -- Mossdeep Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (845, 3, 'hoenn-mossdeep-gym', 'Mossdeep Gym'),
+  -- Sootopolis Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (846, 3, 'hoenn-sootopolis-gym', 'Sootopolis Gym');

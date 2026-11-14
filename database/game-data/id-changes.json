@@ -88,5 +88,35 @@
     "id": "40016",
     "becomes": "40015",
     "reason": "Crystal: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50012",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50013",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50014",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50015",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50017",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

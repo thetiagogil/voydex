@@ -83,45 +83,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wallace 5: Milotic Lv. 43
   (50011, 5008, 5, NULL, NULL, NULL, NULL, NULL, 5, 350, 35000, 43, NULL),
   -- Sidney 1: Mightyena Lv. 46
-  (50012, 5009, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 46, NULL),
+  (50016, 5009, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 46, NULL),
   -- Sidney 2: Shiftry Lv. 48
-  (50012, 5009, 5, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 48, NULL),
+  (50016, 5009, 5, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 48, NULL),
   -- Sidney 3: Cacturne Lv. 46
-  (50012, 5009, 5, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 46, NULL),
+  (50016, 5009, 5, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 46, NULL),
   -- Sidney 4: Sharpedo Lv. 48
-  (50012, 5009, 5, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 48, NULL),
+  (50016, 5009, 5, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 48, NULL),
   -- Sidney 5: Absol Lv. 49, holds Sitrus Berry
-  (50012, 5009, 5, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 49, 187),
+  (50016, 5009, 5, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 49, 187),
   -- Phoebe 1: Dusclops Lv. 48
-  (50013, 5010, 5, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 48, NULL),
+  (50016, 5010, 5, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 48, NULL),
   -- Phoebe 2: Banette Lv. 49
-  (50013, 5010, 5, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 49, NULL),
+  (50016, 5010, 5, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 49, NULL),
   -- Phoebe 3: Sableye Lv. 50
-  (50013, 5010, 5, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 50, NULL),
+  (50016, 5010, 5, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 50, NULL),
   -- Phoebe 4: Banette Lv. 49
-  (50013, 5010, 5, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 49, NULL),
+  (50016, 5010, 5, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 49, NULL),
   -- Phoebe 5: Dusclops Lv. 51, holds Sitrus Berry
-  (50013, 5010, 5, NULL, NULL, NULL, NULL, NULL, 5, 356, 35600, 51, 187),
+  (50016, 5010, 5, NULL, NULL, NULL, NULL, NULL, 5, 356, 35600, 51, 187),
   -- Glacia 1: Glalie Lv. 50
-  (50014, 5011, 5, NULL, NULL, NULL, NULL, NULL, 1, 362, 36200, 50, NULL),
+  (50016, 5011, 5, NULL, NULL, NULL, NULL, NULL, 1, 362, 36200, 50, NULL),
   -- Glacia 2: Sealeo Lv. 50
-  (50014, 5011, 5, NULL, NULL, NULL, NULL, NULL, 2, 364, 36400, 50, NULL),
+  (50016, 5011, 5, NULL, NULL, NULL, NULL, NULL, 2, 364, 36400, 50, NULL),
   -- Glacia 3: Sealeo Lv. 52
-  (50014, 5011, 5, NULL, NULL, NULL, NULL, NULL, 3, 364, 36400, 52, NULL),
+  (50016, 5011, 5, NULL, NULL, NULL, NULL, NULL, 3, 364, 36400, 52, NULL),
   -- Glacia 4: Glalie Lv. 52
-  (50014, 5011, 5, NULL, NULL, NULL, NULL, NULL, 4, 362, 36200, 52, NULL),
+  (50016, 5011, 5, NULL, NULL, NULL, NULL, NULL, 4, 362, 36200, 52, NULL),
   -- Glacia 5: Walrein Lv. 53, holds Sitrus Berry
-  (50014, 5011, 5, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 53, 187),
+  (50016, 5011, 5, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 53, 187),
   -- Drake 1: Shelgon Lv. 52
-  (50015, 5012, 5, NULL, NULL, NULL, NULL, NULL, 1, 372, 37200, 52, NULL),
+  (50016, 5012, 5, NULL, NULL, NULL, NULL, NULL, 1, 372, 37200, 52, NULL),
   -- Drake 2: Altaria Lv. 54
-  (50015, 5012, 5, NULL, NULL, NULL, NULL, NULL, 2, 334, 33400, 54, NULL),
+  (50016, 5012, 5, NULL, NULL, NULL, NULL, NULL, 2, 334, 33400, 54, NULL),
   -- Drake 3: Flygon Lv. 53
-  (50015, 5012, 5, NULL, NULL, NULL, NULL, NULL, 3, 330, 33000, 53, NULL),
+  (50016, 5012, 5, NULL, NULL, NULL, NULL, NULL, 3, 330, 33000, 53, NULL),
   -- Drake 4: Flygon Lv. 53
-  (50015, 5012, 5, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL),
+  (50016, 5012, 5, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL),
   -- Drake 5: Salamence Lv. 55, holds Sitrus Berry
-  (50015, 5012, 5, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, 187),
+  (50016, 5012, 5, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, 187),
   -- Steven 1: Skarmory Lv. 57
   (50016, 5013, 5, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL),
   -- Steven 2: Claydol Lv. 55
@@ -208,30 +208,30 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (50009, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 2, 320, 32000, 29, NULL),
   -- May / Brendan (chose Mudkip), Feather Badge 3: Grovyle Lv. 31
   (50009, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 3, 253, 25300, 31, NULL),
-  -- May / Brendan (chose Treecko), Mind Badge 1: Swellow Lv. 31
-  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 1, 277, 27700, 31, NULL),
-  -- May / Brendan (chose Treecko), Mind Badge 2: Wailmer Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 2, 320, 32000, 32, NULL),
-  -- May / Brendan (chose Treecko), Mind Badge 3: Shroomish Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 3, 285, 28500, 32, NULL),
-  -- May / Brendan (chose Treecko), Mind Badge 4: Combusken Lv. 34
-  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
-  -- May / Brendan (chose Torchic), Mind Badge 1: Swellow Lv. 31
-  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 1, 277, 27700, 31, NULL),
-  -- May / Brendan (chose Torchic), Mind Badge 2: Shroomish Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 2, 285, 28500, 32, NULL),
-  -- May / Brendan (chose Torchic), Mind Badge 3: Numel Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 3, 322, 32200, 32, NULL),
-  -- May / Brendan (chose Torchic), Mind Badge 4: Marshtomp Lv. 34
-  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
-  -- May / Brendan (chose Mudkip), Mind Badge 1: Swellow Lv. 31
-  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 1, 277, 27700, 31, NULL),
-  -- May / Brendan (chose Mudkip), Mind Badge 2: Numel Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 2, 322, 32200, 32, NULL),
-  -- May / Brendan (chose Mudkip), Mind Badge 3: Wailmer Lv. 32
-  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 3, 320, 32000, 32, NULL),
-  -- May / Brendan (chose Mudkip), Mind Badge 4: Grovyle Lv. 34
-  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
+  -- May / Brendan (chose Treecko), Team Magma or Aqua Hideout (Lilycove City) 1: Swellow Lv. 31
+  (50029, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 1, 277, 27700, 31, NULL),
+  -- May / Brendan (chose Treecko), Team Magma or Aqua Hideout (Lilycove City) 2: Wailmer Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 2, 320, 32000, 32, NULL),
+  -- May / Brendan (chose Treecko), Team Magma or Aqua Hideout (Lilycove City) 3: Shroomish Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 3, 285, 28500, 32, NULL),
+  -- May / Brendan (chose Treecko), Team Magma or Aqua Hideout (Lilycove City) 4: Combusken Lv. 34
+  (50029, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
+  -- May / Brendan (chose Torchic), Team Magma or Aqua Hideout (Lilycove City) 1: Swellow Lv. 31
+  (50029, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 1, 277, 27700, 31, NULL),
+  -- May / Brendan (chose Torchic), Team Magma or Aqua Hideout (Lilycove City) 2: Shroomish Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 2, 285, 28500, 32, NULL),
+  -- May / Brendan (chose Torchic), Team Magma or Aqua Hideout (Lilycove City) 3: Numel Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 3, 322, 32200, 32, NULL),
+  -- May / Brendan (chose Torchic), Team Magma or Aqua Hideout (Lilycove City) 4: Marshtomp Lv. 34
+  (50029, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
+  -- May / Brendan (chose Mudkip), Team Magma or Aqua Hideout (Lilycove City) 1: Swellow Lv. 31
+  (50029, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 1, 277, 27700, 31, NULL),
+  -- May / Brendan (chose Mudkip), Team Magma or Aqua Hideout (Lilycove City) 2: Numel Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 2, 322, 32200, 32, NULL),
+  -- May / Brendan (chose Mudkip), Team Magma or Aqua Hideout (Lilycove City) 3: Wailmer Lv. 32
+  (50029, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 3, 320, 32000, 32, NULL),
+  -- May / Brendan (chose Mudkip), Team Magma or Aqua Hideout (Lilycove City) 4: Grovyle Lv. 34
+  (50029, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
   -- Maxie, Seafloor Cavern 1: Mightyena Lv. 41
   (50019, 5016, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41, NULL),
   -- Maxie, Seafloor Cavern 2: Crobat Lv. 41
@@ -244,16 +244,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (50019, 5017, 5, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 41, NULL),
   -- Archie, Seafloor Cavern 3: Sharpedo Lv. 43
   (50019, 5017, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 43, NULL),
-  -- Wally, Elite Four Sidney 1: Altaria Lv. 44
-  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 44, NULL),
-  -- Wally, Elite Four Sidney 2: Delcatty Lv. 43
-  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 43, NULL),
-  -- Wally, Elite Four Sidney 3: Roselia Lv. 44
-  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 44, NULL),
-  -- Wally, Elite Four Sidney 4: Magneton Lv. 41
-  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
-  -- Wally, Elite Four Sidney 5: Gardevoir Lv. 45
-  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
+  -- Wally, Pokémon League (Victory Road) 1: Altaria Lv. 44
+  (50016, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 44, NULL),
+  -- Wally, Pokémon League (Victory Road) 2: Delcatty Lv. 43
+  (50016, 5015, 5, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 43, NULL),
+  -- Wally, Pokémon League (Victory Road) 3: Roselia Lv. 44
+  (50016, 5015, 5, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 44, NULL),
+  -- Wally, Pokémon League (Victory Road) 4: Magneton Lv. 41
+  (50016, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
+  -- Wally, Pokémon League (Victory Road) 5: Gardevoir Lv. 45
+  (50016, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
   -- Groudon, Rain Badge 1: Groudon Lv. 45
   (50023, 5018, 5, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45, NULL),
   -- Kyogre, Rain Badge 1: Kyogre Lv. 45
@@ -283,25 +283,25 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Matt, Mt. Chimney 3: Carvanha Lv. 20
   (50018, 5028, 5, NULL, NULL, NULL, NULL, NULL, 3, 318, 31800, 20, NULL),
   -- Courtney, Weather Institute 1: Numel Lv. 28
-  (50009, 5027, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 28, NULL),
+  (50027, 5027, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 28, NULL),
   -- Courtney, Weather Institute 2: Mightyena Lv. 28
-  (50009, 5027, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  (50027, 5027, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
   -- Shelly, Weather Institute 1: Carvanha Lv. 28
-  (50009, 5029, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
+  (50027, 5029, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
   -- Shelly, Weather Institute 2: Mightyena Lv. 28
-  (50009, 5029, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  (50027, 5029, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
   -- Tabitha, Magma Hideout 1: Numel Lv. 32
-  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 32, NULL),
+  (50029, 5026, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 32, NULL),
   -- Tabitha, Magma Hideout 2: Mightyena Lv. 32
-  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
+  (50029, 5026, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
   -- Tabitha, Magma Hideout 3: Camerupt Lv. 32
-  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 32, NULL),
+  (50029, 5026, 5, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 32, NULL),
   -- Matt, Aqua Hideout 1: Carvanha Lv. 32
-  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 32, NULL),
+  (50029, 5028, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 32, NULL),
   -- Matt, Aqua Hideout 2: Mightyena Lv. 32
-  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
+  (50029, 5028, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
   -- Matt, Aqua Hideout 3: Sharpedo Lv. 32
-  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 32, NULL),
+  (50029, 5028, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 32, NULL),
   -- Courtney, Seafloor Cavern 1: Camerupt Lv. 38
   (50019, 5027, 5, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 38, NULL),
   -- Courtney, Seafloor Cavern 2: Mightyena Lv. 38

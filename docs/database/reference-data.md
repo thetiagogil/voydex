@@ -424,6 +424,22 @@ sources remain authoritative for game-specific mechanics and availability.
   Boulder Badge (the Silver Wing), and Eusine, who is not seeded for any
   later game yet, battles you in Cianwood City (optional, role `boss` until
   a better label exists). Crystal has the same Unown set.
+- Ruby / Sapphire in the pattern (`640_rs_story.sql`; 103 steps from all 23
+  parts of Bulbapedia's walkthrough, teams checked on the pret pokeruby
+  disassembly): Main Story adds the beats the game forces between badges
+  (Rusturf Tunnel, the Oceanic Museum, Meteor Falls, the Weather Institute,
+  Mt. Pyre and the hideout at Lilycove City) to Mt. Chimney, the Seafloor
+  Cavern and the Cave of Origin, and ends at the one Pokémon League milestone
+  (Wally in Victory Road, the Elite Four and Steven). The hideout is one
+  milestone for both versions, placed at Lilycove City, because Team Magma's
+  and Team Aqua's hideouts are different place rows. The Admins moved off
+  the Feather and Mind Badges onto the Weather Institute and the hideout.
+  The roaming Latios or Latias is Post Game (placed at Littleroot Town, where
+  the news report starts it). The Fossil Choice, the Sealed Chamber and the
+  Sky Pillar are Side Content. The Sky Pillar sits after the League, where
+  the walkthrough reaches it, without claiming the game locks it until then.
+  The invisible Pokémon on Route 120 is a blocker and stays a note. Ruby /
+  Sapphire has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
