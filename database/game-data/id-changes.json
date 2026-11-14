@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "20013",
+    "becomes": "20017",
+    "reason": "Yellow: Elite Four Lorelei merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "20014",
+    "becomes": "20017",
+    "reason": "Yellow: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "20015",
+    "becomes": "20017",
+    "reason": "Yellow: Elite Four Agatha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "20016",
+    "becomes": "20017",
+    "reason": "Yellow: Elite Four Lance merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "20018",
+    "becomes": "20017",
+    "reason": "Yellow: Hall of Fame merged into the Pokémon League milestone"
+  }
+]

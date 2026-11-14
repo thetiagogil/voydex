@@ -68,45 +68,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Rhydon Lv. 55: Rock Slide, Fury Attack, Horn Drill, Earthquake
     (20012, 2008, NULL, NULL, NULL, NULL, 5, ARRAY[157, 31, 32, 89]),
     -- Lorelei: Dewgong Lv. 54: Bubble Beam, Aurora Beam, Rest, Take Down
-    (20013, 2009, NULL, NULL, NULL, NULL, 1, ARRAY[61, 62, 156, 36]),
+    (20017, 2009, NULL, NULL, NULL, NULL, 1, ARRAY[61, 62, 156, 36]),
     -- Lorelei: Cloyster Lv. 53: Supersonic, Clamp, Ice Beam, Spike Cannon
-    (20013, 2009, NULL, NULL, NULL, NULL, 2, ARRAY[48, 128, 58, 131]),
+    (20017, 2009, NULL, NULL, NULL, NULL, 2, ARRAY[48, 128, 58, 131]),
     -- Lorelei: Slowbro Lv. 54: Psychic, Surf, Withdraw, Amnesia
-    (20013, 2009, NULL, NULL, NULL, NULL, 3, ARRAY[94, 57, 110, 133]),
+    (20017, 2009, NULL, NULL, NULL, NULL, 3, ARRAY[94, 57, 110, 133]),
     -- Lorelei: Jynx Lv. 56: Double Slap, Ice Punch, Lovely Kiss, Thrash
-    (20013, 2009, NULL, NULL, NULL, NULL, 4, ARRAY[3, 8, 142, 37]),
+    (20017, 2009, NULL, NULL, NULL, NULL, 4, ARRAY[3, 8, 142, 37]),
     -- Lorelei: Lapras Lv. 56: Body Slam, Confuse Ray, Blizzard, Hydro Pump
-    (20013, 2009, NULL, NULL, NULL, NULL, 5, ARRAY[34, 109, 59, 56]),
+    (20017, 2009, NULL, NULL, NULL, NULL, 5, ARRAY[34, 109, 59, 56]),
     -- Bruno: Onix Lv. 53: Rock Slide, Screech, Slam, Dig
-    (20014, 2010, NULL, NULL, NULL, NULL, 1, ARRAY[157, 103, 21, 91]),
+    (20017, 2010, NULL, NULL, NULL, NULL, 1, ARRAY[157, 103, 21, 91]),
     -- Bruno: Hitmonchan Lv. 55: Ice Punch, Thunder Punch, Fire Punch, Double Team
-    (20014, 2010, NULL, NULL, NULL, NULL, 2, ARRAY[8, 9, 7, 104]),
+    (20017, 2010, NULL, NULL, NULL, NULL, 2, ARRAY[8, 9, 7, 104]),
     -- Bruno: Hitmonlee Lv. 55: Double Kick, Mega Kick, High Jump Kick, Double Team
-    (20014, 2010, NULL, NULL, NULL, NULL, 3, ARRAY[24, 25, 136, 104]),
+    (20017, 2010, NULL, NULL, NULL, NULL, 3, ARRAY[24, 25, 136, 104]),
     -- Bruno: Onix Lv. 56: Rock Slide, Screech, Slam, Earthquake
-    (20014, 2010, NULL, NULL, NULL, NULL, 4, ARRAY[157, 103, 21, 89]),
+    (20017, 2010, NULL, NULL, NULL, NULL, 4, ARRAY[157, 103, 21, 89]),
     -- Bruno: Machamp Lv. 58: Leer, Karate Chop, Strength, Submission
-    (20014, 2010, NULL, NULL, NULL, NULL, 5, ARRAY[43, 2, 70, 66]),
+    (20017, 2010, NULL, NULL, NULL, NULL, 5, ARRAY[43, 2, 70, 66]),
     -- Agatha: Gengar Lv. 56: Confuse Ray, Substitute, Lick, Mega Drain
-    (20015, 2011, NULL, NULL, NULL, NULL, 1, ARRAY[109, 164, 122, 72]),
+    (20017, 2011, NULL, NULL, NULL, NULL, 1, ARRAY[109, 164, 122, 72]),
     -- Agatha: Golbat Lv. 56: Supersonic, Toxic, Wing Attack, Leech Life
-    (20015, 2011, NULL, NULL, NULL, NULL, 2, ARRAY[48, 92, 17, 141]),
+    (20017, 2011, NULL, NULL, NULL, NULL, 2, ARRAY[48, 92, 17, 141]),
     -- Agatha: Haunter Lv. 55: Confuse Ray, Lick, Hypnosis, Dream Eater
-    (20015, 2011, NULL, NULL, NULL, NULL, 3, ARRAY[109, 122, 95, 138]),
+    (20017, 2011, NULL, NULL, NULL, NULL, 3, ARRAY[109, 122, 95, 138]),
     -- Agatha: Arbok Lv. 58: Wrap, Glare, Screech, Acid
-    (20015, 2011, NULL, NULL, NULL, NULL, 4, ARRAY[35, 137, 103, 51]),
+    (20017, 2011, NULL, NULL, NULL, NULL, 4, ARRAY[35, 137, 103, 51]),
     -- Agatha: Gengar Lv. 60: Confuse Ray, Psychic, Hypnosis, Dream Eater
-    (20015, 2011, NULL, NULL, NULL, NULL, 5, ARRAY[109, 94, 95, 138]),
+    (20017, 2011, NULL, NULL, NULL, NULL, 5, ARRAY[109, 94, 95, 138]),
     -- Lance: Gyarados Lv. 58: Dragon Rage, Leer, Hydro Pump, Hyper Beam
-    (20016, 2012, NULL, NULL, NULL, NULL, 1, ARRAY[82, 43, 56, 63]),
+    (20017, 2012, NULL, NULL, NULL, NULL, 1, ARRAY[82, 43, 56, 63]),
     -- Lance: Dragonair Lv. 56: Thunder Wave, Slam, Thunderbolt, Hyper Beam
-    (20016, 2012, NULL, NULL, NULL, NULL, 2, ARRAY[86, 21, 85, 63]),
+    (20017, 2012, NULL, NULL, NULL, NULL, 2, ARRAY[86, 21, 85, 63]),
     -- Lance: Dragonair Lv. 56: Bubble Beam, Wrap, Ice Beam, Hyper Beam
-    (20016, 2012, NULL, NULL, NULL, NULL, 3, ARRAY[61, 35, 58, 63]),
+    (20017, 2012, NULL, NULL, NULL, NULL, 3, ARRAY[61, 35, 58, 63]),
     -- Lance: Aerodactyl Lv. 60: Wing Attack, Swift, Fly, Hyper Beam
-    (20016, 2012, NULL, NULL, NULL, NULL, 4, ARRAY[17, 129, 19, 63]),
+    (20017, 2012, NULL, NULL, NULL, NULL, 4, ARRAY[17, 129, 19, 63]),
     -- Lance: Dragonite Lv. 62: Blizzard, Fire Blast, Thunder, Hyper Beam
-    (20016, 2012, NULL, NULL, NULL, NULL, 5, ARRAY[59, 126, 87, 63]),
+    (20017, 2012, NULL, NULL, NULL, NULL, 5, ARRAY[59, 126, 87, 63]),
     -- Blue: Sandslash Lv. 61: Slash, Poison Sting, Earthquake, Fury Swipes
     (20017, 2013, NULL, NULL, NULL, 'rival-jolteon', 1, ARRAY[163, 40, 89, 154]),
     -- Blue: Alakazam Lv. 59: Psybeam, Recover, Psychic, Kinesis
@@ -240,41 +240,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Nidoqueen Lv. 41: Scratch, Tail Whip, Body Slam, Double Kick
     (20022, 2015, NULL, NULL, NULL, NULL, 4, ARRAY[10, 39, 34, 24]),
     -- Blue: Sandslash Lv. 47: Slash, Poison Sting, Swift, Fury Swipes
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 1, ARRAY[163, 40, 129, 154]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 1, ARRAY[163, 40, 129, 154]),
     -- Blue: Exeggcute Lv. 45: Leech Seed, Stun Spore, Poison Powder, Solar Beam
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 2, ARRAY[73, 78, 77, 76]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 2, ARRAY[73, 78, 77, 76]),
     -- Blue: Ninetales Lv. 45: Ember, Tail Whip, Quick Attack, Roar
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 3, ARRAY[52, 39, 98, 46]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 3, ARRAY[52, 39, 98, 46]),
     -- Blue: Cloyster Lv. 47: Withdraw, Supersonic, Clamp, Aurora Beam
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 4, ARRAY[110, 48, 128, 62]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 4, ARRAY[110, 48, 128, 62]),
     -- Blue: Kadabra Lv. 50: Psybeam, Recover, Psychic, Reflect
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 5, ARRAY[60, 105, 94, 115]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 5, ARRAY[60, 105, 94, 115]),
     -- Blue: Jolteon Lv. 53: Pin Missile, Thunder Wave, Agility, Thunder
-    (20013, 2014, NULL, NULL, NULL, 'rival-jolteon', 6, ARRAY[42, 86, 97, 87]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-jolteon', 6, ARRAY[42, 86, 97, 87]),
     -- Blue: Sandslash Lv. 47: Slash, Poison Sting, Swift, Fury Swipes
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 1, ARRAY[163, 40, 129, 154]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 1, ARRAY[163, 40, 129, 154]),
     -- Blue: Exeggcute Lv. 45: Leech Seed, Stun Spore, Poison Powder, Solar Beam
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 2, ARRAY[73, 78, 77, 76]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 2, ARRAY[73, 78, 77, 76]),
     -- Blue: Cloyster Lv. 45: Withdraw, Supersonic, Clamp, Aurora Beam
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 3, ARRAY[110, 48, 128, 62]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 3, ARRAY[110, 48, 128, 62]),
     -- Blue: Magneton Lv. 47: Thunder Shock, Supersonic, Thunder Wave, Swift
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 4, ARRAY[84, 48, 86, 129]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 4, ARRAY[84, 48, 86, 129]),
     -- Blue: Kadabra Lv. 50: Psybeam, Recover, Psychic, Reflect
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 5, ARRAY[60, 105, 94, 115]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 5, ARRAY[60, 105, 94, 115]),
     -- Blue: Flareon Lv. 53: Fire Spin, Smog, Leer, Flamethrower
-    (20013, 2014, NULL, NULL, NULL, 'rival-flareon', 6, ARRAY[83, 123, 43, 53]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-flareon', 6, ARRAY[83, 123, 43, 53]),
     -- Blue: Sandslash Lv. 47: Slash, Poison Sting, Swift, Fury Swipes
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 1, ARRAY[163, 40, 129, 154]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 1, ARRAY[163, 40, 129, 154]),
     -- Blue: Exeggcute Lv. 45: Leech Seed, Stun Spore, Poison Powder, Solar Beam
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 2, ARRAY[73, 78, 77, 76]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 2, ARRAY[73, 78, 77, 76]),
     -- Blue: Magneton Lv. 45: Sonic Boom, Thunder Shock, Supersonic, Thunder Wave
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 3, ARRAY[49, 84, 48, 86]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 3, ARRAY[49, 84, 48, 86]),
     -- Blue: Ninetales Lv. 47: Ember, Tail Whip, Quick Attack, Roar
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 4, ARRAY[52, 39, 98, 46]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 4, ARRAY[52, 39, 98, 46]),
     -- Blue: Kadabra Lv. 50: Psybeam, Recover, Psychic, Reflect
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 5, ARRAY[60, 105, 94, 115]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 5, ARRAY[60, 105, 94, 115]),
     -- Blue: Vaporeon Lv. 53: Haze, Mist, Acid Armor, Hydro Pump
-    (20013, 2014, NULL, NULL, NULL, 'rival-vaporeon', 6, ARRAY[114, 54, 151, 56]),
+    (20017, 2014, NULL, NULL, NULL, 'rival-vaporeon', 6, ARRAY[114, 54, 151, 56]),
     -- Zapdos: Zapdos Lv. 50: Thunder Shock, Drill Peck
     (20023, 2016, NULL, NULL, NULL, NULL, 1, ARRAY[84, 65]),
     -- Articuno: Articuno Lv. 50: Peck, Ice Beam
@@ -306,7 +306,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Jessie & James: Arbok Lv. 31: Leer, Poison Sting, Bite, Glare
     (20022, 2020, NULL, NULL, NULL, NULL, 2, ARRAY[43, 40, 44, 137]),
     -- Jessie & James: Meowth Lv. 31: Growl, Bite, Pay Day, Screech
-    (20022, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[45, 44, 6, 103])
+    (20022, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[45, 44, 6, 103]),
+    -- Marowak: Marowak Lv. 30: Bone Club, Tail Whip, Headbutt, Leer
+    (20021, 2021, NULL, NULL, NULL, NULL, 1, ARRAY[125, 39, 29, 43])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT
