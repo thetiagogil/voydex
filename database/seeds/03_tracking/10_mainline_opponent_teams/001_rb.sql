@@ -340,4 +340,6 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Moltres, Victory Road 1: Moltres Lv. 50
   (10025, 1018, 1, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
   -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
-  (10026, 1019, 1, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);
+  (10026, 1019, 1, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Marowak, Pokémon Tower 1: Marowak Lv. 30
+  (10021, 1020, 1, NULL, NULL, NULL, NULL, NULL, 1, 105, 10500, 30);

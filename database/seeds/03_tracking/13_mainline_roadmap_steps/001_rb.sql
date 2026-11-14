@@ -87,7 +87,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 27: Route 6
   (1, 27, 59, NULL, 'Leads south to Vermilion City. Its gate into Saffron City has a guard who''s just as thirsty.'),
   -- 28: Vermilion City
-  (1, 28, 74, NULL, 'A port town. Show the S.S. Ticket at the harbour to board the S.S. Anne. Lt. Surge''s Gym sits behind a small tree that needs Cut. The Pokémon Fan Club''s chairman gives you a Bike Voucher.'),
+  (1, 28, 74, NULL, 'A port town. Show the S.S. Ticket at the harbour to board the S.S. Anne. Lt. Surge''s Gym sits behind a small tree that needs Cut. The Pokémon Fan Club''s chairman gives you a Bike Voucher. A fisherman in a house here gives you the Old Rod.'),
   -- 29: S.S. Anne (milestone)
   (1, 29, NULL, 10019, NULL),
   -- 30: Thunder Badge (milestone)
@@ -101,7 +101,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 34: Pewter Museum of Science
   (1, 34, 105, NULL, 'Cut round to the museum''s back door. A scientist there gives you the Old Amber. Cinnabar Lab can revive it later.'),
   -- 35: Cerulean City
-  (1, 35, 9, NULL, 'Back again, through Mt. Moon or Diglett''s Cave. Cut the small tree on the east side of town to reach Route 9.'),
+  (1, 35, 9, NULL, 'Back again, through Mt. Moon or Diglett''s Cave. Swap the Bike Voucher for a Bicycle at the Bike Shop. Cut the small tree on the east side of town to reach Route 9.'),
   -- 36: Route 9
   (1, 36, 62, NULL, 'East from Cerulean City. Cut the tree to get through, then a long line of trainers leads to Route 10.'),
   -- 37: Route 10
@@ -141,7 +141,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 54: Route 18
   (1, 54, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
   -- 55: Fuchsia City
-  (1, 55, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them.'),
+  (1, 55, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them. A fisherman in a house here gives you the Good Rod.'),
   -- 56: Soul Badge (milestone)
   (1, 56, NULL, 10008, NULL),
   -- 57: Safari Zone (milestone)

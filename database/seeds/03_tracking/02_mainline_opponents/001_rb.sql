@@ -9,6 +9,9 @@
 -- File Scope
 -- ============================================================================
 -- Version-group-wide opponent definitions for Red / Blue major required fights.
+-- The ghost Marowak in Pokémon Tower is the one battle with a Pokémon the
+-- story makes you win: it can't be caught, and the stairs stay shut until it
+-- is beaten (the game's Pokémon Tower 6F script).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_opponents (
@@ -61,4 +64,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Moltres (boss)
   (1018, 1, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 18),
   -- Mewtwo (boss)
-  (1019, 1, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19);
+  (1019, 1, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19),
+  -- Marowak (boss): the ghost on Pokémon Tower's sixth floor
+  (1020, 1, NULL, 'marowak', 'Marowak', 'boss', 9, NULL, NULL, NULL, 20);

@@ -39,8 +39,8 @@ INSERT INTO tracking.mainline_milestones (
 ) VALUES
   -- Choose Starter (Professor Oak's Laboratory)
   (10001, 1, NULL, 101, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Pick Bulbasaur, Charmander or Squirtle in Professor Oak''s lab. Blue takes the one strong against yours and battles you right away.', 1, true, 35),
-  -- Receive Pokédex (Pallet Town)
-  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Take Oak''s Parcel from the Viridian City Poké Mart back to Professor Oak. He gives you and Blue a Pokédex each.', 2, true, 30),
+  -- Receive Pokédex (Professor Oak's Laboratory)
+  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Take Oak''s Parcel from the Viridian City Poké Mart back to Professor Oak. He gives you and Blue a Pokédex each.', 2, true, 35),
   -- Boulder Badge (Pewter City)
   (10003, 1, NULL, 101, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Beat Brock and his Rock types at Pewter Gym. The Boulder Badge lets you use Flash outside battle.', 3, true, 810),
   -- Fossil Choice (Mt. Moon): counts toward the story (Mt. Moon's fossil is on the path); the pick itself can stay unrecorded
@@ -60,7 +60,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon Tower (Pokémon Tower)
   (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope, lay a restless ghost to rest and free Mr. Fuji from Team Rocket. He gives you the Poké Flute.', 11, true, 33),
   -- Silph Co. (Silph Co.)
-  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Climb Silph Co. in Saffron City, taken over by Team Rocket. Find the Card Key, beat Blue and then Giovanni at the top. The Team Rocket Grunt blocking Saffron Gym leaves.', 12, true, 67),
+  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Climb Silph Co. in Saffron City, taken over by Team Rocket. Find the Card Key, beat Blue and then Giovanni at the top. The president gives you a Master Ball, and the Team Rocket Grunt blocking Saffron Gym leaves.', 12, true, 67),
   -- Marsh Badge (Saffron City)
   (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Beat Sabrina and her Psychic types at Saffron Gym, using its warp tiles to reach her. The Marsh Badge makes Pokémon up to level 70 obey you.', 13, true, 814),
   -- Soul Badge (Fuchsia City)
@@ -70,7 +70,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon Mansion (Pokémon Mansion)
   (10029, 1, NULL, 101, 1, 2, NULL, 'pokemon-mansion', 'Pokémon Mansion', 'Search the burned-out Pokémon Mansion on Cinnabar Island, flipping its statue switches, for the Secret Key that opens Cinnabar Gym.', 16, true, 32),
   -- Volcano Badge (Cinnabar Island)
-  (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Answer the quiz machines or battle your way through Cinnabar Gym, then beat Blaine and his Fire types.', 17, true, 815),
+  (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Answer the quiz machines or battle your way through Cinnabar Gym, then beat Blaine and his Fire types. The Volcano Badge raises your Pokémon''s Special.', 17, true, 815),
   -- Earth Badge (Viridian City)
   (10012, 1, NULL, 101, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Beat Giovanni and his Ground types at Viridian Gym, the last Gym. He disbands Team Rocket, and the Earth Badge makes every Pokémon obey you.', 18, true, 816),
   -- Pokémon League (Indigo Plateau): the Elite Four, Champion Blue and the Hall of Fame are one beat, fought back to back
