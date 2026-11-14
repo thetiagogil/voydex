@@ -116,14 +116,15 @@ SELECT
                 AND mainline_categories.slug = 'main-story'
                 AND mainline_milestones.sort_order BETWEEN 11 AND 15 ORDER BY mainline_milestones.sort_order $$, $$
             VALUES ('mind-badge'), ('space-center'), ('seafloor-cavern'), ('awaken-rayquaza'), ('rain-badge') $$, 'Emerald''s Space Center and Sky Pillar sit between Mind Badge and Rain Badge');
--- Gold / Silver, Crystal, HeartGold / SoulSilver: Silver's Cherrygrove battle leads to Zephyr Badge.
+-- Gold / Silver, Crystal, HeartGold / SoulSilver: Silver's Cherrygrove battle leads to Zephyr Badge (Gold / Silver names the place, the others note it).
 SELECT
     results_eq ($$
         SELECT
             mainline_milestones.version_group_id, mainline_milestones.slug FROM tracking.mainline_milestone_opponent_refs
             JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_milestone_opponent_refs.milestone_id
             WHERE
-                mainline_milestone_opponent_refs.notes = 'Cherrygrove City' ORDER BY mainline_milestones.version_group_id $$, $$
+                mainline_milestone_opponent_refs.notes = 'Cherrygrove City'
+                OR mainline_milestone_opponent_refs.location_id = 84 ORDER BY mainline_milestones.version_group_id $$, $$
             VALUES (3, 'zephyr-badge'), (4, 'zephyr-badge'), (10, 'zephyr-badge') $$, 'Silver''s first battle sits on Zephyr Badge');
 -- A rematch is never a Story battle: Wally's Victory Road rematch and Colress's P2 Laboratory rematch are gone.
 SELECT

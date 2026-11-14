@@ -13,7 +13,10 @@
 -- games that share it (Route 1 is one place in Red and in HeartGold), and
 -- the places a Story milestone or battle happens at that have no wild
 -- Pokémon (Red / Blue's S.S. Anne, Rocket Hideout, Underground Path
--- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them).
+-- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them,
+-- and Gold / Silver's Johto Gyms, Mahogany Town, Professor Elm's Laboratory,
+-- Mr. Pokémon's House, Olivine Lighthouse, Team Rocket HQ, Goldenrod Radio
+-- Tower and Underground and the S.S. Aqua, named as those games name them).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1640,4 +1643,34 @@ VALUES
   -- Cinnabar Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
   (815, 1, 'kanto-cinnabar-gym', 'Cinnabar Gym'),
   -- Viridian Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
-  (816, 1, 'kanto-viridian-gym', 'Viridian Gym');
+  (816, 1, 'kanto-viridian-gym', 'Viridian Gym'),
+  -- Professor Elm's Laboratory: a Story place with no wild Pokémon (Gold / Silver's Choose Starter beat)
+  (817, 2, 'johto-professor-elms-laboratory', 'Professor Elm''s Laboratory'),
+  -- Mr. Pokémon's House: a Story place with no wild Pokémon (Gold / Silver's Receive Pokédex beat)
+  (818, 2, 'johto-mr-pokemons-house', 'Mr. Pokémon''s House'),
+  -- Violet Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (819, 2, 'johto-violet-gym', 'Violet Gym'),
+  -- Azalea Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (820, 2, 'johto-azalea-gym', 'Azalea Gym'),
+  -- Goldenrod Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (821, 2, 'johto-goldenrod-gym', 'Goldenrod Gym'),
+  -- Ecruteak Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (822, 2, 'johto-ecruteak-gym', 'Ecruteak Gym'),
+  -- Cianwood Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (823, 2, 'johto-cianwood-gym', 'Cianwood Gym'),
+  -- Mahogany Town: a Story place with no wild Pokémon (Gold / Silver's way to the Lake of Rage and Team Rocket HQ)
+  (824, 2, 'johto-mahogany-town', 'Mahogany Town'),
+  -- Mahogany Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (825, 2, 'johto-mahogany-gym', 'Mahogany Gym'),
+  -- Blackthorn Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (826, 2, 'johto-blackthorn-gym', 'Blackthorn Gym'),
+  -- Olivine Lighthouse: a Story place with no wild Pokémon (Gold / Silver's Olivine Lighthouse beat)
+  (827, 2, 'johto-olivine-lighthouse', 'Olivine Lighthouse'),
+  -- Team Rocket HQ: a Story place with no wild Pokémon (Gold / Silver's Team Rocket HQ beat)
+  (828, 2, 'johto-team-rocket-hq', 'Team Rocket HQ'),
+  -- Goldenrod Radio Tower: a Story place with no wild Pokémon (Gold / Silver's Radio Tower beat)
+  (829, 2, 'johto-goldenrod-radio-tower', 'Goldenrod Radio Tower'),
+  -- Goldenrod Underground: a Story place with no wild Pokémon (Gold / Silver's rival battle before the Radio Tower)
+  (830, 2, 'johto-goldenrod-underground', 'Goldenrod Underground'),
+  -- S.S. Aqua: a Story place with no wild Pokémon (Gold / Silver's ship to Kanto)
+  (831, 2, 'johto-ss-aqua', 'S.S. Aqua');

@@ -28,5 +28,35 @@
     "id": "20018",
     "becomes": "20017",
     "reason": "Yellow: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30011",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Will merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30012",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Koga merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30013",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30014",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Karen merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30016",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

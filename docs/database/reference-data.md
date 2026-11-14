@@ -369,11 +369,12 @@ sources remain authoritative for game-specific mechanics and availability.
     and the Champion as its battles. There is no League chapter and no
     separate Elite Four or Hall of Fame milestone. Merged milestones get an
     entry in `database/game-data/id-changes.json`.
-  - Opponents are the characters the game names (Leaders, the Elite Four,
-    rivals, villain bosses and named admins) and the Pokémon the story makes
-    you face. Plain trainer classes stay out, and so does a blocker you can
-    catch, beat or run from (a Snorlax). Teams and moves come from the game's
-    own data.
+  - Opponents are the story's own characters (Leaders, the Elite Four,
+    rivals, villain bosses and their admins) and the Pokémon the story makes
+    you beat. Plain trainers stay out even where the game names them or
+    forces the fight (Sprout Tower's Elder, the Kimono Girls), and so does a
+    blocker you can catch, beat or run from (a Snorlax, Sudowoodo, the red
+    Gyarados). Teams and moves come from the game's own data.
   - A description says what to do, then what you get or unlock, and a badge
     names what it does outside battle. A place step's note says who gives you
     what, what a path needs, what blocks the way and the Gym's type, up to
@@ -381,7 +382,9 @@ sources remain authoritative for game-specific mechanics and availability.
     "Team Rocket Grunt" rather than "a Rocket", and a note never names the
     Pokémon found there.
   - A collectible set is something scattered that the game counts and
-    rewards. A game without one has none.
+    rewards. A game without one has none. Forms the Pokédex counts as one
+    species qualify when the game keeps its own count of them and rewards
+    the full set (Unown's 26 forms in Gold / Silver).
 - Yellow follows Red / Blue step for step (the same Kanto, the same 81
   roadmap steps and place list). What differs comes from Yellow's own data
   (the pret pokeyellow disassembly): Receive Pikachu is not a choice, Jessie
@@ -392,6 +395,25 @@ sources remain authoritative for game-specific mechanics and availability.
   note, not a milestone, like the gift Bulbasaur, Charmander and Squirtle,
   which show under their places). Its four Elite Four milestones and Hall of
   Fame merged into the Pokémon League milestone through the ID changes list.
+- Gold / Silver in the pattern (`620_gs_story.sql`): Main Story is Johto in
+  walkthrough order, with the beats the game forces between badges as their
+  own milestones (the Slowpoke Well, which opens Azalea Gym, Ilex Forest for
+  Cut, Olivine Lighthouse for the SecretPotion, the Lake of Rage and Team
+  Rocket HQ, which open Mahogany Gym, and the Radio Tower), and ends at the
+  one Pokémon League milestone (Silver in Victory Road, the Elite Four and
+  Lance). Post Game is Kanto: its eight badges in the order the walkthrough
+  reaches them, the Power Plant beat (the EXPN Card it leads to wakes the
+  Snorlax in front of Diglett's Cave, the only way west), then Red. The
+  Burned Tower is optional in these games, so it is Side Content with the
+  three Pokémon that flee it (placed at the Burned Tower, where they start),
+  the Tin Tower and the Whirl Islands. The roadmap has 137 steps, sourced
+  from all 29 parts of Bulbapedia's walkthrough. The game's own data (the
+  pret pokegold disassembly) confirmed every seeded team and showed that the
+  red Gyarados, Sudowoodo, the hideout's Electrode and Snorlax all leave
+  whether caught, beaten or fled, so they are notes. The Executives keep the
+  names HeartGold / SoulSilver gave them (the games only say Executive).
+  Known gaps: the Tin Tower's place is the row named Bell Tower, and
+  Crystal still has the old layout.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
@@ -418,6 +440,10 @@ sources remain authoritative for game-specific mechanics and availability.
   Sun, Kommo-o in Ultra Moon at 100), the Isle of Armor Diglett gifts with an
   Alolan Diglett at 150, the shrine and Treasure of Ruin each stake colour
   unseals, and Vessa's items with Spiritomb at level 60 for all 107 wisps.
+  Gold / Silver's Unown set (26 forms, each with the Ruins of Alph puzzle
+  that wakes it) rewards the Pokédex's Unown Mode at three forms and the
+  researchers' printer at 26, read from the pret pokegold disassembly; it
+  has no art yet.
   Only one reference names the stake colour of each shrine; the other confirms
   which Treasure of Ruin each shrine holds.
 

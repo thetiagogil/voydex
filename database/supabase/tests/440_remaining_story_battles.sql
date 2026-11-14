@@ -27,9 +27,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 3
-                AND refs.milestone_id IN (30009, 30027)
+                AND refs.milestone_id IN (30009, 30027, 30037)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (30009, 'petrel', 1), (30009, 'ariana', 2), (30009, 'pryce', 3), (30027, 'petrel', 1), (30027, 'silver', 2), (30027, 'proton', 3), (30027, 'ariana', 4), (30027, 'archer', 5) $$, 'Gold / Silver: the Executives at the Rocket HQ and the Radio Tower');
+            VALUES (30009, 'pryce', 1), (30027, 'petrel', 1), (30027, 'silver', 2), (30027, 'proton', 3), (30027, 'ariana', 4), (30027, 'archer', 5), (30037, 'petrel', 1), (30037, 'ariana', 2) $$, 'Gold / Silver: the Executives at the Rocket HQ (its own milestone) and the Radio Tower');
 SELECT
     results_eq ($$
         SELECT
@@ -151,9 +151,9 @@ SELECT
             members.milestone_id, array_agg(move_id ORDER BY member_moves.slot)
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
-            WHERE (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30009, 3031, 2), (50018, 5026, 2))
+            WHERE (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30037, 3031, 2), (50018, 5026, 2))
     GROUP BY members.milestone_id ORDER BY members.milestone_id $$, $$
-    VALUES (20022, ARRAY[43, 40, 44, 137]), (30009, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
+    VALUES (20022, ARRAY[43, 40, 44, 137]), (30037, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
 -- Set moves keep the game's order.
 SELECT
     results_eq ($$

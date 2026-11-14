@@ -15,7 +15,7 @@ SELECT
     results_eq ($$ SELECT DISTINCT
             version_groups.slug FROM tracking.mainline_roadmap_steps
             JOIN reference.version_groups ON version_groups.id = mainline_roadmap_steps.version_group_id ORDER BY version_groups.slug $$, $$
-        VALUES ('rb'::text), ('yellow') $$, 'Red / Blue and Yellow have a Story roadmap');
+        VALUES ('gs'::text), ('rb'), ('yellow') $$, 'Red / Blue, Yellow and Gold / Silver have a Story roadmap');
 -- Every milestone of a game with a roadmap happens at a place.
 SELECT
     is_empty ($$

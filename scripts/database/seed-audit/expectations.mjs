@@ -293,6 +293,7 @@ export const expectedSlugs = {
     "alolan-diglett",
     "wisp",
     "ominous-stake",
+    "unown-form",
   ],
   "gameplay.mainline_play_statuses": [
     "not_started",
