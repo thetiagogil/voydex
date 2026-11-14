@@ -330,7 +330,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Moltres: Moltres Lv. 50: Peck, Fire Spin
     (10025, 1018, NULL, NULL, NULL, NULL, 1, ARRAY[64, 83]),
     -- Mewtwo: Mewtwo Lv. 70: Swift, Psychic, Barrier, Recover
-    (10026, 1019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 94, 112, 105])
+    (10026, 1019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 94, 112, 105]),
+    -- Marowak: Marowak Lv. 30: Bone Club, Growl, Leer, Focus Energy
+    (10021, 1020, NULL, NULL, NULL, NULL, 1, ARRAY[125, 45, 43, 116])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

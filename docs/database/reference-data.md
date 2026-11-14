@@ -340,6 +340,16 @@ sources remain authoritative for game-specific mechanics and availability.
   Hall of Fame milestones. Cerulean Cave is post-game. Source: Bulbapedia's
   Red / Blue walkthrough and location pages. `590_story_places.sql` pins
   them and `580_rb_pokemon_league.sql` pins the League.
+- Red / Blue's review against the game's own data (the pret pokered
+  disassembly) found every seeded team right and no other named trainer, so
+  the opponents stay Blue, Giovanni, the Gym Leaders, the Elite Four and the
+  legendaries, plus one: the ghost Marowak on Pokémon Tower's sixth floor
+  (level 30, the game's default moves), the only battle with a Pokémon the
+  story makes you win. A Snorlax is not a battle: only one of the two has to
+  be woken and it can be caught, beaten or run from, so the Route 12 and
+  Route 16 notes carry it. Red / Blue has no collectible set, since nothing
+  in the game is scattered, counted and rewarded the way Zygarde Cells are.
+  `600_rb_story_review.sql` pins the Marowak battle and the Pokédex's place.
 - Story roadmap (`tracking.mainline_roadmap_steps`): the walkthrough step by
   step, copied from Bulbapedia's walkthrough for the version group, so a
   place shows each time the story comes back to it (Red / Blue passes Pallet

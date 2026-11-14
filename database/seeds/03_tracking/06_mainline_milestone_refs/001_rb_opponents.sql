@@ -64,6 +64,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (10019, 1014, 1, 'battle-opponent', 1, 'S.S. Anne 2F, Vermilion City', NULL),
   -- Pokémon Tower -> Blue
   (10021, 1014, 1, 'battle-opponent', 1, 'Pokémon Tower 2F, Lavender Town', NULL),
+  -- Pokémon Tower -> Marowak
+  (10021, 1020, 1, 'battle-opponent', 2, 'Pokémon Tower 6F. You can''t catch it, so beat it to pass.', NULL),
   -- Rocket Hideout -> Giovanni
   (10020, 1015, 1, 'battle-opponent', 1, 'Rocket Hideout B4F, Celadon City', NULL),
   -- Silph Co. -> Blue
