@@ -27,8 +27,8 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             JOIN reference.pokemon_species ON pokemon_species.id = mainline_opponent_team_members.species_id
             WHERE
-                mainline_opponent_team_members.version_group_id = 1
-                AND mainline_opponents.slug = 'marowak'   $$, $$
+                mainline_opponents.slug = 'marowak'
+                AND mainline_opponent_team_members.version_group_id = 1 $$, $$
             VALUES ('marowak'::text, 30, NULL::text) $$, 'the ghost is one Marowak at level 30');
 -- Its moves are the ones the game gives a wild Marowak at that level.
 SELECT
@@ -40,8 +40,8 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             JOIN reference.moves ON moves.id = mainline_opponent_team_member_moves.move_id
             WHERE
-                mainline_opponent_team_members.version_group_id = 1
-                AND mainline_opponents.slug = 'marowak'   $$, $$
+                mainline_opponents.slug = 'marowak'
+                AND mainline_opponent_team_members.version_group_id = 1 $$, $$
             VALUES ('bone-club, growl, leer, focus-energy'::text) $$, 'the ghost Marowak knows Bone Club, Growl, Leer and Focus Energy');
 -- Both of Professor Oak's handouts happen in his laboratory.
 SELECT
