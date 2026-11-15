@@ -86,4 +86,10 @@ INSERT INTO tracking.mainline_opponents (
   -- Sabi (boss; Warden)
   (22031, 22, NULL, 'sabi', 'Sabi', 'boss', NULL, NULL, 'sabi', NULL, 31),
   -- Beni (boss)
-  (22032, 22, NULL, 'beni', 'Beni', 'boss', NULL, NULL, 'beni', NULL, 32);
+  (22032, 22, NULL, 'beni', 'Beni', 'boss', NULL, NULL, 'beni', NULL, 32),
+  -- Mai (boss): the Diamond Clan's warden of Wyrdeer, on Deertrack Path
+  (22033, 22, NULL, 'mai', 'Mai', 'boss', NULL, NULL, NULL, NULL, 33),
+  -- Gaeric (boss): the Pearl Clan's warden of Avalugg, at Avalugg's Legacy
+  (22034, 22, NULL, 'gaeric', 'Gaeric', 'boss', NULL, NULL, NULL, NULL, 34),
+  -- Akari / Rei (boss, like every Hisui Trainer here): the one you did not pick, your partner in the Survey Corps
+  (22035, 22, NULL, 'akari-rei', 'Akari / Rei', 'boss', NULL, NULL, NULL, NULL, 35);

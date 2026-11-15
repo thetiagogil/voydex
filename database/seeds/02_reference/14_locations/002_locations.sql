@@ -35,8 +35,9 @@
 -- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
 -- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
 -- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
--- Sword / Shield, the Towers of Two Fists for the Isle of Armor, and Ramanas
--- Park for Brilliant Diamond / Shining Pearl).
+-- Sword / Shield, the Towers of Two Fists for the Isle of Armor, Ramanas
+-- Park for Brilliant Diamond / Shining Pearl, and Hisui's arenas, Prelude
+-- Beach, the Stone Portal and the Ancient Retreat for Legends: Arceus).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1917,4 +1918,18 @@ VALUES
   -- Towers of Two Fists: a Story place with no wild Pokémon (the Isle of Armor's Tower of Darkness and Tower of Waters)
   (942, 8, 'galar-towers-of-two-fists', 'Towers of Two Fists'),
   -- Ramanas Park: a Story place with no wild Pokémon (Brilliant Diamond / Shining Pearl's legendary Pokémon rooms)
-  (943, 4, 'sinnoh-ramanas-park', 'Ramanas Park');
+  (943, 4, 'sinnoh-ramanas-park', 'Ramanas Park'),
+  -- Prelude Beach: a Story place with no wild Pokémon (Legends: Arceus's first place)
+  (944, 9, 'hisui-prelude-beach', 'Prelude Beach'),
+  -- Brava Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Lilligant)
+  (945, 9, 'hisui-brava-arena', 'Brava Arena'),
+  -- Molten Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Arcanine)
+  (946, 9, 'hisui-molten-arena', 'Molten Arena'),
+  -- Moonview Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Electrode and Cresselia)
+  (947, 9, 'hisui-moonview-arena', 'Moonview Arena'),
+  -- Icepeak Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Avalugg)
+  (948, 9, 'hisui-icepeak-arena', 'Icepeak Arena'),
+  -- Stone Portal: a Story place with no wild Pokémon (Legends: Arceus's battle with Beni)
+  (949, 9, 'hisui-stone-portal', 'Stone Portal'),
+  -- Ancient Retreat: a Story place with no wild Pokémon (Legends: Arceus's stay with Cogita)
+  (950, 9, 'hisui-ancient-retreat', 'Ancient Retreat');

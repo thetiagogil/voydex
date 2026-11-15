@@ -39,9 +39,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hisuian Lilligant 1: Hisuian Lilligant Lv. 30
   (220004, 22002, 22, NULL, NULL, NULL, NULL, NULL, 1, 549, 54901, 30),
   -- Irida, Mirelands base camp 1: Glaceon Lv. 30
-  (220004, 22024, 22, NULL, NULL, NULL, NULL, NULL, 1, 471, 47100, 30),
+  (220005, 22024, 22, NULL, NULL, NULL, NULL, NULL, 1, 471, 47100, 30),
   -- Irida, Mirelands base camp 2: Eevee Lv. 15
-  (220004, 22024, 22, NULL, NULL, NULL, NULL, NULL, 2, 133, 13300, 15),
+  (220005, 22024, 22, NULL, NULL, NULL, NULL, NULL, 2, 133, 13300, 15),
   -- Hisuian Arcanine 1: Hisuian Arcanine Lv. 36
   (220005, 22003, 22, NULL, NULL, NULL, NULL, NULL, 1, 59, 5901, 36),
   -- Clover, Molten Arena 1: Abomasnow Lv. 35
@@ -161,4 +161,24 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Commander Kamado, Commander Kamado 3: Clefable Lv. 61
   (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 3, 36, 3600, 61),
   -- Commander Kamado, Commander Kamado 4: Snorlax Lv. 62
-  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 4, 143, 14300, 62);
+  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 4, 143, 14300, 62),
+  -- Mai, Deertrack Path 1: Munchlax Lv. 10
+  (220003, 22033, 22, NULL, NULL, NULL, NULL, NULL, 1, 446, 44600, 10),
+  -- Gaeric, Avalugg's Legacy 1: Glalie Lv. 48
+  (220007, 22034, 22, NULL, NULL, NULL, NULL, NULL, 1, 362, 36200, 48),
+  -- Gaeric, Avalugg's Legacy 2: Froslass Lv. 24
+  (220007, 22034, 22, NULL, NULL, NULL, NULL, NULL, 2, 478, 47800, 24),
+  -- Akari / Rei, training grounds 1: Pikachu Lv. 9
+  (220003, 22035, 22, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 9),
+  -- Akari / Rei, front gate 1: Mime Jr. Lv. 19
+  (220004, 22035, 22, NULL, NULL, NULL, NULL, NULL, 1, 439, 43900, 19),
+  -- Akari / Rei, front gate 2: Pikachu Lv. 20
+  (220004, 22035, 22, NULL, NULL, NULL, NULL, NULL, 2, 25, 2500, 20),
+  -- Akari / Rei, front gate 1: Mr. Mime Lv. 46
+  (220007, 22035, 22, NULL, NULL, NULL, NULL, NULL, 1, 122, 12200, 46),
+  -- Akari / Rei, front gate 2: Staravia Lv. 46
+  (220007, 22035, 22, NULL, NULL, NULL, NULL, NULL, 2, 397, 39700, 46),
+  -- Akari / Rei, front gate 3: Pikachu Lv. 47
+  (220007, 22035, 22, NULL, NULL, NULL, NULL, NULL, 3, 25, 2500, 47),
+  -- Coin, Golden Lowlands 1: Toxicroak Lv. 23
+  (220004, 22026, 22, NULL, NULL, NULL, NULL, NULL, 1, 454, 45400, 23);

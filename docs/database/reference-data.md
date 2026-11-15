@@ -642,6 +642,19 @@ sources remain authoritative for game-specific mechanics and availability.
   Case, Seal Case or Game Corner, the Grand Underground, the Nursery).
   Ramanas Park is Post Game with its legendary Pokémon by room. Brilliant
   Diamond / Shining Pearl has no collectible set.
+- Legends: Arceus in the pattern (`810_pla_story.sql`; from Bulbapedia's
+  walkthrough, with its mission and location pages for the last parts): the game has no Gyms and no League, so Main
+  Story is the five nobles, each at its arena, the banishment and the Temple
+  of Sinnoh. A noble is quelled, not battled, and comes last on its
+  milestone, after the wardens and clan leaders who test you on the way. The
+  walkthrough's forced battles that had no row are added with the teams from
+  the characters' own pages: Akari or Rei three times, Mai on Deertrack Path,
+  Coin for the Wall Fragment and Gaeric at Avalugg's Legacy. Irida's second
+  battle is at the camp in the Cobalt Coastlands, so it leads to Arcanine.
+  Hisui's big areas are not place rows, so the route names the part each
+  mission goes through. Post Game is the plates, Volo and Arceus. Side
+  Content is Manaphy, Giratina and the forces of nature. The wisps set is
+  unchanged.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
