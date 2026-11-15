@@ -602,6 +602,18 @@ sources remain authoritative for game-specific mechanics and availability.
   Hau. Post Game is Team Rainbow Rocket, placed at Aether Paradise. Side
   Content is the legendary Pokémon and Ilima's bonus trial. The Totem
   Stickers set is unchanged.
+- Let's Go, Pikachu! / Let's Go, Eevee! in the pattern (`760_lgpe_story.sql`;
+  from all 18 parts of Bulbapedia's walkthrough): Main Story follows the
+  walkthrough through Kanto, with new beats for Bill's Sea Cottage and the
+  Pokémon Mansion. Its notes are written for these games (Secret Techniques
+  in place of HMs, the Gyms' entry conditions, the Tea), not copied from Red
+  / Blue. Trace's battle in Pokémon Tower comes before Celadon City, so it
+  leads to the Rainbow Badge. Jessie and James on Route 17 lead to the Soul
+  Badge. The Marsh Badge follows Silph Co., as the walkthrough plays it. The
+  Pokémon League is one milestone: Trace on Route 22, the Elite Four, then
+  Champion Trace. Post Game is Blue, Green and Red. Side Content is the three
+  birds and Mewtwo. The fossil in Mt. Moon is a note, since these seeds have
+  no choice for it. Let's Go has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

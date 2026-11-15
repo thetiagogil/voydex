@@ -48,9 +48,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Jessie & James, Pokémon Tower: Weezing Lv. 34: Dark Pulse, Sludge Bomb
     (170028, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[399, 188]),
     -- Jessie & James (Route 17): Arbok Lv. 52: Poison Jab, Glare, Crunch, Rock Slide
-    (170007, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242, 157]),
+    (170008, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242, 157]),
     -- Jessie & James (Route 17): Weezing Lv. 52: Sludge Bomb, Dark Pulse, Flamethrower, Thunderbolt
-    (170007, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[188, 399, 53, 85]),
+    (170008, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[188, 399, 53, 85]),
     -- Koga: Weezing Lv. 43: Toxic, Protect, Sludge Bomb, Explosion
     (170008, 17005, NULL, NULL, NULL, NULL, 1, ARRAY[92, 182, 188, 153]),
     -- Koga: Muk Lv. 43: Toxic, Protect, Sludge Bomb, Moonblast
@@ -84,45 +84,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Rhydon Lv. 50: Earthquake, Rock Slide, Megahorn
     (170011, 17008, NULL, NULL, NULL, NULL, 4, ARRAY[89, 157, 224]),
     -- Lorelei: Dewgong Lv. 51: Aqua Jet, Ice Shard, Waterfall
-    (170012, 17009, NULL, NULL, NULL, NULL, 1, ARRAY[453, 420, 127]),
+    (170016, 17009, NULL, NULL, NULL, NULL, 1, ARRAY[453, 420, 127]),
     -- Lorelei: Jynx Lv. 51: Lovely Kiss, Blizzard, Psychic
-    (170012, 17009, NULL, NULL, NULL, NULL, 2, ARRAY[142, 59, 94]),
+    (170016, 17009, NULL, NULL, NULL, NULL, 2, ARRAY[142, 59, 94]),
     -- Lorelei: Cloyster Lv. 51: Ice Beam, Spike Cannon, Hydro Pump
-    (170012, 17009, NULL, NULL, NULL, NULL, 3, ARRAY[58, 131, 56]),
+    (170016, 17009, NULL, NULL, NULL, NULL, 3, ARRAY[58, 131, 56]),
     -- Lorelei: Slowbro Lv. 51: Psychic, Surf, Flamethrower
-    (170012, 17009, NULL, NULL, NULL, NULL, 4, ARRAY[94, 57, 53]),
+    (170016, 17009, NULL, NULL, NULL, NULL, 4, ARRAY[94, 57, 53]),
     -- Lorelei: Lapras Lv. 52: Hydro Pump, Blizzard, Dragon Pulse
-    (170012, 17009, NULL, NULL, NULL, NULL, 5, ARRAY[56, 59, 406]),
+    (170016, 17009, NULL, NULL, NULL, NULL, 5, ARRAY[56, 59, 406]),
     -- Bruno: Onix Lv. 52: Iron Tail, Stealth Rock, Earthquake
-    (170013, 17010, NULL, NULL, NULL, NULL, 1, ARRAY[231, 446, 89]),
+    (170016, 17010, NULL, NULL, NULL, NULL, 1, ARRAY[231, 446, 89]),
     -- Bruno: Hitmonlee Lv. 52: Brick Break, Feint, Rock Slide
-    (170013, 17010, NULL, NULL, NULL, NULL, 2, ARRAY[280, 364, 157]),
+    (170016, 17010, NULL, NULL, NULL, NULL, 2, ARRAY[280, 364, 157]),
     -- Bruno: Hitmonchan Lv. 52: Ice Punch, Thunder Punch, Fire Punch
-    (170013, 17010, NULL, NULL, NULL, NULL, 3, ARRAY[8, 9, 7]),
+    (170016, 17010, NULL, NULL, NULL, NULL, 3, ARRAY[8, 9, 7]),
     -- Bruno: Poliwrath Lv. 52: Superpower, Waterfall, Body Slam
-    (170013, 17010, NULL, NULL, NULL, NULL, 4, ARRAY[276, 127, 34]),
+    (170016, 17010, NULL, NULL, NULL, NULL, 4, ARRAY[276, 127, 34]),
     -- Bruno: Machamp Lv. 53: Earthquake, Superpower, Rock Slide
-    (170013, 17010, NULL, NULL, NULL, NULL, 5, ARRAY[89, 276, 157]),
+    (170016, 17010, NULL, NULL, NULL, NULL, 5, ARRAY[89, 276, 157]),
     -- Agatha: Arbok Lv. 53: Glare, Crunch, Poison Jab
-    (170014, 17011, NULL, NULL, NULL, NULL, 1, ARRAY[137, 242, 398]),
+    (170016, 17011, NULL, NULL, NULL, NULL, 1, ARRAY[137, 242, 398]),
     -- Agatha: Gengar Lv. 53: Will-O-Wisp, Shadow Ball, Sludge Bomb
-    (170014, 17011, NULL, NULL, NULL, NULL, 2, ARRAY[261, 247, 188]),
+    (170016, 17011, NULL, NULL, NULL, NULL, 2, ARRAY[261, 247, 188]),
     -- Agatha: Golbat Lv. 53: Air Slash, Crunch, Quick Attack
-    (170014, 17011, NULL, NULL, NULL, NULL, 3, ARRAY[403, 242, 98]),
+    (170016, 17011, NULL, NULL, NULL, NULL, 3, ARRAY[403, 242, 98]),
     -- Agatha: Weezing Lv. 53: Sludge Bomb, Shadow Ball, Thunderbolt
-    (170014, 17011, NULL, NULL, NULL, NULL, 4, ARRAY[188, 247, 85]),
+    (170016, 17011, NULL, NULL, NULL, NULL, 4, ARRAY[188, 247, 85]),
     -- Agatha: Gengar Lv. 54: Dazzling Gleam, Shadow Ball, Sludge Bomb
-    (170014, 17011, NULL, NULL, NULL, NULL, 5, ARRAY[605, 247, 188]),
+    (170016, 17011, NULL, NULL, NULL, NULL, 5, ARRAY[605, 247, 188]),
     -- Lance: Seadra Lv. 54: Hydro Pump, Dragon Pulse, Hyper Beam
-    (170015, 17012, NULL, NULL, NULL, NULL, 1, ARRAY[56, 406, 63]),
+    (170016, 17012, NULL, NULL, NULL, NULL, 1, ARRAY[56, 406, 63]),
     -- Lance: Aerodactyl Lv. 54: Rock Slide, Earthquake, Hyper Beam
-    (170015, 17012, NULL, NULL, NULL, NULL, 2, ARRAY[157, 89, 63]),
+    (170016, 17012, NULL, NULL, NULL, NULL, 2, ARRAY[157, 89, 63]),
     -- Lance: Gyarados Lv. 54: Waterfall, Iron Tail, Hyper Beam
-    (170015, 17012, NULL, NULL, NULL, NULL, 3, ARRAY[127, 231, 63]),
+    (170016, 17012, NULL, NULL, NULL, NULL, 3, ARRAY[127, 231, 63]),
     -- Lance: Charizard Lv. 54: Air Slash, Dragon Pulse, Hyper Beam
-    (170015, 17012, NULL, NULL, NULL, NULL, 4, ARRAY[403, 406, 63]),
+    (170016, 17012, NULL, NULL, NULL, NULL, 4, ARRAY[403, 406, 63]),
     -- Lance: Dragonite Lv. 55: Outrage, Fire Punch, Hyper Beam
-    (170015, 17012, NULL, NULL, NULL, NULL, 5, ARRAY[200, 7, 63]),
+    (170016, 17012, NULL, NULL, NULL, NULL, 5, ARRAY[200, 7, 63]),
     -- Rival: Pidgeot Lv. 56: Quick Attack, Air Slash, Heat Wave
     (170016, 17013, 29, NULL, NULL, NULL, 1, ARRAY[98, 403, 257]),
     -- Rival: Vileplume Lv. 56: Solar Beam, Reflect, Sludge Bomb
@@ -208,17 +208,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Trace: Pikachu Lv. 21: Thunder Shock, Quick Attack, Double Kick
     (170020, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 24]),
     -- Trace: Pidgeotto Lv. 27: Quick Attack, Wing Attack, Sand Attack
-    (170028, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
+    (170006, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
     -- Trace: Gloom Lv. 27: Razor Leaf, Sleep Powder, Acid
-    (170028, 17016, 29, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
+    (170006, 17016, 29, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
     -- Trace: Jolteon Lv. 28: Thunder Shock, Quick Attack, Pin Missile
-    (170028, 17016, 29, NULL, NULL, NULL, 3, ARRAY[84, 98, 42]),
+    (170006, 17016, 29, NULL, NULL, NULL, 3, ARRAY[84, 98, 42]),
     -- Trace: Pidgeotto Lv. 27: Quick Attack, Wing Attack, Sand Attack
-    (170028, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
+    (170006, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
     -- Trace: Gloom Lv. 27: Razor Leaf, Sleep Powder, Acid
-    (170028, 17016, 30, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
+    (170006, 17016, 30, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
     -- Trace: Raichu Lv. 28: Thunder Shock, Quick Attack, Thunder Punch
-    (170028, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 9]),
+    (170006, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 9]),
     -- Jessie & James, Rocket Hideout: Arbok Lv. 32: Poison Jab, Glare, Crunch
     (170021, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
     -- Jessie & James, Rocket Hideout: Weezing Lv. 32: Toxic, Sludge
@@ -256,21 +256,21 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Nidoqueen Lv. 39: Body Slam, Crunch
     (170022, 17017, NULL, NULL, NULL, NULL, 3, ARRAY[34, 242]),
     -- Trace: Pidgeot Lv. 50: Quick Attack, Air Slash, Sand Attack, Roost
-    (170012, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 403, 28, 355]),
+    (170016, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 403, 28, 355]),
     -- Trace: Vileplume Lv. 50: Petal Dance, Toxic, Acid
-    (170012, 17016, 29, NULL, NULL, NULL, 2, ARRAY[80, 92, 51]),
+    (170016, 17016, 29, NULL, NULL, NULL, 2, ARRAY[80, 92, 51]),
     -- Trace: Marowak Lv. 50: Focus Energy, Bonemerang, Thrash, Swords Dance
-    (170012, 17016, 29, NULL, NULL, NULL, 3, ARRAY[116, 155, 37, 14]),
+    (170016, 17016, 29, NULL, NULL, NULL, 3, ARRAY[116, 155, 37, 14]),
     -- Trace: Jolteon Lv. 51: Thunder, Quick Attack, Pin Missile, Double Kick
-    (170012, 17016, 29, NULL, NULL, NULL, 4, ARRAY[87, 98, 42, 24]),
+    (170016, 17016, 29, NULL, NULL, NULL, 4, ARRAY[87, 98, 42, 24]),
     -- Trace: Pidgeot Lv. 50: Quick Attack, Air Slash, Sand Attack, Roost
-    (170012, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 403, 28, 355]),
+    (170016, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 403, 28, 355]),
     -- Trace: Vileplume Lv. 50: Petal Dance, Toxic, Acid
-    (170012, 17016, 30, NULL, NULL, NULL, 2, ARRAY[80, 92, 51]),
+    (170016, 17016, 30, NULL, NULL, NULL, 2, ARRAY[80, 92, 51]),
     -- Trace: Marowak Lv. 50: Focus Energy, Bonemerang, Thrash, Swords Dance
-    (170012, 17016, 30, NULL, NULL, NULL, 3, ARRAY[116, 155, 37, 14]),
+    (170016, 17016, 30, NULL, NULL, NULL, 3, ARRAY[116, 155, 37, 14]),
     -- Trace: Raichu Lv. 51: Thunder, Quick Attack, Thunder Punch, Slam
-    (170012, 17016, 30, NULL, NULL, NULL, 4, ARRAY[87, 98, 9, 21]),
+    (170016, 17016, 30, NULL, NULL, NULL, 4, ARRAY[87, 98, 9, 21]),
     -- Zapdos: Zapdos Lv. 50: Drill Peck, Thunderbolt, Agility, Light Screen
     (170023, 17018, NULL, NULL, NULL, NULL, 1, ARRAY[65, 85, 97, 113]),
     -- Articuno: Articuno Lv. 50: Mirror Coat, Ice Beam, Agility, Reflect

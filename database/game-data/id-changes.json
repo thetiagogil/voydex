@@ -460,5 +460,35 @@
     "id": "160021",
     "becomes": "160020",
     "reason": "Ultra Sun / Ultra Moon: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170012",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Lorelei merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170013",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170014",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Agatha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170015",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Lance merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170017",
+    "becomes": "170016",
+    "reason": "Let's Go: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

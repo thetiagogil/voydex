@@ -57,9 +57,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Jessie & James, Pokémon Tower 2: Weezing Lv. 34
   (170028, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 34),
   -- Jessie & James, Route 17 1: Arbok Lv. 52
-  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 52),
+  (170008, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 52),
   -- Jessie & James, Route 17 2: Weezing Lv. 52
-  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 52),
+  (170008, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 52),
   -- Koga 1: Weezing Lv. 43
   (170008, 17005, 17, NULL, NULL, NULL, NULL, NULL, 1, 110, 11000, 43),
   -- Koga 2: Muk Lv. 43
@@ -93,45 +93,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Giovanni 4: Rhydon Lv. 50
   (170011, 17008, 17, NULL, NULL, NULL, NULL, NULL, 4, 112, 11200, 50),
   -- Lorelei 1: Dewgong Lv. 51
-  (170012, 17009, 17, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 51),
+  (170016, 17009, 17, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 51),
   -- Lorelei 2: Jynx Lv. 51
-  (170012, 17009, 17, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 51),
+  (170016, 17009, 17, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 51),
   -- Lorelei 3: Cloyster Lv. 51
-  (170012, 17009, 17, NULL, NULL, NULL, NULL, NULL, 3, 91, 9100, 51),
+  (170016, 17009, 17, NULL, NULL, NULL, NULL, NULL, 3, 91, 9100, 51),
   -- Lorelei 4: Slowbro Lv. 51
-  (170012, 17009, 17, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 51),
+  (170016, 17009, 17, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 51),
   -- Lorelei 5: Lapras Lv. 52
-  (170012, 17009, 17, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 52),
+  (170016, 17009, 17, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 52),
   -- Bruno 1: Onix Lv. 52
-  (170013, 17010, 17, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 52),
+  (170016, 17010, 17, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 52),
   -- Bruno 2: Hitmonlee Lv. 52
-  (170013, 17010, 17, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 52),
+  (170016, 17010, 17, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 52),
   -- Bruno 3: Hitmonchan Lv. 52
-  (170013, 17010, 17, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 52),
+  (170016, 17010, 17, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 52),
   -- Bruno 4: Poliwrath Lv. 52
-  (170013, 17010, 17, NULL, NULL, NULL, NULL, NULL, 4, 62, 6200, 52),
+  (170016, 17010, 17, NULL, NULL, NULL, NULL, NULL, 4, 62, 6200, 52),
   -- Bruno 5: Machamp Lv. 53
-  (170013, 17010, 17, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 53),
+  (170016, 17010, 17, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 53),
   -- Agatha 1: Arbok Lv. 53
-  (170014, 17011, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 53),
+  (170016, 17011, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 53),
   -- Agatha 2: Gengar Lv. 53
-  (170014, 17011, 17, NULL, NULL, NULL, NULL, NULL, 2, 94, 9400, 53),
+  (170016, 17011, 17, NULL, NULL, NULL, NULL, NULL, 2, 94, 9400, 53),
   -- Agatha 3: Golbat Lv. 53
-  (170014, 17011, 17, NULL, NULL, NULL, NULL, NULL, 3, 42, 4200, 53),
+  (170016, 17011, 17, NULL, NULL, NULL, NULL, NULL, 3, 42, 4200, 53),
   -- Agatha 4: Weezing Lv. 53
-  (170014, 17011, 17, NULL, NULL, NULL, NULL, NULL, 4, 110, 11000, 53),
+  (170016, 17011, 17, NULL, NULL, NULL, NULL, NULL, 4, 110, 11000, 53),
   -- Agatha 5: Gengar Lv. 54
-  (170014, 17011, 17, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 54),
+  (170016, 17011, 17, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 54),
   -- Lance 1: Seadra Lv. 54
-  (170015, 17012, 17, NULL, NULL, NULL, NULL, NULL, 1, 117, 11700, 54),
+  (170016, 17012, 17, NULL, NULL, NULL, NULL, NULL, 1, 117, 11700, 54),
   -- Lance 2: Aerodactyl Lv. 54
-  (170015, 17012, 17, NULL, NULL, NULL, NULL, NULL, 2, 142, 14200, 54),
+  (170016, 17012, 17, NULL, NULL, NULL, NULL, NULL, 2, 142, 14200, 54),
   -- Lance 3: Gyarados Lv. 54
-  (170015, 17012, 17, NULL, NULL, NULL, NULL, NULL, 3, 130, 13000, 54),
+  (170016, 17012, 17, NULL, NULL, NULL, NULL, NULL, 3, 130, 13000, 54),
   -- Lance 4: Charizard Lv. 54
-  (170015, 17012, 17, NULL, NULL, NULL, NULL, NULL, 4, 6, 600, 54),
+  (170016, 17012, 17, NULL, NULL, NULL, NULL, NULL, 4, 6, 600, 54),
   -- Lance 5: Dragonite Lv. 55
-  (170015, 17012, 17, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 55),
+  (170016, 17012, 17, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 55),
   -- Rival (Let's Go, Pikachu!) 1: Pidgeot Lv. 56
   (170016, 17013, 17, 29, NULL, NULL, NULL, NULL, 1, 18, 1800, 56),
   -- Rival (Let's Go, Pikachu!) 2: Vileplume Lv. 56
@@ -217,17 +217,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Trace (Lets Go Eevee), S.S. Anne 3: Pikachu Lv. 21
   (170020, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 25, 2500, 21),
   -- Trace (Lets Go Pikachu), Rainbow Badge 1: Pidgeotto Lv. 27
-  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
   -- Trace (Lets Go Pikachu), Rainbow Badge 2: Gloom Lv. 27
-  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
   -- Trace (Lets Go Pikachu), Rainbow Badge 3: Jolteon Lv. 28
-  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 135, 13500, 28),
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 135, 13500, 28),
   -- Trace (Lets Go Eevee), Rainbow Badge 1: Pidgeotto Lv. 27
-  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
   -- Trace (Lets Go Eevee), Rainbow Badge 2: Gloom Lv. 27
-  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
   -- Trace (Lets Go Eevee), Rainbow Badge 3: Raichu Lv. 28
-  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
   -- Jessie & James, Rocket Hideout 1: Arbok Lv. 32
   (170021, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 32),
   -- Jessie & James, Rocket Hideout 2: Weezing Lv. 32
@@ -265,21 +265,21 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Giovanni, Silph Co. 3: Nidoqueen Lv. 39
   (170022, 17017, 17, NULL, NULL, NULL, NULL, NULL, 3, 31, 3100, 39),
   -- Trace (Lets Go Pikachu), Elite Four Lorelei 1: Pidgeot Lv. 50
-  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
+  (170016, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
   -- Trace (Lets Go Pikachu), Elite Four Lorelei 2: Vileplume Lv. 50
-  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
+  (170016, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
   -- Trace (Lets Go Pikachu), Elite Four Lorelei 3: Marowak Lv. 50
-  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
+  (170016, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
   -- Trace (Lets Go Pikachu), Elite Four Lorelei 4: Jolteon Lv. 51
-  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 4, 135, 13500, 51),
+  (170016, 17016, 17, 29, NULL, NULL, NULL, NULL, 4, 135, 13500, 51),
   -- Trace (Lets Go Eevee), Elite Four Lorelei 1: Pidgeot Lv. 50
-  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
+  (170016, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
   -- Trace (Lets Go Eevee), Elite Four Lorelei 2: Vileplume Lv. 50
-  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
+  (170016, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
   -- Trace (Lets Go Eevee), Elite Four Lorelei 3: Marowak Lv. 50
-  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
+  (170016, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
   -- Trace (Lets Go Eevee), Elite Four Lorelei 4: Raichu Lv. 51
-  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 51),
+  (170016, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 51),
   -- Zapdos, Power Plant 1: Zapdos Lv. 50
   (170023, 17018, 17, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
   -- Articuno, Seafoam Islands 1: Articuno Lv. 50

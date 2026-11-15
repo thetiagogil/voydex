@@ -136,7 +136,8 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'hall-of-fame'
                 AND mainline_opponents.name IN ('Wally', 'Colress') $$, 'rematches stay off the Hall of Fame');
--- Let's Go: Pokémon Tower is a beat with Trace and Jessie & James, and Route 17 has their Lv. 52 team.
+-- Let's Go: Trace's battle in the Pokémon Tower leads to the Rainbow Badge, Jessie & James
+-- are the Pokémon Tower beat, and their Lv. 52 team on Route 17 leads to the Soul Badge.
 SELECT
     results_eq ($$
         SELECT
@@ -146,9 +147,10 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
                 mainline_milestones.version_group_id = 17
-                AND mainline_milestones.slug IN ('pokemon-tower', 'snorlax-encounter')
+                AND mainline_milestones.slug IN ('pokemon-tower', 'rainbow-badge', 'soul-badge')
+                AND mainline_opponents.name IN ('Trace', 'Jessie & James')
             GROUP BY mainline_milestones.slug, mainline_opponents.name ORDER BY mainline_milestones.slug, mainline_opponents.name $$, $$
-            VALUES ('pokemon-tower', 'Jessie & James', 34), ('pokemon-tower', 'Trace', 28), ('snorlax-encounter', 'Jessie & James', 52) $$, 'Let''s Go''s Pokémon Tower and Route 17 battles sit on their beats');
+            VALUES ('pokemon-tower', 'Jessie & James', 34), ('rainbow-badge', 'Trace', 28), ('soul-badge', 'Jessie & James', 52) $$, 'Let''s Go''s Pokémon Tower and Route 17 battles sit on their beats');
 -- Isle of Armor: the Dojo Trials beat holds both Klara / Avery trial battles, in order.
 SELECT
     results_eq ($$
@@ -211,7 +213,7 @@ SELECT
                 mainline_milestones.slug = 'receive-pokedex'
                 AND mainline_opponents.opponent_role = 'rival'
                 AND mainline_milestone_opponent_refs.location_id IS NULL
-                AND mainline_milestone_opponent_refs.notes NOT IN ('Route 103', 'Professor Oak''s Laboratory, Pallet Town', 'Poco Path lighthouse', 'South gate of Mesagoza (South Province Area One)') $$, 'Receive Pokedex only keeps the battles fought on the way to it or there');
+                AND mainline_milestone_opponent_refs.notes NOT IN ('Route 103', 'Professor Oak''s Laboratory, Pallet Town', 'Before you leave the lab.', 'Poco Path lighthouse', 'South gate of Mesagoza (South Province Area One)') $$, 'Receive Pokedex only keeps the battles fought on the way to it or there');
 SELECT
     *
 FROM

@@ -7,7 +7,7 @@ import {
 } from "../core.mjs";
 
 const EXPECTED_LOCATION_ROWS = 929;
-const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1843;
+const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1856;
 const EXPECTED_ENCOUNTER_ROWS = 27853;
 
 /* Which rods each version group fishes with, by way slug: Old, Good and
