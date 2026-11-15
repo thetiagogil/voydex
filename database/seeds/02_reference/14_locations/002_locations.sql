@@ -35,7 +35,7 @@
 -- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
 -- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
 -- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
--- Sword / Shield).
+-- Sword / Shield, and the Towers of Two Fists for the Isle of Armor).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1912,4 +1912,6 @@ VALUES
   -- Wyndon Stadium: a Story place with no wild Pokémon (Sword / Shield's Champion Cup)
   (940, 8, 'galar-wyndon-stadium', 'Wyndon Stadium'),
   -- Energy Plant: a Story place with no wild Pokémon (Sword / Shield's Eternatus beat)
-  (941, 8, 'galar-energy-plant', 'Energy Plant');
+  (941, 8, 'galar-energy-plant', 'Energy Plant'),
+  -- Towers of Two Fists: a Story place with no wild Pokémon (the Isle of Armor's Tower of Darkness and Tower of Waters)
+  (942, 8, 'galar-towers-of-two-fists', 'Towers of Two Fists');

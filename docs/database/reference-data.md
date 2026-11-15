@@ -625,6 +625,15 @@ sources remain authoritative for game-specific mechanics and availability.
   in Rose Tower, finals), Defeat Eternatus and Champion Leon, which holds the
   Hall of Fame. Post Game is the Sordward and Shielbert episode. Sword /
   Shield has no collectible set in the base game.
+- The Isle of Armor and the Crown Tundra in the pattern
+  (`780_swsh_ioa_story.sql`, `790_swsh_ct_story.sql`; from Bulbapedia's story
+  and location pages): each keeps its DLC Story chapter. On the Isle of
+  Armor, the two towers share one place, the Towers of Two Fists, and the
+  rival's battles name the Fields of Honor and the Warm-Up Tunnel. In the
+  Crown Tundra, Peony's battle at the station comes before Freezington, the
+  three sealed ruins (Regirock, Regice, Registeel) come before the
+  Split-Decision Ruins (Regieleki or Regidrago), and the steed's battle names
+  Freezington. The Alolan Diglett set is unchanged.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

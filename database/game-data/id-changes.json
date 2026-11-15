@@ -496,5 +496,11 @@
     "id": "180013",
     "becomes": "180012",
     "reason": "Sword / Shield: Hall of Fame merged into the Champion Leon milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "190004",
+    "becomes": "190002",
+    "reason": "The Isle of Armor: Receive Kubfu merged into the Dojo Trials, whose reward it is"
   }
 ]

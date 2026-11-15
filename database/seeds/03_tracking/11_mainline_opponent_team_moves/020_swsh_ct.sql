@@ -33,15 +33,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Spectrier: Spectrier Lv. 75: Shadow Ball, Thrash, Hex, Double Kick
     (200004, 20004, NULL, 200003, 'spectrier', NULL, 1, ARRAY[247, 37, 506, 24]),
     -- Registeel: Registeel Lv. 70: Heavy Slam, Flash Cannon, Iron Defense, Charge Beam
-    (200005, 20005, NULL, NULL, NULL, NULL, 1, ARRAY[484, 430, 334, 451]),
+    (200006, 20005, NULL, NULL, NULL, NULL, 1, ARRAY[484, 430, 334, 451]),
     -- Regirock: Regirock Lv. 70: Superpower, Stone Edge, Hammer Arm, Curse
-    (200005, 20006, NULL, NULL, NULL, NULL, 1, ARRAY[276, 444, 359, 174]),
+    (200006, 20006, NULL, NULL, NULL, NULL, 1, ARRAY[276, 444, 359, 174]),
     -- Regice: Regice Lv. 70: Ice Beam, Zap Cannon, Amnesia, Icy Wind
-    (200005, 20007, NULL, NULL, NULL, NULL, 1, ARRAY[58, 192, 133, 196]),
+    (200006, 20007, NULL, NULL, NULL, NULL, 1, ARRAY[58, 192, 133, 196]),
     -- Regieleki: Regieleki Lv. 70: Thunder Cage, Electroweb, Extreme Speed, Magnet Rise
-    (200006, 20008, NULL, 200005, 'regieleki', NULL, 1, ARRAY[819, 527, 245, 393]),
+    (200005, 20008, NULL, 200005, 'regieleki', NULL, 1, ARRAY[819, 527, 245, 393]),
     -- Regidrago: Regidrago Lv. 70: Dragon Energy, Dragon Claw, Hammer Arm, Laser Focus
-    (200006, 20009, NULL, 200005, 'regidrago', NULL, 1, ARRAY[820, 337, 359, 673]),
+    (200005, 20009, NULL, 200005, 'regidrago', NULL, 1, ARRAY[820, 337, 359, 673]),
     -- Galarian Articuno: Galarian Articuno Lv. 70: Freezing Glare, Hurricane, Psycho Cut, Psycho Shift
     (200007, 20010, NULL, NULL, NULL, NULL, 1, ARRAY[821, 542, 427, 375]),
     -- Galarian Zapdos: Galarian Zapdos Lv. 70: Thunderous Kick, Drill Peck, Reversal, Focus Energy
