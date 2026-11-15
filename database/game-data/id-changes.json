@@ -580,5 +580,23 @@
     "id": "250007",
     "becomes": "250008",
     "reason": "The Indigo Disk: Area Zero Underdepths merged into Terapagos, which is fought there"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260002",
+    "becomes": "260001",
+    "reason": "Legends: Z-A: Arrive in Lumiose City merged into Choose Starter, which happens as you arrive"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260004",
+    "becomes": "260013",
+    "reason": "Legends: Z-A: Enter Z-A Royale merged into Reach Rank Y, its first match"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260007",
+    "becomes": "260021",
+    "reason": "Legends: Z-A: Explore Lysandre Labs merged into Reach Rank A, whose match ends it"
   }
 ]

@@ -686,6 +686,16 @@ sources remain authoritative for game-specific mechanics and availability.
   Area Zero and the Zero Lab to the Underdepths. Arriving in the Underdepths
   and Terapagos are one beat. Side Content is Mochi Mayhem, Meloetta, Perrin's
   photos and Snacksworth's treats.
+- Legends: Z-A in the pattern (`850_za_story.sql`; from all 29 parts of
+  Bulbapedia's walkthrough): the route follows the Main Missions through
+  Lumiose City, where a place is a street, a sector, a building or a Wild
+  Zone. Arriving merges into Choose Starter, entering the Royale into Reach
+  Rank Y and Lysandre Labs into Reach Rank A, so no two beats ask to be
+  recorded with nothing between them. A promotion match is at the place it
+  is fought, and a Rogue Mega Evolution in its sector. Its chapters stay
+  (Main Story, Z-A Royale, Rogue Mega Evolution, Finale). Known gap: the
+  walkthrough's battles with Naveen, Lida, Emma and the Society of Battle
+  Connoisseurs have no seeded team yet, so they are notes on their places.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

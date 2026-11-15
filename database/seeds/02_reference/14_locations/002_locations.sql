@@ -1984,4 +1984,54 @@ VALUES
   -- Blueberry Academy: a Story place with no wild Pokémon (The Indigo Disk's school)
   (974, 10, 'paldea-blueberry-academy', 'Blueberry Academy'),
   -- Area Zero Underdepths: a Story place with no wild Pokémon (The Indigo Disk's last battles)
-  (975, 10, 'paldea-area-zero-underdepths', 'Area Zero Underdepths');
+  (975, 10, 'paldea-area-zero-underdepths', 'Area Zero Underdepths'),
+  -- Gare de Lumiose: a Story place with no wild Pokémon (Legends: Z-A's first place)
+  (976, 6, 'kalos-gare-de-lumiose', 'Gare de Lumiose'),
+  -- Bleu Plaza: a Story place with no wild Pokémon (Legends: Z-A's Rank X match)
+  (977, 6, 'kalos-bleu-plaza', 'Bleu Plaza'),
+  -- Restaurant Le Nah: a Story place with no wild Pokémon (Legends: Z-A's Rank V match)
+  (978, 6, 'kalos-restaurant-le-nah', 'Restaurant Le Nah'),
+  -- Racine Construction: a Story place with no wild Pokémon (Legends: Z-A's Rank E match)
+  (979, 6, 'kalos-racine-construction', 'Racine Construction'),
+  -- Justice Dojo: a Story place with no wild Pokémon (Legends: Z-A's Rank D match)
+  (980, 6, 'kalos-justice-dojo', 'Justice Dojo'),
+  -- Rust Syndicate Office: a Story place with no wild Pokémon (Legends: Z-A's Rank C match)
+  (981, 6, 'kalos-rust-syndicate-office', 'Rust Syndicate Office'),
+  -- Hotel Richissime: a Story place with no wild Pokémon (Legends: Z-A's Rank B tournament)
+  (982, 6, 'kalos-hotel-richissime', 'Hotel Richissime'),
+  -- Aymlis Park: a Story place with no wild Pokémon (Legends: Z-A's Rogue Mega Slowbro and Froslass)
+  (983, 6, 'kalos-aymlis-park', 'Aymlis Park'),
+  -- Centrico Plaza: a Story place with no wild Pokémon (Legends: Z-A's Prism Tower beats)
+  (984, 6, 'kalos-centrico-plaza', 'Centrico Plaza'),
+  -- Looker Bureau: a Story place with no wild Pokémon (Legends: Z-A's detective Emma)
+  (985, 6, 'kalos-looker-bureau', 'Looker Bureau'),
+  -- Jaune Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (986, 6, 'kalos-jaune-sector-3', 'Jaune Sector 3'),
+  -- Jaune Sector 4: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (987, 6, 'kalos-jaune-sector-4', 'Jaune Sector 4'),
+  -- Jaune Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (988, 6, 'kalos-jaune-sector-6', 'Jaune Sector 6'),
+  -- Jaune Sector 8: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (989, 6, 'kalos-jaune-sector-8', 'Jaune Sector 8'),
+  -- Jaune Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (990, 6, 'kalos-jaune-sector-9', 'Jaune Sector 9'),
+  -- Magenta Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (991, 6, 'kalos-magenta-sector-3', 'Magenta Sector 3'),
+  -- Magenta Sector 4: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (992, 6, 'kalos-magenta-sector-4', 'Magenta Sector 4'),
+  -- Magenta Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (993, 6, 'kalos-magenta-sector-6', 'Magenta Sector 6'),
+  -- Magenta Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (994, 6, 'kalos-magenta-sector-9', 'Magenta Sector 9'),
+  -- Vert Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (995, 6, 'kalos-vert-sector-3', 'Vert Sector 3'),
+  -- Vert Sector 5: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (996, 6, 'kalos-vert-sector-5', 'Vert Sector 5'),
+  -- Bleu Sector 5: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (997, 6, 'kalos-bleu-sector-5', 'Bleu Sector 5'),
+  -- Bleu Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (998, 6, 'kalos-bleu-sector-9', 'Bleu Sector 9'),
+  -- Rouge Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (999, 6, 'kalos-rouge-sector-6', 'Rouge Sector 6'),
+  -- Rouge Sector 2: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (1000, 6, 'kalos-rouge-sector-2', 'Rouge Sector 2');

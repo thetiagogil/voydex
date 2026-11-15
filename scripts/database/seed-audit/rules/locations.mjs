@@ -6,8 +6,8 @@ import {
   relative,
 } from "../core.mjs";
 
-const EXPECTED_LOCATION_ROWS = 971;
-const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1920;
+const EXPECTED_LOCATION_ROWS = 996;
+const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1946;
 const EXPECTED_ENCOUNTER_ROWS = 27853;
 
 /* Which rods each version group fishes with, by way slug: Old, Good and
@@ -102,7 +102,7 @@ export function assertLocationRows(context, tableRows) {
     {
       count: EXPECTED_LOCATION_ROWS,
       sha256:
-        "4243b78784093e9b3cbf6b5c5a96601f819f4b07dc287205c2a7b8703033a2df",
+        "34036bd7eb8516865198c819bb13cbec7e5e9f4cab99f48a665ab7952dcbd2ab",
     },
   );
   for (const { row, filePath } of locations) {
