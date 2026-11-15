@@ -114,7 +114,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 7
                 AND mainline_categories.slug = 'main-story'
-                AND mainline_milestones.sort_order BETWEEN 11 AND 15 ORDER BY mainline_milestones.sort_order $$, $$
+                AND mainline_milestones.sort_order BETWEEN 17 AND 21 ORDER BY mainline_milestones.sort_order $$, $$
             VALUES ('mind-badge'), ('space-center'), ('seafloor-cavern'), ('awaken-rayquaza'), ('rain-badge') $$, 'Emerald''s Space Center and Sky Pillar sit between Mind Badge and Rain Badge');
 -- Gold / Silver, Crystal, HeartGold / SoulSilver: Silver's Cherrygrove battle leads to Zephyr Badge (Gold / Silver names the place, the others note it).
 SELECT

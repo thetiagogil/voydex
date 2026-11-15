@@ -57,9 +57,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 7
-                AND refs.milestone_id IN (70020, 70009, 70021, 70010, 70022)
+                AND refs.milestone_id IN (70020, 70009, 70021, 70010, 70022, 70032, 70034)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (70009, 'shelly', 1), (70009, 'may-brendan', 2), (70009, 'winona', 3), (70010, 'may-brendan', 1), (70010, 'matt', 2), (70010, 'tate-liza', 3), (70020, 'tabitha', 1), (70020, 'maxie', 2), (70021, 'tabitha', 1), (70021, 'maxie', 2), (70022, 'shelly', 1), (70022, 'archie', 2) $$, 'Emerald: Tabitha twice before Maxie, Shelly and Matt on their beats');
+            VALUES (70009, 'may-brendan', 1), (70009, 'winona', 2), (70010, 'tate-liza', 1), (70020, 'tabitha', 1), (70020, 'maxie', 2), (70021, 'tabitha', 1), (70021, 'maxie', 2), (70022, 'shelly', 1), (70022, 'archie', 2), (70032, 'shelly', 1), (70034, 'may-brendan', 1), (70034, 'matt', 2) $$, 'Emerald: Tabitha twice before Maxie, Shelly and Matt on the Weather Institute and Aqua Hideout beats');
 SELECT
     results_eq ($$
         SELECT

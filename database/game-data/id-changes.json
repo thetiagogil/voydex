@@ -148,5 +148,35 @@
     "id": "60018",
     "becomes": "60017",
     "reason": "FireRed / LeafGreen: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70012",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70013",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70014",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70015",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70017",
+    "becomes": "70016",
+    "reason": "Emerald: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

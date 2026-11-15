@@ -20,7 +20,8 @@
 -- and Hoenn's Gyms, towns without wild Pokémon, Professor Birch's Laboratory,
 -- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire, and the Sevii
 -- Islands' towns, the Dotted Hole, the Rocket Warehouse, Navel Rock and Birth
--- Island for FireRed / LeafGreen).
+-- Island for FireRed / LeafGreen, and the Mossdeep Space Center, Terra Cave
+-- and Marine Cave for Emerald).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1721,4 +1722,10 @@ VALUES
   -- Navel Rock: a Story place with no wild Pokémon (FireRed / LeafGreen's Ho-Oh and Lugia)
   (852, 1, 'kanto-navel-rock', 'Navel Rock'),
   -- Birth Island: a Story place with no wild Pokémon (FireRed / LeafGreen's Deoxys)
-  (853, 1, 'kanto-birth-island', 'Birth Island');
+  (853, 1, 'kanto-birth-island', 'Birth Island'),
+  -- Mossdeep Space Center: a Story place with no wild Pokémon (Emerald's Space Center beat)
+  (854, 3, 'hoenn-mossdeep-space-center', 'Mossdeep Space Center'),
+  -- Terra Cave: a Story place with no wild Pokémon (Emerald's Groudon)
+  (855, 3, 'hoenn-terra-cave', 'Terra Cave'),
+  -- Marine Cave: a Story place with no wild Pokémon (Emerald's Kyogre)
+  (856, 3, 'hoenn-marine-cave', 'Marine Cave');

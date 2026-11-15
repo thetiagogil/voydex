@@ -457,6 +457,20 @@ sources remain authoritative for game-specific mechanics and availability.
   is on Mt. Ember. Seven Island, the Tanoby Ruins and the second round of
   the Elite Four are not beats. FireRed / LeafGreen has no collectible set
   (the game keeps no count of Unown forms).
+- Emerald in the pattern (`660_emerald_story.sql`; from all 21 parts of
+  Bulbapedia's walkthrough, teams checked on the pret pokeemerald
+  disassembly): Ruby / Sapphire's route with Emerald's own story. Team Aqua
+  is the one you meet first, Team Magma takes the Meteorite, and both
+  hideouts are beats: Mt. Pyre hands you the Magma Emblem, the Magma Hideout
+  opens on Jagged Pass, then the Aqua Hideout at Lilycove City. After the
+  Mind Badge come the Mossdeep Space Center (the Multi Battle beside Steven,
+  three Pokémon), the Seafloor Cavern and waking Rayquaza on the Sky Pillar,
+  then Juan's Rain Badge and the League with Champion Wallace. The rival
+  battles five times (Rustboro City and Lilycove City can be skipped). Post
+  Game is the roaming Latias or Latios and Steven in Meteor Falls. Side
+  Content is the fossil in Mirage Tower, Rayquaza back on the Sky Pillar, the
+  Sealed Chamber, Terra Cave and Marine Cave. The Battle Frontier's symbols
+  are won in battle facilities, not found, so Emerald has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
