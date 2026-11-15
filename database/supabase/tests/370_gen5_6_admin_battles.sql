@@ -15,9 +15,9 @@ SELECT
             refs.milestone_id, opponents.slug, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (120009, 120010, 120011, 120012)
+                refs.milestone_id IN (120009, 120031, 120010, 120011, 120012)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120009, 'zinzolin', 4), (120009, 'shadow-absol', 5), (120010, 'marlon', 1), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
+            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120010, 'marlon', 1), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5), (120031, 'zinzolin', 1), (120031, 'shadow-absol', 2) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
 SELECT
     results_eq ($$
         SELECT

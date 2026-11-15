@@ -27,7 +27,8 @@
 -- Distortion World for Platinum, the Ecruteak Dance Theater and the Embedded
 -- Tower for HeartGold / SoulSilver, and Unova's Gyms, towns and bridges
 -- without wild Pokémon, Professor Juniper's Laboratory and the Pokémon
--- League for Black / White).
+-- League for Black / White, and two more Gyms, two towns, the Pokémon World
+-- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1802,4 +1803,20 @@ VALUES
   -- Opelucid Gym: a Story place with no wild Pokémon (Black / White's badge there)
   (889, 5, 'unova-opelucid-gym', 'Opelucid Gym'),
   -- Pokémon League: a Story place with no wild Pokémon (Black / White's Pokémon League and N's Castle)
-  (890, 5, 'unova-pokemon-league', 'Pokémon League');
+  (890, 5, 'unova-pokemon-league', 'Pokémon League'),
+  -- Aspertia Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (891, 5, 'unova-aspertia-gym', 'Aspertia Gym'),
+  -- Virbank Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (892, 5, 'unova-virbank-gym', 'Virbank Gym'),
+  -- Pokémon World Tournament: a Story place with no wild Pokémon (Black 2 / White 2's Driftveil Tournament)
+  (893, 5, 'unova-pokemon-world-tournament', 'Pokémon World Tournament'),
+  -- Lentimas Town: a Story place with no wild Pokémon (Black 2 / White 2's way to Reversal Mountain)
+  (894, 5, 'unova-lentimas-town', 'Lentimas Town'),
+  -- Lacunosa Town: a Story place with no wild Pokémon (Black 2 / White 2's battle with Zinzolin)
+  (895, 5, 'unova-lacunosa-town', 'Lacunosa Town'),
+  -- Humilau Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (896, 5, 'unova-humilau-gym', 'Humilau Gym'),
+  -- Plasma Frigate: a Story place with no wild Pokémon (Black 2 / White 2's Plasma Frigate beat)
+  (897, 5, 'unova-plasma-frigate', 'Plasma Frigate'),
+  -- Cave of Being: a Story place with no wild Pokémon (Black 2 / White 2's Uxie, Mesprit and Azelf)
+  (898, 5, 'unova-cave-of-being', 'Cave of Being');

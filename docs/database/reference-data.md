@@ -534,6 +534,21 @@ sources remain authoritative for game-specific mechanics and availability.
   Fame. Side Content is the Swords of Justice, the roaming Tornadus or
   Thundurus, Kyurem and Landorus. The Seven Sages are not battles. Black /
   White has no collectible set.
+- Black 2 / White 2 in the pattern (`710_b2w2_story.sql`; from all 22 parts
+  of Bulbapedia's walkthrough): Main Story follows the walkthrough from
+  Aspertia City. The forced beats between badges are their own milestones:
+  the Castelia Sewers, the Pokémon World Tournament (Hugh and Colress, three
+  Pokémon each, with the first raid on the Plasma Frigate at the pier),
+  Team Plasma's attack on Opelucid City (Zinzolin and one of the Shadow
+  Triad), the Plasma Frigate (Zinzolin and a Grunt beside Hugh off Route 21,
+  then Zinzolin and Colress in the Giant Chasm) and Defeat Ghetsis (the
+  Shadow Triad, the fused Kyurem and Ghetsis). Hugh's battle in Undella Town
+  and the Multi Battle in Lacunosa Town lead to the Legend Badge. Cheren's
+  round in the Driftveil Tournament and the old Team Plasma member in
+  Driftveil City have no seeded team, so they are notes. Post Game is Hugh in
+  Undella Town. Side Content is the legendary Pokémon, with the Swords of
+  Justice on the way from Route 13. Black 2 / White 2 has no collectible set
+  (Medals are awards, not things found).
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

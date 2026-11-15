@@ -304,5 +304,35 @@
     "id": "110018",
     "becomes": "110017",
     "reason": "Black / White: Hall of Fame merged into the Champion Alder milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120013",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Shauntal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120014",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Grimsley merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120015",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Caitlin merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120016",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Marshal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120018",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Hall of Fame merged into the Pokémon League milestone"
   }
 ]
