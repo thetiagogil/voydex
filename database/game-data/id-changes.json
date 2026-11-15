@@ -598,5 +598,47 @@
     "id": "260007",
     "becomes": "260021",
     "reason": "Legends: Z-A: Explore Lysandre Labs merged into Reach Rank A, whose match ends it"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270001",
+    "becomes": "270002",
+    "reason": "Mega Dimension: Begin Mega Dimension merged into Investigate Hyperspace Lumiose, which it leads straight into"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270017",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Latios merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270018",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Cobalion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270019",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Terrakion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270020",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Virizion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270021",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Keldeo merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270022",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Meloetta merged into one Special Scans beat"
   }
 ]

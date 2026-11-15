@@ -2034,4 +2034,20 @@ VALUES
   -- Rouge Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
   (999, 6, 'kalos-rouge-sector-6', 'Rouge Sector 6'),
   -- Rouge Sector 2: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
-  (1000, 6, 'kalos-rouge-sector-2', 'Rouge Sector 2');
+  (1000, 6, 'kalos-rouge-sector-2', 'Rouge Sector 2'),
+  -- Coulant Waterway: a Story place with no wild Pokémon (Mega Dimension's first distortion)
+  (1001, 6, 'kalos-coulant-waterway', 'Coulant Waterway'),
+  -- Hyperspace Disaster Arena: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Absol Z)
+  (1002, 6, 'kalos-hyperspace-disaster-arena', 'Hyperspace Disaster Arena'),
+  -- Hyperspace Hunting Grounds: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Staraptor)
+  (1003, 6, 'kalos-hyperspace-hunting-grounds', 'Hyperspace Hunting Grounds'),
+  -- Hyperspace Sushi Paradise: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Tatsugiri)
+  (1004, 6, 'kalos-hyperspace-sushi-paradise', 'Hyperspace Sushi Paradise'),
+  -- Hyperspace Second-Sight Arena: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Meowstic)
+  (1005, 6, 'kalos-hyperspace-second-sight-arena', 'Hyperspace Second-Sight Arena'),
+  -- Hyperspace Infernal Arena: a Story place with no wild Pokémon (Mega Dimension's Heatran)
+  (1006, 6, 'kalos-hyperspace-infernal-arena', 'Hyperspace Infernal Arena'),
+  -- Hyperspace Newmoon Nightmare: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Darkrai)
+  (1007, 6, 'kalos-hyperspace-newmoon-nightmare', 'Hyperspace Newmoon Nightmare'),
+  -- Hyperspace Sky Pillar: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Rayquaza)
+  (1008, 6, 'kalos-hyperspace-sky-pillar', 'Hyperspace Sky Pillar');

@@ -53,17 +53,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Latias: Latias Lv. 60: Dragon Pulse, Aura Sphere, Mystical Fire, Air Slash
     (270016, 27017, NULL, NULL, NULL, NULL, 1, ARRAY[406, 396, 595, 403]),
     -- Latios: Latios Lv. 60: Dragon Pulse, Aura Sphere, Mystical Fire, Air Slash
-    (270017, 27018, NULL, NULL, NULL, NULL, 1, ARRAY[406, 396, 595, 403]),
+    (270016, 27018, NULL, NULL, NULL, NULL, 1, ARRAY[406, 396, 595, 403]),
     -- Cobalion: Cobalion Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
-    (270018, 27019, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    (270016, 27019, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
     -- Terrakion: Terrakion Lv. 60: Rock Slide, Megahorn, Sacred Sword, Swords Dance
-    (270019, 27020, NULL, NULL, NULL, NULL, 1, ARRAY[157, 224, 533, 14]),
+    (270016, 27020, NULL, NULL, NULL, NULL, 1, ARRAY[157, 224, 533, 14]),
     -- Virizion: Virizion Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
-    (270020, 27021, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    (270016, 27021, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
     -- Keldeo: Keldeo Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
-    (270021, 27022, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    (270016, 27022, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
     -- Meloetta: Meloetta Lv. 60: Psychic, U-turn, Relic Song, Psybeam
-    (270022, 27023, NULL, NULL, NULL, NULL, 1, ARRAY[94, 369, 547, 60]),
+    (270016, 27023, NULL, NULL, NULL, NULL, 1, ARRAY[94, 369, 547, 60]),
     -- Rogue Mega Zeraora: Mega Zeraora Lv. 85: Plasma Fists, Electroweb, Dynamic Punch, Wild Charge
     (270024, 27024, NULL, NULL, NULL, NULL, 1, ARRAY[721, 527, 223, 528])
 )

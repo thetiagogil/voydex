@@ -68,16 +68,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Latias, Special Scan 1: Latias Lv. 60
   (270016, 27017, 27, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 60, NULL),
   -- Latios, Special Scan 1: Latios Lv. 60
-  (270017, 27018, 27, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 60, NULL),
+  (270016, 27018, 27, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 60, NULL),
   -- Cobalion, Special Scan 1: Cobalion Lv. 60
-  (270018, 27019, 27, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 60, NULL),
+  (270016, 27019, 27, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 60, NULL),
   -- Terrakion, Special Scan 1: Terrakion Lv. 60
-  (270019, 27020, 27, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 60, NULL),
+  (270016, 27020, 27, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 60, NULL),
   -- Virizion, Special Scan 1: Virizion Lv. 60
-  (270020, 27021, 27, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 60, NULL),
+  (270016, 27021, 27, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 60, NULL),
   -- Keldeo, Special Scan 1: Keldeo Lv. 60
-  (270021, 27022, 27, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 60, NULL),
+  (270016, 27022, 27, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 60, NULL),
   -- Meloetta, Special Scan 1: Meloetta Lv. 60
-  (270022, 27023, 27, NULL, NULL, NULL, NULL, NULL, 1, 648, 64800, 60, NULL),
+  (270016, 27023, 27, NULL, NULL, NULL, NULL, NULL, 1, 648, 64800, 60, NULL),
   -- Rogue Mega Zeraora, Raging Lightning 1: Mega Zeraora Lv. 85
   (270024, 27024, 27, NULL, NULL, NULL, NULL, NULL, 1, 807, 80701, 85, NULL);

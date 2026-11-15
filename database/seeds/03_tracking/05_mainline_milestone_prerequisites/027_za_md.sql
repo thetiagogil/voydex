@@ -1,12 +1,14 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Mega Dimension's story.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Mega Dimension mainline milestone prerequisite links.
+-- Mega Dimension milestone prerequisite links, in Red / Blue's pattern: each
+-- required beat suggests the one before it in Story order, and each
+-- side-content beat names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,8 +19,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Investigate Hyperspace Lumiose <- Begin Mega Dimension
-  (270002, 270001, 27, 1, 1, NULL),
   -- Rogue Mega Absol Z <- Investigate Hyperspace Lumiose
   (270012, 270002, 27, 1, 1, NULL),
   -- Rogue Mega Staraptor <- Rogue Mega Absol Z
@@ -35,30 +35,18 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (270005, 270004, 27, 1, 1, NULL),
   -- Rogue Mega Rayquaza <- Capture Kyogre
   (270006, 270005, 27, 1, 1, NULL),
-  -- Collecting Four Drives opens after Begin Mega Dimension
-  (270007, 270001, 27, 4, 1, NULL),
-  -- The Stealthy Shadow opens after Begin Mega Dimension
-  (270008, 270001, 27, 4, 1, NULL),
-  -- Dreams of Meltan opens after Begin Mega Dimension
-  (270009, 270001, 27, 4, 1, NULL),
-  -- Volcanion Unleashed opens after Begin Mega Dimension
-  (270010, 270001, 27, 4, 1, NULL),
-  -- The Djinn Unbound opens after Begin Mega Dimension
-  (270011, 270001, 27, 4, 1, NULL),
-  -- Special Scan: Latias opens after Rogue Mega Rayquaza
+  -- Collecting Four Drives opens after Investigate Hyperspace Lumiose
+  (270007, 270002, 27, 4, 1, NULL),
+  -- The Stealthy Shadow opens after Investigate Hyperspace Lumiose
+  (270008, 270002, 27, 4, 1, NULL),
+  -- Dreams of Meltan opens after Investigate Hyperspace Lumiose
+  (270009, 270002, 27, 4, 1, NULL),
+  -- Volcanion Unleashed opens after Investigate Hyperspace Lumiose
+  (270010, 270002, 27, 4, 1, NULL),
+  -- The Djinn Unbound opens after Investigate Hyperspace Lumiose
+  (270011, 270002, 27, 4, 1, NULL),
+  -- Special Scans opens after Rogue Mega Rayquaza
   (270016, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Latios opens after Rogue Mega Rayquaza
-  (270017, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Cobalion opens after Rogue Mega Rayquaza
-  (270018, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Terrakion opens after Rogue Mega Rayquaza
-  (270019, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Virizion opens after Rogue Mega Rayquaza
-  (270020, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Keldeo opens after Rogue Mega Rayquaza
-  (270021, 270006, 27, 4, 1, NULL),
-  -- Special Scan: Meloetta opens after Rogue Mega Rayquaza
-  (270022, 270006, 27, 4, 1, NULL),
   -- Restarting Magearna opens after Rogue Mega Rayquaza
   (270023, 270006, 27, 4, 1, NULL),
   -- Raging Lightning opens after Rogue Mega Rayquaza

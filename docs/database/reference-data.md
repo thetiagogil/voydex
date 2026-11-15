@@ -696,6 +696,13 @@ sources remain authoritative for game-specific mechanics and availability.
   (Main Story, Z-A Royale, Rogue Mega Evolution, Finale). Known gap: the
   walkthrough's battles with Naveen, Lida, Emma and the Society of Battle
   Connoisseurs have no seeded team yet, so they are notes on their places.
+- Mega Dimension in the pattern (`860_za_md_story.sql`; from Bulbapedia's
+  story page and its Hyperspace and side mission pages): the route follows
+  the story from Coulant Waterway through the arenas of Hyperspace Lumiose,
+  each a place of its own, to Hyperspace Newmoon Nightmare and Hyperspace
+  Sky Pillar. The opening is one beat, and the seven Special Scans are one
+  optional beat with seven battles, as Snacksworth's treats are. Known gap:
+  Korrina's battle before she joins has no seeded team yet, so it is a note.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
