@@ -125,49 +125,49 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Kieran: Poliwrath Lv. 71: Hydro Pump, Haze, Brick Break, Earth Power
     (240004, 24001, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[56, 114, 280, 414]),
     -- Kieran: Shiftry Lv. 33: Bullet Seed, Fake Out, Payback, Aerial Ace
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[331, 252, 371, 332]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[331, 252, 371, 332]),
     -- Kieran: Yanmega Lv. 37: Air Cutter, Quick Attack, Ancient Power, Bug Buzz
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 2, ARRAY[314, 98, 246, 405]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 2, ARRAY[314, 98, 246, 405]),
     -- Kieran: Dipplin Lv. 36: Syrup Bomb, Double Hit, Dragon Breath, Defense Curl
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 3, ARRAY[903, 458, 225, 111]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 3, ARRAY[903, 458, 225, 111]),
     -- Kieran: Probopass Lv. 33: Power Gem, Rock Tomb, Rock Blast, Spark
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 4, ARRAY[408, 317, 350, 209]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 4, ARRAY[408, 317, 350, 209]),
     -- Kieran: Poliwrath Lv. 38: Brick Break, Belly Drum, Liquidation, Ice Punch
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 5, ARRAY[280, 187, 710, 8]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 5, ARRAY[280, 187, 710, 8]),
     -- Kieran: Gliscor Lv. 37: Aerial Ace, Bulldoze, Poison Tail, Harden
-    (240006, 24001, NULL, NULL, NULL, 'before-the-way-home', 6, ARRAY[332, 523, 342, 106]),
+    (240005, 24001, NULL, NULL, NULL, 'before-the-way-home', 6, ARRAY[332, 523, 342, 106]),
     -- Kieran: Shiftry Lv. 71: Fake Out, Tailwind, Leaf Blade, Dark Pulse
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[252, 366, 348, 399]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[252, 366, 348, 399]),
     -- Kieran: Yanmega Lv. 72: Bug Buzz, Air Slash, Ancient Power, Psychic
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[405, 403, 246, 94]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[405, 403, 246, 94]),
     -- Kieran: Dipplin Lv. 72: Syrup Bomb, Double Hit, Dragon Pulse, Energy Ball
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 3, ARRAY[903, 458, 406, 412]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 3, ARRAY[903, 458, 406, 412]),
     -- Kieran: Probopass Lv. 71: Power Gem, Body Press, Zap Cannon, Flash Cannon
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[408, 776, 192, 430]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[408, 776, 192, 430]),
     -- Kieran: Poliwrath Lv. 72: Close Combat, Belly Drum, Liquidation, Ice Punch
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[370, 187, 710, 8]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[370, 187, 710, 8]),
     -- Kieran: Gliscor Lv. 76: Earthquake, Rock Tomb, Dual Wingbeat, X-Scissor
-    (240006, 24001, NULL, NULL, NULL, 'after-the-way-home', 6, ARRAY[89, 317, 814, 404]),
+    (240005, 24001, NULL, NULL, NULL, 'after-the-way-home', 6, ARRAY[89, 317, 814, 404]),
     -- Carmine: Mightyena Lv. 33: Crunch, Howl, Take Down, Fire Fang
-    (240006, 24005, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[242, 336, 36, 424]),
+    (240005, 24005, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[242, 336, 36, 424]),
     -- Carmine: Morpeko Lv. 33: Aura Wheel, Seed Bomb, Torment, Uproar
-    (240006, 24005, NULL, NULL, NULL, 'before-the-way-home', 2, ARRAY[783, 402, 259, 253]),
+    (240005, 24005, NULL, NULL, NULL, 'before-the-way-home', 2, ARRAY[783, 402, 259, 253]),
     -- Carmine: Leavanny Lv. 34: X-Scissor, Slash, String Shot, Trailblaze
-    (240006, 24005, NULL, NULL, NULL, 'before-the-way-home', 3, ARRAY[404, 163, 81, 885]),
+    (240005, 24005, NULL, NULL, NULL, 'before-the-way-home', 3, ARRAY[404, 163, 81, 885]),
     -- Carmine: Ninetales Lv. 34: Incinerate, Spite, Extrasensory, Will-O-Wisp
-    (240006, 24005, NULL, NULL, NULL, 'before-the-way-home', 4, ARRAY[510, 180, 326, 261]),
+    (240005, 24005, NULL, NULL, NULL, 'before-the-way-home', 4, ARRAY[510, 180, 326, 261]),
     -- Carmine: Sinistcha Lv. 35: Matcha Gotcha, Foul Play, Scald, Stun Spore
-    (240006, 24005, NULL, NULL, NULL, 'before-the-way-home', 5, ARRAY[902, 492, 503, 78]),
+    (240005, 24005, NULL, NULL, NULL, 'before-the-way-home', 5, ARRAY[902, 492, 503, 78]),
     -- Carmine: Mightyena Lv. 70: Crunch, Howl, Sucker Punch, Play Rough
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[242, 336, 389, 583]),
+    (240005, 24005, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[242, 336, 389, 583]),
     -- Carmine: Morpeko Lv. 71: Aura Wheel, Lash Out, Thunder Wave, Seed Bomb
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[783, 808, 86, 402]),
+    (240005, 24005, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[783, 808, 86, 402]),
     -- Carmine: Leavanny Lv. 72: Leaf Blade, X-Scissor, Swords Dance, Fell Stinger
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 3, ARRAY[348, 404, 14, 565]),
+    (240005, 24005, NULL, NULL, NULL, 'after-the-way-home', 3, ARRAY[348, 404, 14, 565]),
     -- Carmine: Ninetales Lv. 72: Flamethrower, Extrasensory, Will-O-Wisp, Disable
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[53, 326, 261, 50]),
+    (240005, 24005, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[53, 326, 261, 50]),
     -- Carmine: Sinistcha Lv. 74: Matcha Gotcha, Hex, Stun Spore, Scald
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[902, 506, 78, 503]),
+    (240005, 24005, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[902, 506, 78, 503]),
     -- Munkidori: Munkidori Lv. 30: Confusion, Clear Smog, Psybeam, Spite
     (240004, 24006, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[93, 499, 60, 180]),
     -- Munkidori: Munkidori Lv. 70: Psychic, Sludge Wave, Nasty Plot, Future Sight

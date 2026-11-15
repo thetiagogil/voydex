@@ -568,5 +568,11 @@
     "id": "230022",
     "becomes": "230023",
     "reason": "Scarlet / Violet: Defeat Clavell merged into Defeat Penny, fought right after it"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "240006",
+    "becomes": "240005",
+    "reason": "The Teal Mask: Kieran Rematch merged into Ogerpon, which his battle comes right before"
   }
 ]

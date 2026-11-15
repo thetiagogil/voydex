@@ -670,6 +670,14 @@ sources remain authoritative for game-specific mechanics and availability.
   shrine sits after the last beat in the part of Paldea its stakes are in.
   The Gym tests are in the descriptions. The Ominous Stakes sets are
   unchanged.
+- The Teal Mask in the pattern (`830_sv_tm_story.sql`; from Bulbapedia's
+  story page, with the places its walkthrough index lists for Kitakami): the
+  route follows the school trip through Kitakami's places. Kieran's battle at
+  the last signboard is the Three Signboards beat. Kieran's last battle comes
+  right before Ogerpon's, so the two are one beat, and Carmine's last battle
+  is on it too. Battles on the way name their place (Kieran outside the
+  Dreaded Den and at Loyalty Plaza, two of the Loyal Three). Side Content is
+  Bloodmoon Ursaluna and the Loyal Three at their normal size.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

@@ -1978,4 +1978,6 @@ VALUES
   -- Zapapico: a Story place with no wild Pokémon (Scarlet / Violet's way to Tagtree Thicket and Medali)
   (971, 10, 'paldea-zapapico', 'Zapapico'),
   -- Porto Marinada: a Story place with no wild Pokémon (Scarlet / Violet's Water Gym test)
-  (972, 10, 'paldea-porto-marinada', 'Porto Marinada');
+  (972, 10, 'paldea-porto-marinada', 'Porto Marinada'),
+  -- Loyalty Plaza: a Story place with no wild Pokémon (The Teal Mask's monument to the Loyal Three)
+  (973, 10, 'paldea-loyalty-plaza', 'Loyalty Plaza');
