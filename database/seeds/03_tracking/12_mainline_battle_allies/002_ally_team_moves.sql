@@ -108,7 +108,7 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 44: Giga Drain, Bite, Leech Seed, Synthesis
     (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 6, ARRAY[202, 44, 73, 235]),
     -- Lance beside you vs Ariana & Grunt: Dragonite Lv. 40: Fly, Twister, Thunder, Hyper Beam
-    (100009, 10043, 10013, NULL, NULL, NULL, NULL, 1, ARRAY[19, 239, 87, 63]),
+    (100046, 10043, 10013, NULL, NULL, NULL, NULL, 1, ARRAY[19, 239, 87, 63]),
     -- Hugh beside you vs Zinzolin & Grunt [snivy]: Emboar Lv. 43: Take Down, Assurance, Heat Crash, Flamethrower
     (120009, 12035, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[36, 372, 535, 53]),
     -- Hugh beside you vs Zinzolin & Grunt [snivy]: Simipour Lv. 41: Scald, Leer, Lick, Fury Swipes

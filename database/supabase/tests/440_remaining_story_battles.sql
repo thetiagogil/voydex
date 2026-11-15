@@ -95,7 +95,7 @@ SELECT
             WHERE
                 milestones.slug = 'dragons-den'
                 AND milestones.version_group_id = 10 $$, $$
-            VALUES (1004, FALSE, 100017, 4) $$, 'HeartGold / SoulSilver: the Dragon''s Den hangs off the Boulder Badge and never counts');
+            VALUES (1004, FALSE, 100023, 4) $$, 'HeartGold / SoulSilver: the Dragon''s Den hangs off the Volcano Badge, where the Mt. Moon battle sits, and never counts');
 SELECT
     results_eq ($$
         SELECT
@@ -103,7 +103,7 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.milestone_id = 100041 $$, $$
-            VALUES ('clair-lance', 'Dragon''s Den, Blackthorn City (with Silver). You can skip this battle.') $$, 'HeartGold / SoulSilver: Clair & Lance together in the Dragon''s Den');
+            VALUES ('clair-lance', 'A Multi Battle with Silver at your side. You can skip this battle.') $$, 'HeartGold / SoulSilver: Clair & Lance together in the Dragon''s Den');
 -- Every new battle has its full team.
 SELECT
     results_eq ($$

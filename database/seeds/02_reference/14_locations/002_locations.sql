@@ -23,8 +23,9 @@
 -- Island for FireRed / LeafGreen, and the Mossdeep Space Center, Terra Cave
 -- and Marine Cave for Emerald, and Sinnoh's Gyms, towns without wild
 -- Pokémon, Professor Rowan's Laboratory, Team Galactic's two buildings, the
--- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl, and
--- the Distortion World for Platinum).
+-- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl, the
+-- Distortion World for Platinum, and the Ecruteak Dance Theater and the
+-- Embedded Tower for HeartGold / SoulSilver).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1767,4 +1768,8 @@ VALUES
   -- Fullmoon Island: a Story place with no wild Pokémon (Diamond / Pearl's Cresselia)
   (873, 4, 'sinnoh-fullmoon-island', 'Fullmoon Island'),
   -- Distortion World: a Story place with no wild Pokémon (Platinum's Distortion World beat)
-  (874, 4, 'sinnoh-distortion-world', 'Distortion World');
+  (874, 4, 'sinnoh-distortion-world', 'Distortion World'),
+  -- Ecruteak Dance Theater: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kimono Girls)
+  (875, 2, 'johto-ecruteak-dance-theater', 'Ecruteak Dance Theater'),
+  -- Embedded Tower: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kyogre, Groudon and Rayquaza)
+  (876, 2, 'johto-embedded-tower', 'Embedded Tower');

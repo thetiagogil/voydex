@@ -238,5 +238,35 @@
     "id": "90016",
     "becomes": "90015",
     "reason": "Platinum: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100011",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Will merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100012",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Koga merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100013",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100014",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Karen merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100016",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

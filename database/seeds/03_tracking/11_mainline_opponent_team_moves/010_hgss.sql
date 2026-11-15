@@ -71,45 +71,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Clair: Kingdra Lv. 41: Smokescreen, Hydro Pump, Hyper Beam, Dragon Pulse
     (100010, 10008, NULL, NULL, NULL, NULL, 4, ARRAY[108, 56, 63, 406]),
     -- Will: Xatu Lv. 40: U-turn, Me First, Confuse Ray, Psychic
-    (100011, 10009, NULL, NULL, NULL, NULL, 1, ARRAY[369, 382, 109, 94]),
+    (100015, 10009, NULL, NULL, NULL, NULL, 1, ARRAY[369, 382, 109, 94]),
     -- Will: Jynx Lv. 41: Double Slap, Lovely Kiss, Ice Punch, Psychic
-    (100011, 10009, NULL, NULL, NULL, NULL, 2, ARRAY[3, 142, 8, 94]),
+    (100015, 10009, NULL, NULL, NULL, NULL, 2, ARRAY[3, 142, 8, 94]),
     -- Will: Exeggutor Lv. 41: Reflect, Hypnosis, Egg Bomb, Psychic
-    (100011, 10009, NULL, NULL, NULL, NULL, 3, ARRAY[115, 95, 121, 94]),
+    (100015, 10009, NULL, NULL, NULL, NULL, 3, ARRAY[115, 95, 121, 94]),
     -- Will: Slowbro Lv. 41: Curse, Amnesia, Water Pulse, Psychic
-    (100011, 10009, NULL, NULL, NULL, NULL, 4, ARRAY[174, 133, 352, 94]),
+    (100015, 10009, NULL, NULL, NULL, NULL, 4, ARRAY[174, 133, 352, 94]),
     -- Will: Xatu Lv. 42: Aerial Ace, Ominous Wind, Confuse Ray, Psychic
-    (100011, 10009, NULL, NULL, NULL, NULL, 5, ARRAY[332, 466, 109, 94]),
+    (100015, 10009, NULL, NULL, NULL, NULL, 5, ARRAY[332, 466, 109, 94]),
     -- Koga: Ariados Lv. 40: Poison Jab, Spider Web, Baton Pass, Giga Drain
-    (100012, 10010, NULL, NULL, NULL, NULL, 1, ARRAY[398, 169, 226, 202]),
+    (100015, 10010, NULL, NULL, NULL, NULL, 1, ARRAY[398, 169, 226, 202]),
     -- Koga: Venomoth Lv. 41: Supersonic, Gust, Psychic, Toxic
-    (100012, 10010, NULL, NULL, NULL, NULL, 2, ARRAY[48, 16, 94, 92]),
+    (100015, 10010, NULL, NULL, NULL, NULL, 2, ARRAY[48, 16, 94, 92]),
     -- Koga: Forretress Lv. 43: Protect, Swift, Explosion, Toxic Spikes
-    (100012, 10010, NULL, NULL, NULL, NULL, 3, ARRAY[182, 129, 153, 390]),
+    (100015, 10010, NULL, NULL, NULL, NULL, 3, ARRAY[182, 129, 153, 390]),
     -- Koga: Muk Lv. 42: Minimize, Screech, Gunk Shot, Toxic
-    (100012, 10010, NULL, NULL, NULL, NULL, 4, ARRAY[107, 103, 441, 92]),
+    (100015, 10010, NULL, NULL, NULL, NULL, 4, ARRAY[107, 103, 441, 92]),
     -- Koga: Crobat Lv. 44: Double Team, Quick Attack, Wing Attack, Poison Fang
-    (100012, 10010, NULL, NULL, NULL, NULL, 5, ARRAY[104, 98, 17, 305]),
+    (100015, 10010, NULL, NULL, NULL, NULL, 5, ARRAY[104, 98, 17, 305]),
     -- Bruno: Hitmontop Lv. 42: Counter, Quick Attack, Dig, Triple Kick
-    (100013, 10011, NULL, NULL, NULL, NULL, 1, ARRAY[68, 98, 91, 167]),
+    (100015, 10011, NULL, NULL, NULL, NULL, 1, ARRAY[68, 98, 91, 167]),
     -- Bruno: Hitmonlee Lv. 42: Swagger, Focus Energy, High Jump Kick, Blaze Kick
-    (100013, 10011, NULL, NULL, NULL, NULL, 2, ARRAY[207, 116, 136, 299]),
+    (100015, 10011, NULL, NULL, NULL, NULL, 2, ARRAY[207, 116, 136, 299]),
     -- Bruno: Hitmonchan Lv. 42: Thunder Punch, Ice Punch, Fire Punch, Bullet Punch
-    (100013, 10011, NULL, NULL, NULL, NULL, 3, ARRAY[9, 8, 7, 418]),
+    (100015, 10011, NULL, NULL, NULL, NULL, 3, ARRAY[9, 8, 7, 418]),
     -- Bruno: Onix Lv. 43: Dragon Breath, Earthquake, Sandstorm, Rock Slide
-    (100013, 10011, NULL, NULL, NULL, NULL, 4, ARRAY[225, 89, 201, 157]),
+    (100015, 10011, NULL, NULL, NULL, NULL, 4, ARRAY[225, 89, 201, 157]),
     -- Bruno: Machamp Lv. 46: Rock Slide, Foresight, Revenge, Cross Chop
-    (100013, 10011, NULL, NULL, NULL, NULL, 5, ARRAY[157, 193, 279, 238]),
+    (100015, 10011, NULL, NULL, NULL, NULL, 5, ARRAY[157, 193, 279, 238]),
     -- Karen: Umbreon Lv. 42: Double Team, Confuse Ray, Feint Attack, Payback
-    (100014, 10012, NULL, NULL, NULL, NULL, 1, ARRAY[104, 109, 185, 371]),
+    (100015, 10012, NULL, NULL, NULL, NULL, 1, ARRAY[104, 109, 185, 371]),
     -- Karen: Vileplume Lv. 42: Stun Spore, Acid, Moonlight, Petal Dance
-    (100014, 10012, NULL, NULL, NULL, NULL, 2, ARRAY[78, 51, 236, 80]),
+    (100015, 10012, NULL, NULL, NULL, NULL, 2, ARRAY[78, 51, 236, 80]),
     -- Karen: Gengar Lv. 45: Lick, Spite, Focus Blast, Destiny Bond
-    (100014, 10012, NULL, NULL, NULL, NULL, 3, ARRAY[122, 180, 411, 194]),
+    (100015, 10012, NULL, NULL, NULL, NULL, 3, ARRAY[122, 180, 411, 194]),
     -- Karen: Murkrow Lv. 44: Pluck, Whirlwind, Sucker Punch, Feint Attack
-    (100014, 10012, NULL, NULL, NULL, NULL, 4, ARRAY[365, 18, 389, 185]),
+    (100015, 10012, NULL, NULL, NULL, NULL, 4, ARRAY[365, 18, 389, 185]),
     -- Karen: Houndoom Lv. 47: Nasty Plot, Dark Pulse, Flamethrower, Crunch
-    (100014, 10012, NULL, NULL, NULL, NULL, 5, ARRAY[417, 399, 53, 242]),
+    (100015, 10012, NULL, NULL, NULL, NULL, 5, ARRAY[417, 399, 53, 242]),
     -- Lance: Gyarados Lv. 46: Flail, Dragon Pulse, Waterfall, Ice Fang
     (100015, 10013, NULL, NULL, NULL, NULL, 1, ARRAY[175, 406, 127, 423]),
     -- Lance: Dragonite Lv. 49: Thunder Wave, Dragon Rush, Thunder, Hyper Beam
@@ -211,23 +211,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Silver: Chikorita Lv. 5: Tackle, Growl
     (100003, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[33, 45]),
     -- Silver: Gastly Lv. 14: Lick, Spite, Mean Look, Curse
-    (100004, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[122, 180, 212, 174]),
+    (100043, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[122, 180, 212, 174]),
     -- Silver: Zubat Lv. 16: Leech Life, Supersonic, Astonish, Bite
-    (100004, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[141, 48, 310, 44]),
+    (100043, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[141, 48, 310, 44]),
     -- Silver: Quilava Lv. 18: Leer, Smokescreen, Ember, Quick Attack
-    (100004, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[43, 108, 52, 98]),
+    (100043, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[43, 108, 52, 98]),
     -- Silver: Gastly Lv. 14: Lick, Spite, Mean Look, Curse
-    (100004, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[122, 180, 212, 174]),
+    (100043, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[122, 180, 212, 174]),
     -- Silver: Zubat Lv. 16: Leech Life, Supersonic, Astonish, Bite
-    (100004, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[141, 48, 310, 44]),
+    (100043, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[141, 48, 310, 44]),
     -- Silver: Croconaw Lv. 18: Water Gun, Rage, Bite, Scary Face
-    (100004, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[55, 99, 44, 184]),
+    (100043, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[55, 99, 44, 184]),
     -- Silver: Gastly Lv. 14: Lick, Spite, Mean Look, Curse
-    (100004, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[122, 180, 212, 174]),
+    (100043, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[122, 180, 212, 174]),
     -- Silver: Zubat Lv. 16: Leech Life, Supersonic, Astonish, Bite
-    (100004, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[141, 48, 310, 44]),
+    (100043, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[141, 48, 310, 44]),
     -- Silver: Bayleef Lv. 18: Razor Leaf, Poison Powder, Synthesis, Reflect
-    (100004, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[75, 77, 235, 115]),
+    (100043, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[75, 77, 235, 115]),
     -- Silver: Gastly Lv. 20: Lick, Confuse Ray, Mean Look, Curse
     (100028, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[122, 109, 212, 174]),
     -- Silver: Magnemite Lv. 18: Thunder Wave, Thunder Shock, Supersonic, Sonic Boom
@@ -283,77 +283,77 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Silver: Meganium Lv. 34: Reflect, Synthesis, Poison Powder, Petal Dance
     (100029, 10023, NULL, 100001, 'totodile', NULL, 5, ARRAY[115, 235, 77, 80]),
     -- Silver: Sneasel Lv. 36: Quick Attack, Icy Wind, Feint Attack, Fury Swipes
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[98, 196, 185, 154]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[98, 196, 185, 154]),
     -- Silver: Golbat Lv. 38: Astonish, Bite, Confuse Ray, Air Cutter
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[310, 44, 109, 314]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[310, 44, 109, 314]),
     -- Silver: Magneton Lv. 37: Spark, Supersonic, Thunder Wave, Magnet Bomb
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[209, 48, 86, 443]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[209, 48, 86, 443]),
     -- Silver: Haunter Lv. 37: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 37: Disable, Psybeam, Recover, Reflect
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 5, ARRAY[50, 60, 105, 115]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 5, ARRAY[50, 60, 105, 115]),
     -- Silver: Typhlosion Lv. 40: Lava Plume, Swift, Quick Attack, Flame Wheel
-    (100011, 10023, NULL, 100001, 'chikorita', NULL, 6, ARRAY[436, 129, 98, 172]),
+    (100015, 10023, NULL, 100001, 'chikorita', NULL, 6, ARRAY[436, 129, 98, 172]),
     -- Silver: Sneasel Lv. 36: Quick Attack, Icy Wind, Feint Attack, Fury Swipes
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[98, 196, 185, 154]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[98, 196, 185, 154]),
     -- Silver: Golbat Lv. 38: Astonish, Bite, Confuse Ray, Air Cutter
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[310, 44, 109, 314]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[310, 44, 109, 314]),
     -- Silver: Magneton Lv. 37: Spark, Supersonic, Thunder Wave, Magnet Bomb
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[209, 48, 86, 443]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[209, 48, 86, 443]),
     -- Silver: Haunter Lv. 37: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 37: Disable, Psybeam, Recover, Reflect
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 5, ARRAY[50, 60, 105, 115]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 5, ARRAY[50, 60, 105, 115]),
     -- Silver: Feraligatr Lv. 40: Waterfall, Ice Fang, Crunch, Slash
-    (100011, 10023, NULL, 100001, 'cyndaquil', NULL, 6, ARRAY[127, 423, 242, 163]),
+    (100015, 10023, NULL, 100001, 'cyndaquil', NULL, 6, ARRAY[127, 423, 242, 163]),
     -- Silver: Sneasel Lv. 36: Quick Attack, Icy Wind, Feint Attack, Fury Swipes
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[98, 196, 185, 154]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[98, 196, 185, 154]),
     -- Silver: Golbat Lv. 38: Astonish, Bite, Confuse Ray, Air Cutter
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[310, 44, 109, 314]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[310, 44, 109, 314]),
     -- Silver: Magneton Lv. 37: Spark, Supersonic, Thunder Wave, Magnet Bomb
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[209, 48, 86, 443]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[209, 48, 86, 443]),
     -- Silver: Haunter Lv. 37: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 37: Disable, Psybeam, Recover, Reflect
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 5, ARRAY[50, 60, 105, 115]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 5, ARRAY[50, 60, 105, 115]),
     -- Silver: Meganium Lv. 40: Reflect, Petal Dance, Poison Powder, Synthesis
-    (100011, 10023, NULL, 100001, 'totodile', NULL, 6, ARRAY[115, 80, 77, 235]),
+    (100015, 10023, NULL, 100001, 'totodile', NULL, 6, ARRAY[115, 80, 77, 235]),
     -- Silver: Sneasel Lv. 46: Quick Attack, Icy Wind, Feint Attack, Shadow Claw
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[98, 196, 185, 421]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[98, 196, 185, 421]),
     -- Silver: Golbat Lv. 47: Poison Fang, Bite, Confuse Ray, Air Cutter
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[305, 44, 109, 314]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[305, 44, 109, 314]),
     -- Silver: Magneton Lv. 46: Discharge, Supersonic, Thunder Wave, Magnet Bomb
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[435, 48, 86, 443]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[435, 48, 86, 443]),
     -- Silver: Gengar Lv. 48: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 48: Disable, Recover, Reflect, Psychic
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 5, ARRAY[50, 105, 115, 94]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 5, ARRAY[50, 105, 115, 94]),
     -- Silver: Typhlosion Lv. 50: Flamethrower, Quick Attack, Flame Wheel, Swift
-    (100017, 10023, NULL, 100001, 'chikorita', NULL, 6, ARRAY[53, 98, 172, 129]),
+    (100023, 10023, NULL, 100001, 'chikorita', NULL, 6, ARRAY[53, 98, 172, 129]),
     -- Silver: Sneasel Lv. 46: Quick Attack, Icy Wind, Feint Attack, Shadow Claw
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[98, 196, 185, 421]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[98, 196, 185, 421]),
     -- Silver: Golbat Lv. 47: Poison Fang, Bite, Confuse Ray, Air Cutter
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[305, 44, 109, 314]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[305, 44, 109, 314]),
     -- Silver: Magneton Lv. 46: Discharge, Supersonic, Thunder Wave, Magnet Bomb
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[435, 48, 86, 443]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[435, 48, 86, 443]),
     -- Silver: Gengar Lv. 48: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 48: Disable, Recover, Reflect, Psychic
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 5, ARRAY[50, 105, 115, 94]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 5, ARRAY[50, 105, 115, 94]),
     -- Silver: Feraligatr Lv. 50: Waterfall, Ice Fang, Crunch, Slash
-    (100017, 10023, NULL, 100001, 'cyndaquil', NULL, 6, ARRAY[127, 423, 242, 163]),
+    (100023, 10023, NULL, 100001, 'cyndaquil', NULL, 6, ARRAY[127, 423, 242, 163]),
     -- Silver: Sneasel Lv. 46: Quick Attack, Icy Wind, Feint Attack, Shadow Claw
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[98, 196, 185, 421]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[98, 196, 185, 421]),
     -- Silver: Golbat Lv. 47: Poison Fang, Bite, Confuse Ray, Air Cutter
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[305, 44, 109, 314]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[305, 44, 109, 314]),
     -- Silver: Magneton Lv. 46: Discharge, Supersonic, Thunder Wave, Magnet Bomb
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[435, 48, 86, 443]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[435, 48, 86, 443]),
     -- Silver: Gengar Lv. 48: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 48: Disable, Recover, Reflect, Psychic
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 5, ARRAY[50, 105, 115, 94]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 5, ARRAY[50, 105, 115, 94]),
     -- Silver: Meganium Lv. 50: Petal Dance, Poison Powder, Synthesis, Light Screen
-    (100017, 10023, NULL, 100001, 'totodile', NULL, 6, ARRAY[80, 77, 235, 113]),
+    (100023, 10023, NULL, 100001, 'totodile', NULL, 6, ARRAY[80, 77, 235, 113]),
     -- Ho-Oh: Ho-Oh Lv. 45: Extrasensory, Sunny Day, Fire Blast, Sacred Fire
     (100030, 10024, NULL, NULL, NULL, NULL, 1, ARRAY[326, 241, 126, 221]),
     -- Lugia: Lugia Lv. 45: Extrasensory, Rain Dance, Hydro Pump, Aeroblast
@@ -387,25 +387,25 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Rayquaza: Rayquaza Lv. 50: Rest, Air Slash, Ancient Power, Outrage
     (100040, 10039, NULL, NULL, NULL, NULL, 1, ARRAY[156, 403, 246, 200]),
     -- Proton: Zubat Lv. 8: Leech Life, Supersonic
-    (100004, 10040, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48]),
+    (100042, 10040, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48]),
     -- Proton: Koffing Lv. 12: Tackle, Poison Gas, Smog, Smokescreen
-    (100004, 10040, NULL, NULL, NULL, NULL, 2, ARRAY[33, 139, 123, 108]),
+    (100042, 10040, NULL, NULL, NULL, NULL, 2, ARRAY[33, 139, 123, 108]),
     -- Petrel: Zubat Lv. 22: Astonish, Bite, Wing Attack, Confuse Ray
-    (100009, 10041, NULL, NULL, NULL, NULL, 1, ARRAY[310, 44, 17, 109]),
+    (100046, 10041, NULL, NULL, NULL, NULL, 1, ARRAY[310, 44, 17, 109]),
     -- Petrel: Raticate Lv. 24: Hyper Fang, Sucker Punch, Scary Face, Crunch
-    (100009, 10041, NULL, NULL, NULL, NULL, 2, ARRAY[158, 389, 184, 242]),
+    (100046, 10041, NULL, NULL, NULL, NULL, 2, ARRAY[158, 389, 184, 242]),
     -- Petrel: Koffing Lv. 22: Smog, Smokescreen, Assurance, Self-Destruct
-    (100009, 10041, NULL, NULL, NULL, NULL, 3, ARRAY[123, 108, 372, 120]),
+    (100046, 10041, NULL, NULL, NULL, NULL, 3, ARRAY[123, 108, 372, 120]),
     -- Ariana & Grunt: Arbok Lv. 25: Wrap, Poison Sting, Crunch, Glare
-    (100009, 10043, NULL, NULL, NULL, NULL, 1, ARRAY[35, 40, 242, 137]),
+    (100046, 10043, NULL, NULL, NULL, NULL, 1, ARRAY[35, 40, 242, 137]),
     -- Ariana & Grunt: Gloom Lv. 25: Mega Drain, Sweet Scent, Sleep Powder, Acid
-    (100009, 10043, NULL, NULL, NULL, NULL, 2, ARRAY[72, 230, 79, 51]),
+    (100046, 10043, NULL, NULL, NULL, NULL, 2, ARRAY[72, 230, 79, 51]),
     -- Ariana & Grunt: Murkrow Lv. 27: Wing Attack, Pursuit, Astonish, Night Shade
-    (100009, 10043, NULL, NULL, NULL, NULL, 3, ARRAY[17, 228, 310, 101]),
+    (100046, 10043, NULL, NULL, NULL, NULL, 3, ARRAY[17, 228, 310, 101]),
     -- Ariana & Grunt: Drowzee Lv. 18: Hypnosis, Disable, Confusion, Headbutt
-    (100009, 10043, NULL, NULL, NULL, NULL, 4, ARRAY[95, 50, 93, 29]),
+    (100046, 10043, NULL, NULL, NULL, NULL, 4, ARRAY[95, 50, 93, 29]),
     -- Ariana & Grunt: Grimer Lv. 20: Sludge, Disable, Mud-Slap, Minimize
-    (100009, 10043, NULL, NULL, NULL, NULL, 5, ARRAY[124, 50, 189, 107]),
+    (100046, 10043, NULL, NULL, NULL, NULL, 5, ARRAY[124, 50, 189, 107]),
     -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
     (100029, 10041, NULL, NULL, NULL, NULL, 1, ARRAY[33, 120, 124, 108]),
     -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
@@ -445,7 +445,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Clair & Lance: Charizard Lv. 68: Dragon Claw, Air Slash, Flamethrower, Hyper Beam
     (100041, 10045, NULL, NULL, NULL, NULL, 5, ARRAY[337, 403, 53, 63]),
     -- Clair & Lance: Dragonite Lv. 75: Draco Meteor, Fire Punch, Safeguard, Hyper Beam
-    (100041, 10045, NULL, NULL, NULL, NULL, 6, ARRAY[434, 7, 219, 63])
+    (100041, 10045, NULL, NULL, NULL, NULL, 6, ARRAY[434, 7, 219, 63]),
+    -- Eusine: Drowzee Lv. 25: Dream Eater, Hypnosis, Disable, Confusion
+    (100044, 10046, NULL, NULL, NULL, NULL, 1, ARRAY[138, 95, 50, 93]),
+    -- Eusine: Haunter Lv. 25: Lick, Hypnosis, Mean Look, Curse
+    (100044, 10046, NULL, NULL, NULL, NULL, 2, ARRAY[122, 95, 212, 174]),
+    -- Eusine: Electrode Lv. 27: Screech, Sonic Boom, Thunder, Rollout
+    (100044, 10046, NULL, NULL, NULL, NULL, 3, ARRAY[103, 49, 87, 205]),
+    -- Kimono Girls: Umbreon Lv. 38: Last Resort, Dark Pulse, Confuse Ray, Shadow Ball
+    (100030, 10047, NULL, NULL, NULL, NULL, 1, ARRAY[387, 399, 109, 247]),
+    -- Kimono Girls: Espeon Lv. 38: Last Resort, Psychic, Psych Up, Swift
+    (100030, 10047, NULL, NULL, NULL, NULL, 2, ARRAY[387, 94, 244, 129]),
+    -- Kimono Girls: Flareon Lv. 38: Last Resort, Fire Blast, Quick Attack, Will-O-Wisp
+    (100030, 10047, NULL, NULL, NULL, NULL, 3, ARRAY[387, 126, 98, 261]),
+    -- Kimono Girls: Jolteon Lv. 38: Last Resort, Thunderbolt, Double Team, Thunder Wave
+    (100030, 10047, NULL, NULL, NULL, NULL, 4, ARRAY[387, 85, 104, 86]),
+    -- Kimono Girls: Vaporeon Lv. 38: Last Resort, Surf, Quick Attack, Aurora Beam
+    (100030, 10047, NULL, NULL, NULL, NULL, 5, ARRAY[387, 57, 98, 62])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

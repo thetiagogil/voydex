@@ -360,7 +360,12 @@ sources remain authoritative for game-specific mechanics and availability.
   first, then Yellow; `610_story_pattern.sql` holds every game with a roadmap
   to it):
   - Each milestone is at a place (`location_id`), a badge at its Gym, and is
-    one roadmap step. A battle fought elsewhere names its own place.
+    one roadmap step. A battle fought elsewhere names its own place, and
+    Story then shows it on that place instead of on the milestone. So the
+    place has to be a step on the way to the milestone, and the milestone a
+    required one. A battle fought somewhere the route reaches only after its
+    milestone stays on the milestone, with the place in its note
+    (`615_story_battle_places.sql`).
   - Main Story follows the walkthrough's order. Only what the game forces is
     required; optional beats sit where the story meets them (or right after
     the beat that opens them) and get no route of their own.
@@ -500,6 +505,22 @@ sources remain authoritative for game-specific mechanics and availability.
   the three roaming birds, placed at Eterna City where Professor Oak sets
   them off. The Fight Area's Multi Battle against Flint and Volkner is not a
   beat. Platinum has no collectible set.
+- HeartGold / SoulSilver in the pattern (`690_hgss_story.sql`; from all 32
+  parts of Bulbapedia's walkthrough): Gold / Silver's route and notes with
+  the remake's own story. Proton is fought in the Slowpoke Well, the Burned
+  Tower is a forced beat before the Fog Badge, Eusine battles in Cianwood
+  City, the Team Rocket HQ battle with Ariana is a Multi Battle beside Lance,
+  and the Kimono Girls' ritual comes before the League: the five are one
+  opponent with their five Pokémon in the order they are fought (the pret
+  pokeheartgold trainer data), the beat is placed at the Ecruteak Dance
+  Theater for both versions, and Ho-Oh or Lugia stays on that beat with the
+  Bell Tower or the Whirl Islands in its note, since those places come after
+  it on the route. Post Game is Kanto and Red, which count, with the Machine
+  Part beat, and the Kanto and Hoenn starters handed out after Red, which are
+  optional. Side Content is every other legendary Pokémon and the Dragon's
+  Den Multi Battle. The Zephyr Badge gives Rock Smash, and Whirlpool and Rock
+  Climb are HM05 and HM08. Unown's 28 forms are a collectible set here too:
+  the Unown Report counts them, and the ! and ? forms come last.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

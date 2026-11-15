@@ -125,7 +125,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 44
   (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 44, NULL),
   -- Lance beside you vs Ariana & Grunt 1: Dragonite Lv. 40
-  (100009, 10043, 10013, 10, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 40, NULL),
+  (100046, 10043, 10013, 10, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 40, NULL),
   -- Hugh beside you vs Zinzolin & Grunt [snivy] 1: Emboar Lv. 43, holds Charcoal
   (120009, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 500, 50000, 43, 312),
   -- Hugh beside you vs Zinzolin & Grunt [snivy] 2: Simipour Lv. 41, holds Mystic Water

@@ -35,9 +35,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 10
-                AND refs.milestone_id IN (100004, 100009, 100029)
+                AND refs.milestone_id IN (100004, 100009, 100029, 100042, 100043, 100046)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (100004, 'proton', 1), (100004, 'bugsy', 2), (100004, 'silver', 3), (100009, 'petrel', 1), (100009, 'ariana-grunt', 2), (100009, 'pryce', 3), (100029, 'petrel', 1), (100029, 'silver', 2), (100029, 'proton', 3), (100029, 'ariana', 4), (100029, 'archer', 5) $$, 'HeartGold / SoulSilver: the Executives at the Slowpoke Well, the Rocket HQ and the Radio Tower');
+            VALUES (100004, 'bugsy', 1), (100009, 'pryce', 1), (100029, 'petrel', 1), (100029, 'silver', 2), (100029, 'proton', 3), (100029, 'ariana', 4), (100029, 'archer', 5), (100042, 'proton', 1), (100043, 'silver', 1), (100046, 'petrel', 1), (100046, 'ariana-grunt', 2) $$, 'HeartGold / SoulSilver: the Executives at the Slowpoke Well, the Rocket HQ and the Radio Tower');
 -- Brilliant Diamond / Shining Pearl keep the same HQ order: Cyrus, then Saturn.
 SELECT
     results_eq ($$
@@ -83,7 +83,7 @@ SELECT
         SELECT
             ally_opponent_id, species_id, level FROM tracking.mainline_opponent_team_members
             WHERE
-                milestone_id = 100009
+                milestone_id = 100046
                 AND opponent_id = 10043
                 AND ally_opponent_id IS NOT NULL $$, $$
             VALUES (10013, 149, 40) $$, 'Lance fights beside you at the Rocket HQ with his Dragonite');
@@ -106,7 +106,7 @@ SELECT
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
             WHERE
-                members.milestone_id = 100009
+                members.milestone_id = 100046
                 AND members.opponent_id = 10043
                 AND members.ally_opponent_id IS NULL
                 AND members.slot = 4 $$, $$
@@ -119,7 +119,7 @@ SELECT
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
             WHERE
-                members.milestone_id = 100004
+                members.milestone_id = 100042
                 AND members.opponent_id = 10040
                 AND members.slot = 1 $$, $$
             VALUES (ARRAY[141, 48]) $$, 'Proton''s Zubat in the Slowpoke Well knows Leech Life and Supersonic');
