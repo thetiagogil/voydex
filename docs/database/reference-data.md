@@ -549,6 +549,19 @@ sources remain authoritative for game-specific mechanics and availability.
   Undella Town. Side Content is the legendary Pokémon, with the Swords of
   Justice on the way from Route 13. Black 2 / White 2 has no collectible set
   (Medals are awards, not things found).
+- X / Y in the pattern (`720_xy_story.sql`; from all 17 parts of Bulbapedia's
+  walkthrough): Main Story follows the walkthrough through Kalos. Team
+  Flare's forced beats are their own milestones, each with its scientist:
+  the Kalos Power Plant (Aliana), the Poké Ball Factory (Celosia and Bryony
+  beside Serena or Calem), Frost Cavern (Mable), Lysandre Labs and Team Flare
+  Secret HQ. The Kanto starter at the professor's lab and the fossil in
+  Glittering Cave stay Main Story choices. Korrina's battle in Geosenge Town
+  and the battle for the Mega Ring lead to the Rumble Badge. The Pokémon
+  League is one milestone that takes in AZ at the parade. Professor
+  Sycamore's two battles (Lumiose City and Couriway Town) and the successor
+  battle on the Tower of Mastery have no seeded team, so they are notes. Post
+  Game is Kiloude City and the Looker Bureau. Side Content is Zygarde, Mewtwo
+  and the roaming bird, placed at Azure Bay. X / Y has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

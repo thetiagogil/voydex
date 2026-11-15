@@ -67,37 +67,37 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Wulfric: Avalugg Lv. 59: Avalanche, Crunch, Curse, Gyro Ball
     (130012, 13008, NULL, NULL, NULL, NULL, 3, ARRAY[419, 242, 174, 360]),
     -- Malva: Pyroar Lv. 63: Hyper Voice, Flamethrower, Wild Charge, Noble Roar
-    (130013, 13009, NULL, NULL, NULL, NULL, 1, ARRAY[304, 53, 528, 568]),
+    (130017, 13009, NULL, NULL, NULL, NULL, 1, ARRAY[304, 53, 528, 568]),
     -- Malva: Torkoal Lv. 63: Curse, Earthquake, Stone Edge, Flame Wheel
-    (130013, 13009, NULL, NULL, NULL, NULL, 2, ARRAY[174, 89, 444, 172]),
+    (130017, 13009, NULL, NULL, NULL, NULL, 2, ARRAY[174, 89, 444, 172]),
     -- Malva: Chandelure Lv. 63: Flamethrower, Shadow Ball, Confuse Ray, Confide
-    (130013, 13009, NULL, NULL, NULL, NULL, 3, ARRAY[53, 247, 109, 590]),
+    (130017, 13009, NULL, NULL, NULL, NULL, 3, ARRAY[53, 247, 109, 590]),
     -- Malva: Talonflame Lv. 65: Brave Bird, Quick Attack, Flare Blitz, Flail
-    (130013, 13009, NULL, NULL, NULL, NULL, 4, ARRAY[413, 98, 394, 175]),
+    (130017, 13009, NULL, NULL, NULL, NULL, 4, ARRAY[413, 98, 394, 175]),
     -- Siebold: Clawitzer Lv. 63: Water Pulse, Dark Pulse, Dragon Pulse, Aura Sphere
-    (130014, 13010, NULL, NULL, NULL, NULL, 1, ARRAY[352, 399, 406, 396]),
+    (130017, 13010, NULL, NULL, NULL, NULL, 1, ARRAY[352, 399, 406, 396]),
     -- Siebold: Starmie Lv. 63: Dazzling Gleam, Psychic, Surf, Light Screen
-    (130014, 13010, NULL, NULL, NULL, NULL, 2, ARRAY[605, 94, 57, 113]),
+    (130017, 13010, NULL, NULL, NULL, NULL, 2, ARRAY[605, 94, 57, 113]),
     -- Siebold: Gyarados Lv. 63: Waterfall, Ice Fang, Earthquake, Dragon Dance
-    (130014, 13010, NULL, NULL, NULL, NULL, 3, ARRAY[127, 423, 89, 349]),
+    (130017, 13010, NULL, NULL, NULL, NULL, 3, ARRAY[127, 423, 89, 349]),
     -- Siebold: Barbaracle Lv. 65: Cross Chop, Stone Edge, Razor Shell, X-Scissor
-    (130014, 13010, NULL, NULL, NULL, NULL, 4, ARRAY[238, 444, 534, 404]),
+    (130017, 13010, NULL, NULL, NULL, NULL, 4, ARRAY[238, 444, 534, 404]),
     -- Wikstrom: Klefki Lv. 63: Dazzling Gleam, Flash Cannon, Torment, Spikes
-    (130015, 13011, NULL, NULL, NULL, NULL, 1, ARRAY[605, 430, 259, 191]),
+    (130017, 13011, NULL, NULL, NULL, NULL, 1, ARRAY[605, 430, 259, 191]),
     -- Wikstrom: Probopass Lv. 63: Earth Power, Power Gem, Discharge, Flash Cannon
-    (130015, 13011, NULL, NULL, NULL, NULL, 2, ARRAY[414, 408, 435, 430]),
+    (130017, 13011, NULL, NULL, NULL, NULL, 2, ARRAY[414, 408, 435, 430]),
     -- Wikstrom: Scizor Lv. 63: Bullet Punch, X-Scissor, Iron Head, Night Slash
-    (130015, 13011, NULL, NULL, NULL, NULL, 3, ARRAY[418, 404, 442, 400]),
+    (130017, 13011, NULL, NULL, NULL, NULL, 3, ARRAY[418, 404, 442, 400]),
     -- Wikstrom: Aegislash Lv. 65: King's Shield, Sacred Sword, Shadow Claw, Iron Head
-    (130015, 13011, NULL, NULL, NULL, NULL, 4, ARRAY[588, 533, 421, 442]),
+    (130017, 13011, NULL, NULL, NULL, NULL, 4, ARRAY[588, 533, 421, 442]),
     -- Drasna: Dragalge Lv. 63: Dragon Pulse, Surf, Sludge Bomb, Thunderbolt
-    (130016, 13012, NULL, NULL, NULL, NULL, 1, ARRAY[406, 57, 188, 85]),
+    (130017, 13012, NULL, NULL, NULL, NULL, 1, ARRAY[406, 57, 188, 85]),
     -- Drasna: Altaria Lv. 63: Moonblast, Dragon Pulse, Cotton Guard, Sing
-    (130016, 13012, NULL, NULL, NULL, NULL, 2, ARRAY[585, 406, 538, 47]),
+    (130017, 13012, NULL, NULL, NULL, NULL, 2, ARRAY[585, 406, 538, 47]),
     -- Drasna: Druddigon Lv. 63: Dragon Tail, Revenge, Retaliate, Chip Away
-    (130016, 13012, NULL, NULL, NULL, NULL, 3, ARRAY[525, 279, 514, 498]),
+    (130017, 13012, NULL, NULL, NULL, NULL, 3, ARRAY[525, 279, 514, 498]),
     -- Drasna: Noivern Lv. 65: Air Slash, Dragon Pulse, Flamethrower, Super Fang
-    (130016, 13012, NULL, NULL, NULL, NULL, 4, ARRAY[403, 406, 53, 162]),
+    (130017, 13012, NULL, NULL, NULL, NULL, 4, ARRAY[403, 406, 53, 162]),
     -- Diantha: Hawlucha Lv. 64: Swords Dance, Flying Press, X-Scissor, Poison Jab
     (130017, 13013, NULL, NULL, NULL, NULL, 1, ARRAY[14, 560, 404, 398]),
     -- Diantha: Tyrantrum Lv. 65: Head Smash, Earthquake, Dragon Claw, Crunch
@@ -111,11 +111,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Diantha: Mega Gardevoir Lv. 68: Moonblast, Psychic, Shadow Ball, Thunderbolt
     (130017, 13013, NULL, NULL, NULL, NULL, 6, ARRAY[585, 94, 247, 85]),
     -- AZ: Torkoal Lv. 60: Lava Plume, Stone Edge, Body Slam, Return
-    (130019, 13014, NULL, NULL, NULL, NULL, 1, ARRAY[436, 444, 34, 216]),
+    (130017, 13014, NULL, NULL, NULL, NULL, 1, ARRAY[436, 444, 34, 216]),
     -- AZ: Golurk Lv. 60: Heavy Slam, Phantom Force, Mega Punch, Return
-    (130019, 13014, NULL, NULL, NULL, NULL, 2, ARRAY[484, 566, 5, 216]),
+    (130017, 13014, NULL, NULL, NULL, NULL, 2, ARRAY[484, 566, 5, 216]),
     -- AZ: Sigilyph Lv. 60: Air Slash, Psychic, Cosmic Power, Return
-    (130019, 13014, NULL, NULL, NULL, NULL, 3, ARRAY[403, 94, 322, 216]),
+    (130017, 13014, NULL, NULL, NULL, NULL, 3, ARRAY[403, 94, 322, 216]),
     -- Shauna: Froakie Lv. 5: Pound, Growl, Bubble
     (130001, 13015, NULL, 130001, 'chespin', NULL, 1, ARRAY[1, 45, 145]),
     -- Shauna: Chespin Lv. 5: Tackle, Growl, Vine Whip
@@ -341,65 +341,65 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Trevor: Florges (Orange Flower) Lv. 51: Moonblast, Energy Ball, Confide, Misty Terrain
     (130012, 13020, NULL, NULL, NULL, NULL, 3, ARRAY[585, 412, 590, 581]),
     -- Serena / Calem: Meowstic (Female) Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Jolteon Lv. 57: Discharge, Double Kick, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[435, 24, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[435, 24, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'serena-chespin', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-chespin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Delphox Lv. 61: Psychic, Flamethrower, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'serena-chespin', 5, ARRAY[94, 53, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-chespin', 5, ARRAY[94, 53, 247]),
     -- Serena / Calem: Meowstic (Female) Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Flareon Lv. 57: Lava Plume, Bite, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[436, 44, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[436, 44, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'serena-fennekin', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-fennekin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Greninja Lv. 61: Water Shuriken, Dark Pulse, Ice Beam
-    (130013, 13018, NULL, NULL, NULL, 'serena-fennekin', 5, ARRAY[594, 399, 58]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-fennekin', 5, ARRAY[594, 399, 58]),
     -- Serena / Calem: Meowstic (Female) Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Vaporeon Lv. 57: Muddy Water, Aurora Beam, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[330, 62, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[330, 62, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'serena-froakie', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-froakie', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Chesnaught Lv. 61: Seed Bomb, Brick Break, Body Slam
-    (130013, 13018, NULL, NULL, NULL, 'serena-froakie', 5, ARRAY[402, 280, 34]),
+    (130017, 13018, NULL, NULL, NULL, 'serena-froakie', 5, ARRAY[402, 280, 34]),
     -- Serena / Calem: Meowstic Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Jolteon Lv. 57: Discharge, Double Kick, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[435, 24, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[435, 24, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'calem-chespin', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-chespin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Delphox Lv. 61: Psychic, Flamethrower, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'calem-chespin', 5, ARRAY[94, 53, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-chespin', 5, ARRAY[94, 53, 247]),
     -- Serena / Calem: Meowstic Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Flareon Lv. 57: Lava Plume, Bite, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[436, 44, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[436, 44, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'calem-fennekin', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-fennekin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Greninja Lv. 61: Water Shuriken, Dark Pulse, Ice Beam
-    (130013, 13018, NULL, NULL, NULL, 'calem-fennekin', 5, ARRAY[594, 399, 58]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-fennekin', 5, ARRAY[594, 399, 58]),
     -- Serena / Calem: Meowstic Lv. 57: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 247]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Vaporeon Lv. 57: Muddy Water, Aurora Beam, Quick Attack
-    (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[330, 62, 98]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[330, 62, 98]),
     -- Serena / Calem: Altaria Lv. 58: Dragon Pulse, Dazzling Gleam, Confide
-    (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[406, 605, 590]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[406, 605, 590]),
     -- Serena / Calem: Absol Lv. 59: Slash, Swords Dance, Quick Attack, Night Slash
-    (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 4, ARRAY[163, 14, 98, 400]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-froakie', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Chesnaught Lv. 61: Seed Bomb, Brick Break, Body Slam
-    (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[402, 280, 34]),
+    (130017, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[402, 280, 34]),
     -- Serena / Calem: Meowstic (Female) Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
     (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
@@ -491,13 +491,13 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Korrina (Geosenge Town): Lucario Lv. 25: Swords Dance, Power-Up Punch, Metal Sound, Feint
     (130007, 13029, NULL, NULL, NULL, NULL, 2, ARRAY[14, 612, 319, 364]),
     -- Aliana: Mightyena Lv. 38: Roar, Swagger, Assurance, Scary Face
-    (130009, 13030, NULL, NULL, NULL, NULL, 1, ARRAY[46, 207, 372, 184]),
+    (130027, 13030, NULL, NULL, NULL, NULL, 1, ARRAY[46, 207, 372, 184]),
     -- Celosia & Bryony: Liepard Lv. 41: Hone Claws, Assurance, Slash, Taunt
-    (130011, 13031, NULL, NULL, NULL, NULL, 1, ARRAY[468, 372, 163, 269]),
+    (130028, 13031, NULL, NULL, NULL, NULL, 1, ARRAY[468, 372, 163, 269]),
     -- Celosia & Bryony: Manectric Lv. 41: Spark, Thunder Fang, Bite, Odor Sleuth
-    (130011, 13031, NULL, NULL, NULL, NULL, 2, ARRAY[209, 422, 44, 316]),
+    (130028, 13031, NULL, NULL, NULL, NULL, 2, ARRAY[209, 422, 44, 316]),
     -- Mable: Houndoom Lv. 48: Fire Fang, Feint Attack, Embargo, Foul Play
-    (130011, 13034, NULL, NULL, NULL, NULL, 1, ARRAY[424, 185, 373, 492]),
+    (130029, 13034, NULL, NULL, NULL, NULL, 1, ARRAY[424, 185, 373, 492]),
     -- Aliana: Mightyena Lv. 46: Taunt, Sucker Punch, Crunch, Embargo
     (130021, 13030, NULL, NULL, NULL, NULL, 1, ARRAY[269, 389, 242, 373]),
     -- Aliana: Druddigon Lv. 48: Dragon Claw, Crunch, Shadow Claw, Surf

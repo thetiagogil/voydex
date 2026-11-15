@@ -175,41 +175,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16
   (130005, 13017, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 2, 651, 65100, 16, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 3: Delphox Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 3, 655, 65500, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 3, 655, 65500, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 3: Greninja Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 3, 658, 65800, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 3, 658, 65800, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 3, 652, 65200, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 3, 652, 65200, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 3: Delphox Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 3, 655, 65500, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 3, 655, 65500, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 3: Greninja Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 3, 658, 65800, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 3, 658, 65800, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 1: Meowstic Lv. 37
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 2: Absol Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
-  (130011, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 652, 65200, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 652, 65200, 39, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 1: Wailmer Lv. 24
   (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 2: Shroomish Lv. 24

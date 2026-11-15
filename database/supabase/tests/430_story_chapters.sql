@@ -159,7 +159,7 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'dojo-trials' ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
             VALUES ('klara-avery-warm-up-tunnel'), ('klara-avery') $$, 'the Dojo Trials beat fights Klara or Avery in the tunnel, then at the dojo');
--- X / Y: Battle AZ follows the Hall of Fame in the League chapter; the Kiloude City rival battle is post-game.
+-- X / Y: the League milestone takes in AZ; the Kiloude City rival battle is post-game.
 SELECT
     results_eq ($$
         SELECT
@@ -167,9 +167,9 @@ SELECT
             JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
             WHERE
                 mainline_milestones.version_group_id = 13
-                AND mainline_milestones.slug IN ('hall-of-fame', 'battle-az', 'kiloude-city')
+                AND mainline_milestones.slug IN ('pokemon-league', 'hall-of-fame', 'battle-az', 'kiloude-city')
             ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('pokemon-league', 'hall-of-fame', 6), ('pokemon-league', 'battle-az', 7), ('post-game', 'kiloude-city', 1) $$, 'Battle AZ closes the League chapter and Kiloude City is post-game');
+            VALUES ('main-story', 'pokemon-league', 18), ('post-game', 'kiloude-city', 1) $$, 'the League is one Main Story milestone and Kiloude City is post-game');
 -- Sun / Moon and Ultra Sun / Ultra Moon: the Iki Town festival is a beat with Hau on it.
 SELECT
     results_eq ($$

@@ -24,9 +24,9 @@ SELECT
             refs.milestone_id, opponents.slug, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (130009, 130011, 130021)
+                refs.milestone_id IN (130027, 130028, 130029, 130021)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (130009, 'aliana', 1), (130009, 'clemont', 2), (130011, 'celosia-bryony', 1), (130011, 'mable', 2), (130011, 'serena-calem', 3), (130011, 'olympia', 4), (130021, 'lysandre', 1), (130021, 'aliana', 2), (130021, 'celosia', 3), (130021, 'bryony', 4), (130021, 'mable', 5), (130021, 'xerosic', 6) $$, 'X / Y: the Team Flare scientists at the Power Plant, the Poké Ball Factory, Frost Cavern and Lysandre Labs');
+            VALUES (130021, 'lysandre', 1), (130021, 'aliana', 2), (130021, 'celosia', 3), (130021, 'bryony', 4), (130021, 'mable', 5), (130021, 'xerosic', 6), (130027, 'aliana', 1), (130028, 'celosia-bryony', 1), (130029, 'mable', 1) $$, 'X / Y: the Team Flare scientists at the Power Plant, the Poké Ball Factory, Frost Cavern and Lysandre Labs');
 SELECT
     results_eq ($$
         SELECT
@@ -85,17 +85,17 @@ SELECT
             JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
                 members.ally_opponent_id IN (12016, 13018, 14015)
-                AND members.milestone_id IN (120009, 130011, 140019)
+                AND members.milestone_id IN (120009, 130028, 140019)
                 AND species.slug IN ('emboar', 'samurott', 'serperior', 'delphox', 'greninja', 'chesnaught', 'combusken', 'marshtomp', 'grovyle')
                 AND members.opponent_id <> 14056 ORDER BY members.milestone_id, 2 $$, $$
-            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130011, 'calem-chespin', 'delphox'), (130011, 'calem-fennekin', 'greninja'), (130011, 'calem-froakie', 'chesnaught'), (130011, 'serena-chespin', 'delphox'), (130011, 'serena-fennekin', 'greninja'), (130011, 'serena-froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
+            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130028, 'calem-chespin', 'delphox'), (130028, 'calem-fennekin', 'greninja'), (130028, 'calem-froakie', 'chesnaught'), (130028, 'serena-chespin', 'delphox'), (130028, 'serena-fennekin', 'greninja'), (130028, 'serena-froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
 -- Serena's Meowstic is female, Calem's male.
 SELECT
     results_eq ($$ SELECT DISTINCT
             split_part(members.variant_slug, '-', 1), forms.slug FROM tracking.mainline_opponent_team_members AS members
             JOIN reference.pokemon_forms AS forms ON forms.id = members.form_id
             WHERE
-                members.milestone_id = 130011
+                members.milestone_id = 130028
                 AND members.ally_opponent_id = 13018
                 AND members.species_id = 678 ORDER BY 1 $$, $$
             VALUES ('calem'::text, 'meowstic'::text), ('serena', 'meowstic-female') $$, 'Serena / Calem''s partner Meowstic matches who your partner is');

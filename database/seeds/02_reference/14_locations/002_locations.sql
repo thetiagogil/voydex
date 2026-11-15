@@ -27,8 +27,10 @@
 -- Distortion World for Platinum, the Ecruteak Dance Theater and the Embedded
 -- Tower for HeartGold / SoulSilver, and Unova's Gyms, towns and bridges
 -- without wild Pokémon, Professor Juniper's Laboratory and the Pokémon
--- League for Black / White, and two more Gyms, two towns, the Pokémon World
--- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2).
+-- League for Black / White, two more Gyms, two towns, the Pokémon World
+-- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2,
+-- and Kalos's Gyms, two towns, Team Flare's places, the Pokémon League,
+-- Kiloude City and the Unknown Dungeon for X / Y).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1819,4 +1821,38 @@ VALUES
   -- Plasma Frigate: a Story place with no wild Pokémon (Black 2 / White 2's Plasma Frigate beat)
   (897, 5, 'unova-plasma-frigate', 'Plasma Frigate'),
   -- Cave of Being: a Story place with no wild Pokémon (Black 2 / White 2's Uxie, Mesprit and Azelf)
-  (898, 5, 'unova-cave-of-being', 'Cave of Being');
+  (898, 5, 'unova-cave-of-being', 'Cave of Being'),
+  -- Santalune Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (899, 6, 'kalos-santalune-gym', 'Santalune Gym'),
+  -- Cyllage Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (900, 6, 'kalos-cyllage-gym', 'Cyllage Gym'),
+  -- Shalour Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (901, 6, 'kalos-shalour-gym', 'Shalour Gym'),
+  -- Coumarine Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (902, 6, 'kalos-coumarine-gym', 'Coumarine Gym'),
+  -- Kalos Power Plant: a Story place with no wild Pokémon (X / Y's Power Plant beat)
+  (903, 6, 'kalos-kalos-power-plant', 'Kalos Power Plant'),
+  -- Lumiose Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (904, 6, 'kalos-lumiose-gym', 'Lumiose Gym'),
+  -- Laverre Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (905, 6, 'kalos-laverre-gym', 'Laverre Gym'),
+  -- Poké Ball Factory: a Story place with no wild Pokémon (X / Y's Poké Ball Factory beat)
+  (906, 6, 'kalos-poke-ball-factory', 'Poké Ball Factory'),
+  -- Dendemille Town: a Story place with no wild Pokémon (X / Y's way to Frost Cavern)
+  (907, 6, 'kalos-dendemille-town', 'Dendemille Town'),
+  -- Anistar City: a Story place with no wild Pokémon (X / Y's seventh Gym town)
+  (908, 6, 'kalos-anistar-city', 'Anistar City'),
+  -- Anistar Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (909, 6, 'kalos-anistar-gym', 'Anistar Gym'),
+  -- Lysandre Labs: a Story place with no wild Pokémon (X / Y's Lysandre Labs beat)
+  (910, 6, 'kalos-lysandre-labs', 'Lysandre Labs'),
+  -- Team Flare Secret HQ: a Story place with no wild Pokémon (X / Y's Team Flare Secret HQ beat)
+  (911, 6, 'kalos-team-flare-secret-hq', 'Team Flare Secret HQ'),
+  -- Snowbelle Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (912, 6, 'kalos-snowbelle-gym', 'Snowbelle Gym'),
+  -- Pokémon League: a Story place with no wild Pokémon (X / Y's Pokémon League)
+  (913, 6, 'kalos-pokemon-league', 'Pokémon League'),
+  -- Kiloude City: a Story place with no wild Pokémon (X / Y's battle after the credits)
+  (914, 6, 'kalos-kiloude-city', 'Kiloude City'),
+  -- Unknown Dungeon: a Story place with no wild Pokémon (X / Y's Mewtwo)
+  (915, 6, 'kalos-unknown-dungeon', 'Unknown Dungeon');

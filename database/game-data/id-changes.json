@@ -334,5 +334,41 @@
     "id": "120018",
     "becomes": "120017",
     "reason": "Black 2 / White 2: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130013",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Malva merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130014",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Siebold merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130015",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Wikstrom merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130016",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Drasna merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130018",
+    "becomes": "130017",
+    "reason": "X / Y: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130019",
+    "becomes": "130017",
+    "reason": "X / Y: Battle AZ merged into the Pokémon League milestone"
   }
 ]
