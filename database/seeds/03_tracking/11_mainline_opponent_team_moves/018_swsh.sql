@@ -215,11 +215,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Bede: Hatenna Lv. 23: Psybeam, Disarming Voice
     (180005, 18014, NULL, NULL, NULL, NULL, 4, ARRAY[60, 574]),
     -- Marnie: Croagunk Lv. 24: Poison Sting, Venoshock, Revenge, Sucker Punch
-    (180003, 18015, NULL, NULL, NULL, NULL, 1, ARRAY[40, 474, 279, 389]),
+    (180005, 18015, NULL, NULL, NULL, NULL, 1, ARRAY[40, 474, 279, 389]),
     -- Marnie: Scraggy Lv. 24: Beat Up, Headbutt, Low Kick
-    (180003, 18015, NULL, NULL, NULL, NULL, 2, ARRAY[251, 29, 67]),
+    (180005, 18015, NULL, NULL, NULL, NULL, 2, ARRAY[251, 29, 67]),
     -- Marnie: Morpeko Lv. 26: Bite, Quick Attack, Thunder Shock
-    (180003, 18015, NULL, NULL, NULL, NULL, 3, ARRAY[44, 98, 84]),
+    (180005, 18015, NULL, NULL, NULL, NULL, 3, ARRAY[44, 98, 84]),
     -- Hop: Cramorant Lv. 28: Dive, Fury Attack, Pluck
     (183106, 18013, 31, 180001, 'grookey', NULL, 1, ARRAY[291, 31, 365]),
     -- Hop: Toxel Lv. 29: Tearful Look, Nuzzle, Flail, Acid

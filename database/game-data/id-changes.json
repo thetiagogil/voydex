@@ -490,5 +490,11 @@
     "id": "170017",
     "becomes": "170016",
     "reason": "Let's Go: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "180013",
+    "becomes": "180012",
+    "reason": "Sword / Shield: Hall of Fame merged into the Champion Leon milestone"
   }
 ]

@@ -33,7 +33,9 @@
 -- City and the Unknown Dungeon for X / Y, Island Cave and six Mirage spots
 -- for Omega Ruby / Alpha Sapphire, Heahea City, Hokulani Observatory, Po
 -- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
--- and Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon).
+-- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
+-- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
+-- Sword / Shield).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1894,4 +1896,20 @@ VALUES
   -- Megalo Tower: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Ultra Necrozma)
   (932, 7, 'alola-megalo-tower', 'Megalo Tower'),
   -- Mahalo Trail: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Solgaleo or Lunala)
-  (933, 7, 'alola-mahalo-trail', 'Mahalo Trail');
+  (933, 7, 'alola-mahalo-trail', 'Mahalo Trail'),
+  -- Hulbury Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (934, 8, 'galar-hulbury-stadium', 'Hulbury Stadium'),
+  -- Stow-on-Side Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (935, 8, 'galar-stow-on-side-stadium', 'Stow-on-Side Stadium'),
+  -- Ballonlea: a Story place with no wild Pokémon (Sword / Shield's fifth Gym town)
+  (936, 8, 'galar-ballonlea', 'Ballonlea'),
+  -- Circhester Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (937, 8, 'galar-circhester-stadium', 'Circhester Stadium'),
+  -- Spikemuth Gym: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (938, 8, 'galar-spikemuth-gym', 'Spikemuth Gym'),
+  -- Hammerlocke Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (939, 8, 'galar-hammerlocke-stadium', 'Hammerlocke Stadium'),
+  -- Wyndon Stadium: a Story place with no wild Pokémon (Sword / Shield's Champion Cup)
+  (940, 8, 'galar-wyndon-stadium', 'Wyndon Stadium'),
+  -- Energy Plant: a Story place with no wild Pokémon (Sword / Shield's Eternatus beat)
+  (941, 8, 'galar-energy-plant', 'Energy Plant');

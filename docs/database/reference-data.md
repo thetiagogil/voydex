@@ -614,6 +614,17 @@ sources remain authoritative for game-specific mechanics and availability.
   Champion Trace. Post Game is Blue, Green and Red. Side Content is the three
   birds and Mewtwo. The fossil in Mt. Moon is a note, since these seeds have
   no choice for it. Let's Go has no collectible set.
+- Sword / Shield in the pattern (`770_swsh_story.sql`; from Bulbapedia's
+  walkthrough): Main Story follows the walkthrough through Galar. A badge is
+  won at its Stadium, so the pattern's Gym rule takes Stadium names too. The
+  fourth and sixth Gyms are one milestone per version. Hop, Bede and Marnie
+  battle on the way to most badges, and each battle names its place. Marnie's
+  first battle moved from the Grass Badge to the Fire Badge, where her level
+  24 to 26 team belongs. Main Story ends with three milestones, since the
+  game does not run them back to back: the Champion Cup (semifinals, Oleana
+  in Rose Tower, finals), Defeat Eternatus and Champion Leon, which holds the
+  Hall of Fame. Post Game is the Sordward and Shielbert episode. Sword /
+  Shield has no collectible set in the base game.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

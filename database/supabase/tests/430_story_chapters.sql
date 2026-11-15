@@ -182,7 +182,7 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'iki-town-festival' ORDER BY mainline_milestones.version_group_id $$, $$
             VALUES (15, 'Hau'), (16, 'Hau') $$, 'the Iki Town festival beat holds Hau''s festival battle');
--- Sword / Shield: Grass Badge holds the Route 2 and Motostoke battles in play order.
+-- Sword / Shield: Grass Badge holds the Route 2 and Motostoke battles in play order (Marnie's first battle is at the Fire Badge).
 SELECT
     results_eq ($$
         SELECT
@@ -192,7 +192,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 18
                 AND mainline_milestones.slug = 'grass-badge' ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('hop-route-2'), ('marnie'), ('hop'), ('bede'), ('milo') $$, 'Grass Badge lists its battles in play order');
+            VALUES ('hop-route-2'), ('hop'), ('bede'), ('milo') $$, 'Grass Badge lists its battles in play order');
 -- After the credits only Johto's Kanto, through Red, still counts.
 SELECT
     results_eq ($$ SELECT DISTINCT
