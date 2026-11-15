@@ -39,6 +39,8 @@
     "db:artifacts:check": "node scripts/database/build-local-artifacts.mjs --check",
     "predb:reset": "npm run db:artifacts:build",
     "db:reset": "node scripts/database/supabase.mjs db reset --local",
+    "postdb:reset": "npm run db:fixtures",
+    "db:fixtures": "tsx scripts/database/fixture-backups.mts",
     "db:audit": "npm run db:artifacts:check && node scripts/database/audit-schema-files.mjs && node scripts/database/audit-seed-files.mjs",
     "db:format:sql": "node scripts/database/format-sql.mjs --write",
     "db:format:sql:check": "node scripts/database/format-sql.mjs --check",
