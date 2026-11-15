@@ -21,7 +21,9 @@
 -- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire, and the Sevii
 -- Islands' towns, the Dotted Hole, the Rocket Warehouse, Navel Rock and Birth
 -- Island for FireRed / LeafGreen, and the Mossdeep Space Center, Terra Cave
--- and Marine Cave for Emerald).
+-- and Marine Cave for Emerald, and Sinnoh's Gyms, towns without wild
+-- Pokémon, Professor Rowan's Laboratory, Team Galactic's two buildings, the
+-- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1728,4 +1730,38 @@ VALUES
   -- Terra Cave: a Story place with no wild Pokémon (Emerald's Groudon)
   (855, 3, 'hoenn-terra-cave', 'Terra Cave'),
   -- Marine Cave: a Story place with no wild Pokémon (Emerald's Kyogre)
-  (856, 3, 'hoenn-marine-cave', 'Marine Cave');
+  (856, 3, 'hoenn-marine-cave', 'Marine Cave'),
+  -- Sandgem Town: a Story place with no wild Pokémon (Diamond / Pearl's way out of Twinleaf Town)
+  (857, 4, 'sinnoh-sandgem-town', 'Sandgem Town'),
+  -- Professor Rowan's Laboratory: a Story place with no wild Pokémon (Diamond / Pearl's Receive Pokédex beat)
+  (858, 4, 'sinnoh-professor-rowans-laboratory', 'Professor Rowan''s Laboratory'),
+  -- Jubilife City: a Story place with no wild Pokémon (Diamond / Pearl's first city)
+  (859, 4, 'sinnoh-jubilife-city', 'Jubilife City'),
+  -- Oreburgh Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (860, 4, 'sinnoh-oreburgh-gym', 'Oreburgh Gym'),
+  -- Eterna Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (861, 4, 'sinnoh-eterna-gym', 'Eterna Gym'),
+  -- Team Galactic Eterna Building: a Story place with no wild Pokémon (Diamond / Pearl's Jupiter beat)
+  (862, 4, 'sinnoh-team-galactic-eterna-building', 'Team Galactic Eterna Building'),
+  -- Solaceon Town: a Story place with no wild Pokémon (Diamond / Pearl's way to Veilstone City)
+  (863, 4, 'sinnoh-solaceon-town', 'Solaceon Town'),
+  -- Veilstone Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (864, 4, 'sinnoh-veilstone-gym', 'Veilstone Gym'),
+  -- Pastoria Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (865, 4, 'sinnoh-pastoria-gym', 'Pastoria Gym'),
+  -- Hearthome Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (866, 4, 'sinnoh-hearthome-gym', 'Hearthome Gym'),
+  -- Canalave Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (867, 4, 'sinnoh-canalave-gym', 'Canalave Gym'),
+  -- Snowpoint Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (868, 4, 'sinnoh-snowpoint-gym', 'Snowpoint Gym'),
+  -- Team Galactic HQ: a Story place with no wild Pokémon (Diamond / Pearl's Team Galactic HQ beat)
+  (869, 4, 'sinnoh-team-galactic-hq', 'Team Galactic HQ'),
+  -- Spear Pillar: a Story place with no wild Pokémon (Diamond / Pearl's Spear Pillar beat)
+  (870, 4, 'sinnoh-spear-pillar', 'Spear Pillar'),
+  -- Sunyshore Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (871, 4, 'sinnoh-sunyshore-gym', 'Sunyshore Gym'),
+  -- Fight Area: a Story place with no wild Pokémon (Diamond / Pearl's Battle Zone arrival)
+  (872, 4, 'sinnoh-fight-area', 'Fight Area'),
+  -- Fullmoon Island: a Story place with no wild Pokémon (Diamond / Pearl's Cresselia)
+  (873, 4, 'sinnoh-fullmoon-island', 'Fullmoon Island');

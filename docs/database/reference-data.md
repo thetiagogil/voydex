@@ -471,6 +471,20 @@ sources remain authoritative for game-specific mechanics and availability.
   Content is the fossil in Mirage Tower, Rayquaza back on the Sky Pillar, the
   Sealed Chamber, Terra Cave and Marine Cave. The Battle Frontier's symbols
   are won in battle facilities, not found, so Emerald has no collectible set.
+- Diamond / Pearl in the pattern (`670_dp_story.sql`; from all 30 parts of
+  Bulbapedia's walkthrough): Main Story follows the walkthrough through
+  Sinnoh. The beats the game forces between badges are their own milestones:
+  the Valley Windworks (Mars), Team Galactic's Eterna building (Jupiter),
+  Celestic Town (the Grunt at the ruins, HM03 Surf and Cyrus), Lake Valor
+  (Saturn), Lake Verity (Mars), Team Galactic HQ (Cyrus, then Saturn) and the
+  Spear Pillar (Mars and Jupiter beside Barry, Cyrus, then Dialga or Palkia).
+  Barry battles on Route 203, in Hearthome City, in Pastoria City (after the
+  Fen Badge, so it leads to Celestic Town), in Canalave City and in the
+  League's lobby. Plain Grunt battles (Jubilife City, the Veilstone
+  warehouse, Iron Island) are notes. Post Game is the Battle Zone: the Fight
+  Area, then Stark Mountain with Buck, both optional. Side Content is the
+  three lake Pokémon (placed at Lake Verity), Turnback Cave, Cresselia and
+  Snowpoint Temple. Diamond / Pearl has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

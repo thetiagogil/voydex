@@ -15,9 +15,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 8
-                AND refs.milestone_id IN (80004, 80009, 80017, 80018)
+                AND refs.milestone_id IN (80004, 80009, 80017, 80018, 80025, 80027, 80029, 80030)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (80004, 'mars', 1), (80004, 'gardenia', 2), (80004, 'jupiter', 3), (80009, 'saturn', 1), (80009, 'mars', 2), (80009, 'candice', 3), (80017, 'cyrus', 1), (80017, 'saturn', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4) $$, 'Diamond / Pearl: the Commanders in Story order, Saturn after Cyrus at the HQ');
+            VALUES (80004, 'gardenia', 1), (80009, 'candice', 1), (80017, 'cyrus', 1), (80017, 'saturn', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4), (80025, 'mars', 1), (80027, 'jupiter', 1), (80029, 'saturn', 1), (80030, 'mars', 1) $$, 'Diamond / Pearl: the Commanders in Story order, Saturn after Cyrus at the HQ');
 SELECT
     results_eq ($$
         SELECT
