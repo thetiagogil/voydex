@@ -590,6 +590,18 @@ sources remain authoritative for game-specific mechanics and availability.
   Koko after the Hall of Fame. Post Game is the Ultra Beast missions. Side
   Content is the three guardians left and Necrozma. The Zygarde Cells and
   Cores set is unchanged.
+- Ultra Sun / Ultra Moon in the pattern (`750_usum_story.sql`; from
+  Bulbapedia's walkthrough): Sun / Moon's route, notes and descriptions with
+  these games' own story. The Ultra Recon Squad's battles sit on the way to
+  Hala (Seaward Cave), to Lana's trial (Paniola Ranch), in the raid on
+  Aether Paradise and on the way up Vast Poni Canyon. Ultra Necrozma is one
+  milestone at Megalo Tower: Dusk Mane or Dawn Wings Necrozma at the altar,
+  then Ultra Necrozma. Mina's trial comes after it and lists the captains it
+  sends you to, each with its place in the note. The Pokémon League is one
+  milestone: Gladion on Mount Lanakila, the Elite Four with Molayne, then
+  Hau. Post Game is Team Rainbow Rocket, placed at Aether Paradise. Side
+  Content is the legendary Pokémon and Ilima's bonus trial. The Totem
+  Stickers set is unchanged.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

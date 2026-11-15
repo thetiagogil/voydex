@@ -430,5 +430,35 @@
     "id": "150019",
     "becomes": "150018",
     "reason": "Sun / Moon: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160016",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Molayne merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160017",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Olivia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160018",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Acerola merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160019",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Kahili merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160021",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

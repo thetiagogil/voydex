@@ -245,10 +245,11 @@ test.describe("Story battles", () => {
       partner: "Rowlet",
     });
 
+    /* Hau stops you in Paniola Town, on the way to Lana's trial. */
     const { report } = await openBattle(
       page,
       playId,
-      /^Lana Trial/,
+      /^Paniola Town/,
       /^Hau/,
       "Hau",
     );

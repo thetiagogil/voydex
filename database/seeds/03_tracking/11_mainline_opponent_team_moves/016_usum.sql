@@ -90,9 +90,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Totem Mimikyu: Jellicent Lv. 33: Water Pulse, Snore, Spite, Night Shade
     (160010, 16044, NULL, NULL, NULL, NULL, 3, ARRAY[352, 173, 180, 101]),
     -- Plumeria (Route 15): Golbat Lv. 37: Wing Attack, Poison Fang
-    (160011, 16049, NULL, NULL, NULL, NULL, 1, ARRAY[17, 305]),
+    (160035, 16049, NULL, NULL, NULL, NULL, 1, ARRAY[17, 305]),
     -- Plumeria (Route 15): Salazzle Lv. 38: Dragon Pulse, Flamethrower, Sludge Bomb
-    (160011, 16049, NULL, NULL, NULL, NULL, 2, ARRAY[406, 53, 188]),
+    (160035, 16049, NULL, NULL, NULL, NULL, 2, ARRAY[406, 53, 188]),
     -- Nanu: Sableye Lv. 43: Power Gem, Shadow Ball, Fake Out
     (160011, 16009, NULL, NULL, NULL, NULL, 1, ARRAY[408, 247, 252]),
     -- Nanu: Krokorok Lv. 43: Crunch, Assurance, Swagger, Earthquake
@@ -168,45 +168,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Ultra Necrozma: Ultra Necrozma Lv. 60: Photon Geyser, Smart Strike, Power Gem, Dragon Pulse
     (160015, 16012, NULL, NULL, NULL, NULL, 1, ARRAY[722, 684, 408, 406]),
     -- Molayne: Klefki Lv. 56: Spikes, Thunder Wave, Flash Cannon, Reflect
-    (160016, 16013, NULL, NULL, NULL, NULL, 1, ARRAY[191, 86, 430, 115]),
+    (160020, 16013, NULL, NULL, NULL, NULL, 1, ARRAY[191, 86, 430, 115]),
     -- Molayne: Bisharp Lv. 56: Night Slash, Iron Head, X-Scissor, Metal Sound
-    (160016, 16013, NULL, NULL, NULL, NULL, 2, ARRAY[400, 442, 404, 319]),
+    (160020, 16013, NULL, NULL, NULL, NULL, 2, ARRAY[400, 442, 404, 319]),
     -- Molayne: Magnezone Lv. 56: Flash Cannon, Thunderbolt, Tri Attack, Screech
-    (160016, 16013, NULL, NULL, NULL, NULL, 3, ARRAY[430, 85, 161, 103]),
+    (160020, 16013, NULL, NULL, NULL, NULL, 3, ARRAY[430, 85, 161, 103]),
     -- Molayne: Metagross Lv. 56: Hammer Arm, Meteor Mash, Bullet Punch, Zen Headbutt
-    (160016, 16013, NULL, NULL, NULL, NULL, 4, ARRAY[359, 309, 418, 428]),
+    (160020, 16013, NULL, NULL, NULL, NULL, 4, ARRAY[359, 309, 418, 428]),
     -- Molayne: Alolan Dugtrio Lv. 57: Earthquake, Iron Head, Sucker Punch, Fissure
-    (160016, 16013, NULL, NULL, NULL, NULL, 5, ARRAY[89, 442, 389, 90]),
+    (160020, 16013, NULL, NULL, NULL, NULL, 5, ARRAY[89, 442, 389, 90]),
     -- Olivia: Armaldo Lv. 56: Crush Claw, X-Scissor, Rock Blast
-    (160017, 16014, NULL, NULL, NULL, NULL, 1, ARRAY[306, 404, 350]),
+    (160020, 16014, NULL, NULL, NULL, NULL, 1, ARRAY[306, 404, 350]),
     -- Olivia: Cradily Lv. 56: Rock Tomb, Energy Ball, Stealth Rock
-    (160017, 16014, NULL, NULL, NULL, NULL, 2, ARRAY[317, 412, 446]),
+    (160020, 16014, NULL, NULL, NULL, NULL, 2, ARRAY[317, 412, 446]),
     -- Olivia: Gigalith Lv. 56: Stone Edge, Bulldoze, Iron Head
-    (160017, 16014, NULL, NULL, NULL, NULL, 3, ARRAY[444, 523, 442]),
+    (160020, 16014, NULL, NULL, NULL, NULL, 3, ARRAY[444, 523, 442]),
     -- Olivia: Probopass Lv. 56: Earth Power, Power Gem, Thunder Wave, Sandstorm
-    (160017, 16014, NULL, NULL, NULL, NULL, 4, ARRAY[414, 408, 86, 201]),
+    (160020, 16014, NULL, NULL, NULL, NULL, 4, ARRAY[414, 408, 86, 201]),
     -- Olivia: Lycanroc (Midnight) Lv. 57: Crunch, Stone Edge, Counter, Rock Climb
-    (160017, 16014, NULL, NULL, NULL, NULL, 5, ARRAY[242, 444, 68, 431]),
+    (160020, 16014, NULL, NULL, NULL, NULL, 5, ARRAY[242, 444, 68, 431]),
     -- Acerola: Banette Lv. 56: Shadow Claw, Feint Attack, Infestation, Screech
-    (160018, 16015, NULL, NULL, NULL, NULL, 1, ARRAY[421, 185, 611, 103]),
+    (160020, 16015, NULL, NULL, NULL, NULL, 1, ARRAY[421, 185, 611, 103]),
     -- Acerola: Drifblim Lv. 56: Ominous Wind, Focus Energy, Amnesia, Baton Pass
-    (160018, 16015, NULL, NULL, NULL, NULL, 2, ARRAY[466, 116, 133, 226]),
+    (160020, 16015, NULL, NULL, NULL, NULL, 2, ARRAY[466, 116, 133, 226]),
     -- Acerola: Dhelmise Lv. 56: Slam, Shadow Ball, Energy Ball, Whirlpool
-    (160018, 16015, NULL, NULL, NULL, NULL, 3, ARRAY[21, 247, 412, 250]),
+    (160020, 16015, NULL, NULL, NULL, NULL, 3, ARRAY[21, 247, 412, 250]),
     -- Acerola: Froslass Lv. 56: Blizzard, Shadow Ball, Confuse Ray, Ice Shard
-    (160018, 16015, NULL, NULL, NULL, NULL, 4, ARRAY[59, 247, 109, 420]),
+    (160020, 16015, NULL, NULL, NULL, NULL, 4, ARRAY[59, 247, 109, 420]),
     -- Acerola: Palossand Lv. 57: Shadow Ball, Earth Power, Giga Drain, Iron Defense
-    (160018, 16015, NULL, NULL, NULL, NULL, 5, ARRAY[247, 414, 202, 334]),
+    (160020, 16015, NULL, NULL, NULL, NULL, 5, ARRAY[247, 414, 202, 334]),
     -- Kahili: Braviary Lv. 56: Crush Claw, Brave Bird, Air Slash, Scary Face
-    (160019, 16016, NULL, NULL, NULL, NULL, 1, ARRAY[306, 413, 403, 184]),
+    (160020, 16016, NULL, NULL, NULL, NULL, 1, ARRAY[306, 413, 403, 184]),
     -- Kahili: Hawlucha Lv. 56: Flying Press, Throat Chop, Dual Chop, Poison Jab
-    (160019, 16016, NULL, NULL, NULL, NULL, 2, ARRAY[560, 675, 530, 398]),
+    (160020, 16016, NULL, NULL, NULL, NULL, 2, ARRAY[560, 675, 530, 398]),
     -- Kahili: Oricorio Lv. 56: Revelation Dance, Teeter Dance, Air Slash, Feather Dance
-    (160019, 16016, NULL, NULL, NULL, NULL, 3, ARRAY[686, 298, 403, 297]),
+    (160020, 16016, NULL, NULL, NULL, NULL, 3, ARRAY[686, 298, 403, 297]),
     -- Kahili: Mandibuzz Lv. 56: Bone Rush, Brave Bird, Punishment, Flatter
-    (160019, 16016, NULL, NULL, NULL, NULL, 4, ARRAY[198, 413, 386, 260]),
+    (160020, 16016, NULL, NULL, NULL, NULL, 4, ARRAY[198, 413, 386, 260]),
     -- Kahili: Toucannon Lv. 57: Bullet Seed, Rock Blast, Beak Blast, Screech
-    (160019, 16016, NULL, NULL, NULL, NULL, 5, ARRAY[331, 350, 690, 103]),
+    (160020, 16016, NULL, NULL, NULL, NULL, 5, ARRAY[331, 350, 690, 103]),
     -- Hau: Alolan Raichu Lv. 59: Thunderbolt, Quick Attack, Psychic, Focus Blast
     (160020, 16017, NULL, 160001, 'rowlet', NULL, 1, ARRAY[85, 98, 94, 411]),
     -- Hau: Flareon Lv. 58: Flare Blitz, Quick Attack, Charm, Baby-Doll Eyes
@@ -474,11 +474,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Guzma: Masquerain Lv. 34: Bug Buzz, Icy Wind, Air Slash
     (160009, 16022, NULL, NULL, NULL, NULL, 2, ARRAY[405, 196, 403]),
     -- Guzma: Golisopod Lv. 41: First Impression, Razor Shell, Sucker Punch
-    (160011, 16022, NULL, NULL, NULL, NULL, 1, ARRAY[660, 534, 389]),
+    (160035, 16022, NULL, NULL, NULL, NULL, 1, ARRAY[660, 534, 389]),
     -- Guzma: Masquerain Lv. 41: Bug Buzz, Icy Wind, Air Slash
-    (160011, 16022, NULL, NULL, NULL, NULL, 2, ARRAY[405, 196, 403]),
+    (160035, 16022, NULL, NULL, NULL, NULL, 2, ARRAY[405, 196, 403]),
     -- Guzma: Pinsir Lv. 41: Storm Throw, Throat Chop, X-Scissor
-    (160011, 16022, NULL, NULL, NULL, NULL, 3, ARRAY[480, 675, 404]),
+    (160035, 16022, NULL, NULL, NULL, NULL, 3, ARRAY[480, 675, 404]),
     -- Gladion: Golbat Lv. 42: Acrobatics, Poison Fang, Venoshock
     (160011, 16020, NULL, NULL, NULL, NULL, 1, ARRAY[512, 305, 474]),
     -- Gladion: Zoroark Lv. 42: Snarl, Hyper Voice
@@ -520,31 +520,31 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Lusamine: Bewear Lv. 47: Zen Headbutt, Drain Punch, Take Down, Dual Chop
     (160023, 16023, NULL, NULL, NULL, NULL, 5, ARRAY[428, 409, 36, 530]),
     -- Gladion: Crobat Lv. 53: Acrobatics, Cross Poison
-    (160016, 16020, NULL, 160001, 'rowlet', NULL, 1, ARRAY[512, 440]),
+    (160020, 16020, NULL, 160001, 'rowlet', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Zoroark Lv. 53: Night Daze, Hyper Voice, Grass Knot
-    (160016, 16020, NULL, 160001, 'rowlet', NULL, 2, ARRAY[539, 304, 447]),
+    (160020, 16020, NULL, 160001, 'rowlet', NULL, 2, ARRAY[539, 304, 447]),
     -- Gladion: Silvally (Fire) Lv. 55: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (160016, 16020, NULL, 160001, 'rowlet', NULL, 3, ARRAY[242, 306, 404, 718]),
+    (160020, 16020, NULL, 160001, 'rowlet', NULL, 3, ARRAY[242, 306, 404, 718]),
     -- Gladion: Lucario Lv. 53: Aura Sphere, Metal Claw, Quick Attack
-    (160016, 16020, NULL, 160001, 'rowlet', NULL, 4, ARRAY[396, 232, 98]),
+    (160020, 16020, NULL, 160001, 'rowlet', NULL, 4, ARRAY[396, 232, 98]),
     -- Gladion: Crobat Lv. 53: Acrobatics, Cross Poison
-    (160016, 16020, NULL, 160001, 'litten', NULL, 1, ARRAY[512, 440]),
+    (160020, 16020, NULL, 160001, 'litten', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Zoroark Lv. 53: Night Daze, Hyper Voice, Grass Knot
-    (160016, 16020, NULL, 160001, 'litten', NULL, 2, ARRAY[539, 304, 447]),
+    (160020, 16020, NULL, 160001, 'litten', NULL, 2, ARRAY[539, 304, 447]),
     -- Gladion: Silvally (Water) Lv. 55: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (160016, 16020, NULL, 160001, 'litten', NULL, 3, ARRAY[242, 306, 404, 718]),
+    (160020, 16020, NULL, 160001, 'litten', NULL, 3, ARRAY[242, 306, 404, 718]),
     -- Gladion: Lucario Lv. 55: Aura Sphere, Metal Claw, Quick Attack
-    (160016, 16020, NULL, 160001, 'litten', NULL, 4, ARRAY[396, 232, 98]),
+    (160020, 16020, NULL, 160001, 'litten', NULL, 4, ARRAY[396, 232, 98]),
     -- Gladion: Crobat Lv. 53: Acrobatics, Cross Poison
-    (160016, 16020, NULL, 160001, 'popplio', NULL, 1, ARRAY[512, 440]),
+    (160020, 16020, NULL, 160001, 'popplio', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Zoroark Lv. 53: Night Daze, Hyper Voice, Grass Knot
-    (160016, 16020, NULL, 160001, 'popplio', NULL, 2, ARRAY[539, 304, 447]),
+    (160020, 16020, NULL, 160001, 'popplio', NULL, 2, ARRAY[539, 304, 447]),
     -- Gladion: Silvally (Grass) Lv. 55: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (160016, 16020, NULL, 160001, 'popplio', NULL, 3, ARRAY[242, 306, 404, 718]),
+    (160020, 16020, NULL, 160001, 'popplio', NULL, 3, ARRAY[242, 306, 404, 718]),
     -- Gladion: Lucario Lv. 53: Aura Sphere, Metal Claw, Quick Attack
-    (160016, 16020, NULL, 160001, 'popplio', NULL, 4, ARRAY[396, 232, 98]),
+    (160020, 16020, NULL, 160001, 'popplio', NULL, 4, ARRAY[396, 232, 98]),
     -- Nihilego: Nihilego Lv. 27: Clear Smog, Psywave, Headbutt, Venoshock
-    (160009, 16024, NULL, NULL, NULL, NULL, 1, ARRAY[499, 149, 29, 474]),
+    (160034, 16024, NULL, NULL, NULL, NULL, 1, ARRAY[499, 149, 29, 474]),
     -- Necrozma: Necrozma (Dusk Mane) Lv. 50: Sunsteel Strike, Morning Sun, Psycho Cut, Night Slash
     (160015, 16025, NULL, NULL, NULL, NULL, 1, ARRAY[713, 234, 427, 400]),
     -- Necrozma: Necrozma (Dawn Wings) Lv. 50: Moongeist Beam, Moonlight, Psychic, Power Gem

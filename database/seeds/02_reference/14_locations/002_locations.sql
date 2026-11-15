@@ -31,8 +31,9 @@
 -- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2,
 -- Kalos's Gyms, two towns, Team Flare's places, the Pokémon League, Kiloude
 -- City and the Unknown Dungeon for X / Y, Island Cave and six Mirage spots
--- for Omega Ruby / Alpha Sapphire, and Heahea City, Hokulani Observatory, Po
--- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon).
+-- for Omega Ruby / Alpha Sapphire, Heahea City, Hokulani Observatory, Po
+-- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
+-- and Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1889,4 +1890,8 @@ VALUES
   -- Ruins of Hope: a Story place with no wild Pokémon (Sun / Moon's Tapu Fini)
   (930, 7, 'alola-ruins-of-hope', 'Ruins of Hope'),
   -- Pokémon League: a Story place with no wild Pokémon (Sun / Moon's Pokémon League)
-  (931, 7, 'alola-pokemon-league', 'Pokémon League');
+  (931, 7, 'alola-pokemon-league', 'Pokémon League'),
+  -- Megalo Tower: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Ultra Necrozma)
+  (932, 7, 'alola-megalo-tower', 'Megalo Tower'),
+  -- Mahalo Trail: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Solgaleo or Lunala)
+  (933, 7, 'alola-mahalo-trail', 'Mahalo Trail');

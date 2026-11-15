@@ -1,12 +1,16 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Bulbapedia's
+-- Ultra Sun / Ultra Moon walkthrough.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Ultra Sun / Ultra Moon mainline milestone prerequisite links.
+-- Ultra Sun / Ultra Moon mainline milestone prerequisite links, in Red /
+-- Blue's pattern: each Main Story beat suggests the one before it in Story
+-- order, Post Game carries on from the Pokémon League, and each side-content
+-- beat names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,8 +21,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Receive Pokedex <- Choose Starter
+  -- Receive Pokédex <- Choose Starter
   (160002, 160001, 16, 1, 1, NULL),
+  -- Iki Town Festival <- Receive Pokédex
+  (160033, 160002, 16, 1, 1, NULL),
   -- Ilima Trial <- Iki Town Festival
   (160003, 160033, 16, 1, 1, NULL),
   -- Grand Trial Hala <- Ilima Trial
@@ -31,12 +37,18 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (160007, 160006, 16, 1, 1, NULL),
   -- Grand Trial Olivia <- Mallow Trial
   (160008, 160007, 16, 1, 1, NULL),
-  -- Sophocles Trial <- Grand Trial Olivia
-  (160009, 160008, 16, 1, 1, NULL),
+  -- Aether Paradise Visit <- Grand Trial Olivia
+  (160034, 160008, 16, 1, 1, NULL),
+  -- Sophocles Trial <- Aether Paradise Visit
+  (160009, 160034, 16, 1, 1, NULL),
   -- Acerola Trial <- Sophocles Trial
   (160010, 160009, 16, 1, 1, NULL),
-  -- Grand Trial Nanu <- Acerola Trial
-  (160011, 160010, 16, 1, 1, NULL),
+  -- Po Town <- Acerola Trial
+  (160035, 160010, 16, 1, 1, NULL),
+  -- Grand Trial Nanu <- Po Town
+  (160011, 160035, 16, 1, 1, NULL),
+  -- Aether Paradise <- Grand Trial Nanu
+  (160023, 160011, 16, 1, 1, NULL),
   -- Vast Poni Canyon Trial <- Aether Paradise
   (160013, 160023, 16, 1, 1, NULL),
   -- Ultra Necrozma <- Vast Poni Canyon Trial
@@ -45,39 +57,25 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (160012, 160015, 16, 1, 1, NULL),
   -- Grand Trial Hapu <- Mina Trial
   (160014, 160012, 16, 1, 1, NULL),
-  -- Elite Four Molayne <- Grand Trial Hapu
-  (160016, 160014, 16, 1, 1, NULL),
-  -- Elite Four Olivia <- Elite Four Molayne
-  (160017, 160016, 16, 1, 1, NULL),
-  -- Elite Four Acerola <- Elite Four Olivia
-  (160018, 160017, 16, 1, 1, NULL),
-  -- Elite Four Kahili <- Elite Four Acerola
-  (160019, 160018, 16, 1, 1, NULL),
-  -- Champion Battle Hau <- Elite Four Kahili
-  (160020, 160019, 16, 1, 1, NULL),
-  -- Hall of Fame <- Champion Battle Hau
-  (160021, 160020, 16, 1, 1, NULL),
-  -- Team Rainbow Rocket <- Hall of Fame
-  (160022, 160021, 16, 1, 1, NULL),
-  -- Aether Paradise <- Grand Trial Nanu
-  (160023, 160011, 16, 1, 1, NULL),
-  -- Iki Town Festival <- Receive Pokedex
-  (160033, 160002, 16, 1, 1, NULL),
-  -- Mahalo Trail opens after Hall of Fame
-  (160024, 160021, 16, 4, 1, NULL),
-  -- Mount Lanakila Crater opens after Hall of Fame
-  (160025, 160021, 16, 4, 1, NULL),
-  -- Ruins of Conflict opens after Hall of Fame
-  (160026, 160021, 16, 4, 1, NULL),
-  -- Ruins of Life opens after Hall of Fame
-  (160027, 160021, 16, 4, 1, NULL),
-  -- Ruins of Abundance opens after Hall of Fame
-  (160028, 160021, 16, 4, 1, NULL),
-  -- Ruins of Hope opens after Hall of Fame
-  (160029, 160021, 16, 4, 1, NULL),
-  -- Resolution Cave opens after Hall of Fame
-  (160030, 160021, 16, 4, 1, NULL),
-  -- Poni Grove opens after Hall of Fame
-  (160031, 160021, 16, 4, 1, NULL),
-  -- Ilima Bonus Trial opens after Hall of Fame
-  (160032, 160021, 16, 4, 1, NULL);
+  -- Pokémon League <- Grand Trial Hapu
+  (160020, 160014, 16, 1, 1, NULL),
+  -- Team Rainbow Rocket <- Pokémon League
+  (160022, 160020, 16, 1, 1, NULL),
+  -- Mahalo Trail opens after Pokémon League
+  (160024, 160020, 16, 4, 1, NULL),
+  -- Mount Lanakila Crater opens after Pokémon League
+  (160025, 160020, 16, 4, 1, NULL),
+  -- Ruins of Conflict opens after Pokémon League
+  (160026, 160020, 16, 4, 1, NULL),
+  -- Ruins of Life opens after Pokémon League
+  (160027, 160020, 16, 4, 1, NULL),
+  -- Ruins of Abundance opens after Pokémon League
+  (160028, 160020, 16, 4, 1, NULL),
+  -- Ruins of Hope opens after Pokémon League
+  (160029, 160020, 16, 4, 1, NULL),
+  -- Resolution Cave opens after Pokémon League
+  (160030, 160020, 16, 4, 1, NULL),
+  -- Poni Grove opens after Pokémon League
+  (160031, 160020, 16, 4, 1, NULL),
+  -- Ilima Bonus Trial opens after Pokémon League
+  (160032, 160020, 16, 4, 1, NULL);
