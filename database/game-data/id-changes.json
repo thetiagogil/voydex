@@ -502,5 +502,35 @@
     "id": "190004",
     "becomes": "190002",
     "reason": "The Isle of Armor: Receive Kubfu merged into the Dojo Trials, whose reward it is"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210011",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Aaron merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210012",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Bertha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210013",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Flint merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210014",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Lucian merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210016",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

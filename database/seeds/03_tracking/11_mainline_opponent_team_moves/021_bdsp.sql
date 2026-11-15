@@ -29,13 +29,13 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Roark: Cranidos Lv. 14: Headbutt, Bulldoze, Leer
     (210003, 21001, NULL, NULL, NULL, NULL, 3, ARRAY[29, 523, 43]),
     -- Mars, Valley Windworks: Zubat Lv. 14: Absorb, Supersonic, Astonish, U-turn
-    (210004, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 310, 369]),
+    (210026, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 310, 369]),
     -- Mars, Valley Windworks: Purugly Lv. 16: Fake Out, Scratch, Growl, Thief
-    (210004, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[252, 10, 45, 168]),
+    (210026, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[252, 10, 45, 168]),
     -- Jupiter, Team Galactic Eterna Building: Zubat Lv. 18: Absorb, Supersonic, Mean Look, Poison Fang
-    (210004, 21043, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 212, 305]),
+    (210027, 21043, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 212, 305]),
     -- Jupiter, Team Galactic Eterna Building: Skuntank Lv. 20: Flamethrower, Poison Gas, Acid Spray, Snarl
-    (210004, 21043, NULL, NULL, NULL, NULL, 2, ARRAY[53, 139, 491, 555]),
+    (210027, 21043, NULL, NULL, NULL, NULL, 2, ARRAY[53, 139, 491, 555]),
     -- Gardenia: Cherubi Lv. 19: Grass Knot, Growth, Dazzling Gleam, Safeguard
     (210004, 21002, NULL, NULL, NULL, NULL, 1, ARRAY[447, 74, 605, 219]),
     -- Gardenia: Turtwig Lv. 19: Grass Knot, Razor Leaf, Reflect, Work Up
@@ -67,17 +67,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Byron: Bastiodon Lv. 39: Iron Defense, Thunderbolt, Stone Edge, Flash Cannon
     (210008, 21006, NULL, NULL, NULL, NULL, 3, ARRAY[334, 85, 444, 430]),
     -- Saturn, Lake Valor: Kadabra Lv. 35: Kinesis, Reflect, Psychic, Rain Dance
-    (210009, 21044, NULL, NULL, NULL, NULL, 1, ARRAY[134, 115, 94, 240]),
+    (210029, 21044, NULL, NULL, NULL, NULL, 1, ARRAY[134, 115, 94, 240]),
     -- Saturn, Lake Valor: Bronzor Lv. 35: Confuse Ray, Payback, Gyro Ball, Extrasensory
-    (210009, 21044, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 326]),
+    (210029, 21044, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 326]),
     -- Saturn, Lake Valor: Toxicroak Lv. 37: Mud-Slap, Revenge, Toxic, Thief
-    (210009, 21044, NULL, NULL, NULL, NULL, 3, ARRAY[189, 279, 92, 168]),
+    (210029, 21044, NULL, NULL, NULL, NULL, 3, ARRAY[189, 279, 92, 168]),
     -- Mars, Lake Verity: Golbat Lv. 37: Astonish, Poison Fang, Bite, U-turn
-    (210009, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[310, 305, 44, 369]),
+    (210030, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[310, 305, 44, 369]),
     -- Mars, Lake Verity: Bronzor Lv. 37: Confuse Ray, Payback, Gyro Ball, Iron Defense
-    (210009, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 334]),
+    (210030, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 334]),
     -- Mars, Lake Verity: Purugly Lv. 39: Growl, Aerial Ace, Slash, U-turn
-    (210009, 21042, NULL, NULL, NULL, NULL, 3, ARRAY[45, 332, 163, 369]),
+    (210030, 21042, NULL, NULL, NULL, NULL, 3, ARRAY[45, 332, 163, 369]),
     -- Candice: Snover Lv. 38: Mist, Razor Leaf, Water Pulse, Avalanche
     (210009, 21007, NULL, NULL, NULL, NULL, 1, ARRAY[54, 75, 352, 419]),
     -- Candice: Sneasel Lv. 38: Metal Claw, Hone Claws, Dig, Avalanche
@@ -95,45 +95,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Volkner: Luxray Lv. 49: Thunder Fang, Ice Fang, Crunch, Iron Tail
     (210010, 21008, NULL, NULL, NULL, NULL, 4, ARRAY[422, 423, 242, 231]),
     -- Aaron: Dustox Lv. 53: Toxic, Bug Buzz, Moonlight, Light Screen
-    (210011, 21009, NULL, NULL, NULL, NULL, 1, ARRAY[92, 405, 236, 113]),
+    (210015, 21009, NULL, NULL, NULL, NULL, 1, ARRAY[92, 405, 236, 113]),
     -- Aaron: Beautifly Lv. 53: Bug Buzz, Shadow Ball, Psychic, Quiver Dance
-    (210011, 21009, NULL, NULL, NULL, NULL, 2, ARRAY[405, 247, 94, 483]),
+    (210015, 21009, NULL, NULL, NULL, NULL, 2, ARRAY[405, 247, 94, 483]),
     -- Aaron: Vespiquen Lv. 54: Acrobatics, Attack Order, Aerial Ace, Defend Order
-    (210011, 21009, NULL, NULL, NULL, NULL, 3, ARRAY[512, 454, 332, 455]),
+    (210015, 21009, NULL, NULL, NULL, NULL, 3, ARRAY[512, 454, 332, 455]),
     -- Aaron: Heracross Lv. 54: Earthquake, Rock Slide, Facade, Brick Break
-    (210011, 21009, NULL, NULL, NULL, NULL, 4, ARRAY[89, 157, 263, 280]),
+    (210015, 21009, NULL, NULL, NULL, NULL, 4, ARRAY[89, 157, 263, 280]),
     -- Aaron: Drapion Lv. 57: Cross Poison, Night Slash, Earthquake, X-Scissor
-    (210011, 21009, NULL, NULL, NULL, NULL, 5, ARRAY[440, 400, 89, 404]),
+    (210015, 21009, NULL, NULL, NULL, NULL, 5, ARRAY[440, 400, 89, 404]),
     -- Bertha: Quagsire Lv. 55: Recover, Toxic, Earthquake, Surf
-    (210012, 21010, NULL, NULL, NULL, NULL, 1, ARRAY[105, 92, 89, 57]),
+    (210015, 21010, NULL, NULL, NULL, NULL, 1, ARRAY[105, 92, 89, 57]),
     -- Bertha: Sudowoodo Lv. 56: Double-Edge, Head Smash, Sucker Punch, Low Kick
-    (210012, 21010, NULL, NULL, NULL, NULL, 2, ARRAY[38, 457, 389, 67]),
+    (210015, 21010, NULL, NULL, NULL, NULL, 2, ARRAY[38, 457, 389, 67]),
     -- Bertha: Golem Lv. 56: Rock Polish, Heavy Slam, Earthquake, Stone Edge
-    (210012, 21010, NULL, NULL, NULL, NULL, 3, ARRAY[397, 484, 89, 444]),
+    (210015, 21010, NULL, NULL, NULL, NULL, 3, ARRAY[397, 484, 89, 444]),
     -- Bertha: Whiscash Lv. 55: Bulldoze, Ice Beam, Belch, Hydro Pump
-    (210012, 21010, NULL, NULL, NULL, NULL, 4, ARRAY[523, 58, 562, 56]),
+    (210015, 21010, NULL, NULL, NULL, NULL, 4, ARRAY[523, 58, 562, 56]),
     -- Bertha: Hippowdon Lv. 59: Ice Fang, Earthquake, Crunch, Rest
-    (210012, 21010, NULL, NULL, NULL, NULL, 5, ARRAY[423, 89, 242, 156]),
+    (210015, 21010, NULL, NULL, NULL, NULL, 5, ARRAY[423, 89, 242, 156]),
     -- Flint: Rapidash Lv. 58: Flame Charge, Iron Tail, Poison Jab, Hypnosis
-    (210013, 21011, NULL, NULL, NULL, NULL, 1, ARRAY[488, 231, 398, 95]),
+    (210015, 21011, NULL, NULL, NULL, NULL, 1, ARRAY[488, 231, 398, 95]),
     -- Flint: Steelix Lv. 57: Thunder Fang, Fire Fang, Iron Tail, Crunch
-    (210013, 21011, NULL, NULL, NULL, NULL, 2, ARRAY[422, 424, 231, 242]),
+    (210015, 21011, NULL, NULL, NULL, NULL, 2, ARRAY[422, 424, 231, 242]),
     -- Flint: Drifblim Lv. 58: Strength Sap, Minimize, Baton Pass, Will-O-Wisp
-    (210013, 21011, NULL, NULL, NULL, NULL, 3, ARRAY[668, 107, 226, 261]),
+    (210015, 21011, NULL, NULL, NULL, NULL, 3, ARRAY[668, 107, 226, 261]),
     -- Flint: Lopunny Lv. 57: Mirror Coat, High Jump Kick, Quick Attack, Fire Punch
-    (210013, 21011, NULL, NULL, NULL, NULL, 4, ARRAY[243, 136, 98, 7]),
+    (210015, 21011, NULL, NULL, NULL, NULL, 4, ARRAY[243, 136, 98, 7]),
     -- Flint: Infernape Lv. 61: Fire Punch, Thunder Punch, Close Combat, Mach Punch
-    (210013, 21011, NULL, NULL, NULL, NULL, 5, ARRAY[7, 9, 370, 183]),
+    (210015, 21011, NULL, NULL, NULL, NULL, 5, ARRAY[7, 9, 370, 183]),
     -- Lucian: Mr. Mime Lv. 59: Light Screen, Reflect, Psychic, Dazzling Gleam
-    (210014, 21012, NULL, NULL, NULL, NULL, 1, ARRAY[113, 115, 94, 605]),
+    (210015, 21012, NULL, NULL, NULL, NULL, 1, ARRAY[113, 115, 94, 605]),
     -- Lucian: Girafarig Lv. 59: Light Screen, Psychic, Thunderbolt, Trick Room
-    (210014, 21012, NULL, NULL, NULL, NULL, 2, ARRAY[113, 94, 85, 433]),
+    (210015, 21012, NULL, NULL, NULL, NULL, 2, ARRAY[113, 94, 85, 433]),
     -- Lucian: Medicham Lv. 60: Zen Headbutt, High Jump Kick, Thunder Punch, Ice Punch
-    (210014, 21012, NULL, NULL, NULL, NULL, 3, ARRAY[428, 136, 9, 8]),
+    (210015, 21012, NULL, NULL, NULL, NULL, 3, ARRAY[428, 136, 9, 8]),
     -- Lucian: Alakazam Lv. 60: Nasty Plot, Psychic, Future Sight, Shock Wave
-    (210014, 21012, NULL, NULL, NULL, NULL, 4, ARRAY[417, 94, 248, 351]),
+    (210015, 21012, NULL, NULL, NULL, NULL, 4, ARRAY[417, 94, 248, 351]),
     -- Lucian: Bronzong Lv. 63: Gyro Ball, Earthquake, Payback, Trick Room
-    (210014, 21012, NULL, NULL, NULL, NULL, 5, ARRAY[360, 89, 371, 433]),
+    (210015, 21012, NULL, NULL, NULL, NULL, 5, ARRAY[360, 89, 371, 433]),
     -- Cynthia: Spiritomb Lv. 61: Shadow Ball, Dark Pulse, Psychic, Sucker Punch
     (210015, 21013, NULL, NULL, NULL, NULL, 1, ARRAY[247, 399, 94, 389]),
     -- Cynthia: Roserade Lv. 60: Dazzling Gleam, Shadow Ball, Sludge Bomb, Energy Ball
@@ -183,29 +183,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Barry: Grotle Lv. 21: Absorb, Razor Leaf, Curse, Stealth Rock
     (210005, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[71, 75, 174, 446]),
     -- Barry: Starly Lv. 26: Quick Attack, Double Team, Endeavor, Pluck
-    (210006, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[98, 104, 283, 365]),
+    (210028, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[98, 104, 283, 365]),
     -- Barry: Buizel Lv. 26: Tail Whip, Bite, Swift, Aqua Jet
-    (210006, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[39, 44, 129, 453]),
+    (210028, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[39, 44, 129, 453]),
     -- Barry: Roselia Lv. 27: Poison Sting, Mega Drain, Sweet Scent, Grass Knot
-    (210006, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[40, 72, 230, 447]),
+    (210028, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[40, 72, 230, 447]),
     -- Barry: Monferno Lv. 31: Mach Punch, Leer, Power-Up Punch, Flame Wheel
-    (210006, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[183, 43, 612, 172]),
+    (210028, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[183, 43, 612, 172]),
     -- Barry: Starly Lv. 26: Quick Attack, Double Team, Endeavor, Pluck
-    (210006, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[98, 104, 283, 365]),
+    (210028, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[98, 104, 283, 365]),
     -- Barry: Roselia Lv. 26: Growth, Stun Spore, Leech Seed, Magical Leaf
-    (210006, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[74, 78, 73, 345]),
+    (210028, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[74, 78, 73, 345]),
     -- Barry: Ponyta Lv. 27: Tackle, Growl, Agility, Flame Wheel
-    (210006, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[33, 45, 97, 172]),
+    (210028, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[33, 45, 97, 172]),
     -- Barry: Prinplup Lv. 31: Metal Claw, Charm, Bubble Beam, Grass Knot
-    (210006, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[232, 204, 61, 447]),
+    (210028, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[232, 204, 61, 447]),
     -- Barry: Starly Lv. 26: Quick Attack, Double Team, Endeavor, Pluck
-    (210006, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[98, 104, 283, 365]),
+    (210028, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[98, 104, 283, 365]),
     -- Barry: Buizel Lv. 26: Tail Whip, Bite, Swift, Aqua Jet
-    (210006, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[39, 44, 129, 453]),
+    (210028, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[39, 44, 129, 453]),
     -- Barry: Ponyta Lv. 27: Tackle, Tail Whip, Agility, Flame Wheel
-    (210006, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[33, 39, 97, 172]),
+    (210028, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[33, 39, 97, 172]),
     -- Barry: Grotle Lv. 31: Razor Leaf, Bite, Mega Drain, Stealth Rock
-    (210006, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[75, 44, 72, 446]),
+    (210028, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[75, 44, 72, 446]),
     -- Barry: Staravia Lv. 32: Quick Attack, Double Team, Endeavor, Pluck
     (210008, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[98, 104, 283, 365]),
     -- Barry: Buizel Lv. 33: Tail Whip, Bite, Swift, Brine
@@ -269,41 +269,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Cyrus: Weavile Lv. 48: Metal Claw, Fling, Dig, Aerial Ace
     (210019, 21015, NULL, NULL, NULL, NULL, 4, ARRAY[232, 374, 91, 332]),
     -- Barry: Staraptor Lv. 49: Close Combat, Pluck, Steel Wing, U-turn
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[370, 365, 211, 369]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[370, 365, 211, 369]),
     -- Barry: Floatzel Lv. 49: Ice Fang, Crunch, Swift, Brine
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[423, 242, 129, 362]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[423, 242, 129, 362]),
     -- Barry: Heracross Lv. 51: Pin Missile, Swords Dance, Rock Slide, Thief
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[42, 14, 157, 168]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[42, 14, 157, 168]),
     -- Barry: Roserade Lv. 49: Grassy Terrain, Giga Drain, Toxic, Grass Knot
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[580, 202, 92, 447]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[580, 202, 92, 447]),
     -- Barry: Snorlax Lv. 52: Covet, Yawn, Crunch, Hammer Arm
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 5, ARRAY[343, 281, 242, 359]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 5, ARRAY[343, 281, 242, 359]),
     -- Barry: Infernape Lv. 55: Close Combat, Flame Wheel, U-turn, Shadow Claw
-    (210011, 21014, NULL, 210001, 'turtwig', NULL, 6, ARRAY[370, 172, 369, 421]),
+    (210015, 21014, NULL, 210001, 'turtwig', NULL, 6, ARRAY[370, 172, 369, 421]),
     -- Barry: Staraptor Lv. 49: Close Combat, Pluck, Rain Dance, U-turn
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[370, 365, 240, 369]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[370, 365, 240, 369]),
     -- Barry: Roserade Lv. 49: Grassy Terrain, Petal Blizzard, Stun Spore, Shadow Ball
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[580, 572, 78, 247]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[580, 572, 78, 247]),
     -- Barry: Heracross Lv. 51: Pin Missile, Swords Dance, Rock Slide, Thief
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[42, 14, 157, 168]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[42, 14, 157, 168]),
     -- Barry: Rapidash Lv. 49: Smart Strike, Megahorn, Poison Jab, Flame Wheel
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[684, 224, 398, 172]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[684, 224, 398, 172]),
     -- Barry: Snorlax Lv. 52: Covet, Yawn, Crunch, High Horsepower
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 5, ARRAY[343, 281, 242, 667]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 5, ARRAY[343, 281, 242, 667]),
     -- Barry: Empoleon Lv. 55: Charm, Grass Knot, Brine, Flash Cannon
-    (210011, 21014, NULL, 210001, 'chimchar', NULL, 6, ARRAY[204, 447, 362, 430]),
+    (210015, 21014, NULL, 210001, 'chimchar', NULL, 6, ARRAY[204, 447, 362, 430]),
     -- Barry: Staraptor Lv. 49: Close Combat, Pluck, Sunny Day, U-turn
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[370, 365, 241, 369]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[370, 365, 241, 369]),
     -- Barry: Floatzel Lv. 49: Ice Fang, Crunch, Swift, Brine
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[423, 242, 129, 362]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[423, 242, 129, 362]),
     -- Barry: Heracross Lv. 51: Pin Missile, Swords Dance, Rock Slide, Thief
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[42, 14, 157, 168]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[42, 14, 157, 168]),
     -- Barry: Rapidash Lv. 49: Smart Strike, Megahorn, Poison Jab, Flame Wheel
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[684, 224, 398, 172]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[684, 224, 398, 172]),
     -- Barry: Snorlax Lv. 52: Covet, Yawn, Crunch, High Horsepower
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[343, 281, 242, 667]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[343, 281, 242, 667]),
     -- Barry: Torterra Lv. 55: Earthquake, Wood Hammer, Roar, Stealth Rock
-    (210011, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[89, 452, 46, 446]),
+    (210015, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[89, 452, 46, 446]),
     -- Barry: Staraptor Lv. 58: Close Combat, Pluck, Steel Wing, U-turn
     (210020, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[370, 365, 211, 369]),
     -- Barry: Floatzel Lv. 59: Ice Fang, Crunch, Swift, Waterfall

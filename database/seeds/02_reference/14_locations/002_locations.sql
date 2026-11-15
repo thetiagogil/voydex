@@ -35,7 +35,8 @@
 -- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
 -- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
 -- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
--- Sword / Shield, and the Towers of Two Fists for the Isle of Armor).
+-- Sword / Shield, the Towers of Two Fists for the Isle of Armor, and Ramanas
+-- Park for Brilliant Diamond / Shining Pearl).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1914,4 +1915,6 @@ VALUES
   -- Energy Plant: a Story place with no wild Pokémon (Sword / Shield's Eternatus beat)
   (941, 8, 'galar-energy-plant', 'Energy Plant'),
   -- Towers of Two Fists: a Story place with no wild Pokémon (the Isle of Armor's Tower of Darkness and Tower of Waters)
-  (942, 8, 'galar-towers-of-two-fists', 'Towers of Two Fists');
+  (942, 8, 'galar-towers-of-two-fists', 'Towers of Two Fists'),
+  -- Ramanas Park: a Story place with no wild Pokémon (Brilliant Diamond / Shining Pearl's legendary Pokémon rooms)
+  (943, 4, 'sinnoh-ramanas-park', 'Ramanas Park');

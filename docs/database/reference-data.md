@@ -634,6 +634,14 @@ sources remain authoritative for game-specific mechanics and availability.
   three sealed ruins (Regirock, Regice, Registeel) come before the
   Split-Decision Ruins (Regieleki or Regidrago), and the steed's battle names
   Freezington. The Alolan Diglett set is unchanged.
+- Brilliant Diamond / Shining Pearl in the pattern (`800_bdsp_story.sql`): the
+  remakes follow Diamond / Pearl beat for beat, so their milestones,
+  descriptions, battles and route are generated from Diamond / Pearl's. The
+  old HMs are named as the TMs the remakes hand out (TM93 Cut to TM100 Rock
+  Climb), and the notes are rewritten where the remakes differ (no Fashion
+  Case, Seal Case or Game Corner, the Grand Underground, the Nursery).
+  Ramanas Park is Post Game with its legendary Pokémon by room. Brilliant
+  Diamond / Shining Pearl has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
