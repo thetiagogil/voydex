@@ -36,8 +36,10 @@
 -- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
 -- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
 -- Sword / Shield, the Towers of Two Fists for the Isle of Armor, Ramanas
--- Park for Brilliant Diamond / Shining Pearl, and Hisui's arenas, Prelude
--- Beach, the Stone Portal and the Ancient Retreat for Legends: Arceus).
+-- Park for Brilliant Diamond / Shining Pearl, Hisui's arenas, Prelude Beach,
+-- the Stone Portal and the Ancient Retreat for Legends: Arceus, and
+-- Paldea's Gyms, the towns without wild Pokémon and Team Star's five bases
+-- for Scarlet / Violet).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1932,4 +1934,48 @@ VALUES
   -- Stone Portal: a Story place with no wild Pokémon (Legends: Arceus's battle with Beni)
   (949, 9, 'hisui-stone-portal', 'Stone Portal'),
   -- Ancient Retreat: a Story place with no wild Pokémon (Legends: Arceus's stay with Cogita)
-  (950, 9, 'hisui-ancient-retreat', 'Ancient Retreat');
+  (950, 9, 'hisui-ancient-retreat', 'Ancient Retreat'),
+  -- Mesagoza: a Story place with no wild Pokémon (Scarlet / Violet's academy city)
+  (951, 10, 'paldea-mesagoza', 'Mesagoza'),
+  -- Cortondo Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (952, 10, 'paldea-cortondo-gym', 'Cortondo Gym'),
+  -- Artazon: a Story place with no wild Pokémon (Scarlet / Violet's Grass Gym town)
+  (953, 10, 'paldea-artazon', 'Artazon'),
+  -- Artazon Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (954, 10, 'paldea-artazon-gym', 'Artazon Gym'),
+  -- Levincia Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (955, 10, 'paldea-levincia-gym', 'Levincia Gym'),
+  -- Cascarrafa Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (956, 10, 'paldea-cascarrafa-gym', 'Cascarrafa Gym'),
+  -- Medali: a Story place with no wild Pokémon (Scarlet / Violet's Normal Gym town)
+  (957, 10, 'paldea-medali', 'Medali'),
+  -- Medali Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (958, 10, 'paldea-medali-gym', 'Medali Gym'),
+  -- Montenevera: a Story place with no wild Pokémon (Scarlet / Violet's Ghost Gym town)
+  (959, 10, 'paldea-montenevera', 'Montenevera'),
+  -- Montenevera Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (960, 10, 'paldea-montenevera-gym', 'Montenevera Gym'),
+  -- Alfornada: a Story place with no wild Pokémon (Scarlet / Violet's Psychic Gym town)
+  (961, 10, 'paldea-alfornada', 'Alfornada'),
+  -- Alfornada Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (962, 10, 'paldea-alfornada-gym', 'Alfornada Gym'),
+  -- Glaseado Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (963, 10, 'paldea-glaseado-gym', 'Glaseado Gym'),
+  -- Team Star's Dark Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Dark Crew beat)
+  (964, 10, 'paldea-team-star-dark-crew-base', 'Team Star''s Dark Crew Base'),
+  -- Team Star's Fire Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fire Crew beat)
+  (965, 10, 'paldea-team-star-fire-crew-base', 'Team Star''s Fire Crew Base'),
+  -- Team Star's Poison Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Poison Crew beat)
+  (966, 10, 'paldea-team-star-poison-crew-base', 'Team Star''s Poison Crew Base'),
+  -- Team Star's Fairy Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fairy Crew beat)
+  (967, 10, 'paldea-team-star-fairy-crew-base', 'Team Star''s Fairy Crew Base'),
+  -- Team Star's Fighting Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fighting Crew beat)
+  (968, 10, 'paldea-team-star-fighting-crew-base', 'Team Star''s Fighting Crew Base'),
+  -- Poco Path Lighthouse: a Story place with no wild Pokémon (Scarlet / Violet's battles with Arven)
+  (969, 10, 'paldea-poco-path-lighthouse', 'Poco Path Lighthouse'),
+  -- Los Platos: a Story place with no wild Pokémon (Scarlet / Violet's first Pokémon Center)
+  (970, 10, 'paldea-los-platos', 'Los Platos'),
+  -- Zapapico: a Story place with no wild Pokémon (Scarlet / Violet's way to Tagtree Thicket and Medali)
+  (971, 10, 'paldea-zapapico', 'Zapapico'),
+  -- Porto Marinada: a Story place with no wild Pokémon (Scarlet / Violet's Water Gym test)
+  (972, 10, 'paldea-porto-marinada', 'Porto Marinada');

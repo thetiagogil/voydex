@@ -291,11 +291,11 @@ SELECT
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_create_event => FALSE) $$, '23514', 'Milestone 230030 requires completed milestones {230016,230023,230029}', 'hard Story prerequisites cannot be skipped');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_create_event => FALSE) $$, '23514', 'Milestone 230030 requires completed milestones {230015,230023,230029}', 'hard Story prerequisites cannot be skipped');
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_record_earlier_milestone_ids => ARRAY[230016, 230023, 230029], p_create_event => FALSE) $$, '23514', 'Milestone 230030 is in an open-world story, so earlier milestones are recorded one by one', 'an open-world story never records earlier milestones together');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_record_earlier_milestone_ids => ARRAY[230015, 230023, 230029], p_create_event => FALSE) $$, '23514', 'Milestone 230030 is in an open-world story, so earlier milestones are recorded one by one', 'an open-world story never records earlier milestones together');
 -- Sun / Moon is linear: Lana Trial can be recorded with every milestone before it.
 SELECT
     throws_ok ($$

@@ -79,45 +79,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Grusha: Altaria Lv. 48: Ice Beam, Dragon Pulse, Moonblast, Hurricane
     (230010, 23008, NULL, NULL, NULL, NULL, 4, ARRAY[58, 406, 585, 542]),
     -- Rika: Whiscash Lv. 57: Muddy Water, Earth Power, Blizzard, Future Sight
-    (230011, 23009, NULL, NULL, NULL, NULL, 1, ARRAY[330, 414, 59, 248]),
+    (230015, 23009, NULL, NULL, NULL, NULL, 1, ARRAY[330, 414, 59, 248]),
     -- Rika: Camerupt Lv. 57: Earth Power, Fire Blast, Flash Cannon, Yawn
-    (230011, 23009, NULL, NULL, NULL, NULL, 2, ARRAY[414, 126, 430, 281]),
+    (230015, 23009, NULL, NULL, NULL, NULL, 2, ARRAY[414, 126, 430, 281]),
     -- Rika: Donphan Lv. 57: Earthquake, Stone Edge, Iron Head, Poison Jab
-    (230011, 23009, NULL, NULL, NULL, NULL, 3, ARRAY[89, 444, 442, 398]),
+    (230015, 23009, NULL, NULL, NULL, NULL, 3, ARRAY[89, 444, 442, 398]),
     -- Rika: Dugtrio Lv. 57: Earthquake, Rock Slide, Sucker Punch, Sandstorm
-    (230011, 23009, NULL, NULL, NULL, NULL, 4, ARRAY[89, 157, 389, 201]),
+    (230015, 23009, NULL, NULL, NULL, NULL, 4, ARRAY[89, 157, 389, 201]),
     -- Rika: Clodsire Lv. 58: Earthquake, Liquidation, Toxic, Protect
-    (230011, 23009, NULL, NULL, NULL, NULL, 5, ARRAY[89, 710, 92, 182]),
+    (230015, 23009, NULL, NULL, NULL, NULL, 5, ARRAY[89, 710, 92, 182]),
     -- Poppy: Copperajah Lv. 58: High Horsepower, Play Rough, Heavy Slam, Stealth Rock
-    (230012, 23010, NULL, NULL, NULL, NULL, 1, ARRAY[667, 583, 484, 446]),
+    (230015, 23010, NULL, NULL, NULL, NULL, 1, ARRAY[667, 583, 484, 446]),
     -- Poppy: Magnezone Lv. 58: Discharge, Flash Cannon, Light Screen, Tri Attack
-    (230012, 23010, NULL, NULL, NULL, NULL, 2, ARRAY[435, 430, 113, 161]),
+    (230015, 23010, NULL, NULL, NULL, NULL, 2, ARRAY[435, 430, 113, 161]),
     -- Poppy: Bronzong Lv. 58: Iron Head, Zen Headbutt, Rock Blast, Earthquake
-    (230012, 23010, NULL, NULL, NULL, NULL, 3, ARRAY[442, 428, 350, 89]),
+    (230015, 23010, NULL, NULL, NULL, NULL, 3, ARRAY[442, 428, 350, 89]),
     -- Poppy: Corviknight Lv. 58: Brave Bird, Iron Head, Body Press, Iron Defense
-    (230012, 23010, NULL, NULL, NULL, NULL, 4, ARRAY[413, 442, 776, 334]),
+    (230015, 23010, NULL, NULL, NULL, NULL, 4, ARRAY[413, 442, 776, 334]),
     -- Poppy: Tinkaton Lv. 59: Play Rough, Gigaton Hammer, Brick Break, Stone Edge
-    (230012, 23010, NULL, NULL, NULL, NULL, 5, ARRAY[583, 893, 280, 444]),
+    (230015, 23010, NULL, NULL, NULL, NULL, 5, ARRAY[583, 893, 280, 444]),
     -- Larry: Tropius Lv. 59: Air Slash, Solar Beam, Dragon Pulse, Sunny Day
-    (230013, 23011, NULL, NULL, NULL, NULL, 1, ARRAY[403, 76, 406, 241]),
+    (230015, 23011, NULL, NULL, NULL, NULL, 1, ARRAY[403, 76, 406, 241]),
     -- Larry: Oricorio (Pom-Pom) Lv. 59: Revelation Dance, Air Slash, Teeter Dance, Icy Wind
-    (230013, 23011, NULL, NULL, NULL, NULL, 2, ARRAY[686, 403, 298, 196]),
+    (230015, 23011, NULL, NULL, NULL, NULL, 2, ARRAY[686, 403, 298, 196]),
     -- Larry: Altaria Lv. 59: Moonblast, Flamethrower, Ice Beam, Dragon Pulse
-    (230013, 23011, NULL, NULL, NULL, NULL, 3, ARRAY[585, 53, 58, 406]),
+    (230015, 23011, NULL, NULL, NULL, NULL, 3, ARRAY[585, 53, 58, 406]),
     -- Larry: Staraptor Lv. 59: Facade, Brave Bird, Close Combat, Thief
-    (230013, 23011, NULL, NULL, NULL, NULL, 4, ARRAY[263, 413, 370, 168]),
+    (230015, 23011, NULL, NULL, NULL, NULL, 4, ARRAY[263, 413, 370, 168]),
     -- Larry: Flamigo Lv. 60: Brave Bird, Close Combat, Throat Chop, Liquidation
-    (230013, 23011, NULL, NULL, NULL, NULL, 5, ARRAY[413, 370, 675, 710]),
+    (230015, 23011, NULL, NULL, NULL, NULL, 5, ARRAY[413, 370, 675, 710]),
     -- Hassel: Noivern Lv. 60: Air Slash, Dragon Pulse, Super Fang, Hyper Voice
-    (230014, 23012, NULL, NULL, NULL, NULL, 1, ARRAY[403, 406, 162, 304]),
+    (230015, 23012, NULL, NULL, NULL, NULL, 1, ARRAY[403, 406, 162, 304]),
     -- Hassel: Haxorus Lv. 60: Dragon Claw, Crunch, Iron Head, Rock Tomb
-    (230014, 23012, NULL, NULL, NULL, NULL, 2, ARRAY[337, 242, 442, 317]),
+    (230015, 23012, NULL, NULL, NULL, NULL, 2, ARRAY[337, 242, 442, 317]),
     -- Hassel: Dragalge Lv. 60: Sludge Bomb, Dragon Pulse, Hydro Pump, Thunderbolt
-    (230014, 23012, NULL, NULL, NULL, NULL, 3, ARRAY[188, 406, 56, 85]),
+    (230015, 23012, NULL, NULL, NULL, NULL, 3, ARRAY[188, 406, 56, 85]),
     -- Hassel: Flapple Lv. 60: Dragon Rush, Seed Bomb, Aerial Ace, Leech Seed
-    (230014, 23012, NULL, NULL, NULL, NULL, 4, ARRAY[407, 402, 332, 73]),
+    (230015, 23012, NULL, NULL, NULL, NULL, 4, ARRAY[407, 402, 332, 73]),
     -- Hassel: Baxcalibur Lv. 61: Icicle Crash, Brick Break, Glaive Rush
-    (230014, 23012, NULL, NULL, NULL, NULL, 5, ARRAY[556, 280, 862]),
+    (230015, 23012, NULL, NULL, NULL, NULL, 5, ARRAY[556, 280, 862]),
     -- Geeta: Espathra Lv. 61: Lumina Crash, Dazzling Gleam, Quick Attack, Reflect
     (230015, 23013, NULL, NULL, NULL, NULL, 1, ARRAY[855, 605, 98, 115]),
     -- Geeta: Gogoat Lv. 61: Horn Leech, Zen Headbutt, Play Rough, Bulk Up
@@ -131,41 +131,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Geeta: Glimmora Lv. 62: Tera Blast, Sludge Wave, Earth Power, Dazzling Gleam
     (230015, 23013, NULL, NULL, NULL, NULL, 6, ARRAY[851, 482, 414, 605]),
     -- Nemona: Lycanroc Lv. 65: Accelerock, Drill Run, Stone Edge, Stealth Rock
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[709, 529, 444, 446]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[709, 529, 444, 446]),
     -- Nemona: Goodra Lv. 65: Dragon Pulse, Muddy Water, Ice Beam, Sludge Bomb
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 2, ARRAY[406, 330, 58, 188]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 2, ARRAY[406, 330, 58, 188]),
     -- Nemona: Dudunsparce (Three-Segment) Lv. 65: Hyper Drill, Drill Run, Dragon Rush, Coil
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 3, ARRAY[887, 529, 407, 489]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 3, ARRAY[887, 529, 407, 489]),
     -- Nemona: Orthworm Lv. 65: Iron Tail, Body Press, Earthquake, Rock Blast
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 4, ARRAY[231, 776, 89, 350]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 4, ARRAY[231, 776, 89, 350]),
     -- Nemona: Pawmot Lv. 65: Double Shock, Close Combat, Ice Punch, Quick Attack
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 5, ARRAY[892, 370, 8, 98]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 5, ARRAY[892, 370, 8, 98]),
     -- Nemona: Quaquaval Lv. 66: Aqua Step, Brick Break, Aerial Ace, Ice Spinner
-    (230016, 23014, NULL, 230001, 'sprigatito', NULL, 6, ARRAY[872, 280, 332, 861]),
+    (230015, 23014, NULL, 230001, 'sprigatito', NULL, 6, ARRAY[872, 280, 332, 861]),
     -- Nemona: Lycanroc Lv. 65: Accelerock, Drill Run, Stone Edge, Stealth Rock
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 1, ARRAY[709, 529, 444, 446]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 1, ARRAY[709, 529, 444, 446]),
     -- Nemona: Goodra Lv. 65: Dragon Pulse, Muddy Water, Ice Beam, Sludge Bomb
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 2, ARRAY[406, 330, 58, 188]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 2, ARRAY[406, 330, 58, 188]),
     -- Nemona: Dudunsparce (Three-Segment) Lv. 65: Hyper Drill, Drill Run, Dragon Rush, Coil
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 3, ARRAY[887, 529, 407, 489]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 3, ARRAY[887, 529, 407, 489]),
     -- Nemona: Orthworm Lv. 65: Iron Tail, Body Press, Earthquake, Rock Blast
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 4, ARRAY[231, 776, 89, 350]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 4, ARRAY[231, 776, 89, 350]),
     -- Nemona: Pawmot Lv. 65: Double Shock, Close Combat, Ice Punch, Quick Attack
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 5, ARRAY[892, 370, 8, 98]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 5, ARRAY[892, 370, 8, 98]),
     -- Nemona: Meowscarada Lv. 66: Flower Trick, Thunder Punch, Shadow Claw, Play Rough
-    (230016, 23014, NULL, 230001, 'fuecoco', NULL, 6, ARRAY[870, 9, 421, 583]),
+    (230015, 23014, NULL, 230001, 'fuecoco', NULL, 6, ARRAY[870, 9, 421, 583]),
     -- Nemona: Lycanroc Lv. 65: Accelerock, Drill Run, Stone Edge, Stealth Rock
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 1, ARRAY[709, 529, 444, 446]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 1, ARRAY[709, 529, 444, 446]),
     -- Nemona: Goodra Lv. 65: Dragon Pulse, Muddy Water, Ice Beam, Sludge Bomb
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 2, ARRAY[406, 330, 58, 188]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 2, ARRAY[406, 330, 58, 188]),
     -- Nemona: Dudunsparce (Three-Segment) Lv. 65: Hyper Drill, Drill Run, Dragon Rush, Coil
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 3, ARRAY[887, 529, 407, 489]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 3, ARRAY[887, 529, 407, 489]),
     -- Nemona: Orthworm Lv. 65: Iron Tail, Body Press, Earthquake, Rock Blast
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 4, ARRAY[231, 776, 89, 350]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 4, ARRAY[231, 776, 89, 350]),
     -- Nemona: Pawmot Lv. 65: Double Shock, Close Combat, Ice Punch, Quick Attack
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 5, ARRAY[892, 370, 8, 98]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 5, ARRAY[892, 370, 8, 98]),
     -- Nemona: Skeledirge Lv. 66: Torch Song, Earth Power, Shadow Ball, Snarl
-    (230016, 23014, NULL, 230001, 'quaxly', NULL, 6, ARRAY[871, 414, 247, 555]),
+    (230015, 23014, NULL, 230001, 'quaxly', NULL, 6, ARRAY[871, 414, 247, 555]),
     -- Giacomo: Pawniard Lv. 21: Metal Claw, Fury Cutter, Aerial Ace
     (230017, 23015, NULL, NULL, NULL, NULL, 1, ARRAY[232, 210, 332]),
     -- Giacomo: Segin Starmobile Lv. 20: Wicked Torque, Snarl, Metal Sound, Swift
@@ -201,41 +201,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Eri: Caph Starmobile Lv. 56: Combat Torque, Spin Out, Shift Gear, High Horsepower
     (230021, 23019, NULL, NULL, NULL, NULL, 5, ARRAY[899, 859, 508, 667]),
     -- Clavell: Oranguru Lv. 60: Yawn, Dream Eater, Reflect, Foul Play
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[281, 138, 115, 492]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[281, 138, 115, 492]),
     -- Clavell: Abomasnow Lv. 60: Aurora Veil, Blizzard, Wood Hammer, Ice Shard
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 2, ARRAY[694, 59, 452, 420]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 2, ARRAY[694, 59, 452, 420]),
     -- Clavell: Polteageist Lv. 60: Shell Smash, Shadow Ball, Sucker Punch, Will-O-Wisp
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 3, ARRAY[504, 247, 389, 261]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 3, ARRAY[504, 247, 389, 261]),
     -- Clavell: Amoonguss Lv. 60: Spore, Toxic, Giga Drain, Hex
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 4, ARRAY[147, 92, 202, 506]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 4, ARRAY[147, 92, 202, 506]),
     -- Clavell: Gyarados Lv. 60: Aqua Tail, Crunch, Stone Edge, Earthquake
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 5, ARRAY[401, 242, 444, 89]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 5, ARRAY[401, 242, 444, 89]),
     -- Clavell: Skeledirge Lv. 61: Shadow Ball, Torch Song, Earth Power, Snarl
-    (230022, 23020, NULL, 230001, 'sprigatito', NULL, 6, ARRAY[247, 871, 414, 555]),
+    (230023, 23020, NULL, 230001, 'sprigatito', NULL, 6, ARRAY[247, 871, 414, 555]),
     -- Clavell: Oranguru Lv. 60: Yawn, Dream Eater, Reflect, Foul Play
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 1, ARRAY[281, 138, 115, 492]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 1, ARRAY[281, 138, 115, 492]),
     -- Clavell: Abomasnow Lv. 60: Aurora Veil, Blizzard, Wood Hammer, Ice Shard
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 2, ARRAY[694, 59, 452, 420]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 2, ARRAY[694, 59, 452, 420]),
     -- Clavell: Polteageist Lv. 60: Shell Smash, Shadow Ball, Sucker Punch, Will-O-Wisp
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 3, ARRAY[504, 247, 389, 261]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 3, ARRAY[504, 247, 389, 261]),
     -- Clavell: Houndoom Lv. 60: Dark Pulse, Fire Blast, Sludge Bomb, Thunder Fang
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 4, ARRAY[399, 126, 188, 422]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 4, ARRAY[399, 126, 188, 422]),
     -- Clavell: Amoonguss Lv. 60: Spore, Toxic, Giga Drain, Hex
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 5, ARRAY[147, 92, 202, 506]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 5, ARRAY[147, 92, 202, 506]),
     -- Clavell: Quaquaval Lv. 61: Brick Break, Aqua Step, Aerial Ace, Ice Spinner
-    (230022, 23020, NULL, 230001, 'fuecoco', NULL, 6, ARRAY[280, 872, 332, 861]),
+    (230023, 23020, NULL, 230001, 'fuecoco', NULL, 6, ARRAY[280, 872, 332, 861]),
     -- Clavell: Oranguru Lv. 60: Yawn, Dream Eater, Reflect, Foul Play
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 1, ARRAY[281, 138, 115, 492]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 1, ARRAY[281, 138, 115, 492]),
     -- Clavell: Abomasnow Lv. 60: Aurora Veil, Blizzard, Wood Hammer, Ice Shard
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 2, ARRAY[694, 59, 452, 420]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 2, ARRAY[694, 59, 452, 420]),
     -- Clavell: Polteageist Lv. 60: Shell Smash, Shadow Ball, Sucker Punch, Will-O-Wisp
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 3, ARRAY[504, 247, 389, 261]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 3, ARRAY[504, 247, 389, 261]),
     -- Clavell: Gyarados Lv. 60: Aqua Tail, Crunch, Stone Edge, Earthquake
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 4, ARRAY[401, 242, 444, 89]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 4, ARRAY[401, 242, 444, 89]),
     -- Clavell: Houndoom Lv. 60: Dark Pulse, Fire Blast, Sludge Bomb, Thunder Fang
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 5, ARRAY[399, 126, 188, 422]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 5, ARRAY[399, 126, 188, 422]),
     -- Clavell: Meowscarada Lv. 61: Shadow Claw, Flower Trick, Thunder Punch, Play Rough
-    (230022, 23020, NULL, 230001, 'quaxly', NULL, 6, ARRAY[421, 870, 9, 583]),
+    (230023, 23020, NULL, 230001, 'quaxly', NULL, 6, ARRAY[421, 870, 9, 583]),
     -- Penny: Umbreon Lv. 62: Dark Pulse, Quick Attack, Baby-Doll Eyes, Psychic
     (230023, 23021, NULL, NULL, NULL, NULL, 1, ARRAY[399, 98, 608, 94]),
     -- Penny: Vaporeon Lv. 62: Hydro Pump, Quick Attack, Baby-Doll Eyes, Aurora Beam

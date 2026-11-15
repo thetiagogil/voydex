@@ -183,11 +183,11 @@ test.describe("Story battles", () => {
       partner: "Sprigatito",
     });
 
-    /* Geeta's Glimmora Terastallizes into Rock. */
+    /* Geeta closes the Pokémon League, and her Glimmora Terastallizes into Rock. */
     const { report } = await openBattle(
       page,
       playId,
-      /^Champion Geeta/,
+      /^Pokémon League.*Not recorded/,
       /^Geeta/,
       "Geeta",
     );

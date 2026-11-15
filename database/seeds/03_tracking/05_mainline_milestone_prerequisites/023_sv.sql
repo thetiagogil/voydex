@@ -1,12 +1,15 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Scarlet / Violet's three stories.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Scarlet / Violet mainline milestone prerequisite links.
+-- Scarlet / Violet mainline milestone prerequisite links: each chapter's beats
+-- suggest the one before them in that chapter's order, the three stories
+-- start from the academy, The Way Home ends them, and each side-content beat
+-- names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,9 +20,9 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Receive Pokedex <- Choose Starter
+  -- Treasure Hunt <- Choose Starter
   (230002, 230001, 23, 1, 1, NULL),
-  -- Bug Badge <- Receive Pokedex
+  -- Bug Badge <- Treasure Hunt
   (230003, 230002, 23, 1, 1, NULL),
   -- Grass Badge <- Bug Badge
   (230004, 230003, 23, 1, 1, NULL),
@@ -35,19 +38,9 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (230009, 230008, 23, 1, 1, NULL),
   -- Ice Badge <- Psychic Badge
   (230010, 230009, 23, 1, 1, NULL),
-  -- Elite Four Rika <- Ice Badge
-  (230011, 230010, 23, 1, 1, NULL),
-  -- Elite Four Poppy <- Elite Four Rika
-  (230012, 230011, 23, 1, 1, NULL),
-  -- Elite Four Larry <- Elite Four Poppy
-  (230013, 230012, 23, 1, 1, NULL),
-  -- Elite Four Hassel <- Elite Four Larry
-  (230014, 230013, 23, 1, 1, NULL),
-  -- Champion Geeta <- Elite Four Hassel
-  (230015, 230014, 23, 1, 1, NULL),
-  -- Champion Nemona <- Champion Geeta
-  (230016, 230015, 23, 1, 1, NULL),
-  -- Dark Crew <- Receive Pokedex
+  -- Pokémon League <- Ice Badge
+  (230015, 230010, 23, 1, 1, NULL),
+  -- Dark Crew <- Treasure Hunt
   (230017, 230002, 23, 1, 1, NULL),
   -- Fire Crew <- Dark Crew
   (230018, 230017, 23, 1, 1, NULL),
@@ -57,11 +50,9 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (230020, 230019, 23, 1, 1, NULL),
   -- Fighting Crew <- Fairy Crew
   (230021, 230020, 23, 1, 1, NULL),
-  -- Defeat Clavell <- Fighting Crew
-  (230022, 230021, 23, 1, 1, NULL),
-  -- Defeat Penny <- Defeat Clavell
-  (230023, 230022, 23, 1, 1, NULL),
-  -- Stony Cliff Titan <- Receive Pokedex
+  -- Defeat Penny <- Fighting Crew
+  (230023, 230021, 23, 1, 1, NULL),
+  -- Stony Cliff Titan <- Treasure Hunt
   (230024, 230002, 23, 1, 1, NULL),
   -- Open Sky Titan <- Stony Cliff Titan
   (230025, 230024, 23, 1, 1, NULL),
@@ -73,8 +64,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (230028, 230027, 23, 1, 1, NULL),
   -- Defeat Arven <- False Dragon Titan
   (230029, 230028, 23, 1, 1, NULL),
-  -- Area Zero <- Champion Nemona
-  (230030, 230016, 23, 3, 1, NULL),
+  -- Area Zero <- Pokémon League
+  (230030, 230015, 23, 3, 1, NULL),
   -- Area Zero <- Defeat Penny
   (230030, 230023, 23, 3, 2, NULL),
   -- Area Zero <- Defeat Arven

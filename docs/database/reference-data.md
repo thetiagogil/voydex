@@ -655,6 +655,21 @@ sources remain authoritative for game-specific mechanics and availability.
   mission goes through. Post Game is the plates, Volo and Arceus. Side
   Content is Manaphy, Giratina and the forces of nature. The wisps set is
   unchanged.
+- Scarlet / Violet in the pattern (`820_sv_story.sql`; from Bulbapedia's
+  walkthrough, whose recommended route orders all 27 parts, with the story
+  and location pages for the parts not written yet): the three stories keep
+  their chapters (Victory Road, Starfall Street, Path of Legends), which play
+  in any order, with The Way Home after them. The roadmap weaves the three
+  together in the walkthrough's order, from the easier challenges to the
+  harder ones, through every place it passes. The Pokédex app comes with the
+  starter, so the second beat is the Treasure Hunt at the academy, which is
+  Naranja in Scarlet and Uva in Violet, so its beats are placed at Mesagoza.
+  A badge is at its Gym, a crew at its base and a Titan in its area. The
+  Pokémon League is one milestone: the Elite Four, Geeta, then Nemona in
+  Mesagoza. Director Clavell and Penny are one beat, fought back to back. A
+  shrine sits after the last beat in the part of Paldea its stakes are in.
+  The Gym tests are in the descriptions. The Ominous Stakes sets are
+  unchanged.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

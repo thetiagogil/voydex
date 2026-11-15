@@ -532,5 +532,41 @@
     "id": "210016",
     "becomes": "210015",
     "reason": "Brilliant Diamond / Shining Pearl: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230011",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Rika merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230012",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Poppy merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230013",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Larry merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230014",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Hassel merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230016",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Champion Nemona merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230022",
+    "becomes": "230023",
+    "reason": "Scarlet / Violet: Defeat Clavell merged into Defeat Penny, fought right after it"
   }
 ]
