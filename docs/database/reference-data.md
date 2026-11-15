@@ -678,6 +678,14 @@ sources remain authoritative for game-specific mechanics and availability.
   is on it too. Battles on the way name their place (Kieran outside the
   Dreaded Den and at Loyalty Plaza, two of the Loyal Three). Side Content is
   Bloodmoon Ursaluna and the Loyal Three at their normal size.
+- The Indigo Disk in the pattern (`840_sv_id_story.sql`; from Bulbapedia's
+  story pages and its location pages for the Terarium): the route goes from
+  the academy to the League Club Room, round the four biomes for the
+  Blueberry Elite Four (four beats, since each is met in its own biome after
+  its Elite Trial, as bosses), back for Champion Kieran, then down through
+  Area Zero and the Zero Lab to the Underdepths. Arriving in the Underdepths
+  and Terapagos are one beat. Side Content is Mochi Mayhem, Meloetta, Perrin's
+  photos and Snacksworth's treats.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

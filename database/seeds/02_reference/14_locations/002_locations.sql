@@ -1980,4 +1980,8 @@ VALUES
   -- Porto Marinada: a Story place with no wild Pokémon (Scarlet / Violet's Water Gym test)
   (972, 10, 'paldea-porto-marinada', 'Porto Marinada'),
   -- Loyalty Plaza: a Story place with no wild Pokémon (The Teal Mask's monument to the Loyal Three)
-  (973, 10, 'paldea-loyalty-plaza', 'Loyalty Plaza');
+  (973, 10, 'paldea-loyalty-plaza', 'Loyalty Plaza'),
+  -- Blueberry Academy: a Story place with no wild Pokémon (The Indigo Disk's school)
+  (974, 10, 'paldea-blueberry-academy', 'Blueberry Academy'),
+  -- Area Zero Underdepths: a Story place with no wild Pokémon (The Indigo Disk's last battles)
+  (975, 10, 'paldea-area-zero-underdepths', 'Area Zero Underdepths');

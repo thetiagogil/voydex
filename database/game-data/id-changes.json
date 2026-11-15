@@ -574,5 +574,11 @@
     "id": "240006",
     "becomes": "240005",
     "reason": "The Teal Mask: Kieran Rematch merged into Ogerpon, which his battle comes right before"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "250007",
+    "becomes": "250008",
+    "reason": "The Indigo Disk: Area Zero Underdepths merged into Terapagos, which is fought there"
   }
 ]
