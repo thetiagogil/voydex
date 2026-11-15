@@ -18,7 +18,9 @@
 -- Mr. Pokémon's House, Olivine Lighthouse, Team Rocket HQ, Goldenrod Radio
 -- Tower and Underground and the S.S. Aqua, named as those games name them,
 -- and Hoenn's Gyms, towns without wild Pokémon, Professor Birch's Laboratory,
--- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire).
+-- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire, and the Sevii
+-- Islands' towns, the Dotted Hole, the Rocket Warehouse, Navel Rock and Birth
+-- Island for FireRed / LeafGreen).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1705,4 +1707,18 @@ VALUES
   -- Mossdeep Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
   (845, 3, 'hoenn-mossdeep-gym', 'Mossdeep Gym'),
   -- Sootopolis Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
-  (846, 3, 'hoenn-sootopolis-gym', 'Sootopolis Gym');
+  (846, 3, 'hoenn-sootopolis-gym', 'Sootopolis Gym'),
+  -- Two Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands errand)
+  (847, 1, 'kanto-two-island-town', 'Two Island (town)'),
+  -- Three Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands errand)
+  (848, 1, 'kanto-three-island-town', 'Three Island (town)'),
+  -- Six Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's way to the Dotted Hole)
+  (849, 1, 'kanto-six-island-town', 'Six Island (town)'),
+  -- Dotted Hole: a Story place with no wild Pokémon (FireRed / LeafGreen's Dotted Hole beat)
+  (850, 1, 'kanto-dotted-hole', 'Dotted Hole'),
+  -- Rocket Warehouse: a Story place with no wild Pokémon (FireRed / LeafGreen's Rocket Warehouse beat)
+  (851, 1, 'kanto-rocket-warehouse', 'Rocket Warehouse'),
+  -- Navel Rock: a Story place with no wild Pokémon (FireRed / LeafGreen's Ho-Oh and Lugia)
+  (852, 1, 'kanto-navel-rock', 'Navel Rock'),
+  -- Birth Island: a Story place with no wild Pokémon (FireRed / LeafGreen's Deoxys)
+  (853, 1, 'kanto-birth-island', 'Birth Island');

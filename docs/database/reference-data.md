@@ -440,6 +440,23 @@ sources remain authoritative for game-specific mechanics and availability.
   the walkthrough reaches it, without claiming the game locks it until then.
   The invisible Pokémon on Route 120 is a blocker and stays a note. Ruby /
   Sapphire has no collectible set.
+- FireRed / LeafGreen in the pattern (`650_frlg_story.sql`; from all 20 parts
+  of Bulbapedia's walkthrough, teams checked on the pret pokefirered
+  disassembly): Main Story is Red / Blue's in this walkthrough's order (the
+  Soul Badge and the Safari Zone before Silph Co. and the Marsh Badge), its
+  route notes kept where the remake plays the same and changed where it does
+  not (the Tea, the Teachy TV, the Running Shoes, the Vs. Seeker, the aides'
+  gifts, the Marsh and Volcano Badges' field moves), plus the first Sevii
+  Islands errand as the Berry Forest beat after the Volcano Badge. Post Game
+  is the Sevii Islands quest for Celio (the Ruby Path, Icefall Cave, the
+  Dotted Hole and the Rocket Warehouse), which counts so its islands show on
+  the route, then Cerulean Cave and the roaming legendary Pokémon, which are
+  optional. The remake adds two battles: the ghost Marowak (level 30,
+  Headbutt, Leer, Focus Energy, Bonemerang) and Gideon in the Rocket
+  Warehouse. The warehouse's two Admins have no names and stay out. Moltres
+  is on Mt. Ember. Seven Island, the Tanoby Ruins and the second round of
+  the Elite Four are not beats. FireRed / LeafGreen has no collectible set
+  (the game keeps no count of Unown forms).
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

@@ -118,5 +118,35 @@
     "id": "50017",
     "becomes": "50016",
     "reason": "Ruby / Sapphire: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60013",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Lorelei merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60014",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60015",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Agatha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60016",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Lance merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60018",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

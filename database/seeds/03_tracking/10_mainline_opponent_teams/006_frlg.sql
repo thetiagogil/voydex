@@ -90,45 +90,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Giovanni 5: Rhyhorn Lv. 50
   (60012, 6008, 6, NULL, NULL, NULL, NULL, NULL, 5, 111, 11100, 50, NULL),
   -- Lorelei 1: Dewgong Lv. 52
-  (60013, 6009, 6, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 52, NULL),
+  (60017, 6009, 6, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 52, NULL),
   -- Lorelei 2: Cloyster Lv. 51
-  (60013, 6009, 6, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 51, NULL),
+  (60017, 6009, 6, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 51, NULL),
   -- Lorelei 3: Slowbro Lv. 52
-  (60013, 6009, 6, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 52, NULL),
+  (60017, 6009, 6, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 52, NULL),
   -- Lorelei 4: Jynx Lv. 54
-  (60013, 6009, 6, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 54, NULL),
+  (60017, 6009, 6, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 54, NULL),
   -- Lorelei 5: Lapras Lv. 54, holds Sitrus Berry
-  (60013, 6009, 6, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 54, 187),
+  (60017, 6009, 6, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 54, 187),
   -- Bruno 1: Onix Lv. 51
-  (60014, 6010, 6, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 51, NULL),
+  (60017, 6010, 6, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 51, NULL),
   -- Bruno 2: Hitmonchan Lv. 53
-  (60014, 6010, 6, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 53, NULL),
+  (60017, 6010, 6, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 53, NULL),
   -- Bruno 3: Hitmonlee Lv. 53
-  (60014, 6010, 6, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 53, NULL),
+  (60017, 6010, 6, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 53, NULL),
   -- Bruno 4: Onix Lv. 54
-  (60014, 6010, 6, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 54, NULL),
+  (60017, 6010, 6, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 54, NULL),
   -- Bruno 5: Machamp Lv. 56, holds Sitrus Berry
-  (60014, 6010, 6, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 56, 187),
+  (60017, 6010, 6, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 56, 187),
   -- Agatha 1: Gengar Lv. 54
-  (60015, 6011, 6, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 54, NULL),
+  (60017, 6011, 6, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 54, NULL),
   -- Agatha 2: Golbat Lv. 54
-  (60015, 6011, 6, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 54, NULL),
+  (60017, 6011, 6, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 54, NULL),
   -- Agatha 3: Haunter Lv. 53
-  (60015, 6011, 6, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 53, NULL),
+  (60017, 6011, 6, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 53, NULL),
   -- Agatha 4: Arbok Lv. 56
-  (60015, 6011, 6, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 56, NULL),
+  (60017, 6011, 6, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 56, NULL),
   -- Agatha 5: Gengar Lv. 58, holds Sitrus Berry
-  (60015, 6011, 6, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 58, 187),
+  (60017, 6011, 6, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 58, 187),
   -- Lance 1: Gyarados Lv. 56
-  (60016, 6012, 6, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 56, NULL),
+  (60017, 6012, 6, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 56, NULL),
   -- Lance 2: Dragonair Lv. 54
-  (60016, 6012, 6, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 54, NULL),
+  (60017, 6012, 6, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 54, NULL),
   -- Lance 3: Dragonair Lv. 54
-  (60016, 6012, 6, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 54, NULL),
+  (60017, 6012, 6, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 54, NULL),
   -- Lance 4: Aerodactyl Lv. 58
-  (60016, 6012, 6, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 58, NULL),
+  (60017, 6012, 6, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 58, NULL),
   -- Lance 5: Dragonite Lv. 60, holds Sitrus Berry
-  (60016, 6012, 6, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 60, 187),
+  (60017, 6012, 6, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 60, 187),
   -- Blue (chose Bulbasaur) 1: Pidgeot Lv. 59
   (60017, 6013, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 59, NULL),
   -- Blue (chose Bulbasaur) 2: Alakazam Lv. 57
@@ -305,42 +305,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (60022, 6015, 6, NULL, NULL, NULL, NULL, NULL, 3, 111, 11100, 37, NULL),
   -- Giovanni, Silph Co. 4: Nidoqueen Lv. 41
   (60022, 6015, 6, NULL, NULL, NULL, NULL, NULL, 4, 31, 3100, 41, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 47, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 2, 111, 11100, 45, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 3: Exeggcute Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 3, 102, 10200, 45, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 4: Gyarados Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 4, 130, 13000, 45, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 5: Alakazam Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 5, 65, 6500, 47, NULL),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 6: Charizard Lv. 53
-  (60013, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 6, 6, 600, 53, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 1, 18, 1800, 47, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 2, 111, 11100, 45, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 3: Growlithe Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 3, 58, 5800, 45, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 4: Exeggcute Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 4, 102, 10200, 45, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 5: Alakazam Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 5, 65, 6500, 47, NULL),
-  -- Blue (chose Charmander), Elite Four Lorelei 6: Blastoise Lv. 53
-  (60013, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 6, 9, 900, 53, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 1, 18, 1800, 47, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 2, 111, 11100, 45, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 3: Gyarados Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 3, 130, 13000, 45, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 4: Growlithe Lv. 45
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 4, 58, 5800, 45, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 5: Alakazam Lv. 47
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 5, 65, 6500, 47, NULL),
-  -- Blue (chose Squirtle), Elite Four Lorelei 6: Venusaur Lv. 53
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 6, 3, 300, 53, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 47, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 2, 111, 11100, 45, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 3: Exeggcute Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 3, 102, 10200, 45, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 4: Gyarados Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 4, 130, 13000, 45, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 5: Alakazam Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 5, 65, 6500, 47, NULL),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 6: Charizard Lv. 53
+  (60017, 6014, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 6, 6, 600, 53, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 1, 18, 1800, 47, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 2, 111, 11100, 45, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 3: Growlithe Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 3, 58, 5800, 45, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 4: Exeggcute Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 4, 102, 10200, 45, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 5: Alakazam Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 5, 65, 6500, 47, NULL),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 6: Blastoise Lv. 53
+  (60017, 6014, 6, NULL, 60001, 'charmander', NULL, NULL, 6, 9, 900, 53, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 1, 18, 1800, 47, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 2, 111, 11100, 45, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 3: Gyarados Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 3, 130, 13000, 45, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 4: Growlithe Lv. 45
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 4, 58, 5800, 45, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 5: Alakazam Lv. 47
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 5, 65, 6500, 47, NULL),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 6: Venusaur Lv. 53
+  (60017, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 6, 3, 300, 53, NULL),
   -- Zapdos, Power Plant 1: Zapdos Lv. 50
   (60023, 6016, 6, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50, NULL),
   -- Articuno, Seafoam Islands 1: Articuno Lv. 50
@@ -362,4 +362,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Suicune (chose Charmander), Roaming Legendary Beast 1: Suicune Lv. 50
   (60028, 6025, 6, NULL, 60001, 'charmander', NULL, NULL, 1, 245, 24500, 50, NULL),
   -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
-  (60029, 6026, 6, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70, NULL);
+  (60029, 6026, 6, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70, NULL),
+  -- Marowak, Pokémon Tower 1: Marowak Lv. 30
+  (60021, 6027, 6, NULL, NULL, NULL, NULL, NULL, 1, 105, 10500, 30, NULL),
+  -- Gideon, Rocket Warehouse 1: Voltorb Lv. 46
+  (60037, 6028, 6, NULL, NULL, NULL, NULL, NULL, 1, 100, 10000, 46, NULL),
+  -- Gideon, Rocket Warehouse 2: Electrode Lv. 46
+  (60037, 6028, 6, NULL, NULL, NULL, NULL, NULL, 2, 101, 10100, 46, NULL),
+  -- Gideon, Rocket Warehouse 3: Magnemite Lv. 46
+  (60037, 6028, 6, NULL, NULL, NULL, NULL, NULL, 3, 81, 8100, 46, NULL),
+  -- Gideon, Rocket Warehouse 4: Magneton Lv. 46
+  (60037, 6028, 6, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 46, NULL),
+  -- Gideon, Rocket Warehouse 5: Porygon Lv. 46
+  (60037, 6028, 6, NULL, NULL, NULL, NULL, NULL, 5, 137, 13700, 46, NULL);

@@ -87,7 +87,7 @@ SELECT
             category_slug, chapter_kind, plays_in_any_order FROM views.mainline_play_milestone_category_summary
             WHERE
                 play_id = '60000000-0000-0000-0000-0000000000d1' ORDER BY category_sort_order $$, $$
-            VALUES ('main-story', 'main-story', FALSE), ('pokemon-league', 'main-story', FALSE), ('post-game', 'post-game', FALSE), ('side-content', 'side-content', FALSE) $$, 'the category summary carries each chapter''s kind');
+            VALUES ('main-story', 'main-story', FALSE), ('post-game', 'post-game', FALSE), ('side-content', 'side-content', FALSE) $$, 'the category summary carries each chapter''s kind');
 -- An opens-after link never locks: Cerulean Cave records before the Hall of Fame.
 SELECT
     lives_ok ($$
@@ -199,7 +199,7 @@ SELECT
             WHERE
                 mainline_categories.chapter_kind = 'post-game'
                 AND mainline_milestones.is_required_for_completion ORDER BY mainline_milestones.version_group_id $$, $$
-            VALUES (3), (4), (10) $$, 'post-game beats count only in Gold / Silver, Crystal and HeartGold / SoulSilver');
+            VALUES (3), (4), (6), (10) $$, 'post-game beats count only in Gold / Silver, Crystal, FireRed / LeafGreen (the Sevii Islands quest) and HeartGold / SoulSilver');
 -- Receive Pokédex carries no later battle anywhere.
 SELECT
     is_empty ($$
