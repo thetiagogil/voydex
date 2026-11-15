@@ -44,7 +44,7 @@ SELECT
                 mainline_milestones.slug = 'cerulean-cave'
                 AND mainline_milestones.version_group_id = 1 $$, $$
             VALUES ('Mewtwo', 'boss', 70) $$, 'an optional legendary is a Boss battle with its level');
--- Black / White: Reshiram (Black) or Zekrom (White) before N, on N's story point.
+-- Black / White: Reshiram (Black) or Zekrom (White) before N, on the Pokémon League milestone that runs on into N's Castle.
 SELECT
     results_eq ($$
         SELECT
@@ -58,7 +58,7 @@ SELECT
                     FROM tracking.mainline_milestones
                     WHERE
                         version_group_id = 11
-                        AND slug = 'battle-n')
+                        AND slug = 'pokemon-league')
             ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
             VALUES ('Reshiram', 'black'), ('Zekrom', 'white') $$, 'a story legendary is its version''s Boss battle on its story point');
 -- FireRed / LeafGreen: one roaming beast per save, picked by the starter.

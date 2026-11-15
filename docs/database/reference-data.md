@@ -521,6 +521,19 @@ sources remain authoritative for game-specific mechanics and availability.
   Den Multi Battle. The Zephyr Badge gives Rock Smash, and Whirlpool and Rock
   Climb are HM05 and HM08. Unown's 28 forms are a collectible set here too:
   the Unown Report counts them, and the ! and ? forms come last.
+- Black / White in the pattern (`700_bw_story.sql`; from all 18 parts of
+  Bulbapedia's walkthrough): Main Story follows the walkthrough through
+  Unova. Team Plasma's forced beats are their own milestones even where only
+  Grunts are fought: the Dreamyard, Pinwheel Forest, the Cold Storage,
+  Dragonspiral Tower and the Relic Castle. Bianca, Cheren and N battle on the
+  way to most badges, and each battle names its place. A battle fought right
+  after a badge leads to the next beat (Bianca in Castelia City and in
+  Driftveil City, Cheren on Route 5). The Pokémon League is one milestone
+  that runs on into N's Castle: Cheren on Route 10, the Elite Four, Reshiram
+  or Zekrom, N and Ghetsis. Champion Alder is Post Game and holds the Hall of
+  Fame. Side Content is the Swords of Justice, the roaming Tornadus or
+  Thundurus, Kyurem and Landorus. The Seven Sages are not battles. Black /
+  White has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

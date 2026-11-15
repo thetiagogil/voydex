@@ -268,5 +268,41 @@
     "id": "100016",
     "becomes": "100015",
     "reason": "HeartGold / SoulSilver: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110011",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Shauntal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110012",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Grimsley merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110013",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Caitlin merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110014",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Marshal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110015",
+    "becomes": "110016",
+    "reason": "Black / White: Battle N merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110018",
+    "becomes": "110017",
+    "reason": "Black / White: Hall of Fame merged into the Champion Alder milestone"
   }
 ]

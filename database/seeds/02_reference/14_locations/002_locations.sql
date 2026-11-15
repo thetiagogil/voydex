@@ -24,8 +24,10 @@
 -- and Marine Cave for Emerald, and Sinnoh's Gyms, towns without wild
 -- Pokémon, Professor Rowan's Laboratory, Team Galactic's two buildings, the
 -- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl, the
--- Distortion World for Platinum, and the Ecruteak Dance Theater and the
--- Embedded Tower for HeartGold / SoulSilver).
+-- Distortion World for Platinum, the Ecruteak Dance Theater and the Embedded
+-- Tower for HeartGold / SoulSilver, and Unova's Gyms, towns and bridges
+-- without wild Pokémon, Professor Juniper's Laboratory and the Pokémon
+-- League for Black / White).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1772,4 +1774,32 @@ VALUES
   -- Ecruteak Dance Theater: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kimono Girls)
   (875, 2, 'johto-ecruteak-dance-theater', 'Ecruteak Dance Theater'),
   -- Embedded Tower: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kyogre, Groudon and Rayquaza)
-  (876, 2, 'johto-embedded-tower', 'Embedded Tower');
+  (876, 2, 'johto-embedded-tower', 'Embedded Tower'),
+  -- Professor Juniper's Laboratory: a Story place with no wild Pokémon (Black / White's Receive Pokédex beat)
+  (877, 5, 'unova-professor-junipers-laboratory', 'Professor Juniper''s Laboratory'),
+  -- Striaton Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (878, 5, 'unova-striaton-gym', 'Striaton Gym'),
+  -- Nacrene Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (879, 5, 'unova-nacrene-gym', 'Nacrene Gym'),
+  -- Skyarrow Bridge: a Story place with no wild Pokémon (Black / White's way to Castelia City)
+  (880, 5, 'unova-skyarrow-bridge', 'Skyarrow Bridge'),
+  -- Castelia Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (881, 5, 'unova-castelia-gym', 'Castelia Gym'),
+  -- Nimbasa Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (882, 5, 'unova-nimbasa-gym', 'Nimbasa Gym'),
+  -- Driftveil Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (883, 5, 'unova-driftveil-gym', 'Driftveil Gym'),
+  -- Mistralton City: a Story place with no wild Pokémon (Black / White's way to Celestial Tower)
+  (884, 5, 'unova-mistralton-city', 'Mistralton City'),
+  -- Mistralton Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (885, 5, 'unova-mistralton-gym', 'Mistralton Gym'),
+  -- Icirrus Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (886, 5, 'unova-icirrus-gym', 'Icirrus Gym'),
+  -- Tubeline Bridge: a Story place with no wild Pokémon (Black / White's way to Opelucid City)
+  (887, 5, 'unova-tubeline-bridge', 'Tubeline Bridge'),
+  -- Opelucid City: a Story place with no wild Pokémon (Black / White's last Gym town)
+  (888, 5, 'unova-opelucid-city', 'Opelucid City'),
+  -- Opelucid Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (889, 5, 'unova-opelucid-gym', 'Opelucid Gym'),
+  -- Pokémon League: a Story place with no wild Pokémon (Black / White's Pokémon League and N's Castle)
+  (890, 5, 'unova-pokemon-league', 'Pokémon League');
