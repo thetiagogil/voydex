@@ -400,5 +400,35 @@
     "id": "140017",
     "becomes": "140016",
     "reason": "Omega Ruby / Alpha Sapphire: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150014",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Hala merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150015",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Olivia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150016",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Acerola merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150017",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Kahili merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150019",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

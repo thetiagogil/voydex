@@ -93,9 +93,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Totem Mimikyu: Gengar Lv. 27: Shadow Ball, Hypnosis, Night Shade, Shadow Punch
     (150010, 15042, NULL, NULL, NULL, NULL, 3, ARRAY[247, 95, 101, 325]),
     -- Plumeria (Route 15): Golbat Lv. 34: Air Cutter, Confuse Ray, Poison Fang
-    (150011, 15044, NULL, NULL, NULL, NULL, 1, ARRAY[314, 109, 305]),
+    (150029, 15044, NULL, NULL, NULL, NULL, 1, ARRAY[314, 109, 305]),
     -- Plumeria (Route 15): Salazzle Lv. 35: Flame Burst, Double Slap, Toxic, Dragon Rage
-    (150011, 15044, NULL, NULL, NULL, NULL, 2, ARRAY[481, 3, 92, 82]),
+    (150029, 15044, NULL, NULL, NULL, NULL, 2, ARRAY[481, 3, 92, 82]),
     -- Nanu: Sableye Lv. 38: Power Gem, Shadow Ball, Fake Out
     (150011, 15009, NULL, NULL, NULL, NULL, 1, ARRAY[408, 247, 252]),
     -- Nanu: Krokorok Lv. 38: Crunch, Assurance, Swagger, Earthquake
@@ -117,45 +117,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hapu: Mudsdale Lv. 48: Heavy Slam, Earthquake, Double Kick, Counter
     (150013, 15010, NULL, NULL, NULL, NULL, 4, ARRAY[484, 89, 24, 68]),
     -- Hala: Hariyama Lv. 54: Fake Out, Close Combat, Knock Off
-    (150014, 15011, NULL, NULL, NULL, NULL, 1, ARRAY[252, 370, 282]),
+    (150018, 15011, NULL, NULL, NULL, NULL, 1, ARRAY[252, 370, 282]),
     -- Hala: Primeape Lv. 54: Cross Chop, Outrage, Punishment, Pursuit
-    (150014, 15011, NULL, NULL, NULL, NULL, 2, ARRAY[238, 200, 386, 228]),
+    (150018, 15011, NULL, NULL, NULL, NULL, 2, ARRAY[238, 200, 386, 228]),
     -- Hala: Bewear Lv. 54: Hammer Arm, Brutal Swing
-    (150014, 15011, NULL, NULL, NULL, NULL, 3, ARRAY[359, 693]),
+    (150018, 15011, NULL, NULL, NULL, NULL, 3, ARRAY[359, 693]),
     -- Hala: Poliwrath Lv. 54: Waterfall, Submission
-    (150014, 15011, NULL, NULL, NULL, NULL, 4, ARRAY[127, 66]),
+    (150018, 15011, NULL, NULL, NULL, NULL, 4, ARRAY[127, 66]),
     -- Hala: Crabominable Lv. 55: Ice Hammer, Close Combat
-    (150014, 15011, NULL, NULL, NULL, NULL, 5, ARRAY[665, 370]),
+    (150018, 15011, NULL, NULL, NULL, NULL, 5, ARRAY[665, 370]),
     -- Olivia: Relicanth Lv. 54: Hydro Pump, Ancient Power, Yawn
-    (150015, 15012, NULL, NULL, NULL, NULL, 1, ARRAY[56, 246, 281]),
+    (150018, 15012, NULL, NULL, NULL, NULL, 1, ARRAY[56, 246, 281]),
     -- Olivia: Carbink Lv. 54: Power Gem, Moonblast, Reflect
-    (150015, 15012, NULL, NULL, NULL, NULL, 2, ARRAY[408, 585, 115]),
+    (150018, 15012, NULL, NULL, NULL, NULL, 2, ARRAY[408, 585, 115]),
     -- Olivia: Alolan Golem Lv. 54: Thunder Punch, Rock Blast, Steamroller
-    (150015, 15012, NULL, NULL, NULL, NULL, 3, ARRAY[9, 350, 537]),
+    (150018, 15012, NULL, NULL, NULL, NULL, 3, ARRAY[9, 350, 537]),
     -- Olivia: Probopass Lv. 54: Earth Power, Power Gem, Thunder Wave, Sandstorm
-    (150015, 15012, NULL, NULL, NULL, NULL, 4, ARRAY[414, 408, 86, 201]),
+    (150018, 15012, NULL, NULL, NULL, NULL, 4, ARRAY[414, 408, 86, 201]),
     -- Olivia: Lycanroc (Midnight) Lv. 55: Crunch, Stone Edge, Counter, Rock Climb
-    (150015, 15012, NULL, NULL, NULL, NULL, 5, ARRAY[242, 444, 68, 431]),
+    (150018, 15012, NULL, NULL, NULL, NULL, 5, ARRAY[242, 444, 68, 431]),
     -- Acerola: Sableye Lv. 54: Shadow Claw, Zen Headbutt, Confuse Ray, Fake Out
-    (150016, 15013, NULL, NULL, NULL, NULL, 1, ARRAY[421, 428, 109, 252]),
+    (150018, 15013, NULL, NULL, NULL, NULL, 1, ARRAY[421, 428, 109, 252]),
     -- Acerola: Drifblim Lv. 54: Ominous Wind, Focus Energy, Amnesia, Baton Pass
-    (150016, 15013, NULL, NULL, NULL, NULL, 2, ARRAY[466, 116, 133, 226]),
+    (150018, 15013, NULL, NULL, NULL, NULL, 2, ARRAY[466, 116, 133, 226]),
     -- Acerola: Dhelmise Lv. 54: Slam, Shadow Ball, Energy Ball, Whirlpool
-    (150016, 15013, NULL, NULL, NULL, NULL, 3, ARRAY[21, 247, 412, 250]),
+    (150018, 15013, NULL, NULL, NULL, NULL, 3, ARRAY[21, 247, 412, 250]),
     -- Acerola: Froslass Lv. 54: Blizzard, Shadow Ball, Confuse Ray, Ice Shard
-    (150016, 15013, NULL, NULL, NULL, NULL, 4, ARRAY[59, 247, 109, 420]),
+    (150018, 15013, NULL, NULL, NULL, NULL, 4, ARRAY[59, 247, 109, 420]),
     -- Acerola: Palossand Lv. 55: Shadow Ball, Earth Power, Giga Drain, Iron Defense
-    (150016, 15013, NULL, NULL, NULL, NULL, 5, ARRAY[247, 414, 202, 334]),
+    (150018, 15013, NULL, NULL, NULL, NULL, 5, ARRAY[247, 414, 202, 334]),
     -- Kahili: Skarmory Lv. 54: Slash, Steel Wing, Feint, Spikes
-    (150017, 15014, NULL, NULL, NULL, NULL, 1, ARRAY[163, 211, 364, 191]),
+    (150018, 15014, NULL, NULL, NULL, NULL, 1, ARRAY[163, 211, 364, 191]),
     -- Kahili: Crobat Lv. 54: Air Slash, Swift, Supersonic, Poison Fang
-    (150017, 15014, NULL, NULL, NULL, NULL, 2, ARRAY[403, 129, 48, 305]),
+    (150018, 15014, NULL, NULL, NULL, NULL, 2, ARRAY[403, 129, 48, 305]),
     -- Kahili: Oricorio Lv. 54: Revelation Dance, Teeter Dance, Air Slash, Feather Dance
-    (150017, 15014, NULL, NULL, NULL, NULL, 3, ARRAY[686, 298, 403, 297]),
+    (150018, 15014, NULL, NULL, NULL, NULL, 3, ARRAY[686, 298, 403, 297]),
     -- Kahili: Mandibuzz Lv. 54: Bone Rush, Brave Bird, Punishment, Flatter
-    (150017, 15014, NULL, NULL, NULL, NULL, 4, ARRAY[198, 413, 386, 260]),
+    (150018, 15014, NULL, NULL, NULL, NULL, 4, ARRAY[198, 413, 386, 260]),
     -- Kahili: Toucannon Lv. 55: Bullet Seed, Rock Blast, Beak Blast, Screech
-    (150017, 15014, NULL, NULL, NULL, NULL, 5, ARRAY[331, 350, 690, 103]),
+    (150018, 15014, NULL, NULL, NULL, NULL, 5, ARRAY[331, 350, 690, 103]),
     -- Professor Kukui: Lycanroc Lv. 57: Stone Edge, Accelerock, Crunch, Stealth Rock
     (150018, 15015, NULL, 150001, 'rowlet', NULL, 1, ARRAY[444, 709, 242, 446]),
     -- Professor Kukui: Alolan Ninetales Lv. 56: Dazzling Gleam, Blizzard, Ice Shard, Safeguard
@@ -279,9 +279,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Guzma: Ariados Lv. 30: Fell Stinger, Sucker Punch, Shadow Sneak, Infestation
     (150009, 15019, NULL, NULL, NULL, NULL, 2, ARRAY[565, 389, 425, 611]),
     -- Guzma: Golisopod Lv. 37: Swords Dance, Razor Shell, First Impression
-    (150011, 15019, NULL, NULL, NULL, NULL, 1, ARRAY[14, 534, 660]),
+    (150029, 15019, NULL, NULL, NULL, NULL, 1, ARRAY[14, 534, 660]),
     -- Guzma: Ariados Lv. 36: Fell Stinger, Sucker Punch, Shadow Sneak, Infestation
-    (150011, 15019, NULL, NULL, NULL, NULL, 2, ARRAY[565, 389, 425, 611]),
+    (150029, 15019, NULL, NULL, NULL, NULL, 2, ARRAY[565, 389, 425, 611]),
     -- Gladion: Golbat Lv. 37: Acrobatics, Poison Fang
     (150011, 15017, NULL, NULL, NULL, NULL, 1, ARRAY[512, 305]),
     -- Gladion: Sneasel Lv. 37: Icy Wind, Metal Claw, Feint Attack, Quick Attack
@@ -327,61 +327,61 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Lusamine: Bewear Lv. 50: Baby-Doll Eyes, Hammer Arm, Take Down, Pain Split
     (150022, 15020, NULL, NULL, NULL, NULL, 5, ARRAY[608, 359, 36, 220]),
     -- Gladion: Crobat Lv. 52: Acrobatics, Cross Poison
-    (150014, 15017, NULL, 150001, 'rowlet', NULL, 1, ARRAY[512, 440]),
+    (150018, 15017, NULL, 150001, 'rowlet', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Weavile Lv. 52: Ice Shard, Night Slash, Metal Claw
-    (150014, 15017, NULL, 150001, 'rowlet', NULL, 2, ARRAY[420, 400, 232]),
+    (150018, 15017, NULL, 150001, 'rowlet', NULL, 2, ARRAY[420, 400, 232]),
     -- Gladion: Lucario Lv. 52: Aura Sphere, Metal Claw, Quick Attack
-    (150014, 15017, NULL, 150001, 'rowlet', NULL, 3, ARRAY[396, 232, 98]),
+    (150018, 15017, NULL, 150001, 'rowlet', NULL, 3, ARRAY[396, 232, 98]),
     -- Gladion: Silvally (Fire) Lv. 53: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (150014, 15017, NULL, 150001, 'rowlet', NULL, 4, ARRAY[242, 306, 404, 718]),
+    (150018, 15017, NULL, 150001, 'rowlet', NULL, 4, ARRAY[242, 306, 404, 718]),
     -- Gladion: Crobat Lv. 52: Acrobatics, Cross Poison
-    (150014, 15017, NULL, 150001, 'litten', NULL, 1, ARRAY[512, 440]),
+    (150018, 15017, NULL, 150001, 'litten', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Weavile Lv. 52: Ice Shard, Night Slash, Metal Claw
-    (150014, 15017, NULL, 150001, 'litten', NULL, 2, ARRAY[420, 400, 232]),
+    (150018, 15017, NULL, 150001, 'litten', NULL, 2, ARRAY[420, 400, 232]),
     -- Gladion: Lucario Lv. 52: Aura Sphere, Metal Claw, Quick Attack
-    (150014, 15017, NULL, 150001, 'litten', NULL, 3, ARRAY[396, 232, 98]),
+    (150018, 15017, NULL, 150001, 'litten', NULL, 3, ARRAY[396, 232, 98]),
     -- Gladion: Silvally (Water) Lv. 53: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (150014, 15017, NULL, 150001, 'litten', NULL, 4, ARRAY[242, 306, 404, 718]),
+    (150018, 15017, NULL, 150001, 'litten', NULL, 4, ARRAY[242, 306, 404, 718]),
     -- Gladion: Crobat Lv. 52: Acrobatics, Cross Poison
-    (150014, 15017, NULL, 150001, 'popplio', NULL, 1, ARRAY[512, 440]),
+    (150018, 15017, NULL, 150001, 'popplio', NULL, 1, ARRAY[512, 440]),
     -- Gladion: Weavile Lv. 52: Ice Shard, Night Slash, Metal Claw
-    (150014, 15017, NULL, 150001, 'popplio', NULL, 2, ARRAY[420, 400, 232]),
+    (150018, 15017, NULL, 150001, 'popplio', NULL, 2, ARRAY[420, 400, 232]),
     -- Gladion: Lucario Lv. 52: Aura Sphere, Metal Claw, Quick Attack
-    (150014, 15017, NULL, 150001, 'popplio', NULL, 3, ARRAY[396, 232, 98]),
+    (150018, 15017, NULL, 150001, 'popplio', NULL, 3, ARRAY[396, 232, 98]),
     -- Gladion: Silvally (Grass) Lv. 53: Crunch, Crush Claw, X-Scissor, Multi-Attack
-    (150014, 15017, NULL, 150001, 'popplio', NULL, 4, ARRAY[242, 306, 404, 718]),
+    (150018, 15017, NULL, 150001, 'popplio', NULL, 4, ARRAY[242, 306, 404, 718]),
     -- Hau: Alolan Raichu Lv. 53: Thunderbolt, Quick Attack, Psychic, Focus Blast
-    (150014, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[85, 98, 94, 411]),
+    (150018, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[85, 98, 94, 411]),
     -- Hau: Flareon Lv. 53: Flare Blitz, Quick Attack, Charm, Baby-Doll Eyes
-    (150014, 15016, NULL, 150001, 'rowlet', NULL, 2, ARRAY[394, 98, 204, 608]),
+    (150018, 15016, NULL, 150001, 'rowlet', NULL, 2, ARRAY[394, 98, 204, 608]),
     -- Hau: Komala Lv. 53: Wood Hammer, Sucker Punch, Earthquake, Shadow Claw
-    (150014, 15016, NULL, 150001, 'rowlet', NULL, 3, ARRAY[452, 389, 89, 421]),
+    (150018, 15016, NULL, 150001, 'rowlet', NULL, 3, ARRAY[452, 389, 89, 421]),
     -- Hau: Primarina Lv. 54: Sparkling Aria, Moonblast, Hyper Voice
-    (150014, 15016, NULL, 150001, 'rowlet', NULL, 4, ARRAY[664, 585, 304]),
+    (150018, 15016, NULL, 150001, 'rowlet', NULL, 4, ARRAY[664, 585, 304]),
     -- Hau: Alolan Raichu Lv. 53: Thunderbolt, Quick Attack, Psychic, Focus Blast
-    (150014, 15016, NULL, 150001, 'litten', NULL, 1, ARRAY[85, 98, 94, 411]),
+    (150018, 15016, NULL, 150001, 'litten', NULL, 1, ARRAY[85, 98, 94, 411]),
     -- Hau: Vaporeon Lv. 53: Hydro Pump, Quick Attack, Charm, Baby-Doll Eyes
-    (150014, 15016, NULL, 150001, 'litten', NULL, 2, ARRAY[56, 98, 204, 608]),
+    (150018, 15016, NULL, 150001, 'litten', NULL, 2, ARRAY[56, 98, 204, 608]),
     -- Hau: Komala Lv. 53: Wood Hammer, Sucker Punch, Earthquake, Shadow Claw
-    (150014, 15016, NULL, 150001, 'litten', NULL, 3, ARRAY[452, 389, 89, 421]),
+    (150018, 15016, NULL, 150001, 'litten', NULL, 3, ARRAY[452, 389, 89, 421]),
     -- Hau: Decidueye Lv. 54: Spirit Shackle, Leaf Blade, Smack Down
-    (150014, 15016, NULL, 150001, 'litten', NULL, 4, ARRAY[662, 348, 479]),
+    (150018, 15016, NULL, 150001, 'litten', NULL, 4, ARRAY[662, 348, 479]),
     -- Hau: Alolan Raichu Lv. 53: Thunderbolt, Quick Attack, Psychic, Focus Blast
-    (150014, 15016, NULL, 150001, 'popplio', NULL, 1, ARRAY[85, 98, 94, 411]),
+    (150018, 15016, NULL, 150001, 'popplio', NULL, 1, ARRAY[85, 98, 94, 411]),
     -- Hau: Leafeon Lv. 53: Leaf Blade, Quick Attack, Charm, Baby-Doll Eyes
-    (150014, 15016, NULL, 150001, 'popplio', NULL, 2, ARRAY[348, 98, 204, 608]),
+    (150018, 15016, NULL, 150001, 'popplio', NULL, 2, ARRAY[348, 98, 204, 608]),
     -- Hau: Komala Lv. 53: Wood Hammer, Sucker Punch, Earthquake, Shadow Claw
-    (150014, 15016, NULL, 150001, 'popplio', NULL, 3, ARRAY[452, 389, 89, 421]),
+    (150018, 15016, NULL, 150001, 'popplio', NULL, 3, ARRAY[452, 389, 89, 421]),
     -- Hau: Incineroar Lv. 54: Darkest Lariat, Flare Blitz, Earthquake
-    (150014, 15016, NULL, 150001, 'popplio', NULL, 4, ARRAY[663, 394, 89]),
+    (150018, 15016, NULL, 150001, 'popplio', NULL, 4, ARRAY[663, 394, 89]),
     -- Nihilego: Nihilego Lv. 27: Clear Smog, Psywave, Headbutt, Venoshock
-    (150009, 15021, NULL, NULL, NULL, NULL, 1, ARRAY[499, 149, 29, 474]),
+    (150028, 15021, NULL, NULL, NULL, NULL, 1, ARRAY[499, 149, 29, 474]),
     -- Solgaleo: Solgaleo Lv. 55: Sunsteel Strike, Cosmic Power, Crunch, Zen Headbutt
     (150022, 15022, NULL, NULL, NULL, NULL, 1, ARRAY[713, 322, 242, 428]),
     -- Lunala: Lunala Lv. 55: Moongeist Beam, Cosmic Power, Night Daze, Shadow Ball
     (150022, 15023, NULL, NULL, NULL, NULL, 1, ARRAY[714, 322, 539, 247]),
     -- Tapu Koko: Tapu Koko Lv. 60: Nature's Madness, Discharge, Agility, Electro Ball
-    (150019, 15024, NULL, NULL, NULL, NULL, 1, ARRAY[717, 435, 97, 486]),
+    (150018, 15024, NULL, NULL, NULL, NULL, 1, ARRAY[717, 435, 97, 486]),
     -- Nihilego: Nihilego Lv. 55: Power Gem, Mirror Coat, Acid Spray, Venom Drench
     (150020, 15021, NULL, NULL, NULL, NULL, 1, ARRAY[408, 243, 491, 599]),
     -- Buzzwole: Buzzwole Lv. 65: Counter, Hammer Arm, Lunge, Dynamic Punch

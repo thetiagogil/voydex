@@ -576,6 +576,20 @@ sources remain authoritative for game-specific mechanics and availability.
   Pokémon, each Mirage spot at its own place and the two sky encounters at
   Soaring in the sky. New Mauville and the Safari Zone's old rules are gone
   from the notes. Omega Ruby / Alpha Sapphire has no collectible set.
+- Sun / Moon in the pattern (`740_sm_story.sql`; from Bulbapedia's
+  walkthrough): the island challenge is the Main Story, so the Island
+  Challenge chapter is gone along with the League chapter. Each trial is at
+  its site with its Totem Pokémon and the battles on the way (Ilima in
+  Hau'oli City, Hau, Gladion, the Battle Royal with one Pokémon, Plumeria,
+  Guzma, Molayne). The forced beats between trials are milestones: the Iki
+  Town festival, the first visit to Aether Paradise (Nihilego), Po Town
+  (Plumeria on Route 15, Guzma in the Shady House), the raid on Aether
+  Paradise and Ultra Space. Gladion's battle at the Aether House leads to
+  Nanu's grand trial. The Pokémon League is one milestone:
+  Gladion and Hau on Mount Lanakila, the Elite Four, Professor Kukui and Tapu
+  Koko after the Hall of Fame. Post Game is the Ultra Beast missions. Side
+  Content is the three guardians left and Necrozma. The Zygarde Cells and
+  Cores set is unchanged.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

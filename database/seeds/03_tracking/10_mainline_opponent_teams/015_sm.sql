@@ -108,9 +108,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Totem Mimikyu 3: Gengar Lv. 27
   (150010, 15042, 15, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 27, NULL, NULL, FALSE),
   -- Plumeria (Route 15) 1: Golbat Lv. 34
-  (150011, 15044, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 34, NULL, NULL, FALSE),
+  (150029, 15044, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 34, NULL, NULL, FALSE),
   -- Plumeria (Route 15) 2: Salazzle Lv. 35
-  (150011, 15044, 15, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 35, NULL, NULL, FALSE),
+  (150029, 15044, 15, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 35, NULL, NULL, FALSE),
   -- Nanu 1: Sableye Lv. 38
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 1, 302, 30200, 38, NULL, NULL, FALSE),
   -- Nanu 2: Krokorok Lv. 38
@@ -132,45 +132,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hapu 4: Mudsdale Lv. 48, holds Groundium Z
   (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 4, 750, 75000, 48, 30, NULL, FALSE),
   -- Hala 1: Hariyama Lv. 54
-  (150014, 15011, 15, NULL, NULL, NULL, NULL, NULL, 1, 297, 29700, 54, NULL, NULL, FALSE),
+  (150018, 15011, 15, NULL, NULL, NULL, NULL, NULL, 1, 297, 29700, 54, NULL, NULL, FALSE),
   -- Hala 2: Primeape Lv. 54
-  (150014, 15011, 15, NULL, NULL, NULL, NULL, NULL, 2, 57, 5700, 54, NULL, NULL, FALSE),
+  (150018, 15011, 15, NULL, NULL, NULL, NULL, NULL, 2, 57, 5700, 54, NULL, NULL, FALSE),
   -- Hala 3: Bewear Lv. 54
-  (150014, 15011, 15, NULL, NULL, NULL, NULL, NULL, 3, 760, 76000, 54, NULL, NULL, FALSE),
+  (150018, 15011, 15, NULL, NULL, NULL, NULL, NULL, 3, 760, 76000, 54, NULL, NULL, FALSE),
   -- Hala 4: Poliwrath Lv. 54
-  (150014, 15011, 15, NULL, NULL, NULL, NULL, NULL, 4, 62, 6200, 54, NULL, NULL, FALSE),
+  (150018, 15011, 15, NULL, NULL, NULL, NULL, NULL, 4, 62, 6200, 54, NULL, NULL, FALSE),
   -- Hala 5: Crabominable Lv. 55, holds Fightinium Z
-  (150014, 15011, 15, NULL, NULL, NULL, NULL, NULL, 5, 740, 74000, 55, 28, NULL, FALSE),
+  (150018, 15011, 15, NULL, NULL, NULL, NULL, NULL, 5, 740, 74000, 55, 28, NULL, FALSE),
   -- Olivia 1: Relicanth Lv. 54
-  (150015, 15012, 15, NULL, NULL, NULL, NULL, NULL, 1, 369, 36900, 54, NULL, NULL, FALSE),
+  (150018, 15012, 15, NULL, NULL, NULL, NULL, NULL, 1, 369, 36900, 54, NULL, NULL, FALSE),
   -- Olivia 2: Carbink Lv. 54
-  (150015, 15012, 15, NULL, NULL, NULL, NULL, NULL, 2, 703, 70300, 54, NULL, NULL, FALSE),
+  (150018, 15012, 15, NULL, NULL, NULL, NULL, NULL, 2, 703, 70300, 54, NULL, NULL, FALSE),
   -- Olivia 3: Alolan Golem Lv. 54
-  (150015, 15012, 15, NULL, NULL, NULL, NULL, NULL, 3, 76, 7601, 54, NULL, NULL, FALSE),
+  (150018, 15012, 15, NULL, NULL, NULL, NULL, NULL, 3, 76, 7601, 54, NULL, NULL, FALSE),
   -- Olivia 4: Probopass Lv. 54
-  (150015, 15012, 15, NULL, NULL, NULL, NULL, NULL, 4, 476, 47600, 54, NULL, NULL, FALSE),
+  (150018, 15012, 15, NULL, NULL, NULL, NULL, NULL, 4, 476, 47600, 54, NULL, NULL, FALSE),
   -- Olivia 5: Lycanroc (Midnight) Lv. 55, holds Rockium Z
-  (150015, 15012, 15, NULL, NULL, NULL, NULL, NULL, 5, 745, 74501, 55, 34, NULL, FALSE),
+  (150018, 15012, 15, NULL, NULL, NULL, NULL, NULL, 5, 745, 74501, 55, 34, NULL, FALSE),
   -- Acerola 1: Sableye Lv. 54
-  (150016, 15013, 15, NULL, NULL, NULL, NULL, NULL, 1, 302, 30200, 54, NULL, NULL, FALSE),
+  (150018, 15013, 15, NULL, NULL, NULL, NULL, NULL, 1, 302, 30200, 54, NULL, NULL, FALSE),
   -- Acerola 2: Drifblim Lv. 54
-  (150016, 15013, 15, NULL, NULL, NULL, NULL, NULL, 2, 426, 42600, 54, NULL, NULL, FALSE),
+  (150018, 15013, 15, NULL, NULL, NULL, NULL, NULL, 2, 426, 42600, 54, NULL, NULL, FALSE),
   -- Acerola 3: Dhelmise Lv. 54
-  (150016, 15013, 15, NULL, NULL, NULL, NULL, NULL, 3, 781, 78100, 54, NULL, NULL, FALSE),
+  (150018, 15013, 15, NULL, NULL, NULL, NULL, NULL, 3, 781, 78100, 54, NULL, NULL, FALSE),
   -- Acerola 4: Froslass Lv. 54
-  (150016, 15013, 15, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 54, NULL, NULL, FALSE),
+  (150018, 15013, 15, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 54, NULL, NULL, FALSE),
   -- Acerola 5: Palossand Lv. 55, holds Ghostium Z
-  (150016, 15013, 15, NULL, NULL, NULL, NULL, NULL, 5, 770, 77000, 55, 35, NULL, FALSE),
+  (150018, 15013, 15, NULL, NULL, NULL, NULL, NULL, 5, 770, 77000, 55, 35, NULL, FALSE),
   -- Kahili 1: Skarmory Lv. 54
-  (150017, 15014, 15, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 54, NULL, NULL, FALSE),
+  (150018, 15014, 15, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 54, NULL, NULL, FALSE),
   -- Kahili 2: Crobat Lv. 54
-  (150017, 15014, 15, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 54, NULL, NULL, FALSE),
+  (150018, 15014, 15, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 54, NULL, NULL, FALSE),
   -- Kahili 3: Oricorio Lv. 54
-  (150017, 15014, 15, NULL, NULL, NULL, NULL, NULL, 3, 741, 74100, 54, NULL, NULL, FALSE),
+  (150018, 15014, 15, NULL, NULL, NULL, NULL, NULL, 3, 741, 74100, 54, NULL, NULL, FALSE),
   -- Kahili 4: Mandibuzz Lv. 54
-  (150017, 15014, 15, NULL, NULL, NULL, NULL, NULL, 4, 630, 63000, 54, NULL, NULL, FALSE),
+  (150018, 15014, 15, NULL, NULL, NULL, NULL, NULL, 4, 630, 63000, 54, NULL, NULL, FALSE),
   -- Kahili 5: Toucannon Lv. 55, holds Flyinium Z
-  (150017, 15014, 15, NULL, NULL, NULL, NULL, NULL, 5, 733, 73300, 55, 31, NULL, FALSE),
+  (150018, 15014, 15, NULL, NULL, NULL, NULL, NULL, 5, 733, 73300, 55, 31, NULL, FALSE),
   -- Professor Kukui (chose Rowlet) 1: Lycanroc Lv. 57
   (150018, 15015, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 745, 74500, 57, NULL, NULL, FALSE),
   -- Professor Kukui (chose Rowlet) 2: Alolan Ninetales Lv. 56
@@ -294,9 +294,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Guzma, Sophocles Trial 2: Ariados Lv. 30
   (150009, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 30, NULL, NULL, FALSE),
   -- Guzma, Grand Trial Nanu 1: Golisopod Lv. 37
-  (150011, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 37, NULL, NULL, FALSE),
+  (150029, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 37, NULL, NULL, FALSE),
   -- Guzma, Grand Trial Nanu 2: Ariados Lv. 36
-  (150011, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 36, NULL, NULL, FALSE),
+  (150029, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 36, NULL, NULL, FALSE),
   -- Gladion, Grand Trial Nanu 1: Golbat Lv. 37
   (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL, NULL, FALSE),
   -- Gladion, Grand Trial Nanu 2: Sneasel Lv. 37
@@ -342,61 +342,61 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Lusamine, Ultra Space 5: Bewear Lv. 50
   (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 5, 760, 76000, 50, NULL, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Hala 1: Crobat Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Hala 2: Weavile Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Hala 3: Lucario Lv. 52, holds Steelium Z
-  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Hala 4: Silvally (Fire) Lv. 53, holds Fire Memory
-  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 773, 77309, 53, 40, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 773, 77309, 53, 40, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Hala 1: Crobat Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Hala 2: Weavile Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Hala 3: Lucario Lv. 52, holds Steelium Z
-  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Hala 4: Silvally (Water) Lv. 53, holds Water Memory
-  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 4, 773, 77310, 53, 41, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 4, 773, 77310, 53, 41, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Hala 1: Crobat Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 169, 16900, 52, NULL, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Hala 2: Weavile Lv. 52
-  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 461, 46100, 52, NULL, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Hala 3: Lucario Lv. 52, holds Steelium Z
-  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 448, 44800, 52, 38, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Hala 4: Silvally (Grass) Lv. 53, holds Grass Memory
-  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 773, 77311, 53, 43, NULL, FALSE),
+  (150018, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 773, 77311, 53, 43, NULL, FALSE),
   -- Hau (chose Rowlet), Elite Four Hala 1: Alolan Raichu Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Elite Four Hala 2: Flareon Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 136, 13600, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 136, 13600, 53, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Elite Four Hala 3: Komala Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Elite Four Hala 4: Primarina Lv. 54, holds Waterium Z
-  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 730, 73000, 54, 24, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 730, 73000, 54, 24, NULL, FALSE),
   -- Hau (chose Litten), Elite Four Hala 1: Alolan Raichu Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
   -- Hau (chose Litten), Elite Four Hala 2: Vaporeon Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 134, 13400, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 134, 13400, 53, NULL, NULL, FALSE),
   -- Hau (chose Litten), Elite Four Hala 3: Komala Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
   -- Hau (chose Litten), Elite Four Hala 4: Decidueye Lv. 54, holds Grassium Z
-  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 4, 724, 72400, 54, 26, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 4, 724, 72400, 54, 26, NULL, FALSE),
   -- Hau (chose Popplio), Elite Four Hala 1: Alolan Raichu Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 26, 2601, 53, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Elite Four Hala 2: Leafeon Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 470, 47000, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 470, 47000, 53, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Elite Four Hala 3: Komala Lv. 53
-  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 775, 77500, 53, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Elite Four Hala 4: Incineroar Lv. 54, holds Firium Z
-  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 727, 72700, 54, 23, NULL, FALSE),
+  (150018, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 727, 72700, 54, 23, NULL, FALSE),
   -- Nihilego, Sophocles Trial 1: Nihilego Lv. 27
-  (150009, 15021, 15, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27, NULL, NULL, FALSE),
+  (150028, 15021, 15, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27, NULL, NULL, FALSE),
   -- Solgaleo, Ultra Space 1: Solgaleo Lv. 55
   (150022, 15022, 15, NULL, NULL, NULL, NULL, NULL, 1, 791, 79100, 55, NULL, NULL, FALSE),
   -- Lunala, Ultra Space 1: Lunala Lv. 55
   (150022, 15023, 15, NULL, NULL, NULL, NULL, NULL, 1, 792, 79200, 55, NULL, NULL, FALSE),
   -- Tapu Koko, Hall of Fame 1: Tapu Koko Lv. 60
-  (150019, 15024, 15, NULL, NULL, NULL, NULL, NULL, 1, 785, 78500, 60, NULL, NULL, FALSE),
+  (150018, 15024, 15, NULL, NULL, NULL, NULL, NULL, 1, 785, 78500, 60, NULL, NULL, FALSE),
   -- Nihilego, Ultra Beast Missions 1: Nihilego Lv. 55
   (150020, 15021, 15, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 55, NULL, NULL, FALSE),
   -- Buzzwole, Ultra Beast Missions 1: Buzzwole Lv. 65

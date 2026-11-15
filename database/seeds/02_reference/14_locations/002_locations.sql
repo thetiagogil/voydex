@@ -30,8 +30,9 @@
 -- League for Black / White, two more Gyms, two towns, the Pokémon World
 -- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2,
 -- Kalos's Gyms, two towns, Team Flare's places, the Pokémon League, Kiloude
--- City and the Unknown Dungeon for X / Y, and Island Cave and six Mirage
--- spots for Omega Ruby / Alpha Sapphire).
+-- City and the Unknown Dungeon for X / Y, Island Cave and six Mirage spots
+-- for Omega Ruby / Alpha Sapphire, and Heahea City, Hokulani Observatory, Po
+-- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1870,4 +1871,22 @@ VALUES
   -- Fabled Cave: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Reshiram or Zekrom)
   (921, 3, 'hoenn-fabled-cave', 'Fabled Cave'),
   -- Gnarled Den: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Kyurem)
-  (922, 3, 'hoenn-gnarled-den', 'Gnarled Den');
+  (922, 3, 'hoenn-gnarled-den', 'Gnarled Den'),
+  -- Heahea City: a Story place with no wild Pokémon (Sun / Moon's port on Akala Island)
+  (923, 7, 'alola-heahea-city', 'Heahea City'),
+  -- Hokulani Observatory: a Story place with no wild Pokémon (Sun / Moon's trial there)
+  (924, 7, 'alola-hokulani-observatory', 'Hokulani Observatory'),
+  -- Po Town: a Story place with no wild Pokémon (Sun / Moon's Po Town beat)
+  (925, 7, 'alola-po-town', 'Po Town'),
+  -- Ultra Space: a Story place with no wild Pokémon (Sun / Moon's Ultra Space beat)
+  (926, 7, 'alola-ultra-space', 'Ultra Space'),
+  -- Ruins of Conflict: a Story place with no wild Pokémon (Sun / Moon's Tapu Koko)
+  (927, 7, 'alola-ruins-of-conflict', 'Ruins of Conflict'),
+  -- Ruins of Life: a Story place with no wild Pokémon (Sun / Moon's grand trial and Tapu Lele)
+  (928, 7, 'alola-ruins-of-life', 'Ruins of Life'),
+  -- Ruins of Abundance: a Story place with no wild Pokémon (Sun / Moon's Tapu Bulu)
+  (929, 7, 'alola-ruins-of-abundance', 'Ruins of Abundance'),
+  -- Ruins of Hope: a Story place with no wild Pokémon (Sun / Moon's Tapu Fini)
+  (930, 7, 'alola-ruins-of-hope', 'Ruins of Hope'),
+  -- Pokémon League: a Story place with no wild Pokémon (Sun / Moon's Pokémon League)
+  (931, 7, 'alola-pokemon-league', 'Pokémon League');

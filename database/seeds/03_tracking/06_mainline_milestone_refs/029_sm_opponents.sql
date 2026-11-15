@@ -8,8 +8,14 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Links Sun / Moon battle milestones to their primary opponents, totems and the
--- story trainers fought on the way to them (Plumeria, Molayne, Faba).
+-- Links Sun / Moon battle milestones to their primary opponents, in Red /
+-- Blue's pattern. The Pokémon League holds its eight battles in the order
+-- they are fought: Gladion and Hau on Mount Lanakila, the Elite Four,
+-- Professor Kukui, then Tapu Koko after the Hall of Fame. A trial lists its
+-- Totem Pokémon and the battles on the way to it.
+-- location_id is set only where the battle is fought away from its milestone's
+-- place. NULL means the battle is at the milestone's place. The Battle Royal
+-- is fought with one Pokémon.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -18,114 +24,115 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   version_group_id,
   relation_kind,
   sort_order,
-  notes
+  notes,
+  location_id
 ) VALUES
-  -- Ilima Trial -> Ilima
-  (150003, 15001, 15, 'battle-opponent', 1, 'Hau''oli City, before the trial'),
-  -- Ilima Trial -> Totem Gumshoos
-  (150003, 15036, 15, 'battle-opponent', 2, 'Verdant Cavern, Totem''s Den (Sun)'),
-  -- Ilima Trial -> Totem Raticate
-  (150003, 15037, 15, 'battle-opponent', 3, 'Verdant Cavern, Totem''s Den (Moon)'),
-  -- Grand Trial Hala -> Hala
-  (150004, 15002, 15, 'battle-opponent', 2, NULL),
-  -- Lana Trial -> Totem Wishiwashi
-  (150005, 15038, 15, 'battle-opponent', 3, 'Brooklet Hill'),
-  -- Kiawe Trial -> Totem Salazzle
-  (150006, 15039, 15, 'battle-opponent', 2, 'Wela Volcano Park'),
-  -- Mallow Trial -> Totem Lurantis
-  (150007, 15040, 15, 'battle-opponent', 1, 'Lush Jungle'),
-  -- Grand Trial Olivia -> Plumeria
-  (150008, 15044, 15, 'battle-opponent', 1, 'Akala Outskirts'),
-  -- Grand Trial Olivia -> Olivia
-  (150008, 15006, 15, 'battle-opponent', 2, NULL),
-  -- Sophocles Trial -> Molayne
-  (150009, 15045, 15, 'battle-opponent', 4, 'Mount Hokulani'),
-  -- Sophocles Trial -> Totem Vikavolt
-  (150009, 15041, 15, 'battle-opponent', 5, 'Hokulani Observatory'),
-  -- Acerola Trial -> Totem Mimikyu
-  (150010, 15042, 15, 'battle-opponent', 1, 'Thrifty Megamart (Abandoned Site)'),
-  -- Grand Trial Nanu -> Nanu
-  (150011, 15009, 15, 'battle-opponent', 4, NULL),
-  -- Vast Poni Canyon Trial -> Totem Kommo-o
-  (150012, 15035, 15, 'battle-opponent', 1, NULL),
-  -- Grand Trial Hapu -> Hapu
-  (150013, 15010, 15, 'battle-opponent', 1, NULL),
-  -- Elite Four Hala -> Hala
-  (150014, 15011, 15, 'battle-opponent', 3, NULL),
-  -- Elite Four Olivia -> Olivia
-  (150015, 15012, 15, 'battle-opponent', 1, NULL),
-  -- Elite Four Acerola -> Acerola
-  (150016, 15013, 15, 'battle-opponent', 1, NULL),
-  -- Elite Four Kahili -> Kahili
-  (150017, 15014, 15, 'battle-opponent', 1, NULL),
-  -- Professor Kukui -> Professor Kukui
-  (150018, 15015, 15, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Hau
-  (150001, 15016, 15, 'battle-opponent', 1, 'Iki Town'),
+  (150001, 15016, 15, 'battle-opponent', 1, 'Right after you pick.', NULL),
   -- Iki Town Festival -> Hau
-  (150027, 15016, 15, 'battle-opponent', 1, 'Iki Town (festival)'),
-  -- Grand Trial Hala -> Hau
-  (150004, 15016, 15, 'battle-opponent', 1, 'Route 3'),
-  -- Lana Trial -> Hau
-  (150005, 15016, 15, 'battle-opponent', 1, 'Paniola Town'),
-  -- Lana Trial -> Gladion
-  (150005, 15017, 15, 'battle-opponent', 2, 'Route 5'),
-  -- Sophocles Trial -> Hau
-  (150009, 15016, 15, 'battle-opponent', 2, 'Malie City'),
-  -- Sophocles Trial -> Guzma
-  (150009, 15019, 15, 'battle-opponent', 3, 'Malie Garden'),
-  -- Grand Trial Nanu -> Plumeria
-  (150011, 15044, 15, 'battle-opponent', 1, 'Route 15'),
-  -- Grand Trial Nanu -> Guzma
-  (150011, 15019, 15, 'battle-opponent', 2, 'Shady House, Po Town'),
-  -- Grand Trial Nanu -> Gladion
-  (150011, 15017, 15, 'battle-opponent', 3, 'Aether House, Route 15'),
-  -- Aether Paradise -> Faba (entrance)
-  (150021, 15043, 15, 'battle-opponent', 1, 'Aether Paradise, entrance'),
-  -- Aether Paradise -> Faba (labs)
-  (150021, 15046, 15, 'battle-opponent', 2, 'Aether Paradise, Secret Lab B'),
+  (150027, 15016, 15, 'battle-opponent', 1, 'On the festival stage.', NULL),
+  -- Ilima Trial -> Ilima (Hau'oli City)
+  (150003, 15001, 15, 'battle-opponent', 1, 'At the marina, to see if you are ready for his trial.', 516),
+  -- Ilima Trial -> Totem Gumshoos (Sun)
+  (150003, 15036, 15, 'battle-opponent', 2, 'Totem''s Den (Sun)', NULL),
+  -- Ilima Trial -> Totem Raticate (Moon)
+  (150003, 15037, 15, 'battle-opponent', 3, 'Totem''s Den (Moon)', NULL),
+  -- Grand Trial Hala -> Hau (Route 3)
+  (150004, 15016, 15, 'battle-opponent', 1, 'Once you have found Nebby in Melemele Meadow.', 553),
+  -- Grand Trial Hala -> Hala
+  (150004, 15002, 15, 'battle-opponent', 2, NULL, NULL),
+  -- Lana Trial -> Hau (Paniola Town)
+  (150005, 15016, 15, 'battle-opponent', 1, 'On your way through town.', 533),
+  -- Lana Trial -> Gladion (Route 5)
+  (150005, 15017, 15, 'battle-opponent', 2, 'Gladion, Team Skull''s enforcer, stops you.', 555),
+  -- Lana Trial -> Totem Wishiwashi
+  (150005, 15038, 15, 'battle-opponent', 3, 'At the bottom of the hill', NULL),
+  -- Kiawe Trial -> Totem Salazzle
+  (150006, 15039, 15, 'battle-opponent', 2, 'At the top of the park', NULL),
+  -- Mallow Trial -> Totem Lurantis
+  (150007, 15040, 15, 'battle-opponent', 1, NULL, NULL),
+  -- Grand Trial Olivia -> Plumeria (Akala Outskirts)
+  (150008, 15044, 15, 'battle-opponent', 1, 'Plumeria, Team Skull''s big sister, steps in.', 506),
+  -- Grand Trial Olivia -> Olivia
+  (150008, 15006, 15, 'battle-opponent', 2, NULL, NULL),
+  -- Aether Paradise Visit -> Nihilego
+  (150028, 15021, 15, 'battle-opponent', 1, 'You can''t catch it.', NULL),
+  -- Sophocles Trial -> Hau (Malie City)
+  (150009, 15016, 15, 'battle-opponent', 1, 'When you land on Ula''ula Island.', 525),
+  -- Sophocles Trial -> Guzma (Malie Garden)
+  (150009, 15019, 15, 'battle-opponent', 2, 'Guzma, the boss of Team Skull, turns on you.', 526),
+  -- Sophocles Trial -> Molayne (Mount Hokulani)
+  (150009, 15045, 15, 'battle-opponent', 3, 'Before he takes you in to Sophocles.', 530),
+  -- Sophocles Trial -> Totem Vikavolt
+  (150009, 15041, 15, 'battle-opponent', 4, NULL, NULL),
+  -- Acerola Trial -> Totem Mimikyu
+  (150010, 15042, 15, 'battle-opponent', 1, NULL, NULL),
+  -- Po Town -> Plumeria (Route 15)
+  (150029, 15044, 15, 'battle-opponent', 1, 'When Team Skull takes the Yungoos.', 549),
+  -- Po Town -> Guzma
+  (150029, 15019, 15, 'battle-opponent', 2, 'In the Shady House', NULL),
+  -- Grand Trial Nanu -> Gladion (Aether House)
+  (150011, 15017, 15, 'battle-opponent', 1, 'He blames you for losing Lillie.', 504),
+  -- Grand Trial Nanu -> Nanu
+  (150011, 15009, 15, 'battle-opponent', 2, NULL, NULL),
+  -- Aether Paradise -> Faba
+  (150021, 15043, 15, 'battle-opponent', 1, 'At the entrance', NULL),
+  -- Aether Paradise -> Faba (Secret Lab)
+  (150021, 15046, 15, 'battle-opponent', 2, 'In Secret Lab B', NULL),
   -- Aether Paradise -> Guzma
-  (150021, 15019, 15, 'battle-opponent', 3, 'Aether Paradise'),
+  (150021, 15019, 15, 'battle-opponent', 3, 'In front of Lusamine''s house', NULL),
   -- Aether Paradise -> Lusamine
-  (150021, 15020, 15, 'battle-opponent', 4, 'Aether Paradise'),
+  (150021, 15020, 15, 'battle-opponent', 4, 'In her house', NULL),
+  -- Vast Poni Canyon Trial -> Totem Kommo-o
+  (150012, 15035, 15, 'battle-opponent', 1, NULL, NULL),
   -- Ultra Space -> Lusamine
-  (150022, 15020, 15, 'battle-opponent', 1, 'Ultra Space'),
-  -- Elite Four Hala -> Gladion
-  (150014, 15017, 15, 'battle-opponent', 1, 'Mount Lanakila (base)'),
-  -- Elite Four Hala -> Hau
-  (150014, 15016, 15, 'battle-opponent', 2, 'Mount Lanakila (peak)'),
-  -- Sophocles Trial -> Nihilego
-  (150009, 15021, 15, 'battle-opponent', 1, 'Aether Paradise (first visit)'),
-  -- Ultra Space -> Solgaleo
-  (150022, 15022, 15, 'battle-opponent', 2, 'Altar of the Sunne (Poni Island)'),
-  -- Ultra Space -> Lunala
-  (150022, 15023, 15, 'battle-opponent', 3, 'Altar of the Moone (Poni Island)'),
-  -- Hall of Fame -> Tapu Koko
-  (150019, 15024, 15, 'battle-opponent', 1, 'Ruins of Conflict (Melemele Island)'),
+  (150022, 15020, 15, 'battle-opponent', 1, 'In Ultra Space, merged with a Nihilego', NULL),
+  -- Ultra Space -> Solgaleo (Sun)
+  (150022, 15022, 15, 'battle-opponent', 2, 'At the Altar of the Sunne (Sun). You have to catch it.', NULL),
+  -- Ultra Space -> Lunala (Moon)
+  (150022, 15023, 15, 'battle-opponent', 3, 'At the Altar of the Moone (Moon). You have to catch it.', NULL),
+  -- Grand Trial Hapu -> Hapu
+  (150013, 15010, 15, 'battle-opponent', 1, NULL, NULL),
+  -- Pokémon League -> Gladion (Mount Lanakila)
+  (150018, 15017, 15, 'battle-opponent', 1, 'At the foot of the mountain.', 531),
+  -- Pokémon League -> Hau (Mount Lanakila)
+  (150018, 15016, 15, 'battle-opponent', 2, 'At the peak, before the League.', 531),
+  -- Pokémon League -> Hala (Elite Four)
+  (150018, 15011, 15, 'battle-opponent', 3, NULL, NULL),
+  -- Pokémon League -> Olivia (Elite Four)
+  (150018, 15012, 15, 'battle-opponent', 4, NULL, NULL),
+  -- Pokémon League -> Acerola (Elite Four)
+  (150018, 15013, 15, 'battle-opponent', 5, NULL, NULL),
+  -- Pokémon League -> Kahili
+  (150018, 15014, 15, 'battle-opponent', 6, NULL, NULL),
+  -- Pokémon League -> Professor Kukui
+  (150018, 15015, 15, 'battle-opponent', 7, NULL, NULL),
+  -- Pokémon League -> Tapu Koko
+  (150018, 15024, 15, 'battle-opponent', 8, 'At the Ruins of Conflict, after the Hall of Fame. Catch or defeat it.', NULL),
   -- Ultra Beast Missions -> Nihilego
-  (150020, 15021, 15, 'battle-opponent', 1, 'Diglett''s Tunnel / Wela Volcano Park (Akala Island). You can skip this battle.'),
-  -- Ultra Beast Missions -> Buzzwole
-  (150020, 15025, 15, 'battle-opponent', 2, 'Melemele Meadow (Melemele Island). You can skip this battle.'),
-  -- Ultra Beast Missions -> Pheromosa
-  (150020, 15026, 15, 'battle-opponent', 3, 'Verdant Cavern (Melemele Island). You can skip this battle.'),
+  (150020, 15021, 15, 'battle-opponent', 1, 'Diglett''s Tunnel or Wela Volcano Park. You can skip this battle.', NULL),
+  -- Ultra Beast Missions -> Buzzwole (Sun)
+  (150020, 15025, 15, 'battle-opponent', 2, 'Melemele Meadow (Sun). You can skip this battle.', NULL),
+  -- Ultra Beast Missions -> Pheromosa (Moon)
+  (150020, 15026, 15, 'battle-opponent', 3, 'Verdant Cavern (Moon). You can skip this battle.', NULL),
   -- Ultra Beast Missions -> Xurkitree
-  (150020, 15027, 15, 'battle-opponent', 4, 'Lush Jungle / Memorial Hill (Akala Island). You can skip this battle.'),
-  -- Ultra Beast Missions -> Kartana
-  (150020, 15028, 15, 'battle-opponent', 5, 'Route 17 / Malie Garden (Ula''ula Island). You can skip this battle.'),
-  -- Ultra Beast Missions -> Celesteela
-  (150020, 15029, 15, 'battle-opponent', 6, 'Haina Desert / Malie Garden (Ula''ula Island). You can skip this battle.'),
+  (150020, 15027, 15, 'battle-opponent', 4, 'Lush Jungle or Memorial Hill. You can skip this battle.', NULL),
+  -- Ultra Beast Missions -> Kartana (Sun)
+  (150020, 15028, 15, 'battle-opponent', 5, 'Route 17 or Malie Garden (Sun). You can skip this battle.', NULL),
+  -- Ultra Beast Missions -> Celesteela (Moon)
+  (150020, 15029, 15, 'battle-opponent', 6, 'Haina Desert or Malie Garden (Moon). You can skip this battle.', NULL),
   -- Ultra Beast Missions -> Guzzlord
-  (150020, 15030, 15, 'battle-opponent', 7, 'Resolution Cave B1F (Poni Island). You can skip this battle.'),
+  (150020, 15030, 15, 'battle-opponent', 7, 'Resolution Cave. You can skip this battle.', NULL),
   -- Ruins of Life -> Tapu Lele
-  (150023, 15031, 15, 'battle-opponent', 1, 'Ruins of Life (Akala Island). You can skip this battle.'),
+  (150023, 15031, 15, 'battle-opponent', 1, 'You can skip this battle.', NULL),
   -- Ruins of Abundance -> Tapu Bulu
-  (150024, 15032, 15, 'battle-opponent', 1, 'Ruins of Abundance (Ula''ula Island, beyond Haina Desert). You can skip this battle.'),
+  (150024, 15032, 15, 'battle-opponent', 1, 'You can skip this battle.', NULL),
   -- Ruins of Hope -> Tapu Fini
-  (150025, 15033, 15, 'battle-opponent', 1, 'Ruins of Hope (Poni Island). You can skip this battle.'),
+  (150025, 15033, 15, 'battle-opponent', 1, 'You can skip this battle.', NULL),
   -- Ten Carat Hill -> Necrozma
-  (150026, 15034, 15, 'battle-opponent', 1, 'Ten Carat Hill, Farthest Hollow (Melemele Island). You can skip this battle.');
+  (150026, 15034, 15, 'battle-opponent', 1, 'You can skip this battle.', NULL);
 
--- Battles where the player may bring only some of their team.
+-- Battles with their own rules for the player's side: team_size_limit.
 INSERT INTO tracking.mainline_milestone_opponent_refs (
   milestone_id,
   opponent_id,
@@ -133,7 +140,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   relation_kind,
   sort_order,
   notes,
+  location_id,
   team_size_limit
 ) VALUES
-  -- Kiawe Trial -> Hau, Gladion & the Masked Royal (the Battle Royal: one Pokémon per trainer, the player's lead)
-  (150006, 15018, 15, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue', 1);
+  -- Kiawe Trial -> Hau, Gladion & the Masked Royal (Royal Avenue)
+  (150006, 15018, 15, 'battle-opponent', 1, 'A Battle Royal, with one Pokémon each.', 560, 1);
