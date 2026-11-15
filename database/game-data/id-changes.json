@@ -370,5 +370,35 @@
     "id": "130019",
     "becomes": "130017",
     "reason": "X / Y: Battle AZ merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140012",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140013",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140014",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140015",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140017",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

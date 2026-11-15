@@ -562,6 +562,20 @@ sources remain authoritative for game-specific mechanics and availability.
   battle on the Tower of Mastery have no seeded team, so they are notes. Post
   Game is Kiloude City and the Looker Bureau. Side Content is Zygarde, Mewtwo
   and the roaming bird, placed at Azure Bay. X / Y has no collectible set.
+- Omega Ruby / Alpha Sapphire in the pattern (`730_oras_story.sql`; from all
+  25 parts of Bulbapedia's walkthrough): Ruby / Sapphire's route and notes
+  with the remake's own story. Its forced beats are milestones, each with the
+  battle fought there: Rusturf Tunnel, the Oceanic Museum, Meteor Falls (the
+  Admin and a Grunt beside your rival), Mt. Chimney, Southern Island (the
+  Admin and a Grunt beside Steven, then the Mega Bracelet), the Weather
+  Institute, Mt. Pyre (the Admin), the hideout at Lilycove City, the Seafloor
+  Cavern and the Cave of Origin (the Primal Pokémon). Team Magma's battles
+  are Omega Ruby's and Team Aqua's are Alpha Sapphire's. The Delta Episode is
+  Post Game, one milestone placed at the Sky Pillar with its ten battles in
+  order. Side Content is the fossil, the Sealed Chamber and the legendary
+  Pokémon, each Mirage spot at its own place and the two sky encounters at
+  Soaring in the sky. New Mauville and the Safari Zone's old rules are gone
+  from the notes. Omega Ruby / Alpha Sapphire has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

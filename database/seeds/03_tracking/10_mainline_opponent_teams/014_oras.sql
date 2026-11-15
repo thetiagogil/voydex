@@ -92,45 +92,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wallace 5: Milotic Lv. 46
   (140011, 14008, 14, NULL, NULL, NULL, NULL, NULL, 5, 350, 35000, 46, NULL, NULL, FALSE),
   -- Sidney 1: Mightyena Lv. 50
-  (140012, 14009, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 50, NULL, NULL, FALSE),
+  (140016, 14009, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 50, NULL, NULL, FALSE),
   -- Sidney 2: Shiftry Lv. 50
-  (140012, 14009, 14, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 50, NULL, NULL, FALSE),
+  (140016, 14009, 14, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 50, NULL, NULL, FALSE),
   -- Sidney 3: Cacturne Lv. 50
-  (140012, 14009, 14, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 50, NULL, NULL, FALSE),
+  (140016, 14009, 14, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 50, NULL, NULL, FALSE),
   -- Sidney 4: Sharpedo Lv. 50
-  (140012, 14009, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 50, NULL, NULL, FALSE),
+  (140016, 14009, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 50, NULL, NULL, FALSE),
   -- Sidney 5: Absol Lv. 52
-  (140012, 14009, 14, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 52, NULL, NULL, FALSE),
+  (140016, 14009, 14, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 52, NULL, NULL, FALSE),
   -- Phoebe 1: Dusclops Lv. 51
-  (140013, 14010, 14, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 51, NULL, NULL, FALSE),
+  (140016, 14010, 14, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 51, NULL, NULL, FALSE),
   -- Phoebe 2: Banette Lv. 51
-  (140013, 14010, 14, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 51, NULL, NULL, FALSE),
+  (140016, 14010, 14, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 51, NULL, NULL, FALSE),
   -- Phoebe 3: Sableye Lv. 51
-  (140013, 14010, 14, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 51, NULL, NULL, FALSE),
+  (140016, 14010, 14, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 51, NULL, NULL, FALSE),
   -- Phoebe 4: Banette Lv. 51
-  (140013, 14010, 14, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 51, NULL, NULL, FALSE),
+  (140016, 14010, 14, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 51, NULL, NULL, FALSE),
   -- Phoebe 5: Dusknoir Lv. 53
-  (140013, 14010, 14, NULL, NULL, NULL, NULL, NULL, 5, 477, 47700, 53, NULL, NULL, FALSE),
+  (140016, 14010, 14, NULL, NULL, NULL, NULL, NULL, 5, 477, 47700, 53, NULL, NULL, FALSE),
   -- Glacia 1: Glalie Lv. 52
-  (140014, 14011, 14, NULL, NULL, NULL, NULL, NULL, 1, 362, 36200, 52, NULL, NULL, FALSE),
+  (140016, 14011, 14, NULL, NULL, NULL, NULL, NULL, 1, 362, 36200, 52, NULL, NULL, FALSE),
   -- Glacia 2: Froslass Lv. 52
-  (140014, 14011, 14, NULL, NULL, NULL, NULL, NULL, 2, 478, 47800, 52, NULL, NULL, FALSE),
+  (140016, 14011, 14, NULL, NULL, NULL, NULL, NULL, 2, 478, 47800, 52, NULL, NULL, FALSE),
   -- Glacia 3: Glalie Lv. 52
-  (140014, 14011, 14, NULL, NULL, NULL, NULL, NULL, 3, 362, 36200, 52, NULL, NULL, FALSE),
+  (140016, 14011, 14, NULL, NULL, NULL, NULL, NULL, 3, 362, 36200, 52, NULL, NULL, FALSE),
   -- Glacia 4: Froslass Lv. 52
-  (140014, 14011, 14, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 52, NULL, NULL, FALSE),
+  (140016, 14011, 14, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 52, NULL, NULL, FALSE),
   -- Glacia 5: Walrein Lv. 54
-  (140014, 14011, 14, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 54, NULL, NULL, FALSE),
+  (140016, 14011, 14, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 54, NULL, NULL, FALSE),
   -- Drake 1: Altaria Lv. 53
-  (140015, 14012, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 53, NULL, NULL, FALSE),
+  (140016, 14012, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 53, NULL, NULL, FALSE),
   -- Drake 2: Flygon Lv. 53
-  (140015, 14012, 14, NULL, NULL, NULL, NULL, NULL, 2, 330, 33000, 53, NULL, NULL, FALSE),
+  (140016, 14012, 14, NULL, NULL, NULL, NULL, NULL, 2, 330, 33000, 53, NULL, NULL, FALSE),
   -- Drake 3: Kingdra Lv. 53
-  (140015, 14012, 14, NULL, NULL, NULL, NULL, NULL, 3, 230, 23000, 53, NULL, NULL, FALSE),
+  (140016, 14012, 14, NULL, NULL, NULL, NULL, NULL, 3, 230, 23000, 53, NULL, NULL, FALSE),
   -- Drake 4: Flygon Lv. 53
-  (140015, 14012, 14, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL, NULL, FALSE),
+  (140016, 14012, 14, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL, NULL, FALSE),
   -- Drake 5: Salamence Lv. 55
-  (140015, 14012, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, NULL, NULL, FALSE),
+  (140016, 14012, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, NULL, NULL, FALSE),
   -- Steven 1: Skarmory Lv. 57
   (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL, NULL, FALSE),
   -- Steven 2: Claydol Lv. 57
@@ -210,29 +210,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- May / Brendan (chose Mudkip), Feather Badge 3: Grovyle Lv. 33
   (140009, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 33, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Mind Badge 1: Swellow Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Mind Badge 2: Wailord Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 321, 32100, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 321, 32100, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Mind Badge 3: Breloom Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 286, 28600, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 286, 28600, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Mind Badge 4: Blaziken Lv. 39
-  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 257, 25700, 39, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 257, 25700, 39, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Mind Badge 1: Swellow Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Mind Badge 2: Breloom Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 286, 28600, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 286, 28600, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Mind Badge 3: Magcargo Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 219, 21900, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 219, 21900, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Mind Badge 4: Swampert Lv. 39
-  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 260, 26000, 39, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 260, 26000, 39, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Mind Badge 1: Swellow Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Mind Badge 2: Magcargo Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 219, 21900, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 219, 21900, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Mind Badge 3: Wailord Lv. 37
-  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 321, 32100, 37, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 321, 32100, 37, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Mind Badge 4: Sceptile Lv. 39
-  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 254, 25400, 39, NULL, NULL, FALSE),
+  (140040, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 254, 25400, 39, NULL, NULL, FALSE),
   -- Maxie, Seafloor Cavern 1: Mightyena Lv. 41
   (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41, NULL, NULL, FALSE),
   -- Maxie, Seafloor Cavern 2: Weezing Lv. 41
@@ -250,15 +250,15 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Archie, Seafloor Cavern 4: Mega Sharpedo Lv. 43, holds Sharpedonite
   (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31901, 43, 293, NULL, FALSE),
   -- Wally, Elite Four Sidney 1: Altaria Lv. 46
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 46, NULL, NULL, FALSE),
+  (140016, 14016, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 46, NULL, NULL, FALSE),
   -- Wally, Elite Four Sidney 2: Delcatty Lv. 46
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46, NULL, NULL, FALSE),
+  (140016, 14016, 14, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46, NULL, NULL, FALSE),
   -- Wally, Elite Four Sidney 3: Roselia Lv. 46
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 46, NULL, NULL, FALSE),
+  (140016, 14016, 14, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 46, NULL, NULL, FALSE),
   -- Wally, Elite Four Sidney 4: Magneton Lv. 46
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 46, NULL, NULL, FALSE),
+  (140016, 14016, 14, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 46, NULL, NULL, FALSE),
   -- Wally, Elite Four Sidney 5: Mega Gallade Lv. 48, holds Galladite
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47501, 48, 307, NULL, FALSE),
+  (140016, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47501, 48, 307, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 1: Swellow Lv. 48
   (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 2: Raichu Lv. 48
@@ -368,37 +368,37 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wallace, Delta Episode 6: Milotic Lv. 57
   (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 6, 350, 35000, 57, NULL, NULL, FALSE),
   -- Tabitha & Grunt, Meteor Falls 1: Mightyena Lv. 23
-  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
+  (140036, 14051, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
   -- Tabitha & Grunt, Meteor Falls 2: Numel Lv. 23
-  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 2, 322, 32200, 23, NULL, NULL, FALSE),
+  (140036, 14051, 14, NULL, NULL, NULL, NULL, NULL, 2, 322, 32200, 23, NULL, NULL, FALSE),
   -- Tabitha & Grunt, Meteor Falls 3: Koffing Lv. 23
-  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 23, NULL, NULL, FALSE),
+  (140036, 14051, 14, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 23, NULL, NULL, FALSE),
   -- Tabitha, Mt. Chimney 1: Koffing Lv. 24
   (140019, 14052, 14, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 24, NULL, NULL, FALSE),
   -- Tabitha, Mt. Chimney 2: Numel Lv. 24
   (140019, 14052, 14, NULL, NULL, NULL, NULL, NULL, 2, 322, 32200, 24, NULL, NULL, FALSE),
   -- Tabitha, Weather Institute 1: Camerupt Lv. 32
-  (140009, 14052, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 32, NULL, NULL, FALSE),
+  (140038, 14052, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 32, NULL, NULL, FALSE),
   -- Shelly & Grunt, Meteor Falls 1: Mightyena Lv. 23
-  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
+  (140036, 14056, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
   -- Shelly & Grunt, Meteor Falls 2: Carvanha Lv. 23
-  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 2, 318, 31800, 23, NULL, NULL, FALSE),
+  (140036, 14056, 14, NULL, NULL, NULL, NULL, NULL, 2, 318, 31800, 23, NULL, NULL, FALSE),
   -- Shelly & Grunt, Meteor Falls 3: Grimer Lv. 23
-  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 3, 88, 8800, 23, NULL, NULL, FALSE),
+  (140036, 14056, 14, NULL, NULL, NULL, NULL, NULL, 3, 88, 8800, 23, NULL, NULL, FALSE),
   -- Shelly, Mt. Chimney 1: Grimer Lv. 24
   (140019, 14057, 14, NULL, NULL, NULL, NULL, NULL, 1, 88, 8800, 24, NULL, NULL, FALSE),
   -- Shelly, Mt. Chimney 2: Carvanha Lv. 24
   (140019, 14057, 14, NULL, NULL, NULL, NULL, NULL, 2, 318, 31800, 24, NULL, NULL, FALSE),
   -- Shelly, Weather Institute 1: Sharpedo Lv. 32
-  (140009, 14057, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 32, NULL, NULL, FALSE),
+  (140038, 14057, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 32, NULL, NULL, FALSE),
   -- Courtney & Grunt, Southern Island 1: Camerupt Lv. 31
-  (140009, 14053, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 31, NULL, NULL, FALSE),
+  (140037, 14053, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 31, NULL, NULL, FALSE),
   -- Courtney & Grunt, Southern Island 2: Koffing Lv. 29
-  (140009, 14053, 14, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 29, NULL, NULL, FALSE),
+  (140037, 14053, 14, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 29, NULL, NULL, FALSE),
   -- Courtney, Mt. Pyre 1: Camerupt Lv. 38
-  (140010, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 38, NULL, NULL, FALSE),
+  (140039, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 38, NULL, NULL, FALSE),
   -- Courtney, Team Magma Hideout 1: Camerupt Lv. 39
-  (140010, 14055, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 39, NULL, NULL, FALSE),
+  (140040, 14055, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 39, NULL, NULL, FALSE),
   -- Courtney, Petalburg City 1: Camerupt Lv. 53
   (140018, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 53, NULL, NULL, FALSE),
   -- Courtney & Grunt, Mossdeep Space Center 1: Mega Camerupt Lv. 55, holds Cameruptite
@@ -408,13 +408,13 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Courtney & Grunt, Mossdeep Space Center 3: Weezing Lv. 51
   (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 51, NULL, NULL, FALSE),
   -- Matt & Grunt, Southern Island 1: Sharpedo Lv. 31
-  (140009, 14058, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 31, NULL, NULL, FALSE),
+  (140037, 14058, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 31, NULL, NULL, FALSE),
   -- Matt & Grunt, Southern Island 2: Grimer Lv. 29
-  (140009, 14058, 14, NULL, NULL, NULL, NULL, NULL, 2, 88, 8800, 29, NULL, NULL, FALSE),
+  (140037, 14058, 14, NULL, NULL, NULL, NULL, NULL, 2, 88, 8800, 29, NULL, NULL, FALSE),
   -- Matt, Mt. Pyre 1: Sharpedo Lv. 38
-  (140010, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 38, NULL, NULL, FALSE),
+  (140039, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 38, NULL, NULL, FALSE),
   -- Matt, Team Aqua Hideout 1: Sharpedo Lv. 39
-  (140010, 14060, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 39, NULL, NULL, FALSE),
+  (140040, 14060, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 39, NULL, NULL, FALSE),
   -- Matt, Petalburg City 1: Sharpedo Lv. 53
   (140018, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 53, NULL, NULL, FALSE),
   -- Matt & Grunt, Mossdeep Space Center 1: Mega Sharpedo Lv. 55, holds Sharpedonite

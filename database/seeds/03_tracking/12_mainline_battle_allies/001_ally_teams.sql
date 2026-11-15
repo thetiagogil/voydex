@@ -211,43 +211,43 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Serena beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
   (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 652, 65200, 39, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 1: Wailmer Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 2: Shroomish Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 3: Combusken Lv. 26
-  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [torchic] 1: Shroomish Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [torchic] 2: Slugma Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [torchic] 3: Marshtomp Lv. 26
-  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 1: Slugma Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 2: Wailmer Lv. 24
-  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 3: Grovyle Lv. 26
-  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
+  (140036, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [treecko] 1: Wailmer Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [treecko] 2: Shroomish Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [treecko] 3: Combusken Lv. 26
-  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [torchic] 1: Shroomish Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [torchic] 2: Slugma Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [torchic] 3: Marshtomp Lv. 26
-  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [mudkip] 1: Slugma Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [mudkip] 2: Wailmer Lv. 24
-  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Shelly & Grunt [mudkip] 3: Grovyle Lv. 26
-  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
+  (140036, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
   -- Steven beside you vs Courtney & Grunt 1: Metang Lv. 35
-  (140009, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
+  (140037, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
   -- Steven beside you vs Courtney & Grunt 1: Skarmory Lv. 57
   (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL),
   -- Steven beside you vs Courtney & Grunt 2: Claydol Lv. 57
@@ -261,7 +261,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Steven beside you vs Courtney & Grunt 6: Metagross Lv. 59, holds Metagrossite
   (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 59, 300),
   -- Steven beside you vs Matt & Grunt 1: Metang Lv. 35
-  (140009, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
+  (140037, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
   -- Steven beside you vs Matt & Grunt 1: Skarmory Lv. 57
   (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL),
   -- Steven beside you vs Matt & Grunt 2: Claydol Lv. 57

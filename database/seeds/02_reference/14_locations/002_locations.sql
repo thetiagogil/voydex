@@ -29,8 +29,9 @@
 -- without wild Pokémon, Professor Juniper's Laboratory and the Pokémon
 -- League for Black / White, two more Gyms, two towns, the Pokémon World
 -- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2,
--- and Kalos's Gyms, two towns, Team Flare's places, the Pokémon League,
--- Kiloude City and the Unknown Dungeon for X / Y).
+-- Kalos's Gyms, two towns, Team Flare's places, the Pokémon League, Kiloude
+-- City and the Unknown Dungeon for X / Y, and Island Cave and six Mirage
+-- spots for Omega Ruby / Alpha Sapphire).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1855,4 +1856,18 @@ VALUES
   -- Kiloude City: a Story place with no wild Pokémon (X / Y's battle after the credits)
   (914, 6, 'kalos-kiloude-city', 'Kiloude City'),
   -- Unknown Dungeon: a Story place with no wild Pokémon (X / Y's Mewtwo)
-  (915, 6, 'kalos-unknown-dungeon', 'Unknown Dungeon');
+  (915, 6, 'kalos-unknown-dungeon', 'Unknown Dungeon'),
+  -- Island Cave: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Regigigas)
+  (916, 3, 'hoenn-island-cave', 'Island Cave'),
+  -- Crescent Isle: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Cresselia)
+  (917, 3, 'hoenn-crescent-isle', 'Crescent Isle'),
+  -- Trackless Forest: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Raikou, Entei and Suicune)
+  (918, 3, 'hoenn-trackless-forest', 'Trackless Forest'),
+  -- Nameless Cavern: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Uxie, Mesprit and Azelf)
+  (919, 3, 'hoenn-nameless-cavern', 'Nameless Cavern'),
+  -- Pathless Plain: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Cobalion, Terrakion and Virizion)
+  (920, 3, 'hoenn-pathless-plain', 'Pathless Plain'),
+  -- Fabled Cave: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Reshiram or Zekrom)
+  (921, 3, 'hoenn-fabled-cave', 'Fabled Cave'),
+  -- Gnarled Den: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Kyurem)
+  (922, 3, 'hoenn-gnarled-den', 'Gnarled Den');

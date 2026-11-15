@@ -33,9 +33,9 @@ SELECT
             refs.milestone_id, opponents.slug, opponents.game_id, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (140019, 140009, 140010, 140018)
+                refs.milestone_id IN (140018, 140019, 140036, 140037, 140038, 140039, 140040)
                 AND opponents.slug ~ '^(tabitha|courtney|shelly|matt)' ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (140009, 'courtney-grunt', 23, 1), (140009, 'matt-grunt', 24, 2), (140009, 'tabitha', 23, 3), (140009, 'shelly', 24, 4), (140010, 'courtney', 23, 1), (140010, 'matt', 24, 2), (140010, 'courtney-magma-hideout', 23, 4), (140010, 'matt-aqua-hideout', 24, 5), (140018, 'courtney', 23, 1), (140018, 'matt', 24, 2), (140018, 'courtney-grunt', 23, 4), (140018, 'matt-grunt', 24, 5), (140019, 'tabitha-grunt', 23, 1), (140019, 'shelly-grunt', 24, 2), (140019, 'tabitha', 23, 3), (140019, 'shelly', 24, 4) $$, 'Omega Ruby / Alpha Sapphire: each game''s own Admins, in Story order');
+            VALUES (140018, 'courtney', 23, 1), (140018, 'matt', 24, 2), (140018, 'courtney-grunt', 23, 4), (140018, 'matt-grunt', 24, 5), (140019, 'tabitha', 23, 1), (140019, 'shelly', 24, 3), (140036, 'tabitha-grunt', 23, 1), (140036, 'shelly-grunt', 24, 2), (140037, 'courtney-grunt', 23, 1), (140037, 'matt-grunt', 24, 2), (140038, 'tabitha', 23, 1), (140038, 'shelly', 24, 2), (140039, 'courtney', 23, 1), (140039, 'matt', 24, 2), (140040, 'courtney-magma-hideout', 23, 2), (140040, 'matt-aqua-hideout', 24, 3) $$, 'Omega Ruby / Alpha Sapphire: each game''s own Admins, in Story order');
 -- Every new battle has its full team.
 SELECT
     results_eq ($$
@@ -85,10 +85,10 @@ SELECT
             JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
                 members.ally_opponent_id IN (12016, 13018, 14015)
-                AND members.milestone_id IN (120009, 130028, 140019)
+                AND members.milestone_id IN (120009, 130028, 140036)
                 AND species.slug IN ('emboar', 'samurott', 'serperior', 'delphox', 'greninja', 'chesnaught', 'combusken', 'marshtomp', 'grovyle')
                 AND members.opponent_id <> 14056 ORDER BY members.milestone_id, 2 $$, $$
-            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130028, 'calem-chespin', 'delphox'), (130028, 'calem-fennekin', 'greninja'), (130028, 'calem-froakie', 'chesnaught'), (130028, 'serena-chespin', 'delphox'), (130028, 'serena-fennekin', 'greninja'), (130028, 'serena-froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
+            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130028, 'calem-chespin', 'delphox'), (130028, 'calem-fennekin', 'greninja'), (130028, 'calem-froakie', 'chesnaught'), (130028, 'serena-chespin', 'delphox'), (130028, 'serena-fennekin', 'greninja'), (130028, 'serena-froakie', 'chesnaught'), (140036, 'mudkip', 'grovyle'), (140036, 'torchic', 'marshtomp'), (140036, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
 -- Serena's Meowstic is female, Calem's male.
 SELECT
     results_eq ($$ SELECT DISTINCT

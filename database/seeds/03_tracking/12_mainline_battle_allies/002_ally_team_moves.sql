@@ -194,43 +194,43 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Serena beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
     (130028, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[402, 44]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
-    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
+    (140036, 14051, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
-    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
+    (140036, 14051, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Combusken Lv. 26: Peck, Double Kick, Flame Charge, Quick Attack
-    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
+    (140036, 14051, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
     -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
-    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
+    (140036, 14051, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
     -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
-    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
+    (140036, 14051, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
     -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Marshtomp Lv. 26: Foresight, Mud Shot, Bide, Mud Bomb
-    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
+    (140036, 14051, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
     -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
-    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
+    (140036, 14051, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
     -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
-    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
+    (140036, 14051, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Grovyle Lv. 26: Mega Drain, Fury Cutter, Pursuit, Leaf Blade
-    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
+    (140036, 14051, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
     -- Brendan / May beside you vs Shelly & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
-    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
+    (140036, 14056, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Shelly & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
-    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
+    (140036, 14056, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
     -- Brendan / May beside you vs Shelly & Grunt [treecko]: Combusken Lv. 26: Peck, Double Kick, Flame Charge, Quick Attack
-    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
+    (140036, 14056, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
     -- Brendan / May beside you vs Shelly & Grunt [torchic]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
-    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
+    (140036, 14056, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
     -- Brendan / May beside you vs Shelly & Grunt [torchic]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
-    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
+    (140036, 14056, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
     -- Brendan / May beside you vs Shelly & Grunt [torchic]: Marshtomp Lv. 26: Foresight, Mud Shot, Bide, Mud Bomb
-    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
+    (140036, 14056, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
     -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
-    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
+    (140036, 14056, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
     -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
-    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
+    (140036, 14056, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Grovyle Lv. 26: Mega Drain, Fury Cutter, Pursuit, Leaf Blade
-    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
+    (140036, 14056, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
     -- Steven beside you vs Courtney & Grunt: Metang Lv. 35: Zen Headbutt, Bullet Punch, Pursuit, Metal Claw
-    (140009, 14053, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
+    (140037, 14053, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
     -- Steven beside you vs Courtney & Grunt: Skarmory Lv. 57: Toxic, Aerial Ace, Spikes, Steel Wing
     (140018, 14053, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[92, 332, 191, 211]),
     -- Steven beside you vs Courtney & Grunt: Claydol Lv. 57: Reflect, Light Screen, Extrasensory, Earth Power
@@ -244,7 +244,7 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Steven beside you vs Courtney & Grunt: Metagross Lv. 59: Bullet Punch, Zen Headbutt, Meteor Mash, Giga Impact
     (140018, 14053, 14013, NULL, NULL, NULL, NULL, 6, ARRAY[418, 428, 309, 416]),
     -- Steven beside you vs Matt & Grunt: Metang Lv. 35: Zen Headbutt, Bullet Punch, Pursuit, Metal Claw
-    (140009, 14058, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
+    (140037, 14058, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
     -- Steven beside you vs Matt & Grunt: Skarmory Lv. 57: Toxic, Aerial Ace, Spikes, Steel Wing
     (140018, 14058, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[92, 332, 191, 211]),
     -- Steven beside you vs Matt & Grunt: Claydol Lv. 57: Reflect, Light Screen, Extrasensory, Earth Power
