@@ -485,6 +485,21 @@ sources remain authoritative for game-specific mechanics and availability.
   Area, then Stark Mountain with Buck, both optional. Side Content is the
   three lake Pokémon (placed at Lake Verity), Turnback Cave, Cresselia and
   Snowpoint Temple. Diamond / Pearl has no collectible set.
+- Platinum in the pattern (`680_platinum_story.sql`; from all 26 parts of
+  Bulbapedia's walkthrough): Diamond / Pearl's route and notes with
+  Platinum's own story. You pick your starter from Professor Rowan on Route
+  201 and Barry battles you there. Fantina is third, Maylene fourth and
+  Crasher Wake fifth, so the Relic Badge gives Defog and the Fen Badge Surf.
+  Barry battles in front of Pastoria Gym, not after it. Cyrus is fought in
+  the Celestic Town ruins. HM04 Strength comes from Riley on Iron Island.
+  Looker opens Team Galactic HQ. Mars and Jupiter are fought on the Spear
+  Pillar (their battle names that place) and the beat itself is the
+  Distortion World: Cyrus, then Giratina. Post Game is Stark Mountain (Mars,
+  Jupiter, Charon's arrest, Heatran). Side Content is the three lake Pokémon,
+  Cresselia, Snowpoint Temple, Dialga and Palkia back on the Spear Pillar and
+  the three roaming birds, placed at Eterna City where Professor Oak sets
+  them off. The Fight Area's Multi Battle against Flint and Volkner is not a
+  beat. Platinum has no collectible set.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

@@ -25,9 +25,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 9
-                AND refs.milestone_id IN (90004, 90009, 90018, 90019, 90020)
+                AND refs.milestone_id IN (90004, 90009, 90018, 90019, 90020, 90028, 90029, 90030, 90031)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (90004, 'mars', 1), (90004, 'gardenia', 2), (90004, 'jupiter', 3), (90009, 'saturn', 1), (90009, 'mars', 2), (90009, 'candice', 3), (90018, 'cyrus', 1), (90018, 'saturn', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
+            VALUES (90004, 'gardenia', 1), (90009, 'candice', 1), (90018, 'cyrus', 1), (90018, 'saturn', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4), (90028, 'mars', 1), (90029, 'jupiter', 1), (90030, 'saturn', 1), (90031, 'mars', 1) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
 SELECT
     results_eq ($$
         SELECT

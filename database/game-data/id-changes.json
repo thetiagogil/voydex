@@ -208,5 +208,35 @@
     "id": "80016",
     "becomes": "80015",
     "reason": "Diamond / Pearl: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90011",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Aaron merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90012",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Bertha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90013",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Flint merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90014",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Lucian merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90016",
+    "becomes": "90015",
+    "reason": "Platinum: Hall of Fame merged into the Pokémon League milestone"
   }
 ]

@@ -23,7 +23,8 @@
 -- Island for FireRed / LeafGreen, and the Mossdeep Space Center, Terra Cave
 -- and Marine Cave for Emerald, and Sinnoh's Gyms, towns without wild
 -- Pokémon, Professor Rowan's Laboratory, Team Galactic's two buildings, the
--- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl).
+-- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl, and
+-- the Distortion World for Platinum).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1764,4 +1765,6 @@ VALUES
   -- Fight Area: a Story place with no wild Pokémon (Diamond / Pearl's Battle Zone arrival)
   (872, 4, 'sinnoh-fight-area', 'Fight Area'),
   -- Fullmoon Island: a Story place with no wild Pokémon (Diamond / Pearl's Cresselia)
-  (873, 4, 'sinnoh-fullmoon-island', 'Fullmoon Island');
+  (873, 4, 'sinnoh-fullmoon-island', 'Fullmoon Island'),
+  -- Distortion World: a Story place with no wild Pokémon (Platinum's Distortion World beat)
+  (874, 4, 'sinnoh-distortion-world', 'Distortion World');

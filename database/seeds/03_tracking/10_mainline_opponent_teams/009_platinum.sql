@@ -84,45 +84,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Volkner 4: Electivire Lv. 50, holds Sitrus Berry
   (90010, 9008, 9, NULL, NULL, NULL, NULL, NULL, 4, 466, 46600, 50, 187),
   -- Aaron 1: Yanmega Lv. 49
-  (90011, 9009, 9, NULL, NULL, NULL, NULL, NULL, 1, 469, 46900, 49, NULL),
+  (90015, 9009, 9, NULL, NULL, NULL, NULL, NULL, 1, 469, 46900, 49, NULL),
   -- Aaron 2: Scizor Lv. 49
-  (90011, 9009, 9, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 49, NULL),
+  (90015, 9009, 9, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 49, NULL),
   -- Aaron 3: Vespiquen Lv. 50
-  (90011, 9009, 9, NULL, NULL, NULL, NULL, NULL, 3, 416, 41600, 50, NULL),
+  (90015, 9009, 9, NULL, NULL, NULL, NULL, NULL, 3, 416, 41600, 50, NULL),
   -- Aaron 4: Heracross Lv. 51
-  (90011, 9009, 9, NULL, NULL, NULL, NULL, NULL, 4, 214, 21400, 51, NULL),
+  (90015, 9009, 9, NULL, NULL, NULL, NULL, NULL, 4, 214, 21400, 51, NULL),
   -- Aaron 5: Drapion Lv. 53, holds Sitrus Berry
-  (90011, 9009, 9, NULL, NULL, NULL, NULL, NULL, 5, 452, 45200, 53, 187),
+  (90015, 9009, 9, NULL, NULL, NULL, NULL, NULL, 5, 452, 45200, 53, 187),
   -- Bertha 1: Whiscash Lv. 50
-  (90012, 9010, 9, NULL, NULL, NULL, NULL, NULL, 1, 340, 34000, 50, NULL),
+  (90015, 9010, 9, NULL, NULL, NULL, NULL, NULL, 1, 340, 34000, 50, NULL),
   -- Bertha 2: Gliscor Lv. 53
-  (90012, 9010, 9, NULL, NULL, NULL, NULL, NULL, 2, 472, 47200, 53, NULL),
+  (90015, 9010, 9, NULL, NULL, NULL, NULL, NULL, 2, 472, 47200, 53, NULL),
   -- Bertha 3: Hippowdon Lv. 52
-  (90012, 9010, 9, NULL, NULL, NULL, NULL, NULL, 3, 450, 45000, 52, NULL),
+  (90015, 9010, 9, NULL, NULL, NULL, NULL, NULL, 3, 450, 45000, 52, NULL),
   -- Bertha 4: Golem Lv. 52
-  (90012, 9010, 9, NULL, NULL, NULL, NULL, NULL, 4, 76, 7600, 52, NULL),
+  (90015, 9010, 9, NULL, NULL, NULL, NULL, NULL, 4, 76, 7600, 52, NULL),
   -- Bertha 5: Rhyperior Lv. 55, holds Sitrus Berry
-  (90012, 9010, 9, NULL, NULL, NULL, NULL, NULL, 5, 464, 46400, 55, 187),
+  (90015, 9010, 9, NULL, NULL, NULL, NULL, NULL, 5, 464, 46400, 55, 187),
   -- Flint 1: Houndoom Lv. 52
-  (90013, 9011, 9, NULL, NULL, NULL, NULL, NULL, 1, 229, 22900, 52, NULL),
+  (90015, 9011, 9, NULL, NULL, NULL, NULL, NULL, 1, 229, 22900, 52, NULL),
   -- Flint 2: Flareon Lv. 55
-  (90013, 9011, 9, NULL, NULL, NULL, NULL, NULL, 2, 136, 13600, 55, NULL),
+  (90015, 9011, 9, NULL, NULL, NULL, NULL, NULL, 2, 136, 13600, 55, NULL),
   -- Flint 3: Rapidash Lv. 53
-  (90013, 9011, 9, NULL, NULL, NULL, NULL, NULL, 3, 78, 7800, 53, NULL),
+  (90015, 9011, 9, NULL, NULL, NULL, NULL, NULL, 3, 78, 7800, 53, NULL),
   -- Flint 4: Infernape Lv. 55
-  (90013, 9011, 9, NULL, NULL, NULL, NULL, NULL, 4, 392, 39200, 55, NULL),
+  (90015, 9011, 9, NULL, NULL, NULL, NULL, NULL, 4, 392, 39200, 55, NULL),
   -- Flint 5: Magmortar Lv. 57, holds Sitrus Berry
-  (90013, 9011, 9, NULL, NULL, NULL, NULL, NULL, 5, 467, 46700, 57, 187),
+  (90015, 9011, 9, NULL, NULL, NULL, NULL, NULL, 5, 467, 46700, 57, 187),
   -- Lucian 1: Mr. Mime Lv. 53
-  (90014, 9012, 9, NULL, NULL, NULL, NULL, NULL, 1, 122, 12200, 53, NULL),
+  (90015, 9012, 9, NULL, NULL, NULL, NULL, NULL, 1, 122, 12200, 53, NULL),
   -- Lucian 2: Espeon Lv. 55
-  (90014, 9012, 9, NULL, NULL, NULL, NULL, NULL, 2, 196, 19600, 55, NULL),
+  (90015, 9012, 9, NULL, NULL, NULL, NULL, NULL, 2, 196, 19600, 55, NULL),
   -- Lucian 3: Bronzong Lv. 54
-  (90014, 9012, 9, NULL, NULL, NULL, NULL, NULL, 3, 437, 43700, 54, NULL),
+  (90015, 9012, 9, NULL, NULL, NULL, NULL, NULL, 3, 437, 43700, 54, NULL),
   -- Lucian 4: Alakazam Lv. 56
-  (90014, 9012, 9, NULL, NULL, NULL, NULL, NULL, 4, 65, 6500, 56, NULL),
+  (90015, 9012, 9, NULL, NULL, NULL, NULL, NULL, 4, 65, 6500, 56, NULL),
   -- Lucian 5: Gallade Lv. 59, holds Sitrus Berry
-  (90014, 9012, 9, NULL, NULL, NULL, NULL, NULL, 5, 475, 47500, 59, 187),
+  (90015, 9012, 9, NULL, NULL, NULL, NULL, NULL, 5, 475, 47500, 59, 187),
   -- Cynthia 1: Spiritomb Lv. 58
   (90015, 9013, 9, NULL, NULL, NULL, NULL, NULL, 1, 442, 44200, 58, NULL),
   -- Cynthia 2: Roserade Lv. 58
@@ -153,30 +153,30 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (90003, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 396, 39600, 7, NULL),
   -- Barry (chose Piplup), Coal Badge 2: Turtwig Lv. 9
   (90003, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 387, 38700, 9, NULL),
-  -- Barry (chose Turtwig), Relic Badge 1: Staravia Lv. 25
-  (90005, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 397, 39700, 25, NULL),
-  -- Barry (chose Turtwig), Relic Badge 2: Buizel Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 2, 418, 41800, 23, NULL),
-  -- Barry (chose Turtwig), Relic Badge 3: Roselia Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 3, 315, 31500, 23, NULL),
-  -- Barry (chose Turtwig), Relic Badge 4: Monferno Lv. 27
-  (90005, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 4, 391, 39100, 27, NULL),
-  -- Barry (chose Chimchar), Relic Badge 1: Staravia Lv. 25
-  (90005, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 1, 397, 39700, 25, NULL),
-  -- Barry (chose Chimchar), Relic Badge 2: Roselia Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 2, 315, 31500, 23, NULL),
-  -- Barry (chose Chimchar), Relic Badge 3: Ponyta Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 3, 77, 7700, 23, NULL),
-  -- Barry (chose Chimchar), Relic Badge 4: Prinplup Lv. 27
-  (90005, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 4, 394, 39400, 27, NULL),
-  -- Barry (chose Piplup), Relic Badge 1: Staravia Lv. 25
-  (90005, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 397, 39700, 25, NULL),
-  -- Barry (chose Piplup), Relic Badge 2: Buizel Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 418, 41800, 23, NULL),
-  -- Barry (chose Piplup), Relic Badge 3: Ponyta Lv. 23
-  (90005, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 3, 77, 7700, 23, NULL),
-  -- Barry (chose Piplup), Relic Badge 4: Grotle Lv. 27
-  (90005, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 4, 388, 38800, 27, NULL),
+  -- Barry (chose Turtwig), Cobble Badge (Hearthome City) 1: Staravia Lv. 25
+  (90006, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 397, 39700, 25, NULL),
+  -- Barry (chose Turtwig), Cobble Badge (Hearthome City) 2: Buizel Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 2, 418, 41800, 23, NULL),
+  -- Barry (chose Turtwig), Cobble Badge (Hearthome City) 3: Roselia Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 3, 315, 31500, 23, NULL),
+  -- Barry (chose Turtwig), Cobble Badge (Hearthome City) 4: Monferno Lv. 27
+  (90006, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 4, 391, 39100, 27, NULL),
+  -- Barry (chose Chimchar), Cobble Badge (Hearthome City) 1: Staravia Lv. 25
+  (90006, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 1, 397, 39700, 25, NULL),
+  -- Barry (chose Chimchar), Cobble Badge (Hearthome City) 2: Roselia Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 2, 315, 31500, 23, NULL),
+  -- Barry (chose Chimchar), Cobble Badge (Hearthome City) 3: Ponyta Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 3, 77, 7700, 23, NULL),
+  -- Barry (chose Chimchar), Cobble Badge (Hearthome City) 4: Prinplup Lv. 27
+  (90006, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 4, 394, 39400, 27, NULL),
+  -- Barry (chose Piplup), Cobble Badge (Hearthome City) 1: Staravia Lv. 25
+  (90006, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 397, 39700, 25, NULL),
+  -- Barry (chose Piplup), Cobble Badge (Hearthome City) 2: Buizel Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 418, 41800, 23, NULL),
+  -- Barry (chose Piplup), Cobble Badge (Hearthome City) 3: Ponyta Lv. 23
+  (90006, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 3, 77, 7700, 23, NULL),
+  -- Barry (chose Piplup), Cobble Badge (Hearthome City) 4: Grotle Lv. 27
+  (90006, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 4, 388, 38800, 27, NULL),
   -- Barry (chose Turtwig), Fen Badge 1: Staravia Lv. 34
   (90007, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 397, 39700, 34, NULL),
   -- Barry (chose Turtwig), Fen Badge 2: Buizel Lv. 32
@@ -253,42 +253,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (90019, 9015, 9, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 46, NULL),
   -- Cyrus, Distortion World 5: Weavile Lv. 48, holds Sitrus Berry
   (90019, 9015, 9, NULL, NULL, NULL, NULL, NULL, 5, 461, 46100, 48, 187),
-  -- Barry (chose Turtwig), Elite Four Aaron 1: Staraptor Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 398, 39800, 48, NULL),
-  -- Barry (chose Turtwig), Elite Four Aaron 2: Floatzel Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 2, 419, 41900, 47, NULL),
-  -- Barry (chose Turtwig), Elite Four Aaron 3: Heracross Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 3, 214, 21400, 48, NULL),
-  -- Barry (chose Turtwig), Elite Four Aaron 4: Roserade Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 4, 407, 40700, 47, NULL),
-  -- Barry (chose Turtwig), Elite Four Aaron 5: Snorlax Lv. 49
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 5, 143, 14300, 49, NULL),
-  -- Barry (chose Turtwig), Elite Four Aaron 6: Infernape Lv. 51
-  (90011, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 6, 392, 39200, 51, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 1: Staraptor Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 1, 398, 39800, 48, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 2: Roserade Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 2, 407, 40700, 47, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 3: Heracross Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 3, 214, 21400, 48, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 4: Rapidash Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 4, 78, 7800, 47, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 5: Snorlax Lv. 49
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 5, 143, 14300, 49, NULL),
-  -- Barry (chose Chimchar), Elite Four Aaron 6: Empoleon Lv. 51
-  (90011, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 6, 395, 39500, 51, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 1: Staraptor Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 398, 39800, 48, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 2: Floatzel Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 419, 41900, 47, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 3: Heracross Lv. 48
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 3, 214, 21400, 48, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 4: Rapidash Lv. 47
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 4, 78, 7800, 47, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 5: Snorlax Lv. 49
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 5, 143, 14300, 49, NULL),
-  -- Barry (chose Piplup), Elite Four Aaron 6: Torterra Lv. 51
-  (90011, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 51, NULL),
+  -- Barry (chose Turtwig), Pokémon League 1: Staraptor Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 398, 39800, 48, NULL),
+  -- Barry (chose Turtwig), Pokémon League 2: Floatzel Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 2, 419, 41900, 47, NULL),
+  -- Barry (chose Turtwig), Pokémon League 3: Heracross Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 3, 214, 21400, 48, NULL),
+  -- Barry (chose Turtwig), Pokémon League 4: Roserade Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 4, 407, 40700, 47, NULL),
+  -- Barry (chose Turtwig), Pokémon League 5: Snorlax Lv. 49
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 5, 143, 14300, 49, NULL),
+  -- Barry (chose Turtwig), Pokémon League 6: Infernape Lv. 51
+  (90015, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 6, 392, 39200, 51, NULL),
+  -- Barry (chose Chimchar), Pokémon League 1: Staraptor Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 1, 398, 39800, 48, NULL),
+  -- Barry (chose Chimchar), Pokémon League 2: Roserade Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 2, 407, 40700, 47, NULL),
+  -- Barry (chose Chimchar), Pokémon League 3: Heracross Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 3, 214, 21400, 48, NULL),
+  -- Barry (chose Chimchar), Pokémon League 4: Rapidash Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 4, 78, 7800, 47, NULL),
+  -- Barry (chose Chimchar), Pokémon League 5: Snorlax Lv. 49
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 5, 143, 14300, 49, NULL),
+  -- Barry (chose Chimchar), Pokémon League 6: Empoleon Lv. 51
+  (90015, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 6, 395, 39500, 51, NULL),
+  -- Barry (chose Piplup), Pokémon League 1: Staraptor Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 398, 39800, 48, NULL),
+  -- Barry (chose Piplup), Pokémon League 2: Floatzel Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 419, 41900, 47, NULL),
+  -- Barry (chose Piplup), Pokémon League 3: Heracross Lv. 48
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 3, 214, 21400, 48, NULL),
+  -- Barry (chose Piplup), Pokémon League 4: Rapidash Lv. 47
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 4, 78, 7800, 47, NULL),
+  -- Barry (chose Piplup), Pokémon League 5: Snorlax Lv. 49
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 5, 143, 14300, 49, NULL),
+  -- Barry (chose Piplup), Pokémon League 6: Torterra Lv. 51
+  (90015, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 51, NULL),
   -- Barry (chose Turtwig), Stark Mountain 1: Staraptor Lv. 61
   (90020, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 398, 39800, 61, NULL),
   -- Barry (chose Turtwig), Stark Mountain 2: Floatzel Lv. 59
@@ -350,25 +350,25 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Moltres, Roaming Moltres 1: Moltres Lv. 60
   (90027, 9027, 9, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 60, NULL),
   -- Mars, Valley Windworks 1: Zubat Lv. 15
-  (90004, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 15, NULL),
+  (90028, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 15, NULL),
   -- Mars, Valley Windworks 2: Purugly Lv. 17, holds Oran Berry
-  (90004, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 17, 184),
+  (90028, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 17, 184),
   -- Jupiter, Team Galactic Eterna Building 1: Zubat Lv. 21
-  (90004, 9029, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 21, NULL),
+  (90029, 9029, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 21, NULL),
   -- Jupiter, Team Galactic Eterna Building 2: Skuntank Lv. 23, holds Sitrus Berry
-  (90004, 9029, 9, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 23, 187),
+  (90029, 9029, 9, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 23, 187),
   -- Saturn, Valor Cavern 1: Golbat Lv. 38
-  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
+  (90030, 9030, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
   -- Saturn, Valor Cavern 2: Bronzor Lv. 38
-  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  (90030, 9030, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
   -- Saturn, Valor Cavern 3: Toxicroak Lv. 40, holds Sitrus Berry
-  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 40, 187),
+  (90030, 9030, 9, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 40, 187),
   -- Mars, Lake Verity 1: Golbat Lv. 38
-  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
+  (90031, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
   -- Mars, Lake Verity 2: Bronzor Lv. 38
-  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  (90031, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
   -- Mars, Lake Verity 3: Purugly Lv. 40, holds Sitrus Berry
-  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 40, 187),
+  (90031, 9028, 9, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 40, 187),
   -- Saturn, Team Galactic HQ 1: Golbat Lv. 42
   (90018, 9030, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 42, NULL),
   -- Saturn, Team Galactic HQ 2: Bronzor Lv. 42
