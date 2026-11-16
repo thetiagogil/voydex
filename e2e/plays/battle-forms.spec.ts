@@ -17,8 +17,10 @@ test.describe("Battle forms", () => {
       waitUntil: "networkidle",
     });
     await openAllChapters(page);
-    /* The stop, not the stamp (whose name goes on with a comma). */
-    await page.getByRole("button", { name: /^Champion Steven(?!,)/ }).click();
+    /* The milestone, not the place of the same name before it. */
+    await page
+      .getByRole("button", { name: /^Pokémon League.*Not recorded/ })
+      .click();
     /* The panel beside the route (the sheet on a phone) holds the report. */
     const sheet = page
       .getByRole("dialog")

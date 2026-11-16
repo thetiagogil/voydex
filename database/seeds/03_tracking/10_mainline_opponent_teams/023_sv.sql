@@ -94,45 +94,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Grusha 4: Altaria Lv. 48, Tera Ice
   (230010, 23008, 23, NULL, NULL, NULL, NULL, NULL, 4, 334, 33400, 48, NULL, 6, FALSE),
   -- Rika 1: Whiscash Lv. 57
-  (230011, 23009, 23, NULL, NULL, NULL, NULL, NULL, 1, 340, 34000, 57, NULL, NULL, FALSE),
+  (230015, 23009, 23, NULL, NULL, NULL, NULL, NULL, 1, 340, 34000, 57, NULL, NULL, FALSE),
   -- Rika 2: Camerupt Lv. 57
-  (230011, 23009, 23, NULL, NULL, NULL, NULL, NULL, 2, 323, 32300, 57, NULL, NULL, FALSE),
+  (230015, 23009, 23, NULL, NULL, NULL, NULL, NULL, 2, 323, 32300, 57, NULL, NULL, FALSE),
   -- Rika 3: Donphan Lv. 57
-  (230011, 23009, 23, NULL, NULL, NULL, NULL, NULL, 3, 232, 23200, 57, NULL, NULL, FALSE),
+  (230015, 23009, 23, NULL, NULL, NULL, NULL, NULL, 3, 232, 23200, 57, NULL, NULL, FALSE),
   -- Rika 4: Dugtrio Lv. 57
-  (230011, 23009, 23, NULL, NULL, NULL, NULL, NULL, 4, 51, 5100, 57, NULL, NULL, FALSE),
+  (230015, 23009, 23, NULL, NULL, NULL, NULL, NULL, 4, 51, 5100, 57, NULL, NULL, FALSE),
   -- Rika 5: Clodsire Lv. 58, Tera Ground
-  (230011, 23009, 23, NULL, NULL, NULL, NULL, NULL, 5, 980, 98000, 58, NULL, 9, FALSE),
+  (230015, 23009, 23, NULL, NULL, NULL, NULL, NULL, 5, 980, 98000, 58, NULL, 9, FALSE),
   -- Poppy 1: Copperajah Lv. 58
-  (230012, 23010, 23, NULL, NULL, NULL, NULL, NULL, 1, 879, 87900, 58, NULL, NULL, FALSE),
+  (230015, 23010, 23, NULL, NULL, NULL, NULL, NULL, 1, 879, 87900, 58, NULL, NULL, FALSE),
   -- Poppy 2: Magnezone Lv. 58
-  (230012, 23010, 23, NULL, NULL, NULL, NULL, NULL, 2, 462, 46200, 58, NULL, NULL, FALSE),
+  (230015, 23010, 23, NULL, NULL, NULL, NULL, NULL, 2, 462, 46200, 58, NULL, NULL, FALSE),
   -- Poppy 3: Bronzong Lv. 58
-  (230012, 23010, 23, NULL, NULL, NULL, NULL, NULL, 3, 437, 43700, 58, NULL, NULL, FALSE),
+  (230015, 23010, 23, NULL, NULL, NULL, NULL, NULL, 3, 437, 43700, 58, NULL, NULL, FALSE),
   -- Poppy 4: Corviknight Lv. 58
-  (230012, 23010, 23, NULL, NULL, NULL, NULL, NULL, 4, 823, 82300, 58, NULL, NULL, FALSE),
+  (230015, 23010, 23, NULL, NULL, NULL, NULL, NULL, 4, 823, 82300, 58, NULL, NULL, FALSE),
   -- Poppy 5: Tinkaton Lv. 59, Tera Steel
-  (230012, 23010, 23, NULL, NULL, NULL, NULL, NULL, 5, 959, 95900, 59, NULL, 17, FALSE),
+  (230015, 23010, 23, NULL, NULL, NULL, NULL, NULL, 5, 959, 95900, 59, NULL, 17, FALSE),
   -- Larry 1: Tropius Lv. 59
-  (230013, 23011, 23, NULL, NULL, NULL, NULL, NULL, 1, 357, 35700, 59, NULL, NULL, FALSE),
+  (230015, 23011, 23, NULL, NULL, NULL, NULL, NULL, 1, 357, 35700, 59, NULL, NULL, FALSE),
   -- Larry 2: Oricorio (Pom-Pom) Lv. 59
-  (230013, 23011, 23, NULL, NULL, NULL, NULL, NULL, 2, 741, 74101, 59, NULL, NULL, FALSE),
+  (230015, 23011, 23, NULL, NULL, NULL, NULL, NULL, 2, 741, 74101, 59, NULL, NULL, FALSE),
   -- Larry 3: Altaria Lv. 59
-  (230013, 23011, 23, NULL, NULL, NULL, NULL, NULL, 3, 334, 33400, 59, NULL, NULL, FALSE),
+  (230015, 23011, 23, NULL, NULL, NULL, NULL, NULL, 3, 334, 33400, 59, NULL, NULL, FALSE),
   -- Larry 4: Staraptor Lv. 59
-  (230013, 23011, 23, NULL, NULL, NULL, NULL, NULL, 4, 398, 39800, 59, NULL, NULL, FALSE),
+  (230015, 23011, 23, NULL, NULL, NULL, NULL, NULL, 4, 398, 39800, 59, NULL, NULL, FALSE),
   -- Larry 5: Flamigo Lv. 60, Tera Flying
-  (230013, 23011, 23, NULL, NULL, NULL, NULL, NULL, 5, 973, 97300, 60, NULL, 10, FALSE),
+  (230015, 23011, 23, NULL, NULL, NULL, NULL, NULL, 5, 973, 97300, 60, NULL, 10, FALSE),
   -- Hassel 1: Noivern Lv. 60
-  (230014, 23012, 23, NULL, NULL, NULL, NULL, NULL, 1, 715, 71500, 60, NULL, NULL, FALSE),
+  (230015, 23012, 23, NULL, NULL, NULL, NULL, NULL, 1, 715, 71500, 60, NULL, NULL, FALSE),
   -- Hassel 2: Haxorus Lv. 60
-  (230014, 23012, 23, NULL, NULL, NULL, NULL, NULL, 2, 612, 61200, 60, NULL, NULL, FALSE),
+  (230015, 23012, 23, NULL, NULL, NULL, NULL, NULL, 2, 612, 61200, 60, NULL, NULL, FALSE),
   -- Hassel 3: Dragalge Lv. 60
-  (230014, 23012, 23, NULL, NULL, NULL, NULL, NULL, 3, 691, 69100, 60, NULL, NULL, FALSE),
+  (230015, 23012, 23, NULL, NULL, NULL, NULL, NULL, 3, 691, 69100, 60, NULL, NULL, FALSE),
   -- Hassel 4: Flapple Lv. 60
-  (230014, 23012, 23, NULL, NULL, NULL, NULL, NULL, 4, 841, 84100, 60, NULL, NULL, FALSE),
+  (230015, 23012, 23, NULL, NULL, NULL, NULL, NULL, 4, 841, 84100, 60, NULL, NULL, FALSE),
   -- Hassel 5: Baxcalibur Lv. 61, Tera Dragon
-  (230014, 23012, 23, NULL, NULL, NULL, NULL, NULL, 5, 998, 99800, 61, NULL, 15, FALSE),
+  (230015, 23012, 23, NULL, NULL, NULL, NULL, NULL, 5, 998, 99800, 61, NULL, 15, FALSE),
   -- Geeta 1: Espathra Lv. 61
   (230015, 23013, 23, NULL, NULL, NULL, NULL, NULL, 1, 956, 95600, 61, NULL, NULL, FALSE),
   -- Geeta 2: Gogoat Lv. 61
@@ -146,41 +146,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Geeta 6: Glimmora Lv. 62, Tera Rock
   (230015, 23013, 23, NULL, NULL, NULL, NULL, NULL, 6, 970, 97000, 62, NULL, 13, FALSE),
   -- Nemona (chose Sprigatito) 1: Lycanroc Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
   -- Nemona (chose Sprigatito) 2: Goodra Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
   -- Nemona (chose Sprigatito) 3: Dudunsparce (Three-Segment) Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
   -- Nemona (chose Sprigatito) 4: Orthworm Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
   -- Nemona (chose Sprigatito) 5: Pawmot Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
   -- Nemona (chose Sprigatito) 6: Quaquaval Lv. 66, Tera Water
-  (230016, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 6, 914, 91400, 66, NULL, 3, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'sprigatito', NULL, NULL, 6, 914, 91400, 66, NULL, 3, FALSE),
   -- Nemona (chose Fuecoco) 1: Lycanroc Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco) 2: Goodra Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco) 3: Dudunsparce (Three-Segment) Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco) 4: Orthworm Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco) 5: Pawmot Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco) 6: Meowscarada Lv. 66, Tera Grass
-  (230016, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 6, 908, 90800, 66, NULL, 5, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'fuecoco', NULL, NULL, 6, 908, 90800, 66, NULL, 5, FALSE),
   -- Nemona (chose Quaxly) 1: Lycanroc Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 745, 74500, 65, NULL, NULL, FALSE),
   -- Nemona (chose Quaxly) 2: Goodra Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 706, 70600, 65, NULL, NULL, FALSE),
   -- Nemona (chose Quaxly) 3: Dudunsparce (Three-Segment) Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 982, 98201, 65, NULL, NULL, FALSE),
   -- Nemona (chose Quaxly) 4: Orthworm Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 968, 96800, 65, NULL, NULL, FALSE),
   -- Nemona (chose Quaxly) 5: Pawmot Lv. 65
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 5, 923, 92300, 65, NULL, NULL, FALSE),
   -- Nemona (chose Quaxly) 6: Skeledirge Lv. 66, Tera Fire
-  (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 6, 911, 91100, 66, NULL, 2, FALSE),
+  (230015, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 6, 911, 91100, 66, NULL, 2, FALSE),
   -- Giacomo 1: Pawniard Lv. 21
   (230017, 23015, 23, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 21, NULL, NULL, FALSE),
   -- Giacomo 2: Segin Starmobile Lv. 20
@@ -216,41 +216,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Eri 5: Caph Starmobile Lv. 56
   (230021, 23019, 23, NULL, NULL, NULL, NULL, NULL, 5, 966, 96605, 56, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 1: Oranguru Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 2: Abomasnow Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 3: Polteageist Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 4: Amoonguss Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 591, 59100, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 591, 59100, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 5: Gyarados Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 5, 130, 13000, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 5, 130, 13000, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 6: Skeledirge Lv. 61, Tera Fire
-  (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 6, 911, 91100, 61, NULL, 2, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 6, 911, 91100, 61, NULL, 2, FALSE),
   -- Clavell (chose Fuecoco) 1: Oranguru Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Fuecoco) 2: Abomasnow Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
   -- Clavell (chose Fuecoco) 3: Polteageist Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Fuecoco) 4: Houndoom Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 229, 22900, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 229, 22900, 60, NULL, NULL, FALSE),
   -- Clavell (chose Fuecoco) 5: Amoonguss Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 5, 591, 59100, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 5, 591, 59100, 60, NULL, NULL, FALSE),
   -- Clavell (chose Fuecoco) 6: Quaquaval Lv. 61, Tera Water
-  (230022, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 6, 914, 91400, 61, NULL, 3, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'fuecoco', NULL, NULL, 6, 914, 91400, 61, NULL, 3, FALSE),
   -- Clavell (chose Quaxly) 1: Oranguru Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Quaxly) 2: Abomasnow Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 460, 46000, 60, NULL, NULL, FALSE),
   -- Clavell (chose Quaxly) 3: Polteageist Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 855, 85500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Quaxly) 4: Gyarados Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 130, 13000, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 130, 13000, 60, NULL, NULL, FALSE),
   -- Clavell (chose Quaxly) 5: Houndoom Lv. 60
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 5, 229, 22900, 60, NULL, NULL, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 5, 229, 22900, 60, NULL, NULL, FALSE),
   -- Clavell (chose Quaxly) 6: Meowscarada Lv. 61, Tera Grass
-  (230022, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 6, 908, 90800, 61, NULL, 5, FALSE),
+  (230023, 23020, 23, NULL, 230001, 'quaxly', NULL, NULL, 6, 908, 90800, 61, NULL, 5, FALSE),
   -- Penny 1: Umbreon Lv. 62
   (230023, 23021, 23, NULL, NULL, NULL, NULL, NULL, 1, 197, 19700, 62, NULL, NULL, FALSE),
   -- Penny 2: Vaporeon Lv. 62

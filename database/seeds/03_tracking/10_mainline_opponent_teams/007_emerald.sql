@@ -99,45 +99,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Juan 5: Kingdra Lv. 46, holds Chesto Berry
   (70011, 7008, 7, NULL, NULL, NULL, NULL, NULL, 5, 230, 23000, 46, 179),
   -- Sidney 1: Mightyena Lv. 46
-  (70012, 7009, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 46, NULL),
+  (70016, 7009, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 46, NULL),
   -- Sidney 2: Shiftry Lv. 48
-  (70012, 7009, 7, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 48, NULL),
+  (70016, 7009, 7, NULL, NULL, NULL, NULL, NULL, 2, 275, 27500, 48, NULL),
   -- Sidney 3: Cacturne Lv. 46
-  (70012, 7009, 7, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 46, NULL),
+  (70016, 7009, 7, NULL, NULL, NULL, NULL, NULL, 3, 332, 33200, 46, NULL),
   -- Sidney 4: Crawdaunt Lv. 48
-  (70012, 7009, 7, NULL, NULL, NULL, NULL, NULL, 4, 342, 34200, 48, NULL),
+  (70016, 7009, 7, NULL, NULL, NULL, NULL, NULL, 4, 342, 34200, 48, NULL),
   -- Sidney 5: Absol Lv. 49, holds Sitrus Berry
-  (70012, 7009, 7, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 49, 187),
+  (70016, 7009, 7, NULL, NULL, NULL, NULL, NULL, 5, 359, 35900, 49, 187),
   -- Phoebe 1: Dusclops Lv. 48
-  (70013, 7010, 7, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 48, NULL),
+  (70016, 7010, 7, NULL, NULL, NULL, NULL, NULL, 1, 356, 35600, 48, NULL),
   -- Phoebe 2: Banette Lv. 49
-  (70013, 7010, 7, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 49, NULL),
+  (70016, 7010, 7, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 49, NULL),
   -- Phoebe 3: Sableye Lv. 50
-  (70013, 7010, 7, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 50, NULL),
+  (70016, 7010, 7, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 50, NULL),
   -- Phoebe 4: Banette Lv. 49
-  (70013, 7010, 7, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 49, NULL),
+  (70016, 7010, 7, NULL, NULL, NULL, NULL, NULL, 4, 354, 35400, 49, NULL),
   -- Phoebe 5: Dusclops Lv. 51, holds Sitrus Berry
-  (70013, 7010, 7, NULL, NULL, NULL, NULL, NULL, 5, 356, 35600, 51, 187),
+  (70016, 7010, 7, NULL, NULL, NULL, NULL, NULL, 5, 356, 35600, 51, 187),
   -- Glacia 1: Sealeo Lv. 50
-  (70014, 7011, 7, NULL, NULL, NULL, NULL, NULL, 1, 364, 36400, 50, NULL),
+  (70016, 7011, 7, NULL, NULL, NULL, NULL, NULL, 1, 364, 36400, 50, NULL),
   -- Glacia 2: Glalie Lv. 50
-  (70014, 7011, 7, NULL, NULL, NULL, NULL, NULL, 2, 362, 36200, 50, NULL),
+  (70016, 7011, 7, NULL, NULL, NULL, NULL, NULL, 2, 362, 36200, 50, NULL),
   -- Glacia 3: Sealeo Lv. 52
-  (70014, 7011, 7, NULL, NULL, NULL, NULL, NULL, 3, 364, 36400, 52, NULL),
+  (70016, 7011, 7, NULL, NULL, NULL, NULL, NULL, 3, 364, 36400, 52, NULL),
   -- Glacia 4: Glalie Lv. 52
-  (70014, 7011, 7, NULL, NULL, NULL, NULL, NULL, 4, 362, 36200, 52, NULL),
+  (70016, 7011, 7, NULL, NULL, NULL, NULL, NULL, 4, 362, 36200, 52, NULL),
   -- Glacia 5: Walrein Lv. 53, holds Sitrus Berry
-  (70014, 7011, 7, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 53, 187),
+  (70016, 7011, 7, NULL, NULL, NULL, NULL, NULL, 5, 365, 36500, 53, 187),
   -- Drake 1: Shelgon Lv. 52
-  (70015, 7012, 7, NULL, NULL, NULL, NULL, NULL, 1, 372, 37200, 52, NULL),
+  (70016, 7012, 7, NULL, NULL, NULL, NULL, NULL, 1, 372, 37200, 52, NULL),
   -- Drake 2: Altaria Lv. 54
-  (70015, 7012, 7, NULL, NULL, NULL, NULL, NULL, 2, 334, 33400, 54, NULL),
+  (70016, 7012, 7, NULL, NULL, NULL, NULL, NULL, 2, 334, 33400, 54, NULL),
   -- Drake 3: Kingdra Lv. 53
-  (70015, 7012, 7, NULL, NULL, NULL, NULL, NULL, 3, 230, 23000, 53, NULL),
+  (70016, 7012, 7, NULL, NULL, NULL, NULL, NULL, 3, 230, 23000, 53, NULL),
   -- Drake 4: Flygon Lv. 53
-  (70015, 7012, 7, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL),
+  (70016, 7012, 7, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 53, NULL),
   -- Drake 5: Salamence Lv. 55, holds Sitrus Berry
-  (70015, 7012, 7, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, 187),
+  (70016, 7012, 7, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 55, 187),
   -- Wallace 1: Wailord Lv. 57
   (70016, 7013, 7, NULL, NULL, NULL, NULL, NULL, 1, 321, 32100, 57, NULL),
   -- Wallace 2: Tentacruel Lv. 55
@@ -169,65 +169,65 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- May / Brendan (chose Mudkip), Receive Pokedex 1: Treecko Lv. 5
   (70002, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 252, 25200, 5, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Knuckle Badge 1: Lotad Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 270, 27000, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 270, 27000, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Knuckle Badge 2: Torchic Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 255, 25500, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 255, 25500, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Knuckle Badge 1: Torkoal Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 324, 32400, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 324, 32400, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Knuckle Badge 2: Mudkip Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 258, 25800, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 258, 25800, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Knuckle Badge 1: Wingull Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 278, 27800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Knuckle Badge 2: Treecko Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 252, 25200, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 252, 25200, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Knuckle Badge 1: Lotad Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 270, 27000, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 270, 27000, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Knuckle Badge 2: Torchic Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 255, 25500, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 255, 25500, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Knuckle Badge 1: Slugma Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 218, 21800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Knuckle Badge 2: Mudkip Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 258, 25800, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 258, 25800, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Knuckle Badge 1: Wingull Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 278, 27800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 278, 27800, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Knuckle Badge 2: Treecko Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 252, 25200, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 252, 25200, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 2: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 3, 256, 25600, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 3, 256, 25600, 20, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 1: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 3, 259, 25900, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 3, 259, 25900, 20, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 3, 253, 25300, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 3, 253, 25300, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 2: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 3, 256, 25600, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 3, 256, 25600, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 1: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 3, 259, 25900, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 3, 259, 25900, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 1: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 2: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 3, 253, 25300, 20, NULL),
   -- Wally, Dynamo Badge 1: Ralts Lv. 16
   (70005, 7016, 7, NULL, NULL, NULL, NULL, NULL, 1, 280, 28000, 16, NULL),
   -- Maxie, Mt. Chimney 1: Mightyena Lv. 24
@@ -237,82 +237,82 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Maxie, Mt. Chimney 3: Camerupt Lv. 25
   (70020, 7017, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 25, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 1: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 3: Combusken Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 3, 256, 25600, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 3, 256, 25600, 31, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 1: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 2: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 3: Marshtomp Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 3, 259, 25900, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 3, 259, 25900, 31, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 1: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 3: Grovyle Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 3, 253, 25300, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 3, 253, 25300, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 1: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 3: Combusken Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 3, 256, 25600, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 3, 256, 25600, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 1: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 2: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 3: Marshtomp Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 3, 259, 25900, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 3, 259, 25900, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 1: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 2: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 3: Grovyle Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 31, NULL),
-  -- May / Brendan (chose Treecko), Magma Hideout 1: Tropius Lv. 31
-  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 1, 357, 35700, 31, NULL),
-  -- May / Brendan (chose Treecko), Magma Hideout 2: Pelipper Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 2, 279, 27900, 32, NULL),
-  -- May / Brendan (chose Treecko), Magma Hideout 3: Ludicolo Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 3, 272, 27200, 32, NULL),
-  -- May / Brendan (chose Treecko), Magma Hideout 4: Combusken Lv. 34
-  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
-  -- May / Brendan (chose Torchic), Magma Hideout 1: Tropius Lv. 31
-  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 1, 357, 35700, 31, NULL),
-  -- May / Brendan (chose Torchic), Magma Hideout 2: Ludicolo Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 2, 272, 27200, 32, NULL),
-  -- May / Brendan (chose Torchic), Magma Hideout 3: Slugma Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 3, 218, 21800, 32, NULL),
-  -- May / Brendan (chose Torchic), Magma Hideout 4: Marshtomp Lv. 34
-  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
-  -- May / Brendan (chose Mudkip), Magma Hideout 1: Tropius Lv. 31
-  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 357, 35700, 31, NULL),
-  -- May / Brendan (chose Mudkip), Magma Hideout 2: Slugma Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 2, 218, 21800, 32, NULL),
-  -- May / Brendan (chose Mudkip), Magma Hideout 3: Pelipper Lv. 32
-  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 3, 279, 27900, 32, NULL),
-  -- May / Brendan (chose Mudkip), Magma Hideout 4: Grovyle Lv. 34
-  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 3, 253, 25300, 31, NULL),
+  -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 1: Tropius Lv. 31
+  (70034, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 1, 357, 35700, 31, NULL),
+  -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 2: Pelipper Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 2, 279, 27900, 32, NULL),
+  -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 3: Ludicolo Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 3, 272, 27200, 32, NULL),
+  -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 4: Combusken Lv. 34
+  (70034, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
+  -- May / Brendan (chose Torchic), Aqua Hideout (Lilycove City) 1: Tropius Lv. 31
+  (70034, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 1, 357, 35700, 31, NULL),
+  -- May / Brendan (chose Torchic), Aqua Hideout (Lilycove City) 2: Ludicolo Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 2, 272, 27200, 32, NULL),
+  -- May / Brendan (chose Torchic), Aqua Hideout (Lilycove City) 3: Slugma Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 3, 218, 21800, 32, NULL),
+  -- May / Brendan (chose Torchic), Aqua Hideout (Lilycove City) 4: Marshtomp Lv. 34
+  (70034, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
+  -- May / Brendan (chose Mudkip), Aqua Hideout (Lilycove City) 1: Tropius Lv. 31
+  (70034, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 357, 35700, 31, NULL),
+  -- May / Brendan (chose Mudkip), Aqua Hideout (Lilycove City) 2: Slugma Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 2, 218, 21800, 32, NULL),
+  -- May / Brendan (chose Mudkip), Aqua Hideout (Lilycove City) 3: Pelipper Lv. 32
+  (70034, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 3, 279, 27900, 32, NULL),
+  -- May / Brendan (chose Mudkip), Aqua Hideout (Lilycove City) 4: Grovyle Lv. 34
+  (70034, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
   -- Maxie, Magma Hideout 1: Mightyena Lv. 37
   (70021, 7017, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 37, NULL),
   -- Maxie, Magma Hideout 2: Crobat Lv. 38
   (70021, 7017, 7, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 38, NULL),
   -- Maxie, Magma Hideout 3: Camerupt Lv. 39
   (70021, 7017, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 39, NULL),
-  -- Maxie & Tabitha, Mind Badge 1: Mightyena Lv. 42
+  -- Maxie & Tabitha, Mossdeep Space Center 1: Mightyena Lv. 42
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 42, NULL),
-  -- Maxie & Tabitha, Mind Badge 2: Crobat Lv. 43
+  -- Maxie & Tabitha, Mossdeep Space Center 2: Crobat Lv. 43
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 43, NULL),
-  -- Maxie & Tabitha, Mind Badge 3: Camerupt Lv. 44
+  -- Maxie & Tabitha, Mossdeep Space Center 3: Camerupt Lv. 44
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 44, NULL),
-  -- Maxie & Tabitha, Mind Badge 4: Camerupt Lv. 36
+  -- Maxie & Tabitha, Mossdeep Space Center 4: Camerupt Lv. 36
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 36, NULL),
-  -- Maxie & Tabitha, Mind Badge 5: Mightyena Lv. 38
+  -- Maxie & Tabitha, Mossdeep Space Center 5: Mightyena Lv. 38
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 5, 262, 26200, 38, NULL),
-  -- Maxie & Tabitha, Mind Badge 6: Golbat Lv. 40
+  -- Maxie & Tabitha, Mossdeep Space Center 6: Golbat Lv. 40
   (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 6, 42, 4200, 40, NULL),
   -- Archie, Seafloor Cavern 1: Mightyena Lv. 41
   (70022, 7019, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41, NULL),
@@ -320,16 +320,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (70022, 7019, 7, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 41, NULL),
   -- Archie, Seafloor Cavern 3: Sharpedo Lv. 43
   (70022, 7019, 7, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 43, NULL),
-  -- Wally, Elite Four Sidney 1: Altaria Lv. 44
-  (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 44, NULL),
-  -- Wally, Elite Four Sidney 2: Delcatty Lv. 43
-  (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 43, NULL),
-  -- Wally, Elite Four Sidney 3: Roselia Lv. 44
-  (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 44, NULL),
-  -- Wally, Elite Four Sidney 4: Magneton Lv. 41
-  (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
-  -- Wally, Elite Four Sidney 5: Gardevoir Lv. 45
-  (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
+  -- Wally, Pokémon League (Victory Road) 1: Altaria Lv. 44
+  (70016, 7016, 7, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 44, NULL),
+  -- Wally, Pokémon League (Victory Road) 2: Delcatty Lv. 43
+  (70016, 7016, 7, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 43, NULL),
+  -- Wally, Pokémon League (Victory Road) 3: Roselia Lv. 44
+  (70016, 7016, 7, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 44, NULL),
+  -- Wally, Pokémon League (Victory Road) 4: Magneton Lv. 41
+  (70016, 7016, 7, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
+  -- Wally, Pokémon League (Victory Road) 5: Gardevoir Lv. 45
+  (70016, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
   -- Regirock, Sealed Chamber 1: Regirock Lv. 40
   (70023, 7020, 7, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40, NULL),
   -- Regice, Sealed Chamber 1: Regice Lv. 40
@@ -355,9 +355,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Tabitha, Mt. Chimney 4: Zubat Lv. 22
   (70020, 7028, 7, NULL, NULL, NULL, NULL, NULL, 4, 41, 4100, 22, NULL),
   -- Shelly, Weather Institute 1: Carvanha Lv. 28
-  (70009, 7029, 7, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
+  (70032, 7029, 7, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
   -- Shelly, Weather Institute 2: Mightyena Lv. 28
-  (70009, 7029, 7, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  (70032, 7029, 7, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
   -- Tabitha, Magma Hideout 1: Numel Lv. 26
   (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 26, NULL),
   -- Tabitha, Magma Hideout 2: Mightyena Lv. 28
@@ -367,9 +367,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Tabitha, Magma Hideout 4: Camerupt Lv. 33
   (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 33, NULL),
   -- Matt, Aqua Hideout 1: Mightyena Lv. 34
-  (70010, 7030, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 34, NULL),
+  (70034, 7030, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 34, NULL),
   -- Matt, Aqua Hideout 2: Golbat Lv. 34
-  (70010, 7030, 7, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 34, NULL),
+  (70034, 7030, 7, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 34, NULL),
   -- Shelly, Seafloor Cavern 1: Sharpedo Lv. 37
   (70022, 7029, 7, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 37, NULL),
   -- Shelly, Seafloor Cavern 2: Mightyena Lv. 37

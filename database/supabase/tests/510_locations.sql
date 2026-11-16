@@ -12,7 +12,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.locations),
-            812,
+            1006,
             'every place is seeded');
 SELECT
     IS ((
@@ -79,7 +79,7 @@ SELECT
             JOIN reference.locations l ON l.id = p.location_id
             WHERE
                 p.version_group_id = 26 ORDER BY p.sort_order LIMIT 5 $$, $$
-        VALUES ('Lumiose City'), ('Hotel Z'), ('Lumiose Museum'), ('Quasartico Inc. (building)'), ('Wild Zone 1') $$, 'Legends: Z-A opens in Lumiose City, at Hotel Z, then Wild Zone 1');
+        VALUES ('Gare de Lumiose'), ('Lumiose City'), ('Hotel Z'), ('Lumiose Museum'), ('Wild Zone 1') $$, 'Legends: Z-A opens at Gare de Lumiose, then Lumiose City and Hotel Z');
 SELECT
     results_eq ($$
         SELECT

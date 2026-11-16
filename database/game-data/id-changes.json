@@ -28,5 +28,617 @@
     "id": "20018",
     "becomes": "20017",
     "reason": "Yellow: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30011",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Will merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30012",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Koga merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30013",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30014",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Elite Four Karen merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "30016",
+    "becomes": "30015",
+    "reason": "Gold / Silver: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "40011",
+    "becomes": "40015",
+    "reason": "Crystal: Elite Four Will merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "40012",
+    "becomes": "40015",
+    "reason": "Crystal: Elite Four Koga merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "40013",
+    "becomes": "40015",
+    "reason": "Crystal: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "40014",
+    "becomes": "40015",
+    "reason": "Crystal: Elite Four Karen merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "40016",
+    "becomes": "40015",
+    "reason": "Crystal: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50012",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50013",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50014",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50015",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "50017",
+    "becomes": "50016",
+    "reason": "Ruby / Sapphire: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60013",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Lorelei merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60014",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60015",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Agatha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60016",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Elite Four Lance merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "60018",
+    "becomes": "60017",
+    "reason": "FireRed / LeafGreen: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70012",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70013",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70014",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70015",
+    "becomes": "70016",
+    "reason": "Emerald: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "70017",
+    "becomes": "70016",
+    "reason": "Emerald: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "80011",
+    "becomes": "80015",
+    "reason": "Diamond / Pearl: Elite Four Aaron merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "80012",
+    "becomes": "80015",
+    "reason": "Diamond / Pearl: Elite Four Bertha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "80013",
+    "becomes": "80015",
+    "reason": "Diamond / Pearl: Elite Four Flint merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "80014",
+    "becomes": "80015",
+    "reason": "Diamond / Pearl: Elite Four Lucian merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "80016",
+    "becomes": "80015",
+    "reason": "Diamond / Pearl: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90011",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Aaron merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90012",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Bertha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90013",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Flint merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90014",
+    "becomes": "90015",
+    "reason": "Platinum: Elite Four Lucian merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "90016",
+    "becomes": "90015",
+    "reason": "Platinum: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100011",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Will merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100012",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Koga merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100013",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100014",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Elite Four Karen merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "100016",
+    "becomes": "100015",
+    "reason": "HeartGold / SoulSilver: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110011",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Shauntal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110012",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Grimsley merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110013",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Caitlin merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110014",
+    "becomes": "110016",
+    "reason": "Black / White: Elite Four Marshal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110015",
+    "becomes": "110016",
+    "reason": "Black / White: Battle N merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "110018",
+    "becomes": "110017",
+    "reason": "Black / White: Hall of Fame merged into the Champion Alder milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120013",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Shauntal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120014",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Grimsley merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120015",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Caitlin merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120016",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Elite Four Marshal merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "120018",
+    "becomes": "120017",
+    "reason": "Black 2 / White 2: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130013",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Malva merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130014",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Siebold merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130015",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Wikstrom merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130016",
+    "becomes": "130017",
+    "reason": "X / Y: Elite Four Drasna merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130018",
+    "becomes": "130017",
+    "reason": "X / Y: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "130019",
+    "becomes": "130017",
+    "reason": "X / Y: Battle AZ merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140012",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Sidney merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140013",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Phoebe merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140014",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Glacia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140015",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Elite Four Drake merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "140017",
+    "becomes": "140016",
+    "reason": "Omega Ruby / Alpha Sapphire: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150014",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Hala merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150015",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Olivia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150016",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Acerola merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150017",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Elite Four Kahili merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "150019",
+    "becomes": "150018",
+    "reason": "Sun / Moon: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160016",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Molayne merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160017",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Olivia merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160018",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Acerola merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160019",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Elite Four Kahili merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "160021",
+    "becomes": "160020",
+    "reason": "Ultra Sun / Ultra Moon: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170012",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Lorelei merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170013",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Bruno merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170014",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Agatha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170015",
+    "becomes": "170016",
+    "reason": "Let's Go: Elite Four Lance merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "170017",
+    "becomes": "170016",
+    "reason": "Let's Go: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "180013",
+    "becomes": "180012",
+    "reason": "Sword / Shield: Hall of Fame merged into the Champion Leon milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "190004",
+    "becomes": "190002",
+    "reason": "The Isle of Armor: Receive Kubfu merged into the Dojo Trials, whose reward it is"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210011",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Aaron merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210012",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Bertha merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210013",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Flint merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210014",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Elite Four Lucian merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "210016",
+    "becomes": "210015",
+    "reason": "Brilliant Diamond / Shining Pearl: Hall of Fame merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230011",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Rika merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230012",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Poppy merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230013",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Larry merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230014",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Elite Four Hassel merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230016",
+    "becomes": "230015",
+    "reason": "Scarlet / Violet: Champion Nemona merged into the Pokémon League milestone"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "230022",
+    "becomes": "230023",
+    "reason": "Scarlet / Violet: Defeat Clavell merged into Defeat Penny, fought right after it"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "240006",
+    "becomes": "240005",
+    "reason": "The Teal Mask: Kieran Rematch merged into Ogerpon, which his battle comes right before"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "250007",
+    "becomes": "250008",
+    "reason": "The Indigo Disk: Area Zero Underdepths merged into Terapagos, which is fought there"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260002",
+    "becomes": "260001",
+    "reason": "Legends: Z-A: Arrive in Lumiose City merged into Choose Starter, which happens as you arrive"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260004",
+    "becomes": "260013",
+    "reason": "Legends: Z-A: Enter Z-A Royale merged into Reach Rank Y, its first match"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "260007",
+    "becomes": "260021",
+    "reason": "Legends: Z-A: Explore Lysandre Labs merged into Reach Rank A, whose match ends it"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270001",
+    "becomes": "270002",
+    "reason": "Mega Dimension: Begin Mega Dimension merged into Investigate Hyperspace Lumiose, which it leads straight into"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270017",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Latios merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270018",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Cobalion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270019",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Terrakion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270020",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Virizion merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270021",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Keldeo merged into one Special Scans beat"
+  },
+  {
+    "table": "tracking.mainline_milestones",
+    "id": "270022",
+    "becomes": "270016",
+    "reason": "Mega Dimension: Special Scan: Meloetta merged into one Special Scans beat"
   }
 ]

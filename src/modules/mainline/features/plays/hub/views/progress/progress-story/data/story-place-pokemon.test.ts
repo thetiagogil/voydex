@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getRuledOutDecisionFormIds,
   groupStoryPlacePokemon,
   type StoryPlaceEncounterRow,
 } from "./story-place-pokemon";
@@ -14,6 +15,7 @@ const row = (
   levelMax: 5,
   levelMin: 2,
   wayName: "Tall grass",
+  waySlug: "tall-grass",
   waySortOrder: 1,
   ...overrides,
 });
@@ -70,5 +72,72 @@ describe("groupStoryPlacePokemon", () => {
       groupStoryPlacePokemon([row({ levelMax: null, levelMin: null })])[0]
         .pokemon[0].levels,
     ).toBeNull();
+  });
+});
+
+describe("getRuledOutDecisionFormIds", () => {
+  const steedChoice = (selected: number | null) => ({
+    decision_options: [
+      { decision_option_id: 1, pokemon_form_id: 89600 },
+      { decision_option_id: 2, pokemon_form_id: 89700 },
+    ],
+    selected_decision_option_id: selected,
+    version_group_id: 20,
+  });
+  const freezington = [
+    row({
+      formId: 89600,
+      formName: "Glastrier",
+      wayName: "Special encounter",
+      waySlug: "special",
+      waySortOrder: 28,
+    }),
+    row({
+      formId: 89700,
+      formName: "Spectrier",
+      wayName: "Special encounter",
+      waySlug: "special",
+      waySortOrder: 28,
+    }),
+  ];
+  const names = (ruledOut?: ReadonlySet<number>) =>
+    groupStoryPlacePokemon(freezington, ruledOut).flatMap((group) =>
+      group.pokemon.map((pokemon) => pokemon.name),
+    );
+
+  it("leaves off the one-off Pokémon a recorded choice ruled out", () => {
+    const ruledOut = getRuledOutDecisionFormIds([steedChoice(2)]);
+
+    expect(names(ruledOut.get(20))).toEqual(["Spectrier"]);
+  });
+
+  it("shows every option while the choice isn't recorded", () => {
+    const ruledOut = getRuledOutDecisionFormIds([steedChoice(null)]);
+
+    expect(names(ruledOut.get(20))).toEqual(["Glastrier", "Spectrier"]);
+  });
+
+  it("keeps a ruled-out Pokémon where it is met in the wild", () => {
+    const ruledOut = getRuledOutDecisionFormIds([steedChoice(2)]);
+
+    expect(
+      groupStoryPlacePokemon(
+        [row({ formId: 89600, formName: "Glastrier" })],
+        ruledOut.get(20),
+      ).flatMap((group) => group.pokemon.map((pokemon) => pokemon.name)),
+    ).toEqual(["Glastrier"]);
+  });
+
+  it("never rules out a Pokémon another recorded choice picked", () => {
+    const ruledOut = getRuledOutDecisionFormIds([
+      steedChoice(2),
+      {
+        decision_options: [{ decision_option_id: 3, pokemon_form_id: 89600 }],
+        selected_decision_option_id: 3,
+        version_group_id: 20,
+      },
+    ]);
+
+    expect(names(ruledOut.get(20))).toEqual(["Glastrier", "Spectrier"]);
   });
 });

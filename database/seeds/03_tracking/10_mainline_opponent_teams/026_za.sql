@@ -30,6 +30,10 @@
 -- Xavi's Furfrou and Lysandre's Florges, so they are stored as the default form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Rogue Megas and other wild battles: Bulbapedia names no held item for them, so they hold nothing.
+-- Naveen, Lida, Emma, Tarragon, Gwynn, Philippe, Lebanne and Griselle's Story
+-- battles, Korrina's test and the two Hyperspace Multi Battles: Bulbapedia's
+-- trainer pages only (team, levels, held Mega Stones and moves). The Multi
+-- Battle teams are stored at their lower level and list two moves each.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -86,77 +90,77 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Taunie / Urbain (chose Totodile), Unlock Mega Evolution 3: Mega Manectric Lv. 26, holds Manectite
   (260005, 26001, 26, NULL, 260001, 'totodile', NULL, NULL, 3, 310, 31001, 26, 292, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 1: Meowstic (Female) Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 1, 678, 67801, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 678, 67801, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 4: Feraligatr Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 4, 160, 16000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 160, 16000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Chikorita), Stop the Ange Crisis 6: Mega Emboar Lv. 64, holds Emboarite
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 6, 500, 50001, 64, 468, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 6, 500, 50001, 64, 468, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 1: Meowstic (Female) Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 1, 678, 67801, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 678, 67801, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 4: Meganium Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 4, 154, 15400, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 154, 15400, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Tepig), Stop the Ange Crisis 6: Mega Feraligatr Lv. 64, holds Feraligite
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 6, 160, 16001, 64, 463, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 6, 160, 16001, 64, 463, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 1: Meowstic (Female) Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 1, 678, 67801, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 678, 67801, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 4: Emboar Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 4, 500, 50000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 500, 50000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Taunie (you play as Paxton), you chose Totodile), Stop the Ange Crisis 6: Mega Meganium Lv. 64, holds Meganiumite
-  (260008, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 6, 154, 15401, 64, 462, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 6, 154, 15401, 64, 462, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 1: Meowstic Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 1, 678, 67800, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 678, 67800, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 4: Feraligatr Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 4, 160, 16000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 160, 16000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Chikorita), Stop the Ange Crisis 6: Mega Emboar Lv. 64, holds Emboarite
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 6, 500, 50001, 64, 468, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 6, 500, 50001, 64, 468, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 1: Meowstic Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 1, 678, 67800, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 678, 67800, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 4: Meganium Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 4, 154, 15400, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 154, 15400, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Tepig), Stop the Ange Crisis 6: Mega Feraligatr Lv. 64, holds Feraligite
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 6, 160, 16001, 64, 463, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 6, 160, 16001, 64, 463, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 1: Meowstic Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 1, 678, 67800, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 678, 67800, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 2: Goodra Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 2, 706, 70600, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 706, 70600, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 3: Avalugg Lv. 62
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 3, 713, 71300, 62, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 713, 71300, 62, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 4: Emboar Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 4, 500, 50000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 500, 50000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 5: Manectric Lv. 63
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 5, 310, 31000, 63, NULL, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 5, 310, 31000, 63, NULL, NULL, FALSE),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 6: Mega Meganium Lv. 64, holds Meganiumite
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 6, 154, 15401, 64, 462, NULL, FALSE),
+  (260008, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 6, 154, 15401, 64, 462, NULL, FALSE),
   -- Zygarde, Reach Rank E 1: Zygarde (10% Forme) Lv. 33
   (260018, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71801, 33, NULL, NULL, FALSE),
   -- Zygarde, Reach Rank B 1: Zygarde Lv. 57
@@ -314,4 +318,130 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Rogue Mega Tyranitar, Rogue Mega Tyranitar 1: Mega Tyranitar Lv. 59
   (260035, 26030, 26, NULL, NULL, NULL, NULL, NULL, 1, 248, 24801, 59, NULL, NULL, FALSE),
   -- Rogue Mega Starmie, Rogue Mega Starmie 1: Mega Starmie Lv. 59
-  (260036, 26031, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12101, 59, NULL, NULL, FALSE);
+  (260036, 26031, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12101, 59, NULL, NULL, FALSE),
+  -- Emma, Reach Rank X 1: Mareep Lv. 15
+  (260014, 26034, 26, NULL, NULL, NULL, NULL, NULL, 1, 179, 17900, 15, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 1: Spinarak Lv. 16
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 167, 16700, 16, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 2: Sableye Lv. 16
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 16, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 3: Scraggy Lv. 17
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 17, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 1: Clauncher Lv. 22
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 692, 69200, 22, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 2: Vanillite Lv. 22
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 582, 58200, 22, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 3: Staryu Lv. 23
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 120, 12000, 23, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 1: Ariados Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 33, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 2: Sableye Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 33, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 3: Scraggy Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 33, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 1: Hippowdon Lv. 36
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 1, 450, 45000, 36, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 2: Diggersby Lv. 36
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 2, 660, 66000, 36, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 3: Mega Excadrill Lv. 37
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 3, 530, 53001, 37, 469, NULL, FALSE),
+  -- Gwynn, Reach Rank D 1: Banette Lv. 43
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 43, NULL, NULL, FALSE),
+  -- Gwynn, Reach Rank D 2: Gourgeist (Small) Lv. 44
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 2, 711, 71101, 44, NULL, NULL, FALSE),
+  -- Gwynn, Reach Rank D 3: Mega Chandelure Lv. 45
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 3, 609, 60901, 45, 473, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 1: Steelix Lv. 46
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20800, 46, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 2: Scizor Lv. 46
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 46, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 3: Mega Skarmory Lv. 47
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 3, 227, 22701, 47, 464, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 1: Banette Lv. 45
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 45, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 2: Gourgeist (Small) Lv. 46
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 2, 711, 71101, 46, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 3: Gengar Lv. 46
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 46, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 4: Mega Chandelure Lv. 47
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 4, 609, 60901, 47, 473, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 1: Clawitzer Lv. 46
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 46, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 2: Vanillish Lv. 46
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 583, 58300, 46, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 3: Emolga Lv. 47
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 587, 58700, 47, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 4: Staryu Lv. 48
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 4, 120, 12000, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 1: Ariados Lv. 48
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 2: Sableye Lv. 48
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 3: Krookodile Lv. 49
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 553, 55300, 49, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 4: Mega Scrafty Lv. 50
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 4, 560, 56001, 50, 471, NULL, FALSE),
+  -- Lebanne, Reach Rank B 1: Noivern Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 1, 715, 71500, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 2: Tyrantrum Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 2, 697, 69700, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 3: Garchomp Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 3, 445, 44500, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 4: Mega Dragalge Lv. 54
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 4, 691, 69101, 54, 481, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 1: Steelix Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20800, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 2: Scizor Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 3: Aggron Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 4: Mega Skarmory Lv. 57
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 4, 227, 22701, 57, 464, NULL, FALSE),
+  -- Emma, Reach Rank A 1: Ampharos Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 1, 181, 18100, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 2: Mawile Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 2, 303, 30300, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 3: Lopunny Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 3, 428, 42800, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 4: Lucario Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 4, 448, 44800, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 5: Mega Malamar Lv. 58
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 5, 687, 68701, 58, 479, NULL, FALSE),
+  -- Griselle, Reach Rank A 1: Talonflame Lv. 59
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 1, 663, 66300, 59, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 2: Camerupt Lv. 59
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 2, 323, 32300, 59, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 3: Aerodactyl Lv. 60
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 3, 142, 14200, 60, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 4: Metagross Lv. 60
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 4, 376, 37600, 60, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 5: Mega Pyroar Lv. 61
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 5, 668, 66801, 61, 477, NULL, FALSE),
+  -- Rogue Mega Gengar, Stop the Ange Crisis 1: Mega Gengar Lv. 62
+  (260008, 26040, 26, NULL, NULL, NULL, NULL, NULL, 1, 94, 9401, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Heracross, Stop the Ange Crisis 1: Mega Heracross Lv. 62
+  (260008, 26041, 26, NULL, NULL, NULL, NULL, NULL, 1, 214, 21401, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Kangaskhan, Stop the Ange Crisis 1: Mega Kangaskhan Lv. 62
+  (260008, 26042, 26, NULL, NULL, NULL, NULL, NULL, 1, 115, 11501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Pidgeot, Stop the Ange Crisis 1: Mega Pidgeot Lv. 62
+  (260008, 26043, 26, NULL, NULL, NULL, NULL, NULL, 1, 18, 1801, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Garchomp, Stop the Ange Crisis 1: Mega Garchomp Lv. 62
+  (260008, 26044, 26, NULL, NULL, NULL, NULL, NULL, 1, 445, 44501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Blastoise, Stop the Ange Crisis 1: Mega Blastoise Lv. 62
+  (260008, 26045, 26, NULL, NULL, NULL, NULL, NULL, 1, 9, 901, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Steelix, Stop the Ange Crisis 1: Mega Steelix Lv. 62
+  (260008, 26046, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20801, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Aggron, Stop the Ange Crisis 1: Mega Aggron Lv. 62
+  (260008, 26047, 26, NULL, NULL, NULL, NULL, NULL, 1, 306, 30601, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Salamence, Stop the Ange Crisis 1: Mega Salamence Lv. 62
+  (260008, 26048, 26, NULL, NULL, NULL, NULL, NULL, 1, 373, 37301, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Gardevoir, Stop the Ange Crisis 1: Mega Gardevoir Lv. 62
+  (260008, 26049, 26, NULL, NULL, NULL, NULL, NULL, 1, 282, 28201, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Gallade, Stop the Ange Crisis 1: Mega Gallade Lv. 62
+  (260008, 26050, 26, NULL, NULL, NULL, NULL, NULL, 1, 475, 47501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Alakazam, Stop the Ange Crisis 1: Mega Alakazam Lv. 62
+  (260008, 26051, 26, NULL, NULL, NULL, NULL, NULL, 1, 65, 6501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Aerodactyl, Stop the Ange Crisis 1: Mega Aerodactyl Lv. 62
+  (260008, 26052, 26, NULL, NULL, NULL, NULL, NULL, 1, 142, 14201, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Metagross, Stop the Ange Crisis 1: Mega Metagross Lv. 62
+  (260008, 26053, 26, NULL, NULL, NULL, NULL, NULL, 1, 376, 37601, 62, NULL, NULL, FALSE);

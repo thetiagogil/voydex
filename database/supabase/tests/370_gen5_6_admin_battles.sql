@@ -15,27 +15,27 @@ SELECT
             refs.milestone_id, opponents.slug, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (120009, 120010, 120011, 120012)
+                refs.milestone_id IN (120009, 120031, 120010, 120011, 120012)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120009, 'zinzolin', 4), (120009, 'shadow-absol', 5), (120010, 'marlon', 1), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
+            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120010, 'marlon', 1), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5), (120031, 'zinzolin', 1), (120031, 'shadow-absol', 2) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
 SELECT
     results_eq ($$
         SELECT
             refs.milestone_id, opponents.slug, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (130009, 130011, 130021)
+                refs.milestone_id IN (130027, 130028, 130029, 130021)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (130009, 'aliana', 1), (130009, 'clemont', 2), (130011, 'celosia-bryony', 1), (130011, 'mable', 2), (130011, 'serena-calem', 3), (130011, 'olympia', 4), (130021, 'lysandre', 1), (130021, 'aliana', 2), (130021, 'celosia', 3), (130021, 'bryony', 4), (130021, 'mable', 5), (130021, 'xerosic', 6) $$, 'X / Y: the Team Flare scientists at the Power Plant, the Poké Ball Factory, Frost Cavern and Lysandre Labs');
+            VALUES (130021, 'lysandre', 1), (130021, 'aliana', 2), (130021, 'celosia', 3), (130021, 'bryony', 4), (130021, 'mable', 5), (130021, 'xerosic', 6), (130027, 'aliana', 1), (130028, 'celosia-bryony', 1), (130029, 'mable', 1) $$, 'X / Y: the Team Flare scientists at the Power Plant, the Poké Ball Factory, Frost Cavern and Lysandre Labs');
 SELECT
     results_eq ($$
         SELECT
             refs.milestone_id, opponents.slug, opponents.game_id, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
-                refs.milestone_id IN (140019, 140009, 140010, 140018)
+                refs.milestone_id IN (140018, 140019, 140036, 140037, 140038, 140039, 140040)
                 AND opponents.slug ~ '^(tabitha|courtney|shelly|matt)' ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (140009, 'courtney-grunt', 23, 1), (140009, 'matt-grunt', 24, 2), (140009, 'tabitha', 23, 3), (140009, 'shelly', 24, 4), (140010, 'courtney', 23, 1), (140010, 'matt', 24, 2), (140010, 'courtney-magma-hideout', 23, 4), (140010, 'matt-aqua-hideout', 24, 5), (140018, 'courtney', 23, 1), (140018, 'matt', 24, 2), (140018, 'courtney-grunt', 23, 4), (140018, 'matt-grunt', 24, 5), (140019, 'tabitha-grunt', 23, 1), (140019, 'shelly-grunt', 24, 2), (140019, 'tabitha', 23, 3), (140019, 'shelly', 24, 4) $$, 'Omega Ruby / Alpha Sapphire: each game''s own Admins, in Story order');
+            VALUES (140018, 'courtney', 23, 1), (140018, 'matt', 24, 2), (140018, 'courtney-grunt', 23, 4), (140018, 'matt-grunt', 24, 5), (140019, 'tabitha', 23, 1), (140019, 'shelly', 24, 3), (140036, 'tabitha-grunt', 23, 1), (140036, 'shelly-grunt', 24, 2), (140037, 'courtney-grunt', 23, 1), (140037, 'matt-grunt', 24, 2), (140038, 'tabitha', 23, 1), (140038, 'shelly', 24, 2), (140039, 'courtney', 23, 1), (140039, 'matt', 24, 2), (140040, 'courtney-magma-hideout', 23, 2), (140040, 'matt-aqua-hideout', 24, 3) $$, 'Omega Ruby / Alpha Sapphire: each game''s own Admins, in Story order');
 -- Every new battle has its full team.
 SELECT
     results_eq ($$
@@ -81,21 +81,21 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            members.milestone_id, COALESCE(members.decision_option_slug, members.variant_slug), species.slug FROM tracking.mainline_opponent_team_members AS members
+            members.milestone_id, CONCAT_WS('-', members.variant_slug, members.decision_option_slug), species.slug FROM tracking.mainline_opponent_team_members AS members
             JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
                 members.ally_opponent_id IN (12016, 13018, 14015)
-                AND members.milestone_id IN (120009, 130011, 140019)
+                AND members.milestone_id IN (120009, 130028, 140036)
                 AND species.slug IN ('emboar', 'samurott', 'serperior', 'delphox', 'greninja', 'chesnaught', 'combusken', 'marshtomp', 'grovyle')
                 AND members.opponent_id <> 14056 ORDER BY members.milestone_id, 2 $$, $$
-            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130011, 'calem-chespin', 'delphox'), (130011, 'calem-fennekin', 'greninja'), (130011, 'calem-froakie', 'chesnaught'), (130011, 'serena-chespin', 'delphox'), (130011, 'serena-fennekin', 'greninja'), (130011, 'serena-froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
+            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130028, 'calem-chespin', 'delphox'), (130028, 'calem-fennekin', 'greninja'), (130028, 'calem-froakie', 'chesnaught'), (130028, 'serena-chespin', 'delphox'), (130028, 'serena-fennekin', 'greninja'), (130028, 'serena-froakie', 'chesnaught'), (140036, 'mudkip', 'grovyle'), (140036, 'torchic', 'marshtomp'), (140036, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
 -- Serena's Meowstic is female, Calem's male.
 SELECT
     results_eq ($$ SELECT DISTINCT
             split_part(members.variant_slug, '-', 1), forms.slug FROM tracking.mainline_opponent_team_members AS members
             JOIN reference.pokemon_forms AS forms ON forms.id = members.form_id
             WHERE
-                members.milestone_id = 130011
+                members.milestone_id = 130028
                 AND members.ally_opponent_id = 13018
                 AND members.species_id = 678 ORDER BY 1 $$, $$
             VALUES ('calem'::text, 'meowstic'::text), ('serena', 'meowstic-female') $$, 'Serena / Calem''s partner Meowstic matches who your partner is');

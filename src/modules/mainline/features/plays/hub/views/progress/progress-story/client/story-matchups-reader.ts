@@ -418,6 +418,9 @@ const readOpponentTeams = async (
           baseStats: attributes ? toBaseStats(attributes) : null,
           battleFormMechanic: battleMechanicByForm.get(member.form_id) ?? null,
           choiceKey,
+          choiceLabel: choiceKey
+            ? (optionLabelByKey.get(choiceKey) ?? null)
+            : null,
           dynamaxes: member.dynamaxes,
           formSlug: form.slug,
           gameId: member.game_id,
@@ -441,9 +444,9 @@ const readOpponentTeams = async (
           slot: member.slot,
           teraType,
           variantKey: member.variant_slug,
-          variantLabel: choiceKey
-            ? (optionLabelByKey.get(choiceKey) ?? null)
-            : member.variant_label,
+          variantLabel:
+            member.variant_label ??
+            (choiceKey ? (optionLabelByKey.get(choiceKey) ?? null) : null),
         },
       ];
     }),

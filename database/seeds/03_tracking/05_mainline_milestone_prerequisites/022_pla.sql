@@ -1,12 +1,15 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Legends: Arceus's missions.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Pokémon Legends: Arceus mainline milestone prerequisite links.
+-- Legends: Arceus mainline milestone prerequisite links, in Red / Blue's
+-- pattern: each Main Story beat suggests the one before it, Post Game carries
+-- on from the Temple of Sinnoh, and each side-content beat names the beat
+-- that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,9 +20,9 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Receive Pokedex <- Choose Starter
+  -- Receive Pokédex <- Choose Starter
   (220002, 220001, 22, 1, 1, NULL),
-  -- Noble Kleavor <- Receive Pokedex
+  -- Noble Kleavor <- Receive Pokédex
   (220003, 220002, 22, 1, 1, NULL),
   -- Noble Lilligant <- Noble Kleavor
   (220004, 220003, 22, 1, 1, NULL),
@@ -35,10 +38,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (220009, 220008, 22, 1, 1, NULL),
   -- Origin Pokémon <- Commander Kamado
   (220010, 220009, 22, 1, 1, NULL),
-  -- Defeat Volo <- The Plate of Snowpoint Temple
-  (220011, 220016, 22, 1, 1, NULL),
-  -- Meet Arceus <- Defeat Volo
-  (220012, 220011, 22, 1, 1, NULL),
   -- The Plate of the Lakes <- Origin Pokémon
   (220013, 220010, 22, 1, 1, NULL),
   -- The Plate of Firespit Island <- The Plate of the Lakes
@@ -47,9 +46,13 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (220015, 220014, 22, 1, 1, NULL),
   -- The Plate of Snowpoint Temple <- The Plate of Moonview Arena
   (220016, 220015, 22, 1, 1, NULL),
-  -- The Sea's Legend opens after Origin Pokémon
-  (220017, 220010, 22, 4, 1, NULL),
+  -- Defeat Volo <- The Plate of Snowpoint Temple
+  (220011, 220016, 22, 1, 1, NULL),
+  -- Meet Arceus <- Defeat Volo
+  (220012, 220011, 22, 1, 1, NULL),
+  -- The Sea's Legend opens after Noble Arcanine
+  (220017, 220005, 22, 4, 1, 'Needs Basculegion to reach Sand''s Reach.'),
   -- On the Trail of Giratina opens after Defeat Volo
   (220018, 220011, 22, 4, 1, NULL),
-  -- Incarnate Forces of Hisui opens after Origin Pokémon
-  (220019, 220010, 22, 4, 1, NULL);
+  -- Incarnate Forces opens after Defeat Volo
+  (220019, 220011, 22, 4, 1, NULL);

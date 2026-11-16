@@ -2,11 +2,14 @@
 -- Source
 -- ============================================================================
 -- Primary: Voydex mainline module product taxonomy.
--- Scope: Pokémon Ultra Sun / Ultra Moon tracking categories.
+-- Scope: Pokémon Ultra Sun / Ultra Moon shared tracking categories.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Version-group-wide categories for Ultra Sun / Ultra Moon story and optional progression.
+-- The island challenge is the Main Story, so it has no chapter of its own,
+-- and the Pokémon League is one milestone at the end of it (the Elite Four,
+-- Hau and the Hall of Fame back to back).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_categories (
@@ -21,11 +24,7 @@ INSERT INTO tracking.mainline_categories (
 ) VALUES
   -- Main Story
   (1601, 16, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
-  -- Island Challenge
-  (1602, 16, 'island-challenge', 'Island Challenge', 'story', 'main-story', false, 2),
-  -- Pokémon League
-  (1603, 16, 'pokemon-league', 'Pokémon League', 'story', 'main-story', false, 3),
   -- Post Game
-  (1604, 16, 'post-game', 'Post Game', 'story', 'post-game', false, 4),
+  (1604, 16, 'post-game', 'Post Game', 'story', 'post-game', false, 2),
   -- Side Content
-  (1605, 16, 'side-content', 'Side Content', 'story', 'side-content', false, 5);
+  (1605, 16, 'side-content', 'Side Content', 'story', 'side-content', false, 3);

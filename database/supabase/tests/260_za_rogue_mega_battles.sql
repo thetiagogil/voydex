@@ -17,6 +17,12 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id IN (26, 27)
                 AND mainline_opponent_team_members.ally_opponent_id IS NULL
+                AND mainline_opponent_team_members.opponent_id IN (
+                    SELECT
+                        id
+                    FROM tracking.mainline_opponents
+                    WHERE
+                        slug LIKE 'rogue-mega-%')
                 AND mainline_milestones.slug LIKE 'rogue-mega-%'
                 AND mainline_milestones.slug NOT IN ('rogue-mega-darkrai', 'rogue-mega-rayquaza')
             ORDER BY mainline_milestones.version_group_id, mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
@@ -39,13 +45,25 @@ SELECT
                     FROM tracking.mainline_milestone_opponent_refs
                     WHERE
                         mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id
+                        AND mainline_milestone_opponent_refs.opponent_id IN (
+                            SELECT
+                                id
+                            FROM tracking.mainline_opponents
+                            WHERE
+                                slug LIKE 'rogue-mega-%')
                         AND mainline_milestone_opponent_refs.player_side = 'own-team') <> 1
                     OR (
                         SELECT
                             COUNT(*)
                         FROM tracking.mainline_milestone_opponent_refs
+                    WHERE
+                        mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id
+                        AND mainline_milestone_opponent_refs.opponent_id IN (
+                            SELECT
+                                id
+                            FROM tracking.mainline_opponents
                         WHERE
-                            mainline_milestone_opponent_refs.milestone_id = mainline_milestones.id) <> 1 $$, 'each rogue Mega is one required Boss battle with your own team');
+                            slug LIKE 'rogue-mega-%')) <> 1 $$, 'each rogue Mega is one required Boss battle with your own team');
 -- Wild rogue Megas hold no Mega Stone, so their team rows carry none.
 SELECT
     is_empty ($$

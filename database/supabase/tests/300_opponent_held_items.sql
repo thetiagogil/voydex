@@ -113,7 +113,7 @@ SELECT
                 AND ally_opponent_id IS NULL
                 AND version_group_id IN (18, 19, 20, 23, 24, 25, 26, 27)
             GROUP BY version_group_id ORDER BY version_group_id $$, $$
-            VALUES (18, 10), (19, 2), (20, 1), (23, 6), (24, 17), (25, 31), (26, 19) $$, 'Gen 8-9 opponents hold the items their games give them');
+            VALUES (18, 10), (19, 2), (20, 1), (23, 6), (24, 17), (25, 31), (26, 28), (27, 5) $$, 'Gen 8-9 opponents hold the items their games give them');
 -- Koraidon and Miraidon bring their own weather and terrain items.
 SELECT
     results_eq ($$ SELECT DISTINCT

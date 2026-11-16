@@ -360,29 +360,54 @@ sources remain authoritative for game-specific mechanics and availability.
   first, then Yellow; `610_story_pattern.sql` holds every game with a roadmap
   to it):
   - Each milestone is at a place (`location_id`), a badge at its Gym, and is
-    one roadmap step. A battle fought elsewhere names its own place.
+    one roadmap step. The main story is one chapter (Main Story), never
+    split by theme, with Post Game and Side Content beside it. A place step
+    is somewhere you move to: the short walk
+    back between two far places is steps too, a long way back is said in the
+    note of the place you arrive at, and a town you are already standing in
+    gets no step of its own. A battle fought elsewhere names its own place, and
+    Story then shows it on that place instead of on the milestone. So the
+    place has to be a step on the way to the milestone, and the milestone a
+    required one. A battle fought somewhere the route reaches only after its
+    milestone stays on the milestone, with the place in its note
+    (`615_story_battle_places.sql`).
   - Main Story follows the walkthrough's order. Only what the game forces is
     required; optional beats sit where the story meets them (or right after
-    the beat that opens them) and get no route of their own.
+    the beat that opens them).
+  - The route walks every place the game offers, optional or not. A side
+    place sits where the game opens it, its note starts "A side trip" and the
+    last note of the trip says the way back. A place found in only one game
+    of the pair is a step with that game (`game_id`). Places that move
+    around or change daily (Mirage spots, Hyperspace Wild Zones, the Grand
+    Underground's hideaways) are one optional milestone each.
   - The Pokémon League is one milestone that closes Main Story (Champion
     type, snapshot recommended), with the last rival battle, the Elite Four
     and the Champion as its battles. There is no League chapter and no
     separate Elite Four or Hall of Fame milestone. Merged milestones get an
     entry in `database/game-data/id-changes.json`.
-  - Opponents are the characters the game names (Leaders, the Elite Four,
-    rivals, villain bosses and named admins) and the Pokémon the story makes
-    you face. Plain trainer classes stay out, and so does a blocker you can
-    catch, beat or run from (a Snorlax). Teams and moves come from the game's
-    own data.
+  - Opponents are the story's own characters (Leaders, the Elite Four,
+    rivals, villain bosses and their admins) and the Pokémon the story makes
+    you beat. Plain trainers stay out even where the game names them or
+    forces the fight (Sprout Tower's Elder, the Kimono Girls), and so does a
+    blocker you can catch, beat or run from (a Snorlax, Sudowoodo, the red
+    Gyarados). Teams and moves come from the game's own data.
   - A description says what to do, then what you get or unlock, and a badge
     names what it does outside battle. A place step's note says who gives you
     what, what a path needs, what blocks the way and the Gym's type, up to
     300 characters. Both use short full sentences with no semicolon, say
     "Team Rocket Grunt" rather than "a Rocket", and a note never names the
-    Pokémon found there.
+    wild Pokémon found there. A Pokémon someone hands you is the exception:
+    the note of its place names it, who gives it and what it asks for (an
+    Egg by what hatches from it). Prizes and Pokémon you pay for stay out.
+  - A roaming Pokémon is its own optional milestone, also when the rest of
+    its group waits in one place (Mesprit beside Lake Guardians).
+  - A battle against a named character on the way to a Story point belongs
+    to that Story point and names the place it is fought at.
   - A collectible set is something scattered that the game counts and
-    rewards. A game without one has none.
-- Yellow follows Red / Blue step for step (the same Kanto, the same 81
+    rewards. A game without one has none. Forms the Pokédex counts as one
+    species qualify when the game keeps its own count of them and rewards
+    the full set (Unown's 26 forms in Gold / Silver).
+- Yellow follows Red / Blue step for step (the same Kanto, the same 90
   roadmap steps and place list). What differs comes from Yellow's own data
   (the pret pokeyellow disassembly): Receive Pikachu is not a choice, Jessie
   & James are fought at Mt. Moon once a Fossil is taken, in the Rocket
@@ -392,6 +417,317 @@ sources remain authoritative for game-specific mechanics and availability.
   note, not a milestone, like the gift Bulbasaur, Charmander and Squirtle,
   which show under their places). Its four Elite Four milestones and Hall of
   Fame merged into the Pokémon League milestone through the ID changes list.
+- Gold / Silver in the pattern (`620_gs_story.sql`): Main Story is Johto in
+  walkthrough order, with the beats the game forces between badges as their
+  own milestones (the Slowpoke Well, which opens Azalea Gym, Ilex Forest for
+  Cut, Olivine Lighthouse for the SecretPotion, the Lake of Rage and Team
+  Rocket HQ, which open Mahogany Gym, and the Radio Tower), and ends at the
+  one Pokémon League milestone (Silver in Victory Road, the Elite Four and
+  Lance). Post Game is Kanto: its eight badges in the order the walkthrough
+  reaches them, the Power Plant beat (the EXPN Card it leads to wakes the
+  Snorlax in front of Diglett's Cave, the only way west), then Red. The
+  Burned Tower is optional in these games, so it is Side Content with the
+  three Pokémon that flee it (placed at the Burned Tower, where they start),
+  the Tin Tower and the Whirl Islands. The roadmap has 138 steps, sourced
+  from all 29 parts of Bulbapedia's walkthrough. The game's own data (the
+  pret pokegold disassembly) confirmed every seeded team and showed that the
+  red Gyarados, Sudowoodo, the hideout's Electrode and Snorlax all leave
+  whether caught, beaten or fled, so they are notes. The Executives keep the
+  names HeartGold / SoulSilver gave them (the games only say Executive).
+  Known gap: the Tin Tower's place is the row named Bell Tower.
+- Crystal walks Gold / Silver's route (`630_crystal_story.sql`; 140 steps),
+  read from its own walkthrough against Gold / Silver's and checked on the
+  pret pokecrystal disassembly. What differs: the Burned Tower is a required
+  Main Story beat (Ecruteak Gym is closed until it), the Radio Tower hands
+  over the Clear Bell, the Rising Badge needs the elder's quiz, Suicune is
+  its own optional beat at the Tin Tower after the Radio Tower (the Wise
+  Trio are plain trainers and stay in its text), the Tin Tower beat is
+  Ho-Oh's and opens after the Hall of Fame, the Whirl Islands open after the
+  Boulder Badge (the Silver Wing), and Eusine, who is not seeded for any
+  later game yet, battles you in Cianwood City (optional, role `boss` until
+  a better label exists). Crystal has the same Unown set.
+- Ruby / Sapphire in the pattern (`640_rs_story.sql`; 108 steps from all 23
+  parts of Bulbapedia's walkthrough, teams checked on the pret pokeruby
+  disassembly): Main Story adds the beats the game forces between badges
+  (Rusturf Tunnel, the Oceanic Museum, Meteor Falls, the Weather Institute,
+  Mt. Pyre and the hideout at Lilycove City) to Mt. Chimney, the Seafloor
+  Cavern and the Cave of Origin, and ends at the one Pokémon League milestone
+  (Wally in Victory Road, the Elite Four and Steven). The hideout is one
+  milestone for both versions, placed at Lilycove City, because Team Magma's
+  and Team Aqua's hideouts are different place rows. The Admins moved off
+  the Feather and Mind Badges onto the Weather Institute and the hideout.
+  The roaming Latios or Latias is Post Game (placed at Littleroot Town, where
+  the news report starts it). The Fossil Choice, the Sealed Chamber and the
+  Sky Pillar are Side Content. The Sky Pillar sits after the League, where
+  the walkthrough reaches it, without claiming the game locks it until then.
+  The invisible Pokémon on Route 120 is a blocker and stays a note. Ruby /
+  Sapphire has no collectible set.
+- FireRed / LeafGreen in the pattern (`650_frlg_story.sql`; from all 20 parts
+  of Bulbapedia's walkthrough, teams checked on the pret pokefirered
+  disassembly): Main Story is Red / Blue's in this walkthrough's order (the
+  Soul Badge and the Safari Zone before Silph Co. and the Marsh Badge), its
+  route notes kept where the remake plays the same and changed where it does
+  not (the Tea, the Teachy TV, the Running Shoes, the Vs. Seeker, the aides'
+  gifts, the Marsh and Volcano Badges' field moves), plus the first Sevii
+  Islands errand as the Berry Forest beat after the Volcano Badge. Post Game
+  is the Sevii Islands quest for Celio (the Ruby Path, Icefall Cave, the
+  Dotted Hole and the Rocket Warehouse), which counts so its islands show on
+  the route, then Cerulean Cave and the roaming legendary Pokémon, which are
+  optional. The remake adds two battles: the ghost Marowak (level 30,
+  Headbutt, Leer, Focus Energy, Bonemerang) and Gideon in the Rocket
+  Warehouse. The warehouse's two Admins have no names and stay out. Moltres
+  is on Mt. Ember. Seven Island, the Tanoby Ruins and the second round of
+  the Elite Four are not beats. FireRed / LeafGreen has no collectible set
+  (the game keeps no count of Unown forms).
+- Emerald in the pattern (`660_emerald_story.sql`; from all 21 parts of
+  Bulbapedia's walkthrough, teams checked on the pret pokeemerald
+  disassembly): Ruby / Sapphire's route with Emerald's own story. Team Aqua
+  is the one you meet first, Team Magma takes the Meteorite, and both
+  hideouts are beats: Mt. Pyre hands you the Magma Emblem, the Magma Hideout
+  opens on Jagged Pass, then the Aqua Hideout at Lilycove City. After the
+  Mind Badge come the Mossdeep Space Center (the Multi Battle beside Steven,
+  three Pokémon), the Seafloor Cavern and waking Rayquaza on the Sky Pillar,
+  then Juan's Rain Badge and the League with Champion Wallace. The rival
+  battles five times (Rustboro City and Lilycove City can be skipped). Post
+  Game is the roaming Latias or Latios and Steven in Meteor Falls. Side
+  Content is the fossil in Mirage Tower, Rayquaza back on the Sky Pillar, the
+  Sealed Chamber, Terra Cave and Marine Cave. The Battle Frontier's symbols
+  are won in battle facilities, not found, so Emerald has no collectible set.
+- Diamond / Pearl in the pattern (`670_dp_story.sql`; from all 30 parts of
+  Bulbapedia's walkthrough): Main Story follows the walkthrough through
+  Sinnoh. The beats the game forces between badges are their own milestones:
+  the Valley Windworks (Mars), Team Galactic's Eterna building (Jupiter),
+  Celestic Town (the Grunt at the ruins, HM03 Surf and Cyrus), Lake Valor
+  (Saturn), Lake Verity (Mars), Team Galactic HQ (Cyrus, then Saturn) and the
+  Spear Pillar (Mars and Jupiter beside Barry, Cyrus, then Dialga or Palkia).
+  Barry battles on Route 203, in Hearthome City, in Pastoria City (after the
+  Fen Badge, so it leads to Celestic Town), in Canalave City and in the
+  League's lobby. Plain Grunt battles (Jubilife City, the Veilstone
+  warehouse, Iron Island) are notes. Post Game is the Battle Zone: the Fight
+  Area, then Stark Mountain with Buck, both optional. Side Content is the
+  lake Pokémon (Uxie and Azelf as Lake Guardians at Lake Valor, roaming
+  Mesprit on its own at Lake Verity), Turnback Cave, Cresselia and
+  Snowpoint Temple. Diamond / Pearl has no collectible set.
+- Platinum in the pattern (`680_platinum_story.sql`; from all 26 parts of
+  Bulbapedia's walkthrough): Diamond / Pearl's route and notes with
+  Platinum's own story. You pick your starter from Professor Rowan on Route
+  201 and Barry battles you there. Fantina is third, Maylene fourth and
+  Crasher Wake fifth, so the Relic Badge gives Defog and the Fen Badge Surf.
+  Barry battles in front of Pastoria Gym, not after it. Cyrus is fought in
+  the Celestic Town ruins. HM04 Strength comes from Riley on Iron Island.
+  Looker opens Team Galactic HQ. Mars and Jupiter are fought on the Spear
+  Pillar (their battle names that place) and the beat itself is the
+  Distortion World: Cyrus, then Giratina. Post Game is Stark Mountain (Mars,
+  Jupiter, Charon's arrest, Heatran). Side Content is the lake Pokémon (roaming
+  Mesprit on its own), Cresselia, Snowpoint Temple, Dialga and Palkia back on the Spear Pillar and
+  the three roaming birds, placed at Eterna City where Professor Oak sets
+  them off. The Fight Area's Multi Battle against Flint and Volkner is not a
+  beat. Platinum has no collectible set.
+- HeartGold / SoulSilver in the pattern (`690_hgss_story.sql`; from all 32
+  parts of Bulbapedia's walkthrough): Gold / Silver's route and notes with
+  the remake's own story. Proton is fought in the Slowpoke Well, the Burned
+  Tower is a forced beat before the Fog Badge, Eusine battles in Cianwood
+  City, the Team Rocket HQ battle with Ariana is a Multi Battle beside Lance,
+  and the Kimono Girls' ritual comes before the League: the five are one
+  opponent with their five Pokémon in the order they are fought (the pret
+  pokeheartgold trainer data), the beat is placed at the Ecruteak Dance
+  Theater for both versions, and Ho-Oh or Lugia stays on that beat with the
+  Bell Tower or the Whirl Islands in its note, since those places come after
+  it on the route. Post Game is Kanto and Red, which count, with the Machine
+  Part beat, and the Kanto and Hoenn starters handed out after Red, which are
+  optional. Side Content is every other legendary Pokémon and the Dragon's
+  Den Multi Battle. The Zephyr Badge gives Rock Smash, and Whirlpool and Rock
+  Climb are HM05 and HM08. Unown's 28 forms are a collectible set here too:
+  the Unown Report counts them, and the ! and ? forms come last.
+- Black / White in the pattern (`700_bw_story.sql`; from all 18 parts of
+  Bulbapedia's walkthrough): Main Story follows the walkthrough through
+  Unova. Team Plasma's forced beats are their own milestones even where only
+  Grunts are fought: the Dreamyard, Pinwheel Forest, the Cold Storage,
+  Dragonspiral Tower and the Relic Castle. Bianca, Cheren and N battle on the
+  way to most badges, and each battle names its place. A battle fought right
+  after a badge leads to the next beat (Bianca in Castelia City and in
+  Driftveil City, Cheren on Route 5). The Pokémon League is one milestone
+  that runs on into N's Castle: Cheren on Route 10, the Elite Four, Reshiram
+  or Zekrom, N and Ghetsis. Champion Alder is Post Game and holds the Hall of
+  Fame. Side Content is the Swords of Justice, the roaming Tornadus or
+  Thundurus, Kyurem and Landorus. The Seven Sages are not battles. Black /
+  White has no collectible set.
+- Black 2 / White 2 in the pattern (`710_b2w2_story.sql`; from all 22 parts
+  of Bulbapedia's walkthrough): Main Story follows the walkthrough from
+  Aspertia City. The forced beats between badges are their own milestones:
+  the Castelia Sewers, the Pokémon World Tournament (Hugh and Colress, three
+  Pokémon each, with the first raid on the Plasma Frigate at the pier),
+  Team Plasma's attack on Opelucid City (Zinzolin and one of the Shadow
+  Triad), the Plasma Frigate (Zinzolin and a Grunt beside Hugh off Route 21,
+  then Zinzolin and Colress in the Giant Chasm) and Defeat Ghetsis (the
+  Shadow Triad, the fused Kyurem and Ghetsis). Hugh's battle in Undella Town
+  and the Multi Battle in Lacunosa Town lead to the Legend Badge. Cheren's
+  round in the Driftveil Tournament and the old Team Plasma member in
+  Driftveil City have no seeded team, so they are notes. Post Game is Hugh in
+  Undella Town. Side Content is the legendary Pokémon, with the Swords of
+  Justice on the way from Route 13. Black 2 / White 2 has no collectible set
+  (Medals are awards, not things found).
+- X / Y in the pattern (`720_xy_story.sql`; from all 17 parts of Bulbapedia's
+  walkthrough): Main Story follows the walkthrough through Kalos. Team
+  Flare's forced beats are their own milestones, each with its scientist:
+  the Kalos Power Plant (Aliana), the Poké Ball Factory (Celosia and Bryony
+  beside Serena or Calem), Frost Cavern (Mable), Lysandre Labs and Team Flare
+  Secret HQ. The Kanto starter at the professor's lab and the fossil in
+  Glittering Cave stay Main Story choices. Korrina's battle in Geosenge Town
+  and the battle for the Mega Ring lead to the Rumble Badge. The Pokémon
+  League is one milestone that takes in AZ at the parade. Professor
+  Sycamore's two battles (Lumiose City and Couriway Town) and the successor
+  battle on the Tower of Mastery have no seeded team, so they are notes. Post
+  Game is Kiloude City and the Looker Bureau. Side Content is Zygarde, Mewtwo
+  and the roaming bird, placed at Azure Bay. X / Y has no collectible set.
+- Omega Ruby / Alpha Sapphire in the pattern (`730_oras_story.sql`; from all
+  25 parts of Bulbapedia's walkthrough): Ruby / Sapphire's route and notes
+  with the remake's own story. Its forced beats are milestones, each with the
+  battle fought there: Rusturf Tunnel, the Oceanic Museum, Meteor Falls (the
+  Admin and a Grunt beside your rival), Mt. Chimney, Southern Island (the
+  Admin and a Grunt beside Steven, then the Mega Bracelet), the Weather
+  Institute, Mt. Pyre (the Admin), the hideout at Lilycove City, the Seafloor
+  Cavern and the Cave of Origin (the Primal Pokémon). Team Magma's battles
+  are Omega Ruby's and Team Aqua's are Alpha Sapphire's. The Delta Episode is
+  Post Game, one milestone placed at the Sky Pillar with its ten battles in
+  order. Side Content is the fossil, the Sealed Chamber and the legendary
+  Pokémon, each Mirage spot at its own place and the two sky encounters at
+  Soaring in the sky. New Mauville and the Safari Zone's old rules are gone
+  from the notes. Omega Ruby / Alpha Sapphire has no collectible set.
+- Sun / Moon in the pattern (`740_sm_story.sql`; from Bulbapedia's
+  walkthrough): the island challenge is the Main Story, so the Island
+  Challenge chapter is gone along with the League chapter. Each trial is at
+  its site with its Totem Pokémon and the battles on the way (Ilima in
+  Hau'oli City, Hau, Gladion, the Battle Royal with one Pokémon, Plumeria,
+  Guzma, Molayne). The forced beats between trials are milestones: the Iki
+  Town festival, the first visit to Aether Paradise (Nihilego), Po Town
+  (Plumeria on Route 15, Guzma in the Shady House), the raid on Aether
+  Paradise and Ultra Space. Gladion's battle at the Aether House leads to
+  Nanu's grand trial. The Pokémon League is one milestone:
+  Gladion and Hau on Mount Lanakila, the Elite Four, Professor Kukui and Tapu
+  Koko after the Hall of Fame. Post Game is the Ultra Beast missions. Side
+  Content is the three guardians left and Necrozma. The Zygarde Cells and
+  Cores set is unchanged.
+- Ultra Sun / Ultra Moon in the pattern (`750_usum_story.sql`; from
+  Bulbapedia's walkthrough): Sun / Moon's route, notes and descriptions with
+  these games' own story. The Ultra Recon Squad's battles sit on the way to
+  Hala (Seaward Cave), to Lana's trial (Paniola Ranch), in the raid on
+  Aether Paradise and on the way up Vast Poni Canyon. Ultra Necrozma is one
+  milestone at Megalo Tower: Dusk Mane or Dawn Wings Necrozma at the altar,
+  then Ultra Necrozma. Mina's trial comes after it and lists the captains it
+  sends you to, each with its place in the note. The Pokémon League is one
+  milestone: Gladion on Mount Lanakila, the Elite Four with Molayne, then
+  Hau. Post Game is Team Rainbow Rocket, placed at Aether Paradise. Side
+  Content is the legendary Pokémon and Ilima's bonus trial. The Totem
+  Stickers set is unchanged.
+- Let's Go, Pikachu! / Let's Go, Eevee! in the pattern (`760_lgpe_story.sql`;
+  from all 18 parts of Bulbapedia's walkthrough): Main Story follows the
+  walkthrough through Kanto, with new beats for Bill's Sea Cottage and the
+  Pokémon Mansion. Its notes are written for these games (Secret Techniques
+  in place of HMs, the Gyms' entry conditions, the Tea), not copied from Red
+  / Blue. Trace's battle in Pokémon Tower comes before Celadon City, so it
+  leads to the Rainbow Badge. Jessie and James on Route 17 lead to the Soul
+  Badge. The Marsh Badge follows Silph Co., as the walkthrough plays it. The
+  Pokémon League is one milestone: Trace on Route 22, the Elite Four, then
+  Champion Trace. Post Game is Blue, Green and Red. Side Content is the three
+  birds and Mewtwo. The fossil in Mt. Moon is a note, since these seeds have
+  no choice for it. Let's Go has no collectible set.
+- Sword / Shield in the pattern (`770_swsh_story.sql`; from Bulbapedia's
+  walkthrough): Main Story follows the walkthrough through Galar. A badge is
+  won at its Stadium, so the pattern's Gym rule takes Stadium names too. The
+  fourth and sixth Gyms are one milestone per version. Hop, Bede and Marnie
+  battle on the way to most badges, and each battle names its place. Marnie's
+  first battle moved from the Grass Badge to the Fire Badge, where her level
+  24 to 26 team belongs. Main Story ends with three milestones, since the
+  game does not run them back to back: the Champion Cup (semifinals, Oleana
+  in Rose Tower, finals), Defeat Eternatus and Champion Leon, which holds the
+  Hall of Fame. Post Game is the Sordward and Shielbert episode. Sword /
+  Shield has no collectible set in the base game.
+- The Isle of Armor and the Crown Tundra in the pattern
+  (`780_swsh_ioa_story.sql`, `790_swsh_ct_story.sql`; from Bulbapedia's story
+  and location pages): each keeps its DLC Story chapter. On the Isle of
+  Armor, the two towers share one place, the Towers of Two Fists, and the
+  rival's battles name the Fields of Honor and the Warm-Up Tunnel. In the
+  Crown Tundra, Peony's battle at the station comes before Freezington, the
+  three sealed ruins (Regirock, Regice, Registeel) come before the
+  Split-Decision Ruins (Regieleki or Regidrago), and the steed's battle names
+  Freezington. The Alolan Diglett set is unchanged.
+- Brilliant Diamond / Shining Pearl in the pattern (`800_bdsp_story.sql`): the
+  remakes follow Diamond / Pearl beat for beat, so their milestones,
+  descriptions, battles and route are generated from Diamond / Pearl's. The
+  old HMs are named as the TMs the remakes hand out (TM93 Cut to TM100 Rock
+  Climb), and the notes are rewritten where the remakes differ (no Fashion
+  Case, Seal Case or Game Corner, the Grand Underground, the Nursery).
+  Ramanas Park is Post Game with its legendary Pokémon by room. Brilliant
+  Diamond / Shining Pearl has no collectible set.
+- Legends: Arceus in the pattern (`810_pla_story.sql`; from Bulbapedia's
+  walkthrough, with its mission and location pages for the last parts): the game has no Gyms and no League, so Main
+  Story is the five nobles, each at its arena, the banishment and the Temple
+  of Sinnoh. A noble is quelled, not battled, and comes last on its
+  milestone, after the wardens and clan leaders who test you on the way. The
+  walkthrough's forced battles that had no row are added with the teams from
+  the characters' own pages: Akari or Rei three times, Mai on Deertrack Path,
+  Coin for the Wall Fragment and Gaeric at Avalugg's Legacy. Irida's second
+  battle is at the camp in the Cobalt Coastlands, so it leads to Arcanine.
+  Hisui's big areas are not place rows, so the route names the part each
+  mission goes through. Post Game is the plates, Volo and Arceus. Side
+  Content is Manaphy, Giratina and the forces of nature. The wisps set is
+  unchanged.
+- Scarlet / Violet in the pattern (`820_sv_story.sql`; from Bulbapedia's
+  walkthrough, whose recommended route orders all 27 parts, with the story
+  and location pages for the parts not written yet): the three stories
+  (Victory Road, Starfall Street, Path of Legends) and The Way Home are one
+  Main Story chapter, since a main story is never split into chapters. The
+  roadmap weaves the three together in the walkthrough's order, from the
+  easier challenges to the harder ones, through every place it passes, and
+  the game's free order is the version group's (open world). The Pokédex app comes with the
+  starter, so the second beat is the Treasure Hunt at the academy, which is
+  Naranja in Scarlet and Uva in Violet, so its beats are placed at Mesagoza.
+  A badge is at its Gym, a crew at its base and a Titan in its area. The
+  Pokémon League is one milestone: the Elite Four, Geeta, then Nemona in
+  Mesagoza. Director Clavell and Penny are one beat, fought back to back. A
+  shrine sits after the last beat in the part of Paldea its stakes are in.
+  The Gym tests are in the descriptions. The Ominous Stakes sets are
+  unchanged.
+- The Teal Mask in the pattern (`830_sv_tm_story.sql`; from Bulbapedia's
+  story page, with the places its walkthrough index lists for Kitakami): the
+  route follows the school trip through Kitakami's places. Kieran's battle at
+  the last signboard is the Three Signboards beat. Kieran's last battle comes
+  right before Ogerpon's, so the two are one beat, and Carmine's last battle
+  is on it too. Battles on the way name their place (Kieran outside the
+  Dreaded Den and at Loyalty Plaza, two of the Loyal Three). Side Content is
+  Bloodmoon Ursaluna and the Loyal Three at their normal size.
+- The Indigo Disk in the pattern (`840_sv_id_story.sql`; from Bulbapedia's
+  story pages and its location pages for the Terarium): the route goes from
+  the academy to the League Club Room, round the four biomes for the
+  Blueberry Elite Four (four beats, since each is met in its own biome after
+  its Elite Trial, as bosses), back for Champion Kieran, then down through
+  Area Zero and the Zero Lab to the Underdepths. Arriving in the Underdepths
+  and Terapagos are one beat. Side Content is Mochi Mayhem, Meloetta, Perrin's
+  photos and Snacksworth's treats.
+- Legends: Z-A in the pattern (`850_za_story.sql`; from all 29 parts of
+  Bulbapedia's walkthrough): the route follows the Main Missions through
+  Lumiose City, where a place is a street, a sector, a building or a Wild
+  Zone. Arriving merges into Choose Starter, entering the Royale into Reach
+  Rank Y and Lysandre Labs into Reach Rank A, so no two beats ask to be
+  recorded with nothing between them. A promotion match is at the place it
+  is fought, and a Rogue Mega Evolution in its sector. The Z-A Royale, the
+  Rogue Mega Evolutions and the finale were chapters of their own and are
+  now one Main Story chapter. The battles
+  against named characters on the way (Emma, Naveen, Lida, Tarragon, Gwynn,
+  Philippe, Lebanne and Griselle) sit on the Story point they lead to, with
+  teams from each character's Bulbapedia page (one source). Lida and Naveen
+  are rivals, since they battle you and fight beside you.
+- Mega Dimension in the pattern (`860_za_md_story.sql`; from Bulbapedia's
+  story page and its Hyperspace and side mission pages): the route follows
+  the story from Coulant Waterway through the arenas of Hyperspace Lumiose,
+  each a place of its own, to Hyperspace Newmoon Nightmare and Hyperspace
+  Sky Pillar. The opening is one beat, and the seven Special Scans are one
+  optional beat with seven battles, as Snacksworth's treats are. Korrina's
+  test before she joins and the two Multi Battles (Lebanne and Gwynn at
+  Hotel Z, Jacinthe and Griselle at Hotel Richissime) are battles on the
+  Rogue Mega they lead to. Their Multi Battle teams are stored at the lower
+  of the two levels the game uses.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
@@ -418,6 +754,10 @@ sources remain authoritative for game-specific mechanics and availability.
   Sun, Kommo-o in Ultra Moon at 100), the Isle of Armor Diglett gifts with an
   Alolan Diglett at 150, the shrine and Treasure of Ruin each stake colour
   unseals, and Vessa's items with Spiritomb at level 60 for all 107 wisps.
+  Gold / Silver's Unown set (26 forms, each with the Ruins of Alph puzzle
+  that wakes it) rewards the Pokédex's Unown Mode at three forms and the
+  researchers' printer at 26, read from the pret pokegold disassembly; it
+  has no art yet.
   Only one reference names the stake colour of each shrine; the other confirms
   which Treasure of Ruin each shrine holds.
 

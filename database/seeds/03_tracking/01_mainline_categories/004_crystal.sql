@@ -7,6 +7,9 @@
 -- File Scope
 -- ============================================================================
 -- Version-group-wide categories for Crystal story and optional progression.
+-- The Pokémon League is one milestone at the end of Main Story (the Elite Four,
+-- Champion Lance and the Hall of Fame back to back), so it has no chapter.
+-- Kanto and Red on Mt. Silver are Post Game.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_categories (
@@ -21,9 +24,7 @@ INSERT INTO tracking.mainline_categories (
 ) VALUES
   -- Main Story
   (401, 4, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
-  -- Pokémon League
-  (402, 4, 'pokemon-league', 'Pokémon League', 'story', 'main-story', false, 2),
   -- Post Game
-  (403, 4, 'post-game', 'Post Game', 'story', 'post-game', false, 3),
+  (403, 4, 'post-game', 'Post Game', 'story', 'post-game', false, 2),
   -- Side Content
-  (404, 4, 'side-content', 'Side Content', 'story', 'side-content', false, 4);
+  (404, 4, 'side-content', 'Side Content', 'story', 'side-content', false, 3);

@@ -27,9 +27,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 3
-                AND refs.milestone_id IN (30009, 30027)
+                AND refs.milestone_id IN (30009, 30027, 30037)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (30009, 'petrel', 1), (30009, 'ariana', 2), (30009, 'pryce', 3), (30027, 'petrel', 1), (30027, 'silver', 2), (30027, 'proton', 3), (30027, 'ariana', 4), (30027, 'archer', 5) $$, 'Gold / Silver: the Executives at the Rocket HQ and the Radio Tower');
+            VALUES (30009, 'pryce', 1), (30027, 'petrel', 1), (30027, 'silver', 2), (30027, 'proton', 3), (30027, 'ariana', 4), (30027, 'archer', 5), (30037, 'petrel', 1), (30037, 'ariana', 2) $$, 'Gold / Silver: the Executives at the Rocket HQ (its own milestone) and the Radio Tower');
 SELECT
     results_eq ($$
         SELECT
@@ -37,9 +37,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 4
-                AND refs.milestone_id IN (40009, 40027)
+                AND refs.milestone_id IN (40009, 40027, 40037)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (40009, 'petrel', 1), (40009, 'ariana', 2), (40009, 'pryce', 3), (40027, 'petrel', 1), (40027, 'silver', 2), (40027, 'proton', 3), (40027, 'ariana', 4), (40027, 'archer', 5) $$, 'Crystal: the same Executives in the same order');
+            VALUES (40009, 'pryce', 1), (40027, 'petrel', 1), (40027, 'silver', 2), (40027, 'proton', 3), (40027, 'ariana', 4), (40027, 'archer', 5), (40037, 'petrel', 1), (40037, 'ariana', 2) $$, 'Crystal: the same Executives in the same order');
 SELECT
     results_eq ($$
         SELECT
@@ -47,9 +47,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 5
-                AND refs.milestone_id IN (50018, 50009, 50010, 50019)
+                AND refs.milestone_id IN (50018, 50009, 50010, 50019, 50027, 50029)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (50009, 'courtney', 1), (50009, 'shelly', 2), (50009, 'may-brendan', 3), (50009, 'winona', 4), (50010, 'may-brendan', 1), (50010, 'tabitha', 2), (50010, 'matt', 3), (50010, 'tate-liza', 4), (50018, 'tabitha', 1), (50018, 'maxie', 2), (50018, 'matt', 3), (50018, 'archie', 4), (50019, 'courtney', 1), (50019, 'maxie', 2), (50019, 'shelly', 3), (50019, 'archie', 4) $$, 'Ruby / Sapphire: an admin before each leader, the hideout before the Mind Badge');
+            VALUES (50009, 'may-brendan', 1), (50009, 'winona', 2), (50010, 'tate-liza', 1), (50018, 'tabitha', 1), (50018, 'maxie', 2), (50018, 'matt', 3), (50018, 'archie', 4), (50019, 'courtney', 1), (50019, 'maxie', 2), (50019, 'shelly', 3), (50019, 'archie', 4), (50027, 'courtney', 1), (50027, 'shelly', 2), (50029, 'may-brendan', 1), (50029, 'tabitha', 2), (50029, 'matt', 3) $$, 'Ruby / Sapphire: an admin before each leader, on the Weather Institute and the hideout beats');
 SELECT
     results_eq ($$
         SELECT
@@ -57,9 +57,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 7
-                AND refs.milestone_id IN (70020, 70009, 70021, 70010, 70022)
+                AND refs.milestone_id IN (70020, 70009, 70021, 70010, 70022, 70032, 70034)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (70009, 'shelly', 1), (70009, 'may-brendan', 2), (70009, 'winona', 3), (70010, 'may-brendan', 1), (70010, 'matt', 2), (70010, 'tate-liza', 3), (70020, 'tabitha', 1), (70020, 'maxie', 2), (70021, 'tabitha', 1), (70021, 'maxie', 2), (70022, 'shelly', 1), (70022, 'archie', 2) $$, 'Emerald: Tabitha twice before Maxie, Shelly and Matt on their beats');
+            VALUES (70009, 'may-brendan', 1), (70009, 'winona', 2), (70010, 'tate-liza', 1), (70020, 'tabitha', 1), (70020, 'maxie', 2), (70021, 'tabitha', 1), (70021, 'maxie', 2), (70022, 'shelly', 1), (70022, 'archie', 2), (70032, 'shelly', 1), (70034, 'may-brendan', 1), (70034, 'matt', 2) $$, 'Emerald: Tabitha twice before Maxie, Shelly and Matt on the Weather Institute and Aqua Hideout beats');
 SELECT
     results_eq ($$
         SELECT
@@ -95,7 +95,7 @@ SELECT
             WHERE
                 milestones.slug = 'dragons-den'
                 AND milestones.version_group_id = 10 $$, $$
-            VALUES (1004, FALSE, 100017, 4) $$, 'HeartGold / SoulSilver: the Dragon''s Den hangs off the Boulder Badge and never counts');
+            VALUES (1004, FALSE, 100023, 4) $$, 'HeartGold / SoulSilver: the Dragon''s Den hangs off the Volcano Badge, where the Mt. Moon battle sits, and never counts');
 SELECT
     results_eq ($$
         SELECT
@@ -103,7 +103,7 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.milestone_id = 100041 $$, $$
-            VALUES ('clair-lance', 'Dragon''s Den, Blackthorn City (with Silver). You can skip this battle.') $$, 'HeartGold / SoulSilver: Clair & Lance together in the Dragon''s Den');
+            VALUES ('clair-lance', 'A Multi Battle with Silver at your side. You can skip this battle.') $$, 'HeartGold / SoulSilver: Clair & Lance together in the Dragon''s Den');
 -- Every new battle has its full team.
 SELECT
     results_eq ($$
@@ -151,9 +151,9 @@ SELECT
             members.milestone_id, array_agg(move_id ORDER BY member_moves.slot)
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
-            WHERE (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30009, 3031, 2), (50018, 5026, 2))
+            WHERE (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30037, 3031, 2), (50018, 5026, 2))
     GROUP BY members.milestone_id ORDER BY members.milestone_id $$, $$
-    VALUES (20022, ARRAY[43, 40, 44, 137]), (30009, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
+    VALUES (20022, ARRAY[43, 40, 44, 137]), (30037, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
 -- Set moves keep the game's order.
 SELECT
     results_eq ($$

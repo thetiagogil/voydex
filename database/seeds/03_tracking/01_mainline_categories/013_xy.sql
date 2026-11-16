@@ -2,11 +2,14 @@
 -- Source
 -- ============================================================================
 -- Primary: Voydex mainline module product taxonomy.
--- Scope: Pokémon X / Y tracking categories.
+-- Scope: Pokémon X / Y shared tracking categories.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Version-group-wide categories for X / Y story and optional progression.
+-- The Pokémon League is one milestone at the end of Main Story (the Elite Four,
+-- Champion Diantha, the Hall of Fame and AZ at the parade), so it has no
+-- chapter.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_categories (
@@ -21,9 +24,7 @@ INSERT INTO tracking.mainline_categories (
 ) VALUES
   -- Main Story
   (1301, 13, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
-  -- Pokémon League
-  (1302, 13, 'pokemon-league', 'Pokémon League', 'story', 'main-story', false, 2),
   -- Post Game
-  (1303, 13, 'post-game', 'Post Game', 'story', 'post-game', false, 3),
+  (1303, 13, 'post-game', 'Post Game', 'story', 'post-game', false, 2),
   -- Side Content
-  (1304, 13, 'side-content', 'Side Content', 'story', 'side-content', false, 4);
+  (1304, 13, 'side-content', 'Side Content', 'story', 'side-content', false, 3);

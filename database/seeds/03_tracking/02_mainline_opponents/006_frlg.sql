@@ -80,4 +80,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Suicune (boss)
   (6025, 6, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 23),
   -- Mewtwo (boss)
-  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 24);
+  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 24),
+  -- Marowak (boss): the ghost on Pokémon Tower's sixth floor
+  (6027, 6, NULL, 'marowak', 'Marowak', 'boss', 9, NULL, NULL, NULL, 25),
+  -- Gideon (boss): the scientist who takes the Sapphire to the Rocket Warehouse
+  (6028, 6, NULL, 'gideon', 'Gideon', 'boss', 4, NULL, NULL, NULL, 26);

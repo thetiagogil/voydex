@@ -1,19 +1,30 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
--- Cross-check: Pokémon Crystal source page.
--- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokecrystal map scripts.
+-- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages, and its Crystal
+-- walkthrough and location pages for the story's order, the beats the game
+-- forces and every beat's place.
+-- Cross-check: the pret pokecrystal disassembly's map scripts (Ecruteak Gym is
+-- closed until the Burned Tower, Eusine's battle in Cianwood City, the elder's
+-- quiz in the Dragon Shrine).
 -- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
--- Scope: Pokémon Crystal major story and decision milestones.
+-- Scope: Pokémon Crystal story and decision milestones.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Required Crystal starter, badge, league, champion, post-game Kanto badge, and
--- Red milestones. Kanto badge order follows display order; Generation II allows
--- broad post-game badge ordering. Crystal-specific Suicune and Eusine story beats
--- are deferred to the denser story-boss pass.
+-- Crystal story, decision, badge and League milestones, each at the place it
+-- happens (location_id), in Red / Blue's pattern and on Gold / Silver's route.
+-- What Crystal changes: the Burned Tower is a required Main Story beat (Morty
+-- is away from his Gym until it), the Radio Tower hands over the Clear Bell,
+-- the Rising Badge needs the elder's quiz, and Suicune is its own optional
+-- beat at the Tin Tower after the Radio Tower, apart from the Tin Tower beat
+-- for Ho-Oh, which opens after the Hall of Fame. The Pokémon League closes
+-- Main Story as one milestone: the four Elite Four milestones (40011 to
+-- 40014) and the Hall of Fame milestone (40016) merged into it (40015);
+-- database/game-data/id-changes.json moves saved Plays over. The Tin Tower's
+-- place is the row later games call Bell Tower. Dense optional walkthrough
+-- beats are intentionally excluded.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestones (
@@ -28,69 +39,74 @@ INSERT INTO tracking.mainline_milestones (
   name,
   description,
   sort_order,
-  is_required_for_completion
+  is_required_for_completion,
+  location_id
 ) VALUES
-  -- Choose Starter
-  (40001, 4, NULL, 401, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Chikorita, Cyndaquil, or Totodile as the first partner Pokémon.', 1, true),
-  -- Receive Pokedex
-  (40002, 4, NULL, 401, 1, 1, NULL, 'receive-pokedex', 'Receive Pokedex', 'Receive the Pokedex and begin the Johto adventure record.', 2, true),
-  -- Zephyr Badge
-  (40003, 4, NULL, 401, 2, 2, NULL, 'zephyr-badge', 'Zephyr Badge', 'Defeat Falkner at Violet Gym and receive the Zephyr Badge.', 3, true),
-  -- Hive Badge
-  (40004, 4, NULL, 401, 2, 2, NULL, 'hive-badge', 'Hive Badge', 'Defeat Bugsy at Azalea Gym and receive the Hive Badge.', 4, true),
-  -- Plain Badge
-  (40005, 4, NULL, 401, 2, 2, NULL, 'plain-badge', 'Plain Badge', 'Defeat Whitney at Goldenrod Gym and receive the Plain Badge.', 5, true),
-  -- Burned Tower
-  (40026, 4, NULL, 401, 1, 2, NULL, 'burned-tower', 'Burned Tower', 'Explore the Burned Tower in Ecruteak City with Eusine, battle your rival, and watch Raikou, Entei and Suicune flee, which opens the Ecruteak Gym.', 6, true),
-  -- Fog Badge
-  (40006, 4, NULL, 401, 2, 2, NULL, 'fog-badge', 'Fog Badge', 'Defeat Morty at Ecruteak Gym and receive the Fog Badge.', 7, true),
-  -- Storm Badge
-  (40007, 4, NULL, 401, 2, 2, NULL, 'storm-badge', 'Storm Badge', 'Defeat Chuck at Cianwood Gym and receive the Storm Badge.', 8, true),
-  -- Mineral Badge
-  (40008, 4, NULL, 401, 2, 2, NULL, 'mineral-badge', 'Mineral Badge', 'Defeat Jasmine at Olivine Gym and receive the Mineral Badge.', 9, true),
-  -- Glacier Badge
-  (40009, 4, NULL, 401, 2, 2, NULL, 'glacier-badge', 'Glacier Badge', 'Defeat Pryce at Mahogany Gym and receive the Glacier Badge.', 10, true),
-  -- Radio Tower
-  (40027, 4, NULL, 401, 1, 2, NULL, 'radio-tower', 'Radio Tower', 'Free the Goldenrod Radio Tower from Team Rocket, going through the underground to rescue the Director.', 11, true),
-  -- Rising Badge
-  (40010, 4, NULL, 401, 2, 2, NULL, 'rising-badge', 'Rising Badge', 'Defeat Clair at Blackthorn Gym and receive the Rising Badge.', 12, true),
-  -- Elite Four Will
-  (40011, 4, NULL, 402, 7, 2, NULL, 'elite-four-will', 'Elite Four Will', 'Defeat Will at the Indigo Plateau.', 1, true),
-  -- Elite Four Koga
-  (40012, 4, NULL, 402, 7, 2, NULL, 'elite-four-koga', 'Elite Four Koga', 'Defeat Koga at the Indigo Plateau.', 2, true),
-  -- Elite Four Bruno
-  (40013, 4, NULL, 402, 7, 2, NULL, 'elite-four-bruno', 'Elite Four Bruno', 'Defeat Bruno at the Indigo Plateau.', 3, true),
-  -- Elite Four Karen
-  (40014, 4, NULL, 402, 7, 2, NULL, 'elite-four-karen', 'Elite Four Karen', 'Defeat Karen at the Indigo Plateau.', 4, true),
-  -- Champion Lance
-  (40015, 4, NULL, 402, 8, 2, NULL, 'champion-lance', 'Champion Lance', 'Defeat Champion Lance at the Indigo Plateau.', 5, true),
-  -- Hall of Fame
-  (40016, 4, NULL, 402, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
-  -- Boulder Badge
-  (40017, 4, NULL, 403, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Defeat Brock at Pewter Gym and receive the Boulder Badge.', 1, true),
-  -- Cascade Badge
-  (40018, 4, NULL, 403, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Defeat Misty at Cerulean Gym and receive the Cascade Badge.', 2, true),
-  -- Thunder Badge
-  (40019, 4, NULL, 403, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Defeat Lt. Surge at Vermilion Gym and receive the Thunder Badge.', 3, true),
-  -- Rainbow Badge
-  (40020, 4, NULL, 403, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Defeat Erika at Celadon Gym and receive the Rainbow Badge.', 4, true),
-  -- Soul Badge
-  (40021, 4, NULL, 403, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Janine at Fuchsia Gym and receive the Soul Badge.', 5, true),
-  -- Marsh Badge
-  (40022, 4, NULL, 403, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 6, true),
-  -- Volcano Badge
-  (40023, 4, NULL, 403, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at the Seafoam Islands Gym and receive the Volcano Badge.', 7, true),
-  -- Earth Badge
-  (40024, 4, NULL, 403, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Blue at Viridian Gym and receive the Earth Badge.', 8, true),
-  -- Red
-  (40025, 4, NULL, 403, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Defeat Red at Mt. Silver.', 9, true),
-  -- Roaming Raikou
-  (40028, 4, NULL, 404, 6, 2, NULL, 'roaming-raikou', 'Roaming Raikou', 'Track down and catch or defeat Raikou, which roams the Johto routes after it flees the Burned Tower.', 1, false),
-  -- Roaming Entei
-  (40029, 4, NULL, 404, 6, 2, NULL, 'roaming-entei', 'Roaming Entei', 'Track down and catch or defeat Entei, which roams the Johto routes after it flees the Burned Tower.', 2, false),
-  -- Tin Tower
-  (40030, 4, NULL, 404, 6, 2, NULL, 'tin-tower', 'Tin Tower', 'Bring the Clear Bell to the Tin Tower to face Suicune, then return after the Hall of Fame with all three beasts caught to receive the Rainbow Wing and face Ho-Oh on the roof.', 3, false),
-  -- Whirl Islands
-  (40031, 4, NULL, 404, 6, 2, NULL, 'whirl-islands', 'Whirl Islands', 'Bring the Silver Wing from Pewter City to the depths of the Whirl Islands and catch or defeat Lugia.', 4, false),
-  -- Ilex Forest Shrine
-  (40032, 4, NULL, 404, 6, 2, NULL, 'ilex-forest-shrine', 'Ilex Forest Shrine', 'Have Kurt examine the GS Ball, then place it at the Ilex Forest shrine to catch or defeat Celebi.', 5, false);
+  -- Choose Starter (Professor Elm's Laboratory)
+  (40001, 4, NULL, 401, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Pick Chikorita, Cyndaquil or Totodile in Professor Elm''s lab. He sends you to Mr. Pokémon''s house to see what his friend has found.', 1, true, 817),
+  -- Receive Pokédex (Mr. Pokémon's House)
+  (40002, 4, NULL, 401, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Visit Mr. Pokémon north of Cherrygrove City. He hands you the Mystery Egg for Professor Elm, and Professor Oak gives you a Pokédex.', 2, true, 818),
+  -- Zephyr Badge (Violet Gym)
+  (40003, 4, NULL, 401, 2, 2, NULL, 'zephyr-badge', 'Zephyr Badge', 'Beat Falkner and his Flying types at Violet Gym. The Zephyr Badge lets you use Flash outside battle.', 3, true, 819),
+  -- Slowpoke Well (Slowpoke Well)
+  (40033, 4, NULL, 401, 1, 2, NULL, 'slowpoke-well', 'Slowpoke Well', 'Go down the Slowpoke Well in Azalea Town and beat the Team Rocket Grunts cutting off Slowpoke tails. Kurt gives you a Lure Ball, and the Team Rocket Grunt in front of Azalea Gym leaves.', 4, true, 134),
+  -- Hive Badge (Azalea Gym)
+  (40004, 4, NULL, 401, 2, 2, NULL, 'hive-badge', 'Hive Badge', 'Beat Bugsy and his Bug types at Azalea Gym. The Hive Badge lets you use Cut outside battle and makes Pokémon up to level 30 obey you.', 5, true, 820),
+  -- Ilex Forest (Ilex Forest)
+  (40034, 4, NULL, 401, 1, 2, NULL, 'ilex-forest', 'Ilex Forest', 'Herd the charcoal maker''s runaway Farfetch''d back to his apprentice in Ilex Forest. The charcoal maker gives you HM01 Cut, which clears the tree on the way to Route 34.', 6, true, 94),
+  -- Plain Badge (Goldenrod Gym)
+  (40005, 4, NULL, 401, 2, 2, NULL, 'plain-badge', 'Plain Badge', 'Beat Whitney and her Normal types at Goldenrod Gym, then talk to her again once she stops crying. The Plain Badge lets you use Strength outside battle.', 7, true, 821),
+  -- Burned Tower (Burned Tower)
+  (40026, 4, NULL, 401, 1, 2, NULL, 'burned-tower', 'Burned Tower', 'Meet Eusine and Morty in the Burned Tower in Ecruteak City, battle Silver, and fall through the floor to the basement. Three legendary Pokémon wake and run off, and Morty goes back to his Gym.', 8, true, 83),
+  -- Fog Badge (Ecruteak Gym)
+  (40006, 4, NULL, 401, 2, 2, NULL, 'fog-badge', 'Fog Badge', 'Cross the invisible floor of Ecruteak Gym and beat Morty and his Ghost types. The Fog Badge lets you use Surf outside battle and makes Pokémon up to level 50 obey you.', 9, true, 822),
+  -- Storm Badge (Cianwood Gym)
+  (40007, 4, NULL, 401, 2, 2, NULL, 'storm-badge', 'Storm Badge', 'Move the boulders in Cianwood Gym with Strength and beat Chuck and his Fighting types. The Storm Badge lets you use Fly outside battle and makes Pokémon up to level 70 obey you.', 10, true, 823),
+  -- Olivine Lighthouse (Olivine Lighthouse)
+  (40035, 4, NULL, 401, 1, 2, NULL, 'olivine-lighthouse', 'Olivine Lighthouse', 'Bring the SecretPotion from Cianwood City''s pharmacy to Jasmine at the top of Olivine Lighthouse. Her sick Ampharos recovers and she goes back to Olivine Gym.', 11, true, 827),
+  -- Mineral Badge (Olivine Gym)
+  (40008, 4, NULL, 401, 2, 2, NULL, 'mineral-badge', 'Mineral Badge', 'Beat Jasmine and her Steel types at Olivine Gym, which has no trainers to fight first. The Mineral Badge raises your Pokémon''s Defense.', 12, true, 103),
+  -- Lake of Rage (Lake of Rage)
+  (40036, 4, NULL, 401, 1, 2, NULL, 'lake-of-rage', 'Lake of Rage', 'Catch or beat the red Gyarados raging in the Lake of Rage and pick up its Red Scale. Lance asks you to help him find the radio signal that forces Magikarp to evolve.', 13, true, 95),
+  -- Team Rocket HQ (Team Rocket HQ)
+  (40037, 4, NULL, 401, 1, 2, NULL, 'team-rocket-hq', 'Team Rocket HQ', 'Follow Lance into Team Rocket''s hideout under the Mahogany Town souvenir shop. Get the passwords, beat two Rocket Executives and stop the three Electrode powering the signal. Lance gives you HM06 Whirlpool.', 14, true, 828),
+  -- Glacier Badge (Mahogany Gym)
+  (40009, 4, NULL, 401, 2, 2, NULL, 'glacier-badge', 'Glacier Badge', 'Slide across the ice of Mahogany Gym and beat Pryce and his Ice types. The Glacier Badge lets you use Whirlpool outside battle.', 15, true, 825),
+  -- Radio Tower (Goldenrod Radio Tower)
+  (40027, 4, NULL, 401, 1, 2, NULL, 'radio-tower', 'Radio Tower', 'Take the Goldenrod Radio Tower back from Team Rocket. Beat the fake Director for the Basement Key, free the real one in the Underground for the Card Key, then beat the last Rocket Executives at the top. The Director gives you the Clear Bell.', 16, true, 829),
+  -- Rising Badge (Blackthorn Gym)
+  (40010, 4, NULL, 401, 2, 2, NULL, 'rising-badge', 'Rising Badge', 'Beat Clair and her Dragon types at Blackthorn Gym, then pass the elder''s quiz in the Dragon''s Den shrine. The Rising Badge lets you use Waterfall outside battle and makes every Pokémon obey you.', 17, true, 826),
+  -- Pokémon League (Indigo Plateau)
+  (40015, 4, NULL, 401, 8, 3, NULL, 'pokemon-league', 'Pokémon League', 'Beat the Elite Four and Champion Lance back to back at the Indigo Plateau. Your team enters the Hall of Fame.', 18, true, 21),
+  -- Thunder Badge (Vermilion Gym)
+  (40019, 4, NULL, 403, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Beat Lt. Surge and his Electric types at Vermilion Gym. Its trash can locks are switched off.', 1, true, 811),
+  -- Marsh Badge (Saffron Gym)
+  (40022, 4, NULL, 403, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Take the warp tiles of Saffron Gym to Sabrina and beat her Psychic types.', 2, true, 814),
+  -- Power Plant (Power Plant)
+  (40038, 4, NULL, 403, 1, 2, NULL, 'power-plant', 'Power Plant', 'Get the stolen Machine Part back for the Power Plant on Route 10. Beat the Team Rocket Grunt on Route 24, find the part in Cerulean Gym''s pool and bring it to the manager. The Magnet Train runs again, and he gives you TM07 Zap Cannon.', 3, true, 34),
+  -- Cascade Badge (Cerulean Gym)
+  (40018, 4, NULL, 403, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Find Misty on her date at the cape on Route 25, then beat her and her Water types at Cerulean Gym.', 4, true, 10),
+  -- Rainbow Badge (Celadon Gym)
+  (40020, 4, NULL, 403, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Beat Erika and her Grass types at Celadon Gym.', 5, true, 812),
+  -- Soul Badge (Fuchsia Gym)
+  (40021, 4, NULL, 403, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Find Janine among her look-alikes behind the invisible walls of Fuchsia Gym and beat her Poison types.', 6, true, 813),
+  -- Boulder Badge (Pewter Gym)
+  (40017, 4, NULL, 403, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Beat Brock and his Rock types at Pewter Gym.', 7, true, 810),
+  -- Volcano Badge (Cinnabar Gym)
+  (40023, 4, NULL, 403, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Beat Blaine and his Fire types in his new Gym, a cave in the Seafoam Islands. Cinnabar Island''s volcano buried the old one.', 8, true, 815),
+  -- Earth Badge (Viridian Gym)
+  (40024, 4, NULL, 403, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Talk to Blue on Cinnabar Island so he goes back to Viridian Gym, then beat him there. The Earth Badge is the sixteenth and last.', 9, true, 816),
+  -- Defeat Red (Mt. Silver Cave)
+  (40025, 4, NULL, 403, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Show Professor Oak all sixteen badges and he opens the way to Mt. Silver. Climb to the summit and beat Red.', 10, true, 99),
+  -- Roaming Raikou (Burned Tower)
+  (40028, 4, NULL, 404, 6, 2, NULL, 'roaming-raikou', 'Roaming Raikou', 'Raikou runs from the Burned Tower and roams Johto''s routes. Track it down and catch or defeat it.', 1, false, 83),
+  -- Roaming Entei (Burned Tower)
+  (40029, 4, NULL, 404, 6, 2, NULL, 'roaming-entei', 'Roaming Entei', 'Entei runs from the Burned Tower and roams Johto''s routes. Track it down and catch or defeat it.', 2, false, 83),
+  -- Suicune (Bell Tower)
+  (40039, 4, NULL, 404, 6, 2, NULL, 'suicune', 'Suicune', 'Take the Clear Bell to the Tin Tower in Ecruteak City. Beat the three Sages of the Wise Trio and Suicune comes down to face you. Catch or defeat it.', 3, false, 81),
+  -- Tin Tower (Bell Tower)
+  (40030, 4, NULL, 404, 6, 2, NULL, 'tin-tower', 'Tin Tower', 'Catch Raikou, Entei and Suicune and enter the Hall of Fame. A Sage at the Tin Tower then gives you the Rainbow Wing. Climb to the roof and catch or defeat Ho-Oh.', 4, false, 81),
+  -- Whirl Islands (Whirl Islands)
+  (40031, 4, NULL, 404, 6, 2, NULL, 'whirl-islands', 'Whirl Islands', 'Take the Silver Wing, a gift from an old man in Pewter City, to the deepest cave of the Whirl Islands and catch or defeat Lugia.', 5, false, 139),
+  -- Ilex Forest Shrine (Ilex Forest)
+  (40032, 4, NULL, 404, 6, 2, NULL, 'ilex-forest-shrine', 'Ilex Forest Shrine', 'In the Virtual Console release, Goldenrod City''s Pokémon Center gives you the GS Ball after the Hall of Fame. Have Kurt examine it, then place it at the Ilex Forest shrine and catch or defeat Celebi.', 6, false, 94);

@@ -1,12 +1,16 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Bulbapedia's
+-- Black / White walkthrough.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Black / White mainline milestone prerequisite links.
+-- Black / White mainline milestone prerequisite links, in Red / Blue's
+-- pattern: each Main Story beat suggests the one before it in Story order,
+-- Post Game carries on from the Pokémon League, and each side-content beat
+-- names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,45 +21,43 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Receive Pokedex <- Choose Starter
+  -- Receive Pokédex <- Choose Starter
   (110002, 110001, 11, 1, 1, NULL),
-  -- Trio Badge <- Receive Pokedex
+  -- Trio Badge <- Receive Pokédex
   (110003, 110002, 11, 1, 1, NULL),
-  -- Basic Badge <- Trio Badge
-  (110004, 110003, 11, 1, 1, NULL),
-  -- Insect Badge <- Basic Badge
-  (110005, 110004, 11, 1, 1, NULL),
+  -- Dreamyard <- Trio Badge
+  (110023, 110003, 11, 1, 1, NULL),
+  -- Basic Badge <- Dreamyard
+  (110004, 110023, 11, 1, 1, NULL),
+  -- Pinwheel Forest <- Basic Badge
+  (110024, 110004, 11, 1, 1, NULL),
+  -- Insect Badge <- Pinwheel Forest
+  (110005, 110024, 11, 1, 1, NULL),
   -- Bolt Badge <- Insect Badge
   (110006, 110005, 11, 1, 1, NULL),
-  -- Quake Badge <- Bolt Badge
-  (110007, 110006, 11, 1, 1, NULL),
+  -- Cold Storage <- Bolt Badge
+  (110025, 110006, 11, 1, 1, NULL),
+  -- Quake Badge <- Cold Storage
+  (110007, 110025, 11, 1, 1, NULL),
   -- Jet Badge <- Quake Badge
   (110008, 110007, 11, 1, 1, NULL),
   -- Freeze Badge <- Jet Badge
   (110009, 110008, 11, 1, 1, NULL),
-  -- Legend Badge <- Freeze Badge
-  (110010, 110009, 11, 1, 1, NULL),
-  -- Elite Four Shauntal <- Legend Badge
-  (110011, 110010, 11, 1, 1, NULL),
-  -- Elite Four Grimsley <- Elite Four Shauntal
-  (110012, 110011, 11, 1, 1, NULL),
-  -- Elite Four Caitlin <- Elite Four Grimsley
-  (110013, 110012, 11, 1, 1, NULL),
-  -- Elite Four Marshal <- Elite Four Caitlin
-  (110014, 110013, 11, 1, 1, NULL),
-  -- Battle N <- Elite Four Marshal
-  (110015, 110014, 11, 1, 1, NULL),
-  -- Defeat Ghetsis <- Battle N
-  (110016, 110015, 11, 1, 1, NULL),
-  -- Champion Alder <- Defeat Ghetsis
+  -- Dragonspiral Tower <- Freeze Badge
+  (110026, 110009, 11, 1, 1, NULL),
+  -- Relic Castle <- Dragonspiral Tower
+  (110027, 110026, 11, 1, 1, NULL),
+  -- Legend Badge <- Relic Castle
+  (110010, 110027, 11, 1, 1, NULL),
+  -- Pokémon League <- Legend Badge
+  (110016, 110010, 11, 1, 1, NULL),
+  -- Champion Alder <- Pokémon League
   (110017, 110016, 11, 1, 1, NULL),
-  -- Hall of Fame <- Champion Alder
-  (110018, 110017, 11, 1, 1, NULL),
   -- Swords of Justice opens after Jet Badge
-  (110019, 110008, 11, 4, 1, NULL),
-  -- Roaming Tornadus or Thundurus opens after Hall of Fame
-  (110020, 110018, 11, 4, 1, NULL),
-  -- Giant Chasm opens after Hall of Fame
-  (110021, 110018, 11, 4, 1, NULL),
-  -- Abundant Shrine opens after Hall of Fame
-  (110022, 110018, 11, 4, 1, NULL);
+  (110019, 110008, 11, 4, 1, 'Needs Surf, which Alder gives you after the Jet Badge.'),
+  -- Roaming Tornadus or Thundurus opens after Legend Badge
+  (110020, 110010, 11, 4, 1, NULL),
+  -- Giant Chasm opens after Pokémon League
+  (110021, 110016, 11, 4, 1, NULL),
+  -- Abundant Shrine opens after Pokémon League
+  (110022, 110016, 11, 4, 1, NULL);

@@ -16,6 +16,10 @@
 -- charge move). Names that aren't a move that Pokémon has in Z-A are left out
 -- (Froslass's Avalanche, Banette's Double Team decoys).
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Naveen, Lida, Emma, Tarragon, Gwynn, Philippe, Lebanne and Griselle's Story
+-- battles, Korrina's test and the two Hyperspace Multi Battles: Bulbapedia's
+-- trainer pages only (team, levels, held Mega Stones and moves). The Multi
+-- Battle teams are stored at their lower level and list two moves each.
 -- Scope: Legends: Z-A Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -58,77 +62,77 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Taunie / Urbain: Mega Manectric Lv. 26: Thunder Fang, Bite, Spark, Fire Fang
     (260005, 26001, NULL, 260001, 'totodile', NULL, 3, ARRAY[422, 44, 209, 424]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Feraligatr Lv. 63: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 4, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 4, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Emboar Lv. 64: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 6, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 6, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Meganium Lv. 63: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 4, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 4, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Feraligatr Lv. 64: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 6, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 6, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Emboar Lv. 63: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 4, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 4, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 6, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 6, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Feraligatr Lv. 63: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 4, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 4, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Emboar Lv. 64: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 6, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 6, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Meganium Lv. 63: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 4, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 4, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Feraligatr Lv. 64: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 6, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 6, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Emboar Lv. 63: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 4, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 4, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 6, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 6, ARRAY[73, 414, 605, 202]),
     -- Zygarde: Zygarde (10% Forme) Lv. 33: Bite, Haze, Bulldoze, Dragon Breath
     (260018, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[44, 114, 523, 225]),
     -- Zygarde: Zygarde Lv. 57: Dragon Breath, Dragon Pulse, Crunch, Land's Wrath
@@ -286,7 +290,133 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Rogue Mega Tyranitar: Mega Tyranitar Lv. 59: Rock Slide, Sand Tomb, Stone Edge
     (260035, 26030, NULL, NULL, NULL, NULL, 1, ARRAY[157, 328, 444]),
     -- Rogue Mega Starmie: Mega Starmie Lv. 59: Aqua Jet, Zen Headbutt, Hydro Pump
-    (260036, 26031, NULL, NULL, NULL, NULL, 1, ARRAY[453, 428, 56])
+    (260036, 26031, NULL, NULL, NULL, NULL, 1, ARRAY[453, 428, 56]),
+    -- Emma: Mareep Lv. 15: Tackle, Thunder Shock, Growl, Thunder Wave
+    (260014, 26034, NULL, NULL, NULL, NULL, 1, ARRAY[33, 84, 45, 86]),
+    -- Naveen: Spinarak Lv. 16: Absorb, Infestation, Shadow Sneak, X-Scissor
+    (260015, 26033, NULL, NULL, NULL, NULL, 1, ARRAY[71, 611, 425, 404]),
+    -- Naveen: Sableye Lv. 16: Tackle, Leer, Shadow Sneak, Take Down
+    (260015, 26033, NULL, NULL, NULL, NULL, 2, ARRAY[33, 43, 425, 36]),
+    -- Naveen: Scraggy Lv. 17: Tackle, Headbutt, Power-Up Punch, Rock Tomb
+    (260015, 26033, NULL, NULL, NULL, NULL, 3, ARRAY[33, 29, 612, 317]),
+    -- Lida: Clauncher Lv. 22: Mud Shot, Aqua Jet, Bubble Beam, Water Gun
+    (260016, 26032, NULL, NULL, NULL, NULL, 1, ARRAY[341, 453, 61, 55]),
+    -- Lida: Vanillite Lv. 22: Tackle, Taunt, Icy Wind, Harden
+    (260016, 26032, NULL, NULL, NULL, NULL, 2, ARRAY[33, 269, 196, 106]),
+    -- Lida: Staryu Lv. 23: Confuse Ray, Water Gun, Harden, Bubble Beam
+    (260016, 26032, NULL, NULL, NULL, NULL, 3, ARRAY[109, 55, 106, 61]),
+    -- Naveen: Ariados Lv. 33: Poison Jab, Pin Missile, Sticky Web, Shadow Sneak
+    (260018, 26033, NULL, NULL, NULL, NULL, 1, ARRAY[398, 42, 564, 425]),
+    -- Naveen: Sableye Lv. 33: Shadow Claw, Night Slash, Confuse Ray, Take Down
+    (260018, 26033, NULL, NULL, NULL, NULL, 2, ARRAY[421, 400, 109, 36]),
+    -- Naveen: Scraggy Lv. 33: Brick Break, Rock Tomb, Power-Up Punch, Headbutt
+    (260018, 26033, NULL, NULL, NULL, NULL, 3, ARRAY[280, 317, 612, 29]),
+    -- Tarragon: Hippowdon Lv. 36: Heavy Slam, Amnesia, Crunch, Stealth Rock
+    (260018, 26035, NULL, NULL, NULL, NULL, 1, ARRAY[484, 133, 242, 446]),
+    -- Tarragon: Diggersby Lv. 36: Swords Dance, Take Down, Bounce, Bulldoze
+    (260018, 26035, NULL, NULL, NULL, NULL, 2, ARRAY[14, 36, 340, 523]),
+    -- Tarragon: Mega Excadrill Lv. 37: Swords Dance, Dig, Rock Slide, X-Scissor
+    (260018, 26035, NULL, NULL, NULL, NULL, 3, ARRAY[14, 91, 157, 404]),
+    -- Gwynn: Banette Lv. 43: Shadow Sneak, Shadow Claw, Knock Off, Heal Block
+    (260019, 26036, NULL, NULL, NULL, NULL, 1, ARRAY[425, 421, 282, 377]),
+    -- Gwynn: Gourgeist (Small) Lv. 44: Trick-or-Treat, Shadow Claw, Bullet Seed, Brutal Swing
+    (260019, 26036, NULL, NULL, NULL, NULL, 2, ARRAY[567, 421, 331, 693]),
+    -- Gwynn: Mega Chandelure Lv. 45: Flamethrower, Fire Spin, Shadow Ball, Protect
+    (260019, 26036, NULL, NULL, NULL, NULL, 3, ARRAY[53, 83, 247, 182]),
+    -- Philippe: Steelix Lv. 46: Heavy Slam, Stealth Rock, Crunch, Rock Slide
+    (260028, 26037, NULL, NULL, NULL, NULL, 1, ARRAY[484, 446, 242, 157]),
+    -- Philippe: Scizor Lv. 46: Air Slash, Swords Dance, X-Scissor, Bullet Punch
+    (260028, 26037, NULL, NULL, NULL, NULL, 2, ARRAY[403, 14, 404, 418]),
+    -- Philippe: Mega Skarmory Lv. 47: Drill Run, Night Slash, Steel Wing, Air Slash
+    (260028, 26037, NULL, NULL, NULL, NULL, 3, ARRAY[529, 400, 211, 403]),
+    -- Gwynn: Banette Lv. 45: Phantom Force, Shadow Claw, Knock Off, Heal Block
+    (260030, 26036, NULL, NULL, NULL, NULL, 1, ARRAY[566, 421, 282, 377]),
+    -- Gwynn: Gourgeist (Small) Lv. 46: Trick-or-Treat, Shadow Claw, Bullet Seed, Brutal Swing
+    (260030, 26036, NULL, NULL, NULL, NULL, 2, ARRAY[567, 421, 331, 693]),
+    -- Gwynn: Gengar Lv. 46: Shadow Ball, Icy Wind, Dark Pulse, Hypnosis
+    (260030, 26036, NULL, NULL, NULL, NULL, 3, ARRAY[247, 196, 399, 95]),
+    -- Gwynn: Mega Chandelure Lv. 47: Flamethrower, Calm Mind, Psychic, Shadow Ball
+    (260030, 26036, NULL, NULL, NULL, NULL, 4, ARRAY[53, 347, 94, 247]),
+    -- Lida: Clawitzer Lv. 46: Dark Pulse, Aura Sphere, Water Pulse, Mud Shot
+    (260031, 26032, NULL, NULL, NULL, NULL, 1, ARRAY[399, 396, 352, 341]),
+    -- Lida: Vanillish Lv. 46: Ice Beam, Icy Wind, Flash Cannon, Icicle Crash
+    (260031, 26032, NULL, NULL, NULL, NULL, 2, ARRAY[58, 196, 430, 556]),
+    -- Lida: Emolga Lv. 47: Volt Switch, Air Slash, Spark, Quick Attack
+    (260031, 26032, NULL, NULL, NULL, NULL, 3, ARRAY[521, 403, 209, 98]),
+    -- Lida: Staryu Lv. 48: Psychic, Power Gem, Surf, Swift
+    (260031, 26032, NULL, NULL, NULL, NULL, 4, ARRAY[94, 408, 57, 129]),
+    -- Naveen: Ariados Lv. 48: Megahorn, Poison Jab, Sticky Web, Leech Life
+    (260031, 26033, NULL, NULL, NULL, NULL, 1, ARRAY[224, 398, 564, 141]),
+    -- Naveen: Sableye Lv. 48: Shadow Claw, Zen Headbutt, Confuse Ray, Power Gem
+    (260031, 26033, NULL, NULL, NULL, NULL, 2, ARRAY[421, 428, 109, 408]),
+    -- Naveen: Krookodile Lv. 49: Crunch, Iron Tail, Earthquake, Sand Tomb
+    (260031, 26033, NULL, NULL, NULL, NULL, 3, ARRAY[242, 231, 89, 328]),
+    -- Naveen: Mega Scrafty Lv. 50: Iron Tail, Ice Punch, Power-Up Punch, Crunch
+    (260031, 26033, NULL, NULL, NULL, NULL, 4, ARRAY[231, 8, 612, 242]),
+    -- Lebanne: Noivern Lv. 53: Hurricane, Super Fang, Dragon Pulse, Air Slash
+    (260006, 26038, NULL, NULL, NULL, NULL, 1, ARRAY[542, 162, 406, 403]),
+    -- Lebanne: Tyrantrum Lv. 53: Earthquake, Breaking Swipe, Rock Slide, Crunch
+    (260006, 26038, NULL, NULL, NULL, NULL, 2, ARRAY[89, 784, 157, 242]),
+    -- Lebanne: Garchomp Lv. 53: Earthquake, Swords Dance, Dragon Claw, Iron Head
+    (260006, 26038, NULL, NULL, NULL, NULL, 3, ARRAY[89, 14, 337, 442]),
+    -- Lebanne: Mega Dragalge Lv. 54: Sludge Bomb, Dragon Pulse, Hydro Pump, Protect
+    (260006, 26038, NULL, NULL, NULL, NULL, 4, ARRAY[188, 406, 56, 182]),
+    -- Philippe: Steelix Lv. 56: Stone Edge, Heavy Slam, Stealth Rock, Breaking Swipe
+    (260036, 26037, NULL, NULL, NULL, NULL, 1, ARRAY[444, 484, 446, 784]),
+    -- Philippe: Scizor Lv. 56: Protect, Iron Head, X-Scissor, Air Slash
+    (260036, 26037, NULL, NULL, NULL, NULL, 2, ARRAY[182, 442, 404, 403]),
+    -- Philippe: Aggron Lv. 56: Iron Tail, Rock Slide, Earthquake, Ice Punch
+    (260036, 26037, NULL, NULL, NULL, NULL, 3, ARRAY[231, 157, 89, 8]),
+    -- Philippe: Mega Skarmory Lv. 57: Drill Run, Night Slash, Steel Wing, Protect
+    (260036, 26037, NULL, NULL, NULL, NULL, 4, ARRAY[529, 400, 211, 182]),
+    -- Emma: Ampharos Lv. 57: Thunder, Power Gem, Dragon Pulse, Light Screen
+    (260021, 26034, NULL, NULL, NULL, NULL, 1, ARRAY[87, 408, 406, 113]),
+    -- Emma: Mawile Lv. 57: Play Rough, Dynamic Punch, Crunch, Iron Head
+    (260021, 26034, NULL, NULL, NULL, NULL, 2, ARRAY[583, 223, 242, 442]),
+    -- Emma: Lopunny Lv. 57: Fire Punch, Ice Punch, Thunder Punch, Power-Up Punch
+    (260021, 26034, NULL, NULL, NULL, NULL, 3, ARRAY[7, 8, 9, 612]),
+    -- Emma: Lucario Lv. 57: Aura Sphere, Flash Cannon, Psychic, Calm Mind
+    (260021, 26034, NULL, NULL, NULL, NULL, 4, ARRAY[396, 430, 94, 347]),
+    -- Emma: Mega Malamar Lv. 58: Poison Jab, Night Slash, Psycho Cut, Slash
+    (260021, 26034, NULL, NULL, NULL, NULL, 5, ARRAY[398, 400, 427, 163]),
+    -- Griselle: Talonflame Lv. 59: Flare Blitz, Steel Wing, Quick Attack, U-turn
+    (260021, 26039, NULL, NULL, NULL, NULL, 1, ARRAY[394, 211, 98, 369]),
+    -- Griselle: Camerupt Lv. 59: Earthquake, Lava Plume, Rock Slide, Protect
+    (260021, 26039, NULL, NULL, NULL, NULL, 2, ARRAY[89, 436, 157, 182]),
+    -- Griselle: Aerodactyl Lv. 60: Stone Edge, Iron Head, Crunch, Thunder Fang
+    (260021, 26039, NULL, NULL, NULL, NULL, 3, ARRAY[444, 442, 242, 422]),
+    -- Griselle: Metagross Lv. 60: Bullet Punch, Psycho Cut, Brutal Swing, Ice Punch
+    (260021, 26039, NULL, NULL, NULL, NULL, 4, ARRAY[418, 427, 693, 8]),
+    -- Griselle: Mega Pyroar Lv. 61: Flamethrower, Earth Power, Hyper Voice, Snarl
+    (260021, 26039, NULL, NULL, NULL, NULL, 5, ARRAY[53, 414, 304, 555]),
+    -- Rogue Mega Gengar: Mega Gengar Lv. 62: Phantom Force, Dark Pulse, Sludge Wave, Icy Wind
+    (260008, 26040, NULL, NULL, NULL, NULL, 1, ARRAY[566, 399, 482, 196]),
+    -- Rogue Mega Heracross: Mega Heracross Lv. 62: Pin Missile, Rock Blast, Close Combat, Megahorn
+    (260008, 26041, NULL, NULL, NULL, NULL, 1, ARRAY[42, 350, 370, 224]),
+    -- Rogue Mega Kangaskhan: Mega Kangaskhan Lv. 62: Dynamic Punch, Take Down, Outrage, Crunch
+    (260008, 26042, NULL, NULL, NULL, NULL, 1, ARRAY[223, 36, 200, 242]),
+    -- Rogue Mega Pidgeot: Mega Pidgeot Lv. 62: Brave Bird, Twister, Hurricane, Quick Attack
+    (260008, 26043, NULL, NULL, NULL, NULL, 1, ARRAY[413, 239, 542, 98]),
+    -- Rogue Mega Garchomp: Mega Garchomp Lv. 62: Dragon Claw, Dig, Dragon Rush, Crunch
+    (260008, 26044, NULL, NULL, NULL, NULL, 1, ARRAY[337, 91, 407, 242]),
+    -- Rogue Mega Blastoise: Mega Blastoise Lv. 62: Flash Cannon, Hydro Pump, Liquidation, Bite
+    (260008, 26045, NULL, NULL, NULL, NULL, 1, ARRAY[430, 56, 710, 44]),
+    -- Rogue Mega Steelix: Mega Steelix Lv. 62: Iron Tail, Breaking Swipe, Stone Edge, Dig
+    (260008, 26046, NULL, NULL, NULL, NULL, 1, ARRAY[231, 784, 444, 91]),
+    -- Rogue Mega Aggron: Mega Aggron Lv. 62: Rock Slide, Rock Tomb, Heavy Slam, Iron Head
+    (260008, 26047, NULL, NULL, NULL, NULL, 1, ARRAY[157, 317, 484, 442]),
+    -- Rogue Mega Salamence: Mega Salamence Lv. 62: Outrage, Air Slash, Flamethrower, Zen Headbutt
+    (260008, 26048, NULL, NULL, NULL, NULL, 1, ARRAY[200, 403, 53, 428]),
+    -- Rogue Mega Gardevoir: Mega Gardevoir Lv. 62: Moonblast, Psychic, Mystical Fire, Magical Leaf
+    (260008, 26049, NULL, NULL, NULL, NULL, 1, ARRAY[585, 94, 595, 345]),
+    -- Rogue Mega Gallade: Mega Gallade Lv. 62: Psycho Cut, Psybeam, Close Combat, Leaf Blade
+    (260008, 26050, NULL, NULL, NULL, NULL, 1, ARRAY[427, 60, 370, 348]),
+    -- Rogue Mega Alakazam: Mega Alakazam Lv. 62: Calm Mind, Reflect, Psychic, Future Sight
+    (260008, 26051, NULL, NULL, NULL, NULL, 1, ARRAY[347, 115, 94, 248]),
+    -- Rogue Mega Aerodactyl: Mega Aerodactyl Lv. 62: Crunch, Iron Head, Giga Impact, Stone Edge
+    (260008, 26052, NULL, NULL, NULL, NULL, 1, ARRAY[242, 442, 416, 444]),
+    -- Rogue Mega Metagross: Mega Metagross Lv. 62: Iron Head, Hyper Beam, Brutal Swing, Psychic
+    (260008, 26053, NULL, NULL, NULL, NULL, 1, ARRAY[442, 63, 693, 94])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

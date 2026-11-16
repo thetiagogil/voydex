@@ -97,4 +97,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Archer (boss; Team Rocket Executive)
   (4032, 4, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', NULL, 32),
   -- Proton (boss; Team Rocket Executive)
-  (4033, 4, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', NULL, 33);
+  (4033, 4, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', NULL, 33),
+  -- Eusine: the Suicune researcher, who battles you in Cianwood City
+  (4034, 4, NULL, 'eusine', 'Eusine', 'boss', NULL, NULL, NULL, NULL, 34);

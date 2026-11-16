@@ -40,11 +40,12 @@ SELECT
             LEFT JOIN tracking.mainline_milestone_badge_refs AS refs ON refs.milestone_id = milestones.id
             LEFT JOIN tracking.mainline_badges AS badges ON badges.id = refs.badge_id
             LEFT JOIN reference.types AS types ON types.id = badges.type_id
+            JOIN tracking.mainline_categories AS categories ON categories.id = milestones.category_id
             WHERE
                 milestones.version_group_id = 16
                 AND milestone_types.slug IN ('trial', 'grand-trial')
-            ORDER BY milestones.sort_order, milestones.id $$, $$
-            VALUES ('ilima-trial', 'normalium-z', 'normal'), ('grand-trial-hala', 'fightinium-z', 'fighting'), ('lana-trial', 'waterium-z', 'water'), ('kiawe-trial', 'firium-z', 'fire'), ('mallow-trial', 'grassium-z', 'grass'), ('grand-trial-olivia', 'rockium-z', 'rock'), ('sophocles-trial', 'electrium-z', 'electric'), ('acerola-trial', 'ghostium-z', 'ghost'), ('grand-trial-nanu', 'darkinium-z', 'dark'), ('ilima-bonus-trial', NULL, NULL), ('vast-poni-canyon-trial', 'dragonium-z', 'dragon'), ('mina-trial', 'fairium-z', 'fairy'), ('grand-trial-hapu', 'groundium-z', 'ground') $$, 'Ultra Sun / Ultra Moon: each trial''s Z-Crystal, none for Ilima''s bonus trial');
+            ORDER BY categories.sort_order, milestones.sort_order, milestones.id $$, $$
+            VALUES ('ilima-trial', 'normalium-z', 'normal'), ('grand-trial-hala', 'fightinium-z', 'fighting'), ('lana-trial', 'waterium-z', 'water'), ('kiawe-trial', 'firium-z', 'fire'), ('mallow-trial', 'grassium-z', 'grass'), ('grand-trial-olivia', 'rockium-z', 'rock'), ('sophocles-trial', 'electrium-z', 'electric'), ('acerola-trial', 'ghostium-z', 'ghost'), ('grand-trial-nanu', 'darkinium-z', 'dark'), ('vast-poni-canyon-trial', 'dragonium-z', 'dragon'), ('mina-trial', 'fairium-z', 'fairy'), ('grand-trial-hapu', 'groundium-z', 'ground'), ('ilima-bonus-trial', NULL, NULL) $$, 'Ultra Sun / Ultra Moon: each trial''s Z-Crystal, none for Ilima''s bonus trial');
 SELECT
     is_empty ($$
         SELECT

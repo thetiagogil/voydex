@@ -70,45 +70,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Clair: Kingdra Lv. 40: Smokescreen, Surf, Hyper Beam, Dragon Breath
     (40010, 4008, NULL, NULL, NULL, NULL, 4, ARRAY[108, 57, 63, 225]),
     -- Will: Xatu Lv. 40: Quick Attack, Future Sight, Confuse Ray, Psychic
-    (40011, 4009, NULL, NULL, NULL, NULL, 1, ARRAY[98, 248, 109, 94]),
+    (40015, 4009, NULL, NULL, NULL, NULL, 1, ARRAY[98, 248, 109, 94]),
     -- Will: Jynx Lv. 41: Double Slap, Lovely Kiss, Ice Punch, Psychic
-    (40011, 4009, NULL, NULL, NULL, NULL, 2, ARRAY[3, 142, 8, 94]),
+    (40015, 4009, NULL, NULL, NULL, NULL, 2, ARRAY[3, 142, 8, 94]),
     -- Will: Exeggutor Lv. 41: Reflect, Leech Seed, Egg Bomb, Psychic
-    (40011, 4009, NULL, NULL, NULL, NULL, 3, ARRAY[115, 73, 121, 94]),
+    (40015, 4009, NULL, NULL, NULL, NULL, 3, ARRAY[115, 73, 121, 94]),
     -- Will: Slowbro Lv. 41: Curse, Amnesia, Body Slam, Psychic
-    (40011, 4009, NULL, NULL, NULL, NULL, 4, ARRAY[174, 133, 34, 94]),
+    (40015, 4009, NULL, NULL, NULL, NULL, 4, ARRAY[174, 133, 34, 94]),
     -- Will: Xatu Lv. 42: Quick Attack, Future Sight, Confuse Ray, Psychic
-    (40011, 4009, NULL, NULL, NULL, NULL, 5, ARRAY[98, 248, 109, 94]),
+    (40015, 4009, NULL, NULL, NULL, NULL, 5, ARRAY[98, 248, 109, 94]),
     -- Koga: Ariados Lv. 40: Double Team, Spider Web, Baton Pass, Giga Drain
-    (40012, 4010, NULL, NULL, NULL, NULL, 1, ARRAY[104, 169, 226, 202]),
+    (40015, 4010, NULL, NULL, NULL, NULL, 1, ARRAY[104, 169, 226, 202]),
     -- Koga: Venomoth Lv. 41: Supersonic, Gust, Psychic, Toxic
-    (40012, 4010, NULL, NULL, NULL, NULL, 2, ARRAY[48, 16, 94, 92]),
+    (40015, 4010, NULL, NULL, NULL, NULL, 2, ARRAY[48, 16, 94, 92]),
     -- Koga: Forretress Lv. 43: Protect, Swift, Explosion, Spikes
-    (40012, 4010, NULL, NULL, NULL, NULL, 3, ARRAY[182, 129, 153, 191]),
+    (40015, 4010, NULL, NULL, NULL, NULL, 3, ARRAY[182, 129, 153, 191]),
     -- Koga: Muk Lv. 42: Minimize, Acid Armor, Sludge Bomb, Toxic
-    (40012, 4010, NULL, NULL, NULL, NULL, 4, ARRAY[107, 151, 188, 92]),
+    (40015, 4010, NULL, NULL, NULL, NULL, 4, ARRAY[107, 151, 188, 92]),
     -- Koga: Crobat Lv. 44: Double Team, Quick Attack, Wing Attack, Toxic
-    (40012, 4010, NULL, NULL, NULL, NULL, 5, ARRAY[104, 98, 17, 92]),
+    (40015, 4010, NULL, NULL, NULL, NULL, 5, ARRAY[104, 98, 17, 92]),
     -- Bruno: Hitmontop Lv. 42: Pursuit, Quick Attack, Dig, Detect
-    (40013, 4011, NULL, NULL, NULL, NULL, 1, ARRAY[228, 98, 91, 197]),
+    (40015, 4011, NULL, NULL, NULL, NULL, 1, ARRAY[228, 98, 91, 197]),
     -- Bruno: Hitmonlee Lv. 42: Swagger, Double Kick, High Jump Kick, Foresight
-    (40013, 4011, NULL, NULL, NULL, NULL, 2, ARRAY[207, 24, 136, 193]),
+    (40015, 4011, NULL, NULL, NULL, NULL, 2, ARRAY[207, 24, 136, 193]),
     -- Bruno: Hitmonchan Lv. 42: Thunder Punch, Ice Punch, Fire Punch, Mach Punch
-    (40013, 4011, NULL, NULL, NULL, NULL, 3, ARRAY[9, 8, 7, 183]),
+    (40015, 4011, NULL, NULL, NULL, NULL, 3, ARRAY[9, 8, 7, 183]),
     -- Bruno: Onix Lv. 43: Bind, Earthquake, Sandstorm, Rock Slide
-    (40013, 4011, NULL, NULL, NULL, NULL, 4, ARRAY[20, 89, 201, 157]),
+    (40015, 4011, NULL, NULL, NULL, NULL, 4, ARRAY[20, 89, 201, 157]),
     -- Bruno: Machamp Lv. 46: Rock Slide, Foresight, Vital Throw, Cross Chop
-    (40013, 4011, NULL, NULL, NULL, NULL, 5, ARRAY[157, 193, 233, 238]),
+    (40015, 4011, NULL, NULL, NULL, NULL, 5, ARRAY[157, 193, 233, 238]),
     -- Karen: Umbreon Lv. 42: Sand Attack, Confuse Ray, Feint Attack, Mean Look
-    (40014, 4012, NULL, NULL, NULL, NULL, 1, ARRAY[28, 109, 185, 212]),
+    (40015, 4012, NULL, NULL, NULL, NULL, 1, ARRAY[28, 109, 185, 212]),
     -- Karen: Vileplume Lv. 42: Stun Spore, Acid, Moonlight, Petal Dance
-    (40014, 4012, NULL, NULL, NULL, NULL, 2, ARRAY[78, 51, 236, 80]),
+    (40015, 4012, NULL, NULL, NULL, NULL, 2, ARRAY[78, 51, 236, 80]),
     -- Karen: Gengar Lv. 45: Lick, Spite, Curse, Destiny Bond
-    (40014, 4012, NULL, NULL, NULL, NULL, 3, ARRAY[122, 180, 174, 194]),
+    (40015, 4012, NULL, NULL, NULL, NULL, 3, ARRAY[122, 180, 174, 194]),
     -- Karen: Murkrow Lv. 44: Quick Attack, Whirlwind, Pursuit, Feint Attack
-    (40014, 4012, NULL, NULL, NULL, NULL, 4, ARRAY[98, 18, 228, 185]),
+    (40015, 4012, NULL, NULL, NULL, NULL, 4, ARRAY[98, 18, 228, 185]),
     -- Karen: Houndoom Lv. 47: Roar, Pursuit, Flamethrower, Crunch
-    (40014, 4012, NULL, NULL, NULL, NULL, 5, ARRAY[46, 228, 53, 242]),
+    (40015, 4012, NULL, NULL, NULL, NULL, 5, ARRAY[46, 228, 53, 242]),
     -- Lance: Gyarados Lv. 44: Flail, Rain Dance, Surf, Hyper Beam
     (40015, 4013, NULL, NULL, NULL, NULL, 1, ARRAY[175, 240, 57, 63]),
     -- Lance: Dragonite Lv. 47: Thunder Wave, Twister, Thunder, Hyper Beam
@@ -210,23 +210,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Silver: Chikorita Lv. 5: Tackle, Growl
     (40003, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[33, 45]),
     -- Silver: Gastly Lv. 12: Hypnosis, Lick, Spite
-    (40004, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[95, 122, 180]),
+    (40034, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[95, 122, 180]),
     -- Silver: Zubat Lv. 14: Leech Life, Supersonic, Bite
-    (40004, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 48, 44]),
+    (40034, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 48, 44]),
     -- Silver: Quilava Lv. 16: Tackle, Leer, Smokescreen, Ember
-    (40004, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[33, 43, 108, 52]),
+    (40034, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[33, 43, 108, 52]),
     -- Silver: Gastly Lv. 12: Hypnosis, Lick, Spite
-    (40004, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[95, 122, 180]),
+    (40034, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[95, 122, 180]),
     -- Silver: Zubat Lv. 14: Leech Life, Supersonic, Bite
-    (40004, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 48, 44]),
+    (40034, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 48, 44]),
     -- Silver: Croconaw Lv. 16: Scratch, Leer, Rage, Water Gun
-    (40004, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[10, 43, 99, 55]),
+    (40034, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[10, 43, 99, 55]),
     -- Silver: Gastly Lv. 12: Hypnosis, Lick, Spite
-    (40004, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[95, 122, 180]),
+    (40034, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[95, 122, 180]),
     -- Silver: Zubat Lv. 14: Leech Life, Supersonic, Bite
-    (40004, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 48, 44]),
+    (40034, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 48, 44]),
     -- Silver: Bayleef Lv. 16: Growl, Razor Leaf, Reflect, Poison Powder
-    (40004, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[45, 75, 115, 77]),
+    (40034, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[45, 75, 115, 77]),
     -- Silver: Haunter Lv. 20: Lick, Spite, Mean Look, Curse
     (40026, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[122, 180, 212, 174]),
     -- Silver: Magnemite Lv. 18: Tackle, Thunder Shock, Supersonic, Sonic Boom
@@ -282,83 +282,83 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Silver: Meganium Lv. 32: Reflect, Razor Leaf, Poison Powder, Body Slam
     (40027, 4023, NULL, 40001, 'totodile', NULL, 5, ARRAY[115, 75, 77, 34]),
     -- Silver: Sneasel Lv. 34: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 36: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 35: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Haunter Lv. 35: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 35: Disable, Psybeam, Recover, Future Sight
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 5, ARRAY[50, 60, 105, 248]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 5, ARRAY[50, 60, 105, 248]),
     -- Silver: Typhlosion Lv. 38: Smokescreen, Ember, Quick Attack, Flame Wheel
-    (40011, 4023, NULL, 40001, 'chikorita', NULL, 6, ARRAY[108, 52, 98, 172]),
+    (40015, 4023, NULL, 40001, 'chikorita', NULL, 6, ARRAY[108, 52, 98, 172]),
     -- Silver: Sneasel Lv. 34: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 36: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 34: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Haunter Lv. 35: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 35: Disable, Psybeam, Recover, Future Sight
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 5, ARRAY[50, 60, 105, 248]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 5, ARRAY[50, 60, 105, 248]),
     -- Silver: Feraligatr Lv. 38: Rage, Water Gun, Scary Face, Slash
-    (40011, 4023, NULL, 40001, 'cyndaquil', NULL, 6, ARRAY[99, 55, 184, 163]),
+    (40015, 4023, NULL, 40001, 'cyndaquil', NULL, 6, ARRAY[99, 55, 184, 163]),
     -- Silver: Sneasel Lv. 34: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 36: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 35: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Haunter Lv. 35: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Kadabra Lv. 35: Disable, Psybeam, Recover, Future Sight
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 5, ARRAY[50, 60, 105, 248]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 5, ARRAY[50, 60, 105, 248]),
     -- Silver: Meganium Lv. 38: Reflect, Razor Leaf, Poison Powder, Body Slam
-    (40011, 4023, NULL, 40001, 'totodile', NULL, 6, ARRAY[115, 75, 77, 34]),
+    (40015, 4023, NULL, 40001, 'totodile', NULL, 6, ARRAY[115, 75, 77, 34]),
     -- Silver: Sneasel Lv. 41: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 42: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 41: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Gengar Lv. 43: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 43: Disable, Recover, Future Sight, Psychic
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 5, ARRAY[50, 105, 248, 94]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 5, ARRAY[50, 105, 248, 94]),
     -- Silver: Typhlosion Lv. 45: Smokescreen, Quick Attack, Flame Wheel, Swift
-    (40017, 4023, NULL, 40001, 'chikorita', NULL, 6, ARRAY[108, 98, 172, 129]),
+    (40023, 4023, NULL, 40001, 'chikorita', NULL, 6, ARRAY[108, 98, 172, 129]),
     -- Silver: Sneasel Lv. 41: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 42: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 41: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Gengar Lv. 43: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 43: Disable, Recover, Future Sight, Psychic
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 5, ARRAY[50, 105, 248, 94]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 5, ARRAY[50, 105, 248, 94]),
     -- Silver: Feraligatr Lv. 45: Rage, Water Gun, Scary Face, Slash
-    (40017, 4023, NULL, 40001, 'cyndaquil', NULL, 6, ARRAY[99, 55, 184, 163]),
+    (40023, 4023, NULL, 40001, 'cyndaquil', NULL, 6, ARRAY[99, 55, 184, 163]),
     -- Silver: Sneasel Lv. 41: Quick Attack, Screech, Feint Attack, Fury Cutter
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[98, 103, 185, 210]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[98, 103, 185, 210]),
     -- Silver: Golbat Lv. 42: Leech Life, Bite, Confuse Ray, Wing Attack
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 44, 109, 17]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 2, ARRAY[141, 44, 109, 17]),
     -- Silver: Magneton Lv. 41: Thunder Shock, Sonic Boom, Thunder Wave, Swift
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[84, 49, 86, 129]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 3, ARRAY[84, 49, 86, 129]),
     -- Silver: Gengar Lv. 43: Mean Look, Curse, Shadow Ball, Confuse Ray
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 4, ARRAY[212, 174, 247, 109]),
     -- Silver: Alakazam Lv. 43: Disable, Recover, Future Sight, Psychic
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 5, ARRAY[50, 105, 248, 94]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 5, ARRAY[50, 105, 248, 94]),
     -- Silver: Meganium Lv. 45: Razor Leaf, Poison Powder, Body Slam, Light Screen
-    (40017, 4023, NULL, 40001, 'totodile', NULL, 6, ARRAY[75, 77, 34, 113]),
+    (40023, 4023, NULL, 40001, 'totodile', NULL, 6, ARRAY[75, 77, 34, 113]),
     -- Raikou: Raikou Lv. 40: Leer, Thunder Shock, Roar, Quick Attack
     (40028, 4024, NULL, NULL, NULL, NULL, 1, ARRAY[43, 84, 46, 98]),
     -- Entei: Entei Lv. 40: Leer, Ember, Roar, Fire Spin
     (40029, 4025, NULL, NULL, NULL, NULL, 1, ARRAY[43, 52, 46, 83]),
     -- Suicune: Suicune Lv. 40: Leer, Bubble Beam, Rain Dance, Gust
-    (40030, 4026, NULL, NULL, NULL, NULL, 1, ARRAY[43, 61, 240, 16]),
+    (40039, 4026, NULL, NULL, NULL, NULL, 1, ARRAY[43, 61, 240, 16]),
     -- Ho-Oh: Ho-Oh Lv. 60: Gust, Recover, Fire Blast, Sunny Day
     (40030, 4027, NULL, NULL, NULL, NULL, 1, ARRAY[16, 105, 126, 241]),
     -- Lugia: Lugia Lv. 60: Gust, Recover, Hydro Pump, Rain Dance
@@ -366,17 +366,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Celebi: Celebi Lv. 30: Heal Bell, Safeguard, Ancient Power, Future Sight
     (40032, 4029, NULL, NULL, NULL, NULL, 1, ARRAY[215, 219, 246, 248]),
     -- Petrel: Zubat Lv. 22: Leech Life, Supersonic, Bite, Confuse Ray
-    (40009, 4030, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48, 44, 109]),
+    (40037, 4030, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48, 44, 109]),
     -- Petrel: Raticate Lv. 24: Tail Whip, Quick Attack, Hyper Fang, Scary Face
-    (40009, 4030, NULL, NULL, NULL, NULL, 2, ARRAY[39, 98, 158, 184]),
+    (40037, 4030, NULL, NULL, NULL, NULL, 2, ARRAY[39, 98, 158, 184]),
     -- Petrel: Koffing Lv. 22: Tackle, Smog, Self-Destruct, Sludge
-    (40009, 4030, NULL, NULL, NULL, NULL, 3, ARRAY[33, 123, 120, 124]),
+    (40037, 4030, NULL, NULL, NULL, NULL, 3, ARRAY[33, 123, 120, 124]),
     -- Ariana: Arbok Lv. 23: Wrap, Leer, Poison Sting, Bite
-    (40009, 4031, NULL, NULL, NULL, NULL, 1, ARRAY[35, 43, 40, 44]),
+    (40037, 4031, NULL, NULL, NULL, NULL, 1, ARRAY[35, 43, 40, 44]),
     -- Ariana: Gloom Lv. 23: Absorb, Sweet Scent, Sleep Powder, Acid
-    (40009, 4031, NULL, NULL, NULL, NULL, 2, ARRAY[71, 230, 79, 51]),
+    (40037, 4031, NULL, NULL, NULL, NULL, 2, ARRAY[71, 230, 79, 51]),
     -- Ariana: Murkrow Lv. 25: Peck, Pursuit, Haze
-    (40009, 4031, NULL, NULL, NULL, NULL, 3, ARRAY[64, 228, 114]),
+    (40037, 4031, NULL, NULL, NULL, NULL, 3, ARRAY[64, 228, 114]),
     -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
     (40027, 4030, NULL, NULL, NULL, NULL, 1, ARRAY[33, 120, 124, 108]),
     -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
@@ -402,7 +402,13 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Archer: Koffing Lv. 33: Tackle, Sludge, Smokescreen, Haze
     (40027, 4032, NULL, NULL, NULL, NULL, 2, ARRAY[33, 124, 108, 114]),
     -- Archer: Houndoom Lv. 35: Ember, Smog, Bite, Feint Attack
-    (40027, 4032, NULL, NULL, NULL, NULL, 3, ARRAY[52, 123, 44, 185])
+    (40027, 4032, NULL, NULL, NULL, NULL, 3, ARRAY[52, 123, 44, 185]),
+    -- Eusine: Drowzee Lv. 23: Dream Eater, Hypnosis, Disable, Confusion
+    (40035, 4034, NULL, NULL, NULL, NULL, 1, ARRAY[138, 95, 50, 93]),
+    -- Eusine: Haunter Lv. 23: Lick, Hypnosis, Mean Look, Curse
+    (40035, 4034, NULL, NULL, NULL, NULL, 2, ARRAY[122, 95, 212, 174]),
+    -- Eusine: Electrode Lv. 25: Screech, Sonic Boom, Thunder, Rollout
+    (40035, 4034, NULL, NULL, NULL, NULL, 3, ARRAY[103, 49, 87, 205])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

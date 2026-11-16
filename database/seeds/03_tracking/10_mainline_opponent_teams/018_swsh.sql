@@ -226,11 +226,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Bede, Fire Badge 4: Hatenna Lv. 23
   (180005, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 856, 85600, 23, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 1: Croagunk Lv. 24
-  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 453, 45300, 24, NULL, NULL, FALSE),
+  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 453, 45300, 24, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 2: Scraggy Lv. 24
-  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 559, 55900, 24, NULL, NULL, FALSE),
+  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 559, 55900, 24, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 3: Morpeko Lv. 26
-  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 877, 87700, 26, NULL, NULL, FALSE),
+  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 877, 87700, 26, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Fighting Badge 1: Cramorant Lv. 28
   (183106, 18013, 18, 31, 180001, 'grookey', NULL, NULL, 1, 845, 84500, 28, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Fighting Badge 2: Toxel Lv. 29

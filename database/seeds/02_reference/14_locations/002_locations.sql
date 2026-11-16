@@ -13,7 +13,33 @@
 -- games that share it (Route 1 is one place in Red and in HeartGold), and
 -- the places a Story milestone or battle happens at that have no wild
 -- Pokémon (Red / Blue's S.S. Anne, Rocket Hideout, Underground Path
--- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them).
+-- between Routes 7 and 8 and Kanto's Gyms, named as Bulbapedia names them,
+-- and Gold / Silver's Johto Gyms, Mahogany Town, Professor Elm's Laboratory,
+-- Mr. Pokémon's House, Olivine Lighthouse, Team Rocket HQ, Goldenrod Radio
+-- Tower and Underground and the S.S. Aqua, named as those games name them,
+-- and Hoenn's Gyms, towns without wild Pokémon, Professor Birch's Laboratory,
+-- the Oceanic Museum and Mt. Chimney for Ruby / Sapphire, and the Sevii
+-- Islands' towns, the Dotted Hole, the Rocket Warehouse, Navel Rock and Birth
+-- Island for FireRed / LeafGreen, and the Mossdeep Space Center, Terra Cave
+-- and Marine Cave for Emerald, and Sinnoh's Gyms, towns without wild
+-- Pokémon, Professor Rowan's Laboratory, Team Galactic's two buildings, the
+-- Spear Pillar, the Fight Area and Fullmoon Island for Diamond / Pearl, the
+-- Distortion World for Platinum, the Ecruteak Dance Theater and the Embedded
+-- Tower for HeartGold / SoulSilver, and Unova's Gyms, towns and bridges
+-- without wild Pokémon, Professor Juniper's Laboratory and the Pokémon
+-- League for Black / White, two more Gyms, two towns, the Pokémon World
+-- Tournament, the Plasma Frigate and the Cave of Being for Black 2 / White 2,
+-- Kalos's Gyms, two towns, Team Flare's places, the Pokémon League, Kiloude
+-- City and the Unknown Dungeon for X / Y, Island Cave and six Mirage spots
+-- for Omega Ruby / Alpha Sapphire, Heahea City, Hokulani Observatory, Po
+-- Town, Ultra Space, the four ruins and the Pokémon League for Sun / Moon,
+-- Megalo Tower and Mahalo Trail for Ultra Sun / Ultra Moon, and Galar's
+-- missing Stadiums, Spikemuth's Gym, Ballonlea and the Energy Plant for
+-- Sword / Shield, the Towers of Two Fists for the Isle of Armor, Ramanas
+-- Park for Brilliant Diamond / Shining Pearl, Hisui's arenas, Prelude Beach,
+-- the Stone Portal and the Ancient Retreat for Legends: Arceus, and
+-- Paldea's Gyms, the towns without wild Pokémon and Team Star's five bases
+-- for Scarlet / Violet).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1640,4 +1666,392 @@ VALUES
   -- Cinnabar Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
   (815, 1, 'kanto-cinnabar-gym', 'Cinnabar Gym'),
   -- Viridian Gym: a Story place with no wild Pokémon (Red / Blue's badge there)
-  (816, 1, 'kanto-viridian-gym', 'Viridian Gym');
+  (816, 1, 'kanto-viridian-gym', 'Viridian Gym'),
+  -- Professor Elm's Laboratory: a Story place with no wild Pokémon (Gold / Silver's Choose Starter beat)
+  (817, 2, 'johto-professor-elms-laboratory', 'Professor Elm''s Laboratory'),
+  -- Mr. Pokémon's House: a Story place with no wild Pokémon (Gold / Silver's Receive Pokédex beat)
+  (818, 2, 'johto-mr-pokemons-house', 'Mr. Pokémon''s House'),
+  -- Violet Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (819, 2, 'johto-violet-gym', 'Violet Gym'),
+  -- Azalea Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (820, 2, 'johto-azalea-gym', 'Azalea Gym'),
+  -- Goldenrod Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (821, 2, 'johto-goldenrod-gym', 'Goldenrod Gym'),
+  -- Ecruteak Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (822, 2, 'johto-ecruteak-gym', 'Ecruteak Gym'),
+  -- Cianwood Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (823, 2, 'johto-cianwood-gym', 'Cianwood Gym'),
+  -- Mahogany Town: a Story place with no wild Pokémon (Gold / Silver's way to the Lake of Rage and Team Rocket HQ)
+  (824, 2, 'johto-mahogany-town', 'Mahogany Town'),
+  -- Mahogany Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (825, 2, 'johto-mahogany-gym', 'Mahogany Gym'),
+  -- Blackthorn Gym: a Story place with no wild Pokémon (Gold / Silver's badge there)
+  (826, 2, 'johto-blackthorn-gym', 'Blackthorn Gym'),
+  -- Olivine Lighthouse: a Story place with no wild Pokémon (Gold / Silver's Olivine Lighthouse beat)
+  (827, 2, 'johto-olivine-lighthouse', 'Olivine Lighthouse'),
+  -- Team Rocket HQ: a Story place with no wild Pokémon (Gold / Silver's Team Rocket HQ beat)
+  (828, 2, 'johto-team-rocket-hq', 'Team Rocket HQ'),
+  -- Goldenrod Radio Tower: a Story place with no wild Pokémon (Gold / Silver's Radio Tower beat)
+  (829, 2, 'johto-goldenrod-radio-tower', 'Goldenrod Radio Tower'),
+  -- Goldenrod Underground: a Story place with no wild Pokémon (Gold / Silver's rival battle before the Radio Tower)
+  (830, 2, 'johto-goldenrod-underground', 'Goldenrod Underground'),
+  -- S.S. Aqua: a Story place with no wild Pokémon (Gold / Silver's ship to Kanto)
+  (831, 2, 'johto-ss-aqua', 'S.S. Aqua'),
+  -- Oldale Town: a Story place with no wild Pokémon (Ruby / Sapphire's way out of Littleroot Town)
+  (832, 3, 'hoenn-oldale-town', 'Oldale Town'),
+  -- Professor Birch's Laboratory: a Story place with no wild Pokémon (Ruby / Sapphire's Receive Pokédex beat)
+  (833, 3, 'hoenn-professor-birchs-laboratory', 'Professor Birch''s Laboratory'),
+  -- Rustboro Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (834, 3, 'hoenn-rustboro-gym', 'Rustboro Gym'),
+  -- Dewford Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (835, 3, 'hoenn-dewford-gym', 'Dewford Gym'),
+  -- Oceanic Museum: a Story place with no wild Pokémon (Ruby / Sapphire's Oceanic Museum beat)
+  (836, 3, 'hoenn-oceanic-museum', 'Oceanic Museum'),
+  -- Mauville City: a Story place with no wild Pokémon (Ruby / Sapphire's crossroads and Wally's battle)
+  (837, 3, 'hoenn-mauville-city', 'Mauville City'),
+  -- Mauville Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (838, 3, 'hoenn-mauville-gym', 'Mauville Gym'),
+  -- Verdanturf Town: a Story place with no wild Pokémon (Ruby / Sapphire's way to Rusturf Tunnel)
+  (839, 3, 'hoenn-verdanturf-town', 'Verdanturf Town'),
+  -- Fallarbor Town: a Story place with no wild Pokémon (Ruby / Sapphire's way to Meteor Falls)
+  (840, 3, 'hoenn-fallarbor-town', 'Fallarbor Town'),
+  -- Mt. Chimney: a Story place with no wild Pokémon (Ruby / Sapphire's Mt. Chimney beat)
+  (841, 3, 'hoenn-mt-chimney', 'Mt. Chimney'),
+  -- Lavaridge Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (842, 3, 'hoenn-lavaridge-gym', 'Lavaridge Gym'),
+  -- Petalburg Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (843, 3, 'hoenn-petalburg-gym', 'Petalburg Gym'),
+  -- Fortree Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (844, 3, 'hoenn-fortree-gym', 'Fortree Gym'),
+  -- Mossdeep Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (845, 3, 'hoenn-mossdeep-gym', 'Mossdeep Gym'),
+  -- Sootopolis Gym: a Story place with no wild Pokémon (Ruby / Sapphire's badge there)
+  (846, 3, 'hoenn-sootopolis-gym', 'Sootopolis Gym'),
+  -- Two Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands errand)
+  (847, 1, 'kanto-two-island-town', 'Two Island (town)'),
+  -- Three Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands errand)
+  (848, 1, 'kanto-three-island-town', 'Three Island (town)'),
+  -- Six Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's way to the Dotted Hole)
+  (849, 1, 'kanto-six-island-town', 'Six Island (town)'),
+  -- Dotted Hole: a Story place with no wild Pokémon (FireRed / LeafGreen's Dotted Hole beat)
+  (850, 1, 'kanto-dotted-hole', 'Dotted Hole'),
+  -- Rocket Warehouse: a Story place with no wild Pokémon (FireRed / LeafGreen's Rocket Warehouse beat)
+  (851, 1, 'kanto-rocket-warehouse', 'Rocket Warehouse'),
+  -- Navel Rock: a Story place with no wild Pokémon (FireRed / LeafGreen's Ho-Oh and Lugia)
+  (852, 1, 'kanto-navel-rock', 'Navel Rock'),
+  -- Birth Island: a Story place with no wild Pokémon (FireRed / LeafGreen's Deoxys)
+  (853, 1, 'kanto-birth-island', 'Birth Island'),
+  -- Mossdeep Space Center: a Story place with no wild Pokémon (Emerald's Space Center beat)
+  (854, 3, 'hoenn-mossdeep-space-center', 'Mossdeep Space Center'),
+  -- Terra Cave: a Story place with no wild Pokémon (Emerald's Groudon)
+  (855, 3, 'hoenn-terra-cave', 'Terra Cave'),
+  -- Marine Cave: a Story place with no wild Pokémon (Emerald's Kyogre)
+  (856, 3, 'hoenn-marine-cave', 'Marine Cave'),
+  -- Sandgem Town: a Story place with no wild Pokémon (Diamond / Pearl's way out of Twinleaf Town)
+  (857, 4, 'sinnoh-sandgem-town', 'Sandgem Town'),
+  -- Professor Rowan's Laboratory: a Story place with no wild Pokémon (Diamond / Pearl's Receive Pokédex beat)
+  (858, 4, 'sinnoh-professor-rowans-laboratory', 'Professor Rowan''s Laboratory'),
+  -- Jubilife City: a Story place with no wild Pokémon (Diamond / Pearl's first city)
+  (859, 4, 'sinnoh-jubilife-city', 'Jubilife City'),
+  -- Oreburgh Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (860, 4, 'sinnoh-oreburgh-gym', 'Oreburgh Gym'),
+  -- Eterna Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (861, 4, 'sinnoh-eterna-gym', 'Eterna Gym'),
+  -- Team Galactic Eterna Building: a Story place with no wild Pokémon (Diamond / Pearl's Jupiter beat)
+  (862, 4, 'sinnoh-team-galactic-eterna-building', 'Team Galactic Eterna Building'),
+  -- Solaceon Town: a Story place with no wild Pokémon (Diamond / Pearl's way to Veilstone City)
+  (863, 4, 'sinnoh-solaceon-town', 'Solaceon Town'),
+  -- Veilstone Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (864, 4, 'sinnoh-veilstone-gym', 'Veilstone Gym'),
+  -- Pastoria Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (865, 4, 'sinnoh-pastoria-gym', 'Pastoria Gym'),
+  -- Hearthome Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (866, 4, 'sinnoh-hearthome-gym', 'Hearthome Gym'),
+  -- Canalave Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (867, 4, 'sinnoh-canalave-gym', 'Canalave Gym'),
+  -- Snowpoint Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (868, 4, 'sinnoh-snowpoint-gym', 'Snowpoint Gym'),
+  -- Team Galactic HQ: a Story place with no wild Pokémon (Diamond / Pearl's Team Galactic HQ beat)
+  (869, 4, 'sinnoh-team-galactic-hq', 'Team Galactic HQ'),
+  -- Spear Pillar: a Story place with no wild Pokémon (Diamond / Pearl's Spear Pillar beat)
+  (870, 4, 'sinnoh-spear-pillar', 'Spear Pillar'),
+  -- Sunyshore Gym: a Story place with no wild Pokémon (Diamond / Pearl's badge there)
+  (871, 4, 'sinnoh-sunyshore-gym', 'Sunyshore Gym'),
+  -- Fight Area: a Story place with no wild Pokémon (Diamond / Pearl's Battle Zone arrival)
+  (872, 4, 'sinnoh-fight-area', 'Fight Area'),
+  -- Fullmoon Island: a Story place with no wild Pokémon (Diamond / Pearl's Cresselia)
+  (873, 4, 'sinnoh-fullmoon-island', 'Fullmoon Island'),
+  -- Distortion World: a Story place with no wild Pokémon (Platinum's Distortion World beat)
+  (874, 4, 'sinnoh-distortion-world', 'Distortion World'),
+  -- Ecruteak Dance Theater: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kimono Girls)
+  (875, 2, 'johto-ecruteak-dance-theater', 'Ecruteak Dance Theater'),
+  -- Embedded Tower: a Story place with no wild Pokémon (HeartGold / SoulSilver's Kyogre, Groudon and Rayquaza)
+  (876, 2, 'johto-embedded-tower', 'Embedded Tower'),
+  -- Professor Juniper's Laboratory: a Story place with no wild Pokémon (Black / White's Receive Pokédex beat)
+  (877, 5, 'unova-professor-junipers-laboratory', 'Professor Juniper''s Laboratory'),
+  -- Striaton Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (878, 5, 'unova-striaton-gym', 'Striaton Gym'),
+  -- Nacrene Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (879, 5, 'unova-nacrene-gym', 'Nacrene Gym'),
+  -- Skyarrow Bridge: a Story place with no wild Pokémon (Black / White's way to Castelia City)
+  (880, 5, 'unova-skyarrow-bridge', 'Skyarrow Bridge'),
+  -- Castelia Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (881, 5, 'unova-castelia-gym', 'Castelia Gym'),
+  -- Nimbasa Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (882, 5, 'unova-nimbasa-gym', 'Nimbasa Gym'),
+  -- Driftveil Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (883, 5, 'unova-driftveil-gym', 'Driftveil Gym'),
+  -- Mistralton City: a Story place with no wild Pokémon (Black / White's way to Celestial Tower)
+  (884, 5, 'unova-mistralton-city', 'Mistralton City'),
+  -- Mistralton Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (885, 5, 'unova-mistralton-gym', 'Mistralton Gym'),
+  -- Icirrus Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (886, 5, 'unova-icirrus-gym', 'Icirrus Gym'),
+  -- Tubeline Bridge: a Story place with no wild Pokémon (Black / White's way to Opelucid City)
+  (887, 5, 'unova-tubeline-bridge', 'Tubeline Bridge'),
+  -- Opelucid City: a Story place with no wild Pokémon (Black / White's last Gym town)
+  (888, 5, 'unova-opelucid-city', 'Opelucid City'),
+  -- Opelucid Gym: a Story place with no wild Pokémon (Black / White's badge there)
+  (889, 5, 'unova-opelucid-gym', 'Opelucid Gym'),
+  -- Pokémon League: a Story place with no wild Pokémon (Black / White's Pokémon League and N's Castle)
+  (890, 5, 'unova-pokemon-league', 'Pokémon League'),
+  -- Aspertia Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (891, 5, 'unova-aspertia-gym', 'Aspertia Gym'),
+  -- Virbank Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (892, 5, 'unova-virbank-gym', 'Virbank Gym'),
+  -- Pokémon World Tournament: a Story place with no wild Pokémon (Black 2 / White 2's Driftveil Tournament)
+  (893, 5, 'unova-pokemon-world-tournament', 'Pokémon World Tournament'),
+  -- Lentimas Town: a Story place with no wild Pokémon (Black 2 / White 2's way to Reversal Mountain)
+  (894, 5, 'unova-lentimas-town', 'Lentimas Town'),
+  -- Lacunosa Town: a Story place with no wild Pokémon (Black 2 / White 2's battle with Zinzolin)
+  (895, 5, 'unova-lacunosa-town', 'Lacunosa Town'),
+  -- Humilau Gym: a Story place with no wild Pokémon (Black 2 / White 2's badge there)
+  (896, 5, 'unova-humilau-gym', 'Humilau Gym'),
+  -- Plasma Frigate: a Story place with no wild Pokémon (Black 2 / White 2's Plasma Frigate beat)
+  (897, 5, 'unova-plasma-frigate', 'Plasma Frigate'),
+  -- Cave of Being: a Story place with no wild Pokémon (Black 2 / White 2's Uxie, Mesprit and Azelf)
+  (898, 5, 'unova-cave-of-being', 'Cave of Being'),
+  -- Santalune Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (899, 6, 'kalos-santalune-gym', 'Santalune Gym'),
+  -- Cyllage Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (900, 6, 'kalos-cyllage-gym', 'Cyllage Gym'),
+  -- Shalour Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (901, 6, 'kalos-shalour-gym', 'Shalour Gym'),
+  -- Coumarine Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (902, 6, 'kalos-coumarine-gym', 'Coumarine Gym'),
+  -- Kalos Power Plant: a Story place with no wild Pokémon (X / Y's Power Plant beat)
+  (903, 6, 'kalos-kalos-power-plant', 'Kalos Power Plant'),
+  -- Lumiose Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (904, 6, 'kalos-lumiose-gym', 'Lumiose Gym'),
+  -- Laverre Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (905, 6, 'kalos-laverre-gym', 'Laverre Gym'),
+  -- Poké Ball Factory: a Story place with no wild Pokémon (X / Y's Poké Ball Factory beat)
+  (906, 6, 'kalos-poke-ball-factory', 'Poké Ball Factory'),
+  -- Dendemille Town: a Story place with no wild Pokémon (X / Y's way to Frost Cavern)
+  (907, 6, 'kalos-dendemille-town', 'Dendemille Town'),
+  -- Anistar City: a Story place with no wild Pokémon (X / Y's seventh Gym town)
+  (908, 6, 'kalos-anistar-city', 'Anistar City'),
+  -- Anistar Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (909, 6, 'kalos-anistar-gym', 'Anistar Gym'),
+  -- Lysandre Labs: a Story place with no wild Pokémon (X / Y's Lysandre Labs beat)
+  (910, 6, 'kalos-lysandre-labs', 'Lysandre Labs'),
+  -- Team Flare Secret HQ: a Story place with no wild Pokémon (X / Y's Team Flare Secret HQ beat)
+  (911, 6, 'kalos-team-flare-secret-hq', 'Team Flare Secret HQ'),
+  -- Snowbelle Gym: a Story place with no wild Pokémon (X / Y's badge there)
+  (912, 6, 'kalos-snowbelle-gym', 'Snowbelle Gym'),
+  -- Pokémon League: a Story place with no wild Pokémon (X / Y's Pokémon League)
+  (913, 6, 'kalos-pokemon-league', 'Pokémon League'),
+  -- Kiloude City: a Story place with no wild Pokémon (X / Y's battle after the credits)
+  (914, 6, 'kalos-kiloude-city', 'Kiloude City'),
+  -- Unknown Dungeon: a Story place with no wild Pokémon (X / Y's Mewtwo)
+  (915, 6, 'kalos-unknown-dungeon', 'Unknown Dungeon'),
+  -- Island Cave: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Regigigas)
+  (916, 3, 'hoenn-island-cave', 'Island Cave'),
+  -- Crescent Isle: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Cresselia)
+  (917, 3, 'hoenn-crescent-isle', 'Crescent Isle'),
+  -- Trackless Forest: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Raikou, Entei and Suicune)
+  (918, 3, 'hoenn-trackless-forest', 'Trackless Forest'),
+  -- Nameless Cavern: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Uxie, Mesprit and Azelf)
+  (919, 3, 'hoenn-nameless-cavern', 'Nameless Cavern'),
+  -- Pathless Plain: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Cobalion, Terrakion and Virizion)
+  (920, 3, 'hoenn-pathless-plain', 'Pathless Plain'),
+  -- Fabled Cave: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Reshiram or Zekrom)
+  (921, 3, 'hoenn-fabled-cave', 'Fabled Cave'),
+  -- Gnarled Den: a Story place with no wild Pokémon (Omega Ruby / Alpha Sapphire's Kyurem)
+  (922, 3, 'hoenn-gnarled-den', 'Gnarled Den'),
+  -- Heahea City: a Story place with no wild Pokémon (Sun / Moon's port on Akala Island)
+  (923, 7, 'alola-heahea-city', 'Heahea City'),
+  -- Hokulani Observatory: a Story place with no wild Pokémon (Sun / Moon's trial there)
+  (924, 7, 'alola-hokulani-observatory', 'Hokulani Observatory'),
+  -- Po Town: a Story place with no wild Pokémon (Sun / Moon's Po Town beat)
+  (925, 7, 'alola-po-town', 'Po Town'),
+  -- Ultra Space: a Story place with no wild Pokémon (Sun / Moon's Ultra Space beat)
+  (926, 7, 'alola-ultra-space', 'Ultra Space'),
+  -- Ruins of Conflict: a Story place with no wild Pokémon (Sun / Moon's Tapu Koko)
+  (927, 7, 'alola-ruins-of-conflict', 'Ruins of Conflict'),
+  -- Ruins of Life: a Story place with no wild Pokémon (Sun / Moon's grand trial and Tapu Lele)
+  (928, 7, 'alola-ruins-of-life', 'Ruins of Life'),
+  -- Ruins of Abundance: a Story place with no wild Pokémon (Sun / Moon's Tapu Bulu)
+  (929, 7, 'alola-ruins-of-abundance', 'Ruins of Abundance'),
+  -- Ruins of Hope: a Story place with no wild Pokémon (Sun / Moon's Tapu Fini)
+  (930, 7, 'alola-ruins-of-hope', 'Ruins of Hope'),
+  -- Pokémon League: a Story place with no wild Pokémon (Sun / Moon's Pokémon League)
+  (931, 7, 'alola-pokemon-league', 'Pokémon League'),
+  -- Megalo Tower: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Ultra Necrozma)
+  (932, 7, 'alola-megalo-tower', 'Megalo Tower'),
+  -- Mahalo Trail: a Story place with no wild Pokémon (Ultra Sun / Ultra Moon's Solgaleo or Lunala)
+  (933, 7, 'alola-mahalo-trail', 'Mahalo Trail'),
+  -- Hulbury Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (934, 8, 'galar-hulbury-stadium', 'Hulbury Stadium'),
+  -- Stow-on-Side Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (935, 8, 'galar-stow-on-side-stadium', 'Stow-on-Side Stadium'),
+  -- Ballonlea: a Story place with no wild Pokémon (Sword / Shield's fifth Gym town)
+  (936, 8, 'galar-ballonlea', 'Ballonlea'),
+  -- Circhester Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (937, 8, 'galar-circhester-stadium', 'Circhester Stadium'),
+  -- Spikemuth Gym: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (938, 8, 'galar-spikemuth-gym', 'Spikemuth Gym'),
+  -- Hammerlocke Stadium: a Story place with no wild Pokémon (Sword / Shield's badge there)
+  (939, 8, 'galar-hammerlocke-stadium', 'Hammerlocke Stadium'),
+  -- Wyndon Stadium: a Story place with no wild Pokémon (Sword / Shield's Champion Cup)
+  (940, 8, 'galar-wyndon-stadium', 'Wyndon Stadium'),
+  -- Energy Plant: a Story place with no wild Pokémon (Sword / Shield's Eternatus beat)
+  (941, 8, 'galar-energy-plant', 'Energy Plant'),
+  -- Towers of Two Fists: a Story place with no wild Pokémon (the Isle of Armor's Tower of Darkness and Tower of Waters)
+  (942, 8, 'galar-towers-of-two-fists', 'Towers of Two Fists'),
+  -- Ramanas Park: a Story place with no wild Pokémon (Brilliant Diamond / Shining Pearl's legendary Pokémon rooms)
+  (943, 4, 'sinnoh-ramanas-park', 'Ramanas Park'),
+  -- Prelude Beach: a Story place with no wild Pokémon (Legends: Arceus's first place)
+  (944, 9, 'hisui-prelude-beach', 'Prelude Beach'),
+  -- Brava Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Lilligant)
+  (945, 9, 'hisui-brava-arena', 'Brava Arena'),
+  -- Molten Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Arcanine)
+  (946, 9, 'hisui-molten-arena', 'Molten Arena'),
+  -- Moonview Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Electrode and Cresselia)
+  (947, 9, 'hisui-moonview-arena', 'Moonview Arena'),
+  -- Icepeak Arena: a Story place with no wild Pokémon (Legends: Arceus's noble Avalugg)
+  (948, 9, 'hisui-icepeak-arena', 'Icepeak Arena'),
+  -- Stone Portal: a Story place with no wild Pokémon (Legends: Arceus's battle with Beni)
+  (949, 9, 'hisui-stone-portal', 'Stone Portal'),
+  -- Ancient Retreat: a Story place with no wild Pokémon (Legends: Arceus's stay with Cogita)
+  (950, 9, 'hisui-ancient-retreat', 'Ancient Retreat'),
+  -- Mesagoza: a Story place with no wild Pokémon (Scarlet / Violet's academy city)
+  (951, 10, 'paldea-mesagoza', 'Mesagoza'),
+  -- Cortondo Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (952, 10, 'paldea-cortondo-gym', 'Cortondo Gym'),
+  -- Artazon: a Story place with no wild Pokémon (Scarlet / Violet's Grass Gym town)
+  (953, 10, 'paldea-artazon', 'Artazon'),
+  -- Artazon Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (954, 10, 'paldea-artazon-gym', 'Artazon Gym'),
+  -- Levincia Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (955, 10, 'paldea-levincia-gym', 'Levincia Gym'),
+  -- Cascarrafa Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (956, 10, 'paldea-cascarrafa-gym', 'Cascarrafa Gym'),
+  -- Medali: a Story place with no wild Pokémon (Scarlet / Violet's Normal Gym town)
+  (957, 10, 'paldea-medali', 'Medali'),
+  -- Medali Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (958, 10, 'paldea-medali-gym', 'Medali Gym'),
+  -- Montenevera: a Story place with no wild Pokémon (Scarlet / Violet's Ghost Gym town)
+  (959, 10, 'paldea-montenevera', 'Montenevera'),
+  -- Montenevera Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (960, 10, 'paldea-montenevera-gym', 'Montenevera Gym'),
+  -- Alfornada: a Story place with no wild Pokémon (Scarlet / Violet's Psychic Gym town)
+  (961, 10, 'paldea-alfornada', 'Alfornada'),
+  -- Alfornada Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (962, 10, 'paldea-alfornada-gym', 'Alfornada Gym'),
+  -- Glaseado Gym: a Story place with no wild Pokémon (Scarlet / Violet's badge there)
+  (963, 10, 'paldea-glaseado-gym', 'Glaseado Gym'),
+  -- Team Star's Dark Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Dark Crew beat)
+  (964, 10, 'paldea-team-star-dark-crew-base', 'Team Star''s Dark Crew Base'),
+  -- Team Star's Fire Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fire Crew beat)
+  (965, 10, 'paldea-team-star-fire-crew-base', 'Team Star''s Fire Crew Base'),
+  -- Team Star's Poison Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Poison Crew beat)
+  (966, 10, 'paldea-team-star-poison-crew-base', 'Team Star''s Poison Crew Base'),
+  -- Team Star's Fairy Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fairy Crew beat)
+  (967, 10, 'paldea-team-star-fairy-crew-base', 'Team Star''s Fairy Crew Base'),
+  -- Team Star's Fighting Crew Base: a Story place with no wild Pokémon (Scarlet / Violet's Fighting Crew beat)
+  (968, 10, 'paldea-team-star-fighting-crew-base', 'Team Star''s Fighting Crew Base'),
+  -- Poco Path Lighthouse: a Story place with no wild Pokémon (Scarlet / Violet's battles with Arven)
+  (969, 10, 'paldea-poco-path-lighthouse', 'Poco Path Lighthouse'),
+  -- Los Platos: a Story place with no wild Pokémon (Scarlet / Violet's first Pokémon Center)
+  (970, 10, 'paldea-los-platos', 'Los Platos'),
+  -- Zapapico: a Story place with no wild Pokémon (Scarlet / Violet's way to Tagtree Thicket and Medali)
+  (971, 10, 'paldea-zapapico', 'Zapapico'),
+  -- Porto Marinada: a Story place with no wild Pokémon (Scarlet / Violet's Water Gym test)
+  (972, 10, 'paldea-porto-marinada', 'Porto Marinada'),
+  -- Loyalty Plaza: a Story place with no wild Pokémon (The Teal Mask's monument to the Loyal Three)
+  (973, 10, 'paldea-loyalty-plaza', 'Loyalty Plaza'),
+  -- Blueberry Academy: a Story place with no wild Pokémon (The Indigo Disk's school)
+  (974, 10, 'paldea-blueberry-academy', 'Blueberry Academy'),
+  -- Area Zero Underdepths: a Story place with no wild Pokémon (The Indigo Disk's last battles)
+  (975, 10, 'paldea-area-zero-underdepths', 'Area Zero Underdepths'),
+  -- Gare de Lumiose: a Story place with no wild Pokémon (Legends: Z-A's first place)
+  (976, 6, 'kalos-gare-de-lumiose', 'Gare de Lumiose'),
+  -- Bleu Plaza: a Story place with no wild Pokémon (Legends: Z-A's Rank X match)
+  (977, 6, 'kalos-bleu-plaza', 'Bleu Plaza'),
+  -- Restaurant Le Nah: a Story place with no wild Pokémon (Legends: Z-A's Rank V match)
+  (978, 6, 'kalos-restaurant-le-nah', 'Restaurant Le Nah'),
+  -- Racine Construction: a Story place with no wild Pokémon (Legends: Z-A's Rank E match)
+  (979, 6, 'kalos-racine-construction', 'Racine Construction'),
+  -- Justice Dojo: a Story place with no wild Pokémon (Legends: Z-A's Rank D match)
+  (980, 6, 'kalos-justice-dojo', 'Justice Dojo'),
+  -- Rust Syndicate Office: a Story place with no wild Pokémon (Legends: Z-A's Rank C match)
+  (981, 6, 'kalos-rust-syndicate-office', 'Rust Syndicate Office'),
+  -- Hotel Richissime: a Story place with no wild Pokémon (Legends: Z-A's Rank B tournament)
+  (982, 6, 'kalos-hotel-richissime', 'Hotel Richissime'),
+  -- Aymlis Park: a Story place with no wild Pokémon (Legends: Z-A's Rogue Mega Slowbro and Froslass)
+  (983, 6, 'kalos-aymlis-park', 'Aymlis Park'),
+  -- Centrico Plaza: a Story place with no wild Pokémon (Legends: Z-A's Prism Tower beats)
+  (984, 6, 'kalos-centrico-plaza', 'Centrico Plaza'),
+  -- Looker Bureau: a Story place with no wild Pokémon (Legends: Z-A's detective Emma)
+  (985, 6, 'kalos-looker-bureau', 'Looker Bureau'),
+  -- Jaune Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (986, 6, 'kalos-jaune-sector-3', 'Jaune Sector 3'),
+  -- Jaune Sector 4: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (987, 6, 'kalos-jaune-sector-4', 'Jaune Sector 4'),
+  -- Jaune Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (988, 6, 'kalos-jaune-sector-6', 'Jaune Sector 6'),
+  -- Jaune Sector 8: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (989, 6, 'kalos-jaune-sector-8', 'Jaune Sector 8'),
+  -- Jaune Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (990, 6, 'kalos-jaune-sector-9', 'Jaune Sector 9'),
+  -- Magenta Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (991, 6, 'kalos-magenta-sector-3', 'Magenta Sector 3'),
+  -- Magenta Sector 4: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (992, 6, 'kalos-magenta-sector-4', 'Magenta Sector 4'),
+  -- Magenta Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (993, 6, 'kalos-magenta-sector-6', 'Magenta Sector 6'),
+  -- Magenta Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (994, 6, 'kalos-magenta-sector-9', 'Magenta Sector 9'),
+  -- Vert Sector 3: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (995, 6, 'kalos-vert-sector-3', 'Vert Sector 3'),
+  -- Vert Sector 5: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (996, 6, 'kalos-vert-sector-5', 'Vert Sector 5'),
+  -- Bleu Sector 5: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (997, 6, 'kalos-bleu-sector-5', 'Bleu Sector 5'),
+  -- Bleu Sector 9: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (998, 6, 'kalos-bleu-sector-9', 'Bleu Sector 9'),
+  -- Rouge Sector 6: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (999, 6, 'kalos-rouge-sector-6', 'Rouge Sector 6'),
+  -- Rouge Sector 2: a Story place with no wild Pokémon (a Legends: Z-A Rogue Mega Evolution or legendary beat)
+  (1000, 6, 'kalos-rouge-sector-2', 'Rouge Sector 2'),
+  -- Coulant Waterway: a Story place with no wild Pokémon (Mega Dimension's first distortion)
+  (1001, 6, 'kalos-coulant-waterway', 'Coulant Waterway'),
+  -- Hyperspace Disaster Arena: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Absol Z)
+  (1002, 6, 'kalos-hyperspace-disaster-arena', 'Hyperspace Disaster Arena'),
+  -- Hyperspace Hunting Grounds: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Staraptor)
+  (1003, 6, 'kalos-hyperspace-hunting-grounds', 'Hyperspace Hunting Grounds'),
+  -- Hyperspace Sushi Paradise: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Tatsugiri)
+  (1004, 6, 'kalos-hyperspace-sushi-paradise', 'Hyperspace Sushi Paradise'),
+  -- Hyperspace Second-Sight Arena: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Meowstic)
+  (1005, 6, 'kalos-hyperspace-second-sight-arena', 'Hyperspace Second-Sight Arena'),
+  -- Hyperspace Infernal Arena: a Story place with no wild Pokémon (Mega Dimension's Heatran)
+  (1006, 6, 'kalos-hyperspace-infernal-arena', 'Hyperspace Infernal Arena'),
+  -- Hyperspace Newmoon Nightmare: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Darkrai)
+  (1007, 6, 'kalos-hyperspace-newmoon-nightmare', 'Hyperspace Newmoon Nightmare'),
+  -- Hyperspace Sky Pillar: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Rayquaza)
+  (1008, 6, 'kalos-hyperspace-sky-pillar', 'Hyperspace Sky Pillar'),
+  -- Seven Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands)
+  (1009, 1, 'kanto-seven-island-town', 'Seven Island (town)'),
+  -- Survival Area: a Story place with no wild Pokémon (Sinnoh's Battle Zone)
+  (1010, 4, 'sinnoh-survival-area', 'Survival Area');

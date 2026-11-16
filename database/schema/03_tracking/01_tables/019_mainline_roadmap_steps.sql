@@ -9,10 +9,13 @@ CREATE TABLE tracking.mainline_roadmap_steps (
     location_id integer,
     milestone_id integer,
     note text,
+    game_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_roadmap_steps_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_roadmap_steps_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_roadmap_steps_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_game_place_check CHECK (game_id IS NULL OR location_id IS NOT NULL),
     CONSTRAINT mainline_roadmap_steps_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_roadmap_steps_one_target_check CHECK (num_nonnulls (location_id, milestone_id) = 1),
     CONSTRAINT mainline_roadmap_steps_note_length_check CHECK (note IS NULL OR CHAR_LENGTH(BTRIM(note)) BETWEEN 1 AND 300),
@@ -37,3 +40,5 @@ COMMENT ON COLUMN tracking.mainline_roadmap_steps.location_id IS 'A place the st
 COMMENT ON COLUMN tracking.mainline_roadmap_steps.milestone_id IS 'A milestone of the same version group; the step sits at the milestone''s own place. NULL on a place step.';
 
 COMMENT ON COLUMN tracking.mainline_roadmap_steps.note IS 'What happens at a place step, in a line (pick up Oak''s Parcel, needs Cut); NULL where nothing does. Milestones have their own description.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.game_id IS 'Set on a place step found in only one game of the version group (Team Magma''s hideout in Ruby, Team Aqua''s in Sapphire); a Play of the other game skips it. NULL for a step every game shares.';

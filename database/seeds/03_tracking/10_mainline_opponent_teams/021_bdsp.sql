@@ -39,13 +39,13 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Roark 3: Cranidos Lv. 14
   (210003, 21001, 21, NULL, NULL, NULL, NULL, NULL, 3, 408, 40800, 14, NULL),
   -- Mars, Valley Windworks 1: Zubat Lv. 14
-  (210004, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 14, NULL),
+  (210026, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 14, NULL),
   -- Mars, Valley Windworks 2: Purugly Lv. 16, holds Oran Berry
-  (210004, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 16, 184),
+  (210026, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 16, 184),
   -- Jupiter, Team Galactic Eterna Building 1: Zubat Lv. 18
-  (210004, 21043, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 18, NULL),
+  (210027, 21043, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 18, NULL),
   -- Jupiter, Team Galactic Eterna Building 2: Skuntank Lv. 20, holds Sitrus Berry
-  (210004, 21043, 21, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 20, 187),
+  (210027, 21043, 21, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 20, 187),
   -- Gardenia 1: Cherubi Lv. 19
   (210004, 21002, 21, NULL, NULL, NULL, NULL, NULL, 1, 420, 42000, 19, NULL),
   -- Gardenia 2: Turtwig Lv. 19, holds Miracle Seed
@@ -77,17 +77,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Byron 3: Bastiodon Lv. 39, holds Sitrus Berry
   (210008, 21006, 21, NULL, NULL, NULL, NULL, NULL, 3, 411, 41100, 39, 187),
   -- Saturn, Lake Valor 1: Kadabra Lv. 35, holds Damp Rock
-  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 35, 386),
+  (210029, 21044, 21, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 35, 386),
   -- Saturn, Lake Valor 2: Bronzor Lv. 35
-  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 35, NULL),
+  (210029, 21044, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 35, NULL),
   -- Saturn, Lake Valor 3: Toxicroak Lv. 37
-  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 37, NULL),
+  (210029, 21044, 21, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 37, NULL),
   -- Mars, Lake Verity 1: Golbat Lv. 37
-  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL),
+  (210030, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL),
   -- Mars, Lake Verity 2: Bronzor Lv. 37
-  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 37, NULL),
+  (210030, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 37, NULL),
   -- Mars, Lake Verity 3: Purugly Lv. 39, holds Sitrus Berry
-  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 39, 187),
+  (210030, 21042, 21, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 39, 187),
   -- Candice 1: Snover Lv. 38, holds Icy Rock
   (210009, 21007, 21, NULL, NULL, NULL, NULL, NULL, 1, 459, 45900, 38, 400),
   -- Candice 2: Sneasel Lv. 38, holds Chople Berry
@@ -105,45 +105,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Volkner 4: Luxray Lv. 49, holds Sitrus Berry
   (210010, 21008, 21, NULL, NULL, NULL, NULL, NULL, 4, 405, 40500, 49, 187),
   -- Aaron 1: Dustox Lv. 53, holds Black Sludge
-  (210011, 21009, 21, NULL, NULL, NULL, NULL, NULL, 1, 269, 26900, 53, 377),
+  (210015, 21009, 21, NULL, NULL, NULL, NULL, NULL, 1, 269, 26900, 53, 377),
   -- Aaron 2: Beautifly Lv. 53, holds Wise Glasses
-  (210011, 21009, 21, NULL, NULL, NULL, NULL, NULL, 2, 267, 26700, 53, 436),
+  (210015, 21009, 21, NULL, NULL, NULL, NULL, NULL, 2, 267, 26700, 53, 436),
   -- Aaron 3: Vespiquen Lv. 54, holds Sitrus Berry
-  (210011, 21009, 21, NULL, NULL, NULL, NULL, NULL, 3, 416, 41600, 54, 187),
+  (210015, 21009, 21, NULL, NULL, NULL, NULL, NULL, 3, 416, 41600, 54, 187),
   -- Aaron 4: Heracross Lv. 54, holds Flame Orb
-  (210011, 21009, 21, NULL, NULL, NULL, NULL, NULL, 4, 214, 21400, 54, 392),
+  (210015, 21009, 21, NULL, NULL, NULL, NULL, NULL, 4, 214, 21400, 54, 392),
   -- Aaron 5: Drapion Lv. 57, holds Scope Lens
-  (210011, 21009, 21, NULL, NULL, NULL, NULL, NULL, 5, 452, 45200, 57, 423),
+  (210015, 21009, 21, NULL, NULL, NULL, NULL, NULL, 5, 452, 45200, 57, 423),
   -- Bertha 1: Quagsire Lv. 55, holds Leftovers
-  (210012, 21010, 21, NULL, NULL, NULL, NULL, NULL, 1, 195, 19500, 55, 403),
+  (210015, 21010, 21, NULL, NULL, NULL, NULL, NULL, 1, 195, 19500, 55, 403),
   -- Bertha 2: Sudowoodo Lv. 56, holds Sitrus Berry
-  (210012, 21010, 21, NULL, NULL, NULL, NULL, NULL, 2, 185, 18500, 56, 187),
+  (210015, 21010, 21, NULL, NULL, NULL, NULL, NULL, 2, 185, 18500, 56, 187),
   -- Bertha 3: Golem Lv. 56, holds Soft Sand
-  (210012, 21010, 21, NULL, NULL, NULL, NULL, NULL, 3, 76, 7600, 56, 326),
+  (210015, 21010, 21, NULL, NULL, NULL, NULL, NULL, 3, 76, 7600, 56, 326),
   -- Bertha 4: Whiscash Lv. 55, holds Rindo Berry
-  (210012, 21010, 21, NULL, NULL, NULL, NULL, NULL, 4, 340, 34000, 55, 216),
+  (210015, 21010, 21, NULL, NULL, NULL, NULL, NULL, 4, 340, 34000, 55, 216),
   -- Bertha 5: Hippowdon Lv. 59, holds Chesto Berry
-  (210012, 21010, 21, NULL, NULL, NULL, NULL, NULL, 5, 450, 45000, 59, 179),
+  (210015, 21010, 21, NULL, NULL, NULL, NULL, NULL, 5, 450, 45000, 59, 179),
   -- Flint 1: Rapidash Lv. 58, holds Wide Lens
-  (210013, 21011, 21, NULL, NULL, NULL, NULL, NULL, 1, 78, 7800, 58, 435),
+  (210015, 21011, 21, NULL, NULL, NULL, NULL, NULL, 1, 78, 7800, 58, 435),
   -- Flint 2: Steelix Lv. 57, holds Life Orb
-  (210013, 21011, 21, NULL, NULL, NULL, NULL, NULL, 2, 208, 20800, 57, 404),
+  (210015, 21011, 21, NULL, NULL, NULL, NULL, NULL, 2, 208, 20800, 57, 404),
   -- Flint 3: Drifblim Lv. 58, holds Sitrus Berry
-  (210013, 21011, 21, NULL, NULL, NULL, NULL, NULL, 3, 426, 42600, 58, 187),
+  (210015, 21011, 21, NULL, NULL, NULL, NULL, NULL, 3, 426, 42600, 58, 187),
   -- Flint 4: Lopunny Lv. 57, holds Leftovers
-  (210013, 21011, 21, NULL, NULL, NULL, NULL, NULL, 4, 428, 42800, 57, 403),
+  (210015, 21011, 21, NULL, NULL, NULL, NULL, NULL, 4, 428, 42800, 57, 403),
   -- Flint 5: Infernape Lv. 61, holds Focus Sash
-  (210013, 21011, 21, NULL, NULL, NULL, NULL, NULL, 5, 392, 39200, 61, 395),
+  (210015, 21011, 21, NULL, NULL, NULL, NULL, NULL, 5, 392, 39200, 61, 395),
   -- Lucian 1: Mr. Mime Lv. 59, holds Light Clay
-  (210014, 21012, 21, NULL, NULL, NULL, NULL, NULL, 1, 122, 12200, 59, 405),
+  (210015, 21012, 21, NULL, NULL, NULL, NULL, NULL, 1, 122, 12200, 59, 405),
   -- Lucian 2: Girafarig Lv. 59, holds Mental Herb
-  (210014, 21012, 21, NULL, NULL, NULL, NULL, NULL, 2, 203, 20300, 59, 408),
+  (210015, 21012, 21, NULL, NULL, NULL, NULL, NULL, 2, 203, 20300, 59, 408),
   -- Lucian 3: Medicham Lv. 60, holds Muscle Band
-  (210014, 21012, 21, NULL, NULL, NULL, NULL, NULL, 3, 308, 30800, 60, 412),
+  (210015, 21012, 21, NULL, NULL, NULL, NULL, NULL, 3, 308, 30800, 60, 412),
   -- Lucian 4: Alakazam Lv. 60, holds Life Orb
-  (210014, 21012, 21, NULL, NULL, NULL, NULL, NULL, 4, 65, 6500, 60, 404),
+  (210015, 21012, 21, NULL, NULL, NULL, NULL, NULL, 4, 65, 6500, 60, 404),
   -- Lucian 5: Bronzong Lv. 63, holds Sitrus Berry
-  (210014, 21012, 21, NULL, NULL, NULL, NULL, NULL, 5, 437, 43700, 63, 187),
+  (210015, 21012, 21, NULL, NULL, NULL, NULL, NULL, 5, 437, 43700, 63, 187),
   -- Cynthia 1: Spiritomb Lv. 61, holds Sitrus Berry
   (210015, 21013, 21, NULL, NULL, NULL, NULL, NULL, 1, 442, 44200, 61, 187),
   -- Cynthia 2: Roserade Lv. 60, holds Expert Belt
@@ -193,29 +193,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry (chose Piplup), Cobble Badge 4: Grotle Lv. 21
   (210005, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 388, 38800, 21, NULL),
   -- Barry (chose Turtwig), Fen Badge 1: Starly Lv. 26, holds Quick Claw
-  (210006, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 396, 39600, 26, 417),
+  (210028, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 396, 39600, 26, 417),
   -- Barry (chose Turtwig), Fen Badge 2: Buizel Lv. 26, holds Sea Incense
-  (210006, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 418, 41800, 26, 347),
+  (210028, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 418, 41800, 26, 347),
   -- Barry (chose Turtwig), Fen Badge 3: Roselia Lv. 27, holds Miracle Seed
-  (210006, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 315, 31500, 27, 317),
+  (210028, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 315, 31500, 27, 317),
   -- Barry (chose Turtwig), Fen Badge 4: Monferno Lv. 31, holds Shell Bell
-  (210006, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 391, 39100, 31, 425),
+  (210028, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 391, 39100, 31, 425),
   -- Barry (chose Chimchar), Fen Badge 1: Starly Lv. 26, holds Quick Claw
-  (210006, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 396, 39600, 26, 417),
+  (210028, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 396, 39600, 26, 417),
   -- Barry (chose Chimchar), Fen Badge 2: Roselia Lv. 26, holds Miracle Seed
-  (210006, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 315, 31500, 26, 317),
+  (210028, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 315, 31500, 26, 317),
   -- Barry (chose Chimchar), Fen Badge 3: Ponyta Lv. 27, holds Shell Bell
-  (210006, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 77, 7700, 27, 425),
+  (210028, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 77, 7700, 27, 425),
   -- Barry (chose Chimchar), Fen Badge 4: Prinplup Lv. 31, holds Sea Incense
-  (210006, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 394, 39400, 31, 347),
+  (210028, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 394, 39400, 31, 347),
   -- Barry (chose Piplup), Fen Badge 1: Starly Lv. 26, holds Quick Claw
-  (210006, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 396, 39600, 26, 417),
+  (210028, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 396, 39600, 26, 417),
   -- Barry (chose Piplup), Fen Badge 2: Buizel Lv. 26, holds Sea Incense
-  (210006, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 418, 41800, 26, 347),
+  (210028, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 418, 41800, 26, 347),
   -- Barry (chose Piplup), Fen Badge 3: Ponyta Lv. 27, holds Shell Bell
-  (210006, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 77, 7700, 27, 425),
+  (210028, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 77, 7700, 27, 425),
   -- Barry (chose Piplup), Fen Badge 4: Grotle Lv. 31, holds Miracle Seed
-  (210006, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 388, 38800, 31, 317),
+  (210028, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 388, 38800, 31, 317),
   -- Barry (chose Turtwig), Mine Badge 1: Staravia Lv. 32, holds Quick Claw
   (210008, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 397, 39700, 32, 417),
   -- Barry (chose Turtwig), Mine Badge 2: Buizel Lv. 33, holds Sea Incense
@@ -279,41 +279,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Cyrus, Spear Pillar 4: Weavile Lv. 48, holds Chople Berry
   (210019, 21015, 21, NULL, NULL, NULL, NULL, NULL, 4, 461, 46100, 48, 218),
   -- Barry (chose Turtwig), Elite Four Aaron 1: Staraptor Lv. 49, holds Focus Sash
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 398, 39800, 49, 395),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 398, 39800, 49, 395),
   -- Barry (chose Turtwig), Elite Four Aaron 2: Floatzel Lv. 49, holds Quick Claw
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 419, 41900, 49, 417),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 419, 41900, 49, 417),
   -- Barry (chose Turtwig), Elite Four Aaron 3: Heracross Lv. 51
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 214, 21400, 51, NULL),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 214, 21400, 51, NULL),
   -- Barry (chose Turtwig), Elite Four Aaron 4: Roserade Lv. 49, holds Big Root
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 407, 40700, 49, 375),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 407, 40700, 49, 375),
   -- Barry (chose Turtwig), Elite Four Aaron 5: Snorlax Lv. 52
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 5, 143, 14300, 52, NULL),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 5, 143, 14300, 52, NULL),
   -- Barry (chose Turtwig), Elite Four Aaron 6: Infernape Lv. 55, holds Expert Belt
-  (210011, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 6, 392, 39200, 55, 391),
+  (210015, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 6, 392, 39200, 55, 391),
   -- Barry (chose Chimchar), Elite Four Aaron 1: Staraptor Lv. 49, holds Focus Sash
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 398, 39800, 49, 395),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 398, 39800, 49, 395),
   -- Barry (chose Chimchar), Elite Four Aaron 2: Roserade Lv. 49, holds Big Root
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 407, 40700, 49, 375),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 407, 40700, 49, 375),
   -- Barry (chose Chimchar), Elite Four Aaron 3: Heracross Lv. 51
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 214, 21400, 51, NULL),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 214, 21400, 51, NULL),
   -- Barry (chose Chimchar), Elite Four Aaron 4: Rapidash Lv. 49, holds Expert Belt
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 78, 7800, 49, 391),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 78, 7800, 49, 391),
   -- Barry (chose Chimchar), Elite Four Aaron 5: Snorlax Lv. 52
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 5, 143, 14300, 52, NULL),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 5, 143, 14300, 52, NULL),
   -- Barry (chose Chimchar), Elite Four Aaron 6: Empoleon Lv. 55, holds Quick Claw
-  (210011, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 6, 395, 39500, 55, 417),
+  (210015, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 6, 395, 39500, 55, 417),
   -- Barry (chose Piplup), Elite Four Aaron 1: Staraptor Lv. 49, holds Focus Sash
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 398, 39800, 49, 395),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 398, 39800, 49, 395),
   -- Barry (chose Piplup), Elite Four Aaron 2: Floatzel Lv. 49, holds Quick Claw
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 419, 41900, 49, 417),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 419, 41900, 49, 417),
   -- Barry (chose Piplup), Elite Four Aaron 3: Heracross Lv. 51
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 214, 21400, 51, NULL),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 214, 21400, 51, NULL),
   -- Barry (chose Piplup), Elite Four Aaron 4: Rapidash Lv. 49, holds Expert Belt
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 78, 7800, 49, 391),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 78, 7800, 49, 391),
   -- Barry (chose Piplup), Elite Four Aaron 5: Snorlax Lv. 52
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 143, 14300, 52, NULL),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 143, 14300, 52, NULL),
   -- Barry (chose Piplup), Elite Four Aaron 6: Torterra Lv. 55, holds Leftovers
-  (210011, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 55, 403),
+  (210015, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 55, 403),
   -- Barry (chose Turtwig), Fight Area 1: Staraptor Lv. 58, holds Focus Sash
   (210020, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 398, 39800, 58, 395),
   -- Barry (chose Turtwig), Fight Area 2: Floatzel Lv. 59, holds Quick Claw
@@ -358,8 +358,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (210021, 21018, 21, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50, NULL),
   -- Azelf, Lake Guardians 1: Azelf Lv. 50
   (210021, 21019, 21, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50, NULL),
-  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
-  (210021, 21020, 21, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
+  -- Mesprit, Roaming Mesprit 1: Mesprit Lv. 50
+  (210031, 21020, 21, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
   -- Giratina, Turnback Cave 1: Giratina Lv. 70
   (210022, 21021, 21, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70, NULL),
   -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50

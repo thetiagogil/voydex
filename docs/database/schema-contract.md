@@ -64,13 +64,21 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   places) or a milestone (`milestone_id`, of the same version group, which
   carries its own place), never both. Places may repeat for revisits; a
   milestone appears once, and a version group with a roadmap lists every one
-  of its milestones. Signed-in read only, like the other Story tables. Red /
-  Blue has one so far.
+  of its milestones. A place found in only one game of the version group
+  (Ruby's Team Magma Hideout, Sun's Lake of the Moone) names that game in
+  `game_id`, and a Play of the other game skips the step. Signed-in read
+  only, like the other Story tables.
 - An opponent's team in a Story battle and the team of an ally fighting
   beside the player there share `tracking.mainline_opponent_team_members`:
   an ally's rows name it in `ally_opponent_id` (an opponent of the same
   version group, role `ally` when it never battles the player), are their own
   side for slots, choices and variants, and never count as the opponent's.
+- A team follows a Play choice (`decision_milestone_id` with
+  `decision_option_slug`), something Voydex doesn't record (`variant_slug`
+  with `variant_label`), or both: a rival whose team depends on your starter
+  and on which rival you have carries the starter as the choice and the
+  rival as the variant, so Story narrows by the recorded starter and asks
+  only for the rival. A variant's label never repeats a recorded choice.
 - `team_size_limit` on `tracking.mainline_milestone_opponent_refs` is how
   many of their own Pokémon the player may bring to that battle (1-5), only
   where they battle with their own team; NULL means the whole team. The

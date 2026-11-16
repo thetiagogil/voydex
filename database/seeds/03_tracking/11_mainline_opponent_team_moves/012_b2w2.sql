@@ -93,37 +93,37 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Ghetsis: Hydreigon Lv. 52: Dragon Rush, Crunch, Rock Slide, Frustration
     (120012, 12010, NULL, NULL, NULL, NULL, 6, ARRAY[407, 242, 157, 218]),
     -- Shauntal: Cofagrigus Lv. 56: Will-O-Wisp, Grass Knot, Psychic, Shadow Ball
-    (120013, 12011, NULL, NULL, NULL, NULL, 1, ARRAY[261, 447, 94, 247]),
+    (120017, 12011, NULL, NULL, NULL, NULL, 1, ARRAY[261, 447, 94, 247]),
     -- Shauntal: Drifblim Lv. 56: Thunderbolt, Acrobatics, Psychic, Shadow Ball
-    (120013, 12011, NULL, NULL, NULL, NULL, 2, ARRAY[85, 512, 94, 247]),
+    (120017, 12011, NULL, NULL, NULL, NULL, 2, ARRAY[85, 512, 94, 247]),
     -- Shauntal: Golurk Lv. 56: Heavy Slam, Earthquake, Brick Break, Shadow Punch
-    (120013, 12011, NULL, NULL, NULL, NULL, 3, ARRAY[484, 89, 280, 325]),
+    (120017, 12011, NULL, NULL, NULL, NULL, 3, ARRAY[484, 89, 280, 325]),
     -- Shauntal: Chandelure Lv. 58: Energy Ball, Fire Blast, Psychic, Shadow Ball
-    (120013, 12011, NULL, NULL, NULL, NULL, 4, ARRAY[412, 126, 94, 247]),
+    (120017, 12011, NULL, NULL, NULL, NULL, 4, ARRAY[412, 126, 94, 247]),
     -- Grimsley: Liepard Lv. 56: Night Slash, Fake Out, Aerial Ace, Attract
-    (120014, 12012, NULL, NULL, NULL, NULL, 1, ARRAY[400, 252, 332, 213]),
+    (120017, 12012, NULL, NULL, NULL, NULL, 1, ARRAY[400, 252, 332, 213]),
     -- Grimsley: Scrafty Lv. 56: Brick Break, Crunch, Poison Jab, Rock Tomb
-    (120014, 12012, NULL, NULL, NULL, NULL, 2, ARRAY[280, 242, 398, 317]),
+    (120017, 12012, NULL, NULL, NULL, NULL, 2, ARRAY[280, 242, 398, 317]),
     -- Grimsley: Krookodile Lv. 56: Dragon Claw, Crunch, Earthquake, Rock Tomb
-    (120014, 12012, NULL, NULL, NULL, NULL, 3, ARRAY[337, 242, 89, 317]),
+    (120017, 12012, NULL, NULL, NULL, NULL, 3, ARRAY[337, 242, 89, 317]),
     -- Grimsley: Bisharp Lv. 58: Night Slash, X-Scissor, Aerial Ace, Metal Claw
-    (120014, 12012, NULL, NULL, NULL, NULL, 4, ARRAY[400, 404, 332, 232]),
+    (120017, 12012, NULL, NULL, NULL, NULL, 4, ARRAY[400, 404, 332, 232]),
     -- Caitlin: Musharna Lv. 56: Yawn, Dream Eater, Charge Beam, Reflect
-    (120015, 12013, NULL, NULL, NULL, NULL, 1, ARRAY[281, 138, 451, 115]),
+    (120017, 12013, NULL, NULL, NULL, NULL, 1, ARRAY[281, 138, 451, 115]),
     -- Caitlin: Reuniclus Lv. 56: Energy Ball, Recover, Focus Blast, Psychic
-    (120015, 12013, NULL, NULL, NULL, NULL, 2, ARRAY[412, 105, 411, 94]),
+    (120017, 12013, NULL, NULL, NULL, NULL, 2, ARRAY[412, 105, 411, 94]),
     -- Caitlin: Sigilyph Lv. 56: Air Slash, Shadow Ball, Ice Beam, Psychic
-    (120015, 12013, NULL, NULL, NULL, NULL, 3, ARRAY[403, 247, 58, 94]),
+    (120017, 12013, NULL, NULL, NULL, NULL, 3, ARRAY[403, 247, 58, 94]),
     -- Caitlin: Gothitelle Lv. 58: Calm Mind, Thunderbolt, Psychic, Shadow Ball
-    (120015, 12013, NULL, NULL, NULL, NULL, 4, ARRAY[347, 85, 94, 247]),
+    (120017, 12013, NULL, NULL, NULL, NULL, 4, ARRAY[347, 85, 94, 247]),
     -- Marshal: Throh Lv. 56: Storm Throw, Bulldoze, Rock Tomb, Payback
-    (120016, 12014, NULL, NULL, NULL, NULL, 1, ARRAY[480, 523, 317, 371]),
+    (120017, 12014, NULL, NULL, NULL, NULL, 1, ARRAY[480, 523, 317, 371]),
     -- Marshal: Sawk Lv. 56: Brick Break, Retaliate, Rock Slide, Payback
-    (120016, 12014, NULL, NULL, NULL, NULL, 2, ARRAY[280, 514, 157, 371]),
+    (120017, 12014, NULL, NULL, NULL, NULL, 2, ARRAY[280, 514, 157, 371]),
     -- Marshal: Mienshao Lv. 56: High Jump Kick, Retaliate, Bounce, U-turn
-    (120016, 12014, NULL, NULL, NULL, NULL, 3, ARRAY[136, 514, 340, 369]),
+    (120017, 12014, NULL, NULL, NULL, NULL, 3, ARRAY[136, 514, 340, 369]),
     -- Marshal: Conkeldurr Lv. 58: Hammer Arm, Retaliate, Bulk Up, Stone Edge
-    (120016, 12014, NULL, NULL, NULL, NULL, 4, ARRAY[359, 514, 339, 444]),
+    (120017, 12014, NULL, NULL, NULL, NULL, 4, ARRAY[359, 514, 339, 444]),
     -- Iris: Hydreigon Lv. 57: Flamethrower, Charge Beam, Dragon Pulse, Surf
     (120017, 12015, NULL, NULL, NULL, NULL, 1, ARRAY[53, 451, 406, 57]),
     -- Iris: Druddigon Lv. 57: Flamethrower, Rock Slide, Dragon Tail, Focus Blast
@@ -153,29 +153,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Colress: Klink Lv. 23: Charge, Thunder Shock, Gear Grind, Bind
     (120006, 12009, NULL, NULL, NULL, NULL, 2, ARRAY[268, 84, 544, 20]),
     -- Hugh: Pignite Lv. 25: Take Down, Heat Crash, Smog, Rollout
-    (120007, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[36, 535, 123, 205]),
+    (120030, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[36, 535, 123, 205]),
     -- Hugh: Simipour Lv. 25: Scald, Leer, Lick, Fury Swipes
-    (120007, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[503, 43, 122, 154]),
+    (120030, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[503, 43, 122, 154]),
     -- Hugh: Tranquill Lv. 25: Air Cutter, Detect, Taunt, Roost
-    (120007, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[314, 197, 269, 355]),
+    (120030, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[314, 197, 269, 355]),
     -- Hugh: Dewott Lv. 25: Aqua Jet, Water Pulse, Revenge, Fury Cutter
-    (120007, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[453, 352, 279, 210]),
+    (120030, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[453, 352, 279, 210]),
     -- Hugh: Simisage Lv. 25: Seed Bomb, Leer, Lick, Fury Swipes
-    (120007, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[402, 43, 122, 154]),
+    (120030, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[402, 43, 122, 154]),
     -- Hugh: Tranquill Lv. 25: Air Cutter, Detect, Taunt, Roost
-    (120007, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[314, 197, 269, 355]),
+    (120030, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[314, 197, 269, 355]),
     -- Hugh: Servine Lv. 25: Leaf Blade, Leech Seed, Slam, Mega Drain
-    (120007, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[348, 73, 21, 72]),
+    (120030, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[348, 73, 21, 72]),
     -- Hugh: Simisear Lv. 25: Flame Burst, Leer, Lick, Fury Swipes
-    (120007, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[481, 43, 122, 154]),
+    (120030, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[481, 43, 122, 154]),
     -- Hugh: Tranquill Lv. 25: Air Cutter, Detect, Taunt, Roost
-    (120007, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[314, 197, 269, 355]),
+    (120030, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[314, 197, 269, 355]),
     -- Colress: Magneton Lv. 25: Thunder Wave, Supersonic, Thunder Shock, Mirror Shot
-    (120007, 12009, NULL, NULL, NULL, NULL, 1, ARRAY[86, 48, 84, 429]),
+    (120030, 12009, NULL, NULL, NULL, NULL, 1, ARRAY[86, 48, 84, 429]),
     -- Colress: Elgyem Lv. 25: Growl, Psybeam, Heal Block
-    (120007, 12009, NULL, NULL, NULL, NULL, 2, ARRAY[45, 60, 377]),
+    (120030, 12009, NULL, NULL, NULL, NULL, 2, ARRAY[45, 60, 377]),
     -- Colress: Klink Lv. 25: Charge, Thunder Shock, Gear Grind, Bind
-    (120007, 12009, NULL, NULL, NULL, NULL, 3, ARRAY[268, 84, 544, 20]),
+    (120030, 12009, NULL, NULL, NULL, NULL, 3, ARRAY[268, 84, 544, 20]),
     -- Hugh: Unfezant Lv. 39: Taunt, Air Slash, Razor Wind, Detect
     (120009, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[269, 403, 13, 197]),
     -- Hugh: Simipour Lv. 39: Scald, Leer, Lick, Fury Swipes
@@ -199,29 +199,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Kyurem: Kyurem (White) Lv. 55: Dragon Breath, Slash, Fusion Flare, Ice Burn
     (120012, 12017, 20, NULL, NULL, NULL, 1, ARRAY[225, 163, 558, 554]),
     -- Hugh: Unfezant Lv. 55: Facade, Aerial Ace, U-turn, Swagger
-    (120013, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[263, 332, 369, 207]),
+    (120017, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[263, 332, 369, 207]),
     -- Hugh: Simipour Lv. 55: Rock Slide, Surf, Brick Break, Crunch
-    (120013, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[157, 57, 280, 242]),
+    (120017, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[157, 57, 280, 242]),
     -- Hugh: Bouffalant Lv. 55: Head Charge, Wild Charge, Megahorn, Earthquake
-    (120013, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[543, 528, 224, 89]),
+    (120017, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[543, 528, 224, 89]),
     -- Hugh: Emboar Lv. 57: Rock Slide, Brick Break, Scald, Flamethrower
-    (120013, 12016, NULL, 120001, 'snivy', NULL, 4, ARRAY[157, 280, 503, 53]),
+    (120017, 12016, NULL, 120001, 'snivy', NULL, 4, ARRAY[157, 280, 503, 53]),
     -- Hugh: Unfezant Lv. 55: Facade, Aerial Ace, U-turn, Swagger
-    (120013, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[263, 332, 369, 207]),
+    (120017, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[263, 332, 369, 207]),
     -- Hugh: Simisage Lv. 55: Rock Slide, Energy Ball, Brick Break, Crunch
-    (120013, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[157, 412, 280, 242]),
+    (120017, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[157, 412, 280, 242]),
     -- Hugh: Bouffalant Lv. 55: Head Charge, Wild Charge, Megahorn, Earthquake
-    (120013, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[543, 528, 224, 89]),
+    (120017, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[543, 528, 224, 89]),
     -- Hugh: Samurott Lv. 57: Surf, X-Scissor, Ice Beam, Revenge
-    (120013, 12016, NULL, 120001, 'tepig', NULL, 4, ARRAY[57, 404, 58, 279]),
+    (120017, 12016, NULL, 120001, 'tepig', NULL, 4, ARRAY[57, 404, 58, 279]),
     -- Hugh: Unfezant Lv. 55: Facade, Aerial Ace, U-turn, Swagger
-    (120013, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[263, 332, 369, 207]),
+    (120017, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[263, 332, 369, 207]),
     -- Hugh: Simisear Lv. 55: Rock Slide, Flamethrower, Brick Break, Crunch
-    (120013, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[157, 53, 280, 242]),
+    (120017, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[157, 53, 280, 242]),
     -- Hugh: Bouffalant Lv. 55: Head Charge, Wild Charge, Megahorn, Earthquake
-    (120013, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[543, 528, 224, 89]),
+    (120017, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[543, 528, 224, 89]),
     -- Hugh: Serperior Lv. 57: Leaf Blade, Coil, Dragon Tail, Giga Drain
-    (120013, 12016, NULL, 120001, 'oshawott', NULL, 4, ARRAY[348, 489, 525, 202]),
+    (120017, 12016, NULL, 120001, 'oshawott', NULL, 4, ARRAY[348, 489, 525, 202]),
     -- Hugh: Unfezant Lv. 62: Facade, Aerial Ace, U-turn, Swagger
     (120028, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[263, 332, 369, 207]),
     -- Hugh: Simipour Lv. 62: Rock Slide, Crunch, Brick Break, Surf
@@ -301,17 +301,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Zinzolin & Grunt: Garbodor Lv. 39: Sludge Bomb, Clear Smog, Body Slam, Toxic
     (120009, 12035, NULL, NULL, NULL, NULL, 4, ARRAY[188, 499, 34, 92]),
     -- Zinzolin: Cryogonal Lv. 46: Slash, Ice Beam, Confuse Ray, Reflect
-    (120009, 12034, NULL, NULL, NULL, NULL, 1, ARRAY[163, 58, 109, 115]),
+    (120031, 12034, NULL, NULL, NULL, NULL, 1, ARRAY[163, 58, 109, 115]),
     -- Zinzolin: Cryogonal Lv. 46: Slash, Ice Beam, Confuse Ray, Light Screen
-    (120009, 12034, NULL, NULL, NULL, NULL, 2, ARRAY[163, 58, 109, 113]),
+    (120031, 12034, NULL, NULL, NULL, NULL, 2, ARRAY[163, 58, 109, 113]),
     -- Zinzolin: Weavile Lv. 48: Slash, Metal Claw, Night Slash, Ice Shard
-    (120009, 12034, NULL, NULL, NULL, NULL, 3, ARRAY[163, 232, 400, 420]),
+    (120031, 12034, NULL, NULL, NULL, NULL, 3, ARRAY[163, 232, 400, 420]),
     -- Shadow (Absol): Pawniard Lv. 46: Feint Attack, Slash, Scary Face, Metal Claw
-    (120009, 12036, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
+    (120031, 12036, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
     -- Shadow (Absol): Pawniard Lv. 46: Feint Attack, Slash, Hone Claws, Metal Claw
-    (120009, 12036, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
+    (120031, 12036, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
     -- Shadow (Absol): Absol Lv. 48: Swords Dance, Night Slash, Slash, Future Sight
-    (120009, 12036, NULL, NULL, NULL, NULL, 3, ARRAY[14, 400, 163, 248]),
+    (120031, 12036, NULL, NULL, NULL, NULL, 3, ARRAY[14, 400, 163, 248]),
     -- Zinzolin & Grunt: Cryogonal Lv. 48: Reflect, Confuse Ray, Ice Beam, Slash
     (120011, 12035, NULL, NULL, NULL, NULL, 1, ARRAY[115, 109, 58, 163]),
     -- Zinzolin & Grunt: Cryogonal Lv. 48: Light Screen, Confuse Ray, Ice Beam, Slash

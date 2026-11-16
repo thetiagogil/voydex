@@ -89,7 +89,47 @@ INSERT INTO tracking.mainline_opponents (
   (26030, 26, NULL, 'rogue-mega-tyranitar', 'Rogue Mega Tyranitar', 'boss', 13, 16, NULL, NULL, 30),
   -- Rogue Mega Starmie
   (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, NULL, NULL, 31),
-  -- Lida (fights beside you against rogue Megas)
-  (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, 'lida', NULL, 32),
-  -- Naveen (fights beside you against rogue Megas)
-  (26033, 26, NULL, 'naveen', 'Naveen', 'ally', NULL, NULL, 'naveen', NULL, 33);
+  -- Lida (battles you twice, and fights beside you against rogue Megas)
+  (26032, 26, NULL, 'lida', 'Lida', 'rival', NULL, NULL, 'lida', NULL, 32),
+  -- Naveen (battles you three times, and fights beside you against rogue Megas)
+  (26033, 26, NULL, 'naveen', 'Naveen', 'rival', NULL, NULL, 'naveen', NULL, 33),
+  -- Emma (the detective of the Looker Bureau)
+  (26034, 26, NULL, 'emma', 'Emma', 'boss', NULL, NULL, NULL, NULL, 34),
+  -- Tarragon (Racine Construction, Canari's grandfather)
+  (26035, 26, NULL, 'tarragon', 'Tarragon', 'boss', 9, NULL, NULL, NULL, 35),
+  -- Gwynn (Ivor's sister, of the DYN4MO fan club)
+  (26036, 26, NULL, 'gwynn', 'Gwynn', 'boss', 14, NULL, NULL, NULL, 36),
+  -- Philippe (Corbeau's right hand in the Rust Syndicate)
+  (26037, 26, NULL, 'philippe', 'Philippe', 'boss', 17, NULL, NULL, NULL, 37),
+  -- Lebanne (Jacinthe's second in the Society of Battle Connoisseurs)
+  (26038, 26, NULL, 'lebanne', 'Lebanne', 'boss', 15, NULL, NULL, NULL, 38),
+  -- Griselle (Grisham's partner)
+  (26039, 26, NULL, 'griselle', 'Griselle', 'boss', NULL, NULL, NULL, NULL, 39),
+  -- Rogue Mega Gengar
+  (26040, 26, NULL, 'rogue-mega-gengar', 'Rogue Mega Gengar', 'boss', 14, 8, NULL, NULL, 40),
+  -- Rogue Mega Heracross
+  (26041, 26, NULL, 'rogue-mega-heracross', 'Rogue Mega Heracross', 'boss', 12, 7, NULL, NULL, 41),
+  -- Rogue Mega Kangaskhan
+  (26042, 26, NULL, 'rogue-mega-kangaskhan', 'Rogue Mega Kangaskhan', 'boss', 1, NULL, NULL, NULL, 42),
+  -- Rogue Mega Pidgeot
+  (26043, 26, NULL, 'rogue-mega-pidgeot', 'Rogue Mega Pidgeot', 'boss', 1, 10, NULL, NULL, 43),
+  -- Rogue Mega Garchomp
+  (26044, 26, NULL, 'rogue-mega-garchomp', 'Rogue Mega Garchomp', 'boss', 15, 9, NULL, NULL, 44),
+  -- Rogue Mega Blastoise
+  (26045, 26, NULL, 'rogue-mega-blastoise', 'Rogue Mega Blastoise', 'boss', 3, NULL, NULL, NULL, 45),
+  -- Rogue Mega Steelix
+  (26046, 26, NULL, 'rogue-mega-steelix', 'Rogue Mega Steelix', 'boss', 17, 9, NULL, NULL, 46),
+  -- Rogue Mega Aggron
+  (26047, 26, NULL, 'rogue-mega-aggron', 'Rogue Mega Aggron', 'boss', 17, NULL, NULL, NULL, 47),
+  -- Rogue Mega Salamence
+  (26048, 26, NULL, 'rogue-mega-salamence', 'Rogue Mega Salamence', 'boss', 15, 10, NULL, NULL, 48),
+  -- Rogue Mega Gardevoir
+  (26049, 26, NULL, 'rogue-mega-gardevoir', 'Rogue Mega Gardevoir', 'boss', 11, 18, NULL, NULL, 49),
+  -- Rogue Mega Gallade
+  (26050, 26, NULL, 'rogue-mega-gallade', 'Rogue Mega Gallade', 'boss', 11, 7, NULL, NULL, 50),
+  -- Rogue Mega Alakazam
+  (26051, 26, NULL, 'rogue-mega-alakazam', 'Rogue Mega Alakazam', 'boss', 11, NULL, NULL, NULL, 51),
+  -- Rogue Mega Aerodactyl
+  (26052, 26, NULL, 'rogue-mega-aerodactyl', 'Rogue Mega Aerodactyl', 'boss', 13, 10, NULL, NULL, 52),
+  -- Rogue Mega Metagross
+  (26053, 26, NULL, 'rogue-mega-metagross', 'Rogue Mega Metagross', 'boss', 17, 11, NULL, NULL, 53);

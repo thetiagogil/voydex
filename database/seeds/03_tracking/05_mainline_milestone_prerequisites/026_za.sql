@@ -1,12 +1,14 @@
 -- ============================================================================
 -- Source
 -- ============================================================================
--- Primary: Voydex curated mainline milestone order.
+-- Primary: Voydex curated mainline milestone order, following Legends: Z-A's story.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Pokémon Legends: Z-A mainline milestone prerequisite links.
+-- Legends: Z-A milestone prerequisite links, in Red / Blue's pattern: each
+-- required beat suggests the one before it in Story order, and each
+-- side-content beat names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -17,14 +19,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
-  -- Arrive in Lumiose City <- Choose Starter
-  (260002, 260001, 26, 1, 1, NULL),
-  -- Join Team MZ <- Arrive in Lumiose City
-  (260003, 260002, 26, 1, 1, NULL),
-  -- Enter Z-A Royale <- Join Team MZ
-  (260004, 260003, 26, 1, 1, NULL),
-  -- Reach Rank Y <- Enter Z-A Royale
-  (260013, 260004, 26, 1, 1, NULL),
+  -- Join Team MZ <- Choose Starter
+  (260003, 260001, 26, 1, 1, NULL),
+  -- Reach Rank Y <- Join Team MZ
+  (260013, 260003, 26, 1, 1, NULL),
   -- Reach Rank X <- Reach Rank Y
   (260014, 260013, 26, 1, 1, NULL),
   -- Reach Rank W <- Reach Rank X
@@ -73,14 +71,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (260035, 260034, 26, 1, 1, NULL),
   -- Rogue Mega Starmie <- Rogue Mega Tyranitar
   (260036, 260035, 26, 1, 1, NULL),
-  -- Explore Lysandre Labs <- Rogue Mega Starmie
-  (260007, 260036, 26, 1, 1, NULL),
-  -- Reach Rank A <- Explore Lysandre Labs
-  (260021, 260007, 26, 1, 1, NULL),
+  -- Reach Rank A <- Rogue Mega Starmie
+  (260021, 260036, 26, 1, 1, NULL),
   -- Stop the Ange Crisis <- Reach Rank A
   (260008, 260021, 26, 1, 1, NULL),
-  -- Infinite Z-A Royale <- Stop the Ange Crisis
-  (260009, 260008, 26, 1, 1, NULL),
   -- The One That Gives opens after Stop the Ange Crisis
   (260010, 260008, 26, 4, 1, NULL),
   -- The One That Takes opens after Stop the Ange Crisis

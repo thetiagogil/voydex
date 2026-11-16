@@ -72,45 +72,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Volkner: Electivire Lv. 50: Thunder Punch, Fire Punch, Quick Attack, Giga Impact
     (90010, 9008, NULL, NULL, NULL, NULL, 4, ARRAY[9, 7, 98, 416]),
     -- Aaron: Yanmega Lv. 49: Air Slash, Bug Buzz, U-turn, Double Team
-    (90011, 9009, NULL, NULL, NULL, NULL, 1, ARRAY[403, 405, 369, 104]),
+    (90015, 9009, NULL, NULL, NULL, NULL, 1, ARRAY[403, 405, 369, 104]),
     -- Aaron: Scizor Lv. 49: Iron Head, X-Scissor, Night Slash, Quick Attack
-    (90011, 9009, NULL, NULL, NULL, NULL, 2, ARRAY[442, 404, 400, 98]),
+    (90015, 9009, NULL, NULL, NULL, NULL, 2, ARRAY[442, 404, 400, 98]),
     -- Aaron: Vespiquen Lv. 50: Attack Order, Defend Order, Heal Order, Power Gem
-    (90011, 9009, NULL, NULL, NULL, NULL, 3, ARRAY[454, 455, 456, 408]),
+    (90015, 9009, NULL, NULL, NULL, NULL, 3, ARRAY[454, 455, 456, 408]),
     -- Aaron: Heracross Lv. 51: Megahorn, Close Combat, Night Slash, Stone Edge
-    (90011, 9009, NULL, NULL, NULL, NULL, 4, ARRAY[224, 370, 400, 444]),
+    (90015, 9009, NULL, NULL, NULL, NULL, 4, ARRAY[224, 370, 400, 444]),
     -- Aaron: Drapion Lv. 53: X-Scissor, Cross Poison, Ice Fang, Aerial Ace
-    (90011, 9009, NULL, NULL, NULL, NULL, 5, ARRAY[404, 440, 423, 332]),
+    (90015, 9009, NULL, NULL, NULL, NULL, 5, ARRAY[404, 440, 423, 332]),
     -- Bertha: Whiscash Lv. 50: Earth Power, Aqua Tail, Zen Headbutt, Sandstorm
-    (90012, 9010, NULL, NULL, NULL, NULL, 1, ARRAY[414, 401, 428, 201]),
+    (90015, 9010, NULL, NULL, NULL, NULL, 1, ARRAY[414, 401, 428, 201]),
     -- Bertha: Gliscor Lv. 53: Earthquake, Ice Fang, Fire Fang, Thunder Fang
-    (90012, 9010, NULL, NULL, NULL, NULL, 2, ARRAY[89, 423, 424, 422]),
+    (90015, 9010, NULL, NULL, NULL, NULL, 2, ARRAY[89, 423, 424, 422]),
     -- Bertha: Hippowdon Lv. 52: Earthquake, Stone Edge, Crunch, Yawn
-    (90012, 9010, NULL, NULL, NULL, NULL, 3, ARRAY[89, 444, 242, 281]),
+    (90015, 9010, NULL, NULL, NULL, NULL, 3, ARRAY[89, 444, 242, 281]),
     -- Bertha: Golem Lv. 52: Earthquake, Fire Punch, Thunder Punch, Sandstorm
-    (90012, 9010, NULL, NULL, NULL, NULL, 4, ARRAY[89, 7, 9, 201]),
+    (90015, 9010, NULL, NULL, NULL, NULL, 4, ARRAY[89, 7, 9, 201]),
     -- Bertha: Rhyperior Lv. 55: Earthquake, Rock Wrecker, Megahorn, Avalanche
-    (90012, 9010, NULL, NULL, NULL, NULL, 5, ARRAY[89, 439, 224, 419]),
+    (90015, 9010, NULL, NULL, NULL, NULL, 5, ARRAY[89, 439, 224, 419]),
     -- Flint: Houndoom Lv. 52: Flamethrower, Sludge Bomb, Dark Pulse, Sunny Day
-    (90013, 9011, NULL, NULL, NULL, NULL, 1, ARRAY[53, 188, 399, 241]),
+    (90015, 9011, NULL, NULL, NULL, NULL, 1, ARRAY[53, 188, 399, 241]),
     -- Flint: Flareon Lv. 55: Overheat, Giga Impact, Quick Attack, Will-O-Wisp
-    (90013, 9011, NULL, NULL, NULL, NULL, 2, ARRAY[315, 416, 98, 261]),
+    (90015, 9011, NULL, NULL, NULL, NULL, 2, ARRAY[315, 416, 98, 261]),
     -- Flint: Rapidash Lv. 53: Flare Blitz, Solar Beam, Bounce, Sunny Day
-    (90013, 9011, NULL, NULL, NULL, NULL, 3, ARRAY[394, 76, 340, 241]),
+    (90015, 9011, NULL, NULL, NULL, NULL, 3, ARRAY[394, 76, 340, 241]),
     -- Flint: Infernape Lv. 55: Flare Blitz, Thunder Punch, Mach Punch, Earthquake
-    (90013, 9011, NULL, NULL, NULL, NULL, 4, ARRAY[394, 9, 183, 89]),
+    (90015, 9011, NULL, NULL, NULL, NULL, 4, ARRAY[394, 9, 183, 89]),
     -- Flint: Magmortar Lv. 57: Flamethrower, Thunderbolt, Solar Beam, Hyper Beam
-    (90013, 9011, NULL, NULL, NULL, NULL, 5, ARRAY[53, 85, 76, 63]),
+    (90015, 9011, NULL, NULL, NULL, NULL, 5, ARRAY[53, 85, 76, 63]),
     -- Lucian: Mr. Mime Lv. 53: Psychic, Thunderbolt, Reflect, Light Screen
-    (90014, 9012, NULL, NULL, NULL, NULL, 1, ARRAY[94, 85, 115, 113]),
+    (90015, 9012, NULL, NULL, NULL, NULL, 1, ARRAY[94, 85, 115, 113]),
     -- Lucian: Espeon Lv. 55: Psychic, Shadow Ball, Quick Attack, Signal Beam
-    (90014, 9012, NULL, NULL, NULL, NULL, 2, ARRAY[94, 247, 98, 324]),
+    (90015, 9012, NULL, NULL, NULL, NULL, 2, ARRAY[94, 247, 98, 324]),
     -- Lucian: Bronzong Lv. 54: Psychic, Gyro Ball, Earthquake, Calm Mind
-    (90014, 9012, NULL, NULL, NULL, NULL, 3, ARRAY[94, 360, 89, 347]),
+    (90015, 9012, NULL, NULL, NULL, NULL, 3, ARRAY[94, 360, 89, 347]),
     -- Lucian: Alakazam Lv. 56: Psychic, Energy Ball, Focus Blast, Recover
-    (90014, 9012, NULL, NULL, NULL, NULL, 4, ARRAY[94, 412, 411, 105]),
+    (90015, 9012, NULL, NULL, NULL, NULL, 4, ARRAY[94, 412, 411, 105]),
     -- Lucian: Gallade Lv. 59: Drain Punch, Psycho Cut, Leaf Blade, Stone Edge
-    (90014, 9012, NULL, NULL, NULL, NULL, 5, ARRAY[409, 427, 348, 444]),
+    (90015, 9012, NULL, NULL, NULL, NULL, 5, ARRAY[409, 427, 348, 444]),
     -- Cynthia: Spiritomb Lv. 58: Dark Pulse, Psychic, Silver Wind, Shadow Ball
     (90015, 9013, NULL, NULL, NULL, NULL, 1, ARRAY[399, 94, 318, 247]),
     -- Cynthia: Roserade Lv. 58: Energy Ball, Sludge Bomb, Toxic, Extrasensory
@@ -142,29 +142,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Barry: Turtwig Lv. 9: Tackle, Withdraw
     (90003, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[33, 110]),
     -- Barry: Staravia Lv. 25: Wing Attack, Quick Attack, Endeavor, Double Team
-    (90005, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[17, 98, 283, 104]),
+    (90006, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[17, 98, 283, 104]),
     -- Barry: Buizel Lv. 23: Water Gun, Quick Attack, Pursuit, Growl
-    (90005, 9014, NULL, 90001, 'turtwig', NULL, 2, ARRAY[55, 98, 228, 45]),
+    (90006, 9014, NULL, 90001, 'turtwig', NULL, 2, ARRAY[55, 98, 228, 45]),
     -- Barry: Roselia Lv. 23: Mega Drain, Poison Sting, Leech Seed, Stun Spore
-    (90005, 9014, NULL, 90001, 'turtwig', NULL, 3, ARRAY[72, 40, 73, 78]),
+    (90006, 9014, NULL, 90001, 'turtwig', NULL, 3, ARRAY[72, 40, 73, 78]),
     -- Barry: Monferno Lv. 27: Flame Wheel, Mach Punch, Fury Swipes, Leer
-    (90005, 9014, NULL, 90001, 'turtwig', NULL, 4, ARRAY[172, 183, 154, 43]),
+    (90006, 9014, NULL, 90001, 'turtwig', NULL, 4, ARRAY[172, 183, 154, 43]),
     -- Barry: Staravia Lv. 25: Wing Attack, Quick Attack, Endeavor, Double Team
-    (90005, 9014, NULL, 90001, 'chimchar', NULL, 1, ARRAY[17, 98, 283, 104]),
+    (90006, 9014, NULL, 90001, 'chimchar', NULL, 1, ARRAY[17, 98, 283, 104]),
     -- Barry: Roselia Lv. 23: Mega Drain, Poison Sting, Leech Seed, Stun Spore
-    (90005, 9014, NULL, 90001, 'chimchar', NULL, 2, ARRAY[72, 40, 73, 78]),
+    (90006, 9014, NULL, 90001, 'chimchar', NULL, 2, ARRAY[72, 40, 73, 78]),
     -- Barry: Ponyta Lv. 23: Ember, Tackle, Tail Whip, Growl
-    (90005, 9014, NULL, 90001, 'chimchar', NULL, 3, ARRAY[52, 33, 39, 45]),
+    (90006, 9014, NULL, 90001, 'chimchar', NULL, 3, ARRAY[52, 33, 39, 45]),
     -- Barry: Prinplup Lv. 27: Bubble Beam, Peck, Metal Claw, Growl
-    (90005, 9014, NULL, 90001, 'chimchar', NULL, 4, ARRAY[61, 64, 232, 45]),
+    (90006, 9014, NULL, 90001, 'chimchar', NULL, 4, ARRAY[61, 64, 232, 45]),
     -- Barry: Staravia Lv. 25: Wing Attack, Quick Attack, Endeavor, Double Team
-    (90005, 9014, NULL, 90001, 'piplup', NULL, 1, ARRAY[17, 98, 283, 104]),
+    (90006, 9014, NULL, 90001, 'piplup', NULL, 1, ARRAY[17, 98, 283, 104]),
     -- Barry: Buizel Lv. 23: Water Gun, Quick Attack, Pursuit, Growl
-    (90005, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[55, 98, 228, 45]),
+    (90006, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[55, 98, 228, 45]),
     -- Barry: Ponyta Lv. 23: Ember, Tackle, Tail Whip, Growl
-    (90005, 9014, NULL, 90001, 'piplup', NULL, 3, ARRAY[52, 33, 39, 45]),
+    (90006, 9014, NULL, 90001, 'piplup', NULL, 3, ARRAY[52, 33, 39, 45]),
     -- Barry: Grotle Lv. 27: Razor Leaf, Tackle, Absorb, Withdraw
-    (90005, 9014, NULL, 90001, 'piplup', NULL, 4, ARRAY[75, 33, 71, 110]),
+    (90006, 9014, NULL, 90001, 'piplup', NULL, 4, ARRAY[75, 33, 71, 110]),
     -- Barry: Staravia Lv. 34: Wing Attack, Quick Attack, Endeavor, Double Team
     (90007, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[17, 98, 283, 104]),
     -- Barry: Buizel Lv. 32: Aqua Jet, Quick Attack, Pursuit, Growl
@@ -242,41 +242,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Cyrus: Weavile Lv. 48: Night Slash, Ice Punch, Fake Out, X-Scissor
     (90019, 9015, NULL, NULL, NULL, NULL, 5, ARRAY[400, 8, 252, 404]),
     -- Barry: Staraptor Lv. 48: Close Combat, Aerial Ace, Steel Wing, U-turn
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[370, 332, 211, 369]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[370, 332, 211, 369]),
     -- Barry: Floatzel Lv. 47: Aqua Jet, Crunch, Ice Fang, Brick Break
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 2, ARRAY[453, 242, 423, 280]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 2, ARRAY[453, 242, 423, 280]),
     -- Barry: Heracross Lv. 48: Close Combat, Rock Slide, Night Slash, Aerial Ace
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 3, ARRAY[370, 157, 400, 332]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 3, ARRAY[370, 157, 400, 332]),
     -- Barry: Roserade Lv. 47: Poison Jab, Giga Drain, Shadow Ball, Grass Whistle
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 4, ARRAY[398, 202, 247, 320]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 4, ARRAY[398, 202, 247, 320]),
     -- Barry: Snorlax Lv. 49: Body Slam, Crunch, Earthquake, Rest
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 5, ARRAY[34, 242, 89, 156]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 5, ARRAY[34, 242, 89, 156]),
     -- Barry: Infernape Lv. 51: Flamethrower, Focus Blast, Shadow Claw, Aerial Ace
-    (90011, 9014, NULL, 90001, 'turtwig', NULL, 6, ARRAY[53, 411, 421, 332]),
+    (90015, 9014, NULL, 90001, 'turtwig', NULL, 6, ARRAY[53, 411, 421, 332]),
     -- Barry: Staraptor Lv. 48: Close Combat, Aerial Ace, Steel Wing, U-turn
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 1, ARRAY[370, 332, 211, 369]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 1, ARRAY[370, 332, 211, 369]),
     -- Barry: Roserade Lv. 47: Poison Jab, Giga Drain, Shadow Ball, Grass Whistle
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 2, ARRAY[398, 202, 247, 320]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 2, ARRAY[398, 202, 247, 320]),
     -- Barry: Heracross Lv. 48: Close Combat, Rock Slide, Night Slash, Aerial Ace
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 3, ARRAY[370, 157, 400, 332]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 3, ARRAY[370, 157, 400, 332]),
     -- Barry: Rapidash Lv. 47: Fire Blast, Sunny Day, Bounce, Will-O-Wisp
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 4, ARRAY[126, 241, 340, 261]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 4, ARRAY[126, 241, 340, 261]),
     -- Barry: Snorlax Lv. 49: Body Slam, Crunch, Earthquake, Rest
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 5, ARRAY[34, 242, 89, 156]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 5, ARRAY[34, 242, 89, 156]),
     -- Barry: Empoleon Lv. 51: Brine, Aerial Ace, Metal Claw, Shadow Claw
-    (90011, 9014, NULL, 90001, 'chimchar', NULL, 6, ARRAY[362, 332, 232, 421]),
+    (90015, 9014, NULL, 90001, 'chimchar', NULL, 6, ARRAY[362, 332, 232, 421]),
     -- Barry: Staraptor Lv. 48: Close Combat, Aerial Ace, Steel Wing, U-turn
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 1, ARRAY[370, 332, 211, 369]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 1, ARRAY[370, 332, 211, 369]),
     -- Barry: Floatzel Lv. 47: Aqua Jet, Crunch, Ice Fang, Brick Break
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[453, 242, 423, 280]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[453, 242, 423, 280]),
     -- Barry: Heracross Lv. 48: Close Combat, Rock Slide, Night Slash, Aerial Ace
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 3, ARRAY[370, 157, 400, 332]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 3, ARRAY[370, 157, 400, 332]),
     -- Barry: Rapidash Lv. 47: Fire Blast, Sunny Day, Bounce, Will-O-Wisp
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 4, ARRAY[126, 241, 340, 261]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 4, ARRAY[126, 241, 340, 261]),
     -- Barry: Snorlax Lv. 49: Body Slam, Crunch, Earthquake, Rest
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 5, ARRAY[34, 242, 89, 156]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 5, ARRAY[34, 242, 89, 156]),
     -- Barry: Torterra Lv. 51: Leaf Storm, Earthquake, Crunch, Synthesis
-    (90011, 9014, NULL, 90001, 'piplup', NULL, 6, ARRAY[437, 89, 242, 235]),
+    (90015, 9014, NULL, 90001, 'piplup', NULL, 6, ARRAY[437, 89, 242, 235]),
     -- Barry: Staraptor Lv. 61: Close Combat, Aerial Ace, Steel Wing, U-turn
     (90020, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[370, 332, 211, 369]),
     -- Barry: Floatzel Lv. 59: Aqua Jet, Crunch, Ice Fang, Brick Break
@@ -320,7 +320,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Azelf: Azelf Lv. 50: Swift, Uproar, Future Sight, Nasty Plot
     (90021, 9018, NULL, NULL, NULL, NULL, 1, ARRAY[129, 253, 248, 417]),
     -- Mesprit: Mesprit Lv. 50: Swift, Lucky Chant, Future Sight, Charm
-    (90021, 9019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 381, 248, 204]),
+    (90032, 9019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 381, 248, 204]),
     -- Heatran: Heatran Lv. 50: Metal Sound, Crunch, Scary Face, Lava Plume
     (90020, 9020, NULL, NULL, NULL, NULL, 1, ARRAY[319, 242, 184, 436]),
     -- Cresselia: Cresselia Lv. 50: Mist, Aurora Beam, Future Sight, Slash
@@ -338,25 +338,25 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Moltres: Moltres Lv. 60: Flamethrower, Safeguard, Air Slash, Roost
     (90027, 9027, NULL, NULL, NULL, NULL, 1, ARRAY[53, 219, 403, 355]),
     -- Mars: Zubat Lv. 15: Bite, Leech Life, Toxic
-    (90004, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[44, 141, 92]),
+    (90028, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[44, 141, 92]),
     -- Mars: Purugly Lv. 17: Feint Attack, Scratch, Fake Out
-    (90004, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[185, 10, 252]),
+    (90028, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[185, 10, 252]),
     -- Jupiter: Zubat Lv. 21: Giga Drain, Wing Attack, Bite
-    (90004, 9029, NULL, NULL, NULL, NULL, 1, ARRAY[202, 17, 44]),
+    (90029, 9029, NULL, NULL, NULL, NULL, 1, ARRAY[202, 17, 44]),
     -- Jupiter: Skuntank Lv. 23: Night Slash, Poison Gas, Screech, Smokescreen
-    (90004, 9029, NULL, NULL, NULL, NULL, 2, ARRAY[400, 139, 103, 108]),
+    (90029, 9029, NULL, NULL, NULL, NULL, 2, ARRAY[400, 139, 103, 108]),
     -- Saturn: Golbat Lv. 38: Air Cutter, Bite, Toxic, Supersonic
-    (90009, 9030, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
+    (90030, 9030, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
     -- Saturn: Bronzor Lv. 38: Gyro Ball, Shadow Ball, Rock Tomb, Iron Defense
-    (90009, 9030, NULL, NULL, NULL, NULL, 2, ARRAY[360, 247, 317, 334]),
+    (90030, 9030, NULL, NULL, NULL, NULL, 2, ARRAY[360, 247, 317, 334]),
     -- Saturn: Toxicroak Lv. 40: Poison Jab, Revenge, Mud Bomb, Feint Attack
-    (90009, 9030, NULL, NULL, NULL, NULL, 3, ARRAY[398, 279, 426, 185]),
+    (90030, 9030, NULL, NULL, NULL, NULL, 3, ARRAY[398, 279, 426, 185]),
     -- Mars: Golbat Lv. 38: Air Cutter, Bite, Toxic, Supersonic
-    (90009, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
+    (90031, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
     -- Mars: Bronzor Lv. 38: Gyro Ball, Extrasensory, Iron Defense, Confuse Ray
-    (90009, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 334, 109]),
+    (90031, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 334, 109]),
     -- Mars: Purugly Lv. 40: Slash, Feint Attack, Hypnosis, Fake Out
-    (90009, 9028, NULL, NULL, NULL, NULL, 3, ARRAY[163, 185, 95, 252]),
+    (90031, 9028, NULL, NULL, NULL, NULL, 3, ARRAY[163, 185, 95, 252]),
     -- Saturn: Golbat Lv. 42: Air Cutter, Bite, Poison Fang, Confuse Ray
     (90018, 9030, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 305, 109]),
     -- Saturn: Bronzor Lv. 42: Gyro Ball, Extrasensory, Shadow Ball, Confuse Ray

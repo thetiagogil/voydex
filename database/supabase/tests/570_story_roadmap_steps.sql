@@ -39,13 +39,16 @@ SELECT
                 AND sort_order = 4),
             'The Poké Mart clerk asks you to take Oak''s Parcel back to Professor Oak, and you can''t shop until you do. An old man blocks the road north. The Gym is locked for now.',
             'Viridian City''s first visit says to pick up Oak''s Parcel');
--- A step belongs to its version group: Route 26 and Gold / Silver's Choose Starter are not Red / Blue's.
+-- A step belongs to its version group: Route 26 and Yellow's Receive Pikachu are not Red / Blue's
+-- (its own step is taken off first, so the version group check is what refuses it).
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, location_id)
             VALUES (1, 999, 107) $$, '23503', NULL, 'a step cannot pass a place its version group does not have');
+DELETE FROM tracking.mainline_roadmap_steps
+WHERE milestone_id = 20001;
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, milestone_id)
-            VALUES (1, 999, 30001) $$, '23503', NULL, 'a step cannot be another version group''s milestone');
+            VALUES (1, 999, 20001) $$, '23503', NULL, 'a step cannot be another version group''s milestone');
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, milestone_id)
             VALUES (1, 999, 10001) $$, '23505', NULL, 'a milestone appears on the roadmap once');
@@ -94,8 +97,8 @@ SELECT
                 mainline_roadmap_steps.version_group_id = 1
                 AND mainline_roadmap_steps.sort_order < 999
                 AND locations.name IN ('Pallet Town', 'Route 1', 'Viridian City')),
-            9,
-            'Red / Blue passes Pallet Town, Route 1 and Viridian City three times each');
+            10,
+            'Red / Blue passes Pallet Town and Viridian City three times and Route 1 four times');
 SELECT
     IS ((
             SELECT
@@ -127,8 +130,8 @@ SELECT
         LEFT JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_roadmap_steps.milestone_id
         WHERE
             mainline_roadmap_steps.version_group_id = 1
-            AND mainline_roadmap_steps.sort_order BETWEEN 76 AND 998 ORDER BY mainline_roadmap_steps.sort_order $$, $$
-        VALUES (76, 'Route 22'::text), (77, 'Route 23'::text), (78, 'victory-road'::text), (79, 'Indigo Plateau'::text), (80, 'pokemon-league'::text), (81, 'cerulean-cave'::text) $$, 'Red / Blue''s League is one step after the Indigo Plateau, before Cerulean Cave');
+            AND mainline_roadmap_steps.sort_order BETWEEN 86 AND 998 ORDER BY mainline_roadmap_steps.sort_order $$, $$
+        VALUES (86, 'Route 22'::text), (87, 'Route 23'::text), (88, 'victory-road'::text), (89, 'Indigo Plateau'::text), (90, 'pokemon-league'::text), (91, 'cerulean-cave'::text) $$, 'Red / Blue''s League is one step after the Indigo Plateau, before Cerulean Cave');
 SELECT
     IS ((
             SELECT
@@ -138,8 +141,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order < 999),
-            81,
-            'Red / Blue''s roadmap runs 1 to 81 with no gaps');
+            91,
+            'Red / Blue''s roadmap runs 1 to 91 with no gaps');
 SELECT
     IS ((
             SELECT
@@ -149,8 +152,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order < 999),
-            81,
-            'Red / Blue''s roadmap has 81 steps');
+            91,
+            'Red / Blue''s roadmap has 91 steps');
 -- The Pewter Museum of Science is Kanto's (it was filed under Johto).
 SELECT
     results_eq ($$

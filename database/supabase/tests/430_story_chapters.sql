@@ -30,15 +30,15 @@ SELECT
                     WHERE
                         mainline_categories.version_group_id = version_groups.id
                         AND mainline_categories.chapter_kind = 'main-story') $$, 'every journey has a main-story chapter');
--- Only Scarlet / Violet's three paths are played in any order.
+-- No chapter is played in any order: a main story is one chapter, and
+-- Scarlet / Violet's free order is its version group's (open world).
 SELECT
-    results_eq ($$
+    is_empty ($$
         SELECT
             version_groups.slug, mainline_categories.slug FROM tracking.mainline_categories
             JOIN reference.version_groups ON version_groups.id = mainline_categories.version_group_id
             WHERE
-                mainline_categories.plays_in_any_order ORDER BY mainline_categories.sort_order $$, $$
-            VALUES ('sv', 'victory-road'), ('sv', 'starfall-street'), ('sv', 'path-of-legends') $$, 'Scarlet / Violet''s three paths are the chapters played in any order');
+                mainline_categories.plays_in_any_order ORDER BY mainline_categories.sort_order $$, 'no chapter is played in any order');
 -- An opens-after link sits only on an optional beat.
 SELECT
     is_empty ($$
@@ -87,7 +87,7 @@ SELECT
             category_slug, chapter_kind, plays_in_any_order FROM views.mainline_play_milestone_category_summary
             WHERE
                 play_id = '60000000-0000-0000-0000-0000000000d1' ORDER BY category_sort_order $$, $$
-            VALUES ('main-story', 'main-story', FALSE), ('pokemon-league', 'main-story', FALSE), ('post-game', 'post-game', FALSE), ('side-content', 'side-content', FALSE) $$, 'the category summary carries each chapter''s kind');
+            VALUES ('main-story', 'main-story', FALSE), ('post-game', 'post-game', FALSE), ('side-content', 'side-content', FALSE) $$, 'the category summary carries each chapter''s kind');
 -- An opens-after link never locks: Cerulean Cave records before the Hall of Fame.
 SELECT
     lives_ok ($$
@@ -114,16 +114,17 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 7
                 AND mainline_categories.slug = 'main-story'
-                AND mainline_milestones.sort_order BETWEEN 11 AND 15 ORDER BY mainline_milestones.sort_order $$, $$
+                AND mainline_milestones.sort_order BETWEEN 17 AND 21 ORDER BY mainline_milestones.sort_order $$, $$
             VALUES ('mind-badge'), ('space-center'), ('seafloor-cavern'), ('awaken-rayquaza'), ('rain-badge') $$, 'Emerald''s Space Center and Sky Pillar sit between Mind Badge and Rain Badge');
--- Gold / Silver, Crystal, HeartGold / SoulSilver: Silver's Cherrygrove battle leads to Zephyr Badge.
+-- Gold / Silver, Crystal, HeartGold / SoulSilver: Silver's Cherrygrove battle leads to Zephyr Badge (Gold / Silver names the place, the others note it).
 SELECT
     results_eq ($$
         SELECT
             mainline_milestones.version_group_id, mainline_milestones.slug FROM tracking.mainline_milestone_opponent_refs
             JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_milestone_opponent_refs.milestone_id
             WHERE
-                mainline_milestone_opponent_refs.notes = 'Cherrygrove City' ORDER BY mainline_milestones.version_group_id $$, $$
+                mainline_milestone_opponent_refs.notes = 'Cherrygrove City'
+                OR mainline_milestone_opponent_refs.location_id = 84 ORDER BY mainline_milestones.version_group_id $$, $$
             VALUES (3, 'zephyr-badge'), (4, 'zephyr-badge'), (10, 'zephyr-badge') $$, 'Silver''s first battle sits on Zephyr Badge');
 -- A rematch is never a Story battle: Wally's Victory Road rematch and Colress's P2 Laboratory rematch are gone.
 SELECT
@@ -135,7 +136,8 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'hall-of-fame'
                 AND mainline_opponents.name IN ('Wally', 'Colress') $$, 'rematches stay off the Hall of Fame');
--- Let's Go: Pokémon Tower is a beat with Trace and Jessie & James, and Route 17 has their Lv. 52 team.
+-- Let's Go: Trace's battle in the Pokémon Tower leads to the Rainbow Badge, Jessie & James
+-- are the Pokémon Tower beat, and their Lv. 52 team on Route 17 leads to the Soul Badge.
 SELECT
     results_eq ($$
         SELECT
@@ -145,9 +147,10 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
                 mainline_milestones.version_group_id = 17
-                AND mainline_milestones.slug IN ('pokemon-tower', 'snorlax-encounter')
+                AND mainline_milestones.slug IN ('pokemon-tower', 'rainbow-badge', 'soul-badge')
+                AND mainline_opponents.name IN ('Trace', 'Jessie & James')
             GROUP BY mainline_milestones.slug, mainline_opponents.name ORDER BY mainline_milestones.slug, mainline_opponents.name $$, $$
-            VALUES ('pokemon-tower', 'Jessie & James', 34), ('pokemon-tower', 'Trace', 28), ('snorlax-encounter', 'Jessie & James', 52) $$, 'Let''s Go''s Pokémon Tower and Route 17 battles sit on their beats');
+            VALUES ('pokemon-tower', 'Jessie & James', 34), ('rainbow-badge', 'Trace', 28), ('soul-badge', 'Jessie & James', 52) $$, 'Let''s Go''s Pokémon Tower and Route 17 battles sit on their beats');
 -- Isle of Armor: the Dojo Trials beat holds both Klara / Avery trial battles, in order.
 SELECT
     results_eq ($$
@@ -158,7 +161,7 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'dojo-trials' ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
             VALUES ('klara-avery-warm-up-tunnel'), ('klara-avery') $$, 'the Dojo Trials beat fights Klara or Avery in the tunnel, then at the dojo');
--- X / Y: Battle AZ follows the Hall of Fame in the League chapter; the Kiloude City rival battle is post-game.
+-- X / Y: the League milestone takes in AZ; the Kiloude City rival battle is post-game.
 SELECT
     results_eq ($$
         SELECT
@@ -166,9 +169,9 @@ SELECT
             JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
             WHERE
                 mainline_milestones.version_group_id = 13
-                AND mainline_milestones.slug IN ('hall-of-fame', 'battle-az', 'kiloude-city')
+                AND mainline_milestones.slug IN ('pokemon-league', 'hall-of-fame', 'battle-az', 'kiloude-city')
             ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('pokemon-league', 'hall-of-fame', 6), ('pokemon-league', 'battle-az', 7), ('post-game', 'kiloude-city', 1) $$, 'Battle AZ closes the League chapter and Kiloude City is post-game');
+            VALUES ('main-story', 'pokemon-league', 18), ('post-game', 'kiloude-city', 1) $$, 'the League is one Main Story milestone and Kiloude City is post-game');
 -- Sun / Moon and Ultra Sun / Ultra Moon: the Iki Town festival is a beat with Hau on it.
 SELECT
     results_eq ($$
@@ -179,7 +182,7 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'iki-town-festival' ORDER BY mainline_milestones.version_group_id $$, $$
             VALUES (15, 'Hau'), (16, 'Hau') $$, 'the Iki Town festival beat holds Hau''s festival battle');
--- Sword / Shield: Grass Badge holds the Route 2 and Motostoke battles in play order.
+-- Sword / Shield: Grass Badge holds the Route 2 and Motostoke battles in play order (Marnie's first battle is at the Fire Badge).
 SELECT
     results_eq ($$
         SELECT
@@ -189,7 +192,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 18
                 AND mainline_milestones.slug = 'grass-badge' ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('hop-route-2'), ('marnie'), ('hop'), ('bede'), ('milo') $$, 'Grass Badge lists its battles in play order');
+            VALUES ('hop-route-2'), ('hop'), ('bede'), ('milo') $$, 'Grass Badge lists its battles in play order');
 -- After the credits only Johto's Kanto, through Red, still counts.
 SELECT
     results_eq ($$ SELECT DISTINCT
@@ -198,7 +201,7 @@ SELECT
             WHERE
                 mainline_categories.chapter_kind = 'post-game'
                 AND mainline_milestones.is_required_for_completion ORDER BY mainline_milestones.version_group_id $$, $$
-            VALUES (3), (4), (10) $$, 'post-game beats count only in Gold / Silver, Crystal and HeartGold / SoulSilver');
+            VALUES (3), (4), (6), (10) $$, 'post-game beats count only in Gold / Silver, Crystal, FireRed / LeafGreen (the Sevii Islands quest) and HeartGold / SoulSilver');
 -- Receive Pokédex carries no later battle anywhere.
 SELECT
     is_empty ($$
@@ -209,7 +212,8 @@ SELECT
             WHERE
                 mainline_milestones.slug = 'receive-pokedex'
                 AND mainline_opponents.opponent_role = 'rival'
-                AND mainline_milestone_opponent_refs.notes NOT IN ('Route 103', 'Professor Oak''s Laboratory, Pallet Town', 'Poco Path lighthouse', 'South gate of Mesagoza (South Province Area One)') $$, 'Receive Pokedex only keeps the battles fought on the way to it or there');
+                AND mainline_milestone_opponent_refs.location_id IS NULL
+                AND mainline_milestone_opponent_refs.notes NOT IN ('Route 103', 'Professor Oak''s Laboratory, Pallet Town', 'Before you leave the lab.', 'Poco Path lighthouse', 'South gate of Mesagoza (South Province Area One)') $$, 'Receive Pokedex only keeps the battles fought on the way to it or there');
 SELECT
     *
 FROM

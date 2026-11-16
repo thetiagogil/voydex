@@ -7,7 +7,12 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Links Sword / Shield battle milestones to their primary opponents.
+-- Links Sword / Shield battle milestones to their primary opponents, in Red /
+-- Blue's pattern. A Gym lists its own battle and the battles on the way to
+-- it. Marnie's first battle, at the Budew Drop Inn, is on the way to the Fire
+-- Badge (her team is level 24 to 26).
+-- location_id is set only where the battle is fought away from its milestone's
+-- place on the way to it. NULL means the battle is at the milestone's place.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -16,101 +21,102 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   version_group_id,
   relation_kind,
   sort_order,
-  notes
+  notes,
+  location_id
 ) VALUES
-  -- Grass Badge -> Milo
-  (180003, 18001, 18, 'battle-opponent', 5, NULL),
-  -- Water Badge -> Nessa
-  (180004, 18002, 18, 'battle-opponent', 2, NULL),
-  -- Fire Badge -> Kabu
-  (180005, 18003, 18, 'battle-opponent', 2, NULL),
-  -- Fighting Badge -> Bea
-  (183106, 18004, 18, 'battle-opponent', 2, NULL),
-  -- Ghost Badge -> Allister
-  (183206, 18005, 18, 'battle-opponent', 2, NULL),
-  -- Fairy Badge -> Opal
-  (180007, 18006, 18, 'battle-opponent', 1, NULL),
-  -- Rock Badge -> Gordie
-  (183108, 18007, 18, 'battle-opponent', 2, NULL),
-  -- Ice Badge -> Melony
-  (183208, 18008, 18, 'battle-opponent', 2, NULL),
-  -- Dark Badge -> Piers
-  (180009, 18009, 18, 'battle-opponent', 3, NULL),
-  -- Dragon Badge -> Raihan
-  (180010, 18010, 18, 'battle-opponent', 1, NULL),
-  -- Defeat Eternatus -> Eternatus
-  (180011, 18011, 18, 'battle-opponent', 2, NULL),
-  -- Champion Leon -> Leon
-  (180012, 18012, 18, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Hop
-  (180001, 18013, 18, 'battle-opponent', 1, 'Postwick (Leon and Hop''s yard)'),
-  -- Grass Badge -> Hop (Route 2)
-  (180003, 18028, 18, 'battle-opponent', 1, 'Route 2, outside Professor Magnolia''s house'),
-  -- Grass Badge -> Hop
-  (180003, 18013, 18, 'battle-opponent', 3, 'Motostoke, west exit toward Route 3'),
-  -- Grass Badge -> Bede
-  (180003, 18014, 18, 'battle-opponent', 4, 'Galar Mine'),
-  -- Water Badge -> Hop
-  (180004, 18013, 18, 'battle-opponent', 1, 'Route 5'),
-  -- Fire Badge -> Bede
-  (180005, 18014, 18, 'battle-opponent', 1, 'Galar Mine No. 2'),
-  -- Grass Badge -> Marnie
-  (180003, 18015, 18, 'battle-opponent', 2, 'Budew Drop Inn, Motostoke'),
-  -- Fighting Badge -> Hop
-  (183106, 18013, 18, 'battle-opponent', 1, 'Stow-on-Side, at the stairs to the Stadium'),
-  -- Ghost Badge -> Hop
-  (183206, 18013, 18, 'battle-opponent', 1, 'Stow-on-Side, at the stairs to the Stadium'),
+  (180001, 18013, 18, 'battle-opponent', 1, 'In the yard, right after you pick.', NULL),
+  -- Grass Badge -> Hop (Route 2) (Route 2)
+  (180003, 18028, 18, 'battle-opponent', 1, 'Outside Professor Magnolia''s house.', 629),
+  -- Grass Badge -> Hop (Motostoke)
+  (180003, 18013, 18, 'battle-opponent', 2, 'At the west exit, after the opening ceremony.', 615),
+  -- Grass Badge -> Bede (Galar Mine)
+  (180003, 18014, 18, 'battle-opponent', 3, 'Inside the mine.', 593),
+  -- Grass Badge -> Milo
+  (180003, 18001, 18, 'battle-opponent', 4, NULL, NULL),
+  -- Water Badge -> Hop (Route 5)
+  (180004, 18013, 18, 'battle-opponent', 1, 'On the bridge.', 632),
+  -- Water Badge -> Nessa
+  (180004, 18002, 18, 'battle-opponent', 2, NULL, NULL),
+  -- Fire Badge -> Bede (Galar Mine No. 2)
+  (180005, 18014, 18, 'battle-opponent', 1, 'Inside the mine.', 594),
+  -- Fire Badge -> Marnie (Motostoke)
+  (180005, 18015, 18, 'battle-opponent', 2, 'At the Budew Drop Inn, before the Gym.', 615),
+  -- Fire Badge -> Kabu
+  (180005, 18003, 18, 'battle-opponent', 3, NULL, NULL),
+  -- Fighting Badge -> Hop (Stow-on-Side)
+  (183106, 18013, 18, 'battle-opponent', 1, 'At the stairs to the Stadium.', 646),
+  -- Fighting Badge -> Bea
+  (183106, 18004, 18, 'battle-opponent', 2, NULL, NULL),
   -- Fighting Badge -> Bede
-  (183106, 18014, 18, 'battle-opponent', 3, 'Stow-on-Side, by the mural'),
+  (183106, 18014, 18, 'battle-opponent', 3, 'By the mural in town, right after the badge', NULL),
+  -- Ghost Badge -> Hop (Stow-on-Side)
+  (183206, 18013, 18, 'battle-opponent', 1, 'At the stairs to the Stadium.', 646),
+  -- Ghost Badge -> Allister
+  (183206, 18005, 18, 'battle-opponent', 2, NULL, NULL),
   -- Ghost Badge -> Bede
-  (183206, 18014, 18, 'battle-opponent', 3, 'Stow-on-Side, by the mural'),
-  -- Rock Badge -> Hop
-  (183108, 18013, 18, 'battle-opponent', 1, 'Route 7'),
-  -- Ice Badge -> Hop
-  (183208, 18013, 18, 'battle-opponent', 1, 'Route 7'),
-  -- Dark Badge -> Hop
-  (180009, 18013, 18, 'battle-opponent', 1, 'Circhester'),
-  -- Dark Badge -> Marnie
-  (180009, 18015, 18, 'battle-opponent', 2, 'Route 9, outside Spikemuth'),
+  (183206, 18014, 18, 'battle-opponent', 3, 'By the mural in town, right after the badge', NULL),
+  -- Fairy Badge -> Opal
+  (180007, 18006, 18, 'battle-opponent', 1, NULL, NULL),
+  -- Rock Badge -> Hop (Route 7)
+  (183108, 18013, 18, 'battle-opponent', 1, 'On the bridge.', 634),
+  -- Rock Badge -> Gordie
+  (183108, 18007, 18, 'battle-opponent', 2, NULL, NULL),
+  -- Ice Badge -> Hop (Route 7)
+  (183208, 18013, 18, 'battle-opponent', 1, 'On the bridge.', 634),
+  -- Ice Badge -> Melony
+  (183208, 18008, 18, 'battle-opponent', 2, NULL, NULL),
+  -- Dark Badge -> Hop (Circhester)
+  (180009, 18013, 18, 'battle-opponent', 1, 'In town, after the sixth badge.', 581),
+  -- Dark Badge -> Marnie (Route 9)
+  (180009, 18015, 18, 'battle-opponent', 2, 'Outside Spikemuth''s shut gate.', 636),
+  -- Dark Badge -> Piers
+  (180009, 18009, 18, 'battle-opponent', 3, NULL, NULL),
+  -- Dragon Badge -> Raihan
+  (180010, 18010, 18, 'battle-opponent', 1, NULL, NULL),
   -- Champion Cup -> Marnie
-  (180015, 18015, 18, 'battle-opponent', 1, 'Wyndon Stadium (semifinal)'),
+  (180015, 18015, 18, 'battle-opponent', 1, 'Semifinal', NULL),
   -- Champion Cup -> Hop
-  (180015, 18013, 18, 'battle-opponent', 2, 'Wyndon Stadium (semifinal)'),
+  (180015, 18013, 18, 'battle-opponent', 2, 'Semifinal', NULL),
   -- Champion Cup -> Oleana
-  (180015, 18021, 18, 'battle-opponent', 3, 'Rose Tower, Wyndon'),
+  (180015, 18021, 18, 'battle-opponent', 3, 'At the top of Rose Tower, between the semifinals and the finals', NULL),
   -- Champion Cup -> Bede
-  (180015, 18014, 18, 'battle-opponent', 4, 'Wyndon Stadium (final)'),
+  (180015, 18014, 18, 'battle-opponent', 4, 'Final. Bede walks in uninvited.', NULL),
   -- Champion Cup -> Nessa
-  (180015, 18002, 18, 'battle-opponent', 5, 'Wyndon Stadium (final)'),
+  (180015, 18002, 18, 'battle-opponent', 5, 'Final', NULL),
   -- Champion Cup -> Bea
-  (180015, 18004, 18, 'battle-opponent', 6, 'Wyndon Stadium (final, Sword)'),
+  (180015, 18004, 18, 'battle-opponent', 6, 'Final (Sword)', NULL),
   -- Champion Cup -> Allister
-  (180015, 18005, 18, 'battle-opponent', 7, 'Wyndon Stadium (final, Shield)'),
+  (180015, 18005, 18, 'battle-opponent', 7, 'Final (Shield)', NULL),
   -- Champion Cup -> Raihan
-  (180015, 18010, 18, 'battle-opponent', 8, 'Wyndon Stadium (final)'),
+  (180015, 18010, 18, 'battle-opponent', 8, 'Final', NULL),
   -- Defeat Eternatus -> Rose
-  (180011, 18016, 18, 'battle-opponent', 1, 'Energy Plant, Hammerlocke'),
-  -- Post-Game Episode -> Hop (first visit)
-  (180014, 18025, 18, 'battle-opponent', 1, 'Slumbering Weald, first visit'),
+  (180011, 18016, 18, 'battle-opponent', 1, 'In the Energy Plant', NULL),
+  -- Defeat Eternatus -> Eternatus
+  (180011, 18011, 18, 'battle-opponent', 2, 'On the tower''s roof. You catch it after the Eternamax battle.', NULL),
+  -- Champion Leon -> Leon
+  (180012, 18012, 18, 'battle-opponent', 1, NULL, NULL),
+  -- Post-Game Episode -> Hop (Slumbering Weald)
+  (180014, 18025, 18, 'battle-opponent', 1, 'When you go back to the altar', NULL),
   -- Post-Game Episode -> Sordward
-  (180014, 18022, 18, 'battle-opponent', 2, 'Slumbering Weald (Sword)'),
+  (180014, 18022, 18, 'battle-opponent', 2, 'At the altar (Sword)', NULL),
   -- Post-Game Episode -> Shielbert
-  (180014, 18023, 18, 'battle-opponent', 3, 'Slumbering Weald (Shield)'),
+  (180014, 18023, 18, 'battle-opponent', 3, 'At the altar (Shield)', NULL),
   -- Post-Game Episode -> Bede
-  (180014, 18014, 18, 'battle-opponent', 4, 'Ballonlea Stadium'),
-  -- Post-Game Episode -> Sordward & Shielbert (a Multi Battle, Hop at your side)
-  (180014, 18024, 18, 'battle-opponent', 5, 'Hammerlocke Stadium (with Hop)'),
-  -- Post-Game Episode -> Sordward
-  (180014, 18026, 18, 'battle-opponent', 6, 'Energy Plant, Hammerlocke (Sword)'),
-  -- Post-Game Episode -> Shielbert
-  (180014, 18027, 18, 'battle-opponent', 7, 'Energy Plant, Hammerlocke (Shield)'),
-  -- Post-Game Episode -> Zamazenta
-  (180014, 18017, 18, 'battle-opponent', 8, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Sordward'),
-  -- Post-Game Episode -> Zacian
-  (180014, 18018, 18, 'battle-opponent', 9, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Shielbert'),
-  -- Post-Game Episode -> Zacian
-  (180014, 18019, 18, 'battle-opponent', 10, 'Slumbering Weald, after the Tower Summit (Sword)'),
-  -- Post-Game Episode -> Zamazenta
-  (180014, 18020, 18, 'battle-opponent', 11, 'Slumbering Weald, after the Tower Summit (Shield)'),
-  -- Post-Game Episode -> Hop (second visit)
-  (180014, 18013, 18, 'battle-opponent', 12, 'Slumbering Weald, second visit');
+  (180014, 18014, 18, 'battle-opponent', 4, 'Ballonlea Stadium', NULL),
+  -- Post-Game Episode -> Sordward & Shielbert
+  (180014, 18024, 18, 'battle-opponent', 5, 'Hammerlocke Stadium, a Multi Battle with Hop at your side', NULL),
+  -- Post-Game Episode -> Sordward (Energy Plant)
+  (180014, 18026, 18, 'battle-opponent', 6, 'Energy Plant (Sword)', NULL),
+  -- Post-Game Episode -> Shielbert (Energy Plant)
+  (180014, 18027, 18, 'battle-opponent', 7, 'Energy Plant (Shield)', NULL),
+  -- Post-Game Episode -> Zamazenta (Sword)
+  (180014, 18017, 18, 'battle-opponent', 8, 'On the tower''s roof (Sword)', NULL),
+  -- Post-Game Episode -> Zacian (Shield)
+  (180014, 18018, 18, 'battle-opponent', 9, 'On the tower''s roof (Shield)', NULL),
+  -- Post-Game Episode -> Zacian (Sword)
+  (180014, 18019, 18, 'battle-opponent', 10, 'Back at the altar (Sword). You catch it.', NULL),
+  -- Post-Game Episode -> Zamazenta (Shield)
+  (180014, 18020, 18, 'battle-opponent', 11, 'Back at the altar (Shield). You catch it.', NULL),
+  -- Post-Game Episode -> Hop
+  (180014, 18013, 18, 'battle-opponent', 12, 'At the altar, the last battle with Hop', NULL);

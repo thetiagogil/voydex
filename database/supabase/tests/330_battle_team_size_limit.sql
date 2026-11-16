@@ -14,7 +14,7 @@ SELECT
             milestone_id, opponent_id, team_size_limit FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 team_size_limit IS NOT NULL $$, $$
-            VALUES (70027, 7018, 3), (150006, 15018, 1), (160006, 16021, 1) $$, 'only Maxie & Tabitha in Emerald and the Battle Royal in Sun / Moon and Ultra Sun / Ultra Moon limit your team');
+            VALUES (70027, 7018, 3), (120030, 12009, 3), (120030, 12016, 3), (150006, 15018, 1), (160006, 16021, 1) $$, 'only Maxie & Tabitha in Emerald, the Pokémon World Tournament in Black 2 / White 2 and the Battle Royal in Sun / Moon and Ultra Sun / Ultra Moon limit your team');
 SELECT
     IS ((
             SELECT

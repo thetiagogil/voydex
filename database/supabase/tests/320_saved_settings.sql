@@ -252,7 +252,7 @@ SELECT
     results_eq ($$
         SELECT
             required_milestone_count, completed_required_milestone_count, required_collectible_entry_count, collected_required_collectible_entry_count FROM completion_on $$, $$
-        VALUES (22::bigint, 3::bigint, 100::bigint, 4::bigint) $$, 'with everything on, Story and collectibles count');
+        VALUES (19::bigint, 3::bigint, 100::bigint, 4::bigint) $$, 'with everything on, Story and collectibles count');
 SELECT
     ok ((
             SELECT
@@ -286,7 +286,7 @@ SELECT
             SELECT
                 total_completion_unit_count = (
                     SELECT
-                        total_completion_unit_count - 22
+                        total_completion_unit_count - 19
                     FROM
                         completion_on)
                     AND completed_completion_unit_count = (
@@ -396,7 +396,7 @@ SELECT
                     SELECT
                         result_play_id
                     FROM started_bare) $$, $$
-        VALUES (22::bigint, 3::bigint, 100::bigint, 4::bigint) $$, 'switching both back on restores the counts with the progress untouched');
+        VALUES (19::bigint, 3::bigint, 100::bigint, 4::bigint) $$, 'switching both back on restores the counts with the progress untouched');
 SELECT
     ok ((
             SELECT

@@ -47,6 +47,8 @@ import type {
 type StorySelection =
   | { id: number; kind: "milestone" }
   | {
+      /* Its battles fought here show: the first pass on the way to that milestone. */
+      firstPass: boolean;
       key: string;
       kind: "place";
       note: string | null;
@@ -226,8 +228,9 @@ export const MainlinePlayProgressStory = ({
         kind: "place",
         note: picked.note,
         place: picked.place,
-        toward:
-          scopeMilestones.find(({ id }) => id === picked.towardId) ?? null,
+        toward: picked.firstPass
+          ? (scopeMilestones.find(({ id }) => id === picked.towardId) ?? null)
+          : null,
       };
     }
 
@@ -439,7 +442,7 @@ export const MainlinePlayProgressStory = ({
               kind: "place",
               note: entry.note,
               place: entry.place,
-              toward: entry.toward,
+              toward: entry.firstPass ? entry.toward : null,
             }).length
           }
           onMilestoneSelect={selectMilestone}
@@ -453,6 +456,7 @@ export const MainlinePlayProgressStory = ({
           }}
           onPlaceSelect={(entry) => {
             setSelection({
+              firstPass: entry.firstPass,
               key: entry.key,
               kind: "place",
               note: entry.note,

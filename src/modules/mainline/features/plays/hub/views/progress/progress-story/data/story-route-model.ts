@@ -19,7 +19,9 @@ import type {
  * order, places as quiet stops (a place the story comes back to shows again),
  * side content where the walkthrough meets it, and a chapter's sign where
  * its first step comes. A place's battles are those of the milestone it
- * leads to that are fought there (Red and Blue's rival on Route 22).
+ * leads to that are fought there (Red and Blue's rival on Route 22), shown
+ * the first time the way to that milestone passes the place (Gold and
+ * Silver pass Cherrygrove City twice before the Zephyr Badge).
  */
 
 export type StoryRouteEntry =
@@ -44,6 +46,11 @@ export type StoryRouteEntry =
     }
   | {
       key: string;
+      /*
+       * The first time the way to that milestone passes this place: where
+       * its battles fought here show, not again when the story comes back.
+       */
+      firstPass: boolean;
       kind: "place";
       /* What happens there, in a line; null where nothing does. */
       note: string | null;
@@ -63,6 +70,16 @@ const isSideContent = (section: StorySection) =>
   section.chapterKind === "side-content";
 
 /* Required milestones recorded, or all of them where none is required. */
+/*
+ * The roadmap steps a Play walks: every shared step, plus the steps of a place
+ * found only in the Play's own game (Ruby's Team Magma Hideout, not
+ * Sapphire's Team Aqua Hideout).
+ */
+export const getStoryStepsForGame = <Step extends { game_id: number | null }>(
+  steps: Step[],
+  gameId: number | null,
+) => steps.filter((step) => step.game_id === null || step.game_id === gameId);
+
 export const formatStoryCount = (sections: StorySection[]) => {
   const total = sections.reduce((sum, section) => sum + section.totalCount, 0);
   const milestones = sections.flatMap((section) => section.milestones);
@@ -186,6 +203,8 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
 
   const entries: StoryRouteEntry[] = [];
   const placed = new Set<number>();
+  /* Each place already passed on the way to each milestone. */
+  const passed = new Set<string>();
   let shownChapter: StorySection | null = null;
   /* Every required milestone so far is recorded. */
   let walked = true;
@@ -212,7 +231,12 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
     const leadsTo = towardAt[index];
 
     if (step.place && leadsTo) {
+      const pass = `${step.place.id}-${leadsTo.id}`;
+      const firstPass = !passed.has(pass);
+
+      passed.add(pass);
       entries.push({
+        firstPass,
         key: `place-${step.id}`,
         kind: "place",
         note: step.note,

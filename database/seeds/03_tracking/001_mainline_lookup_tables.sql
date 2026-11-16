@@ -46,4 +46,5 @@ VALUES
   (2, 'totem-sticker', 'Totem Stickers', 2),
   (3, 'alolan-diglett', 'Alolan Diglett', 3),
   (4, 'wisp', 'Wisps', 4),
-  (5, 'ominous-stake', 'Ominous Stakes', 5);
+  (5, 'ominous-stake', 'Ominous Stakes', 5),
+  (6, 'unown-form', 'Unown Forms', 6);

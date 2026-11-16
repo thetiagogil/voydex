@@ -49,7 +49,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 26
                 AND mainline_milestones.is_required_for_completion ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('main-story'::text, 'choose-starter'::text), ('main-story', 'arrive-lumiose-city'), ('main-story', 'join-team-mz'), ('za-royale', 'enter-za-royale'), ('za-royale', 'reach-rank-y'), ('za-royale', 'reach-rank-x'), ('za-royale', 'reach-rank-w'), ('za-royale', 'reach-rank-v'), ('rogue-mega-evolution', 'unlock-mega-evolution'), ('rogue-mega-evolution', 'reach-rank-f'), ('rogue-mega-evolution', 'rogue-mega-slowbro'), ('rogue-mega-evolution', 'rogue-mega-camerupt'), ('rogue-mega-evolution', 'rogue-mega-victreebel'), ('rogue-mega-evolution', 'reach-rank-e'), ('rogue-mega-evolution', 'rogue-mega-beedrill'), ('rogue-mega-evolution', 'rogue-mega-hawlucha'), ('rogue-mega-evolution', 'rogue-mega-banette'), ('rogue-mega-evolution', 'reach-rank-d'), ('rogue-mega-evolution', 'rogue-mega-mawile'), ('rogue-mega-evolution', 'rogue-mega-barbaracle'), ('rogue-mega-evolution', 'rogue-mega-ampharos'), ('rogue-mega-evolution', 'reach-rank-c'), ('rogue-mega-evolution', 'rogue-mega-froslass'), ('rogue-mega-evolution', 'rogue-mega-altaria'), ('rogue-mega-evolution', 'rogue-mega-venusaur'), ('rogue-mega-evolution', 'reach-rank-b'), ('rogue-mega-evolution', 'rogue-mega-dragonite'), ('rogue-mega-evolution', 'rogue-mega-tyranitar'), ('rogue-mega-evolution', 'rogue-mega-starmie'), ('finale', 'explore-lysandre-labs'), ('finale', 'reach-rank-a'), ('finale', 'stop-ange-crisis') $$, 'Z-A''s Story follows the game''s order');
+            VALUES ('main-story'::text, 'choose-starter'::text), ('main-story', 'join-team-mz'), ('main-story', 'reach-rank-y'), ('main-story', 'reach-rank-x'), ('main-story', 'reach-rank-w'), ('main-story', 'reach-rank-v'), ('main-story', 'unlock-mega-evolution'), ('main-story', 'reach-rank-f'), ('main-story', 'rogue-mega-slowbro'), ('main-story', 'rogue-mega-camerupt'), ('main-story', 'rogue-mega-victreebel'), ('main-story', 'reach-rank-e'), ('main-story', 'rogue-mega-beedrill'), ('main-story', 'rogue-mega-hawlucha'), ('main-story', 'rogue-mega-banette'), ('main-story', 'reach-rank-d'), ('main-story', 'rogue-mega-mawile'), ('main-story', 'rogue-mega-barbaracle'), ('main-story', 'rogue-mega-ampharos'), ('main-story', 'reach-rank-c'), ('main-story', 'rogue-mega-froslass'), ('main-story', 'rogue-mega-altaria'), ('main-story', 'rogue-mega-venusaur'), ('main-story', 'reach-rank-b'), ('main-story', 'rogue-mega-dragonite'), ('main-story', 'rogue-mega-tyranitar'), ('main-story', 'rogue-mega-starmie'), ('main-story', 'reach-rank-a'), ('main-story', 'stop-ange-crisis') $$, 'Z-A''s Story follows the game''s order');
 -- Each required Z-A milestone's previous step is the one before it in Story.
 SELECT
     is_empty ($$ WITH ordered AS (
@@ -69,7 +69,7 @@ SELECT
                             FROM tracking.mainline_milestone_prerequisites
                             WHERE
                                 mainline_milestone_prerequisites.milestone_id = ordered.id) IS DISTINCT FROM ARRAY[ordered.previous_id] $$, 'each required Z-A milestone follows the one before it');
--- Jacinthe's tournament: three rounds, L brings Zygarde, then the final.
+-- Lebanne presses Team MZ at Hotel Z, then Jacinthe's tournament: three rounds, L brings Zygarde, then the final.
 SELECT
     results_eq ($$
         SELECT
@@ -77,7 +77,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
             WHERE
                 mainline_milestone_opponent_refs.milestone_id = 260006 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('Canari'::text), ('Ivor'), ('Corbeau'), ('Zygarde'), ('Jacinthe') $$, 'Jacinthe''s tournament holds its rounds, Zygarde and the final in order');
+            VALUES ('Lebanne'::text), ('Canari'), ('Ivor'), ('Corbeau'), ('Zygarde'), ('Jacinthe') $$, 'after Lebanne at Hotel Z, Jacinthe''s tournament holds its rounds, Zygarde and the final in order');
 -- Canari, Ivor and Corbeau field stronger teams in the tournament than in their own promotion matches.
 SELECT
     results_eq ($$
@@ -90,7 +90,7 @@ SELECT
                 mainline_opponents.slug IN ('canari', 'ivor', 'corbeau')
                 AND mainline_opponents.version_group_id = 26 GROUP BY mainline_opponents.name, mainline_opponents.sort_order, mainline_milestones.slug, mainline_milestones.id ORDER BY mainline_opponents.sort_order, mainline_milestones.id DESC $$, $$
             VALUES ('Canari'::text, 'reach-rank-e'::text, 39), ('Canari', 'reach-rank-b', 55), ('Ivor', 'reach-rank-d', 47), ('Ivor', 'reach-rank-b', 55), ('Corbeau', 'reach-rank-c', 52), ('Corbeau', 'reach-rank-b', 56) $$, 'a tournament round has its own team, apart from the promotion match');
--- Zygarde (10% Forme) waits at Hotel Z after the Rogue Megas, before Canari's match.
+-- Zygarde (10% Forme) waits at Hotel Z after the Rogue Megas; Naveen and Tarragon battle you before Canari's match.
 SELECT
     results_eq ($$
         SELECT
@@ -98,7 +98,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
             WHERE
                 mainline_milestone_opponent_refs.milestone_id = 260018 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('Zygarde'::text), ('Canari') $$, 'Zygarde comes before Canari on the way to Rank E');
+            VALUES ('Zygarde'::text), ('Naveen'), ('Tarragon'), ('Canari') $$, 'Zygarde, Naveen and Tarragon come before Canari on the way to Rank E');
 -- Grisham fields a full team, Charizard last.
 SELECT
     results_eq ($$

@@ -76,45 +76,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Rhyhorn Lv. 50: Take Down, Rock Blast, Scary Face, Earthquake
     (60012, 6008, NULL, NULL, NULL, NULL, 5, ARRAY[36, 350, 184, 89]),
     -- Lorelei: Dewgong Lv. 52: Ice Beam, Surf, Hail, Safeguard
-    (60013, 6009, NULL, NULL, NULL, NULL, 1, ARRAY[58, 57, 258, 219]),
+    (60017, 6009, NULL, NULL, NULL, NULL, 1, ARRAY[58, 57, 258, 219]),
     -- Lorelei: Cloyster Lv. 51: Spikes, Protect, Hail, Dive
-    (60013, 6009, NULL, NULL, NULL, NULL, 2, ARRAY[191, 182, 258, 291]),
+    (60017, 6009, NULL, NULL, NULL, NULL, 2, ARRAY[191, 182, 258, 291]),
     -- Lorelei: Slowbro Lv. 52: Ice Beam, Surf, Amnesia, Yawn
-    (60013, 6009, NULL, NULL, NULL, NULL, 3, ARRAY[58, 57, 133, 281]),
+    (60017, 6009, NULL, NULL, NULL, NULL, 3, ARRAY[58, 57, 133, 281]),
     -- Lorelei: Jynx Lv. 54: Ice Punch, Double Slap, Lovely Kiss, Attract
-    (60013, 6009, NULL, NULL, NULL, NULL, 4, ARRAY[8, 3, 142, 213]),
+    (60017, 6009, NULL, NULL, NULL, NULL, 4, ARRAY[8, 3, 142, 213]),
     -- Lorelei: Lapras Lv. 54: Confuse Ray, Ice Beam, Surf, Body Slam
-    (60013, 6009, NULL, NULL, NULL, NULL, 5, ARRAY[109, 58, 57, 34]),
+    (60017, 6009, NULL, NULL, NULL, NULL, 5, ARRAY[109, 58, 57, 34]),
     -- Bruno: Onix Lv. 51: Earthquake, Rock Tomb, Iron Tail, Roar
-    (60014, 6010, NULL, NULL, NULL, NULL, 1, ARRAY[89, 317, 231, 46]),
+    (60017, 6010, NULL, NULL, NULL, NULL, 1, ARRAY[89, 317, 231, 46]),
     -- Bruno: Hitmonchan Lv. 53: Sky Uppercut, Mach Punch, Rock Tomb, Counter
-    (60014, 6010, NULL, NULL, NULL, NULL, 2, ARRAY[327, 183, 317, 68]),
+    (60017, 6010, NULL, NULL, NULL, NULL, 2, ARRAY[327, 183, 317, 68]),
     -- Bruno: Hitmonlee Lv. 53: Mega Kick, Foresight, Brick Break, Facade
-    (60014, 6010, NULL, NULL, NULL, NULL, 3, ARRAY[25, 193, 280, 263]),
+    (60017, 6010, NULL, NULL, NULL, NULL, 3, ARRAY[25, 193, 280, 263]),
     -- Bruno: Onix Lv. 54: Double-Edge, Earthquake, Iron Tail, Sand Tomb
-    (60014, 6010, NULL, NULL, NULL, NULL, 4, ARRAY[38, 89, 231, 328]),
+    (60017, 6010, NULL, NULL, NULL, NULL, 4, ARRAY[38, 89, 231, 328]),
     -- Bruno: Machamp Lv. 56: Cross Chop, Bulk Up, Scary Face, Rock Tomb
-    (60014, 6010, NULL, NULL, NULL, NULL, 5, ARRAY[238, 339, 184, 317]),
+    (60017, 6010, NULL, NULL, NULL, NULL, 5, ARRAY[238, 339, 184, 317]),
     -- Agatha: Gengar Lv. 54: Shadow Punch, Confuse Ray, Toxic, Double Team
-    (60015, 6011, NULL, NULL, NULL, NULL, 1, ARRAY[325, 109, 92, 104]),
+    (60017, 6011, NULL, NULL, NULL, NULL, 1, ARRAY[325, 109, 92, 104]),
     -- Agatha: Golbat Lv. 54: Confuse Ray, Poison Fang, Air Cutter, Bite
-    (60015, 6011, NULL, NULL, NULL, NULL, 2, ARRAY[109, 305, 314, 44]),
+    (60017, 6011, NULL, NULL, NULL, NULL, 2, ARRAY[109, 305, 314, 44]),
     -- Agatha: Haunter Lv. 53: Hypnosis, Dream Eater, Curse, Mean Look
-    (60015, 6011, NULL, NULL, NULL, NULL, 3, ARRAY[95, 138, 174, 212]),
+    (60017, 6011, NULL, NULL, NULL, NULL, 3, ARRAY[95, 138, 174, 212]),
     -- Agatha: Arbok Lv. 56: Sludge Bomb, Screech, Iron Tail, Bite
-    (60015, 6011, NULL, NULL, NULL, NULL, 4, ARRAY[188, 103, 231, 44]),
+    (60017, 6011, NULL, NULL, NULL, NULL, 4, ARRAY[188, 103, 231, 44]),
     -- Agatha: Gengar Lv. 58: Shadow Ball, Sludge Bomb, Hypnosis, Nightmare
-    (60015, 6011, NULL, NULL, NULL, NULL, 5, ARRAY[247, 188, 95, 171]),
+    (60017, 6011, NULL, NULL, NULL, NULL, 5, ARRAY[247, 188, 95, 171]),
     -- Lance: Gyarados Lv. 56: Hyper Beam, Dragon Rage, Twister, Bite
-    (60016, 6012, NULL, NULL, NULL, NULL, 1, ARRAY[63, 82, 239, 44]),
+    (60017, 6012, NULL, NULL, NULL, NULL, 1, ARRAY[63, 82, 239, 44]),
     -- Lance: Dragonair Lv. 54: Hyper Beam, Safeguard, Dragon Rage, Outrage
-    (60016, 6012, NULL, NULL, NULL, NULL, 2, ARRAY[63, 219, 82, 200]),
+    (60017, 6012, NULL, NULL, NULL, NULL, 2, ARRAY[63, 219, 82, 200]),
     -- Lance: Dragonair Lv. 54: Hyper Beam, Safeguard, Thunder Wave, Outrage
-    (60016, 6012, NULL, NULL, NULL, NULL, 3, ARRAY[63, 219, 86, 200]),
+    (60017, 6012, NULL, NULL, NULL, NULL, 3, ARRAY[63, 219, 86, 200]),
     -- Lance: Aerodactyl Lv. 58: Hyper Beam, Ancient Power, Wing Attack, Scary Face
-    (60016, 6012, NULL, NULL, NULL, NULL, 4, ARRAY[63, 246, 17, 184]),
+    (60017, 6012, NULL, NULL, NULL, NULL, 4, ARRAY[63, 246, 17, 184]),
     -- Lance: Dragonite Lv. 60: Hyper Beam, Safeguard, Outrage, Wing Attack
-    (60016, 6012, NULL, NULL, NULL, NULL, 5, ARRAY[63, 219, 200, 17]),
+    (60017, 6012, NULL, NULL, NULL, NULL, 5, ARRAY[63, 219, 200, 17]),
     -- Blue: Pidgeot Lv. 59: Aerial Ace, Feather Dance, Sand Attack, Whirlwind
     (60017, 6013, NULL, 60001, 'bulbasaur', NULL, 1, ARRAY[332, 297, 28, 18]),
     -- Blue: Alakazam Lv. 57: Psychic, Future Sight, Recover, Reflect
@@ -292,41 +292,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Giovanni: Nidoqueen Lv. 41: Tail Whip, Double Kick, Poison Sting, Body Slam
     (60022, 6015, NULL, NULL, NULL, NULL, 4, ARRAY[39, 24, 40, 34]),
     -- Blue: Pidgeot Lv. 47: Feather Dance, Wing Attack, Gust, Quick Attack
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 1, ARRAY[297, 17, 16, 98]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 1, ARRAY[297, 17, 16, 98]),
     -- Blue: Rhyhorn Lv. 45: Take Down, Horn Drill, Rock Blast, Fury Attack
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 2, ARRAY[36, 32, 350, 31]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 2, ARRAY[36, 32, 350, 31]),
     -- Blue: Exeggcute Lv. 45: Solar Beam, Sleep Powder, Poison Powder, Stun Spore
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 3, ARRAY[76, 79, 77, 78]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 3, ARRAY[76, 79, 77, 78]),
     -- Blue: Gyarados Lv. 45: Hydro Pump, Twister, Leer, Rain Dance
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 4, ARRAY[56, 239, 43, 240]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 4, ARRAY[56, 239, 43, 240]),
     -- Blue: Alakazam Lv. 47: Psychic, Calm Mind, Future Sight, Disable
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 5, ARRAY[94, 347, 248, 50]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 5, ARRAY[94, 347, 248, 50]),
     -- Blue: Charizard Lv. 53: Flamethrower, Wing Attack, Slash, Scary Face
-    (60013, 6014, NULL, 60001, 'bulbasaur', NULL, 6, ARRAY[53, 17, 163, 184]),
+    (60017, 6014, NULL, 60001, 'bulbasaur', NULL, 6, ARRAY[53, 17, 163, 184]),
     -- Blue: Pidgeot Lv. 47: Feather Dance, Wing Attack, Gust, Quick Attack
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 1, ARRAY[297, 17, 16, 98]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 1, ARRAY[297, 17, 16, 98]),
     -- Blue: Rhyhorn Lv. 45: Take Down, Horn Drill, Rock Blast, Fury Attack
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 2, ARRAY[36, 32, 350, 31]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 2, ARRAY[36, 32, 350, 31]),
     -- Blue: Growlithe Lv. 45: Flame Wheel, Take Down, Leer, Agility
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 3, ARRAY[172, 36, 43, 97]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 3, ARRAY[172, 36, 43, 97]),
     -- Blue: Exeggcute Lv. 45: Solar Beam, Sleep Powder, Poison Powder, Stun Spore
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 4, ARRAY[76, 79, 77, 78]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 4, ARRAY[76, 79, 77, 78]),
     -- Blue: Alakazam Lv. 47: Psychic, Calm Mind, Future Sight, Disable
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 5, ARRAY[94, 347, 248, 50]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 5, ARRAY[94, 347, 248, 50]),
     -- Blue: Blastoise Lv. 53: Water Gun, Rain Dance, Bite, Rapid Spin
-    (60013, 6014, NULL, 60001, 'charmander', NULL, 6, ARRAY[55, 240, 44, 229]),
+    (60017, 6014, NULL, 60001, 'charmander', NULL, 6, ARRAY[55, 240, 44, 229]),
     -- Blue: Pidgeot Lv. 47: Feather Dance, Wing Attack, Gust, Quick Attack
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 1, ARRAY[297, 17, 16, 98]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 1, ARRAY[297, 17, 16, 98]),
     -- Blue: Rhyhorn Lv. 45: Take Down, Horn Drill, Rock Blast, Fury Attack
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 2, ARRAY[36, 32, 350, 31]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 2, ARRAY[36, 32, 350, 31]),
     -- Blue: Gyarados Lv. 45: Hydro Pump, Twister, Leer, Rain Dance
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 3, ARRAY[56, 239, 43, 240]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 3, ARRAY[56, 239, 43, 240]),
     -- Blue: Growlithe Lv. 45: Flame Wheel, Take Down, Leer, Agility
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 4, ARRAY[172, 36, 43, 97]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 4, ARRAY[172, 36, 43, 97]),
     -- Blue: Alakazam Lv. 47: Psychic, Calm Mind, Future Sight, Disable
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 5, ARRAY[94, 347, 248, 50]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 5, ARRAY[94, 347, 248, 50]),
     -- Blue: Venusaur Lv. 53: Razor Leaf, Sweet Scent, Growth, Synthesis
-    (60013, 6014, NULL, 60001, 'squirtle', NULL, 6, ARRAY[75, 230, 74, 235]),
+    (60017, 6014, NULL, 60001, 'squirtle', NULL, 6, ARRAY[75, 230, 74, 235]),
     -- Zapdos: Zapdos Lv. 50: Thunder Wave, Agility, Detect, Drill Peck
     (60023, 6016, NULL, NULL, NULL, NULL, 1, ARRAY[86, 97, 197, 65]),
     -- Articuno: Articuno Lv. 50: Mist, Agility, Mind Reader, Ice Beam
@@ -348,7 +348,19 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Suicune: Suicune Lv. 50: Bubble Beam, Rain Dance, Gust, Aurora Beam
     (60028, 6025, NULL, 60001, 'charmander', NULL, 1, ARRAY[61, 240, 16, 62]),
     -- Mewtwo: Mewtwo Lv. 70: Swift, Recover, Safeguard, Psychic
-    (60029, 6026, NULL, NULL, NULL, NULL, 1, ARRAY[129, 105, 219, 94])
+    (60029, 6026, NULL, NULL, NULL, NULL, 1, ARRAY[129, 105, 219, 94]),
+    -- Marowak: Marowak Lv. 30: Headbutt, Leer, Focus Energy, Bonemerang
+    (60021, 6027, NULL, NULL, NULL, NULL, 1, ARRAY[29, 43, 116, 155]),
+    -- Gideon: Voltorb Lv. 46: Swift, Screech, Spark, Sonic Boom
+    (60037, 6028, NULL, NULL, NULL, NULL, 1, ARRAY[129, 103, 209, 49]),
+    -- Gideon: Electrode Lv. 46: Spark, Sonic Boom, Screech, Charge
+    (60037, 6028, NULL, NULL, NULL, NULL, 2, ARRAY[209, 49, 103, 268]),
+    -- Gideon: Magnemite Lv. 46: Screech, Swift, Spark, Thunder Wave
+    (60037, 6028, NULL, NULL, NULL, NULL, 3, ARRAY[103, 129, 209, 86]),
+    -- Gideon: Magneton Lv. 46: Tri Attack, Spark, Thunder Wave, Sonic Boom
+    (60037, 6028, NULL, NULL, NULL, NULL, 4, ARRAY[161, 209, 86, 49]),
+    -- Gideon: Porygon Lv. 46: Tri Attack, Conversion, Recover, Psybeam
+    (60037, 6028, NULL, NULL, NULL, NULL, 5, ARRAY[161, 160, 105, 60])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

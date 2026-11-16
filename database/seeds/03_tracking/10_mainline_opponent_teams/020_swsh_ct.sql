@@ -40,15 +40,15 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Spectrier (chose Spectrier), Calyrex Quest 1: Spectrier Lv. 75
   (200004, 20004, 20, NULL, 200003, 'spectrier', NULL, NULL, 1, 897, 89700, 75, NULL),
   -- Registeel, Regi Choice 1: Registeel Lv. 70
-  (200005, 20005, 20, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 70, NULL),
+  (200006, 20005, 20, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 70, NULL),
   -- Regirock, Regi Choice 1: Regirock Lv. 70
-  (200005, 20006, 20, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 70, NULL),
+  (200006, 20006, 20, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 70, NULL),
   -- Regice, Regi Choice 1: Regice Lv. 70
-  (200005, 20007, 20, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 70, NULL),
+  (200006, 20007, 20, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 70, NULL),
   -- Regieleki (chose Regieleki), Regi Temples 1: Regieleki Lv. 70
-  (200006, 20008, 20, NULL, 200005, 'regieleki', NULL, NULL, 1, 894, 89400, 70, NULL),
+  (200005, 20008, 20, NULL, 200005, 'regieleki', NULL, NULL, 1, 894, 89400, 70, NULL),
   -- Regidrago (chose Regidrago), Regi Temples 1: Regidrago Lv. 70
-  (200006, 20009, 20, NULL, 200005, 'regidrago', NULL, NULL, 1, 895, 89500, 70, NULL),
+  (200005, 20009, 20, NULL, 200005, 'regidrago', NULL, NULL, 1, 895, 89500, 70, NULL),
   -- Galarian Articuno, Galarian Birds 1: Galarian Articuno Lv. 70
   (200007, 20010, 20, NULL, NULL, NULL, NULL, NULL, 1, 144, 14401, 70, NULL),
   -- Galarian Zapdos, Galarian Birds 1: Galarian Zapdos Lv. 70

@@ -107,9 +107,9 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Totem Mimikyu 3: Jellicent Lv. 33
   (160010, 16044, 16, NULL, NULL, NULL, NULL, NULL, 3, 593, 59300, 33, NULL, NULL, FALSE),
   -- Plumeria (Route 15) 1: Golbat Lv. 37
-  (160011, 16049, 16, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL, NULL, FALSE),
+  (160035, 16049, 16, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL, NULL, FALSE),
   -- Plumeria (Route 15) 2: Salazzle Lv. 38
-  (160011, 16049, 16, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 38, NULL, NULL, FALSE),
+  (160035, 16049, 16, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 38, NULL, NULL, FALSE),
   -- Nanu 1: Sableye Lv. 43
   (160011, 16009, 16, NULL, NULL, NULL, NULL, NULL, 1, 302, 30200, 43, NULL, NULL, FALSE),
   -- Nanu 2: Krokorok Lv. 43
@@ -185,45 +185,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Ultra Necrozma 1: Ultra Necrozma Lv. 60
   (160015, 16012, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80003, 60, NULL, NULL, FALSE),
   -- Molayne 1: Klefki Lv. 56
-  (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 1, 707, 70700, 56, NULL, NULL, FALSE),
+  (160020, 16013, 16, NULL, NULL, NULL, NULL, NULL, 1, 707, 70700, 56, NULL, NULL, FALSE),
   -- Molayne 2: Bisharp Lv. 56
-  (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 2, 625, 62500, 56, NULL, NULL, FALSE),
+  (160020, 16013, 16, NULL, NULL, NULL, NULL, NULL, 2, 625, 62500, 56, NULL, NULL, FALSE),
   -- Molayne 3: Magnezone Lv. 56
-  (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 3, 462, 46200, 56, NULL, NULL, FALSE),
+  (160020, 16013, 16, NULL, NULL, NULL, NULL, NULL, 3, 462, 46200, 56, NULL, NULL, FALSE),
   -- Molayne 4: Metagross Lv. 56
-  (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 4, 376, 37600, 56, NULL, NULL, FALSE),
+  (160020, 16013, 16, NULL, NULL, NULL, NULL, NULL, 4, 376, 37600, 56, NULL, NULL, FALSE),
   -- Molayne 5: Alolan Dugtrio Lv. 57, holds Steelium Z
-  (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 5, 51, 5101, 57, 38, NULL, FALSE),
+  (160020, 16013, 16, NULL, NULL, NULL, NULL, NULL, 5, 51, 5101, 57, 38, NULL, FALSE),
   -- Olivia 1: Armaldo Lv. 56
-  (160017, 16014, 16, NULL, NULL, NULL, NULL, NULL, 1, 348, 34800, 56, NULL, NULL, FALSE),
+  (160020, 16014, 16, NULL, NULL, NULL, NULL, NULL, 1, 348, 34800, 56, NULL, NULL, FALSE),
   -- Olivia 2: Cradily Lv. 56
-  (160017, 16014, 16, NULL, NULL, NULL, NULL, NULL, 2, 346, 34600, 56, NULL, NULL, FALSE),
+  (160020, 16014, 16, NULL, NULL, NULL, NULL, NULL, 2, 346, 34600, 56, NULL, NULL, FALSE),
   -- Olivia 3: Gigalith Lv. 56
-  (160017, 16014, 16, NULL, NULL, NULL, NULL, NULL, 3, 526, 52600, 56, NULL, NULL, FALSE),
+  (160020, 16014, 16, NULL, NULL, NULL, NULL, NULL, 3, 526, 52600, 56, NULL, NULL, FALSE),
   -- Olivia 4: Probopass Lv. 56
-  (160017, 16014, 16, NULL, NULL, NULL, NULL, NULL, 4, 476, 47600, 56, NULL, NULL, FALSE),
+  (160020, 16014, 16, NULL, NULL, NULL, NULL, NULL, 4, 476, 47600, 56, NULL, NULL, FALSE),
   -- Olivia 5: Lycanroc (Midnight) Lv. 57, holds Rockium Z
-  (160017, 16014, 16, NULL, NULL, NULL, NULL, NULL, 5, 745, 74501, 57, 34, NULL, FALSE),
+  (160020, 16014, 16, NULL, NULL, NULL, NULL, NULL, 5, 745, 74501, 57, 34, NULL, FALSE),
   -- Acerola 1: Banette Lv. 56
-  (160018, 16015, 16, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 56, NULL, NULL, FALSE),
+  (160020, 16015, 16, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 56, NULL, NULL, FALSE),
   -- Acerola 2: Drifblim Lv. 56
-  (160018, 16015, 16, NULL, NULL, NULL, NULL, NULL, 2, 426, 42600, 56, NULL, NULL, FALSE),
+  (160020, 16015, 16, NULL, NULL, NULL, NULL, NULL, 2, 426, 42600, 56, NULL, NULL, FALSE),
   -- Acerola 3: Dhelmise Lv. 56
-  (160018, 16015, 16, NULL, NULL, NULL, NULL, NULL, 3, 781, 78100, 56, NULL, NULL, FALSE),
+  (160020, 16015, 16, NULL, NULL, NULL, NULL, NULL, 3, 781, 78100, 56, NULL, NULL, FALSE),
   -- Acerola 4: Froslass Lv. 56
-  (160018, 16015, 16, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 56, NULL, NULL, FALSE),
+  (160020, 16015, 16, NULL, NULL, NULL, NULL, NULL, 4, 478, 47800, 56, NULL, NULL, FALSE),
   -- Acerola 5: Palossand Lv. 57, holds Ghostium Z
-  (160018, 16015, 16, NULL, NULL, NULL, NULL, NULL, 5, 770, 77000, 57, 35, NULL, FALSE),
+  (160020, 16015, 16, NULL, NULL, NULL, NULL, NULL, 5, 770, 77000, 57, 35, NULL, FALSE),
   -- Kahili 1: Braviary Lv. 56
-  (160019, 16016, 16, NULL, NULL, NULL, NULL, NULL, 1, 628, 62800, 56, NULL, NULL, FALSE),
+  (160020, 16016, 16, NULL, NULL, NULL, NULL, NULL, 1, 628, 62800, 56, NULL, NULL, FALSE),
   -- Kahili 2: Hawlucha Lv. 56
-  (160019, 16016, 16, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 56, NULL, NULL, FALSE),
+  (160020, 16016, 16, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 56, NULL, NULL, FALSE),
   -- Kahili 3: Oricorio Lv. 56
-  (160019, 16016, 16, NULL, NULL, NULL, NULL, NULL, 3, 741, 74100, 56, NULL, NULL, FALSE),
+  (160020, 16016, 16, NULL, NULL, NULL, NULL, NULL, 3, 741, 74100, 56, NULL, NULL, FALSE),
   -- Kahili 4: Mandibuzz Lv. 56
-  (160019, 16016, 16, NULL, NULL, NULL, NULL, NULL, 4, 630, 63000, 56, NULL, NULL, FALSE),
+  (160020, 16016, 16, NULL, NULL, NULL, NULL, NULL, 4, 630, 63000, 56, NULL, NULL, FALSE),
   -- Kahili 5: Toucannon Lv. 57, holds Flyinium Z
-  (160019, 16016, 16, NULL, NULL, NULL, NULL, NULL, 5, 733, 73300, 57, 31, NULL, FALSE),
+  (160020, 16016, 16, NULL, NULL, NULL, NULL, NULL, 5, 733, 73300, 57, 31, NULL, FALSE),
   -- Hau (chose Rowlet) 1: Alolan Raichu Lv. 59
   (160020, 16017, 16, NULL, 160001, 'rowlet', NULL, NULL, 1, 26, 2601, 59, NULL, NULL, FALSE),
   -- Hau (chose Rowlet) 2: Flareon Lv. 58
@@ -491,11 +491,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Guzma, Sophocles Trial 2: Masquerain Lv. 34
   (160009, 16022, 16, NULL, NULL, NULL, NULL, NULL, 2, 284, 28400, 34, NULL, NULL, FALSE),
   -- Guzma, Grand Trial Nanu 1: Golisopod Lv. 41
-  (160011, 16022, 16, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 41, NULL, NULL, FALSE),
+  (160035, 16022, 16, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 41, NULL, NULL, FALSE),
   -- Guzma, Grand Trial Nanu 2: Masquerain Lv. 41
-  (160011, 16022, 16, NULL, NULL, NULL, NULL, NULL, 2, 284, 28400, 41, NULL, NULL, FALSE),
+  (160035, 16022, 16, NULL, NULL, NULL, NULL, NULL, 2, 284, 28400, 41, NULL, NULL, FALSE),
   -- Guzma, Grand Trial Nanu 3: Pinsir Lv. 41
-  (160011, 16022, 16, NULL, NULL, NULL, NULL, NULL, 3, 127, 12700, 41, NULL, NULL, FALSE),
+  (160035, 16022, 16, NULL, NULL, NULL, NULL, NULL, 3, 127, 12700, 41, NULL, NULL, FALSE),
   -- Gladion, Grand Trial Nanu 1: Golbat Lv. 42
   (160011, 16020, 16, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 42, NULL, NULL, FALSE),
   -- Gladion, Grand Trial Nanu 2: Zoroark Lv. 42
@@ -537,31 +537,31 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Lusamine, Aether Paradise 5: Bewear Lv. 47
   (160023, 16023, 16, NULL, NULL, NULL, NULL, NULL, 5, 760, 76000, 47, NULL, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Molayne 1: Crobat Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Molayne 2: Zoroark Lv. 53, holds Darkinium Z
-  (160016, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Molayne 3: Silvally (Fire) Lv. 55, holds Fire Memory
-  (160016, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 3, 773, 77309, 55, 40, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 3, 773, 77309, 55, 40, NULL, FALSE),
   -- Gladion (chose Rowlet), Elite Four Molayne 4: Lucario Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 4, 448, 44800, 53, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'rowlet', NULL, NULL, 4, 448, 44800, 53, NULL, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Molayne 1: Crobat Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Molayne 2: Zoroark Lv. 53, holds Darkinium Z
-  (160016, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Molayne 3: Silvally (Water) Lv. 55, holds Water Memory
-  (160016, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 3, 773, 77310, 55, 41, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 3, 773, 77310, 55, 41, NULL, FALSE),
   -- Gladion (chose Litten), Elite Four Molayne 4: Lucario Lv. 55
-  (160016, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 4, 448, 44800, 55, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'litten', NULL, NULL, 4, 448, 44800, 55, NULL, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Molayne 1: Crobat Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 1, 169, 16900, 53, NULL, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Molayne 2: Zoroark Lv. 53, holds Darkinium Z
-  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 2, 571, 57100, 53, 37, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Molayne 3: Silvally (Grass) Lv. 55, holds Grass Memory
-  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 3, 773, 77311, 55, 43, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 3, 773, 77311, 55, 43, NULL, FALSE),
   -- Gladion (chose Popplio), Elite Four Molayne 4: Lucario Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 4, 448, 44800, 53, NULL, NULL, FALSE),
+  (160020, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 4, 448, 44800, 53, NULL, NULL, FALSE),
   -- Nihilego, Sophocles Trial 1: Nihilego Lv. 27
-  (160009, 16024, 16, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27, NULL, NULL, FALSE),
+  (160034, 16024, 16, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27, NULL, NULL, FALSE),
   -- Necrozma, Ultra Necrozma 1: Necrozma (Dusk Mane) Lv. 50
   (160015, 16025, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80001, 50, NULL, NULL, FALSE),
   -- Necrozma, Ultra Necrozma 1: Necrozma (Dawn Wings) Lv. 50

@@ -31,7 +31,6 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     CONSTRAINT mainline_opponent_team_members_ally_not_opponent_check CHECK (ally_opponent_id IS NULL OR ally_opponent_id <> opponent_id),
     CONSTRAINT mainline_opponent_team_members_decision_pair_check CHECK ((decision_milestone_id IS NULL) = (decision_option_slug IS NULL)),
     CONSTRAINT mainline_opponent_team_members_variant_pair_check CHECK ((variant_slug IS NULL) = (variant_label IS NULL)),
-    CONSTRAINT mainline_opponent_team_members_one_variant_kind_check CHECK (decision_milestone_id IS NULL OR variant_slug IS NULL),
     CONSTRAINT mainline_opponent_team_members_variant_slug_format_check CHECK (variant_slug IS NULL OR (variant_slug = LOWER(variant_slug) AND variant_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(variant_slug) <= 80)),
     CONSTRAINT mainline_opponent_team_members_variant_label_length_check CHECK (variant_label IS NULL OR CHAR_LENGTH(BTRIM(variant_label)) BETWEEN 1 AND 120),
     CONSTRAINT mainline_opponent_team_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
@@ -80,7 +79,7 @@ COMMENT ON COLUMN tracking.mainline_opponent_team_members.tera_type_id IS 'The T
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.dynamaxes IS 'It Dynamaxes in this battle, in games with Dynamax; a Gigantamax form always does.';
 
-COMMENT ON COLUMN tracking.mainline_opponent_team_members.variant_slug IS 'With variant_label: a team that depends on something Voydex does not record (such as how an earlier battle went).';
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.variant_slug IS 'With variant_label: a team that depends on something Voydex does not record (such as how an earlier battle went, or which rival the player has). A team may follow a Play choice as well: the recorded choice narrows the teams first, and the variant is what is left to pick.';
 
 CREATE FUNCTION private.enforce_mainline_opponent_team_member_scope ()
     RETURNS TRIGGER

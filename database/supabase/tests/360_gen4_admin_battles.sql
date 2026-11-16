@@ -15,9 +15,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 8
-                AND refs.milestone_id IN (80004, 80009, 80017, 80018)
+                AND refs.milestone_id IN (80004, 80009, 80017, 80018, 80025, 80027, 80029, 80030)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (80004, 'mars', 1), (80004, 'gardenia', 2), (80004, 'jupiter', 3), (80009, 'saturn', 1), (80009, 'mars', 2), (80009, 'candice', 3), (80017, 'cyrus', 1), (80017, 'saturn', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4) $$, 'Diamond / Pearl: the Commanders in Story order, Saturn after Cyrus at the HQ');
+            VALUES (80004, 'gardenia', 1), (80009, 'candice', 1), (80017, 'cyrus', 1), (80017, 'saturn', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4), (80025, 'mars', 1), (80027, 'jupiter', 1), (80029, 'saturn', 1), (80030, 'mars', 1) $$, 'Diamond / Pearl: the Commanders in Story order, Saturn after Cyrus at the HQ');
 SELECT
     results_eq ($$
         SELECT
@@ -25,9 +25,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 9
-                AND refs.milestone_id IN (90004, 90009, 90018, 90019, 90020)
+                AND refs.milestone_id IN (90004, 90009, 90018, 90019, 90020, 90028, 90029, 90030, 90031)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (90004, 'mars', 1), (90004, 'gardenia', 2), (90004, 'jupiter', 3), (90009, 'saturn', 1), (90009, 'mars', 2), (90009, 'candice', 3), (90018, 'cyrus', 1), (90018, 'saturn', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
+            VALUES (90004, 'gardenia', 1), (90009, 'candice', 1), (90018, 'cyrus', 1), (90018, 'saturn', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4), (90028, 'mars', 1), (90029, 'jupiter', 1), (90030, 'saturn', 1), (90031, 'mars', 1) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
 SELECT
     results_eq ($$
         SELECT
@@ -35,9 +35,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.version_group_id = 10
-                AND refs.milestone_id IN (100004, 100009, 100029)
+                AND refs.milestone_id IN (100004, 100009, 100029, 100042, 100043, 100046)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (100004, 'proton', 1), (100004, 'bugsy', 2), (100004, 'silver', 3), (100009, 'petrel', 1), (100009, 'ariana-grunt', 2), (100009, 'pryce', 3), (100029, 'petrel', 1), (100029, 'silver', 2), (100029, 'proton', 3), (100029, 'ariana', 4), (100029, 'archer', 5) $$, 'HeartGold / SoulSilver: the Executives at the Slowpoke Well, the Rocket HQ and the Radio Tower');
+            VALUES (100004, 'bugsy', 1), (100009, 'pryce', 1), (100029, 'petrel', 1), (100029, 'silver', 2), (100029, 'proton', 3), (100029, 'ariana', 4), (100029, 'archer', 5), (100042, 'proton', 1), (100043, 'silver', 1), (100046, 'petrel', 1), (100046, 'ariana-grunt', 2) $$, 'HeartGold / SoulSilver: the Executives at the Slowpoke Well, the Rocket HQ and the Radio Tower');
 -- Brilliant Diamond / Shining Pearl keep the same HQ order: Cyrus, then Saturn.
 SELECT
     results_eq ($$
@@ -83,7 +83,7 @@ SELECT
         SELECT
             ally_opponent_id, species_id, level FROM tracking.mainline_opponent_team_members
             WHERE
-                milestone_id = 100009
+                milestone_id = 100046
                 AND opponent_id = 10043
                 AND ally_opponent_id IS NOT NULL $$, $$
             VALUES (10013, 149, 40) $$, 'Lance fights beside you at the Rocket HQ with his Dragonite');
@@ -106,7 +106,7 @@ SELECT
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
             WHERE
-                members.milestone_id = 100009
+                members.milestone_id = 100046
                 AND members.opponent_id = 10043
                 AND members.ally_opponent_id IS NULL
                 AND members.slot = 4 $$, $$
@@ -119,7 +119,7 @@ SELECT
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
             WHERE
-                members.milestone_id = 100004
+                members.milestone_id = 100042
                 AND members.opponent_id = 10040
                 AND members.slot = 1 $$, $$
             VALUES (ARRAY[141, 48]) $$, 'Proton''s Zubat in the Slowpoke Well knows Leech Life and Supersonic');

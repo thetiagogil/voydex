@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (18);
+    plan (20);
 SET LOCAL ROLE anon;
 SELECT
     lives_ok ($$
@@ -49,14 +49,32 @@ SELECT
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, version_group_id, variant_slug, variant_label, slot, species_id, form_id, level)
             VALUES (10005, 1001, 1, 'pgtap', 'pgTAP', 1, 74, 7400, 12) $$, '23503', NULL, 'a team row belongs to a Story battle its opponent is in');
--- Kieran (The Teal Mask) battles you again after the Ogerpon story, with his own team then.
+-- Kieran (The Teal Mask) battles you again before Ogerpon does, with his own team then.
 SELECT
     isnt_empty ($$
         SELECT
             id FROM tracking.mainline_opponent_team_members
             WHERE
-                milestone_id = 240006
+                milestone_id = 240005
                 AND opponent_id = 24001 $$, 'a rematch has its own team');
+-- A team can follow a recorded choice and something Voydex doesn't record at
+-- once: the rival's last Legends: Z-A team follows your starter, then which
+-- rival you have.
+SELECT
+    results_eq ($$
+        SELECT
+            decision_option_slug, variant_slug, COUNT(*)::integer FROM tracking.mainline_opponent_team_members
+            WHERE
+                milestone_id = 260008
+                AND opponent_id = 26001
+                AND ally_opponent_id IS NULL GROUP BY decision_option_slug, variant_slug ORDER BY variant_slug, decision_option_slug $$, $$
+            VALUES ('chikorita'::text, 'taunie'::text, 6), ('tepig', 'taunie', 6), ('totodile', 'taunie', 6), ('chikorita', 'urbain', 6), ('tepig', 'urbain', 6), ('totodile', 'urbain', 6) $$, 'the Ange Crisis rival has a team per starter and per rival');
+SELECT
+    is_empty ($$
+        SELECT
+            id FROM tracking.mainline_opponent_team_members
+            WHERE
+                variant_label LIKE '%, you chose %' $$, 'a team whose variant would name a recorded choice follows that choice instead');
 -- Every League battle Story matchups reads has its opponent's team.
 SELECT
     is_empty ($$

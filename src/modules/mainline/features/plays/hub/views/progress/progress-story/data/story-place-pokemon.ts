@@ -1,3 +1,5 @@
+import type { Json } from "@/shared/types/database.types";
+
 /* One encounter row at a place, as the reader hands it over. */
 export type StoryPlaceEncounterRow = {
   formId: number;
@@ -7,6 +9,8 @@ export type StoryPlaceEncounterRow = {
   levelMax: number | null;
   levelMin: number | null;
   wayName: string;
+  /* The way's slug ("gift", "tall-grass"). */
+  waySlug: string;
   /* The way's place in Voydex's order (tall grass first). */
   waySortOrder: number;
 };
@@ -34,13 +38,85 @@ const formatLevels = (min: number | null, max: number | null) =>
       : `Lv. ${min}–${max}`;
 
 /*
+ * The ways a Pokémon is handed over or met once. Only these can be one side
+ * of a choice (a starter, a fossil, a steed): the same Pokémon in the tall
+ * grass is there whatever you chose.
+ */
+const oneOffWaySlugs = new Set(["fossil", "gift", "special", "starter"]);
+
+/* A milestone's choice, as far as a place's Pokémon need it. */
+export type StoryPlaceDecision = {
+  decision_options: Json | null;
+  selected_decision_option_id: number | null;
+  version_group_id: number | null;
+};
+
+/*
+ * The Pokémon a Play's recorded choices ruled out (#314), by version group:
+ * every option of a recorded decision that wasn't picked (Glastrier once
+ * Spectrier is chosen). A Pokémon picked in any recorded decision is never
+ * ruled out, and a decision the Play hasn't recorded rules out nothing.
+ */
+export const getRuledOutDecisionFormIds = (
+  milestones: StoryPlaceDecision[],
+): Map<number, Set<number>> => {
+  const picked = new Map<number, Set<number>>();
+  const passedOver = new Map<number, Set<number>>();
+  const formIdsOf = (map: Map<number, Set<number>>, versionGroupId: number) =>
+    map.get(versionGroupId) ??
+    map.set(versionGroupId, new Set()).get(versionGroupId)!;
+
+  for (const milestone of milestones) {
+    if (
+      milestone.version_group_id === null ||
+      milestone.selected_decision_option_id === null ||
+      !Array.isArray(milestone.decision_options)
+    ) {
+      continue;
+    }
+
+    for (const option of milestone.decision_options) {
+      if (
+        !option ||
+        typeof option !== "object" ||
+        Array.isArray(option) ||
+        typeof option.pokemon_form_id !== "number"
+      ) {
+        continue;
+      }
+
+      formIdsOf(
+        option.decision_option_id === milestone.selected_decision_option_id
+          ? picked
+          : passedOver,
+        milestone.version_group_id,
+      ).add(option.pokemon_form_id);
+    }
+  }
+
+  for (const [versionGroupId, formIds] of passedOver) {
+    for (const formId of picked.get(versionGroupId) ?? []) {
+      formIds.delete(formId);
+    }
+  }
+
+  return passedOver;
+};
+
+/*
  * The Pokémon found at a place (#199), grouped by how you meet them in the
  * ways' order: one line each in a group, however many rows it has there,
- * with its whole level range for that way.
+ * with its whole level range for that way. A one-off Pokémon the Play's
+ * choices ruled out is left off.
  */
 export const groupStoryPlacePokemon = (
-  rows: StoryPlaceEncounterRow[],
+  allRows: StoryPlaceEncounterRow[],
+  ruledOutFormIds: ReadonlySet<number> = new Set(),
 ): StoryPlacePokemonGroup[] => {
+  const rows = allRows.filter(
+    (row) =>
+      !(oneOffWaySlugs.has(row.waySlug) && ruledOutFormIds.has(row.formId)),
+  );
   const groups = new Map<
     string,
     {

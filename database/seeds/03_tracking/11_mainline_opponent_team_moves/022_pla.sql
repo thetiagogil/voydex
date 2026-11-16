@@ -31,9 +31,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hisuian Lilligant: Hisuian Lilligant Lv. 30: Stun Spore, Poison Powder, Energy Ball, Rock Smash
     (220004, 22002, NULL, NULL, NULL, NULL, 1, ARRAY[78, 77, 412, 249]),
     -- Irida, Mirelands base camp: Glaceon Lv. 30: Quick Attack, Baby-Doll Eyes, Ice Beam
-    (220004, 22024, NULL, NULL, NULL, NULL, 1, ARRAY[98, 608, 58]),
+    (220005, 22024, NULL, NULL, NULL, NULL, 1, ARRAY[98, 608, 58]),
     -- Irida, Mirelands base camp: Eevee Lv. 15: Quick Attack, Baby-Doll Eyes
-    (220004, 22024, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608]),
+    (220005, 22024, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608]),
     -- Hisuian Arcanine: Hisuian Arcanine Lv. 36: Fire Fang, Rock Slide, Raging Fury, Crunch
     (220005, 22003, NULL, NULL, NULL, NULL, 1, ARRAY[424, 157, 833, 242]),
     -- Clover, Molten Arena: Abomasnow Lv. 35: Icicle Crash, Energy Ball, Ice Shard
@@ -89,9 +89,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Volo: Gible Lv. 22: Twister, Bulldoze
     (220004, 22008, NULL, NULL, NULL, NULL, 2, ARRAY[239, 523]),
     -- Dialga / Palkia: Dialga Lv. 65: Earth Power, Iron Tail, Flash Cannon, Roar of Time
-    (220010, 22010, NULL, 220008, 'adaman', NULL, 1, ARRAY[414, 231, 430, 459]),
+    (220009, 22010, NULL, 220008, 'adaman', NULL, 1, ARRAY[414, 231, 430, 459]),
     -- Dialga / Palkia: Palkia Lv. 65: Earth Power, Aqua Tail, Hydro Pump, Spacial Rend
-    (220010, 22010, NULL, 220008, 'irida', NULL, 1, ARRAY[414, 401, 56, 460]),
+    (220009, 22010, NULL, 220008, 'irida', NULL, 1, ARRAY[414, 401, 56, 460]),
     -- Giratina: Giratina Lv. 70: Aura Sphere, Dragon Claw, Earth Power, Shadow Force
     (220011, 22011, NULL, NULL, NULL, NULL, 1, ARRAY[396, 337, 414, 467]),
     -- Giratina: Giratina (Origin) Lv. 70: Aura Sphere, Dragon Claw, Earth Power, Shadow Force
@@ -153,7 +153,27 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Commander Kamado: Clefable Lv. 61: Draining Kiss, Psychic, Calm Mind, Baby-Doll Eyes
     (220009, 22006, NULL, NULL, NULL, NULL, 3, ARRAY[577, 94, 347, 608]),
     -- Commander Kamado: Snorlax Lv. 62: Zen Headbutt, High Horsepower, Giga Impact
-    (220009, 22006, NULL, NULL, NULL, NULL, 4, ARRAY[428, 667, 416])
+    (220009, 22006, NULL, NULL, NULL, NULL, 4, ARRAY[428, 667, 416]),
+    -- Mai: Munchlax Lv. 10: Tackle, Rollout
+    (220003, 22033, NULL, NULL, NULL, NULL, 1, ARRAY[33, 205]),
+    -- Gaeric: Glalie Lv. 48: Ice Shard, Crunch, Icicle Crash
+    (220007, 22034, NULL, NULL, NULL, NULL, 1, ARRAY[420, 242, 556]),
+    -- Gaeric: Froslass Lv. 24: Powder Snow, Hex
+    (220007, 22034, NULL, NULL, NULL, NULL, 2, ARRAY[181, 506]),
+    -- Akari / Rei: Pikachu Lv. 9: Quick Attack, Thunder Wave, Thunder Shock
+    (220003, 22035, NULL, NULL, NULL, NULL, 1, ARRAY[98, 86, 84]),
+    -- Akari / Rei: Mime Jr. Lv. 19: Zen Headbutt, Iron Defense, Hypnosis
+    (220004, 22035, NULL, NULL, NULL, NULL, 1, ARRAY[428, 334, 95]),
+    -- Akari / Rei: Pikachu Lv. 20: Quick Attack, Thunder Wave, Thunder Shock
+    (220004, 22035, NULL, NULL, NULL, NULL, 2, ARRAY[98, 86, 84]),
+    -- Akari / Rei: Mr. Mime Lv. 46: Psychic, Calm Mind, Iron Defense, Hypnosis
+    (220007, 22035, NULL, NULL, NULL, NULL, 1, ARRAY[94, 347, 334, 95]),
+    -- Akari / Rei: Staravia Lv. 46: Quick Attack, Brave Bird, Roost
+    (220007, 22035, NULL, NULL, NULL, NULL, 2, ARRAY[98, 413, 355]),
+    -- Akari / Rei: Pikachu Lv. 47: Quick Attack, Iron Tail, Thunderbolt
+    (220007, 22035, NULL, NULL, NULL, NULL, 3, ARRAY[98, 231, 85]),
+    -- Coin: Toxicroak Lv. 23: Venoshock, Rock Smash
+    (220004, 22026, NULL, NULL, NULL, NULL, 1, ARRAY[474, 249])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

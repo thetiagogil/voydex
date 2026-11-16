@@ -260,6 +260,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: choice ? `10001/${choice.slug}` : null,
+    choiceLabel: choice?.label ?? null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -458,6 +459,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: `10001/${choice.slug}`,
+    choiceLabel: choice.label,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -537,13 +539,185 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     expect(battle?.party?.pokemon[0]?.name).toBe("Entei");
   });
 
-  it("shows each one and says which choice it needs while the choice isn't recorded", () => {
+  it("folds them into one battle with a team to pick while the choice isn't recorded", () => {
     const battles = build([]);
 
-    expect(battles.map((battle) => battle.name)).toEqual(["Raikou", "Entei"]);
-    expect(battles[0]?.party?.note).toBe(
+    expect(battles.map((battle) => battle.name)).toEqual(["Raikou or Entei"]);
+    expect(battles[0]?.party?.note).toBeNull();
+    expect(battles[0]?.versions.map((version) => version.label)).toEqual([
+      "Squirtle",
+      "Bulbasaur",
+    ]);
+    expect(
+      battles[0]?.versions.map((version) => version.party?.pokemon[0]?.name),
+    ).toEqual(["Raikou", "Entei"]);
+    expect(battles[0]?.versionsNote).toBe(
+      "It depends on a choice this Play hasn't recorded. Pick what you chose to see who you'd face.",
+    );
+  });
+
+  it("says which choice a lone battle needs while the choice isn't recorded", () => {
+    const battle = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(7, [{ id: 71, name: "Raikou", role: "boss", typeId: 10 }]),
+      ],
+      partyRows: [
+        beastRow(71, "Raikou", { slug: "squirtle", label: "Squirtle" }),
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0];
+
+    expect(battle?.name).toBe("Raikou");
+    expect(battle?.versions).toEqual([]);
+    expect(battle?.party?.note).toBe(
       "You meet it only if you chose Squirtle, and this Play hasn't recorded that choice.",
     );
+  });
+
+  it("names three either-or battles in one row, counts them as one and drops a note only one has", () => {
+    const model = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        {
+          ...milestone(7, [
+            {
+              id: 71,
+              name: "Articuno",
+              notes: "If you chose Chespin.",
+              role: "rival",
+              typeId: 10,
+            },
+            {
+              id: 72,
+              name: "Zapdos",
+              notes: "If you chose Fennekin.",
+              role: "rival",
+              typeId: 10,
+            },
+            { id: 73, name: "Moltres", role: "rival", typeId: 10 },
+          ]),
+          is_required_for_completion: true,
+        },
+      ],
+      partyRows: [
+        beastRow(71, "Articuno", { slug: "a", label: "Chespin" }),
+        beastRow(72, "Zapdos", { slug: "b", label: "Fennekin" }),
+        beastRow(73, "Moltres", { slug: "c", label: "Froakie" }),
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    });
+
+    expect(model.battleCount).toBe(1);
+    expect(model.chapters[0]?.battles[0]?.name).toBe(
+      "Articuno, Zapdos or Moltres",
+    );
+    /* One option's own note would be wrong for the others. */
+    expect(model.chapters[0]?.battles[0]?.where).toBeNull();
+  });
+});
+
+describe("buildStoryMatchupsModel with a team that follows a choice and a variant", () => {
+  /* The rival's last battle: a team per starter, and per rival you can have. */
+  const rivalRow = (
+    starter: { slug: string; label: string },
+    rival: { slug: string; label: string },
+    name: string,
+  ): StoryOpponentPartyRow => ({
+    ally: null,
+    baseStats: null,
+    battleFormMechanic: null,
+    choiceKey: `10001/${starter.slug}`,
+    choiceLabel: starter.label,
+    dynamaxes: false,
+    moves: [],
+    heldItem: null,
+    teraType: null,
+    formSlug: name.toLowerCase(),
+    gameId: null,
+    legendary: null,
+    level: 60,
+    milestoneId: 9,
+    name,
+    opponentId: 91,
+    primaryTypeId: 10,
+    secondaryTypeId: null,
+    slot: 1,
+    variantKey: rival.slug,
+    variantLabel: rival.label,
+  });
+  const chikorita = { slug: "chikorita", label: "Chikorita" };
+  const tepig = { slug: "tepig", label: "Tepig" };
+  const taunie = { slug: "taunie", label: "Rival is Taunie" };
+  const urbain = { slug: "urbain", label: "Rival is Urbain" };
+  const build = (chosen: string[]) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(chosen),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(9, [{ id: 91, name: "Rival", role: "rival", typeId: 10 }]),
+      ],
+      partyRows: [
+        rivalRow(chikorita, taunie, "Emboar"),
+        rivalRow(chikorita, urbain, "Feraligatr"),
+        rivalRow(tepig, taunie, "Feraligatr"),
+        rivalRow(tepig, urbain, "Meganium"),
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0];
+
+  it("narrows by the recorded choice and asks only for the variant", () => {
+    const battle = build(["10001/tepig"]);
+
+    expect(battle?.versions.map((version) => version.label)).toEqual([
+      "Rival is Taunie",
+      "Rival is Urbain",
+    ]);
+    expect(
+      battle?.versions.map((version) => version.party?.pokemon[0]?.name),
+    ).toEqual(["Feraligatr", "Meganium"]);
+    expect(battle?.party?.pokemon[0]?.name).toBe("Feraligatr");
+    expect(battle?.versionsNote).toBe(
+      "It depends on something Voydex doesn't record. Pick how it went to see the team you'd face.",
+    );
+  });
+
+  it("offers every team, named by both, while the choice isn't recorded", () => {
+    const battle = build([]);
+
+    expect(battle?.versions.map((version) => version.label)).toEqual([
+      "Rival is Taunie, you chose Chikorita",
+      "Rival is Urbain, you chose Chikorita",
+      "Rival is Taunie, you chose Tepig",
+      "Rival is Urbain, you chose Tepig",
+    ]);
+    expect(
+      battle?.versions.map((version) => version.party?.pokemon[0]?.name),
+    ).toEqual(["Emboar", "Feraligatr", "Feraligatr", "Meganium"]);
+    expect(battle?.versionsNote).toBe(
+      "It depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face.",
+    );
+  });
+
+  it("still faces them when the Play chose an option they have teams for", () => {
+    expect(build(["10001/chikorita"])?.name).toBe("Rival");
   });
 });
 
@@ -555,6 +729,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -635,6 +810,7 @@ describe("buildStoryMatchupsModel with an ally beside you", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -803,6 +979,7 @@ describe("buildStoryMatchupsModel where you may bring only some of your team", (
           baseStats: null,
           battleFormMechanic: null,
           choiceKey: null,
+          choiceLabel: null,
           dynamaxes: false,
           formSlug: "brionne",
           gameId: null,
@@ -852,6 +1029,7 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -925,6 +1103,7 @@ describe("buildStoryLevelCap", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -1144,6 +1323,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     heldItem: null,
@@ -1308,6 +1488,7 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     moves: [],
     formSlug: "glimmora",
@@ -1546,6 +1727,7 @@ describe("buildStoryMatchupsModel telling people from Pokémon", () => {
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
+    choiceLabel: null,
     dynamaxes: false,
     formSlug: name.toLowerCase().replaceAll(" ", "-"),
     gameId: null,

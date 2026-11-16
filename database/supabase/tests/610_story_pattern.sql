@@ -15,7 +15,7 @@ SELECT
     results_eq ($$ SELECT DISTINCT
             version_groups.slug FROM tracking.mainline_roadmap_steps
             JOIN reference.version_groups ON version_groups.id = mainline_roadmap_steps.version_group_id ORDER BY version_groups.slug $$, $$
-        VALUES ('rb'::text), ('yellow') $$, 'Red / Blue and Yellow have a Story roadmap');
+        VALUES ('b2w2'::text), ('bdsp'), ('bw'), ('crystal'), ('dp'), ('emerald'), ('frlg'), ('gs'), ('hgss'), ('lgpe'), ('oras'), ('pla'), ('platinum'), ('rb'), ('rs'), ('sm'), ('sv'), ('sv-id'), ('sv-tm'), ('swsh'), ('swsh-ct'), ('swsh-ioa'), ('usum'), ('xy'), ('yellow'), ('za'), ('za-md') $$, 'the games reviewed so far have a Story roadmap');
 -- Every milestone of a game with a roadmap happens at a place.
 SELECT
     is_empty ($$
@@ -51,6 +51,7 @@ SELECT
             WHERE
                 mainline_milestone_types.slug = 'gym'
                 AND locations.name NOT LIKE '% Gym'
+                AND locations.name NOT LIKE '% Stadium'
                 AND mainline_milestones.version_group_id IN (
                     SELECT
                         version_group_id

@@ -3753,7 +3753,6 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     CONSTRAINT mainline_opponent_team_members_ally_not_opponent_check CHECK (ally_opponent_id IS NULL OR ally_opponent_id <> opponent_id),
     CONSTRAINT mainline_opponent_team_members_decision_pair_check CHECK ((decision_milestone_id IS NULL) = (decision_option_slug IS NULL)),
     CONSTRAINT mainline_opponent_team_members_variant_pair_check CHECK ((variant_slug IS NULL) = (variant_label IS NULL)),
-    CONSTRAINT mainline_opponent_team_members_one_variant_kind_check CHECK (decision_milestone_id IS NULL OR variant_slug IS NULL),
     CONSTRAINT mainline_opponent_team_members_variant_slug_format_check CHECK (variant_slug IS NULL OR (variant_slug = LOWER(variant_slug) AND variant_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(variant_slug) <= 80)),
     CONSTRAINT mainline_opponent_team_members_variant_label_length_check CHECK (variant_label IS NULL OR CHAR_LENGTH(BTRIM(variant_label)) BETWEEN 1 AND 120),
     CONSTRAINT mainline_opponent_team_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
@@ -3802,7 +3801,7 @@ COMMENT ON COLUMN tracking.mainline_opponent_team_members.tera_type_id IS 'The T
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.dynamaxes IS 'It Dynamaxes in this battle, in games with Dynamax; a Gigantamax form always does.';
 
-COMMENT ON COLUMN tracking.mainline_opponent_team_members.variant_slug IS 'With variant_label: a team that depends on something Voydex does not record (such as how an earlier battle went).';
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.variant_slug IS 'With variant_label: a team that depends on something Voydex does not record (such as how an earlier battle went, or which rival the player has). A team may follow a Play choice as well: the recorded choice narrows the teams first, and the variant is what is left to pick.';
 
 CREATE FUNCTION private.enforce_mainline_opponent_team_member_scope ()
     RETURNS TRIGGER
@@ -3935,10 +3934,13 @@ CREATE TABLE tracking.mainline_roadmap_steps (
     location_id integer,
     milestone_id integer,
     note text,
+    game_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_roadmap_steps_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_roadmap_steps_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_roadmap_steps_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_roadmap_steps_game_place_check CHECK (game_id IS NULL OR location_id IS NOT NULL),
     CONSTRAINT mainline_roadmap_steps_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_roadmap_steps_one_target_check CHECK (num_nonnulls (location_id, milestone_id) = 1),
     CONSTRAINT mainline_roadmap_steps_note_length_check CHECK (note IS NULL OR CHAR_LENGTH(BTRIM(note)) BETWEEN 1 AND 300),
@@ -3963,6 +3965,8 @@ COMMENT ON COLUMN tracking.mainline_roadmap_steps.location_id IS 'A place the st
 COMMENT ON COLUMN tracking.mainline_roadmap_steps.milestone_id IS 'A milestone of the same version group; the step sits at the milestone''s own place. NULL on a place step.';
 
 COMMENT ON COLUMN tracking.mainline_roadmap_steps.note IS 'What happens at a place step, in a line (pick up Oak''s Parcel, needs Cut); NULL where nothing does. Milestones have their own description.';
+
+COMMENT ON COLUMN tracking.mainline_roadmap_steps.game_id IS 'Set on a place step found in only one game of the version group (Team Magma''s hideout in Ruby, Team Aqua''s in Sapphire); a Play of the other game skips it. NULL for a step every game shares.';
 
 -- ============================================================================
 -- Source: database/schema/03_tracking/02_policies/001_read_policies.sql
