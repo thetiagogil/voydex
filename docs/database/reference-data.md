@@ -380,6 +380,12 @@ sources remain authoritative for game-specific mechanics and availability.
     of the pair is a step with that game (`game_id`). Places that move
     around or change daily (Mirage spots, Hyperspace Wild Zones, the Grand
     Underground's hideaways) are one optional milestone each.
+  - These rules are checked on every change: `870_story_review_rules.sql`
+    (every place on its route, every battle with a team and moves, every
+    gift Pokémon named, no "other"), and the seed audit walks each route on
+    the region's map (`scripts/database/seed-audit/data/place-links.json`)
+    and fails a long or roadless move its note doesn't explain. Open-world
+    games are left out of the map walk.
   - The Pokémon League is one milestone that closes Main Story (Champion
     type, snapshot recommended), with the last rival battle, the Elite Four
     and the Champion as its battles. There is no League chapter and no

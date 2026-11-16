@@ -2496,5 +2496,5 @@ VALUES
   -- Southern Island in emerald
   (380, 38000, 247, 7, NULL, 25, 50, 50, NULL),
   (381, 38100, 247, 7, NULL, 25, 50, 50, NULL),
-  -- Team Magma Hideout in emerald
-  (101, 10100, 249, 7, NULL, 25, 30, 30, NULL);
+  -- Magma Hideout (Jagged Pass) in emerald
+  (101, 10100, 159, 7, NULL, 25, 30, 30, NULL);
