@@ -30,15 +30,15 @@ SELECT
                     WHERE
                         mainline_categories.version_group_id = version_groups.id
                         AND mainline_categories.chapter_kind = 'main-story') $$, 'every journey has a main-story chapter');
--- Only Scarlet / Violet's three paths are played in any order.
+-- No chapter is played in any order: a main story is one chapter, and
+-- Scarlet / Violet's free order is its version group's (open world).
 SELECT
-    results_eq ($$
+    is_empty ($$
         SELECT
             version_groups.slug, mainline_categories.slug FROM tracking.mainline_categories
             JOIN reference.version_groups ON version_groups.id = mainline_categories.version_group_id
             WHERE
-                mainline_categories.plays_in_any_order ORDER BY mainline_categories.sort_order $$, $$
-            VALUES ('sv', 'victory-road'), ('sv', 'starfall-street'), ('sv', 'path-of-legends') $$, 'Scarlet / Violet''s three paths are the chapters played in any order');
+                mainline_categories.plays_in_any_order ORDER BY mainline_categories.sort_order $$, 'no chapter is played in any order');
 -- An opens-after link sits only on an optional beat.
 SELECT
     is_empty ($$

@@ -6,8 +6,8 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Scarlet / Violet mainline milestone prerequisite links: each chapter's beats
--- suggest the one before them in that chapter's order, the three stories
+-- Scarlet / Violet mainline milestone prerequisite links: each story's beats
+-- suggest the one before them in that story's own order, the three stories
 -- start from the academy, The Way Home ends them, and each side-content beat
 -- names the beat that opens it (opens-after).
 -- ============================================================================

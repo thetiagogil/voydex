@@ -360,7 +360,9 @@ sources remain authoritative for game-specific mechanics and availability.
   first, then Yellow; `610_story_pattern.sql` holds every game with a roadmap
   to it):
   - Each milestone is at a place (`location_id`), a badge at its Gym, and is
-    one roadmap step. A place step is somewhere you move to: the short walk
+    one roadmap step. The main story is one chapter (Main Story), never
+    split by theme, with Post Game and Side Content beside it. A place step
+    is somewhere you move to: the short walk
     back between two far places is steps too, a long way back is said in the
     note of the place you arrive at, and a town you are already standing in
     gets no step of its own. A battle fought elsewhere names its own place, and
@@ -660,11 +662,12 @@ sources remain authoritative for game-specific mechanics and availability.
   unchanged.
 - Scarlet / Violet in the pattern (`820_sv_story.sql`; from Bulbapedia's
   walkthrough, whose recommended route orders all 27 parts, with the story
-  and location pages for the parts not written yet): the three stories keep
-  their chapters (Victory Road, Starfall Street, Path of Legends), which play
-  in any order, with The Way Home after them. The roadmap weaves the three
-  together in the walkthrough's order, from the easier challenges to the
-  harder ones, through every place it passes. The Pokédex app comes with the
+  and location pages for the parts not written yet): the three stories
+  (Victory Road, Starfall Street, Path of Legends) and The Way Home are one
+  Main Story chapter, since a main story is never split into chapters. The
+  roadmap weaves the three together in the walkthrough's order, from the
+  easier challenges to the harder ones, through every place it passes, and
+  the game's free order is the version group's (open world). The Pokédex app comes with the
   starter, so the second beat is the Treasure Hunt at the academy, which is
   Naranja in Scarlet and Uva in Violet, so its beats are placed at Mesagoza.
   A badge is at its Gym, a crew at its base and a Titan in its area. The
@@ -695,8 +698,9 @@ sources remain authoritative for game-specific mechanics and availability.
   Zone. Arriving merges into Choose Starter, entering the Royale into Reach
   Rank Y and Lysandre Labs into Reach Rank A, so no two beats ask to be
   recorded with nothing between them. A promotion match is at the place it
-  is fought, and a Rogue Mega Evolution in its sector. Its chapters stay
-  (Main Story, Z-A Royale, Rogue Mega Evolution, Finale). Known gap: the
+  is fought, and a Rogue Mega Evolution in its sector. The Z-A Royale, the
+  Rogue Mega Evolutions and the finale were chapters of their own and are
+  now one Main Story chapter. Known gap: the
   walkthrough's battles with Naveen, Lida, Emma and the Society of Battle
   Connoisseurs have no seeded team yet, so they are notes on their places.
 - Mega Dimension in the pattern (`860_za_md_story.sql`; from Bulbapedia's
