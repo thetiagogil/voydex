@@ -86,7 +86,8 @@ const pickCertainMembers = (battle: readonly CodexLeaderTeamMemberRow[]) => {
   const versions = [
     ...groupBy(
       battle,
-      (member) => member.decision_option_slug ?? member.variant_slug ?? "",
+      (member) =>
+        `${member.decision_option_slug ?? ""}/${member.variant_slug ?? ""}`,
     ),
   ].toSorted(([left], [right]) => left.localeCompare(right));
 

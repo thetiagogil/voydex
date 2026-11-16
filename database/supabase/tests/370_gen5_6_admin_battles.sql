@@ -81,7 +81,7 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            members.milestone_id, COALESCE(members.decision_option_slug, members.variant_slug), species.slug FROM tracking.mainline_opponent_team_members AS members
+            members.milestone_id, CONCAT_WS('-', members.variant_slug, members.decision_option_slug), species.slug FROM tracking.mainline_opponent_team_members AS members
             JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
                 members.ally_opponent_id IN (12016, 13018, 14015)

@@ -97,6 +97,8 @@ export type StoryOpponentPartyRow = {
   battleFormMechanic: BattleFormMechanic | null;
   /* The Play's choice this team follows ("10001/bulbasaur"); null when it follows none. */
   choiceKey: string | null;
+  /* That choice's name ("Bulbasaur"); null when the team follows none. */
+  choiceLabel: string | null;
   /* It Dynamaxes in this battle. */
   dynamaxes: boolean;
   formSlug: string;
@@ -117,9 +119,13 @@ export type StoryOpponentPartyRow = {
   slot: number;
   /* The Tera Type it Terastallizes into; `typeId` is null for Stellar. */
   teraType: { name: string; typeId: number | null } | null;
-  /* A team for something Voydex doesn't record, such as how an earlier battle went. */
+  /*
+   * A team for something Voydex doesn't record, such as how an earlier battle
+   * went or which rival you have. A team can follow a choice as well (#313):
+   * the recorded choice narrows the teams, and this is what is left to pick.
+   */
   variantKey: string | null;
-  /* The choice's name ("Bulbasaur") or the variant's. */
+  /* The variant's name, or the choice's ("Bulbasaur") for a team that only follows a choice. */
   variantLabel: string | null;
 };
 
@@ -481,6 +487,7 @@ const groupParties = (
       string,
       {
         choiceKey: string | null;
+        choiceLabel: string | null;
         label: string | null;
         pokemon: StoryOpponentPokemon[];
         variantKey: string | null;
@@ -519,6 +526,7 @@ const groupParties = (
       parties
         .set(key, {
           choiceKey: row.choiceKey,
+          choiceLabel: row.choiceLabel,
           label: row.variantLabel,
           pokemon: [],
           variantKey: row.variantKey,
@@ -580,26 +588,47 @@ const resolveParty = (
     allyName = null,
     preferredVariantKey = null,
   }: { allyName?: string | null; preferredVariantKey?: string | null } = {},
-): (StoryMatchupParty & { variantKey: string | null }) | "skip" | null => {
+):
+  | (StoryMatchupParty & {
+      /* The choice the team read follows; null when it follows none. */
+      choiceKey: string | null;
+      /* The choice's name ("Glastrier") or the variant's. */
+      label: string | null;
+      variantKey: string | null;
+    })
+  | "skip"
+  | null => {
   const parties = [...(partiesByBattleOpponent.get(sideKey)?.values() ?? [])];
+  /*
+   * The teams the Play's recorded choice leads to: one, or one for each way
+   * something Voydex doesn't record can go (your starter, then which rival).
+   */
+  const chosenParties = parties.filter(
+    (party) =>
+      party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
+  );
   const matched =
-    parties.find(
-      (party) =>
-        party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
-    ) ??
-    (preferredVariantKey === null
-      ? undefined
-      : parties.find(
+    chosenParties.length > 1
+      ? chosenParties.find(
           (party) =>
-            party.choiceKey === null &&
+            preferredVariantKey !== null &&
             party.variantKey === preferredVariantKey,
-        ));
+        )
+      : (chosenParties[0] ??
+        (preferredVariantKey === null
+          ? undefined
+          : parties.find(
+              (party) =>
+                party.choiceKey === null &&
+                party.variantKey === preferredVariantKey,
+            )));
   const recordedChoiceMilestones = new Set(
     [...chosenChoiceKeys].map(getChoiceMilestoneKey),
   );
 
   if (
     !matched &&
+    chosenParties.length === 0 &&
     parties.length > 0 &&
     parties.every(
       (party) =>
@@ -616,6 +645,7 @@ const resolveParty = (
   /* Never fall back to a team a recorded choice has already ruled out. */
   const party =
     chosen ??
+    chosenParties[0] ??
     parties.find(
       (candidate) =>
         candidate.choiceKey === null ||
@@ -644,13 +674,19 @@ const resolveParty = (
   const note =
     chosen || !party.label
       ? null
-      : !party.choiceKey
+      : !party.choiceKey || chosenParties.length > 1
         ? `${teamWords} on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
         : parties.length === 1
           ? `${onlyIf} only if you chose ${party.label}, and this Play hasn't recorded that choice.`
-          : `${teamWords} on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
+          : `${teamWords} on a choice this Play hasn't recorded, so this reads the one for ${party.choiceLabel ?? party.label}.`;
 
-  return { note, pokemon: party.pokemon, variantKey: party.variantKey };
+  return {
+    choiceKey: party.choiceKey,
+    label: party.label,
+    note,
+    pokemon: party.pokemon,
+    variantKey: party.variantKey,
+  };
 };
 
 /*
@@ -667,14 +703,18 @@ const getOpenParties = (
   chosenChoiceKeys: ReadonlySet<string>,
 ) => {
   const parties = [...(partiesByBattleOpponent.get(sideKey)?.values() ?? [])];
+  const chosenParties = parties.filter(
+    (party) =>
+      party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
+  );
 
-  if (
-    parties.some(
-      (party) =>
-        party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
-    )
-  ) {
-    return [];
+  /* The choice is recorded: what is left open is a variant of it, if any. */
+  if (chosenParties.length) {
+    const variants = chosenParties.filter(
+      (party) => party.variantKey !== null && party.label !== null,
+    );
+
+    return variants.length > 1 ? variants : [];
   }
 
   const recordedChoiceMilestones = new Set(
@@ -688,6 +728,88 @@ const getOpenParties = (
   );
 
   return open.length > 1 ? open : [];
+};
+
+/* "Glastrier or Spectrier"; "Articuno, Zapdos or Moltres". */
+const joinEitherOr = (names: string[]) =>
+  names.length < 2
+    ? (names[0] ?? "")
+    : `${names.slice(0, -1).join(", ")} or ${names.at(-1)}`;
+
+/*
+ * A battle that only happens for one option of a choice the Play hasn't
+ * recorded (Glastrier if you plant the Iceroot Carrot).
+ */
+type EitherOrBattle = {
+  battle: StoryMatchupBattle;
+  /* The choice it follows, and that choice's name. */
+  onlyIf: { choiceKey: string; label: string } | null;
+};
+
+/*
+ * Either-or battles of one open choice are one battle (#315): where a story
+ * point has an opponent per option at the same place (Glastrier or Spectrier,
+ * the bird your starter sets roaming), they fold into one row named after all
+ * of them, with each as a team to pick in the report, as an opponent whose
+ * team depends on the choice already reads. Once the choice is recorded only
+ * the chosen opponent is left, so nothing folds.
+ */
+const foldEitherOrBattles = (entries: EitherOrBattle[]) => {
+  const folded: StoryMatchupBattle[] = [];
+  const groupKeyOf = ({ battle, onlyIf }: EitherOrBattle) =>
+    onlyIf
+      ? `${getChoiceMilestoneKey(onlyIf.choiceKey)}:${battle.placeId ?? ""}:${battle.kind}:${battle.playerSide}`
+      : null;
+  const done = new Set<EitherOrBattle>();
+
+  for (const entry of entries) {
+    if (done.has(entry)) {
+      continue;
+    }
+
+    const groupKey = groupKeyOf(entry);
+    const group =
+      groupKey === null
+        ? [entry]
+        : entries.filter((other) => groupKeyOf(other) === groupKey);
+
+    if (group.length < 2) {
+      folded.push(entry.battle);
+      continue;
+    }
+
+    for (const other of group) {
+      done.add(other);
+    }
+
+    const [{ battle: first }] = group;
+
+    folded.push({
+      ...first,
+      name: joinEitherOr(group.map(({ battle }) => battle.name)),
+      party: first.party && { ...first.party, note: null },
+      versions:
+        first.state === "won"
+          ? []
+          : group.map(
+              ({ battle, onlyIf }, index): StoryMatchupBattleVersion => ({
+                allies: battle.allies,
+                key: `${index}:${onlyIf?.choiceKey ?? ""}:`,
+                label: onlyIf?.label ?? battle.name,
+                members: battle.members,
+                party: battle.party && { ...battle.party, note: null },
+                partyLevels: battle.partyLevels,
+                reading: battle.reading,
+              }),
+            ),
+      versionsNote:
+        first.state === "won"
+          ? null
+          : "It depends on a choice this Play hasn't recorded. Pick what you chose to see who you'd face.",
+    });
+  }
+
+  return folded;
 };
 
 /*
@@ -757,6 +879,7 @@ export const buildStoryMatchupsModel = ({
       getMilestoneBadgeTypeId(milestone.badge_refs),
     )?.slug;
     const isWon = Boolean(milestone.is_completed);
+    const milestoneBattles: EitherOrBattle[] = [];
 
     /* A story point can hold several battles, such as a rival before a Gym. */
     for (const ref of opponents) {
@@ -908,27 +1031,28 @@ export const buildStoryMatchupsModel = ({
             ? new Set([...chosenChoiceKeys, open.choiceKey])
             : chosenChoiceKeys;
           const side = readSide(
-            open.choiceKey
-              ? resolveParty(
-                  battleOpponentKey,
-                  ref.opponent_role,
-                  partiesByBattleOpponent,
-                  choiceKeys,
-                )
-              : resolveParty(
-                  battleOpponentKey,
-                  ref.opponent_role,
-                  partiesByBattleOpponent,
-                  chosenChoiceKeys,
-                  { preferredVariantKey: open.variantKey },
-                ),
+            resolveParty(
+              battleOpponentKey,
+              ref.opponent_role,
+              partiesByBattleOpponent,
+              choiceKeys,
+              { preferredVariantKey: open.variantKey },
+            ),
             choiceKeys,
           );
+          /* A team that follows an open choice and a variant names both. */
+          const label =
+            open.choiceKey !== null &&
+            open.variantKey !== null &&
+            open.choiceLabel !== null &&
+            !chosenChoiceKeys.has(open.choiceKey)
+              ? `${open.label}, you chose ${open.choiceLabel}`
+              : open.label;
 
           return {
             allies: side.allies,
             key: `${index}:${open.choiceKey ?? ""}:${open.variantKey ?? ""}`,
-            label: open.label ?? `Team ${index + 1}`,
+            label: label ?? `Team ${index + 1}`,
             members: side.members,
             party: side.party && { ...side.party, note: null },
             partyLevels: side.partyLevels,
@@ -942,51 +1066,70 @@ export const buildStoryMatchupsModel = ({
         versions.length && read.party
           ? { ...read.party, note: null }
           : read.party;
+      const openChoiceKey = openParties[0]?.choiceKey ?? null;
       const versionsNote = versions.length
-        ? openParties[0]?.choiceKey
+        ? openChoiceKey !== null && !chosenChoiceKeys.has(openChoiceKey)
           ? "It depends on a choice this Play hasn't recorded. Pick what you chose to see the team you'd face."
           : "It depends on something Voydex doesn't record. Pick how it went to see the team you'd face."
         : null;
 
-      battles.push({
-        allies,
-        badgeType:
-          badgeHolderRoles.has(ref.opponent_role ?? "") &&
-          badgeSlug &&
-          isPokemonTypeSlug(badgeSlug)
-            ? badgeSlug
-            : null,
-        chapter: milestone.category_name ?? "Story",
-        completedAt: milestone.completed_at,
-        id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
-        isOptional: !milestone.is_required_for_completion,
-        isTrainer: isTrainerOpponent(
-          ref.opponent_role,
-          ref.name,
-          party?.pokemon,
-        ),
-        kind: legendary ?? battleKinds[ref.opponent_role],
-        members: read.members,
-        milestoneId: milestone.milestone_id,
-        milestoneName: milestone.milestone_name ?? "Battle",
-        name: ref.name,
-        opponentKind,
-        party,
-        partyLevels: read.partyLevels,
-        portraitUrl: getTrainerPortraitUrl(ref.sprite_slug),
-        playerSide: ref.player_side,
-        reading: read.reading,
-        placeId: ref.location_id,
-        specialtyTypes,
-        state: isWon ? "won" : "ahead",
-        teamSizeLimit: ref.team_size_limit,
-        teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
-        versions,
-        versionsNote,
-        where:
-          ref.notes ?? milestone.description ?? milestone.category_name ?? null,
+      /* Their one team follows a choice the Play hasn't recorded. */
+      const onlyIf =
+        resolved &&
+        resolved.choiceKey !== null &&
+        resolved.label !== null &&
+        !chosenChoiceKeys.has(resolved.choiceKey) &&
+        partiesByBattleOpponent.get(battleOpponentKey)?.size === 1
+          ? { choiceKey: resolved.choiceKey, label: resolved.label }
+          : null;
+
+      milestoneBattles.push({
+        battle: {
+          allies,
+          badgeType:
+            badgeHolderRoles.has(ref.opponent_role ?? "") &&
+            badgeSlug &&
+            isPokemonTypeSlug(badgeSlug)
+              ? badgeSlug
+              : null,
+          chapter: milestone.category_name ?? "Story",
+          completedAt: milestone.completed_at,
+          id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
+          isOptional: !milestone.is_required_for_completion,
+          isTrainer: isTrainerOpponent(
+            ref.opponent_role,
+            ref.name,
+            party?.pokemon,
+          ),
+          kind: legendary ?? battleKinds[ref.opponent_role],
+          members: read.members,
+          milestoneId: milestone.milestone_id,
+          milestoneName: milestone.milestone_name ?? "Battle",
+          name: ref.name,
+          opponentKind,
+          party,
+          partyLevels: read.partyLevels,
+          portraitUrl: getTrainerPortraitUrl(ref.sprite_slug),
+          playerSide: ref.player_side,
+          reading: read.reading,
+          placeId: ref.location_id,
+          specialtyTypes,
+          state: isWon ? "won" : "ahead",
+          teamSizeLimit: ref.team_size_limit,
+          teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
+          versions,
+          versionsNote,
+          where:
+            ref.notes ??
+            milestone.description ??
+            milestone.category_name ??
+            null,
+        },
+        onlyIf,
       });
     }
+
+    battles.push(...foldEitherOrBattles(milestoneBattles));
   }
 
   /* An optional legendary is a side catch, so the next objective is a real battle when one is left. */

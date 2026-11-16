@@ -175,41 +175,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16
   (130005, 13017, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 2, 651, 65100, 16, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'calem', 'Rival is Calem (you play as Serena)', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'calem', 'Rival is Calem (you play as Serena)', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [chespin] 3: Delphox Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 3, 655, 65500, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'calem', 'Rival is Calem (you play as Serena)', 3, 655, 65500, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'calem', 'Rival is Calem (you play as Serena)', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'calem', 'Rival is Calem (you play as Serena)', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [fennekin] 3: Greninja Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 3, 658, 65800, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'calem', 'Rival is Calem (you play as Serena)', 3, 658, 65800, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 1, 678, 67800, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'calem', 'Rival is Calem (you play as Serena)', 1, 678, 67800, 37, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'calem', 'Rival is Calem (you play as Serena)', 2, 359, 35900, 39, NULL),
   -- Calem beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 3, 652, 65200, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'calem', 'Rival is Calem (you play as Serena)', 3, 652, 65200, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'serena', 'Rival is Serena (you play as Calem)', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'serena', 'Rival is Serena (you play as Calem)', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [chespin] 3: Delphox Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 3, 655, 65500, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'chespin', 'serena', 'Rival is Serena (you play as Calem)', 3, 655, 65500, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'serena', 'Rival is Serena (you play as Calem)', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'serena', 'Rival is Serena (you play as Calem)', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [fennekin] 3: Greninja Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 3, 658, 65800, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'fennekin', 'serena', 'Rival is Serena (you play as Calem)', 3, 658, 65800, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 1: Meowstic Lv. 37
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 1, 678, 67801, 37, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'serena', 'Rival is Serena (you play as Calem)', 1, 678, 67801, 37, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 2: Absol Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 2, 359, 35900, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'serena', 'Rival is Serena (you play as Calem)', 2, 359, 35900, 39, NULL),
   -- Serena beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
-  (130028, 13031, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 652, 65200, 39, NULL),
+  (130028, 13031, 13018, 13, NULL, 130001, 'froakie', 'serena', 'Rival is Serena (you play as Calem)', 3, 652, 65200, 39, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 1: Wailmer Lv. 24
   (140036, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
   -- Brendan / May beside you vs Tabitha & Grunt [treecko] 2: Shroomish Lv. 24
@@ -497,53 +497,53 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Taunie / Urbain beside you vs Rogue Mega Venusaur (chose Totodile), Rogue Mega Venusaur 3: Manectric Lv. 50
   (260033, 26028, 26001, 26, NULL, 260001, 'totodile', NULL, NULL, 3, 310, 31000, 50, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 1: Feraligatr Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 1, 160, 16000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 160, 16000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 2: Emboar Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 2, 500, 50000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 500, 50000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 3, 678, 67801, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 678, 67801, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-chikorita', 'Rival is Taunie (you play as Paxton), you chose Chikorita', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 310, 31000, 56, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 1: Meganium Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 1, 154, 15400, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 154, 15400, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 2: Feraligatr Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 2, 160, 16000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 160, 16000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 3, 678, 67801, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 678, 67801, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-tepig', 'Rival is Taunie (you play as Paxton), you chose Tepig', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 310, 31000, 56, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 1: Emboar Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 1, 500, 50000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 1, 500, 50000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 2: Meganium Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 2, 154, 15400, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 2, 154, 15400, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 3, 678, 67801, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 3, 678, 67801, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'taunie-totodile', 'Rival is Taunie (you play as Paxton), you chose Totodile', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'taunie', 'Rival is Taunie (you play as Paxton)', 4, 310, 31000, 56, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 1: Feraligatr Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 1, 160, 16000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 160, 16000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 2: Emboar Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 2, 500, 50000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 500, 50000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 3: Meowstic Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 3, 678, 67800, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 678, 67800, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-chikorita', 'Rival is Urbain (you play as Harmony), you chose Chikorita', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'chikorita', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 310, 31000, 56, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 1: Meganium Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 1, 154, 15400, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 154, 15400, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 2: Feraligatr Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 2, 160, 16000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 160, 16000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 3: Meowstic Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 3, 678, 67800, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 678, 67800, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-tepig', 'Rival is Urbain (you play as Harmony), you chose Tepig', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'tepig', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 310, 31000, 56, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 1: Emboar Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 1, 500, 50000, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 1, 500, 50000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 2: Meganium Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 2, 154, 15400, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 2, 154, 15400, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 3: Meowstic Lv. 55
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 3, 678, 67800, 55, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 3, 678, 67800, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 4: Manectric Lv. 56
-  (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 4, 310, 31000, 56, NULL),
+  (260034, 26029, 26001, 26, NULL, 260001, 'totodile', 'urbain', 'Rival is Urbain (you play as Harmony)', 4, 310, 31000, 56, NULL),
   -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 1: Machamp Lv. 85
   (270012, 27011, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
   -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 2: Hawlucha Lv. 85

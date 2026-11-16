@@ -129,41 +129,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- May / Brendan: Treecko Lv. 5: Pound, Leer
     (50002, 5014, NULL, 50001, 'mudkip', NULL, 1, ARRAY[1, 43]),
     -- May / Brendan: Wailmer Lv. 18: Splash, Growl, Water Gun, Rollout
-    (50005, 5014, NULL, NULL, NULL, 'may-treecko', 1, ARRAY[150, 45, 55, 205]),
+    (50005, 5014, NULL, 50001, 'treecko', 'may', 1, ARRAY[150, 45, 55, 205]),
     -- May / Brendan: Shroomish Lv. 18: Tackle, Stun Spore, Leech Seed, Mega Drain
-    (50005, 5014, NULL, NULL, NULL, 'may-treecko', 2, ARRAY[33, 78, 73, 72]),
+    (50005, 5014, NULL, 50001, 'treecko', 'may', 2, ARRAY[33, 78, 73, 72]),
     -- May / Brendan: Combusken Lv. 20: Focus Energy, Ember, Double Kick, Peck
-    (50005, 5014, NULL, NULL, NULL, 'may-treecko', 3, ARRAY[116, 52, 24, 64]),
+    (50005, 5014, NULL, 50001, 'treecko', 'may', 3, ARRAY[116, 52, 24, 64]),
     -- May / Brendan: Shroomish Lv. 18: Tackle, Stun Spore, Leech Seed, Mega Drain
-    (50005, 5014, NULL, NULL, NULL, 'may-torchic', 1, ARRAY[33, 78, 73, 72]),
+    (50005, 5014, NULL, 50001, 'torchic', 'may', 1, ARRAY[33, 78, 73, 72]),
     -- May / Brendan: Numel Lv. 18: Growl, Tackle, Ember
-    (50005, 5014, NULL, NULL, NULL, 'may-torchic', 2, ARRAY[45, 33, 52]),
+    (50005, 5014, NULL, 50001, 'torchic', 'may', 2, ARRAY[45, 33, 52]),
     -- May / Brendan: Marshtomp Lv. 20: Water Gun, Bide, Mud Shot, Foresight
-    (50005, 5014, NULL, NULL, NULL, 'may-torchic', 3, ARRAY[55, 117, 341, 193]),
+    (50005, 5014, NULL, 50001, 'torchic', 'may', 3, ARRAY[55, 117, 341, 193]),
     -- May / Brendan: Wailmer Lv. 18: Splash, Growl, Water Gun, Rollout
-    (50005, 5014, NULL, NULL, NULL, 'may-mudkip', 1, ARRAY[150, 45, 55, 205]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'may', 1, ARRAY[150, 45, 55, 205]),
     -- May / Brendan: Numel Lv. 18: Growl, Tackle, Ember
-    (50005, 5014, NULL, NULL, NULL, 'may-mudkip', 2, ARRAY[45, 33, 52]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'may', 2, ARRAY[45, 33, 52]),
     -- May / Brendan: Grovyle Lv. 20: Absorb, Quick Attack, Fury Cutter, Pursuit
-    (50005, 5014, NULL, NULL, NULL, 'may-mudkip', 3, ARRAY[71, 98, 210, 228]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'may', 3, ARRAY[71, 98, 210, 228]),
     -- May / Brendan: Wailmer Lv. 18: Splash, Growl, Water Gun, Rollout
-    (50005, 5014, NULL, NULL, NULL, 'brendan-treecko', 1, ARRAY[150, 45, 55, 205]),
+    (50005, 5014, NULL, 50001, 'treecko', 'brendan', 1, ARRAY[150, 45, 55, 205]),
     -- May / Brendan: Shroomish Lv. 18: Tackle, Stun Spore, Leech Seed, Mega Drain
-    (50005, 5014, NULL, NULL, NULL, 'brendan-treecko', 2, ARRAY[33, 78, 73, 72]),
+    (50005, 5014, NULL, 50001, 'treecko', 'brendan', 2, ARRAY[33, 78, 73, 72]),
     -- May / Brendan: Combusken Lv. 20: Focus Energy, Ember, Double Kick, Peck
-    (50005, 5014, NULL, NULL, NULL, 'brendan-treecko', 3, ARRAY[116, 52, 24, 64]),
+    (50005, 5014, NULL, 50001, 'treecko', 'brendan', 3, ARRAY[116, 52, 24, 64]),
     -- May / Brendan: Shroomish Lv. 18: Tackle, Stun Spore, Leech Seed, Mega Drain
-    (50005, 5014, NULL, NULL, NULL, 'brendan-torchic', 1, ARRAY[33, 78, 73, 72]),
+    (50005, 5014, NULL, 50001, 'torchic', 'brendan', 1, ARRAY[33, 78, 73, 72]),
     -- May / Brendan: Numel Lv. 18: Growl, Tackle, Ember
-    (50005, 5014, NULL, NULL, NULL, 'brendan-torchic', 2, ARRAY[45, 33, 52]),
+    (50005, 5014, NULL, 50001, 'torchic', 'brendan', 2, ARRAY[45, 33, 52]),
     -- May / Brendan: Marshtomp Lv. 20: Water Gun, Bide, Mud Shot, Foresight
-    (50005, 5014, NULL, NULL, NULL, 'brendan-torchic', 3, ARRAY[55, 117, 341, 193]),
+    (50005, 5014, NULL, 50001, 'torchic', 'brendan', 3, ARRAY[55, 117, 341, 193]),
     -- May / Brendan: Numel Lv. 18: Growl, Tackle, Ember
-    (50005, 5014, NULL, NULL, NULL, 'brendan-mudkip', 1, ARRAY[45, 33, 52]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'brendan', 1, ARRAY[45, 33, 52]),
     -- May / Brendan: Wailmer Lv. 18: Splash, Growl, Water Gun, Rollout
-    (50005, 5014, NULL, NULL, NULL, 'brendan-mudkip', 2, ARRAY[150, 45, 55, 205]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'brendan', 2, ARRAY[150, 45, 55, 205]),
     -- May / Brendan: Grovyle Lv. 20: Absorb, Quick Attack, Fury Cutter, Pursuit
-    (50005, 5014, NULL, NULL, NULL, 'brendan-mudkip', 3, ARRAY[71, 98, 210, 228]),
+    (50005, 5014, NULL, 50001, 'mudkip', 'brendan', 3, ARRAY[71, 98, 210, 228]),
     -- Wally: Ralts Lv. 16: Growl, Confusion, Double Team, Teleport
     (50005, 5015, NULL, NULL, NULL, NULL, 1, ARRAY[45, 93, 104, 100]),
     -- Maxie: Mightyena Lv. 24: Sand Attack, Bite, Odor Sleuth, Roar

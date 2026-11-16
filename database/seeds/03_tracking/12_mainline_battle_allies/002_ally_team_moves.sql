@@ -158,41 +158,41 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16: Vine Whip, Bite
     (130005, 13017, 13018, NULL, 130001, 'froakie', NULL, 2, ARRAY[22, 44]),
     -- Calem beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'calem', 1, ARRAY[94, 252, 574, 113]),
     -- Calem beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'calem', 2, ARRAY[163, 14, 98, 44]),
     -- Calem beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[595, 60]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'calem', 3, ARRAY[595, 60]),
     -- Calem beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'calem', 1, ARRAY[94, 252, 574, 113]),
     -- Calem beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'calem', 2, ARRAY[163, 14, 98, 44]),
     -- Calem beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[594, 98]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'calem', 3, ARRAY[594, 98]),
     -- Calem beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'calem', 1, ARRAY[94, 252, 574, 113]),
     -- Calem beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'calem', 2, ARRAY[163, 14, 98, 44]),
     -- Calem beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[402, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'calem', 3, ARRAY[402, 44]),
     -- Serena beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'serena', 1, ARRAY[94, 252, 574, 113]),
     -- Serena beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'serena', 2, ARRAY[163, 14, 98, 44]),
     -- Serena beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[595, 60]),
+    (130028, 13031, 13018, NULL, 130001, 'chespin', 'serena', 3, ARRAY[595, 60]),
     -- Serena beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'serena', 1, ARRAY[94, 252, 574, 113]),
     -- Serena beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'serena', 2, ARRAY[163, 14, 98, 44]),
     -- Serena beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[594, 98]),
+    (130028, 13031, 13018, NULL, 130001, 'fennekin', 'serena', 3, ARRAY[594, 98]),
     -- Serena beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 113]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'serena', 1, ARRAY[94, 252, 574, 113]),
     -- Serena beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[163, 14, 98, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'serena', 2, ARRAY[163, 14, 98, 44]),
     -- Serena beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
-    (130028, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[402, 44]),
+    (130028, 13031, 13018, NULL, 130001, 'froakie', 'serena', 3, ARRAY[402, 44]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
     (140036, 14051, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
@@ -480,53 +480,53 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Taunie / Urbain beside you vs Rogue Mega Venusaur (chose Totodile), Rogue Mega Venusaur 3: Manectric Lv. 50: Thunder Fang, Snarl, Discharge, Fire Fang
     (260033, 26028, 26001, NULL, 260001, 'totodile', NULL, 3, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 1: Feraligatr Lv. 55: Aqua Jet, Slash, Breaking Swipe, Crunch
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-chikorita', 1, ARRAY[453, 163, 784, 242]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'taunie', 1, ARRAY[453, 163, 784, 242]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 2: Emboar Lv. 55: Power-Up Punch, Heat Crash, Rollout, Tackle
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-chikorita', 2, ARRAY[612, 535, 205, 33]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'taunie', 2, ARRAY[612, 535, 205, 33]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-chikorita', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'taunie', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Chikorita), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-chikorita', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'taunie', 4, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 1: Meganium Lv. 55: Tackle, Disarming Voice, Razor Leaf, Giga Drain
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-tepig', 1, ARRAY[33, 574, 75, 202]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'taunie', 1, ARRAY[33, 574, 75, 202]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 2: Feraligatr Lv. 55: Aqua Jet, Slash, Breaking Swipe, Crunch
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-tepig', 2, ARRAY[453, 163, 784, 242]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'taunie', 2, ARRAY[453, 163, 784, 242]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-tepig', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'taunie', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Tepig), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-tepig', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'taunie', 4, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 1: Emboar Lv. 55: Power-Up Punch, Heat Crash, Rollout, Tackle
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-totodile', 1, ARRAY[612, 535, 205, 33]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'taunie', 1, ARRAY[612, 535, 205, 33]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 2: Meganium Lv. 55: Tackle, Disarming Voice, Razor Leaf, Giga Drain
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-totodile', 2, ARRAY[33, 574, 75, 202]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'taunie', 2, ARRAY[33, 574, 75, 202]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 3: Meowstic (Female) Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-totodile', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'taunie', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Taunie (you play as Paxton), you chose Totodile), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'taunie-totodile', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'taunie', 4, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 1: Feraligatr Lv. 55: Aqua Jet, Slash, Breaking Swipe, Crunch
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-chikorita', 1, ARRAY[453, 163, 784, 242]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'urbain', 1, ARRAY[453, 163, 784, 242]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 2: Emboar Lv. 55: Power-Up Punch, Heat Crash, Rollout, Tackle
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-chikorita', 2, ARRAY[612, 535, 205, 33]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'urbain', 2, ARRAY[612, 535, 205, 33]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 3: Meowstic Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-chikorita', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'urbain', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Chikorita), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-chikorita', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'chikorita', 'urbain', 4, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 1: Meganium Lv. 55: Tackle, Disarming Voice, Razor Leaf, Giga Drain
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-tepig', 1, ARRAY[33, 574, 75, 202]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'urbain', 1, ARRAY[33, 574, 75, 202]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 2: Feraligatr Lv. 55: Aqua Jet, Slash, Breaking Swipe, Crunch
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-tepig', 2, ARRAY[453, 163, 784, 242]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'urbain', 2, ARRAY[453, 163, 784, 242]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 3: Meowstic Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-tepig', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'urbain', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Tepig), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-tepig', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'tepig', 'urbain', 4, ARRAY[422, 555, 435, 424]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 1: Emboar Lv. 55: Power-Up Punch, Heat Crash, Rollout, Tackle
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-totodile', 1, ARRAY[612, 535, 205, 33]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'urbain', 1, ARRAY[612, 535, 205, 33]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 2: Meganium Lv. 55: Tackle, Disarming Voice, Razor Leaf, Giga Drain
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-totodile', 2, ARRAY[33, 574, 75, 202]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'urbain', 2, ARRAY[33, 574, 75, 202]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 3: Meowstic Lv. 55: Energy Ball, Psyshock, Psychic, Thunderbolt
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-totodile', 3, ARRAY[412, 473, 94, 85]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'urbain', 3, ARRAY[412, 473, 94, 85]),
     -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 4: Manectric Lv. 56: Thunder Fang, Snarl, Discharge, Fire Fang
-    (260034, 26029, 26001, NULL, NULL, NULL, 'urbain-totodile', 4, ARRAY[422, 555, 435, 424]),
+    (260034, 26029, 26001, NULL, 260001, 'totodile', 'urbain', 4, ARRAY[422, 555, 435, 424]),
     -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 1: Machamp Lv. 85: Knock Off, Fire Punch, Thunder Punch
     (270012, 27011, 27016, NULL, NULL, NULL, NULL, 1, ARRAY[282, 7, 9]),
     -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 2: Hawlucha Lv. 85: Bounce, Aerial Ace, Drain Punch

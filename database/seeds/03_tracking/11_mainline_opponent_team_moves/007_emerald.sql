@@ -157,65 +157,65 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- May / Brendan: Treecko Lv. 5: Pound, Leer
     (70002, 7015, NULL, 70001, 'mudkip', NULL, 1, ARRAY[1, 43]),
     -- May / Brendan: Lotad Lv. 13: Astonish, Growl, Absorb, Nature Power
-    (70004, 7015, NULL, NULL, NULL, 'may-treecko', 1, ARRAY[310, 45, 71, 267]),
+    (70004, 7015, NULL, 70001, 'treecko', 'may', 1, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Torchic Lv. 15: Scratch, Growl, Focus Energy, Ember
-    (70004, 7015, NULL, NULL, NULL, 'may-treecko', 2, ARRAY[10, 45, 116, 52]),
+    (70004, 7015, NULL, 70001, 'treecko', 'may', 2, ARRAY[10, 45, 116, 52]),
     -- May / Brendan: Torkoal Lv. 13: Ember, Smog, Curse
-    (70004, 7015, NULL, NULL, NULL, 'may-torchic', 1, ARRAY[52, 123, 174]),
+    (70004, 7015, NULL, 70001, 'torchic', 'may', 1, ARRAY[52, 123, 174]),
     -- May / Brendan: Mudkip Lv. 15: Growl, Mud-Slap, Water Gun, Bide
-    (70004, 7015, NULL, NULL, NULL, 'may-torchic', 2, ARRAY[45, 189, 55, 117]),
+    (70004, 7015, NULL, 70001, 'torchic', 'may', 2, ARRAY[45, 189, 55, 117]),
     -- May / Brendan: Wingull Lv. 13: Growl, Water Gun, Supersonic, Wing Attack
-    (70004, 7015, NULL, NULL, NULL, 'may-mudkip', 1, ARRAY[45, 55, 48, 17]),
+    (70004, 7015, NULL, 70001, 'mudkip', 'may', 1, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Treecko Lv. 15: Pound, Leer, Absorb, Quick Attack
-    (70004, 7015, NULL, NULL, NULL, 'may-mudkip', 2, ARRAY[1, 43, 71, 98]),
+    (70004, 7015, NULL, 70001, 'mudkip', 'may', 2, ARRAY[1, 43, 71, 98]),
     -- May / Brendan: Lotad Lv. 13: Astonish, Growl, Absorb, Nature Power
-    (70004, 7015, NULL, NULL, NULL, 'brendan-treecko', 1, ARRAY[310, 45, 71, 267]),
+    (70004, 7015, NULL, 70001, 'treecko', 'brendan', 1, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Torchic Lv. 15: Scratch, Growl, Focus Energy, Ember
-    (70004, 7015, NULL, NULL, NULL, 'brendan-treecko', 2, ARRAY[10, 45, 116, 52]),
+    (70004, 7015, NULL, 70001, 'treecko', 'brendan', 2, ARRAY[10, 45, 116, 52]),
     -- May / Brendan: Slugma Lv. 13: Yawn, Smog, Ember
-    (70004, 7015, NULL, NULL, NULL, 'brendan-torchic', 1, ARRAY[281, 123, 52]),
+    (70004, 7015, NULL, 70001, 'torchic', 'brendan', 1, ARRAY[281, 123, 52]),
     -- May / Brendan: Mudkip Lv. 15: Growl, Mud-Slap, Water Gun, Bide
-    (70004, 7015, NULL, NULL, NULL, 'brendan-torchic', 2, ARRAY[45, 189, 55, 117]),
+    (70004, 7015, NULL, 70001, 'torchic', 'brendan', 2, ARRAY[45, 189, 55, 117]),
     -- May / Brendan: Wingull Lv. 13: Growl, Water Gun, Supersonic, Wing Attack
-    (70004, 7015, NULL, NULL, NULL, 'brendan-mudkip', 1, ARRAY[45, 55, 48, 17]),
+    (70004, 7015, NULL, 70001, 'mudkip', 'brendan', 1, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Treecko Lv. 15: Pound, Leer, Absorb, Quick Attack
-    (70004, 7015, NULL, NULL, NULL, 'brendan-mudkip', 2, ARRAY[1, 43, 71, 98]),
+    (70004, 7015, NULL, 70001, 'mudkip', 'brendan', 2, ARRAY[1, 43, 71, 98]),
     -- May / Brendan: Wingull Lv. 18: Growl, Water Gun, Supersonic, Wing Attack
-    (70005, 7015, NULL, NULL, NULL, 'may-treecko', 1, ARRAY[45, 55, 48, 17]),
+    (70005, 7015, NULL, 70001, 'treecko', 'may', 1, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Lombre Lv. 18: Astonish, Growl, Absorb, Nature Power
-    (70005, 7015, NULL, NULL, NULL, 'may-treecko', 2, ARRAY[310, 45, 71, 267]),
+    (70005, 7015, NULL, 70001, 'treecko', 'may', 2, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Combusken Lv. 20: Focus Energy, Ember, Double Kick, Peck
-    (70005, 7015, NULL, NULL, NULL, 'may-treecko', 3, ARRAY[116, 52, 24, 64]),
+    (70005, 7015, NULL, 70001, 'treecko', 'may', 3, ARRAY[116, 52, 24, 64]),
     -- May / Brendan: Lombre Lv. 18: Astonish, Growl, Absorb, Nature Power
-    (70005, 7015, NULL, NULL, NULL, 'may-torchic', 1, ARRAY[310, 45, 71, 267]),
+    (70005, 7015, NULL, 70001, 'torchic', 'may', 1, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Slugma Lv. 18: Yawn, Smog, Ember, Rock Throw
-    (70005, 7015, NULL, NULL, NULL, 'may-torchic', 2, ARRAY[281, 123, 52, 88]),
+    (70005, 7015, NULL, 70001, 'torchic', 'may', 2, ARRAY[281, 123, 52, 88]),
     -- May / Brendan: Marshtomp Lv. 20: Water Gun, Bide, Mud Shot, Foresight
-    (70005, 7015, NULL, NULL, NULL, 'may-torchic', 3, ARRAY[55, 117, 341, 193]),
+    (70005, 7015, NULL, 70001, 'torchic', 'may', 3, ARRAY[55, 117, 341, 193]),
     -- May / Brendan: Wingull Lv. 18: Growl, Water Gun, Supersonic, Wing Attack
-    (70005, 7015, NULL, NULL, NULL, 'may-mudkip', 1, ARRAY[45, 55, 48, 17]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'may', 1, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Slugma Lv. 18: Yawn, Smog, Ember, Rock Throw
-    (70005, 7015, NULL, NULL, NULL, 'may-mudkip', 2, ARRAY[281, 123, 52, 88]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'may', 2, ARRAY[281, 123, 52, 88]),
     -- May / Brendan: Grovyle Lv. 20: Absorb, Quick Attack, Fury Cutter, Pursuit
-    (70005, 7015, NULL, NULL, NULL, 'may-mudkip', 3, ARRAY[71, 98, 210, 228]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'may', 3, ARRAY[71, 98, 210, 228]),
     -- May / Brendan: Wingull Lv. 18: Growl, Water Gun, Supersonic, Wing Attack
-    (70005, 7015, NULL, NULL, NULL, 'brendan-treecko', 1, ARRAY[45, 55, 48, 17]),
+    (70005, 7015, NULL, 70001, 'treecko', 'brendan', 1, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Lombre Lv. 18: Astonish, Growl, Absorb, Nature Power
-    (70005, 7015, NULL, NULL, NULL, 'brendan-treecko', 2, ARRAY[310, 45, 71, 267]),
+    (70005, 7015, NULL, 70001, 'treecko', 'brendan', 2, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Combusken Lv. 20: Focus Energy, Ember, Double Kick, Peck
-    (70005, 7015, NULL, NULL, NULL, 'brendan-treecko', 3, ARRAY[116, 52, 24, 64]),
+    (70005, 7015, NULL, 70001, 'treecko', 'brendan', 3, ARRAY[116, 52, 24, 64]),
     -- May / Brendan: Lombre Lv. 18: Astonish, Growl, Absorb, Nature Power
-    (70005, 7015, NULL, NULL, NULL, 'brendan-torchic', 1, ARRAY[310, 45, 71, 267]),
+    (70005, 7015, NULL, 70001, 'torchic', 'brendan', 1, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Slugma Lv. 18: Yawn, Smog, Ember, Rock Throw
-    (70005, 7015, NULL, NULL, NULL, 'brendan-torchic', 2, ARRAY[281, 123, 52, 88]),
+    (70005, 7015, NULL, 70001, 'torchic', 'brendan', 2, ARRAY[281, 123, 52, 88]),
     -- May / Brendan: Marshtomp Lv. 20: Water Gun, Bide, Mud Shot, Foresight
-    (70005, 7015, NULL, NULL, NULL, 'brendan-torchic', 3, ARRAY[55, 117, 341, 193]),
+    (70005, 7015, NULL, 70001, 'torchic', 'brendan', 3, ARRAY[55, 117, 341, 193]),
     -- May / Brendan: Slugma Lv. 18: Yawn, Smog, Ember, Rock Throw
-    (70005, 7015, NULL, NULL, NULL, 'brendan-mudkip', 1, ARRAY[281, 123, 52, 88]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'brendan', 1, ARRAY[281, 123, 52, 88]),
     -- May / Brendan: Wingull Lv. 18: Growl, Water Gun, Supersonic, Wing Attack
-    (70005, 7015, NULL, NULL, NULL, 'brendan-mudkip', 2, ARRAY[45, 55, 48, 17]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'brendan', 2, ARRAY[45, 55, 48, 17]),
     -- May / Brendan: Grovyle Lv. 20: Absorb, Quick Attack, Fury Cutter, Pursuit
-    (70005, 7015, NULL, NULL, NULL, 'brendan-mudkip', 3, ARRAY[71, 98, 210, 228]),
+    (70005, 7015, NULL, 70001, 'mudkip', 'brendan', 3, ARRAY[71, 98, 210, 228]),
     -- Wally: Ralts Lv. 16: Growl, Confusion, Double Team, Teleport
     (70005, 7016, NULL, NULL, NULL, NULL, 1, ARRAY[45, 93, 104, 100]),
     -- Maxie: Mightyena Lv. 24: Sand Attack, Bite, Odor Sleuth, Roar
@@ -225,41 +225,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Maxie: Camerupt Lv. 25: Tackle, Ember, Magnitude, Focus Energy
     (70020, 7017, NULL, NULL, NULL, NULL, 3, ARRAY[33, 52, 222, 116]),
     -- May / Brendan: Pelipper Lv. 29: Wing Attack, Supersonic, Mist, Protect
-    (70009, 7015, NULL, NULL, NULL, 'may-treecko', 1, ARRAY[17, 48, 54, 182]),
+    (70009, 7015, NULL, 70001, 'treecko', 'may', 1, ARRAY[17, 48, 54, 182]),
     -- May / Brendan: Lombre Lv. 29: Absorb, Nature Power, Fake Out, Fury Swipes
-    (70009, 7015, NULL, NULL, NULL, 'may-treecko', 2, ARRAY[71, 267, 252, 154]),
+    (70009, 7015, NULL, 70001, 'treecko', 'may', 2, ARRAY[71, 267, 252, 154]),
     -- May / Brendan: Combusken Lv. 31: Double Kick, Peck, Sand Attack, Bulk Up
-    (70009, 7015, NULL, NULL, NULL, 'may-treecko', 3, ARRAY[24, 64, 28, 339]),
+    (70009, 7015, NULL, 70001, 'treecko', 'may', 3, ARRAY[24, 64, 28, 339]),
     -- May / Brendan: Lombre Lv. 29: Absorb, Nature Power, Fake Out, Fury Swipes
-    (70009, 7015, NULL, NULL, NULL, 'may-torchic', 1, ARRAY[71, 267, 252, 154]),
+    (70009, 7015, NULL, 70001, 'torchic', 'may', 1, ARRAY[71, 267, 252, 154]),
     -- May / Brendan: Slugma Lv. 29: Ember, Rock Throw, Harden, Amnesia
-    (70009, 7015, NULL, NULL, NULL, 'may-torchic', 2, ARRAY[52, 88, 106, 133]),
+    (70009, 7015, NULL, 70001, 'torchic', 'may', 2, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Marshtomp Lv. 31: Mud Shot, Foresight, Mud Sport, Take Down
-    (70009, 7015, NULL, NULL, NULL, 'may-torchic', 3, ARRAY[341, 193, 300, 36]),
+    (70009, 7015, NULL, 70001, 'torchic', 'may', 3, ARRAY[341, 193, 300, 36]),
     -- May / Brendan: Slugma Lv. 29: Ember, Rock Throw, Harden, Amnesia
-    (70009, 7015, NULL, NULL, NULL, 'may-mudkip', 1, ARRAY[52, 88, 106, 133]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'may', 1, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Lombre Lv. 29: Absorb, Nature Power, Fake Out, Fury Swipes
-    (70009, 7015, NULL, NULL, NULL, 'may-mudkip', 2, ARRAY[71, 267, 252, 154]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'may', 2, ARRAY[71, 267, 252, 154]),
     -- May / Brendan: Grovyle Lv. 31: Fury Cutter, Pursuit, Screech, Leaf Blade
-    (70009, 7015, NULL, NULL, NULL, 'may-mudkip', 3, ARRAY[210, 228, 103, 348]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'may', 3, ARRAY[210, 228, 103, 348]),
     -- May / Brendan: Pelipper Lv. 29: Wing Attack, Supersonic, Mist, Protect
-    (70009, 7015, NULL, NULL, NULL, 'brendan-treecko', 1, ARRAY[17, 48, 54, 182]),
+    (70009, 7015, NULL, 70001, 'treecko', 'brendan', 1, ARRAY[17, 48, 54, 182]),
     -- May / Brendan: Lombre Lv. 29: Absorb, Nature Power, Fake Out, Fury Swipes
-    (70009, 7015, NULL, NULL, NULL, 'brendan-treecko', 2, ARRAY[71, 267, 252, 154]),
+    (70009, 7015, NULL, 70001, 'treecko', 'brendan', 2, ARRAY[71, 267, 252, 154]),
     -- May / Brendan: Combusken Lv. 31: Double Kick, Peck, Sand Attack, Bulk Up
-    (70009, 7015, NULL, NULL, NULL, 'brendan-treecko', 3, ARRAY[24, 64, 28, 339]),
+    (70009, 7015, NULL, 70001, 'treecko', 'brendan', 3, ARRAY[24, 64, 28, 339]),
     -- May / Brendan: Lombre Lv. 29: Absorb, Nature Power, Fake Out, Fury Swipes
-    (70009, 7015, NULL, NULL, NULL, 'brendan-torchic', 1, ARRAY[71, 267, 252, 154]),
+    (70009, 7015, NULL, 70001, 'torchic', 'brendan', 1, ARRAY[71, 267, 252, 154]),
     -- May / Brendan: Slugma Lv. 29: Ember, Rock Throw, Harden, Amnesia
-    (70009, 7015, NULL, NULL, NULL, 'brendan-torchic', 2, ARRAY[52, 88, 106, 133]),
+    (70009, 7015, NULL, 70001, 'torchic', 'brendan', 2, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Marshtomp Lv. 31: Mud Shot, Foresight, Mud Sport, Take Down
-    (70009, 7015, NULL, NULL, NULL, 'brendan-torchic', 3, ARRAY[341, 193, 300, 36]),
+    (70009, 7015, NULL, 70001, 'torchic', 'brendan', 3, ARRAY[341, 193, 300, 36]),
     -- May / Brendan: Slugma Lv. 29: Ember, Rock Throw, Harden, Amnesia
-    (70009, 7015, NULL, NULL, NULL, 'brendan-mudkip', 1, ARRAY[52, 88, 106, 133]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'brendan', 1, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Pelipper Lv. 29: Wing Attack, Supersonic, Mist, Protect
-    (70009, 7015, NULL, NULL, NULL, 'brendan-mudkip', 2, ARRAY[17, 48, 54, 182]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'brendan', 2, ARRAY[17, 48, 54, 182]),
     -- May / Brendan: Grovyle Lv. 31: Fury Cutter, Pursuit, Screech, Leaf Blade
-    (70009, 7015, NULL, NULL, NULL, 'brendan-mudkip', 3, ARRAY[210, 228, 103, 348]),
+    (70009, 7015, NULL, 70001, 'mudkip', 'brendan', 3, ARRAY[210, 228, 103, 348]),
     -- May / Brendan: Tropius Lv. 31: Stomp, Sweet Scent, Whirlwind, Magical Leaf
     (70034, 7015, NULL, 70001, 'treecko', NULL, 1, ARRAY[23, 230, 18, 345]),
     -- May / Brendan: Pelipper Lv. 32: Wing Attack, Supersonic, Mist, Protect

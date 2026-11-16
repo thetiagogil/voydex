@@ -169,65 +169,65 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- May / Brendan (chose Mudkip), Receive Pokedex 1: Treecko Lv. 5
   (70002, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 252, 25200, 5, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Knuckle Badge 1: Lotad Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 270, 27000, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 270, 27000, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Knuckle Badge 2: Torchic Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 255, 25500, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 255, 25500, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Knuckle Badge 1: Torkoal Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 324, 32400, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 324, 32400, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Knuckle Badge 2: Mudkip Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 258, 25800, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 258, 25800, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Knuckle Badge 1: Wingull Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 278, 27800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 13, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Knuckle Badge 2: Treecko Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 252, 25200, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 252, 25200, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Knuckle Badge 1: Lotad Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 270, 27000, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 270, 27000, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Knuckle Badge 2: Torchic Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 255, 25500, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 255, 25500, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Knuckle Badge 1: Slugma Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 218, 21800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Knuckle Badge 2: Mudkip Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 258, 25800, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 258, 25800, 15, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Knuckle Badge 1: Wingull Lv. 13
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 278, 27800, 13, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 278, 27800, 13, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Knuckle Badge 2: Treecko Lv. 15
-  (70004, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 252, 25200, 15, NULL),
+  (70004, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 252, 25200, 15, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 2: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 3, 256, 25600, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 3, 256, 25600, 20, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 1: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 3, 259, 25900, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 3, 259, 25900, 20, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 3, 253, 25300, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 3, 253, 25300, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 1: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 2: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 3, 256, 25600, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 3, 256, 25600, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 1: Lombre Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 271, 27100, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 271, 27100, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 2: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 3, 259, 25900, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 3, 259, 25900, 20, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 1: Slugma Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 218, 21800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 2: Wingull Lv. 18
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 278, 27800, 18, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 278, 27800, 18, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
-  (70005, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 20, NULL),
+  (70005, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 3, 253, 25300, 20, NULL),
   -- Wally, Dynamo Badge 1: Ralts Lv. 16
   (70005, 7016, 7, NULL, NULL, NULL, NULL, NULL, 1, 280, 28000, 16, NULL),
   -- Maxie, Mt. Chimney 1: Mightyena Lv. 24
@@ -237,41 +237,41 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Maxie, Mt. Chimney 3: Camerupt Lv. 25
   (70020, 7017, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 25, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 1: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 1, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Feather Badge 3: Combusken Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 3, 256, 25600, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'may', 'Rival is May (you play as Brendan)', 3, 256, 25600, 31, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 1: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 1, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 2: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 2, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Feather Badge 3: Marshtomp Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 3, 259, 25900, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'may', 'Rival is May (you play as Brendan)', 3, 259, 25900, 31, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 1: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 1, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Feather Badge 3: Grovyle Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 3, 253, 25300, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'may', 'Rival is May (you play as Brendan)', 3, 253, 25300, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 1: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 1, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 2: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 2, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Feather Badge 3: Combusken Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 3, 256, 25600, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'treecko', 'brendan', 'Rival is Brendan (you play as May)', 3, 256, 25600, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 1: Lombre Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 271, 27100, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 1, 271, 27100, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 2: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 2, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Feather Badge 3: Marshtomp Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 3, 259, 25900, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'torchic', 'brendan', 'Rival is Brendan (you play as May)', 3, 259, 25900, 31, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 1: Slugma Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 218, 21800, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 1, 218, 21800, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 2: Pelipper Lv. 29
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 279, 27900, 29, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 2, 279, 27900, 29, NULL),
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 3: Grovyle Lv. 31
-  (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 31, NULL),
+  (70009, 7015, 7, NULL, 70001, 'mudkip', 'brendan', 'Rival is Brendan (you play as May)', 3, 253, 25300, 31, NULL),
   -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 1: Tropius Lv. 31
   (70034, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 1, 357, 35700, 31, NULL),
   -- May / Brendan (chose Treecko), Aqua Hideout (Lilycove City) 2: Pelipper Lv. 32

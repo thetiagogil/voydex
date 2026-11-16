@@ -62,77 +62,77 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Taunie / Urbain: Mega Manectric Lv. 26: Thunder Fang, Bite, Spark, Fire Fang
     (260005, 26001, NULL, 260001, 'totodile', NULL, 3, ARRAY[422, 44, 209, 424]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Feraligatr Lv. 63: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 4, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 4, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Emboar Lv. 64: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'taunie-chikorita', 6, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'taunie', 6, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Meganium Lv. 63: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 4, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 4, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Feraligatr Lv. 64: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'taunie-tepig', 6, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'tepig', 'taunie', 6, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Meowstic (Female) Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Emboar Lv. 63: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 4, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 4, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'taunie-totodile', 6, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'totodile', 'taunie', 6, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Feraligatr Lv. 63: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 4, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 4, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Emboar Lv. 64: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'urbain-chikorita', 6, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'chikorita', 'urbain', 6, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Meganium Lv. 63: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 4, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 4, ARRAY[73, 414, 605, 202]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Feraligatr Lv. 64: Breaking Swipe, Liquidation, Ice Fang, Bulldoze
-    (260008, 26001, NULL, NULL, NULL, 'urbain-tepig', 6, ARRAY[784, 710, 423, 523]),
+    (260008, 26001, NULL, 260001, 'tepig', 'urbain', 6, ARRAY[784, 710, 423, 523]),
     -- Taunie / Urbain: Meowstic Lv. 62: Light Screen, Reflect, Psychic, Thunderbolt
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 1, ARRAY[113, 115, 94, 85]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 1, ARRAY[113, 115, 94, 85]),
     -- Taunie / Urbain: Goodra Lv. 62: Surf, Toxic, Draco Meteor, Blizzard
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 2, ARRAY[57, 92, 434, 59]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 2, ARRAY[57, 92, 434, 59]),
     -- Taunie / Urbain: Avalugg Lv. 62: Icicle Crash, Crunch, Stone Edge, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 3, ARRAY[556, 242, 444, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 3, ARRAY[556, 242, 444, 182]),
     -- Taunie / Urbain: Emboar Lv. 63: Flare Blitz, Stone Edge, Thunder Punch, Bulk Up
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 4, ARRAY[394, 444, 9, 339]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 4, ARRAY[394, 444, 9, 339]),
     -- Taunie / Urbain: Manectric Lv. 63: Snarl, Thunder, Overheat, Protect
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 5, ARRAY[555, 87, 315, 182]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
-    (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 6, ARRAY[73, 414, 605, 202]),
+    (260008, 26001, NULL, 260001, 'totodile', 'urbain', 6, ARRAY[73, 414, 605, 202]),
     -- Zygarde: Zygarde (10% Forme) Lv. 33: Bite, Haze, Bulldoze, Dragon Breath
     (260018, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[44, 114, 523, 225]),
     -- Zygarde: Zygarde Lv. 57: Dragon Breath, Dragon Pulse, Crunch, Land's Wrath
