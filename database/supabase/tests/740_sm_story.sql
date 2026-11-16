@@ -17,7 +17,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 15
                 AND mainline_categories.slug = 'main-story' ORDER BY mainline_milestones.sort_order $$, $$
-            VALUES ('choose-starter'::text, 'Iki Town'::text), ('receive-pokedex', 'Iki Town'), ('iki-town-festival', 'Iki Town'), ('ilima-trial', 'Verdant Cavern'), ('grand-trial-hala', 'Iki Town'), ('lana-trial', 'Brooklet Hill'), ('kiawe-trial', 'Wela Volcano Park'), ('mallow-trial', 'Lush Jungle'), ('grand-trial-olivia', 'Ruins of Life'), ('aether-paradise-visit', 'Aether Paradise'), ('sophocles-trial', 'Hokulani Observatory'), ('acerola-trial', 'Thrifty Megamart (Abandoned Site)'), ('po-town', 'Po Town'), ('grand-trial-nanu', 'Malie City'), ('aether-paradise', 'Aether Paradise'), ('vast-poni-canyon-trial', 'Vast Poni Canyon'), ('ultra-space', 'Ultra Space'), ('grand-trial-hapu', 'Exeggutor Island'), ('pokemon-league', 'Pokémon League') $$, 'Sun / Moon''s Main Story follows its walkthrough, each beat at its place, and ends at the Pokémon League');
+            VALUES ('choose-starter'::text, 'Iki Town'::text), ('receive-pokedex', 'Iki Town'), ('iki-town-festival', 'Iki Town'), ('ilima-trial', 'Verdant Cavern'), ('grand-trial-hala', 'Iki Town'), ('lana-trial', 'Brooklet Hill'), ('kiawe-trial', 'Wela Volcano Park'), ('mallow-trial', 'Lush Jungle'), ('grand-trial-olivia', 'Ruins of Life'), ('aether-paradise-visit', 'Aether Paradise'), ('sophocles-trial', 'Hokulani Observatory'), ('acerola-trial', 'Thrifty Megamart (Abandoned Site)'), ('po-town', 'Po Town'), ('grand-trial-nanu', 'Malie City'), ('aether-paradise', 'Aether Paradise'), ('grand-trial-hapu', 'Vast Poni Canyon'), ('vast-poni-canyon-trial', 'Vast Poni Canyon'), ('ultra-space', 'Ultra Space'), ('pokemon-league', 'Pokémon League') $$, 'Sun / Moon''s Main Story follows its walkthrough, each beat at its place, and ends at the Pokémon League');
 SELECT
     results_eq ($$
         SELECT
@@ -61,7 +61,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 15 $$, $$
-            VALUES (69, 45, 24) $$, 'Sun / Moon''s roadmap has 69 steps: 45 places and its 24 milestones');
+            VALUES (70, 46, 24) $$, 'Sun / Moon''s roadmap has 70 steps: 46 places and its 24 milestones');
 SELECT
     *
 FROM

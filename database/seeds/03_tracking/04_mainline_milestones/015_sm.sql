@@ -68,12 +68,12 @@ INSERT INTO tracking.mainline_milestones (
   (150011, 15, NULL, 1501, 4, 2, NULL, 'grand-trial-nanu', 'Grand Trial Nanu', 'Team Skull took Lillie while you were in Po Town, and Gladion battles you at the Aether House in his anger. Nanu, who turns out to be the kahuna, then gives you your grand trial in Malie City. Beat his Dark types for Darkinium Z.', 14, true, 525),
   -- Aether Paradise (Aether Paradise)
   (150021, 15, NULL, 1501, 1, 2, NULL, 'aether-paradise', 'Aether Paradise', 'Storm Aether Paradise with Gladion and Hau to rescue Lillie. Beat Faba twice, then Guzma, then Lusamine in her house. She opens an Ultra Wormhole with Nebby''s power and goes through it with Guzma.', 15, true, 505),
+  -- Grand Trial Hapu (Vast Poni Canyon)
+  (150013, 15, NULL, 1501, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'With the flute from Exeggutor Island in hand, meet Hapu under the dead tree at the mouth of Vast Poni Canyon and beat her Ground types. She gives you Groundium Z and lets you into the canyon.', 16, true, 570),
   -- Vast Poni Canyon Trial (Vast Poni Canyon)
-  (150012, 15, NULL, 1501, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Climb through Vast Poni Canyon to the trial site that has no captain. Beat the Pokémon that guard it and then the Totem Kommo-o for Dragonium Z.', 16, true, 570),
+  (150012, 15, NULL, 1501, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Climb through Vast Poni Canyon to the trial site that has no captain. Beat the Pokémon that guard it and then the Totem Kommo-o for Dragonium Z.', 17, true, 570),
   -- Ultra Space (Ultra Space)
-  (150022, 15, NULL, 1501, 6, 3, NULL, 'ultra-space', 'Ultra Space', 'Play the Sun Flute and the Moon Flute at the altar above Vast Poni Canyon. Nebby becomes Solgaleo in Sun or Lunala in Moon and takes you into Ultra Space, where Lusamine has merged with a Nihilego. Beat her, then catch the legendary Pokémon back at the altar.', 17, true, 926),
-  -- Grand Trial Hapu (Exeggutor Island)
-  (150013, 15, NULL, 1501, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'Beat Kahuna Hapu and her Ground types on Exeggutor Island. She gives you Groundium Z, and the way up Mount Lanakila opens.', 18, true, 512),
+  (150022, 15, NULL, 1501, 6, 3, NULL, 'ultra-space', 'Ultra Space', 'Play the Sun Flute and the Moon Flute at the altar above Vast Poni Canyon. Nebby becomes Solgaleo in Sun or Lunala in Moon and takes you into Ultra Space, where Lusamine has merged with a Nihilego. Beat her, then catch the legendary Pokémon back at the altar.', 18, true, 926),
   -- Pokémon League (Pokémon League)
   (150018, 15, NULL, 1501, 8, 3, NULL, 'pokemon-league', 'Pokémon League', 'Beat the Elite Four in any order at Alola''s new Pokémon League on Mount Lanakila, then Professor Kukui for the title of first Champion. Your team enters the Hall of Fame. After the festival, Lillie takes you to the Ruins of Conflict, where Tapu Koko battles you.', 19, true, 931),
   -- Ultra Beast Missions (Route 8)

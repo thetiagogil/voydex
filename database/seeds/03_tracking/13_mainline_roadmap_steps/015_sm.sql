@@ -139,27 +139,29 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (15, 56, 535, NULL, 'At the Ruins of Hope beyond, Tapu Fini accepts Hapu as kahuna. She sends you to Exeggutor Island for a flute.'),
   -- 57: Exeggutor Island
   (15, 57, 512, NULL, 'One of the two flutes you need rests on a stand at the top of the island.'),
-  -- 58: Vast Poni Canyon Trial (milestone)
-  (15, 58, NULL, 150012, NULL),
-  -- 59: Ultra Space (milestone)
-  (15, 59, NULL, 150022, NULL),
-  -- 60: Grand Trial Hapu (milestone)
-  (15, 60, NULL, 150013, NULL),
-  -- 61: Mount Lanakila
-  (15, 61, 531, NULL, 'A lift from Tapu Village takes you up the frozen mountain. Gladion battles you at the bottom, and Hau at the top.'),
-  -- 62: Pokémon League
-  (15, 62, 931, NULL, 'Alola''s first Pokémon League, just built. Its four rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
-  -- 63: Pokémon League (milestone)
-  (15, 63, NULL, 150018, NULL),
-  -- 64: Ruins of Conflict
-  (15, 64, 927, NULL, 'After the party in Iki Town, Lillie takes you up Mahalo Trail to thank the island''s guardian, and it comes out to battle you.'),
-  -- 65: Ultra Beast Missions (milestone)
-  (15, 65, NULL, 150020, NULL),
-  -- 66: Ruins of Life (milestone)
-  (15, 66, NULL, 150023, NULL),
-  -- 67: Ruins of Abundance (milestone)
-  (15, 67, NULL, 150024, NULL),
-  -- 68: Ruins of Hope (milestone)
-  (15, 68, NULL, 150025, NULL),
-  -- 69: Ten Carat Hill (milestone)
-  (15, 69, NULL, 150026, NULL);
+  -- 58: Ancient Poni Path
+  (15, 58, 507, NULL, 'Back through Seafolk Village with the flute. Team Skull Grunts wait at the mouth of Vast Poni Canyon. Beat two of them and Plumeria gives you Poisonium Z and asks you to save Guzma.'),
+  -- 59: Grand Trial Hapu (milestone)
+  (15, 59, NULL, 150013, NULL),
+  -- 60: Vast Poni Canyon Trial (milestone)
+  (15, 60, NULL, 150012, NULL),
+  -- 61: Ultra Space (milestone)
+  (15, 61, NULL, 150022, NULL),
+  -- 62: Mount Lanakila
+  (15, 62, 531, NULL, 'A lift from Tapu Village takes you up the frozen mountain. Gladion battles you at the bottom, and Hau at the top.'),
+  -- 63: Pokémon League
+  (15, 63, 931, NULL, 'Alola''s first Pokémon League, just built. Its four rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
+  -- 64: Pokémon League (milestone)
+  (15, 64, NULL, 150018, NULL),
+  -- 65: Ruins of Conflict
+  (15, 65, 927, NULL, 'After the party in Iki Town, Lillie takes you up Mahalo Trail to thank the island''s guardian, and it comes out to battle you.'),
+  -- 66: Ultra Beast Missions (milestone)
+  (15, 66, NULL, 150020, NULL),
+  -- 67: Ruins of Life (milestone)
+  (15, 67, NULL, 150023, NULL),
+  -- 68: Ruins of Abundance (milestone)
+  (15, 68, NULL, 150024, NULL),
+  -- 69: Ruins of Hope (milestone)
+  (15, 69, NULL, 150025, NULL),
+  -- 70: Ten Carat Hill (milestone)
+  (15, 70, NULL, 150026, NULL);

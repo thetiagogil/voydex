@@ -49,14 +49,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (150011, 150029, 15, 1, 1, NULL),
   -- Aether Paradise <- Grand Trial Nanu
   (150021, 150011, 15, 1, 1, NULL),
-  -- Vast Poni Canyon Trial <- Aether Paradise
-  (150012, 150021, 15, 1, 1, NULL),
+  -- Grand Trial Hapu <- Aether Paradise
+  (150013, 150021, 15, 1, 1, NULL),
+  -- Vast Poni Canyon Trial <- Grand Trial Hapu
+  (150012, 150013, 15, 1, 1, NULL),
   -- Ultra Space <- Vast Poni Canyon Trial
   (150022, 150012, 15, 1, 1, NULL),
-  -- Grand Trial Hapu <- Ultra Space
-  (150013, 150022, 15, 1, 1, NULL),
-  -- Pokémon League <- Grand Trial Hapu
-  (150018, 150013, 15, 1, 1, NULL),
+  -- Pokémon League <- Ultra Space
+  (150018, 150022, 15, 1, 1, NULL),
   -- Ultra Beast Missions <- Pokémon League
   (150020, 150018, 15, 1, 1, NULL),
   -- Ruins of Life opens after Pokémon League
