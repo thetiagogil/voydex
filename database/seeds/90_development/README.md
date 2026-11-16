@@ -16,6 +16,12 @@ a Region Hopper:
 - `trainer@voydex.test`: two Kanto Plays (Red, FireRed) with evenly spread
   types, so it reads as a Pokémon Trainer two regions short of Region Hopper.
 
+The app keeps your data on the device and only reads an account's backups,
+so `npm run db:fixtures` (run on its own after `npm run db:reset`) saves each
+fixture account's rows as its one backup. Signing in to a fixture account on
+a device then brings its Plays and Plans in. Run it again to start an account
+over from the seeds.
+
 The dataset contains exactly two plays for each of the 22 supported base version
 groups: one populated play and one deliberately blank play. Populated plays are
 distributed across early, middle, late, story-complete, postgame, and true 100%

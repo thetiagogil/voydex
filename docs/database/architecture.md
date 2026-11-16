@@ -371,7 +371,10 @@ plays for each of the 22 supported base version groups: one comprehensive play
 and one deliberately blank play. Its 22 linked plans, staged completion bands,
 game-valid teams, history, snapshots, and representative custom states cover the
 gameplay and planning surfaces without turning UI tests into manual database
-setup.
+setup. The app reads an account's data only from its backups, so after each
+reset `npm run db:fixtures` saves every fixture account's rows as its one
+account backup; signing in to a fixture account then brings them to the
+device.
 
 Day-to-day development points `.env.local` at the local stack. Reference images
 (Pokémon, game covers, item sprites, move category icons, trainer portraits and gym badges) don't live in the database: they come from the
