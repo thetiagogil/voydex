@@ -121,70 +121,82 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 48: Route 8
   (17, 48, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for the Tea.'),
   -- 49: Saffron City
-  (17, 49, 133, NULL, 'Give the Tea to a guard and the gates open. Team Rocket holds the city and Silph Co., where Blue and Trace meet you and a worker on 7F gives you a Lapras. Beat the Fighting Dojo''s master for a Hitmonlee or a Hitmonchan. Once Giovanni is beaten, a Silph worker in town gives you a Porygon.'),
-  -- 50: Silph Co. (milestone)
-  (17, 50, NULL, 170022, NULL),
-  -- 51: Marsh Badge (milestone)
-  (17, 51, NULL, 170009, NULL),
-  -- 52: Route 7
-  (17, 52, 60, NULL, 'West out of Saffron City.'),
-  -- 53: Celadon City
-  (17, 53, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
-  -- 54: Route 16
-  (17, 54, 45, NULL, 'West of Celadon City. A Snorlax sleeps across the way to Pokémon Road.'),
-  -- 55: Snorlax Encounter (milestone)
-  (17, 55, NULL, 170007, NULL),
-  -- 56: Route 17
-  (17, 56, 46, NULL, 'Pokémon Road, a long run downhill over the sea. Jessie and James battle you on the way.'),
-  -- 57: Route 18
-  (17, 57, 47, NULL, 'The end of Pokémon Road, leading east to Fuchsia City.'),
-  -- 58: Fuchsia City
-  (17, 58, 18, NULL, 'Koga''s Gym uses Poison types, and asks for 50 kinds of Pokémon caught. A man with a Lapras outside GO Park teaches your partner Sea Skim. Bring the Warden his Gold Teeth and he teaches it Strong Push.'),
-  -- 59: Soul Badge (milestone)
-  (17, 59, NULL, 170008, NULL),
-  -- 60: Power Plant (milestone)
-  (17, 60, NULL, 170023, NULL),
-  -- 61: Route 19
-  (17, 61, 48, NULL, 'Sea Skim south from Fuchsia City''s beach. Jessie and James dig up the Warden''s Gold Teeth here and throw them at you.'),
-  -- 62: Route 20
-  (17, 62, 50, NULL, 'West across the sea, through the Seafoam Islands.'),
-  -- 63: Seafoam Islands (milestone)
-  (17, 63, NULL, 170024, NULL),
-  -- 64: Cinnabar Island
-  (17, 64, 11, NULL, 'A volcano island. Blaine''s Gym is locked, and its key is in the Pokémon Mansion.'),
-  -- 65: Pokémon Mansion (milestone)
-  (17, 65, NULL, 170030, NULL),
-  -- 66: Volcano Badge (milestone)
-  (17, 66, NULL, 170010, NULL),
-  -- 67: Route 21
-  (17, 67, 51, NULL, 'North by sea to Pallet Town.'),
-  -- 68: Pallet Town
-  (17, 68, 30, NULL, 'Through your home town.'),
-  -- 69: Route 1
-  (17, 69, 38, NULL, 'North to Viridian City.'),
-  -- 70: Viridian City
-  (17, 70, 76, NULL, 'Trace is outside the Gym, which is still shut. The two of you go to ask Professor Oak.'),
-  -- 71: Pallet Town
-  (17, 71, 30, NULL, 'Blue is at the lab. He gives you Mega Stones and goes to open the Gym in Viridian City.'),
-  -- 72: Route 1
-  (17, 72, 38, NULL, 'North once more to Viridian City.'),
-  -- 73: Earth Badge (milestone)
-  (17, 73, NULL, 170011, NULL),
-  -- 74: Route 22
-  (17, 74, 52, NULL, 'Trace battles you once more on the way to the League gate.'),
-  -- 75: Route 23
-  (17, 75, 53, NULL, 'The badge gates, one for each badge.'),
-  -- 76: Victory Road (milestone)
-  (17, 76, NULL, 170025, NULL),
-  -- 77: Indigo Plateau
-  (17, 77, 21, NULL, 'The last Pokémon Center and shop. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 78: Pokémon League (milestone)
-  (17, 78, NULL, 170016, NULL),
-  -- 79: Battle Blue (milestone)
-  (17, 79, NULL, 170018, NULL),
-  -- 80: Cerulean Cave (milestone)
-  (17, 80, NULL, 170026, NULL),
-  -- 81: Battle Green (milestone)
-  (17, 81, NULL, 170019, NULL),
-  -- 82: Battle Red (milestone)
-  (17, 82, NULL, 170027, NULL);
+  (17, 49, 133, NULL, 'Give the Tea to a guard and the gates open. Team Rocket holds the city and Silph Co., where Blue and Trace meet you and a worker on 7F gives you a Lapras. Once Giovanni is beaten, a Silph worker in town gives you a Porygon.'),
+  -- 50: Fighting Dojo
+  (17, 50, 14, NULL, 'A side trip to the dojo next to Saffron Gym. Beat its master and he gives you a Hitmonlee or a Hitmonchan.'),
+  -- 51: Silph Co. (milestone)
+  (17, 51, NULL, 170022, NULL),
+  -- 52: Marsh Badge (milestone)
+  (17, 52, NULL, 170009, NULL),
+  -- 53: Route 7
+  (17, 53, 60, NULL, 'West out of Saffron City.'),
+  -- 54: Celadon City
+  (17, 54, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
+  -- 55: Route 16
+  (17, 55, 45, NULL, 'West of Celadon City. A Snorlax sleeps across the way to Pokémon Road.'),
+  -- 56: Snorlax Encounter (milestone)
+  (17, 56, NULL, 170007, NULL),
+  -- 57: Route 17
+  (17, 57, 46, NULL, 'Pokémon Road, a long run downhill over the sea. Jessie and James battle you on the way.'),
+  -- 58: Route 18
+  (17, 58, 47, NULL, 'The end of Pokémon Road, leading east to Fuchsia City.'),
+  -- 59: Fuchsia City
+  (17, 59, 18, NULL, 'Koga''s Gym uses Poison types, and asks for 50 kinds of Pokémon caught. A man with a Lapras outside GO Park teaches your partner Sea Skim. Bring the Warden his Gold Teeth and he teaches it Strong Push.'),
+  -- 60: Soul Badge (milestone)
+  (17, 60, NULL, 170008, NULL),
+  -- 61: Route 15
+  (17, 61, 44, NULL, 'A side trip east from Fuchsia City.'),
+  -- 62: Route 14
+  (17, 62, 43, NULL, 'North along the coast.'),
+  -- 63: Route 13
+  (17, 63, 42, NULL, 'A maze of fences by the sea.'),
+  -- 64: Route 12
+  (17, 64, 41, NULL, 'North along the coast to Lavender Town.'),
+  -- 65: Power Plant (milestone)
+  (17, 65, NULL, 170023, NULL),
+  -- 66: Route 19
+  (17, 66, 48, NULL, 'Sea Skim south from Fuchsia City''s beach. Jessie and James dig up the Warden''s Gold Teeth here and throw them at you.'),
+  -- 67: Route 20
+  (17, 67, 50, NULL, 'West across the sea, through the Seafoam Islands.'),
+  -- 68: Seafoam Islands (milestone)
+  (17, 68, NULL, 170024, NULL),
+  -- 69: Cinnabar Island
+  (17, 69, 11, NULL, 'A volcano island. Blaine''s Gym is locked, and its key is in the Pokémon Mansion.'),
+  -- 70: Cinnabar Lab
+  (17, 70, 12, NULL, 'A side trip to the lab, where a scientist brings fossils back to life.'),
+  -- 71: Pokémon Mansion (milestone)
+  (17, 71, NULL, 170030, NULL),
+  -- 72: Volcano Badge (milestone)
+  (17, 72, NULL, 170010, NULL),
+  -- 73: Route 21
+  (17, 73, 51, NULL, 'North by sea to Pallet Town.'),
+  -- 74: Pallet Town
+  (17, 74, 30, NULL, 'Through your home town.'),
+  -- 75: Route 1
+  (17, 75, 38, NULL, 'North to Viridian City.'),
+  -- 76: Viridian City
+  (17, 76, 76, NULL, 'Trace is outside the Gym, which is still shut. The two of you go to ask Professor Oak.'),
+  -- 77: Pallet Town
+  (17, 77, 30, NULL, 'Blue is at the lab. He gives you Mega Stones and goes to open the Gym in Viridian City.'),
+  -- 78: Route 1
+  (17, 78, 38, NULL, 'North once more to Viridian City.'),
+  -- 79: Earth Badge (milestone)
+  (17, 79, NULL, 170011, NULL),
+  -- 80: Route 22
+  (17, 80, 52, NULL, 'Trace battles you once more on the way to the League gate.'),
+  -- 81: Route 23
+  (17, 81, 53, NULL, 'The badge gates, one for each badge.'),
+  -- 82: Victory Road (milestone)
+  (17, 82, NULL, 170025, NULL),
+  -- 83: Indigo Plateau
+  (17, 83, 21, NULL, 'The last Pokémon Center and shop. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 84: Pokémon League (milestone)
+  (17, 84, NULL, 170016, NULL),
+  -- 85: Battle Blue (milestone)
+  (17, 85, NULL, 170018, NULL),
+  -- 86: Cerulean Cave (milestone)
+  (17, 86, NULL, 170026, NULL),
+  -- 87: Battle Green (milestone)
+  (17, 87, NULL, 170019, NULL),
+  -- 88: Battle Red (milestone)
+  (17, 88, NULL, 170027, NULL);

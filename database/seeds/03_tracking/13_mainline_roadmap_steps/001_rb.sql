@@ -119,96 +119,98 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 7
   (1, 43, 60, NULL, 'A short road west to Celadon City.'),
   -- 44: Celadon City
-  (1, 44, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret. An Eevee waits in a Poké Ball on the roof of the Celadon Mansion, reached by its back door.'),
-  -- 45: Rainbow Badge (milestone)
-  (1, 45, NULL, 10007, NULL),
-  -- 46: Rocket Hideout (milestone)
-  (1, 46, NULL, 10020, NULL),
-  -- 47: Route 7
-  (1, 47, 60, NULL, 'Back east with the Silph Scope.'),
-  -- 48: Underground Path (Kanto Routes 7-8)
-  (1, 48, 809, NULL, 'The same tunnel under Saffron City, the way you came.'),
-  -- 49: Route 8
-  (1, 49, 61, NULL, 'East again to Lavender Town.'),
-  -- 50: Lavender Town
-  (1, 50, 23, NULL, 'Back with the Silph Scope, you can see the ghosts at last. Climb Pokémon Tower to find Mr. Fuji.'),
-  -- 51: Pokémon Tower (milestone)
-  (1, 51, NULL, 10021, NULL),
-  -- 52: Route 8
-  (1, 52, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for a drink.'),
-  -- 53: Saffron City
-  (1, 53, 133, NULL, 'Give any guard a drink to get in. Team Rocket has taken over the city and Silph Co. The Fighting Dojo sits beside Sabrina''s Gym. Beat its master and he gives you a Hitmonlee or a Hitmonchan. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
-  -- 54: Silph Co. (milestone)
-  (1, 54, NULL, 10022, NULL),
-  -- 55: Fighting Dojo Choice (milestone)
-  (1, 55, NULL, 10010, NULL),
-  -- 56: Marsh Badge (milestone)
-  (1, 56, NULL, 10009, NULL),
-  -- 57: Route 7
-  (1, 57, 60, NULL, 'West out of Saffron City.'),
-  -- 58: Celadon City
-  (1, 58, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
-  -- 59: Route 16
-  (1, 59, 45, NULL, 'West of Celadon City. A sleeping Snorlax blocks the road. Wake it with the Poké Flute. A girl in a house behind a tree gives you HM02 Fly.'),
-  -- 60: Route 17
-  (1, 60, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle, and bikers wait along the way.'),
-  -- 61: Route 18
-  (1, 61, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
-  -- 62: Fuchsia City
-  (1, 62, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them. A fisherman in a house here gives you the Good Rod.'),
-  -- 63: Soul Badge (milestone)
-  (1, 63, NULL, 10008, NULL),
-  -- 64: Safari Zone (milestone)
-  (1, 64, NULL, 10028, NULL),
-  -- 65: Power Plant (milestone)
-  (1, 65, NULL, 10023, NULL),
-  -- 66: Lavender Town
-  (1, 66, 23, NULL, 'Fly back here and go south onto the pier, for the long way down the coast to Fuchsia City.'),
-  -- 67: Route 12
-  (1, 67, 41, NULL, 'Another sleeping Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
-  -- 68: Route 13
-  (1, 68, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
-  -- 69: Route 14
-  (1, 69, 43, NULL, 'Trainers line the way south toward Route 15.'),
-  -- 70: Route 15
-  (1, 70, 44, NULL, 'Leads west to Fuchsia City. In the gate, Oak''s aide gives you an Exp. All once you''ve caught 50 kinds.'),
-  -- 71: Fuchsia City
-  (1, 71, 18, NULL, 'Back in Fuchsia City with Surf and Strength. Head south from the beach to cross the sea.'),
-  -- 72: Route 19
-  (1, 72, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
-  -- 73: Route 20
-  (1, 73, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
-  -- 74: Seafoam Islands (milestone)
-  (1, 74, NULL, 10024, NULL),
-  -- 75: Route 20
-  (1, 75, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
-  -- 76: Cinnabar Island
-  (1, 76, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
-  -- 77: Cinnabar Lab
-  (1, 77, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
-  -- 78: Pokémon Mansion (milestone)
-  (1, 78, NULL, 10029, NULL),
-  -- 79: Volcano Badge (milestone)
-  (1, 79, NULL, 10011, NULL),
-  -- 80: Route 21
-  (1, 80, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
-  -- 81: Pallet Town
-  (1, 81, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
-  -- 82: Route 1
-  (1, 82, 38, NULL, 'North once more to Viridian City.'),
-  -- 83: Viridian City
-  (1, 83, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
-  -- 84: Earth Badge (milestone)
-  (1, 84, NULL, 10012, NULL),
-  -- 85: Route 22
-  (1, 85, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
-  -- 86: Route 23
-  (1, 86, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
-  -- 87: Victory Road (milestone)
-  (1, 87, NULL, 10025, NULL),
-  -- 88: Indigo Plateau
-  (1, 88, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 89: Pokémon League (milestone)
-  (1, 89, NULL, 10017, NULL),
-  -- 90: Cerulean Cave (milestone)
-  (1, 90, NULL, 10026, NULL);
+  (1, 44, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret.'),
+  -- 45: Celadon Condominiums
+  (1, 45, 7, NULL, 'A side trip to the Celadon Mansion. Its back door leads up to the roof, where an Eevee waits in a Poké Ball.'),
+  -- 46: Rainbow Badge (milestone)
+  (1, 46, NULL, 10007, NULL),
+  -- 47: Rocket Hideout (milestone)
+  (1, 47, NULL, 10020, NULL),
+  -- 48: Route 7
+  (1, 48, 60, NULL, 'Back east with the Silph Scope.'),
+  -- 49: Underground Path (Kanto Routes 7-8)
+  (1, 49, 809, NULL, 'The same tunnel under Saffron City, the way you came.'),
+  -- 50: Route 8
+  (1, 50, 61, NULL, 'East again to Lavender Town.'),
+  -- 51: Lavender Town
+  (1, 51, 23, NULL, 'Back with the Silph Scope, you can see the ghosts at last. Climb Pokémon Tower to find Mr. Fuji.'),
+  -- 52: Pokémon Tower (milestone)
+  (1, 52, NULL, 10021, NULL),
+  -- 53: Route 8
+  (1, 53, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for a drink.'),
+  -- 54: Saffron City
+  (1, 54, 133, NULL, 'Give any guard a drink to get in. Team Rocket has taken over the city and Silph Co. The Fighting Dojo sits beside Sabrina''s Gym. Beat its master and he gives you a Hitmonlee or a Hitmonchan. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
+  -- 55: Silph Co. (milestone)
+  (1, 55, NULL, 10022, NULL),
+  -- 56: Fighting Dojo Choice (milestone)
+  (1, 56, NULL, 10010, NULL),
+  -- 57: Marsh Badge (milestone)
+  (1, 57, NULL, 10009, NULL),
+  -- 58: Route 7
+  (1, 58, 60, NULL, 'West out of Saffron City.'),
+  -- 59: Celadon City
+  (1, 59, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
+  -- 60: Route 16
+  (1, 60, 45, NULL, 'West of Celadon City. A sleeping Snorlax blocks the road. Wake it with the Poké Flute. A girl in a house behind a tree gives you HM02 Fly.'),
+  -- 61: Route 17
+  (1, 61, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle, and bikers wait along the way.'),
+  -- 62: Route 18
+  (1, 62, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
+  -- 63: Fuchsia City
+  (1, 63, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them. A fisherman in a house here gives you the Good Rod.'),
+  -- 64: Soul Badge (milestone)
+  (1, 64, NULL, 10008, NULL),
+  -- 65: Safari Zone (milestone)
+  (1, 65, NULL, 10028, NULL),
+  -- 66: Power Plant (milestone)
+  (1, 66, NULL, 10023, NULL),
+  -- 67: Lavender Town
+  (1, 67, 23, NULL, 'Fly back here and go south onto the pier, for the long way down the coast to Fuchsia City.'),
+  -- 68: Route 12
+  (1, 68, 41, NULL, 'Another sleeping Snorlax blocks the road south of Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
+  -- 69: Route 13
+  (1, 69, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
+  -- 70: Route 14
+  (1, 70, 43, NULL, 'Trainers line the way south toward Route 15.'),
+  -- 71: Route 15
+  (1, 71, 44, NULL, 'Leads west to Fuchsia City. In the gate, Oak''s aide gives you an Exp. All once you''ve caught 50 kinds.'),
+  -- 72: Fuchsia City
+  (1, 72, 18, NULL, 'Back in Fuchsia City with Surf and Strength. Head south from the beach to cross the sea.'),
+  -- 73: Route 19
+  (1, 73, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
+  -- 74: Route 20
+  (1, 74, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
+  -- 75: Seafoam Islands (milestone)
+  (1, 75, NULL, 10024, NULL),
+  -- 76: Route 20
+  (1, 76, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
+  -- 77: Cinnabar Island
+  (1, 77, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
+  -- 78: Cinnabar Lab
+  (1, 78, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
+  -- 79: Pokémon Mansion (milestone)
+  (1, 79, NULL, 10029, NULL),
+  -- 80: Volcano Badge (milestone)
+  (1, 80, NULL, 10011, NULL),
+  -- 81: Route 21
+  (1, 81, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
+  -- 82: Pallet Town
+  (1, 82, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
+  -- 83: Route 1
+  (1, 83, 38, NULL, 'North once more to Viridian City.'),
+  -- 84: Viridian City
+  (1, 84, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
+  -- 85: Earth Badge (milestone)
+  (1, 85, NULL, 10012, NULL),
+  -- 86: Route 22
+  (1, 86, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
+  -- 87: Route 23
+  (1, 87, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
+  -- 88: Victory Road (milestone)
+  (1, 88, NULL, 10025, NULL),
+  -- 89: Indigo Plateau
+  (1, 89, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 90: Pokémon League (milestone)
+  (1, 90, NULL, 10017, NULL),
+  -- 91: Cerulean Cave (milestone)
+  (1, 91, NULL, 10026, NULL);

@@ -130,8 +130,8 @@ SELECT
         LEFT JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_roadmap_steps.milestone_id
         WHERE
             mainline_roadmap_steps.version_group_id = 1
-            AND mainline_roadmap_steps.sort_order BETWEEN 85 AND 998 ORDER BY mainline_roadmap_steps.sort_order $$, $$
-        VALUES (85, 'Route 22'::text), (86, 'Route 23'::text), (87, 'victory-road'::text), (88, 'Indigo Plateau'::text), (89, 'pokemon-league'::text), (90, 'cerulean-cave'::text) $$, 'Red / Blue''s League is one step after the Indigo Plateau, before Cerulean Cave');
+            AND mainline_roadmap_steps.sort_order BETWEEN 86 AND 998 ORDER BY mainline_roadmap_steps.sort_order $$, $$
+        VALUES (86, 'Route 22'::text), (87, 'Route 23'::text), (88, 'victory-road'::text), (89, 'Indigo Plateau'::text), (90, 'pokemon-league'::text), (91, 'cerulean-cave'::text) $$, 'Red / Blue''s League is one step after the Indigo Plateau, before Cerulean Cave');
 SELECT
     IS ((
             SELECT
@@ -141,8 +141,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order < 999),
-            90,
-            'Red / Blue''s roadmap runs 1 to 90 with no gaps');
+            91,
+            'Red / Blue''s roadmap runs 1 to 91 with no gaps');
 SELECT
     IS ((
             SELECT
@@ -152,8 +152,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order < 999),
-            90,
-            'Red / Blue''s roadmap has 90 steps');
+            91,
+            'Red / Blue''s roadmap has 91 steps');
 -- The Pewter Museum of Science is Kanto's (it was filed under Johto).
 SELECT
     results_eq ($$
