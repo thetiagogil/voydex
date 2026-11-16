@@ -581,7 +581,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     );
   });
 
-  it("names three either-or battles in one row and counts them as one", () => {
+  it("names three either-or battles in one row, counts them as one and drops a note only one has", () => {
     const model = buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 1,
@@ -591,8 +591,20 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
       orderedMilestones: [
         {
           ...milestone(7, [
-            { id: 71, name: "Articuno", role: "rival", typeId: 10 },
-            { id: 72, name: "Zapdos", role: "rival", typeId: 10 },
+            {
+              id: 71,
+              name: "Articuno",
+              notes: "If you chose Chespin.",
+              role: "rival",
+              typeId: 10,
+            },
+            {
+              id: 72,
+              name: "Zapdos",
+              notes: "If you chose Fennekin.",
+              role: "rival",
+              typeId: 10,
+            },
             { id: 73, name: "Moltres", role: "rival", typeId: 10 },
           ]),
           is_required_for_completion: true,
@@ -612,6 +624,8 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     expect(model.chapters[0]?.battles[0]?.name).toBe(
       "Articuno, Zapdos or Moltres",
     );
+    /* One option's own note would be wrong for the others. */
+    expect(model.chapters[0]?.battles[0]?.where).toBeNull();
   });
 });
 

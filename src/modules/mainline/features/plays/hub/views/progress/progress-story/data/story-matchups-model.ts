@@ -806,6 +806,10 @@ const foldEitherOrBattles = (entries: EitherOrBattle[]) => {
         first.state === "won"
           ? null
           : "It depends on a choice this Play hasn't recorded. Pick what you chose to see who you'd face.",
+      /* Each option's own note ("for the Iceroot Carrot") would be wrong for the others. */
+      where: group.every(({ battle }) => battle.where === first.where)
+        ? first.where
+        : null,
     });
   }
 
