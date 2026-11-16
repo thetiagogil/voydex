@@ -1,6 +1,18 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
-import { buildDeviceSchemaSql, stripHostedOnly } from "./device-schema.mjs";
+import { rootDir } from "./context.mjs";
+import {
+  buildDeviceSchemaSql,
+  hashDeviceSchemaSql,
+  stripHostedOnly,
+} from "./device-schema.mjs";
+import {
+  deviceUpdatesDir,
+  readDeviceUpdates,
+} from "./game-data/release-checks.mjs";
 
 describe("buildDeviceSchemaSql", () => {
   it("puts the device schema first and leaves pgcrypto out", () => {
@@ -73,5 +85,36 @@ describe("stripHostedOnly", () => {
     expect(sql).toContain("CREATE TABLE c;");
     expect(sql).not.toContain("CREATE TABLE b;");
     expect(sql).not.toContain("07_backups");
+  });
+});
+
+/*
+ * A device that already holds data only reaches a new schema through a
+ * device update; without one it has to start fresh and loses its Plays.
+ * schema.sha256 names the latest device update and the schema it brings a
+ * device to, so a schema change with no update fails here, before a release.
+ */
+describe("device updates", () => {
+  it("cover every change to the device schema", () => {
+    const [name, hash] = fs
+      .readFileSync(path.join(deviceUpdatesDir, "schema.sha256"), "utf8")
+      .trim()
+      .split(" ");
+    const read = (file) => fs.readFileSync(path.join(rootDir, file), "utf8");
+    const schemaHash = hashDeviceSchemaSql(
+      buildDeviceSchemaSql({
+        deviceSql: read("src/platform/local-db/device-schema.sql"),
+        deviceTailSql: read("src/platform/local-db/device-changes.sql"),
+        migrationSql: read(
+          "database/supabase/migrations/00000000000000_voydex_current_schema.sql",
+        ),
+      }),
+    );
+
+    expect(name).toBe(readDeviceUpdates().at(-1));
+    expect(
+      schemaHash,
+      "The device schema changed. Add a device update in database/device-updates/ and record it and the new hash in schema.sha256.",
+    ).toBe(hash);
   });
 });
