@@ -103,45 +103,81 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (11, 37, NULL, 110008, NULL),
   -- 38: Route 7
   (11, 38, 395, NULL, 'Cheren battles you at the entrance to Twist Mountain. Alder then gives you both HM03 Surf.'),
-  -- 39: Swords of Justice (milestone)
-  (11, 39, NULL, 110019, NULL),
-  -- 40: Twist Mountain
-  (11, 40, 401, NULL, 'A mine in a crater, on the way to Icirrus City. Snow changes its paths in winter.'),
-  -- 41: Icirrus City
-  (11, 41, 362, NULL, 'A cold town by the marsh. Brycen''s Gym uses Ice types. After you win, the Shadow Triad says Ghetsis wants you at Dragonspiral Tower.'),
-  -- 42: Freeze Badge (milestone)
-  (11, 42, NULL, 110009, NULL),
-  -- 43: Dragonspiral Tower (milestone)
-  (11, 43, NULL, 110026, NULL),
-  -- 44: Desert Resort
-  (11, 44, 352, NULL, 'Fly south to the desert, where Team Plasma is searching the Relic Castle.'),
-  -- 45: Relic Castle (milestone)
-  (11, 45, NULL, 110027, NULL),
-  -- 46: Nacrene City
-  (11, 46, 367, NULL, 'Fly to Nacrene City. Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
-  -- 47: Route 8
-  (11, 47, 396, NULL, 'Fly to Icirrus City. A marshy road runs east of it. Bianca battles you on the way.'),
-  -- 48: Tubeline Bridge
-  (11, 48, 887, NULL, 'A railway bridge. Ghetsis and the Shadow Triad wait for you at the far end with one more lecture.'),
-  -- 49: Route 9
-  (11, 49, 397, NULL, 'A short road with Shopping Mall Nine.'),
-  -- 50: Opelucid City
-  (11, 50, 888, NULL, 'Old in Black and futuristic in White. Ghetsis tells a crowd that N has joined with the legendary dragon. Drayden and Iris tell you the legend of the two dragons at their house. The Gym uses Dragon types. After you win, Professor Juniper gives you a Master Ball.'),
-  -- 51: Legend Badge (milestone)
-  (11, 51, NULL, 110010, NULL),
-  -- 52: Roaming Tornadus or Thundurus (milestone)
-  (11, 52, NULL, 110020, NULL),
-  -- 53: Route 10
-  (11, 53, 376, NULL, 'The road to the Pokémon League. Cheren battles you before the badge gates.'),
-  -- 54: Victory Road (Black and White)
-  (11, 54, 406, NULL, 'A mountain you climb through its caves and cliffs, sliding down the slopes.'),
-  -- 55: Pokémon League
-  (11, 55, 890, NULL, 'The last Pokémon Center and shop. The Elite Four''s rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
-  -- 56: Pokémon League (milestone)
-  (11, 56, NULL, 110016, NULL),
-  -- 57: Champion Alder (milestone)
-  (11, 57, NULL, 110017, NULL),
-  -- 58: Giant Chasm (milestone)
-  (11, 58, NULL, 110021, NULL),
-  -- 59: Abundant Shrine (milestone)
-  (11, 59, NULL, 110022, NULL);
+  -- 39: Route 17
+  (11, 39, 383, NULL, 'A side trip with Surf. Fly to Nuvema Town and Surf west from Route 1 into these fast sea currents.'),
+  -- 40: Route 18
+  (11, 40, 384, NULL, 'The large island at the end of the westbound currents.'),
+  -- 41: P2 Laboratory
+  (11, 41, 370, NULL, 'An empty lab on a small island in the currents, cluttered with machines. Then fly back north.'),
+  -- 42: Swords of Justice (milestone)
+  (11, 42, NULL, 110019, NULL),
+  -- 43: Twist Mountain
+  (11, 43, 401, NULL, 'A mine in a crater, on the way to Icirrus City. Snow changes its paths in winter.'),
+  -- 44: Icirrus City
+  (11, 44, 362, NULL, 'A cold town by the marsh. Brycen''s Gym uses Ice types. After you win, the Shadow Triad says Ghetsis wants you at Dragonspiral Tower.'),
+  -- 45: Freeze Badge (milestone)
+  (11, 45, NULL, 110009, NULL),
+  -- 46: Dragonspiral Tower (milestone)
+  (11, 46, NULL, 110026, NULL),
+  -- 47: Desert Resort
+  (11, 47, 352, NULL, 'Fly south to the desert, where Team Plasma is searching the Relic Castle.'),
+  -- 48: Relic Castle (milestone)
+  (11, 48, NULL, 110027, NULL),
+  -- 49: Nacrene City
+  (11, 49, 367, NULL, 'Fly to Nacrene City. Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
+  -- 50: Route 8
+  (11, 50, 396, NULL, 'Fly to Icirrus City. A marshy road runs east of it. Bianca battles you on the way.'),
+  -- 51: Moor of Icirrus
+  (11, 51, 366, NULL, 'A side trip into the marsh off Route 8. Strength moves the rock on its west side.'),
+  -- 52: Tubeline Bridge
+  (11, 52, 887, NULL, 'A railway bridge. Ghetsis and the Shadow Triad wait for you at the far end with one more lecture.'),
+  -- 53: Route 9
+  (11, 53, 397, NULL, 'A short road with Shopping Mall Nine.'),
+  -- 54: Opelucid City
+  (11, 54, 888, NULL, 'Old in Black and futuristic in White. Ghetsis tells a crowd that N has joined with the legendary dragon. Drayden and Iris tell you the legend of the two dragons at their house. The Gym uses Dragon types. After you win, Professor Juniper gives you a Master Ball.'),
+  -- 55: Legend Badge (milestone)
+  (11, 55, NULL, 110010, NULL),
+  -- 56: Roaming Tornadus or Thundurus (milestone)
+  (11, 56, NULL, 110020, NULL),
+  -- 57: Route 10
+  (11, 57, 376, NULL, 'The road to the Pokémon League. Cheren battles you before the badge gates.'),
+  -- 58: Victory Road (Black and White)
+  (11, 58, 406, NULL, 'A mountain you climb through its caves and cliffs, sliding down the slopes.'),
+  -- 59: Pokémon League
+  (11, 59, 890, NULL, 'The last Pokémon Center and shop. The Elite Four''s rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
+  -- 60: Pokémon League (milestone)
+  (11, 60, NULL, 110016, NULL),
+  -- 61: Challenger's Cave
+  (11, 61, 348, NULL, 'A side trip into a cave off Route 9, north of Opelucid City, full of strong trainers.'),
+  -- 62: Champion Alder (milestone)
+  (11, 62, NULL, 110017, NULL),
+  -- 63: Route 11
+  (11, 63, 377, NULL, 'East of Opelucid City, over a river with a large waterfall.'),
+  -- 64: Village Bridge
+  (11, 64, 407, NULL, 'A bridge with houses on it, about 200 years old. The girl in the northeast house heals your team.'),
+  -- 65: Route 12
+  (11, 65, 378, NULL, 'Gentle hills east to Lacunosa Town.'),
+  -- 66: Lacunosa Town
+  (11, 66, 895, NULL, 'A tiny town whose people once feared a monster that came at night.'),
+  -- 67: Route 13
+  (11, 67, 379, NULL, 'A seaside road lined with trees. A treasure hunter gives you a rare item every day, and a move tutor teaches an ultimate move. The Giant Chasm opens to the north.'),
+  -- 68: Giant Chasm (milestone)
+  (11, 68, NULL, 110021, NULL),
+  -- 69: Undella Town
+  (11, 69, 403, NULL, 'A summer resort with villas on the beach. The wealthy family in the large villa on the west side wants a tough battle. Cynthia, Sinnoh''s Champion, stays here in the warm months.'),
+  -- 70: Undella Bay
+  (11, 70, 402, NULL, 'Dive at one of the four dark spots to find the Abyssal Ruins on the seabed.'),
+  -- 71: Route 14
+  (11, 71, 380, NULL, 'A misty, wooded route south of Undella Town, with a river and waterfalls. The Abundant Shrine lies in the trees to the west.'),
+  -- 72: Abundant Shrine (milestone)
+  (11, 72, NULL, 110022, NULL),
+  -- 73: White Forest
+  (11, 73, 411, NULL, 'In White, a woodland that grows as more people come. In Black, Black City stands here, a city that grows the same way. How big it is depends on how many days you took to get here.'),
+  -- 74: Route 15
+  (11, 74, 381, NULL, 'Cliffs with stairways and bridges. The Poké Transfer Lab at the top moves Pokémon over from older games.'),
+  -- 75: Marvelous Bridge
+  (11, 75, 364, NULL, 'A futuristic bridge over the sea, west to Route 16.'),
+  -- 76: Route 16
+  (11, 76, 382, NULL, 'A short road to Nimbasa City. A gap in the trees to the north leads to Lostlorn Forest.'),
+  -- 77: Lostlorn Forest
+  (11, 77, 363, NULL, 'A small wood where people get lost. A quiet woman lives alone in the trailer on its north side.');
