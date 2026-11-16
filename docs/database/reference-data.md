@@ -360,7 +360,10 @@ sources remain authoritative for game-specific mechanics and availability.
   first, then Yellow; `610_story_pattern.sql` holds every game with a roadmap
   to it):
   - Each milestone is at a place (`location_id`), a badge at its Gym, and is
-    one roadmap step. A battle fought elsewhere names its own place, and
+    one roadmap step. A place step is somewhere you move to: the short walk
+    back between two far places is steps too, a long way back is said in the
+    note of the place you arrive at, and a town you are already standing in
+    gets no step of its own. A battle fought elsewhere names its own place, and
     Story then shows it on that place instead of on the milestone. So the
     place has to be a step on the way to the milestone, and the milestone a
     required one. A battle fought somewhere the route reaches only after its
@@ -411,14 +414,14 @@ sources remain authoritative for game-specific mechanics and availability.
   Snorlax in front of Diglett's Cave, the only way west), then Red. The
   Burned Tower is optional in these games, so it is Side Content with the
   three Pokémon that flee it (placed at the Burned Tower, where they start),
-  the Tin Tower and the Whirl Islands. The roadmap has 137 steps, sourced
+  the Tin Tower and the Whirl Islands. The roadmap has 138 steps, sourced
   from all 29 parts of Bulbapedia's walkthrough. The game's own data (the
   pret pokegold disassembly) confirmed every seeded team and showed that the
   red Gyarados, Sudowoodo, the hideout's Electrode and Snorlax all leave
   whether caught, beaten or fled, so they are notes. The Executives keep the
   names HeartGold / SoulSilver gave them (the games only say Executive).
   Known gap: the Tin Tower's place is the row named Bell Tower.
-- Crystal walks Gold / Silver's route (`630_crystal_story.sql`; 139 steps),
+- Crystal walks Gold / Silver's route (`630_crystal_story.sql`; 140 steps),
   read from its own walkthrough against Gold / Silver's and checked on the
   pret pokecrystal disassembly. What differs: the Burned Tower is a required
   Main Story beat (Ecruteak Gym is closed until it), the Radio Tower hands
@@ -429,7 +432,7 @@ sources remain authoritative for game-specific mechanics and availability.
   Boulder Badge (the Silver Wing), and Eusine, who is not seeded for any
   later game yet, battles you in Cianwood City (optional, role `boss` until
   a better label exists). Crystal has the same Unown set.
-- Ruby / Sapphire in the pattern (`640_rs_story.sql`; 103 steps from all 23
+- Ruby / Sapphire in the pattern (`640_rs_story.sql`; 108 steps from all 23
   parts of Bulbapedia's walkthrough, teams checked on the pret pokeruby
   disassembly): Main Story adds the beats the game forces between badges
   (Rusturf Tunnel, the Oceanic Museum, Meteor Falls, the Weather Institute,

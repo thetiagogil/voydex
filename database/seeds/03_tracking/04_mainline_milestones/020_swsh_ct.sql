@@ -32,7 +32,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Arrive at the Crown Tundra (Freezington)
   (200001, 20, NULL, 2001, 1, 1, NULL, 'arrive-crown-tundra', 'Arrive at the Crown Tundra', 'Find Peonia in the Max Lair and take her place on Peony''s expedition. He sets up base in Freezington and hands you his three Legendary Clues.', 2, true, 590),
   -- Steed Choice (Freezington)
-  (200003, 20, NULL, 2001, 12, 1, NULL, 'steed-choice', 'Steed Choice', 'Calyrex speaks to you through Peony and asks for its steed. Buy Carrot Seeds in Freezington and plant them at Snowslide Slope for the Iceroot Carrot and Glastrier, or at the Old Cemetery for the Shaderoot Carrot and Spectrier.', 3, true, 590),
+  (200003, 20, NULL, 2001, 12, 1, NULL, 'steed-choice', 'Steed Choice', 'Put Peony''s wooden crown on the statue in Freezington. Calyrex then speaks to you through Peony and asks for its steed. Buy Carrot Seeds in the village and plant them at Snowslide Slope for the Iceroot Carrot and Glastrier, or at the Old Cemetery for the Shaderoot Carrot and Spectrier.', 3, true, 590),
   -- Calyrex Quest (Crown Shrine)
   (200004, 20, NULL, 2001, 6, 3, NULL, 'calyrex-quest', 'Calyrex Quest', 'The steed charges into Freezington for the carrot. Drive it back, then climb to the Crown Shrine with the Reins of Unity. Calyrex rides its steed again and battles you. Catch it.', 4, true, 583),
   -- Regi Temples (Iron Ruins)

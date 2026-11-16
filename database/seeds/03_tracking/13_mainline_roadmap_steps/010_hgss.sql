@@ -135,195 +135,197 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (10, 53, 124, NULL, 'North to the Lake of Rage. Team Rocket Grunts in the gate charge a toll of 1,000 Pokédollars. The long way round through the tall grass avoids them.'),
   -- 54: Lake of Rage (milestone)
   (10, 54, NULL, 100045, NULL),
-  -- 55: Mahogany Town
-  (10, 55, 824, NULL, 'Lance''s Dragonite is blasting the shopkeeper when you walk into the souvenir shop. A hidden stairway leads down to Team Rocket''s hideout.'),
-  -- 56: Team Rocket HQ (milestone)
-  (10, 56, NULL, 100046, NULL),
-  -- 57: Glacier Badge (milestone)
-  (10, 57, NULL, 100009, NULL),
-  -- 58: Goldenrod City
-  (10, 58, 91, NULL, 'Professor Elm phones about strange broadcasts. Team Rocket has taken over the city and the Radio Tower. A Team Rocket Grunt in the Underground''s photo booth dresses you as one of them, which gets you in. The man in the Director''s office is a fake, and he gives up the Basement Key when you beat him.'),
-  -- 59: Goldenrod Underground
-  (10, 59, 830, NULL, 'Enter from the north and unlock the door with the Basement Key. Silver waits in the basement. Past the shutter switches, the real Director is held in the warehouse and gives you the Card Key.'),
-  -- 60: Radio Tower (milestone)
-  (10, 60, NULL, 100029, NULL),
-  -- 61: Mahogany Town
-  (10, 61, 824, NULL, 'With Team Rocket gone, the man blocking the road east has left.'),
-  -- 62: Route 44
-  (10, 62, 125, NULL, 'East of Mahogany Town, toward the Ice Path.'),
-  -- 63: Ice Path
-  (10, 63, 93, NULL, 'A frozen cave where you slide until something stops you. Push four boulders down the holes with Strength to cross. HM07 Waterfall lies on the first floor.'),
-  -- 64: Blackthorn City
-  (10, 64, 82, NULL, 'A mountain town of Dragon trainers. Clair''s Gym uses Dragon types. The Move Deleter here makes a Pokémon forget a move, HM moves included.'),
-  -- 65: Dragon's Den
-  (10, 65, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, answer the Master''s questions in the shrine and she hands over the badge.'),
-  -- 66: Rising Badge (milestone)
-  (10, 66, NULL, 100010, NULL),
-  -- 67: Route 45
-  (10, 67, 126, NULL, 'A long way south from Blackthorn City, down ledges you can''t climb back up.'),
-  -- 68: Route 46
-  (10, 68, 127, NULL, 'More ledges, down to Route 29 beside New Bark Town.'),
-  -- 69: New Bark Town
-  (10, 69, 101, NULL, 'Professor Elm phones to ask you home, and gives you a Master Ball. He says the Kimono Girls are waiting for you at the Ecruteak Dance Theater.'),
-  -- 70: Ecruteak City
-  (10, 70, 90, NULL, 'Silver is leaving the Dance Theater, beaten by the Kimono Girls. All five are on stage, waiting for you.'),
-  -- 71: Kimono Girls' Ritual (milestone)
-  (10, 71, NULL, 100030, NULL),
-  -- 72: Bell Tower
-  (10, 72, 81, NULL, 'HeartGold: with the Rainbow Wing and the Clear Bell, climb to the roof. The Kimono Girls dance, and Ho-Oh comes down.'),
-  -- 73: Whirl Islands
-  (10, 73, 139, NULL, 'SoulSilver: with the Silver Wing and the Tidal Bell, go in from the northeast island and down to the deepest chamber. The Kimono Girls dance, and Lugia rises. The islands need Whirlpool, and the caves are dark without Flash.'),
-  -- 74: New Bark Town
-  (10, 74, 101, NULL, 'Surf east from town to start for the Pokémon League.'),
-  -- 75: Route 27
-  (10, 75, 108, NULL, 'Across the water from New Bark Town, you step into Kanto.'),
-  -- 76: Tohjo Falls
-  (10, 76, 136, NULL, 'A small cave on the border between Johto and Kanto. You need Waterfall to climb through it.'),
-  -- 77: Route 26
-  (10, 77, 107, NULL, 'North toward the Pokémon League. A woman in a house on the way heals your team.'),
-  -- 78: Victory Road
-  (10, 78, 75, NULL, 'The guards at the gate check your eight badges. The cave has no trainers, but Silver stops you just before the exit.'),
-  -- 79: Indigo Plateau
-  (10, 79, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 80: Pokémon League (milestone)
-  (10, 80, NULL, 100015, NULL),
-  -- 81: New Bark Town
-  (10, 81, 101, NULL, 'After the credits you wake up at home. Professor Elm gives you the S.S. Ticket for the ship to Kanto.'),
-  -- 82: Olivine City
-  (10, 82, 102, NULL, 'Show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
-  -- 83: S.S. Aqua
-  (10, 83, 831, NULL, 'A fast ship to Vermilion City. A gentleman has lost his granddaughter. Beat the sailor napping in a cabin so the lower deck opens, find her in the captain''s cabin, and he gives you a Metal Coat.'),
-  -- 84: Vermilion City
-  (10, 84, 74, NULL, 'Kanto''s port. A sleeping Snorlax blocks the east exit and Diglett''s Cave. Lt. Surge''s Gym uses Electric types. The Pokémon Fan Club''s chairman gives you a Rare Candy.'),
-  -- 85: Thunder Badge (milestone)
-  (10, 85, NULL, 100019, NULL),
-  -- 86: Route 6
-  (10, 86, 59, NULL, 'North to Saffron City.'),
-  -- 87: Saffron City
-  (10, 87, 133, NULL, 'Kanto''s biggest city. Sabrina''s Gym uses Psychic types. Mr. Psychic gives you TM29 Psychic, and the Silph Co. guard an Up-Grade. The Magnet Train is stopped by trouble at the Power Plant.'),
-  -- 88: Marsh Badge (milestone)
-  (10, 88, NULL, 100022, NULL),
-  -- 89: Route 8
-  (10, 89, 61, NULL, 'East to Lavender Town.'),
-  -- 90: Lavender Town
-  (10, 90, 23, NULL, 'Pokémon Tower is now the Kanto Radio Tower, and its graves moved to the House of Memories. The tower lets visitors only onto the first floor.'),
-  -- 91: Route 10
-  (10, 91, 39, NULL, 'North of Lavender Town, to the south mouth of Rock Tunnel.'),
-  -- 92: Rock Tunnel
-  (10, 92, 37, NULL, 'Pitch dark without Flash. Come out the north side onto Route 9.'),
-  -- 93: Route 9
-  (10, 93, 62, NULL, 'A man in the Pokémon Center by Rock Tunnel says the Power Plant''s manager is looking for strong trainers. Surf down the river to reach it.'),
-  -- 94: Route 10
-  (10, 94, 39, NULL, 'The Power Plant stands on the river. A thief has stolen a part from its generator, and the guard hears of a shady man around Cerulean City.'),
-  -- 95: Cerulean City
-  (10, 95, 9, NULL, 'A man in black runs into you at the Gym door and hurries off north. The Bike Shop has moved to Goldenrod City.'),
-  -- 96: Route 24
-  (10, 96, 54, NULL, 'The man in black is a Team Rocket Grunt, waiting on Nugget Bridge. Beat him and he admits he hid the Machine Part in Cerulean Gym''s pool.'),
-  -- 97: Cerulean City
-  (10, 97, 9, NULL, 'Search the inflatable tubes at the back of the Gym for the Machine Part, then take it back to the Power Plant.'),
-  -- 98: Machine Part (milestone)
-  (10, 98, NULL, 100047, NULL),
-  -- 99: Lavender Town
-  (10, 99, 23, NULL, 'The Radio Tower''s manager thanks you for the power with an EXPN Card. It tunes your Pokégear to the Poké Flute channel, which wakes sleeping Pokémon.'),
-  -- 100: Route 25
-  (10, 100, 55, NULL, 'Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
-  -- 101: Cascade Badge (milestone)
-  (10, 101, NULL, 100018, NULL),
-  -- 102: Route 5
-  (10, 102, 58, NULL, 'South of Cerulean City to Saffron City.'),
-  -- 103: Saffron City
-  (10, 103, 133, NULL, 'Copycat has lost her doll. Fetch it from the Pokémon Fan Club in Vermilion City, where Steven of Hoenn stops you on the way out, and she gives you the Pass for the Magnet Train to Goldenrod City.'),
-  -- 104: Route 7
-  (10, 104, 60, NULL, 'A short road west to Celadon City.'),
-  -- 105: Celadon City
-  (10, 105, 6, NULL, 'Erika''s Gym uses Grass types. The Department Store sells nearly everything.'),
-  -- 106: Rainbow Badge (milestone)
-  (10, 106, NULL, 100020, NULL),
-  -- 107: Route 16
-  (10, 107, 45, NULL, 'West of Celadon City, to the top of Cycling Road.'),
-  -- 108: Route 17
-  (10, 108, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle.'),
-  -- 109: Route 18
-  (10, 109, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
-  -- 110: Fuchsia City
-  (10, 110, 18, NULL, 'Janine''s Gym uses Poison types. The old Safari Zone is now Pal Park, where Pokémon from Game Boy Advance games arrive.'),
-  -- 111: Soul Badge (milestone)
-  (10, 111, NULL, 100021, NULL),
-  -- 112: Route 15
-  (10, 112, 44, NULL, 'East out of Fuchsia City.'),
-  -- 113: Route 14
-  (10, 113, 43, NULL, 'North along the coast.'),
-  -- 114: Route 13
-  (10, 114, 42, NULL, 'A maze of fences by the sea.'),
-  -- 115: Route 12
-  (10, 115, 41, NULL, 'The Fishing Guru''s brother, in the house by the turn to Route 11, gives you the Super Rod.'),
-  -- 116: Route 11
-  (10, 116, 40, NULL, 'West toward Vermilion City, to the sleeping Snorlax.'),
-  -- 117: Vermilion City
-  (10, 117, 74, NULL, 'Tune the Pokégear radio to the Poké Flute channel beside the Snorlax and it wakes up angry. Catch it, beat it or run. Diglett''s Cave is open.'),
-  -- 118: Diglett's Cave
-  (10, 118, 13, NULL, 'A long tunnel under Kanto to Route 2.'),
-  -- 119: Route 2
-  (10, 119, 49, NULL, 'Out of Diglett''s Cave, north to Pewter City. A lonely man in the house here gives you a Nugget.'),
-  -- 120: Pewter City
-  (10, 120, 104, NULL, 'Brock''s Gym uses Rock types. An old man on the east side gives you the Silver Wing in HeartGold or the Rainbow Wing in SoulSilver.'),
-  -- 121: Boulder Badge (milestone)
-  (10, 121, NULL, 100017, NULL),
-  -- 122: Route 3
-  (10, 122, 56, NULL, 'East of Pewter City to Mt. Moon.'),
-  -- 123: Mt. Moon
-  (10, 123, 27, NULL, 'Collapses have left one chamber between Route 3 and Route 4. Silver meets you inside for one more battle. Mt. Moon Square is at the top.'),
-  -- 124: Route 4
-  (10, 124, 57, NULL, 'Down the ledges to Cerulean City.'),
-  -- 125: Viridian City
-  (10, 125, 76, NULL, 'South of Pewter City through Route 2. The Gym is open but its Leader is away. The Trainer House in the middle of town holds one battle a day.'),
-  -- 126: Route 1
-  (10, 126, 38, NULL, 'South to Pallet Town.'),
-  -- 127: Pallet Town
-  (10, 127, 30, NULL, 'Red''s mother and Blue''s sister Daisy live in the two houses. Professor Oak rates your Pokédex and asks you back once you have all eight Kanto badges.'),
-  -- 128: Route 21
-  (10, 128, 51, NULL, 'Surf south from Pallet Town to Cinnabar Island.'),
-  -- 129: Cinnabar Island
-  (10, 129, 11, NULL, 'The volcano erupted a year ago and only the Pokémon Center stands. Blue is behind it, looking at the ruins. Talk to him and he goes back to Viridian Gym.'),
-  -- 130: Route 20
-  (10, 130, 50, NULL, 'Surf east to the Seafoam Islands, where Blaine moved his Gym.'),
-  -- 131: Seafoam Islands
-  (10, 131, 65, NULL, 'Volcanic rock closed all but one small cave, and Blaine''s Gym is inside it.'),
-  -- 132: Volcano Badge (milestone)
-  (10, 132, NULL, 100023, NULL),
-  -- 133: Viridian City
-  (10, 133, 76, NULL, 'Fly back. Blue is in his Gym now. He has no one type, and no trainers to fight first.'),
-  -- 134: Earth Badge (milestone)
-  (10, 134, NULL, 100024, NULL),
-  -- 135: Pallet Town
-  (10, 135, 30, NULL, 'Tell Professor Oak you have all sixteen badges. He gives you HM08 Rock Climb and arranges for you to enter Mt. Silver.'),
-  -- 136: Route 22
-  (10, 136, 52, NULL, 'West of Viridian City to the League gate, where the guards now let you through to Route 28.'),
-  -- 137: Route 28
-  (10, 137, 109, NULL, 'The road to Mt. Silver. A retired celebrity, in a house behind a tree that needs Cut, gives you TM47 Steel Wing.'),
-  -- 138: Mt. Silver
-  (10, 138, 98, NULL, 'A Pokémon Center stands at the foot of the mountain, the last stop before the climb.'),
-  -- 139: Defeat Red (milestone)
-  (10, 139, NULL, 100025, NULL),
-  -- 140: Choose Kanto Starter (milestone)
-  (10, 140, NULL, 100026, NULL),
-  -- 141: Choose Hoenn Starter (milestone)
-  (10, 141, NULL, 100027, NULL),
-  -- 142: Route 25 (milestone)
-  (10, 142, NULL, 100034, NULL),
-  -- 143: Roaming Latias or Latios (milestone)
-  (10, 143, NULL, 100033, NULL),
-  -- 144: Power Plant (milestone)
-  (10, 144, NULL, 100035, NULL),
-  -- 145: Seafoam Islands (milestone)
-  (10, 145, NULL, 100036, NULL),
-  -- 146: Mt. Silver Cave (milestone)
-  (10, 146, NULL, 100037, NULL),
-  -- 147: Cerulean Cave (milestone)
-  (10, 147, NULL, 100038, NULL),
-  -- 148: Pewter City Wing (milestone)
-  (10, 148, NULL, 100039, NULL),
-  -- 149: Embedded Tower (milestone)
-  (10, 149, NULL, 100040, NULL),
-  -- 150: Dragon's Den (milestone)
-  (10, 150, NULL, 100041, NULL);
+  -- 55: Route 43
+  (10, 55, 124, NULL, 'Back south to Mahogany Town, where Lance said to meet him.'),
+  -- 56: Mahogany Town
+  (10, 56, 824, NULL, 'Lance''s Dragonite is blasting the shopkeeper when you walk into the souvenir shop. A hidden stairway leads down to Team Rocket''s hideout.'),
+  -- 57: Team Rocket HQ (milestone)
+  (10, 57, NULL, 100046, NULL),
+  -- 58: Glacier Badge (milestone)
+  (10, 58, NULL, 100009, NULL),
+  -- 59: Goldenrod City
+  (10, 59, 91, NULL, 'Professor Elm phones about strange broadcasts. Team Rocket has taken over the city and the Radio Tower. A Team Rocket Grunt in the Underground''s photo booth dresses you as one of them, which gets you in. The man in the Director''s office is a fake, and he gives up the Basement Key when you beat him.'),
+  -- 60: Goldenrod Underground
+  (10, 60, 830, NULL, 'Enter from the north and unlock the door with the Basement Key. Silver waits in the basement. Past the shutter switches, the real Director is held in the warehouse and gives you the Card Key.'),
+  -- 61: Radio Tower (milestone)
+  (10, 61, NULL, 100029, NULL),
+  -- 62: Mahogany Town
+  (10, 62, 824, NULL, 'With Team Rocket gone, the man blocking the road east has left.'),
+  -- 63: Route 44
+  (10, 63, 125, NULL, 'East of Mahogany Town, toward the Ice Path.'),
+  -- 64: Ice Path
+  (10, 64, 93, NULL, 'A frozen cave where you slide until something stops you. Push four boulders down the holes with Strength to cross. HM07 Waterfall lies on the first floor.'),
+  -- 65: Blackthorn City
+  (10, 65, 82, NULL, 'A mountain town of Dragon trainers. Clair''s Gym uses Dragon types. The Move Deleter here makes a Pokémon forget a move, HM moves included.'),
+  -- 66: Dragon's Den
+  (10, 66, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, answer the Master''s questions in the shrine and she hands over the badge.'),
+  -- 67: Rising Badge (milestone)
+  (10, 67, NULL, 100010, NULL),
+  -- 68: Route 45
+  (10, 68, 126, NULL, 'A long way south from Blackthorn City, down ledges you can''t climb back up.'),
+  -- 69: Route 46
+  (10, 69, 127, NULL, 'More ledges, down to Route 29 beside New Bark Town.'),
+  -- 70: New Bark Town
+  (10, 70, 101, NULL, 'Professor Elm phones to ask you home, and gives you a Master Ball. He says the Kimono Girls are waiting for you at the Ecruteak Dance Theater.'),
+  -- 71: Ecruteak City
+  (10, 71, 90, NULL, 'Silver is leaving the Dance Theater, beaten by the Kimono Girls. All five are on stage, waiting for you.'),
+  -- 72: Kimono Girls' Ritual (milestone)
+  (10, 72, NULL, 100030, NULL),
+  -- 73: Bell Tower
+  (10, 73, 81, NULL, 'HeartGold: with the Rainbow Wing and the Clear Bell, climb to the roof. The Kimono Girls dance, and Ho-Oh comes down.'),
+  -- 74: Whirl Islands
+  (10, 74, 139, NULL, 'SoulSilver: with the Silver Wing and the Tidal Bell, go in from the northeast island and down to the deepest chamber. The Kimono Girls dance, and Lugia rises. The islands need Whirlpool, and the caves are dark without Flash.'),
+  -- 75: New Bark Town
+  (10, 75, 101, NULL, 'Surf east from town to start for the Pokémon League.'),
+  -- 76: Route 27
+  (10, 76, 108, NULL, 'Across the water from New Bark Town, you step into Kanto.'),
+  -- 77: Tohjo Falls
+  (10, 77, 136, NULL, 'A small cave on the border between Johto and Kanto. You need Waterfall to climb through it.'),
+  -- 78: Route 26
+  (10, 78, 107, NULL, 'North toward the Pokémon League. A woman in a house on the way heals your team.'),
+  -- 79: Victory Road
+  (10, 79, 75, NULL, 'The guards at the gate check your eight badges. The cave has no trainers, but Silver stops you just before the exit.'),
+  -- 80: Indigo Plateau
+  (10, 80, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 81: Pokémon League (milestone)
+  (10, 81, NULL, 100015, NULL),
+  -- 82: New Bark Town
+  (10, 82, 101, NULL, 'After the credits you wake up at home. Professor Elm gives you the S.S. Ticket for the ship to Kanto.'),
+  -- 83: Olivine City
+  (10, 83, 102, NULL, 'Show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
+  -- 84: S.S. Aqua
+  (10, 84, 831, NULL, 'A fast ship to Vermilion City. A gentleman has lost his granddaughter. Beat the sailor napping in a cabin so the lower deck opens, find her in the captain''s cabin, and he gives you a Metal Coat.'),
+  -- 85: Vermilion City
+  (10, 85, 74, NULL, 'Kanto''s port. A sleeping Snorlax blocks the east exit and Diglett''s Cave. Lt. Surge''s Gym uses Electric types. The Pokémon Fan Club''s chairman gives you a Rare Candy.'),
+  -- 86: Thunder Badge (milestone)
+  (10, 86, NULL, 100019, NULL),
+  -- 87: Route 6
+  (10, 87, 59, NULL, 'North to Saffron City.'),
+  -- 88: Saffron City
+  (10, 88, 133, NULL, 'Kanto''s biggest city. Sabrina''s Gym uses Psychic types. Mr. Psychic gives you TM29 Psychic, and the Silph Co. guard an Up-Grade. The Magnet Train is stopped by trouble at the Power Plant.'),
+  -- 89: Marsh Badge (milestone)
+  (10, 89, NULL, 100022, NULL),
+  -- 90: Route 8
+  (10, 90, 61, NULL, 'East to Lavender Town.'),
+  -- 91: Lavender Town
+  (10, 91, 23, NULL, 'Pokémon Tower is now the Kanto Radio Tower, and its graves moved to the House of Memories. The tower lets visitors only onto the first floor.'),
+  -- 92: Route 10
+  (10, 92, 39, NULL, 'North of Lavender Town, to the south mouth of Rock Tunnel.'),
+  -- 93: Rock Tunnel
+  (10, 93, 37, NULL, 'Pitch dark without Flash. Come out the north side onto Route 9.'),
+  -- 94: Route 9
+  (10, 94, 62, NULL, 'A man in the Pokémon Center by Rock Tunnel says the Power Plant''s manager is looking for strong trainers. Surf down the river to reach it.'),
+  -- 95: Route 10
+  (10, 95, 39, NULL, 'The Power Plant stands on the river. A thief has stolen a part from its generator, and the guard hears of a shady man around Cerulean City.'),
+  -- 96: Cerulean City
+  (10, 96, 9, NULL, 'A man in black runs into you at the Gym door and hurries off north. The Bike Shop has moved to Goldenrod City.'),
+  -- 97: Route 24
+  (10, 97, 54, NULL, 'The man in black is a Team Rocket Grunt, waiting on Nugget Bridge. Beat him and he admits he hid the Machine Part in Cerulean Gym''s pool.'),
+  -- 98: Cerulean City
+  (10, 98, 9, NULL, 'Search the inflatable tubes at the back of the Gym for the Machine Part, then take it back to the Power Plant.'),
+  -- 99: Machine Part (milestone)
+  (10, 99, NULL, 100047, NULL),
+  -- 100: Lavender Town
+  (10, 100, 23, NULL, 'The Radio Tower''s manager thanks you for the power with an EXPN Card. It tunes your Pokégear to the Poké Flute channel, which wakes sleeping Pokémon.'),
+  -- 101: Route 25
+  (10, 101, 55, NULL, 'Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
+  -- 102: Cascade Badge (milestone)
+  (10, 102, NULL, 100018, NULL),
+  -- 103: Route 5
+  (10, 103, 58, NULL, 'South of Cerulean City to Saffron City.'),
+  -- 104: Saffron City
+  (10, 104, 133, NULL, 'Copycat has lost her doll. Fetch it from the Pokémon Fan Club in Vermilion City, where Steven of Hoenn stops you on the way out, and she gives you the Pass for the Magnet Train to Goldenrod City.'),
+  -- 105: Route 7
+  (10, 105, 60, NULL, 'A short road west to Celadon City.'),
+  -- 106: Celadon City
+  (10, 106, 6, NULL, 'Erika''s Gym uses Grass types. The Department Store sells nearly everything.'),
+  -- 107: Rainbow Badge (milestone)
+  (10, 107, NULL, 100020, NULL),
+  -- 108: Route 16
+  (10, 108, 45, NULL, 'West of Celadon City, to the top of Cycling Road.'),
+  -- 109: Route 17
+  (10, 109, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle.'),
+  -- 110: Route 18
+  (10, 110, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
+  -- 111: Fuchsia City
+  (10, 111, 18, NULL, 'Janine''s Gym uses Poison types. The old Safari Zone is now Pal Park, where Pokémon from Game Boy Advance games arrive.'),
+  -- 112: Soul Badge (milestone)
+  (10, 112, NULL, 100021, NULL),
+  -- 113: Route 15
+  (10, 113, 44, NULL, 'East out of Fuchsia City.'),
+  -- 114: Route 14
+  (10, 114, 43, NULL, 'North along the coast.'),
+  -- 115: Route 13
+  (10, 115, 42, NULL, 'A maze of fences by the sea.'),
+  -- 116: Route 12
+  (10, 116, 41, NULL, 'The Fishing Guru''s brother, in the house by the turn to Route 11, gives you the Super Rod.'),
+  -- 117: Route 11
+  (10, 117, 40, NULL, 'West toward Vermilion City, to the sleeping Snorlax.'),
+  -- 118: Vermilion City
+  (10, 118, 74, NULL, 'Tune the Pokégear radio to the Poké Flute channel beside the Snorlax and it wakes up angry. Catch it, beat it or run. Diglett''s Cave is open.'),
+  -- 119: Diglett's Cave
+  (10, 119, 13, NULL, 'A long tunnel under Kanto to Route 2.'),
+  -- 120: Route 2
+  (10, 120, 49, NULL, 'Out of Diglett''s Cave, north to Pewter City. A lonely man in the house here gives you a Nugget.'),
+  -- 121: Pewter City
+  (10, 121, 104, NULL, 'Brock''s Gym uses Rock types. An old man on the east side gives you the Silver Wing in HeartGold or the Rainbow Wing in SoulSilver.'),
+  -- 122: Boulder Badge (milestone)
+  (10, 122, NULL, 100017, NULL),
+  -- 123: Route 3
+  (10, 123, 56, NULL, 'East of Pewter City to Mt. Moon.'),
+  -- 124: Mt. Moon
+  (10, 124, 27, NULL, 'Collapses have left one chamber between Route 3 and Route 4. Silver meets you inside for one more battle. Mt. Moon Square is at the top.'),
+  -- 125: Route 4
+  (10, 125, 57, NULL, 'Down the ledges to Cerulean City.'),
+  -- 126: Viridian City
+  (10, 126, 76, NULL, 'South of Pewter City through Route 2. The Gym is open but its Leader is away. The Trainer House in the middle of town holds one battle a day.'),
+  -- 127: Route 1
+  (10, 127, 38, NULL, 'South to Pallet Town.'),
+  -- 128: Pallet Town
+  (10, 128, 30, NULL, 'Red''s mother and Blue''s sister Daisy live in the two houses. Professor Oak rates your Pokédex and asks you back once you have all eight Kanto badges.'),
+  -- 129: Route 21
+  (10, 129, 51, NULL, 'Surf south from Pallet Town to Cinnabar Island.'),
+  -- 130: Cinnabar Island
+  (10, 130, 11, NULL, 'The volcano erupted a year ago and only the Pokémon Center stands. Blue is behind it, looking at the ruins. Talk to him and he goes back to Viridian Gym.'),
+  -- 131: Route 20
+  (10, 131, 50, NULL, 'Surf east to the Seafoam Islands, where Blaine moved his Gym.'),
+  -- 132: Seafoam Islands
+  (10, 132, 65, NULL, 'Volcanic rock closed all but one small cave, and Blaine''s Gym is inside it.'),
+  -- 133: Volcano Badge (milestone)
+  (10, 133, NULL, 100023, NULL),
+  -- 134: Viridian City
+  (10, 134, 76, NULL, 'Fly back. Blue is in his Gym now. He has no one type, and no trainers to fight first.'),
+  -- 135: Earth Badge (milestone)
+  (10, 135, NULL, 100024, NULL),
+  -- 136: Pallet Town
+  (10, 136, 30, NULL, 'Tell Professor Oak you have all sixteen badges. He gives you HM08 Rock Climb and arranges for you to enter Mt. Silver.'),
+  -- 137: Route 22
+  (10, 137, 52, NULL, 'West of Viridian City to the League gate, where the guards now let you through to Route 28.'),
+  -- 138: Route 28
+  (10, 138, 109, NULL, 'The road to Mt. Silver. A retired celebrity, in a house behind a tree that needs Cut, gives you TM47 Steel Wing.'),
+  -- 139: Mt. Silver
+  (10, 139, 98, NULL, 'A Pokémon Center stands at the foot of the mountain, the last stop before the climb.'),
+  -- 140: Defeat Red (milestone)
+  (10, 140, NULL, 100025, NULL),
+  -- 141: Choose Kanto Starter (milestone)
+  (10, 141, NULL, 100026, NULL),
+  -- 142: Choose Hoenn Starter (milestone)
+  (10, 142, NULL, 100027, NULL),
+  -- 143: Route 25 (milestone)
+  (10, 143, NULL, 100034, NULL),
+  -- 144: Roaming Latias or Latios (milestone)
+  (10, 144, NULL, 100033, NULL),
+  -- 145: Power Plant (milestone)
+  (10, 145, NULL, 100035, NULL),
+  -- 146: Seafoam Islands (milestone)
+  (10, 146, NULL, 100036, NULL),
+  -- 147: Mt. Silver Cave (milestone)
+  (10, 147, NULL, 100037, NULL),
+  -- 148: Cerulean Cave (milestone)
+  (10, 148, NULL, 100038, NULL),
+  -- 149: Pewter City Wing (milestone)
+  (10, 149, NULL, 100039, NULL),
+  -- 150: Embedded Tower (milestone)
+  (10, 150, NULL, 100040, NULL),
+  -- 151: Dragon's Den (milestone)
+  (10, 151, NULL, 100041, NULL);

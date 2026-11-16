@@ -95,7 +95,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 3 $$, $$
-            VALUES (137, 104, 33) $$, 'Gold / Silver''s roadmap has 137 steps: 104 places and its 33 milestones');
+            VALUES (138, 105, 33) $$, 'Gold / Silver''s roadmap has 138 steps: 105 places and its 33 milestones');
 -- Unown's 26 forms, by the puzzle that wakes them.
 SELECT
     results_eq ($$

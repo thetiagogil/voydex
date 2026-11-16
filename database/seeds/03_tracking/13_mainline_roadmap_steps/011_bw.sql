@@ -113,33 +113,35 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (11, 42, NULL, 110009, NULL),
   -- 43: Dragonspiral Tower (milestone)
   (11, 43, NULL, 110026, NULL),
-  -- 44: Relic Castle (milestone)
-  (11, 44, NULL, 110027, NULL),
-  -- 45: Nacrene City
-  (11, 45, 367, NULL, 'Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
-  -- 46: Route 8
-  (11, 46, 396, NULL, 'A marshy road east of Icirrus City. Bianca battles you on the way.'),
-  -- 47: Tubeline Bridge
-  (11, 47, 887, NULL, 'A railway bridge. Ghetsis and the Shadow Triad wait for you at the far end with one more lecture.'),
-  -- 48: Route 9
-  (11, 48, 397, NULL, 'A short road with Shopping Mall Nine.'),
-  -- 49: Opelucid City
-  (11, 49, 888, NULL, 'Old in Black and futuristic in White. Ghetsis tells a crowd that N has joined with the legendary dragon. Drayden and Iris tell you the legend of the two dragons at their house. The Gym uses Dragon types. After you win, Professor Juniper gives you a Master Ball.'),
-  -- 50: Legend Badge (milestone)
-  (11, 50, NULL, 110010, NULL),
-  -- 51: Roaming Tornadus or Thundurus (milestone)
-  (11, 51, NULL, 110020, NULL),
-  -- 52: Route 10
-  (11, 52, 376, NULL, 'The road to the Pokémon League. Cheren battles you before the badge gates.'),
-  -- 53: Victory Road (Black and White)
-  (11, 53, 406, NULL, 'A mountain you climb through its caves and cliffs, sliding down the slopes.'),
-  -- 54: Pokémon League
-  (11, 54, 890, NULL, 'The last Pokémon Center and shop. The Elite Four''s rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
-  -- 55: Pokémon League (milestone)
-  (11, 55, NULL, 110016, NULL),
-  -- 56: Champion Alder (milestone)
-  (11, 56, NULL, 110017, NULL),
-  -- 57: Giant Chasm (milestone)
-  (11, 57, NULL, 110021, NULL),
-  -- 58: Abundant Shrine (milestone)
-  (11, 58, NULL, 110022, NULL);
+  -- 44: Desert Resort
+  (11, 44, 352, NULL, 'Fly south to the desert, where Team Plasma is searching the Relic Castle.'),
+  -- 45: Relic Castle (milestone)
+  (11, 45, NULL, 110027, NULL),
+  -- 46: Nacrene City
+  (11, 46, 367, NULL, 'Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
+  -- 47: Route 8
+  (11, 47, 396, NULL, 'A marshy road east of Icirrus City. Bianca battles you on the way.'),
+  -- 48: Tubeline Bridge
+  (11, 48, 887, NULL, 'A railway bridge. Ghetsis and the Shadow Triad wait for you at the far end with one more lecture.'),
+  -- 49: Route 9
+  (11, 49, 397, NULL, 'A short road with Shopping Mall Nine.'),
+  -- 50: Opelucid City
+  (11, 50, 888, NULL, 'Old in Black and futuristic in White. Ghetsis tells a crowd that N has joined with the legendary dragon. Drayden and Iris tell you the legend of the two dragons at their house. The Gym uses Dragon types. After you win, Professor Juniper gives you a Master Ball.'),
+  -- 51: Legend Badge (milestone)
+  (11, 51, NULL, 110010, NULL),
+  -- 52: Roaming Tornadus or Thundurus (milestone)
+  (11, 52, NULL, 110020, NULL),
+  -- 53: Route 10
+  (11, 53, 376, NULL, 'The road to the Pokémon League. Cheren battles you before the badge gates.'),
+  -- 54: Victory Road (Black and White)
+  (11, 54, 406, NULL, 'A mountain you climb through its caves and cliffs, sliding down the slopes.'),
+  -- 55: Pokémon League
+  (11, 55, 890, NULL, 'The last Pokémon Center and shop. The Elite Four''s rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.'),
+  -- 56: Pokémon League (milestone)
+  (11, 56, NULL, 110016, NULL),
+  -- 57: Champion Alder (milestone)
+  (11, 57, NULL, 110017, NULL),
+  -- 58: Giant Chasm (milestone)
+  (11, 58, NULL, 110021, NULL),
+  -- 59: Abundant Shrine (milestone)
+  (11, 59, NULL, 110022, NULL);

@@ -69,181 +69,191 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (14, 20, 216, NULL, 'A Grunt has robbed the Devon researcher and run this way. At the tunnel''s mouth, an old man says the thief took his Wingull too.'),
   -- 21: Rusturf Tunnel (milestone)
   (14, 21, NULL, 140034, NULL),
-  -- 22: Rustboro City
-  (14, 22, 235, NULL, 'The researcher takes you up to Mr. Stone, Devon''s president. He adds the BuzzNav to your PokéNav Plus and gives you a Letter for Steven in Dewford Town and the parts to take to Slateport City. Mr. Briney can sail you there.'),
-  -- 23: Petalburg Woods
-  (14, 23, 200, NULL, 'Back south through the woods to the beach.'),
+  -- 22: Route 116
+  (14, 22, 216, NULL, 'Back down the road to Rustboro City with the Devon Parts.'),
+  -- 23: Rustboro City
+  (14, 23, 235, NULL, 'The researcher takes you up to Mr. Stone, Devon''s president. He adds the BuzzNav to your PokéNav Plus and gives you a Letter for Steven in Dewford Town and the parts to take to Slateport City. Mr. Briney can sail you there.'),
   -- 24: Route 104
-  (14, 24, 204, NULL, 'Mr. Briney, at his cottage on the beach, sails you to Dewford Town.'),
-  -- 25: Dewford Town
-  (14, 25, 149, NULL, 'A small island town. Brawly''s Gym uses Fighting types and is pitch dark inside. The Fisherman east of the Gym gives you an Old Rod.'),
-  -- 26: Knuckle Badge (milestone)
-  (14, 26, NULL, 140004, NULL),
-  -- 27: Route 106
-  (14, 27, 206, NULL, 'The beach west of Dewford Town leads to Granite Cave.'),
-  -- 28: Granite Cave
-  (14, 28, 154, NULL, 'A Hiker near the entrance gives you TM70 Flash. Steven is in the far room, looking at an old wall painting. Hand him the Letter and he gives you TM51 Steel Wing.'),
-  -- 29: Dewford Town
-  (14, 29, 149, NULL, 'Mr. Briney waits at the pier to sail you on to Slateport City.'),
-  -- 30: Route 109
-  (14, 30, 209, NULL, 'The beach south of Slateport City. Beat the trainers in the Seashore House and the owner gives you six bottles of Soda Pop.'),
-  -- 31: Slateport City
-  (14, 31, 244, NULL, 'A port with an open-air market. Captain Stern is away from his shipyard, and a line of Grunts waits outside the Oceanic Museum. On your way out north, Lisia, the contest star, hands you a Contest Pass and a Pokéblock Kit.'),
-  -- 32: Oceanic Museum (milestone)
-  (14, 32, NULL, 140035, NULL),
-  -- 33: Route 110
-  (14, 33, 210, NULL, 'North to Mauville City under the Cycling Road. The Trick House stands near the turn to Route 103. Your rival stops you for a battle.'),
-  -- 34: Mauville City
-  (14, 34, 837, NULL, 'The crossroads of Hoenn, now one big indoor mall. Rydel gives you a free bike, the Mach Bike or the Acro Bike, and swaps it whenever you ask. Wally asks you for a battle in front of the Gym, and his uncle then gives you HM06 Rock Smash. Wattson''s Gym uses Electric types.'),
-  -- 35: Dynamo Badge (milestone)
-  (14, 35, NULL, 140005, NULL),
-  -- 36: Route 117
-  (14, 36, 217, NULL, 'West of Mauville City. The Day Care here raises up to two Pokémon and may find an Egg.'),
-  -- 37: Verdanturf Town
-  (14, 37, 839, NULL, 'A quiet town with clean air, where Wally is staying with his relatives. His cousin Wanda worries about her boyfriend, who is digging in Rusturf Tunnel.'),
-  -- 38: Rusturf Tunnel
-  (14, 38, 236, NULL, 'Break the rocks in the tunnel with Rock Smash to bring Wanda and her boyfriend together. The tunnel becomes a shortcut to Rustboro City.'),
-  -- 39: Route 111
-  (14, 39, 211, NULL, 'North of Mauville City, past rocks that need Rock Smash. The Winstrate family battles you four times in a row for a Macho Brace. A sandstorm closes the desert, so turn west onto Route 112.'),
-  -- 40: Route 112
-  (14, 40, 212, NULL, 'Your rival heals your team and gives you HM04 Strength. Grunts block the cable car up Mt. Chimney, so go through the Fiery Path.'),
-  -- 41: Fiery Path
-  (14, 41, 152, NULL, 'A hot tunnel through the foot of Mt. Chimney. Boulders that need Strength close its side paths.'),
-  -- 42: Route 111
-  (14, 42, 211, NULL, 'North of the desert. Aarune shows you how to make a Secret Base and gives you TM94 Secret Power. An old woman''s house heals your team.'),
-  -- 43: Route 113
-  (14, 43, 213, NULL, 'Always under falling volcanic ash. The Glass Workshop gives you a Soot Sack and trades the ash you gather for glass items.'),
-  -- 44: Fallarbor Town
-  (14, 44, 840, NULL, 'A farming town. Lanette, who runs the Pokémon Storage System, is at the Pokémon Center''s PC. The Move Reminder teaches a forgotten move again for a Heart Scale. Professor Cozmo has gone to Meteor Falls with some strangers.'),
-  -- 45: Route 114
-  (14, 45, 214, NULL, 'Southwest of Fallarbor Town to Meteor Falls. The Fossil Maniac''s brother gives you TM28 Dig, and Lanette''s house stands by the water.'),
-  -- 46: Meteor Falls (milestone)
-  (14, 46, NULL, 140036, NULL),
-  -- 47: Route 115
-  (14, 47, 215, NULL, 'Out of the west side of Meteor Falls and down the coast to Rustboro City. Take Rusturf Tunnel back east to Mauville City.'),
-  -- 48: Route 112
-  (14, 48, 212, NULL, 'The Grunts have left the cable car station. Ride up to the summit.'),
-  -- 49: Mt. Chimney (milestone)
-  (14, 49, NULL, 140019, NULL),
-  -- 50: Jagged Pass
-  (14, 50, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
-  -- 51: Lavaridge Town
-  (14, 51, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you an Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
-  -- 52: Heat Badge (milestone)
-  (14, 52, NULL, 140007, NULL),
-  -- 53: Route 111
-  (14, 53, 211, NULL, 'With the Go-Goggles the desert is open. Its sandstorm has uncovered two fossils, and the Desert Ruins stand sealed at its south end.'),
-  -- 54: Fossil Choice (milestone)
-  (14, 54, NULL, 140006, NULL),
-  -- 55: Petalburg City
-  (14, 55, 199, NULL, 'Back west through Verdanturf Town and Rustboro City. With four badges, your father accepts your challenge. After you win, Wally''s father next door gives you HM03 Surf.'),
-  -- 56: Balance Badge (milestone)
-  (14, 56, NULL, 140008, NULL),
-  -- 57: Route 118
-  (14, 57, 218, NULL, 'East of Mauville City, across the water. The Fisherman on the far shore gives you a Good Rod. Steven is on the beach when Latias in Omega Ruby or Latios in Alpha Sapphire flies down and carries you both off.'),
-  -- 58: Southern Island (milestone)
-  (14, 58, NULL, 140037, NULL),
-  -- 59: Route 119
-  (14, 59, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute.'),
-  -- 60: Weather Institute (milestone)
-  (14, 60, NULL, 140038, NULL),
-  -- 61: Route 119
-  (14, 61, 219, NULL, 'Past the Institute, your rival battles you on the way up to Fortree City.'),
-  -- 62: Fortree City
-  (14, 62, 153, NULL, 'A town of treehouses. Winona''s Gym uses Flying types, but something you can''t see blocks the way to it. An old woman''s coin game wins you TM10 Hidden Power.'),
-  -- 63: Route 120
-  (14, 63, 220, NULL, 'Steven waits on the bridge east of town. His Devon Scope shows the invisible Pokémon in your way, and it attacks. Catch or beat it and he gives you the scope, and a Mega Stone for your starter.'),
-  -- 64: Fortree City
-  (14, 64, 153, NULL, 'Back in town, use the Devon Scope on the invisible Pokémon in front of the Gym.'),
-  -- 65: Feather Badge (milestone)
-  (14, 65, NULL, 140009, NULL),
-  -- 66: Route 120
-  (14, 66, 220, NULL, 'South from Fortree City through tall grass and rain. The Ancient Tomb stands sealed on the western plateau, and Scorched Slab juts out of the pond.'),
-  -- 67: Route 121
-  (14, 67, 221, NULL, 'Grunts at the top of the stairs leave for Mt. Pyre. The Safari Zone''s gate is on this road.'),
-  -- 68: Safari Zone
-  (14, 68, 237, NULL, 'Free to enter in these games, with no Safari Balls and no step limit. Some of its areas need the Mach Bike or the Acro Bike.'),
-  -- 69: Route 122
-  (14, 69, 222, NULL, 'A short stretch of sea around Mt. Pyre.'),
-  -- 70: Mt. Pyre (milestone)
-  (14, 70, NULL, 140039, NULL),
-  -- 71: Route 123
-  (14, 71, 223, NULL, 'West of Mt. Pyre, back toward Mauville City. The Berry Master''s house hands out rare Berries every day.'),
-  -- 72: Slateport City
-  (14, 72, 244, NULL, 'Captain Stern is being interviewed outside the harbour about an undersea cavern on Route 128. Maxie in Omega Ruby or Archie in Alpha Sapphire takes his submarine and leaves for Lilycove City.'),
-  -- 73: Lilycove City
-  (14, 73, 157, NULL, 'A big port with Hoenn''s Department Store, an art museum and the Master Rank Contest Hall. Grunts are all over town and one blocks the sea to the east. Your rival waits in front of the Department Store. The Move Deleter lives here.'),
-  -- 74: Team Magma or Aqua Hideout (milestone)
-  (14, 74, NULL, 140040, NULL),
-  -- 75: Route 124
-  (14, 75, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
-  -- 76: Mossdeep City
-  (14, 76, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south.'),
-  -- 77: Mind Badge (milestone)
-  (14, 77, NULL, 140010, NULL),
-  -- 78: Route 127
-  (14, 78, 227, NULL, 'South of Mossdeep City by sea.'),
-  -- 79: Route 128
-  (14, 79, 228, NULL, 'Dive at the dark patch of water to find the Seafloor Cavern, where the stolen submarine sits.'),
-  -- 80: Seafloor Cavern (milestone)
-  (14, 80, NULL, 140020, NULL),
-  -- 81: Route 128
-  (14, 81, 228, NULL, 'Back on the surface the weather has gone wild. Steven tells you to meet him in Sootopolis City.'),
-  -- 82: Route 126
-  (14, 82, 226, NULL, 'Sootopolis City sits inside a crater in this sea. Dive under it to find the way in.'),
-  -- 83: Sootopolis City
-  (14, 83, 246, NULL, 'A city in a crater, reached only by sea or sky. Everyone has shut themselves in. Wallace leads you and Steven to the Cave of Origin, where Maxie, Archie and their Admins hand you the Magma Suit in Omega Ruby or the Aqua Suit in Alpha Sapphire.'),
-  -- 84: Cave of Origin (milestone)
-  (14, 84, NULL, 140033, NULL),
-  -- 85: Sootopolis City
-  (14, 85, 246, NULL, 'With the weather calm, Steven gives you the Eon Flute, which calls Latias or Latios to fly you over Hoenn. The Gym on the island is open, and Wallace uses Water types.'),
-  -- 86: Rain Badge (milestone)
-  (14, 86, NULL, 140011, NULL),
-  -- 87: Route 129
-  (14, 87, 229, NULL, 'Open sea south of Route 128, heading west.'),
-  -- 88: Route 130
-  (14, 88, 230, NULL, 'Open sea, heading west.'),
-  -- 89: Route 131
-  (14, 89, 231, NULL, 'The Sky Pillar rises from an island here. Pacifidlog Town floats at the west end.'),
-  -- 90: Pacifidlog Town
-  (14, 90, 198, NULL, 'A town on rafts over a Corsola colony. Its people tell of three Pokémon of rock, ice and steel.'),
-  -- 91: Route 132
-  (14, 91, 232, NULL, 'A fast current carries you west from Pacifidlog Town.'),
-  -- 92: Route 133
-  (14, 92, 233, NULL, 'The current runs on west.'),
-  -- 93: Route 134
-  (14, 93, 234, NULL, 'The last of the currents, ending by Slateport City. A dive spot on the way leads to the Sealed Chamber.'),
-  -- 94: Sealed Chamber (milestone)
-  (14, 94, NULL, 140021, NULL),
-  -- 95: Ever Grande City
-  (14, 95, 150, NULL, 'Climb the waterfall with HM05 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
-  -- 96: Victory Road
-  (14, 96, 252, NULL, 'A long cave with dark lower floors and boulders to push. Wally stops you near the exit for one more battle.'),
-  -- 97: Ever Grande City
-  (14, 97, 150, NULL, 'Past Victory Road, a stone walkway leads to the Pokémon League. Stock up at its Poké Mart. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 98: Pokémon League (milestone)
-  (14, 98, NULL, 140016, NULL),
-  -- 99: Delta Episode (milestone)
-  (14, 99, NULL, 140018, NULL),
-  -- 100: Scorched Slab (milestone)
-  (14, 100, NULL, 140022, NULL),
-  -- 101: Sea Mauville (milestone)
-  (14, 101, NULL, 140023, NULL),
-  -- 102: Crescent Isle (milestone)
-  (14, 102, NULL, 140024, NULL),
-  -- 103: Storm Clouds (milestone)
-  (14, 103, NULL, 140025, NULL),
-  -- 104: Regigigas in Island Cave (milestone)
-  (14, 104, NULL, 140026, NULL),
-  -- 105: Trackless Forest (milestone)
-  (14, 105, NULL, 140027, NULL),
-  -- 106: Nameless Cavern (milestone)
-  (14, 106, NULL, 140028, NULL),
-  -- 107: Dimensional Rift (milestone)
-  (14, 107, NULL, 140029, NULL),
-  -- 108: Pathless Plain (milestone)
-  (14, 108, NULL, 140030, NULL),
-  -- 109: Fabled Cave (milestone)
-  (14, 109, NULL, 140031, NULL),
-  -- 110: Gnarled Den (milestone)
-  (14, 110, NULL, 140032, NULL);
+  (14, 24, 204, NULL, 'South out of Rustboro City to the woods.'),
+  -- 25: Petalburg Woods
+  (14, 25, 200, NULL, 'Back south through the woods to the beach.'),
+  -- 26: Route 104
+  (14, 26, 204, NULL, 'Mr. Briney, at his cottage on the beach, sails you to Dewford Town.'),
+  -- 27: Dewford Town
+  (14, 27, 149, NULL, 'A small island town. Brawly''s Gym uses Fighting types and is pitch dark inside. The Fisherman east of the Gym gives you an Old Rod.'),
+  -- 28: Knuckle Badge (milestone)
+  (14, 28, NULL, 140004, NULL),
+  -- 29: Route 106
+  (14, 29, 206, NULL, 'The beach west of Dewford Town leads to Granite Cave.'),
+  -- 30: Granite Cave
+  (14, 30, 154, NULL, 'A Hiker near the entrance gives you TM70 Flash. Steven is in the far room, looking at an old wall painting. Hand him the Letter and he gives you TM51 Steel Wing.'),
+  -- 31: Dewford Town
+  (14, 31, 149, NULL, 'Mr. Briney waits at the pier to sail you on to Slateport City.'),
+  -- 32: Route 109
+  (14, 32, 209, NULL, 'The beach south of Slateport City. Beat the trainers in the Seashore House and the owner gives you six bottles of Soda Pop.'),
+  -- 33: Slateport City
+  (14, 33, 244, NULL, 'A port with an open-air market. Captain Stern is away from his shipyard, and a line of Grunts waits outside the Oceanic Museum. On your way out north, Lisia, the contest star, hands you a Contest Pass and a Pokéblock Kit.'),
+  -- 34: Oceanic Museum (milestone)
+  (14, 34, NULL, 140035, NULL),
+  -- 35: Route 110
+  (14, 35, 210, NULL, 'North to Mauville City under the Cycling Road. The Trick House stands near the turn to Route 103. Your rival stops you for a battle.'),
+  -- 36: Mauville City
+  (14, 36, 837, NULL, 'The crossroads of Hoenn, now one big indoor mall. Rydel gives you a free bike, the Mach Bike or the Acro Bike, and swaps it whenever you ask. Wally asks you for a battle in front of the Gym, and his uncle then gives you HM06 Rock Smash. Wattson''s Gym uses Electric types.'),
+  -- 37: Dynamo Badge (milestone)
+  (14, 37, NULL, 140005, NULL),
+  -- 38: Route 117
+  (14, 38, 217, NULL, 'West of Mauville City. The Day Care here raises up to two Pokémon and may find an Egg.'),
+  -- 39: Verdanturf Town
+  (14, 39, 839, NULL, 'A quiet town with clean air, where Wally is staying with his relatives. His cousin Wanda worries about her boyfriend, who is digging in Rusturf Tunnel.'),
+  -- 40: Rusturf Tunnel
+  (14, 40, 236, NULL, 'Break the rocks in the tunnel with Rock Smash to bring Wanda and her boyfriend together. The tunnel becomes a shortcut to Rustboro City.'),
+  -- 41: Verdanturf Town
+  (14, 41, 839, NULL, 'Back the way you came.'),
+  -- 42: Route 117
+  (14, 42, 217, NULL, 'East again to Mauville City.'),
+  -- 43: Mauville City
+  (14, 43, 837, NULL, 'Take the north exit onto Route 111.'),
+  -- 44: Route 111
+  (14, 44, 211, NULL, 'North of Mauville City, past rocks that need Rock Smash. The Winstrate family battles you four times in a row for a Macho Brace. A sandstorm closes the desert, so turn west onto Route 112.'),
+  -- 45: Route 112
+  (14, 45, 212, NULL, 'Your rival heals your team and gives you HM04 Strength. Grunts block the cable car up Mt. Chimney, so go through the Fiery Path.'),
+  -- 46: Fiery Path
+  (14, 46, 152, NULL, 'A hot tunnel through the foot of Mt. Chimney. Boulders that need Strength close its side paths.'),
+  -- 47: Route 111
+  (14, 47, 211, NULL, 'North of the desert. Aarune shows you how to make a Secret Base and gives you TM94 Secret Power. An old woman''s house heals your team.'),
+  -- 48: Route 113
+  (14, 48, 213, NULL, 'Always under falling volcanic ash. The Glass Workshop gives you a Soot Sack and trades the ash you gather for glass items.'),
+  -- 49: Fallarbor Town
+  (14, 49, 840, NULL, 'A farming town. Lanette, who runs the Pokémon Storage System, is at the Pokémon Center''s PC. The Move Reminder teaches a forgotten move again for a Heart Scale. Professor Cozmo has gone to Meteor Falls with some strangers.'),
+  -- 50: Route 114
+  (14, 50, 214, NULL, 'Southwest of Fallarbor Town to Meteor Falls. The Fossil Maniac''s brother gives you TM28 Dig, and Lanette''s house stands by the water.'),
+  -- 51: Meteor Falls (milestone)
+  (14, 51, NULL, 140036, NULL),
+  -- 52: Route 115
+  (14, 52, 215, NULL, 'Out of the west side of Meteor Falls and down the coast to Rustboro City. Take Rusturf Tunnel back east to Mauville City.'),
+  -- 53: Route 112
+  (14, 53, 212, NULL, 'The Grunts have left the cable car station. Ride up to the summit.'),
+  -- 54: Mt. Chimney (milestone)
+  (14, 54, NULL, 140019, NULL),
+  -- 55: Jagged Pass
+  (14, 55, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
+  -- 56: Lavaridge Town
+  (14, 56, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you an Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
+  -- 57: Heat Badge (milestone)
+  (14, 57, NULL, 140007, NULL),
+  -- 58: Route 111
+  (14, 58, 211, NULL, 'With the Go-Goggles the desert is open. Its sandstorm has uncovered two fossils, and the Desert Ruins stand sealed at its south end.'),
+  -- 59: Fossil Choice (milestone)
+  (14, 59, NULL, 140006, NULL),
+  -- 60: Petalburg City
+  (14, 60, 199, NULL, 'Back west through Verdanturf Town and Rustboro City. With four badges, your father accepts your challenge. After you win, Wally''s father next door gives you HM03 Surf.'),
+  -- 61: Balance Badge (milestone)
+  (14, 61, NULL, 140008, NULL),
+  -- 62: Route 118
+  (14, 62, 218, NULL, 'East of Mauville City, across the water. The Fisherman on the far shore gives you a Good Rod. Steven is on the beach when Latias in Omega Ruby or Latios in Alpha Sapphire flies down and carries you both off.'),
+  -- 63: Southern Island (milestone)
+  (14, 63, NULL, 140037, NULL),
+  -- 64: Route 119
+  (14, 64, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute.'),
+  -- 65: Weather Institute (milestone)
+  (14, 65, NULL, 140038, NULL),
+  -- 66: Route 119
+  (14, 66, 219, NULL, 'Past the Institute, your rival battles you on the way up to Fortree City.'),
+  -- 67: Fortree City
+  (14, 67, 153, NULL, 'A town of treehouses. Winona''s Gym uses Flying types, but something you can''t see blocks the way to it. An old woman''s coin game wins you TM10 Hidden Power.'),
+  -- 68: Route 120
+  (14, 68, 220, NULL, 'Steven waits on the bridge east of town. His Devon Scope shows the invisible Pokémon in your way, and it attacks. Catch or beat it and he gives you the scope, and a Mega Stone for your starter.'),
+  -- 69: Fortree City
+  (14, 69, 153, NULL, 'Back in town, use the Devon Scope on the invisible Pokémon in front of the Gym.'),
+  -- 70: Feather Badge (milestone)
+  (14, 70, NULL, 140009, NULL),
+  -- 71: Route 120
+  (14, 71, 220, NULL, 'South from Fortree City through tall grass and rain. The Ancient Tomb stands sealed on the western plateau, and Scorched Slab juts out of the pond.'),
+  -- 72: Route 121
+  (14, 72, 221, NULL, 'Grunts at the top of the stairs leave for Mt. Pyre. The Safari Zone''s gate is on this road.'),
+  -- 73: Safari Zone
+  (14, 73, 237, NULL, 'Free to enter in these games, with no Safari Balls and no step limit. Some of its areas need the Mach Bike or the Acro Bike.'),
+  -- 74: Route 122
+  (14, 74, 222, NULL, 'A short stretch of sea around Mt. Pyre.'),
+  -- 75: Mt. Pyre (milestone)
+  (14, 75, NULL, 140039, NULL),
+  -- 76: Route 123
+  (14, 76, 223, NULL, 'West of Mt. Pyre, back toward Mauville City. The Berry Master''s house hands out rare Berries every day.'),
+  -- 77: Slateport City
+  (14, 77, 244, NULL, 'Captain Stern is being interviewed outside the harbour about an undersea cavern on Route 128. Maxie in Omega Ruby or Archie in Alpha Sapphire takes his submarine and leaves for Lilycove City.'),
+  -- 78: Lilycove City
+  (14, 78, 157, NULL, 'A big port with Hoenn''s Department Store, an art museum and the Master Rank Contest Hall. Grunts are all over town and one blocks the sea to the east. Your rival waits in front of the Department Store. The Move Deleter lives here.'),
+  -- 79: Team Magma or Aqua Hideout (milestone)
+  (14, 79, NULL, 140040, NULL),
+  -- 80: Route 124
+  (14, 80, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
+  -- 81: Mossdeep City
+  (14, 81, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south.'),
+  -- 82: Mind Badge (milestone)
+  (14, 82, NULL, 140010, NULL),
+  -- 83: Route 127
+  (14, 83, 227, NULL, 'South of Mossdeep City by sea.'),
+  -- 84: Route 128
+  (14, 84, 228, NULL, 'Dive at the dark patch of water to find the Seafloor Cavern, where the stolen submarine sits.'),
+  -- 85: Seafloor Cavern (milestone)
+  (14, 85, NULL, 140020, NULL),
+  -- 86: Route 128
+  (14, 86, 228, NULL, 'Back on the surface the weather has gone wild. Steven tells you to meet him in Sootopolis City.'),
+  -- 87: Route 126
+  (14, 87, 226, NULL, 'Sootopolis City sits inside a crater in this sea. Dive under it to find the way in.'),
+  -- 88: Sootopolis City
+  (14, 88, 246, NULL, 'A city in a crater, reached only by sea or sky. Everyone has shut themselves in. Wallace leads you and Steven to the Cave of Origin, where Maxie, Archie and their Admins hand you the Magma Suit in Omega Ruby or the Aqua Suit in Alpha Sapphire.'),
+  -- 89: Cave of Origin (milestone)
+  (14, 89, NULL, 140033, NULL),
+  -- 90: Sootopolis City
+  (14, 90, 246, NULL, 'With the weather calm, Steven gives you the Eon Flute, which calls Latias or Latios to fly you over Hoenn. The Gym on the island is open, and Wallace uses Water types.'),
+  -- 91: Rain Badge (milestone)
+  (14, 91, NULL, 140011, NULL),
+  -- 92: Route 129
+  (14, 92, 229, NULL, 'Open sea south of Route 128, heading west.'),
+  -- 93: Route 130
+  (14, 93, 230, NULL, 'Open sea, heading west.'),
+  -- 94: Route 131
+  (14, 94, 231, NULL, 'The Sky Pillar rises from an island here. Pacifidlog Town floats at the west end.'),
+  -- 95: Pacifidlog Town
+  (14, 95, 198, NULL, 'A town on rafts over a Corsola colony. Its people tell of three Pokémon of rock, ice and steel.'),
+  -- 96: Route 132
+  (14, 96, 232, NULL, 'A fast current carries you west from Pacifidlog Town.'),
+  -- 97: Route 133
+  (14, 97, 233, NULL, 'The current runs on west.'),
+  -- 98: Route 134
+  (14, 98, 234, NULL, 'The last of the currents, ending by Slateport City. A dive spot on the way leads to the Sealed Chamber.'),
+  -- 99: Sealed Chamber (milestone)
+  (14, 99, NULL, 140021, NULL),
+  -- 100: Ever Grande City
+  (14, 100, 150, NULL, 'Climb the waterfall with HM05 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
+  -- 101: Victory Road
+  (14, 101, 252, NULL, 'A long cave with dark lower floors and boulders to push. Wally stops you near the exit for one more battle.'),
+  -- 102: Ever Grande City
+  (14, 102, 150, NULL, 'Past Victory Road, a stone walkway leads to the Pokémon League. Stock up at its Poké Mart. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 103: Pokémon League (milestone)
+  (14, 103, NULL, 140016, NULL),
+  -- 104: Delta Episode (milestone)
+  (14, 104, NULL, 140018, NULL),
+  -- 105: Scorched Slab (milestone)
+  (14, 105, NULL, 140022, NULL),
+  -- 106: Sea Mauville (milestone)
+  (14, 106, NULL, 140023, NULL),
+  -- 107: Crescent Isle (milestone)
+  (14, 107, NULL, 140024, NULL),
+  -- 108: Storm Clouds (milestone)
+  (14, 108, NULL, 140025, NULL),
+  -- 109: Regigigas in Island Cave (milestone)
+  (14, 109, NULL, 140026, NULL),
+  -- 110: Trackless Forest (milestone)
+  (14, 110, NULL, 140027, NULL),
+  -- 111: Nameless Cavern (milestone)
+  (14, 111, NULL, 140028, NULL),
+  -- 112: Dimensional Rift (milestone)
+  (14, 112, NULL, 140029, NULL),
+  -- 113: Pathless Plain (milestone)
+  (14, 113, NULL, 140030, NULL),
+  -- 114: Fabled Cave (milestone)
+  (14, 114, NULL, 140031, NULL),
+  -- 115: Gnarled Den (milestone)
+  (14, 115, NULL, 140032, NULL);
