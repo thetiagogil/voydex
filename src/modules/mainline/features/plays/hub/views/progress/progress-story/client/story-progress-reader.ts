@@ -5,6 +5,7 @@ import { uniqueNumberIds } from "@/shared/utils/collections";
 
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
+  getRuledOutDecisionFormIds,
   groupStoryPlacePokemon,
   type StoryPlaceEncounterRow,
 } from "../data/story-place-pokemon";
@@ -14,7 +15,7 @@ import type {
 } from "../types";
 
 type PlaceEncounterRow = {
-  encounter_ways: { name: string; sort_order: number } | null;
+  encounter_ways: { name: string; slug: string; sort_order: number } | null;
   form_id: number;
   game_id: number | null;
   level_max: number | null;
@@ -27,13 +28,15 @@ type PlaceEncounterRow = {
 /*
  * The Pokémon found at every place on the roadmap, read with the Story so a
  * place opens with them at once: the Play's own game only (a Red Play never
- * lists Blue's), grouped by how you meet them, levels included.
+ * lists Blue's), grouped by how you meet them, levels included. A one-off
+ * Pokémon the Play's recorded choices ruled out is left off.
  */
 const readStoryPlacePokemon = async (
   supabase: ServerSupabaseClient,
   gameId: number | null,
   versionGroupIds: number[],
   locationIds: number[],
+  ruledOutFormIds: ReadonlyMap<number, ReadonlySet<number>>,
 ): Promise<StoryPlacePokemonSource[]> => {
   if (!locationIds.length || !versionGroupIds.length) {
     return [];
@@ -46,7 +49,7 @@ const readStoryPlacePokemon = async (
         .schema("reference")
         .from("pokemon_encounters")
         .select(
-          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, sort_order)",
+          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, slug, sort_order)",
         )
         .in("location_id", ids)
         .in("version_group_id", versionGroupIds)
@@ -86,12 +89,16 @@ const readStoryPlacePokemon = async (
       levelMax: row.level_max ?? row.level_min ?? null,
       levelMin: row.level_min ?? row.level_max ?? null,
       wayName: row.encounter_ways.name,
+      waySlug: row.encounter_ways.slug,
       waySortOrder: row.encounter_ways.sort_order,
     });
   }
 
   return [...byPlace.values()].map((place) => ({
-    groups: groupStoryPlacePokemon(place.rows),
+    groups: groupStoryPlacePokemon(
+      place.rows,
+      ruledOutFormIds.get(place.versionGroup),
+    ),
     location_id: place.location,
     version_group_id: place.versionGroup,
   }));
@@ -229,6 +236,7 @@ export const readMainlinePlayStoryProgress = async (
       playResult.data?.game_id ?? null,
       versionGroupIds,
       locationIds,
+      getRuledOutDecisionFormIds(milestones),
     ),
   ]);
 
