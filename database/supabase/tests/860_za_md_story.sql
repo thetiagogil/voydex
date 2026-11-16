@@ -43,7 +43,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 27 $$, $$
-            VALUES (37, 19, 18) $$, 'Mega Dimension''s roadmap has 37 steps: 19 places and its 18 milestones');
+            VALUES (41, 23, 18) $$, 'Mega Dimension''s roadmap has 41 steps: 23 places and its 18 milestones');
 SELECT
     *
 FROM

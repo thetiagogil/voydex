@@ -38,59 +38,67 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (27, 8, 1003, NULL, 'A survey finds this arena inside Hyperspace Lumiose, with a Rogue Mega Staraptor in it. Taunie or Urbain and Korrina go in with you.'),
   -- 9: Rogue Mega Staraptor (milestone)
   (27, 9, NULL, 270013, NULL),
-  -- 10: Hyperspace Sushi Paradise
-  (27, 10, 1004, NULL, 'A survey finds this arena inside Hyperspace Lumiose, with a Rogue Mega Tatsugiri in it. Taunie or Urbain and Korrina go in with you.'),
-  -- 11: Rogue Mega Tatsugiri (milestone)
-  (27, 11, NULL, 270014, NULL),
-  -- 12: Hotel Richissime
-  (27, 12, 982, NULL, 'The survey points to this grand hotel. Jacinthe and Griselle are waiting, and Lida fights beside you in a Multi Battle.'),
-  -- 13: Hyperspace Second-Sight Arena
-  (27, 13, 1005, NULL, 'A survey finds this arena inside Hyperspace Lumiose, with a Rogue Mega Meowstic in it. Taunie or Urbain and Korrina go in with you.'),
-  -- 14: Rogue Mega Meowstic (milestone)
-  (27, 14, NULL, 270015, NULL),
-  -- 15: Hyperspace Infernal Arena
-  (27, 15, 1006, NULL, 'The fifth arena the surveys find.'),
-  -- 16: Lumiose City
-  (27, 16, 798, NULL, 'One Pokémon is holding Hyperspace Lumiose together. Ansha bakes the Bad Dreams Cruller, and the Trainers of the Z-A Royale lend their Key Stones to send you to it.'),
-  -- 17: Rogue Mega Darkrai (milestone)
-  (27, 17, NULL, 270003, NULL),
-  -- 18: Hyperspace Lumiose
-  (27, 18, 806, NULL, 'Hyperspace Lumiose has stopped growing. Ansha still wants a Rayquaza as a gift for her mother, Diantha.'),
-  -- 19: Capture Groudon (milestone)
-  (27, 19, NULL, 270004, NULL),
-  -- 20: Capture Kyogre (milestone)
-  (27, 20, NULL, 270005, NULL),
-  -- 21: Pokémon Research Lab
-  (27, 21, 445, NULL, 'Mable studies the Red and Blue Orbs and works out what Ansha has to do for Rayquaza''s realm to appear.'),
-  -- 22: Rogue Mega Rayquaza (milestone)
-  (27, 22, NULL, 270006, NULL),
-  -- 23: Wild Zone 13
-  (27, 23, 488, NULL, 'A distortion opens at the wall of this Wild Zone once you own all four Drives.'),
-  -- 24: Collecting Four Drives (milestone)
-  (27, 24, NULL, 270007, NULL),
-  -- 25: Rouge Sector 1
-  (27, 25, 804, NULL, 'At dusk, the shadow of Prism Tower reaches the battle court here. A bank in this sector has a small visitor it cannot get rid of. Thelo gives you a Gimmighoul at the start of his side mission here.'),
-  -- 26: The Stealthy Shadow (milestone)
-  (27, 26, NULL, 270008, NULL),
-  -- 27: Dreams of Meltan (milestone)
-  (27, 27, NULL, 270009, NULL),
-  -- 28: Pokémon Research Lab
-  (27, 28, 445, NULL, 'Mable has a hacked Poké Ball in the basement that she cannot open alone.'),
-  -- 29: Volcanion Unleashed (milestone)
-  (27, 29, NULL, 270010, NULL),
-  -- 30: The Djinn Unbound (milestone)
-  (27, 30, NULL, 270011, NULL),
-  -- 31: Rust Syndicate Office
-  (27, 31, 981, NULL, 'The Rust Syndicate runs Special Scans of Hyperspace Lumiose for 25,000 Hyperspace Survey Points each.'),
-  -- 32: Special Scans (milestone)
-  (27, 32, NULL, 270016, NULL),
-  -- 33: Quasartico Inc. (building)
-  (27, 33, 448, NULL, 'Jett has something that will not wake without a great many Mega Shards.'),
-  -- 34: Restarting Magearna (milestone)
-  (27, 34, NULL, 270023, NULL),
-  -- 35: Raging Lightning (milestone)
-  (27, 35, NULL, 270024, NULL),
-  -- 36: Hyperspace Wild Zones (milestone)
-  (27, 36, NULL, 270025, NULL),
-  -- 37: Bleu Sector 6
-  (27, 37, 805, NULL, 'A side trip to a sector of the Bleu District, north of Bleu Sector 8.');
+  -- 10: Lumiose Museum
+  (27, 10, 441, NULL, 'A break from the surveys. Ansha and Korrina take you sightseeing around the city, to the museum and a café, until Corbeau calls again.'),
+  -- 11: Hotel Z
+  (27, 11, 437, NULL, 'A loud boom comes from Team MZ''s strategy room. Search it for the source of the noise.'),
+  -- 12: Hyperspace Sushi Paradise
+  (27, 12, 1004, NULL, 'A survey finds this arena inside Hyperspace Lumiose, with a Rogue Mega Tatsugiri in it. Taunie or Urbain and Korrina go in with you.'),
+  -- 13: Rogue Mega Tatsugiri (milestone)
+  (27, 13, NULL, 270014, NULL),
+  -- 14: Hotel Z
+  (27, 14, 437, NULL, 'Naveen misses breakfast. Only his Scrafty turns up, and it leads you to his room to check on him.'),
+  -- 15: Hotel Richissime
+  (27, 15, 982, NULL, 'The survey points to this grand hotel. Jacinthe and Griselle are waiting, and Lida fights beside you in a Multi Battle.'),
+  -- 16: Hyperspace Second-Sight Arena
+  (27, 16, 1005, NULL, 'A survey finds this arena inside Hyperspace Lumiose, with a Rogue Mega Meowstic in it. Taunie or Urbain and Korrina go in with you.'),
+  -- 17: Rogue Mega Meowstic (milestone)
+  (27, 17, NULL, 270015, NULL),
+  -- 18: Hyperspace Infernal Arena
+  (27, 18, 1006, NULL, 'The fifth arena the surveys find.'),
+  -- 19: Hotel Z
+  (27, 19, 437, NULL, 'At midnight, Lida''s shouting wakes the whole hotel. Go and see what is going on.'),
+  -- 20: Lumiose City
+  (27, 20, 798, NULL, 'One Pokémon is holding Hyperspace Lumiose together. Ansha bakes the Bad Dreams Cruller, and the Trainers of the Z-A Royale lend their Key Stones to send you to it.'),
+  -- 21: Rogue Mega Darkrai (milestone)
+  (27, 21, NULL, 270003, NULL),
+  -- 22: Hyperspace Lumiose
+  (27, 22, 806, NULL, 'Hyperspace Lumiose has stopped growing. Ansha still wants a Rayquaza as a gift for her mother, Diantha.'),
+  -- 23: Capture Groudon (milestone)
+  (27, 23, NULL, 270004, NULL),
+  -- 24: Capture Kyogre (milestone)
+  (27, 24, NULL, 270005, NULL),
+  -- 25: Pokémon Research Lab
+  (27, 25, 445, NULL, 'Mable studies the Red and Blue Orbs and works out what Ansha has to do for Rayquaza''s realm to appear.'),
+  -- 26: Rogue Mega Rayquaza (milestone)
+  (27, 26, NULL, 270006, NULL),
+  -- 27: Wild Zone 13
+  (27, 27, 488, NULL, 'A distortion opens at the wall of this Wild Zone once you own all four Drives.'),
+  -- 28: Collecting Four Drives (milestone)
+  (27, 28, NULL, 270007, NULL),
+  -- 29: Rouge Sector 1
+  (27, 29, 804, NULL, 'At dusk, the shadow of Prism Tower reaches the battle court here. A bank in this sector has a small visitor it cannot get rid of. Thelo gives you a Gimmighoul at the start of his side mission here.'),
+  -- 30: The Stealthy Shadow (milestone)
+  (27, 30, NULL, 270008, NULL),
+  -- 31: Dreams of Meltan (milestone)
+  (27, 31, NULL, 270009, NULL),
+  -- 32: Pokémon Research Lab
+  (27, 32, 445, NULL, 'Mable has a hacked Poké Ball in the basement that she cannot open alone.'),
+  -- 33: Volcanion Unleashed (milestone)
+  (27, 33, NULL, 270010, NULL),
+  -- 34: The Djinn Unbound (milestone)
+  (27, 34, NULL, 270011, NULL),
+  -- 35: Rust Syndicate Office
+  (27, 35, 981, NULL, 'The Rust Syndicate runs Special Scans of Hyperspace Lumiose for 25,000 Hyperspace Survey Points each.'),
+  -- 36: Special Scans (milestone)
+  (27, 36, NULL, 270016, NULL),
+  -- 37: Quasartico Inc. (building)
+  (27, 37, 448, NULL, 'Jett has something that will not wake without a great many Mega Shards.'),
+  -- 38: Restarting Magearna (milestone)
+  (27, 38, NULL, 270023, NULL),
+  -- 39: Raging Lightning (milestone)
+  (27, 39, NULL, 270024, NULL),
+  -- 40: Hyperspace Wild Zones (milestone)
+  (27, 40, NULL, 270025, NULL),
+  -- 41: Bleu Sector 6
+  (27, 41, 805, NULL, 'A side trip to a sector of the Bleu District, north of Bleu Sector 8. The Passage de la Félicité arcade runs through it, with boutiques such as Kickspin and DEFOG Eyewear.');

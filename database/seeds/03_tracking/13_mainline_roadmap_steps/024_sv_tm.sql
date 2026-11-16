@@ -77,9 +77,9 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 28: Chilling Waterhead
   (24, 28, 746, NULL, 'A side trip into the cave on the east side of Oni Mountain.'),
   -- 29: Fellhorn Gorge
-  (24, 29, 756, NULL, 'A gorge in the mountains of Kitakami.'),
+  (24, 29, 756, NULL, 'A side trip to a gorge in the mountains of Kitakami. Hasebe, a member of the Kitakami Ogre Clan, waits here to battle you.'),
   -- 30: Mossfell Confluence
-  (24, 30, 764, NULL, 'One of the Six Wonders of Kitakami.'),
+  (24, 30, 764, NULL, 'A riverbed where streams meet, one of the Six Wonders of Kitakami. A stall sells Syrupy Apples, and Masamune of the Kitakami Ogre Clan waits here to battle you.'),
   -- 31: Wistful Fields (milestone)
   (24, 31, NULL, 240009, NULL),
   -- 32: Oni Mountain (milestone)
