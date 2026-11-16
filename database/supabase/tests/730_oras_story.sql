@@ -27,7 +27,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 14
                 AND mainline_categories.slug <> 'main-story' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('post-game'::text, 'delta-episode'::text, 'Sky Pillar'::text), ('side-content', 'fossil-choice', 'Route 111'), ('side-content', 'sealed-chamber', 'Sealed Chamber'), ('side-content', 'scorched-slab', 'Scorched Slab'), ('side-content', 'sea-mauville', 'Sea Mauville'), ('side-content', 'crescent-isle', 'Crescent Isle'), ('side-content', 'storm-clouds', 'Soaring in the sky'), ('side-content', 'island-cave-regigigas', 'Island Cave'), ('side-content', 'trackless-forest', 'Trackless Forest'), ('side-content', 'nameless-cavern', 'Nameless Cavern'), ('side-content', 'dimensional-rift', 'Soaring in the sky'), ('side-content', 'pathless-plain', 'Pathless Plain'), ('side-content', 'fabled-cave', 'Fabled Cave'), ('side-content', 'gnarled-den', 'Gnarled Den') $$, 'Omega Ruby / Alpha Sapphire''s optional beats sit in their chapters, each at its place');
+            VALUES ('post-game'::text, 'delta-episode'::text, 'Sky Pillar'::text), ('side-content', 'fossil-choice', 'Route 111'), ('side-content', 'sealed-chamber', 'Sealed Chamber'), ('side-content', 'scorched-slab', 'Scorched Slab'), ('side-content', 'sea-mauville', 'Sea Mauville'), ('side-content', 'crescent-isle', 'Crescent Isle'), ('side-content', 'storm-clouds', 'Soaring in the sky'), ('side-content', 'island-cave-regigigas', 'Island Cave'), ('side-content', 'trackless-forest', 'Trackless Forest'), ('side-content', 'nameless-cavern', 'Nameless Cavern'), ('side-content', 'dimensional-rift', 'Soaring in the sky'), ('side-content', 'pathless-plain', 'Pathless Plain'), ('side-content', 'fabled-cave', 'Fabled Cave'), ('side-content', 'gnarled-den', 'Gnarled Den'), ('side-content', 'mirage-spots', 'Soaring in the sky') $$, 'Omega Ruby / Alpha Sapphire''s optional beats sit in their chapters, each at its place');
 SELECT
     results_eq ($$
         SELECT
@@ -61,7 +61,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 14 $$, $$
-            VALUES (116, 81, 35) $$, 'Omega Ruby / Alpha Sapphire''s roadmap has 116 steps: 81 places and its 35 milestones');
+            VALUES (127, 91, 36) $$, 'Omega Ruby / Alpha Sapphire''s roadmap has 127 steps: 91 places and its 36 milestones');
 SELECT
     *
 FROM

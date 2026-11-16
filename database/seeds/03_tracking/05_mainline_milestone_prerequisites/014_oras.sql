@@ -88,4 +88,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Fabled Cave opens after Pokémon League
   (140031, 140016, 14, 4, 1, NULL),
   -- Gnarled Den opens after Pokémon League
-  (140032, 140016, 14, 4, 1, NULL);
+  (140032, 140016, 14, 4, 1, NULL),
+  -- Mirage Spots opens after Cave of Origin
+  (140041, 140033, 14, 4, 1, 'Needs the Eon Flute.');

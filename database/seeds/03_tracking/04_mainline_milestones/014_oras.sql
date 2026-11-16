@@ -108,4 +108,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Fabled Cave (Fabled Cave)
   (140031, 14, NULL, 1404, 6, 2, NULL, 'fabled-cave', 'Fabled Cave', 'Soar to the Fabled Cave with a level 100 Pokémon in your party. Reshiram in Omega Ruby or Zekrom in Alpha Sapphire waits there. Catch or defeat it.', 12, false, 921),
   -- Gnarled Den (Gnarled Den)
-  (140032, 14, NULL, 1404, 6, 2, NULL, 'gnarled-den', 'Gnarled Den', 'Soar to the Gnarled Den with Reshiram and Zekrom in your party. Kyurem waits there. Catch or defeat it.', 13, false, 922);
+  (140032, 14, NULL, 1404, 6, 2, NULL, 'gnarled-den', 'Gnarled Den', 'Soar to the Gnarled Den with Reshiram and Zekrom in your party. Kyurem waits there. Catch or defeat it.', 13, false, 922),
+  -- Mirage Spots (Soaring in the sky)
+  (140041, 14, NULL, 1404, 1, 1, NULL, 'mirage-spots', 'Mirage Spots', 'Once Latias or Latios can fly you over Hoenn, a different Mirage spot appears each day: a cave, a forest, an island or a mountain. Each one has its own rare Pokémon.', 14, false, 245);
