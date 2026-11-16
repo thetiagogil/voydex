@@ -72,13 +72,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 20: Cascade Badge (milestone)
   (2, 20, NULL, 20005, NULL),
   -- 21: Route 24
-  (2, 21, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a Team Rocket Grunt gives you a Nugget and asks you to join. Say no and he battles you.'),
+  (2, 21, 54, NULL, 'Nugget Bridge. Beat five trainers in a row, then a Team Rocket Grunt gives you a Nugget and asks you to join. Say no and he battles you. A boy on the hill past the bridge gives you his Charmander.'),
   -- 22: Route 25
   (2, 22, 55, NULL, 'Trainers line the path east along the cape. Bill''s Sea Cottage sits at the very end.'),
   -- 23: Bill's Sea Cottage (milestone)
   (2, 23, NULL, 20027, NULL),
   -- 24: Cerulean City
-  (2, 24, 9, NULL, 'Back in town, the police officer has gone. Go through the robbed house and beat the Team Rocket Grunt in the back yard for TM28 Dig.'),
+  (2, 24, 9, NULL, 'Back in town, the police officer has gone. Go through the robbed house and beat the Team Rocket Grunt in the back yard for TM28 Dig. A girl in the house next to the Pokémon Center gives you a Bulbasaur if Pikachu likes you enough.'),
   -- 25: Route 5
   (2, 25, 58, NULL, 'South of Cerulean City. A thirsty guard keeps you out of Saffron City, so take the Underground Path south instead. The Day Care here raises one Pokémon for you.'),
   -- 26: Underground Path (Kanto Routes 5-6)
@@ -86,7 +86,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 27: Route 6
   (2, 27, 59, NULL, 'Leads south to Vermilion City. Its gate into Saffron City has a guard who''s just as thirsty.'),
   -- 28: Vermilion City
-  (2, 28, 74, NULL, 'A port town. Show the S.S. Ticket at the harbour to board the S.S. Anne. Lt. Surge''s Gym sits behind a small tree that needs Cut. The Pokémon Fan Club''s chairman gives you a Bike Voucher. A fisherman in a house here gives you the Old Rod.'),
+  (2, 28, 74, NULL, 'A port town. Show the S.S. Ticket at the harbour to board the S.S. Anne. Lt. Surge''s Gym sits behind a small tree that needs Cut. The Pokémon Fan Club''s chairman gives you a Bike Voucher, and a fisherman the Old Rod. After the Thunder Badge, a police officer by the Poké Mart gives you a Squirtle.'),
   -- 29: S.S. Anne (milestone)
   (2, 29, NULL, 20019, NULL),
   -- 30: Thunder Badge (milestone)
