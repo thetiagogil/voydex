@@ -106,7 +106,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 39: Route 17
   (11, 39, 383, NULL, 'A side trip with Surf. Fly to Nuvema Town and Surf west from Route 1 into these fast sea currents.'),
   -- 40: Route 18
-  (11, 40, 384, NULL, 'The large island at the end of the westbound currents.'),
+  (11, 40, 384, NULL, 'The large island at the end of the westbound currents. A man in the house there gives you a Larvesta Egg.'),
   -- 41: P2 Laboratory
   (11, 41, 370, NULL, 'An empty lab on a small island in the currents, cluttered with machines. Then fly back north.'),
   -- 42: Swords of Justice (milestone)

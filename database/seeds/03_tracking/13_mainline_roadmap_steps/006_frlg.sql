@@ -118,182 +118,184 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 7
   (6, 43, 60, NULL, 'A short road west to Celadon City.'),
   -- 44: Celadon City
-  (6, 44, 6, NULL, 'A big city. An old woman in Celadon Mansion gives you Tea, which gets you past Saffron City''s guards, and an Eevee waits in a Poké Ball on its roof. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret, and a man in the restaurant gives you his Coin Case.'),
-  -- 45: Rainbow Badge (milestone)
-  (6, 45, NULL, 60007, NULL),
-  -- 46: Rocket Hideout (milestone)
-  (6, 46, NULL, 60020, NULL),
-  -- 47: Route 7
-  (6, 47, 60, NULL, 'Back east with the Silph Scope.'),
-  -- 48: Underground Path (Kanto Routes 7-8)
-  (6, 48, 809, NULL, 'The same tunnel under Saffron City, the way you came.'),
-  -- 49: Route 8
-  (6, 49, 61, NULL, 'East again to Lavender Town.'),
-  -- 50: Lavender Town
-  (6, 50, 23, NULL, 'Back with the Silph Scope, through Saffron City now that the guards have their Tea. You can see the ghosts at last. Climb Pokémon Tower to find Mr. Fuji.'),
-  -- 51: Pokémon Tower (milestone)
-  (6, 51, NULL, 60021, NULL),
-  -- 52: Route 8
-  (6, 52, 61, NULL, 'West again with the Poké Flute.'),
-  -- 53: Underground Path (Kanto Routes 7-8)
-  (6, 53, 809, NULL, 'Under Saffron City once more.'),
-  -- 54: Route 7
-  (6, 54, 60, NULL, 'On to Celadon City.'),
-  -- 55: Celadon City
-  (6, 55, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
-  -- 56: Route 16
-  (6, 56, 45, NULL, 'West of Celadon City. A sleeping Snorlax blocks the road. Wake it with the Poké Flute. A girl in a house behind a tree gives you HM02 Fly, and Oak''s aide in the gate an Amulet Coin once you''ve caught 40 kinds.'),
-  -- 57: Route 17
-  (6, 57, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle, and bikers wait along the way.'),
-  -- 58: Route 18
-  (6, 58, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
-  -- 59: Fuchsia City
-  (6, 59, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them. A fisherman in a house here gives you the Good Rod.'),
-  -- 60: Soul Badge (milestone)
-  (6, 60, NULL, 60008, NULL),
-  -- 61: Safari Zone (milestone)
-  (6, 61, NULL, 60031, NULL),
-  -- 62: Power Plant (milestone)
-  (6, 62, NULL, 60023, NULL),
-  -- 63: Route 15
-  (6, 63, 44, NULL, 'East out of Fuchsia City. In the gate, Oak''s aide gives you an Exp. Share once you''ve caught 50 kinds.'),
-  -- 64: Route 14
-  (6, 64, 43, NULL, 'Trainers line the way north along the coast.'),
-  -- 65: Route 13
-  (6, 65, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
-  -- 66: Route 12
-  (6, 66, 41, NULL, 'Another sleeping Snorlax blocks the road north to Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
-  -- 67: Lavender Town
-  (6, 67, 23, NULL, 'North up the pier into town.'),
-  -- 68: Route 8
-  (6, 68, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for the Tea.'),
-  -- 69: Saffron City
-  (6, 69, 133, NULL, 'The guards let you in for the Tea. Team Rocket has taken over the city and Silph Co. Beat the master of the Fighting Dojo, beside Sabrina''s Gym, for a Hitmonlee or a Hitmonchan. Mr. Psychic gives you TM29 Psychic. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
-  -- 70: Silph Co. (milestone)
-  (6, 70, NULL, 60022, NULL),
-  -- 71: Fighting Dojo Choice (milestone)
-  (6, 71, NULL, 60010, NULL),
-  -- 72: Marsh Badge (milestone)
-  (6, 72, NULL, 60009, NULL),
-  -- 73: Fuchsia City
-  (6, 73, 18, NULL, 'Fly back to Fuchsia City with Surf and Strength in hand. Head south from the beach to cross the sea.'),
-  -- 74: Route 19
-  (6, 74, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
-  -- 75: Route 20
-  (6, 75, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
-  -- 76: Seafoam Islands (milestone)
-  (6, 76, NULL, 60024, NULL),
-  -- 77: Route 20
-  (6, 77, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
-  -- 78: Cinnabar Island
-  (6, 78, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
-  -- 79: Cinnabar Lab
-  (6, 79, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
-  -- 80: Pokémon Mansion (milestone)
-  (6, 80, NULL, 60032, NULL),
-  -- 81: Volcano Badge (milestone)
-  (6, 81, NULL, 60011, NULL),
-  -- 82: Cinnabar Island
-  (6, 82, 11, NULL, 'Bill waits outside the Gym and invites you to the Sevii Islands. Say yes, here or in the Pokémon Center, and his friend''s ferry takes you to One Island.'),
-  -- 83: One Island (town)
-  (6, 83, 28, NULL, 'The first of the Sevii Islands. Bill''s friend Celio is fixing the Network Machine in the Pokémon Network Center. He gives you the Tri-Pass, and Bill asks you to take a Meteorite to the Game Corner''s owner on Two Island.'),
-  -- 84: Treasure Beach
-  (6, 84, 72, NULL, 'A side trip south of the port. Pearls, Stardust and Ultra Balls wash up on its shore, and the tide brings new ones each day.'),
-  -- 85: Kindle Road
-  (6, 85, 22, NULL, 'North of town, up the coast to Mt. Ember. The old man in the Ember Spa gives you HM06 Rock Smash.'),
-  -- 86: Mt. Ember (milestone)
-  (6, 86, NULL, 60025, NULL),
-  -- 87: Two Island (town)
-  (6, 87, 847, NULL, 'A tiny island with the Joyful Game Corner. Its owner is worried about his daughter Lostelle, who went to Three Island and has not come back. The Move Maniac teaches forgotten moves for mushrooms.'),
-  -- 88: Cape Brink
-  (6, 88, 5, NULL, 'A short road north of the town. An old woman here teaches your first partner its strongest move, once it has fully evolved.'),
-  -- 89: Three Isle Port
-  (6, 89, 70, NULL, 'The ferry from Two Island docks here. Bikers from Kanto are harassing the islanders as you step off. A man digs for gold in the small cave to the east.'),
-  -- 90: Three Island (town)
-  (6, 90, 848, NULL, 'Bikers from Kanto have overrun the town. Beat them and their leader and they leave. Lostelle went west over Bond Bridge.'),
-  -- 91: Bond Bridge
-  (6, 91, 3, NULL, 'The bridge west of Three Island to the Berry Forest.'),
-  -- 92: Berry Forest (milestone)
-  (6, 92, NULL, 60033, NULL),
-  -- 93: One Island (town)
-  (6, 93, 28, NULL, 'The Network Machine is linked to Kanto. Bill takes you back to Cinnabar Island.'),
-  -- 94: Route 21
-  (6, 94, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
-  -- 95: Pallet Town
-  (6, 95, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
-  -- 96: Route 1
-  (6, 96, 38, NULL, 'North once more to Viridian City.'),
-  -- 97: Viridian City
-  (6, 97, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
-  -- 98: Earth Badge (milestone)
-  (6, 98, NULL, 60012, NULL),
-  -- 99: Route 22
-  (6, 99, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
-  -- 100: Route 23
-  (6, 100, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
-  -- 101: Victory Road
-  (6, 101, 75, NULL, 'Push boulders onto floor switches with Strength to open the way through. A trainer near the exit teaches Double-Edge.'),
-  -- 102: Indigo Plateau
-  (6, 102, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 103: Pokémon League (milestone)
-  (6, 103, NULL, 60017, NULL),
-  -- 104: Pallet Town
-  (6, 104, 30, NULL, 'After the credits you are back at home. Professor Oak checks your Pokédex. With 60 kinds caught he upgrades it to the National Pokédex.'),
-  -- 105: One Island (town)
-  (6, 105, 28, NULL, 'Sail from Vermilion City''s harbour with the Tri-Pass. Celio needs a gemstone to link his Network Machine with faraway regions. It is said to be somewhere on One Island.'),
-  -- 106: Ruby Path (milestone)
-  (6, 106, NULL, 60034, NULL),
-  -- 107: Four Island (town)
-  (6, 107, 17, NULL, 'Blue is on the beach, showing off a Pokémon Egg. The Day Care here takes two Pokémon. Lorelei''s house is in town, and Icefall Cave is on the east side.'),
-  -- 108: Icefall Cave (milestone)
-  (6, 108, NULL, 60035, NULL),
-  -- 109: Six Island (town)
-  (6, 109, 849, NULL, 'A ferry ride from Four Island. Blue is in the Pokémon Center, done with the islands. Water Path leads north to Pattern Bush and south to Ruin Valley.'),
-  -- 110: Water Path
-  (6, 110, 79, NULL, 'Along the east coast of Six Island, north to Green Path and south to Ruin Valley. A woman in the northern house gives a Nest Ball for each record-sized Heracross you show her.'),
-  -- 111: Green Path
-  (6, 111, 19, NULL, 'A side trip north of Water Path, along the west side of the smaller island.'),
-  -- 112: Pattern Bush
-  (6, 112, 31, NULL, 'A thick forest where the tall grass grows in odd patterns. The trainers here think it hides a secret.'),
-  -- 113: Outcast Island
-  (6, 113, 29, NULL, 'A rocky stretch of sea north to Altering Cave. A Team Rocket Grunt waits here until you clear the Rocket Warehouse.'),
-  -- 114: Altering Cave
-  (6, 114, 1, NULL, 'An isolated cave at the north end of Six Island. Nothing waits inside but wild Pokémon.'),
-  -- 115: Ruin Valley
-  (6, 115, 63, NULL, 'Back south down Water Path. A valley ringed by cliffs. The door of the Dotted Hole in its middle bears a word in Braille. Use Cut on it and it opens.'),
-  -- 116: Dotted Hole (milestone)
-  (6, 116, NULL, 60036, NULL),
-  -- 117: Five Island (town)
-  (6, 117, 15, NULL, 'A ferry ride from Six Island. The Rocket Warehouse stands in Five Isle Meadow, just east of town.'),
-  -- 118: Five Isle Meadow
-  (6, 118, 16, NULL, 'Type the two passwords at the warehouse door to get in.'),
-  -- 119: Rocket Warehouse (milestone)
-  (6, 119, NULL, 60037, NULL),
-  -- 120: Memorial Pillar
-  (6, 120, 25, NULL, 'A side trip to the islets southeast of Five Isle Meadow. A man tends the grave of his Onix, Tectonix. Leave a Lemonade at the pillar and he gives you a TM.'),
-  -- 121: Water Labyrinth
-  (6, 121, 78, NULL, 'A maze of rocks in the sea north of Five Island. An old gentleman gives you a Togepi Egg if the first Pokémon in your party is fond of you.'),
-  -- 122: Resort Gorgeous
-  (6, 122, 36, NULL, 'Small islands at the north end of Five Island, around the resort of a rich trainer called Selphy. Nobody is home. Lost Cave lies to the east.'),
-  -- 123: Lost Cave (milestone)
-  (6, 123, NULL, 60038, NULL),
-  -- 124: Seven Island (town)
-  (6, 124, 1009, NULL, 'The farthest of the Sevii Islands, a ferry ride from Five Island. Little more than a Pokémon Center and a Poké Mart. Trainer Tower stands to the north.'),
-  -- 125: Trainer Tower (milestone)
-  (6, 125, NULL, 60039, NULL),
-  -- 126: Canyon Entrance
-  (6, 126, 4, NULL, 'Hilly ground south of town, on the way to Sevault Canyon.'),
-  -- 127: Sevault Canyon
-  (6, 127, 66, NULL, 'A narrow valley of strong trainers. A man in its only house heals your team with the Chansey Dance. Tanoby Key, a small cave on the north side, holds seven pits and some boulders.'),
-  -- 128: Tanoby Ruins
-  (6, 128, 69, NULL, 'Seven islets off the south coast, each with one of the Tanoby Chambers. Surf from one to the next.'),
-  -- 129: Tanoby Chambers (milestone)
-  (6, 129, NULL, 60040, NULL),
-  -- 130: Cerulean Cave (milestone)
-  (6, 130, NULL, 60029, NULL),
-  -- 131: Roaming Legendary Beast (milestone)
-  (6, 131, NULL, 60028, NULL),
-  -- 132: Navel Rock (milestone)
-  (6, 132, NULL, 60026, NULL),
-  -- 133: Birth Island (milestone)
-  (6, 133, NULL, 60027, NULL);
+  (6, 44, 6, NULL, 'A big city. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret, and a man in the restaurant gives you his Coin Case.'),
+  -- 45: Celadon Condominiums
+  (6, 45, 7, NULL, 'A side trip to the Celadon Mansion. An old woman inside gives you Tea for Saffron City''s guards, and its back door leads up to the roof, where an Eevee waits in a Poké Ball.'),
+  -- 46: Rainbow Badge (milestone)
+  (6, 46, NULL, 60007, NULL),
+  -- 47: Rocket Hideout (milestone)
+  (6, 47, NULL, 60020, NULL),
+  -- 48: Route 7
+  (6, 48, 60, NULL, 'Back east with the Silph Scope.'),
+  -- 49: Underground Path (Kanto Routes 7-8)
+  (6, 49, 809, NULL, 'The same tunnel under Saffron City, the way you came.'),
+  -- 50: Route 8
+  (6, 50, 61, NULL, 'East again to Lavender Town.'),
+  -- 51: Lavender Town
+  (6, 51, 23, NULL, 'Back with the Silph Scope, through Saffron City now that the guards have their Tea. You can see the ghosts at last. Climb Pokémon Tower to find Mr. Fuji.'),
+  -- 52: Pokémon Tower (milestone)
+  (6, 52, NULL, 60021, NULL),
+  -- 53: Route 8
+  (6, 53, 61, NULL, 'West again with the Poké Flute.'),
+  -- 54: Underground Path (Kanto Routes 7-8)
+  (6, 54, 809, NULL, 'Under Saffron City once more.'),
+  -- 55: Route 7
+  (6, 55, 60, NULL, 'On to Celadon City.'),
+  -- 56: Celadon City
+  (6, 56, 6, NULL, 'Through town to its west exit, where Route 16 begins.'),
+  -- 57: Route 16
+  (6, 57, 45, NULL, 'West of Celadon City. A sleeping Snorlax blocks the road. Wake it with the Poké Flute. A girl in a house behind a tree gives you HM02 Fly, and Oak''s aide in the gate an Amulet Coin once you''ve caught 40 kinds.'),
+  -- 58: Route 17
+  (6, 58, 46, NULL, 'Cycling Road, a long ride downhill over the sea. You need the Bicycle, and bikers wait along the way.'),
+  -- 59: Route 18
+  (6, 59, 47, NULL, 'The end of Cycling Road, leading east to Fuchsia City.'),
+  -- 60: Fuchsia City
+  (6, 60, 18, NULL, 'Koga''s Gym uses Poison types and hides invisible walls. The Safari Zone is at the top of town. Its Warden lost his gold teeth in there, and he gives you HM04 Strength for them. A fisherman in a house here gives you the Good Rod.'),
+  -- 61: Soul Badge (milestone)
+  (6, 61, NULL, 60008, NULL),
+  -- 62: Safari Zone (milestone)
+  (6, 62, NULL, 60031, NULL),
+  -- 63: Power Plant (milestone)
+  (6, 63, NULL, 60023, NULL),
+  -- 64: Route 15
+  (6, 64, 44, NULL, 'East out of Fuchsia City. In the gate, Oak''s aide gives you an Exp. Share once you''ve caught 50 kinds.'),
+  -- 65: Route 14
+  (6, 65, 43, NULL, 'Trainers line the way north along the coast.'),
+  -- 66: Route 13
+  (6, 66, 42, NULL, 'A maze of fences along the coast, packed with trainers.'),
+  -- 67: Route 12
+  (6, 67, 41, NULL, 'Another sleeping Snorlax blocks the road north to Lavender Town. Wake it with the Poké Flute. A fisherman in a house here gives you the Super Rod.'),
+  -- 68: Lavender Town
+  (6, 68, 23, NULL, 'North up the pier into town.'),
+  -- 69: Route 8
+  (6, 69, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for the Tea.'),
+  -- 70: Saffron City
+  (6, 70, 133, NULL, 'The guards let you in for the Tea. Team Rocket has taken over the city and Silph Co. Beat the master of the Fighting Dojo, beside Sabrina''s Gym, for a Hitmonlee or a Hitmonchan. Mr. Psychic gives you TM29 Psychic. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
+  -- 71: Silph Co. (milestone)
+  (6, 71, NULL, 60022, NULL),
+  -- 72: Fighting Dojo Choice (milestone)
+  (6, 72, NULL, 60010, NULL),
+  -- 73: Marsh Badge (milestone)
+  (6, 73, NULL, 60009, NULL),
+  -- 74: Fuchsia City
+  (6, 74, 18, NULL, 'Fly back to Fuchsia City with Surf and Strength in hand. Head south from the beach to cross the sea.'),
+  -- 75: Route 19
+  (6, 75, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
+  -- 76: Route 20
+  (6, 76, 50, NULL, 'Surf west toward Cinnabar Island. The Seafoam Islands sit halfway.'),
+  -- 77: Seafoam Islands (milestone)
+  (6, 77, NULL, 60024, NULL),
+  -- 78: Route 20
+  (6, 78, 50, NULL, 'Surf on west from the Seafoam Islands to Cinnabar Island.'),
+  -- 79: Cinnabar Island
+  (6, 79, 11, NULL, 'A volcanic island. Blaine''s Gym is locked, and the Secret Key that opens it is in the Pokémon Mansion next door.'),
+  -- 80: Cinnabar Lab
+  (6, 80, 12, NULL, 'A scientist here revives your fossil and the Old Amber. Step outside for a moment and come back to collect them.'),
+  -- 81: Pokémon Mansion (milestone)
+  (6, 81, NULL, 60032, NULL),
+  -- 82: Volcano Badge (milestone)
+  (6, 82, NULL, 60011, NULL),
+  -- 83: Cinnabar Island
+  (6, 83, 11, NULL, 'Bill waits outside the Gym and invites you to the Sevii Islands. Say yes, here or in the Pokémon Center, and his friend''s ferry takes you to One Island.'),
+  -- 84: One Island (town)
+  (6, 84, 28, NULL, 'The first of the Sevii Islands. Bill''s friend Celio is fixing the Network Machine in the Pokémon Network Center. He gives you the Tri-Pass, and Bill asks you to take a Meteorite to the Game Corner''s owner on Two Island.'),
+  -- 85: Treasure Beach
+  (6, 85, 72, NULL, 'A side trip south of the port. Pearls, Stardust and Ultra Balls wash up on its shore, and the tide brings new ones each day.'),
+  -- 86: Kindle Road
+  (6, 86, 22, NULL, 'North of town, up the coast to Mt. Ember. The old man in the Ember Spa gives you HM06 Rock Smash.'),
+  -- 87: Mt. Ember (milestone)
+  (6, 87, NULL, 60025, NULL),
+  -- 88: Two Island (town)
+  (6, 88, 847, NULL, 'A tiny island with the Joyful Game Corner. Its owner is worried about his daughter Lostelle, who went to Three Island and has not come back. The Move Maniac teaches forgotten moves for mushrooms.'),
+  -- 89: Cape Brink
+  (6, 89, 5, NULL, 'A short road north of the town. An old woman here teaches your first partner its strongest move, once it has fully evolved.'),
+  -- 90: Three Isle Port
+  (6, 90, 70, NULL, 'The ferry from Two Island docks here. Bikers from Kanto are harassing the islanders as you step off. A man digs for gold in the small cave to the east.'),
+  -- 91: Three Island (town)
+  (6, 91, 848, NULL, 'Bikers from Kanto have overrun the town. Beat them and their leader and they leave. Lostelle went west over Bond Bridge.'),
+  -- 92: Bond Bridge
+  (6, 92, 3, NULL, 'The bridge west of Three Island to the Berry Forest.'),
+  -- 93: Berry Forest (milestone)
+  (6, 93, NULL, 60033, NULL),
+  -- 94: One Island (town)
+  (6, 94, 28, NULL, 'The Network Machine is linked to Kanto. Bill takes you back to Cinnabar Island.'),
+  -- 95: Route 21
+  (6, 95, 51, NULL, 'Surf north from Cinnabar Island back to Pallet Town. Fishermen and Swimmers line the way.'),
+  -- 96: Pallet Town
+  (6, 96, 30, NULL, 'Home again, on the way back to Viridian City. Your mom heals your team for free.'),
+  -- 97: Route 1
+  (6, 97, 38, NULL, 'North once more to Viridian City.'),
+  -- 98: Viridian City
+  (6, 98, 76, NULL, 'Viridian City''s Gym is open at last. Its leader is the last badge between you and the League.'),
+  -- 99: Earth Badge (milestone)
+  (6, 99, NULL, 60012, NULL),
+  -- 100: Route 22
+  (6, 100, 52, NULL, 'Blue waits here one last time before the League, and you can''t avoid this battle. Past him, the gate opens to Route 23.'),
+  -- 101: Route 23
+  (6, 101, 53, NULL, 'A long road north where guards check your badges, one gate at a time. Victory Road waits at the end.'),
+  -- 102: Victory Road
+  (6, 102, 75, NULL, 'Push boulders onto floor switches with Strength to open the way through. A trainer near the exit teaches Double-Edge.'),
+  -- 103: Indigo Plateau
+  (6, 103, 21, NULL, 'The last Pokémon Center and Poké Mart before the League. Stock up on healing items. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 104: Pokémon League (milestone)
+  (6, 104, NULL, 60017, NULL),
+  -- 105: Pallet Town
+  (6, 105, 30, NULL, 'After the credits you are back at home. Professor Oak checks your Pokédex. With 60 kinds caught he upgrades it to the National Pokédex.'),
+  -- 106: One Island (town)
+  (6, 106, 28, NULL, 'Sail from Vermilion City''s harbour with the Tri-Pass. Celio needs a gemstone to link his Network Machine with faraway regions. It is said to be somewhere on One Island.'),
+  -- 107: Ruby Path (milestone)
+  (6, 107, NULL, 60034, NULL),
+  -- 108: Four Island (town)
+  (6, 108, 17, NULL, 'Blue is on the beach, showing off a Pokémon Egg. The Day Care here takes two Pokémon. Lorelei''s house is in town, and Icefall Cave is on the east side.'),
+  -- 109: Icefall Cave (milestone)
+  (6, 109, NULL, 60035, NULL),
+  -- 110: Six Island (town)
+  (6, 110, 849, NULL, 'A ferry ride from Four Island. Blue is in the Pokémon Center, done with the islands. Water Path leads north to Pattern Bush and south to Ruin Valley.'),
+  -- 111: Water Path
+  (6, 111, 79, NULL, 'Along the east coast of Six Island, north to Green Path and south to Ruin Valley. A woman in the northern house gives a Nest Ball for each record-sized Heracross you show her.'),
+  -- 112: Green Path
+  (6, 112, 19, NULL, 'A side trip north of Water Path, along the west side of the smaller island.'),
+  -- 113: Pattern Bush
+  (6, 113, 31, NULL, 'A thick forest where the tall grass grows in odd patterns. The trainers here think it hides a secret.'),
+  -- 114: Outcast Island
+  (6, 114, 29, NULL, 'A rocky stretch of sea north to Altering Cave. A Team Rocket Grunt waits here until you clear the Rocket Warehouse.'),
+  -- 115: Altering Cave
+  (6, 115, 1, NULL, 'An isolated cave at the north end of Six Island. Nothing waits inside but wild Pokémon.'),
+  -- 116: Ruin Valley
+  (6, 116, 63, NULL, 'Back south down Water Path. A valley ringed by cliffs. The door of the Dotted Hole in its middle bears a word in Braille. Use Cut on it and it opens.'),
+  -- 117: Dotted Hole (milestone)
+  (6, 117, NULL, 60036, NULL),
+  -- 118: Five Island (town)
+  (6, 118, 15, NULL, 'A ferry ride from Six Island. The Rocket Warehouse stands in Five Isle Meadow, just east of town.'),
+  -- 119: Five Isle Meadow
+  (6, 119, 16, NULL, 'Type the two passwords at the warehouse door to get in.'),
+  -- 120: Rocket Warehouse (milestone)
+  (6, 120, NULL, 60037, NULL),
+  -- 121: Memorial Pillar
+  (6, 121, 25, NULL, 'A side trip to the islets southeast of Five Isle Meadow. A man tends the grave of his Onix, Tectonix. Leave a Lemonade at the pillar and he gives you a TM.'),
+  -- 122: Water Labyrinth
+  (6, 122, 78, NULL, 'A maze of rocks in the sea north of Five Island. An old gentleman gives you a Togepi Egg if the first Pokémon in your party is fond of you.'),
+  -- 123: Resort Gorgeous
+  (6, 123, 36, NULL, 'Small islands at the north end of Five Island, around the resort of a rich trainer called Selphy. Nobody is home. Lost Cave lies to the east.'),
+  -- 124: Lost Cave (milestone)
+  (6, 124, NULL, 60038, NULL),
+  -- 125: Seven Island (town)
+  (6, 125, 1009, NULL, 'The farthest of the Sevii Islands, a ferry ride from Five Island. Little more than a Pokémon Center and a Poké Mart. Trainer Tower stands to the north.'),
+  -- 126: Trainer Tower (milestone)
+  (6, 126, NULL, 60039, NULL),
+  -- 127: Canyon Entrance
+  (6, 127, 4, NULL, 'Hilly ground south of town, on the way to Sevault Canyon.'),
+  -- 128: Sevault Canyon
+  (6, 128, 66, NULL, 'A narrow valley of strong trainers. A man in its only house heals your team with the Chansey Dance. Tanoby Key, a small cave on the north side, holds seven pits and some boulders.'),
+  -- 129: Tanoby Ruins
+  (6, 129, 69, NULL, 'Seven islets off the south coast, each with one of the Tanoby Chambers. Surf from one to the next.'),
+  -- 130: Tanoby Chambers (milestone)
+  (6, 130, NULL, 60040, NULL),
+  -- 131: Cerulean Cave (milestone)
+  (6, 131, NULL, 60029, NULL),
+  -- 132: Roaming Legendary Beast (milestone)
+  (6, 132, NULL, 60028, NULL),
+  -- 133: Navel Rock (milestone)
+  (6, 133, NULL, 60026, NULL),
+  -- 134: Birth Island (milestone)
+  (6, 134, NULL, 60027, NULL);

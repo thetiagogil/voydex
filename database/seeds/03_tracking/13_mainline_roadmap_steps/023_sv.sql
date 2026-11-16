@@ -41,9 +41,9 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 8: Mesagoza
   (23, 8, 951, NULL, 'Paldea''s largest city, with the academy at the top of its stairs. Two Team Star Grunts are bothering a girl with an Eevee backpack there. Beat the first one and Nemona sees the second off. Take all of Salvatore''s classes at the academy and he gives you a Galarian Meowth.', NULL),
   -- 9: Naranja Academy
-  (23, 9, 766, NULL, 'The academy at the top of Mesagoza''s stairs is Naranja Academy in Scarlet. Your classes and the Treasure Hunt start here.', 36),
+  (23, 9, 766, NULL, 'The academy at the top of Mesagoza''s stairs is Naranja Academy in Scarlet. Your classes and the Treasure Hunt start here. After his own story, Salvatore gives you a Meowth.', 36),
   -- 10: Uva Academy
-  (23, 10, 789, NULL, 'The academy at the top of Mesagoza''s stairs is Uva Academy in Violet. Your classes and the Treasure Hunt start here.', 37),
+  (23, 10, 789, NULL, 'The academy at the top of Mesagoza''s stairs is Uva Academy in Violet. Your classes and the Treasure Hunt start here. After his own story, Salvatore gives you a Meowth.', 37),
   -- 11: Treasure Hunt (milestone)
   (23, 11, NULL, 230002, NULL, NULL),
   -- 12: South Province (Area Two)

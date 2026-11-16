@@ -33,6 +33,7 @@ import {
   walkFiles,
 } from "./core.mjs";
 import { assertPokemonEvolutionEdgeRows } from "./rules/evolution.mjs";
+import { assertStoryRouteMoves } from "./rules/story-routes.mjs";
 import {
   customAuditTables,
   expectedSlugs,
@@ -237,6 +238,7 @@ export function runSeedAudit() {
     assertLocationRows(context, tableRows);
     assertTrackingCoreRows(context, tableRows);
     assertOpponentTeamRows(context, tableRows);
+    assertStoryRouteMoves(context, tableRows);
     assertTerminalStatuses(
       context,
       tableRows.get("gameplay.mainline_play_statuses") ?? [],

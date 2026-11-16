@@ -122,93 +122,97 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (15, 47, 545, NULL, 'South of Malie City, a quiet path of trees and bamboo. Its east gate opens once you have the Electrium Z.', NULL),
   -- 48: Route 12
   (15, 48, 546, NULL, 'A rough road. Hapu adds Mudsdale to your Ride Pager to cross the rocks.', NULL),
-  -- 49: Blush Mountain
-  (15, 49, 508, NULL, 'A side trip off Route 12 to the visitor centre of the Geothermal Power Plant, which powers all of Ula''ula.', NULL),
-  -- 50: Route 13
-  (15, 50, 547, NULL, 'A short stretch to Tapu Village.', NULL),
-  -- 51: Tapu Village
-  (15, 51, 564, NULL, 'A village Tapu Bulu wrecked long ago. The Aether House is down Route 15.', NULL),
-  -- 52: Aether House
-  (15, 52, 504, NULL, 'A home for children and their Pokémon. Acerola, the captain, lives here, and takes you to her trial.', NULL),
-  -- 53: Route 14
-  (15, 53, 548, NULL, 'A black sand beach sacred to Tapu Bulu, who wrecked the lighthouse and the Thrifty Megamart here in a rage.', NULL),
-  -- 54: Acerola Trial (milestone)
-  (15, 54, NULL, 150010, NULL, NULL),
-  -- 55: Route 15
-  (15, 55, 549, NULL, 'Team Skull has come to the Aether House while you were away. Plumeria battles you, and they leave with a child''s Yungoos. Grimsley, on the beach, adds Sharpedo to your Ride Pager to break the rocks in the water.', NULL),
-  -- 56: Route 16
-  (15, 56, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow.', NULL),
-  -- 57: Ula'ula Meadow
-  (15, 57, 569, NULL, 'A field of red flowers crossed by wooden walkways. Their Red Nectar changes a dancing Pokémon''s style. Route 17 runs north from here.', NULL),
-  -- 58: Lake of the Moone
-  (15, 58, 522, NULL, 'A path northeast of Ula''ula Meadow leads to this round lake. A stone bridge crosses it to a shrine, and stairs inside lead down a damp corridor.', 25),
-  -- 59: Lake of the Sunne
-  (15, 59, 523, NULL, 'A path northeast of Ula''ula Meadow leads to this round lake. A stone bridge crosses it to a shrine, and stairs inside lead down a damp corridor.', 26),
-  -- 60: Route 17
-  (15, 60, 551, NULL, 'A rainy road to the walls of Po Town. Nanu, the police officer at the gate, lets you in.', NULL),
-  -- 61: Po Town (milestone)
-  (15, 61, NULL, 150029, NULL, NULL),
-  -- 62: Aether House
-  (15, 62, 504, NULL, 'Back at the house, Team Skull has taken Lillie and Nebby. Gladion blames you and battles you. After the credits, an Aether worker here gives you a Porygon.', NULL),
-  -- 63: Grand Trial Nanu (milestone)
-  (15, 63, NULL, 150011, NULL, NULL),
-  -- 64: Malie City
-  (15, 64, 525, NULL, 'Gladion waits at the ferry terminal to take you and Hau to Aether Paradise.', NULL),
-  -- 65: Aether Paradise (milestone)
-  (15, 65, NULL, 150021, NULL, NULL),
-  -- 66: Seafolk Village
-  (15, 66, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna. An Ace Trainer in the village gives you an Aerodactyl.', NULL),
-  -- 67: Poni Wilds
-  (15, 67, 541, NULL, 'Wild country on the way to Hapu''s house.', NULL),
-  -- 68: Ancient Poni Path
-  (15, 68, 507, NULL, 'Hapu lives here. She is not the kahuna yet, and asks you to meet her at the Ruins of Hope.', NULL),
-  -- 69: Poni Breaker Coast
-  (15, 69, 535, NULL, 'At the Ruins of Hope beyond, Tapu Fini accepts Hapu as kahuna. She sends you to Exeggutor Island for a flute.', NULL),
-  -- 70: Exeggutor Island
-  (15, 70, 512, NULL, 'Back in Seafolk Village, the chief sails you to the island. One of the two flutes you need rests on a stand at the top of the island.', NULL),
-  -- 71: Ancient Poni Path
-  (15, 71, 507, NULL, 'Back through Seafolk Village with the flute. Team Skull Grunts wait at the mouth of Vast Poni Canyon. Beat two of them and Plumeria gives you Poisonium Z and asks you to save Guzma.', NULL),
-  -- 72: Grand Trial Hapu (milestone)
-  (15, 72, NULL, 150013, NULL, NULL),
-  -- 73: Vast Poni Canyon Trial (milestone)
-  (15, 73, NULL, 150012, NULL, NULL),
-  -- 74: Ultra Space (milestone)
-  (15, 74, NULL, 150022, NULL, NULL),
-  -- 75: Mount Lanakila
-  (15, 75, 531, NULL, 'A lift from Tapu Village takes you up the frozen mountain. Gladion battles you at the bottom, and Hau at the top.', NULL),
-  -- 76: Pokémon League
-  (15, 76, 931, NULL, 'Alola''s first Pokémon League, just built. Its four rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.', NULL),
-  -- 77: Pokémon League (milestone)
-  (15, 77, NULL, 150018, NULL, NULL),
-  -- 78: Ruins of Conflict
-  (15, 78, 927, NULL, 'After the party in Iki Town, Lillie takes you up Mahalo Trail to thank the island''s guardian, and it comes out to battle you.', NULL),
-  -- 79: Ultra Beast Missions (milestone)
-  (15, 79, NULL, 150020, NULL, NULL),
-  -- 80: Ruins of Life (milestone)
-  (15, 80, NULL, 150023, NULL, NULL),
-  -- 81: Haina Desert
-  (15, 81, 513, NULL, 'North of Route 13. Harsh sun by day and a sandstorm by night turn the shifting sands into a maze. The Ruins of Abundance are inside.', NULL),
-  -- 82: Ruins of Abundance (milestone)
-  (15, 82, NULL, 150024, NULL, NULL),
-  -- 83: Ruins of Hope (milestone)
-  (15, 83, NULL, 150025, NULL, NULL),
-  -- 84: Ten Carat Hill (milestone)
-  (15, 84, NULL, 150026, NULL, NULL),
-  -- 85: Melemele Sea
-  (15, 85, 528, NULL, 'Fly to Melemele Island and ride Lapras or Sharpedo along its southeast coast. Sharpedo reaches a cave on the southwest side of Ten Carat Hill.', NULL),
-  -- 86: Poni Grove
-  (15, 86, 538, NULL, 'Fly to Poni Island. A short, lush path east from Ancient Poni Path.', NULL),
-  -- 87: Poni Plains
-  (15, 87, 540, NULL, 'Open plains that link Poni Meadow and Poni Coast.', NULL),
-  -- 88: Poni Meadow
-  (15, 88, 539, NULL, 'A quiet meadow between Poni Plains and Resolution Cave.', NULL),
-  -- 89: Resolution Cave
-  (15, 89, 542, NULL, 'A deep cave past Poni Meadow, crossed on Mudsdale. A Pokémon of legend waits at the bottom.', NULL),
-  -- 90: Poni Coast
-  (15, 90, 536, NULL, 'A rocky shore north from Poni Plains, strewn with boulders.', NULL),
-  -- 91: Poni Gauntlet
-  (15, 91, 537, NULL, 'A lush field on the north side of Poni Island, crossed by bridges over small waterfalls. Some of the strongest trainers in Alola gather here.', NULL),
-  -- 92: Lake of the Sunne
-  (15, 92, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 25),
-  -- 93: Lake of the Moone
-  (15, 93, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 26);
+  -- 49: Ula'ula Beach
+  (15, 49, 568, NULL, 'A side trip down to the beach below Route 12.', NULL),
+  -- 50: Blush Mountain
+  (15, 50, 508, NULL, 'A side trip off Route 12 to the visitor centre of the Geothermal Power Plant, which powers all of Ula''ula.', NULL),
+  -- 51: Route 13
+  (15, 51, 547, NULL, 'A short stretch to Tapu Village.', NULL),
+  -- 52: Tapu Village
+  (15, 52, 564, NULL, 'A village Tapu Bulu wrecked long ago. The Aether House is down Route 15.', NULL),
+  -- 53: Aether House
+  (15, 53, 504, NULL, 'A home for children and their Pokémon. Acerola, the captain, lives here, and takes you to her trial.', NULL),
+  -- 54: Route 14
+  (15, 54, 548, NULL, 'A black sand beach sacred to Tapu Bulu, who wrecked the lighthouse and the Thrifty Megamart here in a rage.', NULL),
+  -- 55: Acerola Trial (milestone)
+  (15, 55, NULL, 150010, NULL, NULL),
+  -- 56: Route 15
+  (15, 56, 549, NULL, 'Team Skull has come to the Aether House while you were away. Plumeria battles you, and they leave with a child''s Yungoos. Grimsley, on the beach, adds Sharpedo to your Ride Pager to break the rocks in the water.', NULL),
+  -- 57: Route 16
+  (15, 57, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow. The Aether Base puts a Zygarde together from the Cells and Cores you collect.', NULL),
+  -- 58: Ula'ula Meadow
+  (15, 58, 569, NULL, 'A field of red flowers crossed by wooden walkways. Their Red Nectar changes a dancing Pokémon''s style. Route 17 runs north from here.', NULL),
+  -- 59: Lake of the Moone
+  (15, 59, 522, NULL, 'A path northeast of Ula''ula Meadow leads to this round lake. A stone bridge crosses it to a shrine, and stairs inside lead down a damp corridor.', 25),
+  -- 60: Lake of the Sunne
+  (15, 60, 523, NULL, 'A path northeast of Ula''ula Meadow leads to this round lake. A stone bridge crosses it to a shrine, and stairs inside lead down a damp corridor.', 26),
+  -- 61: Route 17
+  (15, 61, 551, NULL, 'A rainy road to the walls of Po Town. Nanu, the police officer at the gate, lets you in.', NULL),
+  -- 62: Po Town (milestone)
+  (15, 62, NULL, 150029, NULL, NULL),
+  -- 63: Aether House
+  (15, 63, 504, NULL, 'Back at the house, Team Skull has taken Lillie and Nebby. Gladion blames you and battles you. After the credits, an Aether worker here gives you a Porygon.', NULL),
+  -- 64: Grand Trial Nanu (milestone)
+  (15, 64, NULL, 150011, NULL, NULL),
+  -- 65: Malie City
+  (15, 65, 525, NULL, 'Gladion waits at the ferry terminal to take you and Hau to Aether Paradise.', NULL),
+  -- 66: Aether Paradise (milestone)
+  (15, 66, NULL, 150021, NULL, NULL),
+  -- 67: Seafolk Village
+  (15, 67, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna. An Ace Trainer in the village gives you an Aerodactyl.', NULL),
+  -- 68: Poni Wilds
+  (15, 68, 541, NULL, 'Wild country on the way to Hapu''s house.', NULL),
+  -- 69: Ancient Poni Path
+  (15, 69, 507, NULL, 'Hapu lives here. She is not the kahuna yet, and asks you to meet her at the Ruins of Hope.', NULL),
+  -- 70: Poni Breaker Coast
+  (15, 70, 535, NULL, 'At the Ruins of Hope beyond, Tapu Fini accepts Hapu as kahuna. She sends you to Exeggutor Island for a flute.', NULL),
+  -- 71: Exeggutor Island
+  (15, 71, 512, NULL, 'Back in Seafolk Village, the chief sails you to the island. One of the two flutes you need rests on a stand at the top of the island.', NULL),
+  -- 72: Ancient Poni Path
+  (15, 72, 507, NULL, 'Back through Seafolk Village with the flute. Team Skull Grunts wait at the mouth of Vast Poni Canyon. Beat two of them and Plumeria gives you Poisonium Z and asks you to save Guzma.', NULL),
+  -- 73: Grand Trial Hapu (milestone)
+  (15, 73, NULL, 150013, NULL, NULL),
+  -- 74: Vast Poni Canyon Trial (milestone)
+  (15, 74, NULL, 150012, NULL, NULL),
+  -- 75: Ultra Space (milestone)
+  (15, 75, NULL, 150022, NULL, NULL),
+  -- 76: Mount Lanakila
+  (15, 76, 531, NULL, 'A lift from Tapu Village takes you up the frozen mountain. Gladion battles you at the bottom, and Hau at the top.', NULL),
+  -- 77: Pokémon League
+  (15, 77, 931, NULL, 'Alola''s first Pokémon League, just built. Its four rooms can be taken in any order. Once you go in, there''s no way out until you win or lose.', NULL),
+  -- 78: Pokémon League (milestone)
+  (15, 78, NULL, 150018, NULL, NULL),
+  -- 79: Ruins of Conflict
+  (15, 79, 927, NULL, 'After the party in Iki Town, Lillie takes you up Mahalo Trail to thank the island''s guardian, and it comes out to battle you.', NULL),
+  -- 80: Ultra Beast Missions (milestone)
+  (15, 80, NULL, 150020, NULL, NULL),
+  -- 81: Ruins of Life (milestone)
+  (15, 81, NULL, 150023, NULL, NULL),
+  -- 82: Haina Desert
+  (15, 82, 513, NULL, 'North of Route 13. Harsh sun by day and a sandstorm by night turn the shifting sands into a maze. The Ruins of Abundance are inside.', NULL),
+  -- 83: Ruins of Abundance (milestone)
+  (15, 83, NULL, 150024, NULL, NULL),
+  -- 84: Ruins of Hope (milestone)
+  (15, 84, NULL, 150025, NULL, NULL),
+  -- 85: Ten Carat Hill (milestone)
+  (15, 85, NULL, 150026, NULL, NULL),
+  -- 86: Melemele Sea
+  (15, 86, 528, NULL, 'Fly to Melemele Island and ride Lapras or Sharpedo along its southeast coast. Sharpedo reaches a cave on the southwest side of Ten Carat Hill.', NULL),
+  -- 87: Poni Grove
+  (15, 87, 538, NULL, 'Fly to Poni Island. A short, lush path east from Ancient Poni Path.', NULL),
+  -- 88: Poni Plains
+  (15, 88, 540, NULL, 'Open plains that link Poni Meadow and Poni Coast.', NULL),
+  -- 89: Poni Meadow
+  (15, 89, 539, NULL, 'A quiet meadow between Poni Plains and Resolution Cave.', NULL),
+  -- 90: Resolution Cave
+  (15, 90, 542, NULL, 'A deep cave past Poni Meadow, crossed on Mudsdale. A Pokémon of legend waits at the bottom.', NULL),
+  -- 91: Poni Coast
+  (15, 91, 536, NULL, 'A rocky shore north from Poni Plains, strewn with boulders.', NULL),
+  -- 92: Poni Gauntlet
+  (15, 92, 537, NULL, 'A lush field on the north side of Poni Island, crossed by bridges over small waterfalls. Some of the strongest trainers in Alola gather here.', NULL),
+  -- 93: Lake of the Sunne
+  (15, 93, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 25),
+  -- 94: Lake of the Moone
+  (15, 94, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 26),
+  -- 95: Aether Paradise
+  (15, 95, 505, NULL, 'After the League, Gladion waits at Aether Paradise and gives you a Type: Null.', NULL);

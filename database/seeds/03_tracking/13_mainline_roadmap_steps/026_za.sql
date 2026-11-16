@@ -203,7 +203,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 91: North Boulevard
   (26, 91, 802, NULL, 'The street along the north half of Lumiose City, with three gates out of town.'),
   -- 92: Lumiose Museum
-  (26, 92, 441, NULL, 'A white museum on North Boulevard, free to enter, full of art about people and Pokémon.'),
+  (26, 92, 441, NULL, 'A white museum on North Boulevard, free to enter, full of art about people and Pokémon. Find its 12 lost Spewpa in a side mission and one of them is yours.'),
   -- 93: Passage du Palais
   (26, 93, 799, NULL, 'A shopping arcade in Rouge Sector 8, with eight boutiques and a hair salon.'),
   -- 94: Saison Canal
