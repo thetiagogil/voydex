@@ -2052,4 +2052,6 @@ VALUES
   -- Hyperspace Sky Pillar: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Rayquaza)
   (1008, 6, 'kalos-hyperspace-sky-pillar', 'Hyperspace Sky Pillar'),
   -- Seven Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands)
-  (1009, 1, 'kanto-seven-island-town', 'Seven Island (town)');
+  (1009, 1, 'kanto-seven-island-town', 'Seven Island (town)'),
+  -- Survival Area: a Story place with no wild Pokémon (Sinnoh's Battle Zone)
+  (1010, 4, 'sinnoh-survival-area', 'Survival Area');

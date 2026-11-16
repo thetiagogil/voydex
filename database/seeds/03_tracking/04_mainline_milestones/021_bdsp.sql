@@ -69,7 +69,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon League (Pokémon League)
   (210015, 21, NULL, 2101, 8, 3, NULL, 'pokemon-league', 'Pokémon League', 'Beat the Elite Four and Champion Cynthia back to back at the Pokémon League. Your team enters the Hall of Fame.', 18, true, 284),
   -- Fight Area (Fight Area)
-  (210020, 21, NULL, 2103, 1, 2, NULL, 'fight-area', 'Fight Area', 'Once you have seen every Pokémon in the Sinnoh Pokédex, Professor Rowan upgrades it to the National Pokédex. Take the ship from Snowpoint City to the Fight Area, where Barry is waiting and Buck talks of a treasure in the volcano.', 1, false, 872),
+  (210020, 21, NULL, 2103, 1, 2, NULL, 'fight-area', 'Fight Area', 'Once you have seen every Pokémon in the Sinnoh Pokédex, it is upgraded to the National Pokédex at Professor Rowan''s lab. Take the ship from Snowpoint City to the Fight Area, where Barry is waiting and Buck talks of a treasure in the volcano.', 1, false, 872),
   -- Stark Mountain (Stark Mountain)
   (210024, 21, NULL, 2103, 6, 2, NULL, 'stark-mountain', 'Stark Mountain', 'Team up with Buck to cross Stark Mountain. He takes the Magma Stone from its deepest room. Talk to him and his grandfather in the Survival Area and he puts it back. Heatran then waits in that room. Catch or defeat it.', 2, false, 326),
   -- Ramanas Park (Ramanas Park)
