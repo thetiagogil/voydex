@@ -25,7 +25,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   note
 ) VALUES
   -- 1: Postwick
-  (18, 1, 622, NULL, 'Your home village. Your neighbour Hop is waiting for his brother Leon, the Champion, who is bringing you both a Pokémon.'),
+  (18, 1, 622, NULL, 'Your home village. Your neighbour Hop is waiting for his brother Leon, the Champion, who is bringing you both a Pokémon. After you become Champion, a Charmander waits in Leon''s room.'),
   -- 2: Choose Starter (milestone)
   (18, 2, NULL, 180001, NULL),
   -- 3: Slumbering Weald
@@ -39,7 +39,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 7: Route 2
   (18, 7, 629, NULL, 'North to Professor Magnolia''s house by the lake. Hop battles you in front of it to earn Leon''s endorsement. That night two wishing stars fall beside you, and the professor makes them into Dynamax Bands.'),
   -- 8: Meetup Spot
-  (18, 8, 614, NULL, 'The train from Wedgehurst stops short, with Wooloo on the tracks, so you get off at the edge of the Wild Area. Motostoke is across it to the north.'),
+  (18, 8, 614, NULL, 'The train from Wedgehurst stops short, with Wooloo on the tracks, so you get off at the edge of the Wild Area. Motostoke is across it to the north. Children in the station give you a Pikachu or an Eevee if your Switch has Let''s Go save data.'),
   -- 9: Motostoke
   (18, 9, 615, NULL, 'A city of brick and steam. Sign up for the Gym Challenge at the Stadium, where you meet Chairman Rose, Bede and Marnie. Team Yell fills the lobby of the Budew Drop Inn. After the opening ceremony, Hop battles you at the west exit.'),
   -- 10: Route 3
@@ -53,7 +53,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 14: Grass Badge (milestone)
   (18, 14, NULL, 180003, NULL),
   -- 15: Route 5
-  (18, 15, 632, NULL, 'East to Hulbury. Stop Team Yell bothering a man by the Pokémon Nursery and he gives you a Rotom Bike. Hop battles you on the bridge.'),
+  (18, 15, 632, NULL, 'East to Hulbury. Stop Team Yell bothering a man by the Pokémon Nursery and he gives you a Rotom Bike. Hop battles you on the bridge. The breeder inside gives you a Toxel.'),
   -- 16: Hulbury
   (18, 16, 605, NULL, 'A harbour town. Nessa is at the lighthouse. Her Stadium uses Water types. After you win, Chairman Rose asks you to dinner at the seafood restaurant.'),
   -- 17: Water Badge (milestone)
@@ -111,7 +111,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 10
   (18, 43, 628, NULL, 'A snowy road north to Wyndon.'),
   -- 44: Wyndon
-  (18, 44, 659, NULL, 'Galar''s capital. The Champion Cup is held at Wyndon Stadium.'),
+  (18, 44, 659, NULL, 'Galar''s capital. The Champion Cup is held at Wyndon Stadium. After the credits, a League Staff member in the Battle Tower gives you a Type: Null.'),
   -- 45: Champion Cup (milestone)
   (18, 45, NULL, 180015, NULL),
   -- 46: Slumbering Weald

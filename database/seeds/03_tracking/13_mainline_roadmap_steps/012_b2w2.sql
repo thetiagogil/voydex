@@ -35,7 +35,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 4: Route 19
   (12, 4, 385, NULL, 'North of Aspertia City. Bianca shows you how to catch a Pokémon.'),
   -- 5: Floccesy Town
-  (12, 5, 358, NULL, 'A small town. Alder, the old Champion, drops in front of you and offers to train you once you have been out to Route 20 and the ranch.'),
+  (12, 5, 358, NULL, 'A small town. Alder, the old Champion, drops in front of you and offers to train you once you have been out to Route 20 and the ranch. Much later, once you beat Benga in Black Tower or White Treehollow, he gives you a Shiny Gible in Black 2 or a Shiny Dratini in White 2 at Alder''s house.'),
   -- 6: Route 20
   (12, 6, 387, NULL, 'East of Floccesy Town, with the ranch to the north.'),
   -- 7: Floccesy Ranch
@@ -61,7 +61,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 17: Virbank City
   (12, 17, 408, NULL, 'Roxie and Hugh are facing Team Plasma at the pier. Beat the Grunt in the middle, and Roxie gives you HM01 Cut. Chase the last one back to Route 20, then take the ship to Castelia City.'),
   -- 18: Castelia City
-  (12, 18, 345, NULL, 'Unova''s biggest city. A Harlequin gives you a Bicycle. Burgh is away from his Gym, which uses Bug types. Iris, who used to lead Opelucid Gym, thinks Team Plasma may be hiding in the sewers.'),
+  (12, 18, 345, NULL, 'Unova''s biggest city. A Harlequin gives you a Bicycle. Burgh is away from his Gym, which uses Bug types. Iris, who used to lead Opelucid Gym, thinks Team Plasma may be hiding in the sewers. After the credits, Amanita gives you an Eevee here.'),
   -- 19: Castelia Sewers (milestone)
   (12, 19, NULL, 120029, NULL),
   -- 20: Insect Badge (milestone)
@@ -87,7 +87,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 30: Pokémon World Tournament (milestone)
   (12, 30, NULL, 120030, NULL),
   -- 31: Route 6
-  (12, 31, 394, NULL, 'Cheren is outside the Season Research Lab and gives you HM03 Surf. Cobalion jumps down in front of you on the last bridge, then leaves.'),
+  (12, 31, 394, NULL, 'Cheren is outside the Season Research Lab and gives you HM03 Surf. Cobalion jumps down in front of you on the last bridge, then leaves. A researcher inside gives you a Deerling.'),
   -- 32: Chargestone Cave
   (12, 32, 349, NULL, 'A cave of floating magnetic stones. Bianca is inside, studying them.'),
   -- 33: Mistralton City

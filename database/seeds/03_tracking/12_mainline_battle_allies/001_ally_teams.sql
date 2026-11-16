@@ -727,4 +727,28 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Silver beside you vs Clair & Lance [totodile] 2: Crobat Lv. 58
   (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 2, 169, 16900, 58, NULL),
   -- Silver beside you vs Clair & Lance [totodile] 3: Gengar Lv. 56
-  (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 3, 94, 9400, 56, NULL);
+  (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 3, 94, 9400, 56, NULL),
+  -- Naveen beside you vs Lebanne 1: Ariados Lv. 73
+  (270013, 27025, 27029, 27, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 73, NULL),
+  -- Naveen beside you vs Lebanne 2: Sableye Lv. 73
+  (270013, 27025, 27029, 27, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 73, NULL),
+  -- Naveen beside you vs Lebanne 3: Mega Scrafty Lv. 74
+  (270013, 27025, 27029, 27, NULL, NULL, NULL, NULL, NULL, 3, 560, 56001, 74, 471),
+  -- Naveen beside you vs Gwynn 1: Ariados Lv. 73
+  (270013, 27026, 27029, 27, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 73, NULL),
+  -- Naveen beside you vs Gwynn 2: Sableye Lv. 73
+  (270013, 27026, 27029, 27, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 73, NULL),
+  -- Naveen beside you vs Gwynn 3: Mega Scrafty Lv. 74
+  (270013, 27026, 27029, 27, NULL, NULL, NULL, NULL, NULL, 3, 560, 56001, 74, 471),
+  -- Lida beside you vs Jacinthe 1: Clawitzer Lv. 73
+  (270015, 27027, 27030, 27, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 73, NULL),
+  -- Lida beside you vs Jacinthe 2: Vanilluxe Lv. 73
+  (270015, 27027, 27030, 27, NULL, NULL, NULL, NULL, NULL, 2, 584, 58400, 73, NULL),
+  -- Lida beside you vs Jacinthe 3: Mega Starmie Lv. 74
+  (270015, 27027, 27030, 27, NULL, NULL, NULL, NULL, NULL, 3, 121, 12101, 74, 460),
+  -- Lida beside you vs Griselle 1: Clawitzer Lv. 73
+  (270015, 27028, 27030, 27, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 73, NULL),
+  -- Lida beside you vs Griselle 2: Vanilluxe Lv. 73
+  (270015, 27028, 27030, 27, NULL, NULL, NULL, NULL, NULL, 2, 584, 58400, 73, NULL),
+  -- Lida beside you vs Griselle 3: Mega Starmie Lv. 74
+  (270015, 27028, 27030, 27, NULL, NULL, NULL, NULL, NULL, 3, 121, 12101, 74, 460);

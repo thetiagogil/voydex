@@ -308,7 +308,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Azelf: Azelf Lv. 50: Confusion, Uproar, Future Sight, Nasty Plot
     (80020, 8019, NULL, NULL, NULL, NULL, 1, ARRAY[93, 253, 248, 417]),
     -- Mesprit: Mesprit Lv. 50: Confusion, Lucky Chant, Future Sight, Charm
-    (80020, 8020, NULL, NULL, NULL, NULL, 1, ARRAY[93, 381, 248, 204]),
+    (80031, 8020, NULL, NULL, NULL, NULL, 1, ARRAY[93, 381, 248, 204]),
     -- Giratina: Giratina Lv. 70: Shadow Force, Heal Block, Earth Power, Slash
     (80021, 8021, NULL, NULL, NULL, NULL, 1, ARRAY[467, 377, 414, 163]),
     -- Cresselia: Cresselia Lv. 50: Mist, Aurora Beam, Future Sight, Slash

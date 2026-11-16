@@ -390,7 +390,13 @@ sources remain authoritative for game-specific mechanics and availability.
     what, what a path needs, what blocks the way and the Gym's type, up to
     300 characters. Both use short full sentences with no semicolon, say
     "Team Rocket Grunt" rather than "a Rocket", and a note never names the
-    Pokémon found there.
+    wild Pokémon found there. A Pokémon someone hands you is the exception:
+    the note of its place names it, who gives it and what it asks for (an
+    Egg by what hatches from it). Prizes and Pokémon you pay for stay out.
+  - A roaming Pokémon is its own optional milestone, also when the rest of
+    its group waits in one place (Mesprit beside Lake Guardians).
+  - A battle against a named character on the way to a Story point belongs
+    to that Story point and names the place it is fought at.
   - A collectible set is something scattered that the game counts and
     rewards. A game without one has none. Forms the Pokédex counts as one
     species qualify when the game keeps its own count of them and rewards
@@ -493,7 +499,8 @@ sources remain authoritative for game-specific mechanics and availability.
   League's lobby. Plain Grunt battles (Jubilife City, the Veilstone
   warehouse, Iron Island) are notes. Post Game is the Battle Zone: the Fight
   Area, then Stark Mountain with Buck, both optional. Side Content is the
-  three lake Pokémon (placed at Lake Verity), Turnback Cave, Cresselia and
+  lake Pokémon (Uxie and Azelf as Lake Guardians at Lake Valor, roaming
+  Mesprit on its own at Lake Verity), Turnback Cave, Cresselia and
   Snowpoint Temple. Diamond / Pearl has no collectible set.
 - Platinum in the pattern (`680_platinum_story.sql`; from all 26 parts of
   Bulbapedia's walkthrough): Diamond / Pearl's route and notes with
@@ -505,8 +512,8 @@ sources remain authoritative for game-specific mechanics and availability.
   Looker opens Team Galactic HQ. Mars and Jupiter are fought on the Spear
   Pillar (their battle names that place) and the beat itself is the
   Distortion World: Cyrus, then Giratina. Post Game is Stark Mountain (Mars,
-  Jupiter, Charon's arrest, Heatran). Side Content is the three lake Pokémon,
-  Cresselia, Snowpoint Temple, Dialga and Palkia back on the Spear Pillar and
+  Jupiter, Charon's arrest, Heatran). Side Content is the lake Pokémon (roaming
+  Mesprit on its own), Cresselia, Snowpoint Temple, Dialga and Palkia back on the Spear Pillar and
   the three roaming birds, placed at Eterna City where Professor Oak sets
   them off. The Fight Area's Multi Battle against Flint and Volkner is not a
   beat. Platinum has no collectible set.
@@ -700,16 +707,21 @@ sources remain authoritative for game-specific mechanics and availability.
   recorded with nothing between them. A promotion match is at the place it
   is fought, and a Rogue Mega Evolution in its sector. The Z-A Royale, the
   Rogue Mega Evolutions and the finale were chapters of their own and are
-  now one Main Story chapter. Known gap: the
-  walkthrough's battles with Naveen, Lida, Emma and the Society of Battle
-  Connoisseurs have no seeded team yet, so they are notes on their places.
+  now one Main Story chapter. The battles
+  against named characters on the way (Emma, Naveen, Lida, Tarragon, Gwynn,
+  Philippe, Lebanne and Griselle) sit on the Story point they lead to, with
+  teams from each character's Bulbapedia page (one source). Lida and Naveen
+  are rivals, since they battle you and fight beside you.
 - Mega Dimension in the pattern (`860_za_md_story.sql`; from Bulbapedia's
   story page and its Hyperspace and side mission pages): the route follows
   the story from Coulant Waterway through the arenas of Hyperspace Lumiose,
   each a place of its own, to Hyperspace Newmoon Nightmare and Hyperspace
   Sky Pillar. The opening is one beat, and the seven Special Scans are one
-  optional beat with seven battles, as Snacksworth's treats are. Known gap:
-  Korrina's battle before she joins has no seeded team yet, so it is a note.
+  optional beat with seven battles, as Snacksworth's treats are. Korrina's
+  test before she joins and the two Multi Battles (Lebanne and Gwynn at
+  Hotel Z, Jacinthe and Griselle at Hotel Richissime) are battles on the
+  Rogue Mega they lead to. Their Multi Battle teams are stored at the lower
+  of the two levels the game uses.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

@@ -27,7 +27,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 8
                 AND mainline_categories.slug <> 'main-story' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('post-game'::text, 'fight-area'::text, 'Fight Area'::text), ('post-game', 'stark-mountain', 'Stark Mountain'), ('side-content', 'lake-guardians', 'Lake Verity'), ('side-content', 'turnback-cave', 'Turnback Cave'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple') $$, 'Diamond / Pearl''s optional beats sit in their chapters, each at its place');
+            VALUES ('post-game'::text, 'fight-area'::text, 'Fight Area'::text), ('post-game', 'stark-mountain', 'Stark Mountain'), ('side-content', 'lake-guardians', 'Lake Valor'), ('side-content', 'roaming-mesprit', 'Lake Verity'), ('side-content', 'turnback-cave', 'Turnback Cave'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple') $$, 'Diamond / Pearl''s optional beats sit in their chapters, each at its place');
 SELECT
     results_eq ($$
         SELECT
@@ -61,7 +61,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 8 $$, $$
-            VALUES (98, 74, 24) $$, 'Diamond / Pearl''s roadmap has 98 steps: 74 places and its 24 milestones');
+            VALUES (99, 74, 25) $$, 'Diamond / Pearl''s roadmap has 99 steps: 74 places and its 25 milestones');
 SELECT
     *
 FROM

@@ -89,7 +89,19 @@ INSERT INTO tracking.mainline_opponents (
   (26030, 26, NULL, 'rogue-mega-tyranitar', 'Rogue Mega Tyranitar', 'boss', 13, 16, NULL, NULL, 30),
   -- Rogue Mega Starmie
   (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, NULL, NULL, 31),
-  -- Lida (fights beside you against rogue Megas)
-  (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, 'lida', NULL, 32),
-  -- Naveen (fights beside you against rogue Megas)
-  (26033, 26, NULL, 'naveen', 'Naveen', 'ally', NULL, NULL, 'naveen', NULL, 33);
+  -- Lida (battles you twice, and fights beside you against rogue Megas)
+  (26032, 26, NULL, 'lida', 'Lida', 'rival', NULL, NULL, 'lida', NULL, 32),
+  -- Naveen (battles you three times, and fights beside you against rogue Megas)
+  (26033, 26, NULL, 'naveen', 'Naveen', 'rival', NULL, NULL, 'naveen', NULL, 33),
+  -- Emma (the detective of the Looker Bureau)
+  (26034, 26, NULL, 'emma', 'Emma', 'boss', NULL, NULL, NULL, NULL, 34),
+  -- Tarragon (Racine Construction, Canari's grandfather)
+  (26035, 26, NULL, 'tarragon', 'Tarragon', 'boss', 9, NULL, NULL, NULL, 35),
+  -- Gwynn (Ivor's sister, of the DYN4MO fan club)
+  (26036, 26, NULL, 'gwynn', 'Gwynn', 'boss', 14, NULL, NULL, NULL, 36),
+  -- Philippe (Corbeau's right hand in the Rust Syndicate)
+  (26037, 26, NULL, 'philippe', 'Philippe', 'boss', 17, NULL, NULL, NULL, 37),
+  -- Lebanne (Jacinthe's second in the Society of Battle Connoisseurs)
+  (26038, 26, NULL, 'lebanne', 'Lebanne', 'boss', 15, NULL, NULL, NULL, 38),
+  -- Griselle (Grisham's partner)
+  (26039, 26, NULL, 'griselle', 'Griselle', 'boss', NULL, NULL, NULL, NULL, 39);

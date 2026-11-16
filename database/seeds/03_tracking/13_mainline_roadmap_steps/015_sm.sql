@@ -62,7 +62,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 18: Paniola Town
   (15, 18, 533, NULL, 'A ranch town. Hau battles you on your way through.'),
   -- 19: Paniola Ranch
-  (15, 19, 532, NULL, 'Mallow adds Stoutland to your Ride Pager, which sniffs out hidden items. The Pokémon Nursery is here.'),
+  (15, 19, 532, NULL, 'Mallow adds Stoutland to your Ride Pager, which sniffs out hidden items. A breeder in the Pokémon Nursery here gives you an Eevee Egg.'),
   -- 20: Route 5
   (15, 20, 555, NULL, 'Gladion, an enforcer for Team Skull, stops you for a battle. Brooklet Hill is at the north end.'),
   -- 21: Lana Trial (milestone)
@@ -122,7 +122,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 48: Po Town (milestone)
   (15, 48, NULL, 150029, NULL),
   -- 49: Aether House
-  (15, 49, 504, NULL, 'Team Skull took Lillie and Nebby while you were gone. Gladion blames you and battles you.'),
+  (15, 49, 504, NULL, 'Team Skull took Lillie and Nebby while you were gone. Gladion blames you and battles you. After the credits, an Aether worker here gives you a Porygon.'),
   -- 50: Grand Trial Nanu (milestone)
   (15, 50, NULL, 150011, NULL),
   -- 51: Malie City
@@ -130,7 +130,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 52: Aether Paradise (milestone)
   (15, 52, NULL, 150021, NULL),
   -- 53: Seafolk Village
-  (15, 53, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna.'),
+  (15, 53, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna. An Ace Trainer in the village gives you an Aerodactyl.'),
   -- 54: Poni Wilds
   (15, 54, 541, NULL, 'Wild country on the way to Hapu''s house.'),
   -- 55: Ancient Poni Path

@@ -56,13 +56,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 15: Hau'oli City
   (16, 15, 516, NULL, 'Take the boat from the marina to Akala Island with Kukui, Lillie and Hau.'),
   -- 16: Heahea City
-  (16, 16, 923, NULL, 'Akala''s port. Olivia, the kahuna, and Mallow, a captain, meet you on the dock.'),
+  (16, 16, 923, NULL, 'Akala''s port. Olivia, the kahuna, and Mallow, a captain, meet you on the dock. Samson Oak, on Heahea Beach, swaps your Totem Stickers for totem-sized Pokémon.'),
   -- 17: Route 4
   (16, 17, 554, NULL, 'North to Paniola Town.'),
   -- 18: Paniola Town
   (16, 18, 533, NULL, 'A ranch town. Hau battles you on your way through.'),
   -- 19: Paniola Ranch
-  (16, 19, 532, NULL, 'Mallow adds Stoutland to your Ride Pager, which sniffs out hidden items. A member of the Ultra Recon Squad stops you for a battle.'),
+  (16, 19, 532, NULL, 'Mallow adds Stoutland to your Ride Pager, which sniffs out hidden items. A member of the Ultra Recon Squad stops you for a battle. A breeder in the Pokémon Nursery here gives you an Eevee Egg.'),
   -- 20: Route 5
   (16, 20, 555, NULL, 'Gladion, an enforcer for Team Skull, stops you for a battle. Brooklet Hill is at the north end.'),
   -- 21: Lana Trial (milestone)
@@ -122,7 +122,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 48: Po Town (milestone)
   (16, 48, NULL, 160035, NULL),
   -- 49: Aether House
-  (16, 49, 504, NULL, 'Team Skull took Lillie and Nebby while you were gone. Gladion blames you and battles you.'),
+  (16, 49, 504, NULL, 'Team Skull took Lillie and Nebby while you were gone. Gladion blames you and battles you. After Episode RR, an Aether worker here gives you a Porygon.'),
   -- 50: Grand Trial Nanu (milestone)
   (16, 50, NULL, 160011, NULL),
   -- 51: Malie City
@@ -130,11 +130,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 52: Aether Paradise (milestone)
   (16, 52, NULL, 160023, NULL),
   -- 53: Seafolk Village
-  (16, 53, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna.'),
+  (16, 53, 562, NULL, 'Poni Island''s only village, built on boats. Gladion''s boat drops you and Lillie here to look for the kahuna. An Ace Trainer in the village gives you an Aerodactyl.'),
   -- 54: Poni Wilds
   (16, 54, 541, NULL, 'Wild country on the way to Hapu''s house.'),
   -- 55: Ancient Poni Path
-  (16, 55, 507, NULL, 'Hapu lives here. She is not the kahuna yet, and asks you to meet her at the Ruins of Hope.'),
+  (16, 55, 507, NULL, 'Hapu lives here. She is not the kahuna yet, and asks you to meet her at the Ruins of Hope. After the credits, Wicke waits on this path with a Type: Null for you.'),
   -- 56: Poni Breaker Coast
   (16, 56, 535, NULL, 'At the Ruins of Hope beyond, Tapu Fini accepts Hapu as kahuna. She sends you to Exeggutor Island for a flute.'),
   -- 57: Exeggutor Island

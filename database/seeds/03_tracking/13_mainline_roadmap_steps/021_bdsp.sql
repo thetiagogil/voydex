@@ -76,7 +76,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 26: Ravaged Path
   (21, 26, 285, NULL, 'Break the rocks with Rock Smash to get through to the north half of Route 204.'),
   -- 27: Floaroma Town
-  (21, 27, 263, NULL, 'A town full of flowers. Two Team Galactic Grunts block the way to Floaroma Meadow.'),
+  (21, 27, 263, NULL, 'A town full of flowers. Two Team Galactic Grunts block the way to Floaroma Meadow. A madame gives you a Mew if your Switch has Let''s Go save data, and a gentleman a Jirachi for Sword or Shield data.'),
   -- 28: Route 205
   (21, 28, 293, NULL, 'East of Floaroma Town. A little girl asks you to save her father at the Valley Windworks. Grunts block the bridge north.'),
   -- 29: Valley Windworks
@@ -104,7 +104,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 40: Route 208
   (21, 40, 296, NULL, 'East of Mt. Coronet. The Berry Master''s house gives you a Berry every day.'),
   -- 41: Hearthome City
-  (21, 41, 269, NULL, 'A friendly city with the Contest Hall, Amity Square and the Poffin House. Fantina, the Gym Leader, is outside the Contest Hall and says you are not strong enough for her yet. A Hiker gives you an Egg if you have room for it. Barry stops you for a battle on your way out.'),
+  (21, 41, 269, NULL, 'A friendly city with the Contest Hall, Amity Square and the Poffin House. Fantina, the Gym Leader, is outside the Contest Hall and says you are not strong enough for her yet. A Hiker gives you a Happiny Egg if you have room for it. Barry stops you for a battle on your way out.'),
   -- 42: Route 209
   (21, 42, 297, NULL, 'Southeast of Hearthome City. A Fisherman gives you a Good Rod. The Lost Tower stands at the north end.'),
   -- 43: Lost Tower
@@ -146,7 +146,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 61: Celestic Town (milestone)
   (21, 61, NULL, 210028, NULL),
   -- 62: Hearthome City
-  (21, 62, 269, NULL, 'With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City.'),
+  (21, 62, 269, NULL, 'With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City. Bebe, next to the Pokémon Center, gives you an Eevee once you have the National Pokédex.'),
   -- 63: Relic Badge (milestone)
   (21, 63, NULL, 210007, NULL),
   -- 64: Jubilife City
@@ -156,7 +156,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 66: Canalave City
   (21, 66, 257, NULL, 'A port city split by a canal. Barry battles you on the drawbridge. Byron''s Gym uses Steel types. Sailor Eldritch takes you to Iron Island and back.'),
   -- 67: Iron Island
-  (21, 67, 271, NULL, 'An old mine. Riley teams up with you to drive off two Team Galactic Grunts, then gives you an Egg.'),
+  (21, 67, 271, NULL, 'An old mine. Riley teams up with you to drive off two Team Galactic Grunts, then gives you a Riolu Egg.'),
   -- 68: Mine Badge (milestone)
   (21, 68, NULL, 210008, NULL),
   -- 69: Canalave City
@@ -215,9 +215,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (21, 95, NULL, 210017, NULL),
   -- 96: Lake Guardians (milestone)
   (21, 96, NULL, 210021, NULL),
-  -- 97: Turnback Cave (milestone)
-  (21, 97, NULL, 210022, NULL),
-  -- 98: Roaming Cresselia (milestone)
-  (21, 98, NULL, 210023, NULL),
-  -- 99: Snowpoint Temple (milestone)
-  (21, 99, NULL, 210025, NULL);
+  -- 97: Roaming Mesprit (milestone)
+  (21, 97, NULL, 210031, NULL),
+  -- 98: Turnback Cave (milestone)
+  (21, 98, NULL, 210022, NULL),
+  -- 99: Roaming Cresselia (milestone)
+  (21, 99, NULL, 210023, NULL),
+  -- 100: Snowpoint Temple (milestone)
+  (21, 100, NULL, 210025, NULL);

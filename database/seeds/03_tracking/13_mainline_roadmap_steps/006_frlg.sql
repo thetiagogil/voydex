@@ -118,7 +118,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 7
   (6, 43, 60, NULL, 'A short road west to Celadon City.'),
   -- 44: Celadon City
-  (6, 44, 6, NULL, 'A big city. An old woman on the ground floor of Celadon Mansion gives you Tea, which gets you past Saffron City''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret, and a man in the restaurant gives you his Coin Case.'),
+  (6, 44, 6, NULL, 'A big city. An old woman in Celadon Mansion gives you Tea, which gets you past Saffron City''s guards, and an Eevee waits in a Poké Ball on its roof. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret, and a man in the restaurant gives you his Coin Case.'),
   -- 45: Rainbow Badge (milestone)
   (6, 45, NULL, 60007, NULL),
   -- 46: Rocket Hideout (milestone)
@@ -168,7 +168,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 68: Route 8
   (6, 68, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for the Tea.'),
   -- 69: Saffron City
-  (6, 69, 133, NULL, 'The guards let you in for the Tea. Team Rocket has taken over the city and Silph Co. The Fighting Dojo sits beside Sabrina''s Gym, and Mr. Psychic gives you TM29 Psychic.'),
+  (6, 69, 133, NULL, 'The guards let you in for the Tea. Team Rocket has taken over the city and Silph Co. Beat the master of the Fighting Dojo, beside Sabrina''s Gym, for a Hitmonlee or a Hitmonchan. Mr. Psychic gives you TM29 Psychic. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
   -- 70: Silph Co. (milestone)
   (6, 70, NULL, 60022, NULL),
   -- 71: Fighting Dojo Choice (milestone)
@@ -252,7 +252,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 110: Dotted Hole (milestone)
   (6, 110, NULL, 60036, NULL),
   -- 111: Five Island (town)
-  (6, 111, 15, NULL, 'The Rocket Warehouse stands in Five Isle Meadow, just east of town.'),
+  (6, 111, 15, NULL, 'The Rocket Warehouse stands in Five Isle Meadow, just east of town. A gentleman in the Water Labyrinth, north of town, gives you a Togepi Egg if the first Pokémon in your party is fond of you.'),
   -- 112: Five Isle Meadow
   (6, 112, 16, NULL, 'Type the two passwords at the warehouse door to get in.'),
   -- 113: Rocket Warehouse (milestone)

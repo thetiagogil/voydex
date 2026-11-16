@@ -62,6 +62,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (210017, 210024, 21, 1, 1, NULL),
   -- Lake Guardians opens after Spear Pillar
   (210021, 210019, 21, 4, 1, NULL),
+  -- Roaming Mesprit opens after Spear Pillar
+  (210031, 210019, 21, 4, 1, NULL),
   -- Turnback Cave opens after Pokémon League
   (210022, 210015, 21, 4, 1, NULL),
   -- Roaming Cresselia opens after Pokémon League

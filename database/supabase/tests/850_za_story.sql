@@ -36,14 +36,14 @@ SELECT
             JOIN reference.locations ON locations.id = mainline_milestone_opponent_refs.location_id
             WHERE
                 mainline_milestones.version_group_id = 26 ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order, mainline_milestones.id, mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('unlock-mega-evolution'::text, 'rogue-mega-absol'::text, 'Jaune Sector 6'::text), ('reach-rank-e', 'zygarde', 'Hotel Z') $$, 'Legends: Z-A''s battles fought away from their beat name their places');
+            VALUES ('reach-rank-x'::text, 'emma'::text, 'Looker Bureau'::text), ('reach-rank-w', 'naveen', 'Hotel Z'), ('reach-rank-v', 'lida', 'Hotel Z'), ('unlock-mega-evolution', 'rogue-mega-absol', 'Jaune Sector 6'), ('reach-rank-e', 'zygarde', 'Hotel Z'), ('reach-rank-e', 'naveen', 'Hotel Z'), ('rogue-mega-mawile', 'philippe', 'Rust Syndicate Office'), ('rogue-mega-froslass', 'lida', 'Hotel Z'), ('rogue-mega-froslass', 'naveen', 'Hotel Z'), ('reach-rank-b', 'lebanne', 'Hotel Z'), ('reach-rank-a', 'emma', 'Looker Bureau') $$, 'Legends: Z-A''s battles fought away from their beat name their places');
 SELECT
     results_eq ($$
         SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 26 $$, $$
-            VALUES (75, 42, 33) $$, 'Legends: Z-A''s roadmap has 75 steps: 42 places and its 33 milestones');
+            VALUES (76, 43, 33) $$, 'Legends: Z-A''s roadmap has 76 steps: 43 places and its 33 milestones');
 SELECT
     *
 FROM

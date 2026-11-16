@@ -119,7 +119,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 7
   (1, 43, 60, NULL, 'A short road west to Celadon City.'),
   -- 44: Celadon City
-  (1, 44, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret.'),
+  (1, 44, 6, NULL, 'A big city. Buy a drink from the machines on the department store''s roof and give it to one of Saffron''s guards. Erika''s Gym sits behind a tree that needs Cut. The Game Corner hides Team Rocket''s secret. An Eevee waits in a Poké Ball on the roof of the Celadon Mansion, reached by its back door.'),
   -- 45: Rainbow Badge (milestone)
   (1, 45, NULL, 10007, NULL),
   -- 46: Rocket Hideout (milestone)
@@ -137,7 +137,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 52: Route 8
   (1, 52, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for a drink.'),
   -- 53: Saffron City
-  (1, 53, 133, NULL, 'Give any guard a drink to get in. Team Rocket has taken over the city and Silph Co. The Fighting Dojo sits beside Sabrina''s Gym.'),
+  (1, 53, 133, NULL, 'Give any guard a drink to get in. Team Rocket has taken over the city and Silph Co. The Fighting Dojo sits beside Sabrina''s Gym. Beat its master and he gives you a Hitmonlee or a Hitmonchan. A Silph Co. worker on 7F gives you a Lapras once you have beaten Blue there.'),
   -- 54: Silph Co. (milestone)
   (1, 54, NULL, 10022, NULL),
   -- 55: Fighting Dojo Choice (milestone)

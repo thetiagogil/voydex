@@ -36,14 +36,14 @@ SELECT
             JOIN reference.locations ON locations.id = mainline_milestone_opponent_refs.location_id
             WHERE
                 mainline_milestones.version_group_id = 27 ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order, mainline_milestones.id, mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('rogue-mega-darkrai'::text, 'heatran'::text, 'Hyperspace Infernal Arena'::text) $$, 'Mega Dimension''s battles fought away from their beat name their places');
+            VALUES ('rogue-mega-absol-z'::text, 'korrina'::text, 'Rust Syndicate Office'::text), ('rogue-mega-staraptor', 'lebanne', 'Hotel Z'), ('rogue-mega-staraptor', 'gwynn', 'Hotel Z'), ('rogue-mega-meowstic', 'jacinthe', 'Hotel Richissime'), ('rogue-mega-meowstic', 'griselle', 'Hotel Richissime'), ('rogue-mega-darkrai', 'heatran', 'Hyperspace Infernal Arena') $$, 'Mega Dimension''s battles fought away from their beat name their places');
 SELECT
     results_eq ($$
         SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 27 $$, $$
-            VALUES (33, 16, 17) $$, 'Mega Dimension''s roadmap has 33 steps: 16 places and its 17 milestones');
+            VALUES (35, 18, 17) $$, 'Mega Dimension''s roadmap has 35 steps: 18 places and its 17 milestones');
 SELECT
     *
 FROM

@@ -89,8 +89,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (210021, 21018, 21, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.', NULL),
   -- Lake Guardians -> Azelf
   (210021, 21019, 21, 'battle-opponent', 2, 'Valor Cavern, Lake Valor. You can skip this battle.', NULL),
-  -- Lake Guardians -> Mesprit
-  (210021, 21020, 21, 'battle-opponent', 3, 'Roams Sinnoh after you meet it in Verity Cavern. You can skip this battle.', NULL),
+  -- Roaming Mesprit -> Mesprit
+  (210031, 21020, 21, 'battle-opponent', 1, 'Roams Sinnoh after you meet it in Verity Cavern. You can skip this battle.', NULL),
   -- Turnback Cave -> Giratina
   (210022, 21021, 21, 'battle-opponent', 1, 'Altered Forme. You can skip this battle.', NULL),
   -- Roaming Cresselia -> Cresselia

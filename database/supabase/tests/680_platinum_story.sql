@@ -27,7 +27,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 9
                 AND mainline_categories.slug <> 'main-story' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('post-game'::text, 'stark-mountain'::text, 'Stark Mountain'::text), ('side-content', 'lake-guardians', 'Lake Verity'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple'), ('side-content', 'spear-pillar', 'Spear Pillar'), ('side-content', 'roaming-articuno', 'Eterna City'), ('side-content', 'roaming-zapdos', 'Eterna City'), ('side-content', 'roaming-moltres', 'Eterna City') $$, 'Platinum''s optional beats sit in their chapters, each at its place');
+            VALUES ('post-game'::text, 'stark-mountain'::text, 'Stark Mountain'::text), ('side-content', 'lake-guardians', 'Lake Valor'), ('side-content', 'roaming-mesprit', 'Lake Verity'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple'), ('side-content', 'spear-pillar', 'Spear Pillar'), ('side-content', 'roaming-articuno', 'Eterna City'), ('side-content', 'roaming-zapdos', 'Eterna City'), ('side-content', 'roaming-moltres', 'Eterna City') $$, 'Platinum''s optional beats sit in their chapters, each at its place');
 SELECT
     results_eq ($$
         SELECT
@@ -61,7 +61,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 9 $$, $$
-            VALUES (104, 78, 26) $$, 'Platinum''s roadmap has 104 steps: 78 places and its 26 milestones');
+            VALUES (105, 78, 27) $$, 'Platinum''s roadmap has 105 steps: 78 places and its 27 milestones');
 SELECT
     *
 FROM

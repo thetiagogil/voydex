@@ -11,6 +11,10 @@
 -- data-mined encounter table gives the Pokémon you catch.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
+-- Naveen, Lida, Emma, Tarragon, Gwynn, Philippe, Lebanne and Griselle's Story
+-- battles, Korrina's test and the two Hyperspace Multi Battles: Bulbapedia's
+-- trainer pages only (team, levels, held Mega Stones and moves). The Multi
+-- Battle teams are stored at their lower level and list two moves each.
 -- Scope: Legends: Z-A: Mega Dimension Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -65,7 +69,39 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Meloetta: Meloetta Lv. 60: Psychic, U-turn, Relic Song, Psybeam
     (270016, 27023, NULL, NULL, NULL, NULL, 1, ARRAY[94, 369, 547, 60]),
     -- Rogue Mega Zeraora: Mega Zeraora Lv. 85: Plasma Fists, Electroweb, Dynamic Punch, Wild Charge
-    (270024, 27024, NULL, NULL, NULL, NULL, 1, ARRAY[721, 527, 223, 528])
+    (270024, 27024, NULL, NULL, NULL, NULL, 1, ARRAY[721, 527, 223, 528]),
+    -- Korrina: Machamp Lv. 85: Dynamic Punch, Close Combat, Bulk Up, Low Sweep
+    (270012, 27016, NULL, NULL, NULL, NULL, 1, ARRAY[223, 370, 339, 490]),
+    -- Korrina: Hawlucha Lv. 85: Flying Press, Swords Dance, Feather Dance, Brave Bird
+    (270012, 27016, NULL, NULL, NULL, NULL, 2, ARRAY[560, 14, 297, 413]),
+    -- Korrina: Sirfetch'd Lv. 85: Swords Dance, Meteor Assault, First Impression, Detect
+    (270012, 27016, NULL, NULL, NULL, NULL, 3, ARRAY[14, 794, 660, 197]),
+    -- Korrina: Mega Lucario Z Lv. 85: Aura Sphere, Close Combat, Dragon Pulse, Extreme Speed
+    (270012, 27016, NULL, NULL, NULL, NULL, 4, ARRAY[396, 370, 406, 245]),
+    -- Lebanne: Tyrantrum Lv. 69: Earthquake, Breaking Swipe
+    (270013, 27025, NULL, NULL, NULL, NULL, 1, ARRAY[89, 784]),
+    -- Lebanne: Noivern Lv. 69: Hurricane, Super Fang
+    (270013, 27025, NULL, NULL, NULL, NULL, 2, ARRAY[542, 162]),
+    -- Lebanne: Mega Dragalge Lv. 70: Sludge Bomb, Dragon Pulse
+    (270013, 27025, NULL, NULL, NULL, NULL, 3, ARRAY[188, 406]),
+    -- Gwynn: Banette Lv. 69: Phantom Force, Shadow Claw
+    (270013, 27026, NULL, NULL, NULL, NULL, 1, ARRAY[566, 421]),
+    -- Gwynn: Gourgeist (Small) Lv. 69: Trick-or-Treat, Shadow Claw
+    (270013, 27026, NULL, NULL, NULL, NULL, 2, ARRAY[567, 421]),
+    -- Gwynn: Mega Chandelure Lv. 70: Flamethrower, Calm Mind
+    (270013, 27026, NULL, NULL, NULL, NULL, 3, ARRAY[53, 347]),
+    -- Jacinthe: Carbink Lv. 69: Stone Edge, Moonblast
+    (270015, 27027, NULL, NULL, NULL, NULL, 1, ARRAY[444, 585]),
+    -- Jacinthe: Sylveon Lv. 70: Moonblast, Shadow Ball
+    (270015, 27027, NULL, NULL, NULL, NULL, 2, ARRAY[585, 247]),
+    -- Jacinthe: Mega Clefable Lv. 71: Air Slash, Moonblast
+    (270015, 27027, NULL, NULL, NULL, NULL, 3, ARRAY[403, 585]),
+    -- Griselle: Camerupt Lv. 69: Earthquake, Lava Plume
+    (270015, 27028, NULL, NULL, NULL, NULL, 1, ARRAY[89, 436]),
+    -- Griselle: Metagross Lv. 70: Bullet Punch, Psycho Cut
+    (270015, 27028, NULL, NULL, NULL, NULL, 2, ARRAY[418, 427]),
+    -- Griselle: Mega Pyroar Lv. 71: Flamethrower, Earth Power
+    (270015, 27028, NULL, NULL, NULL, NULL, 3, ARRAY[53, 414])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

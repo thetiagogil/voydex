@@ -331,8 +331,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (90021, 9017, 9, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50, NULL),
   -- Azelf, Lake Guardians 1: Azelf Lv. 50
   (90021, 9018, 9, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50, NULL),
-  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
-  (90021, 9019, 9, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
+  -- Mesprit, Roaming Mesprit 1: Mesprit Lv. 50
+  (90032, 9019, 9, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
   -- Heatran, Stark Mountain 1: Heatran Lv. 50
   (90020, 9020, 9, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 50, NULL),
   -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50

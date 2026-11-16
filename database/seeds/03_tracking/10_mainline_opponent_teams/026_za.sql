@@ -30,6 +30,10 @@
 -- Xavi's Furfrou and Lysandre's Florges, so they are stored as the default form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Rogue Megas and other wild battles: Bulbapedia names no held item for them, so they hold nothing.
+-- Naveen, Lida, Emma, Tarragon, Gwynn, Philippe, Lebanne and Griselle's Story
+-- battles, Korrina's test and the two Hyperspace Multi Battles: Bulbapedia's
+-- trainer pages only (team, levels, held Mega Stones and moves). The Multi
+-- Battle teams are stored at their lower level and list two moves each.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -314,4 +318,102 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Rogue Mega Tyranitar, Rogue Mega Tyranitar 1: Mega Tyranitar Lv. 59
   (260035, 26030, 26, NULL, NULL, NULL, NULL, NULL, 1, 248, 24801, 59, NULL, NULL, FALSE),
   -- Rogue Mega Starmie, Rogue Mega Starmie 1: Mega Starmie Lv. 59
-  (260036, 26031, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12101, 59, NULL, NULL, FALSE);
+  (260036, 26031, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12101, 59, NULL, NULL, FALSE),
+  -- Emma, Reach Rank X 1: Mareep Lv. 15
+  (260014, 26034, 26, NULL, NULL, NULL, NULL, NULL, 1, 179, 17900, 15, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 1: Spinarak Lv. 16
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 167, 16700, 16, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 2: Sableye Lv. 16
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 16, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank W 3: Scraggy Lv. 17
+  (260015, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 17, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 1: Clauncher Lv. 22
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 692, 69200, 22, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 2: Vanillite Lv. 22
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 582, 58200, 22, NULL, NULL, FALSE),
+  -- Lida, Reach Rank V 3: Staryu Lv. 23
+  (260016, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 120, 12000, 23, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 1: Ariados Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 33, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 2: Sableye Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 33, NULL, NULL, FALSE),
+  -- Naveen, Reach Rank E 3: Scraggy Lv. 33
+  (260018, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 33, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 1: Hippowdon Lv. 36
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 1, 450, 45000, 36, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 2: Diggersby Lv. 36
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 2, 660, 66000, 36, NULL, NULL, FALSE),
+  -- Tarragon, Reach Rank E 3: Mega Excadrill Lv. 37
+  (260018, 26035, 26, NULL, NULL, NULL, NULL, NULL, 3, 530, 53001, 37, 469, NULL, FALSE),
+  -- Gwynn, Reach Rank D 1: Banette Lv. 43
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 43, NULL, NULL, FALSE),
+  -- Gwynn, Reach Rank D 2: Gourgeist (Small) Lv. 44
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 2, 711, 71101, 44, NULL, NULL, FALSE),
+  -- Gwynn, Reach Rank D 3: Mega Chandelure Lv. 45
+  (260019, 26036, 26, NULL, NULL, NULL, NULL, NULL, 3, 609, 60901, 45, 473, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 1: Steelix Lv. 46
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20800, 46, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 2: Scizor Lv. 46
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 46, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Mawile 3: Mega Skarmory Lv. 47
+  (260028, 26037, 26, NULL, NULL, NULL, NULL, NULL, 3, 227, 22701, 47, 464, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 1: Banette Lv. 45
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 45, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 2: Gourgeist (Small) Lv. 46
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 2, 711, 71101, 46, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 3: Gengar Lv. 46
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 46, NULL, NULL, FALSE),
+  -- Gwynn, Rogue Mega Ampharos 4: Mega Chandelure Lv. 47
+  (260030, 26036, 26, NULL, NULL, NULL, NULL, NULL, 4, 609, 60901, 47, 473, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 1: Clawitzer Lv. 46
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 46, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 2: Vanillish Lv. 46
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 583, 58300, 46, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 3: Emolga Lv. 47
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 587, 58700, 47, NULL, NULL, FALSE),
+  -- Lida, Rogue Mega Froslass 4: Staryu Lv. 48
+  (260031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 4, 120, 12000, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 1: Ariados Lv. 48
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 2: Sableye Lv. 48
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 48, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 3: Krookodile Lv. 49
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 553, 55300, 49, NULL, NULL, FALSE),
+  -- Naveen, Rogue Mega Froslass 4: Mega Scrafty Lv. 50
+  (260031, 26033, 26, NULL, NULL, NULL, NULL, NULL, 4, 560, 56001, 50, 471, NULL, FALSE),
+  -- Lebanne, Reach Rank B 1: Noivern Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 1, 715, 71500, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 2: Tyrantrum Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 2, 697, 69700, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 3: Garchomp Lv. 53
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 3, 445, 44500, 53, NULL, NULL, FALSE),
+  -- Lebanne, Reach Rank B 4: Mega Dragalge Lv. 54
+  (260006, 26038, 26, NULL, NULL, NULL, NULL, NULL, 4, 691, 69101, 54, 481, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 1: Steelix Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20800, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 2: Scizor Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 2, 212, 21200, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 3: Aggron Lv. 56
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 56, NULL, NULL, FALSE),
+  -- Philippe, Rogue Mega Starmie 4: Mega Skarmory Lv. 57
+  (260036, 26037, 26, NULL, NULL, NULL, NULL, NULL, 4, 227, 22701, 57, 464, NULL, FALSE),
+  -- Emma, Reach Rank A 1: Ampharos Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 1, 181, 18100, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 2: Mawile Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 2, 303, 30300, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 3: Lopunny Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 3, 428, 42800, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 4: Lucario Lv. 57
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 4, 448, 44800, 57, NULL, NULL, FALSE),
+  -- Emma, Reach Rank A 5: Mega Malamar Lv. 58
+  (260021, 26034, 26, NULL, NULL, NULL, NULL, NULL, 5, 687, 68701, 58, 479, NULL, FALSE),
+  -- Griselle, Reach Rank A 1: Talonflame Lv. 59
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 1, 663, 66300, 59, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 2: Camerupt Lv. 59
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 2, 323, 32300, 59, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 3: Aerodactyl Lv. 60
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 3, 142, 14200, 60, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 4: Metagross Lv. 60
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 4, 376, 37600, 60, NULL, NULL, FALSE),
+  -- Griselle, Reach Rank A 5: Mega Pyroar Lv. 61
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 5, 668, 66801, 61, 477, NULL, FALSE);

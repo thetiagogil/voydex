@@ -710,7 +710,31 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Silver beside you vs Clair & Lance [totodile]: Crobat Lv. 58: Air Cutter, Bite, Confuse Ray, Toxic
     (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[314, 44, 109, 92]),
     -- Silver beside you vs Clair & Lance [totodile]: Gengar Lv. 56: Dark Pulse, Confuse Ray, Sludge Bomb, Shadow Ball
-    (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[399, 109, 188, 247])
+    (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[399, 109, 188, 247]),
+    -- Naveen beside you vs Lebanne: Ariados Lv. 73: Megahorn, Poison Jab
+    (270013, 27025, 27029, NULL, NULL, NULL, NULL, 1, ARRAY[224, 398]),
+    -- Naveen beside you vs Lebanne: Sableye Lv. 73: Shadow Claw, Zen Headbutt
+    (270013, 27025, 27029, NULL, NULL, NULL, NULL, 2, ARRAY[421, 428]),
+    -- Naveen beside you vs Lebanne: Mega Scrafty Lv. 74: Iron Tail, Ice Punch
+    (270013, 27025, 27029, NULL, NULL, NULL, NULL, 3, ARRAY[231, 8]),
+    -- Naveen beside you vs Gwynn: Ariados Lv. 73: Megahorn, Poison Jab
+    (270013, 27026, 27029, NULL, NULL, NULL, NULL, 1, ARRAY[224, 398]),
+    -- Naveen beside you vs Gwynn: Sableye Lv. 73: Shadow Claw, Zen Headbutt
+    (270013, 27026, 27029, NULL, NULL, NULL, NULL, 2, ARRAY[421, 428]),
+    -- Naveen beside you vs Gwynn: Mega Scrafty Lv. 74: Iron Tail, Ice Punch
+    (270013, 27026, 27029, NULL, NULL, NULL, NULL, 3, ARRAY[231, 8]),
+    -- Lida beside you vs Jacinthe: Clawitzer Lv. 73: Dark Pulse, Aura Sphere
+    (270015, 27027, 27030, NULL, NULL, NULL, NULL, 1, ARRAY[399, 396]),
+    -- Lida beside you vs Jacinthe: Vanilluxe Lv. 73: Ice Beam, Icy Wind
+    (270015, 27027, 27030, NULL, NULL, NULL, NULL, 2, ARRAY[58, 196]),
+    -- Lida beside you vs Jacinthe: Mega Starmie Lv. 74: Zen Headbutt, Liquidation, Bulk Up, Blizzard
+    (270015, 27027, 27030, NULL, NULL, NULL, NULL, 3, ARRAY[428, 710, 339, 59]),
+    -- Lida beside you vs Griselle: Clawitzer Lv. 73: Dark Pulse, Aura Sphere
+    (270015, 27028, 27030, NULL, NULL, NULL, NULL, 1, ARRAY[399, 396]),
+    -- Lida beside you vs Griselle: Vanilluxe Lv. 73: Ice Beam, Icy Wind
+    (270015, 27028, 27030, NULL, NULL, NULL, NULL, 2, ARRAY[58, 196]),
+    -- Lida beside you vs Griselle: Mega Starmie Lv. 74: Zen Headbutt, Liquidation, Bulk Up, Blizzard
+    (270015, 27028, 27030, NULL, NULL, NULL, NULL, 3, ARRAY[428, 710, 339, 59])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

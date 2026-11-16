@@ -100,8 +100,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (90021, 9017, 9, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.', NULL),
   -- Lake Guardians -> Azelf
   (90021, 9018, 9, 'battle-opponent', 2, 'Valor Cavern, Lake Valor. You can skip this battle.', NULL),
-  -- Lake Guardians -> Mesprit
-  (90021, 9019, 9, 'battle-opponent', 3, 'Roams Sinnoh after you meet it in Verity Cavern. You can skip this battle.', NULL),
+  -- Roaming Mesprit -> Mesprit
+  (90032, 9019, 9, 'battle-opponent', 1, 'Roams Sinnoh after you meet it in Verity Cavern. You can skip this battle.', NULL),
   -- Roaming Cresselia -> Cresselia
   (90022, 9021, 9, 'battle-opponent', 1, 'Roams Sinnoh after you meet it on Fullmoon Island. You can skip this battle.', NULL),
   -- Snowpoint Temple -> Regigigas

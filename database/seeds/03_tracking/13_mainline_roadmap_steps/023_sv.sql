@@ -38,7 +38,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 7: South Province (Area One)
   (23, 7, 783, NULL, 'Fields and ponds on the way to Mesagoza. A Pokémon League representative at the Pokémon Center by the south gate rewards you for beating four Trainers here. Nemona battles you at the gate to show you Terastallizing.'),
   -- 8: Mesagoza
-  (23, 8, 951, NULL, 'Paldea''s largest city, with the academy at the top of its stairs. Two Team Star Grunts are bothering a girl with an Eevee backpack there. Beat the first one and Nemona sees the second off.'),
+  (23, 8, 951, NULL, 'Paldea''s largest city, with the academy at the top of its stairs. Two Team Star Grunts are bothering a girl with an Eevee backpack there. Beat the first one and Nemona sees the second off. Take all of Salvatore''s classes at the academy and he gives you a Galarian Meowth.'),
   -- 9: Treasure Hunt (milestone)
   (23, 9, NULL, 230002, NULL),
   -- 10: South Province (Area Two)

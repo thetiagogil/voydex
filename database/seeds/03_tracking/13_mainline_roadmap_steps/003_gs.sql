@@ -66,7 +66,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 14: Route 31
   (3, 14, 112, NULL, 'A short road west to Violet City. Dark Cave opens off it, too dark and too blocked to explore for now.'),
   -- 15: Violet City
-  (3, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with the Egg for you to carry.'),
+  (3, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with a Togepi Egg for you to carry.'),
   -- 16: Sprout Tower
   (3, 16, 135, NULL, 'A swaying pagoda full of Sages, north of town. Beat the Elder at the top and he gives you HM05 Flash.'),
   -- 17: Zephyr Badge (milestone)
@@ -96,7 +96,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 29: Plain Badge (milestone)
   (3, 29, NULL, 30005, NULL),
   -- 30: Route 35
-  (3, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry a Pokémon holding Mail to his friend on Route 31.'),
+  (3, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry his Spearow, which holds Mail, to his friend on Route 31.'),
   -- 31: National Park
   (3, 31, 100, NULL, 'A park between Route 35 and Route 36. The Bug-Catching Contest runs here on Tuesdays, Thursdays and Saturdays.'),
   -- 32: Route 36
@@ -104,7 +104,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 33: Route 37
   (3, 33, 118, NULL, 'A short road north to Ecruteak City.'),
   -- 34: Ecruteak City
-  (3, 34, 90, NULL, 'An old city with two towers. Beat the five Kimono Girls in the Dance Theater and a gentleman gives you HM03 Surf. A man in the southwest house gives you an Itemfinder. Morty''s Gym uses Ghost types.'),
+  (3, 34, 90, NULL, 'An old city with two towers. Beat the five Kimono Girls in the Dance Theater and a gentleman gives you HM03 Surf. A man in the southwest house gives you an Itemfinder. Morty''s Gym uses Ghost types. Meet Bill in the Pokémon Center, then visit his house in Goldenrod City and he gives you an Eevee.'),
   -- 35: Burned Tower (milestone)
   (3, 35, NULL, 30026, NULL),
   -- 36: Roaming Raikou (milestone)
@@ -126,7 +126,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 44: Route 41
   (3, 44, 122, NULL, 'Open sea south to Cianwood City, full of Swimmers. The Whirl Islands lie in the middle, ringed by whirlpools you can''t cross yet.'),
   -- 45: Cianwood City
-  (3, 45, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly.'),
+  (3, 45, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly. A man in town asks you to look after his Shuckle.'),
   -- 46: Storm Badge (milestone)
   (3, 46, NULL, 30007, NULL),
   -- 47: Olivine City
@@ -138,7 +138,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 50: Ecruteak City
   (3, 50, 90, NULL, 'Fly back to Ecruteak City and take the east exit to Route 42.'),
   -- 51: Route 42
-  (3, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Mt. Mortar''s three entrances open off this road. The cave is optional.'),
+  (3, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Mt. Mortar''s three entrances open off this road. The cave is optional. Beat the Karate King deep inside and he gives you a Tyrogue.'),
   -- 52: Mahogany Town
   (3, 52, 824, NULL, 'A quiet mountain town. One man blocks the road east, and another blocks the Gym and tells you to go and see the Lake of Rage. The souvenir shop looks shady.'),
   -- 53: Route 43

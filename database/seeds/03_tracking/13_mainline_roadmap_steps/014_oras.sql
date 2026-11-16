@@ -92,7 +92,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 32: Route 109
   (14, 32, 209, NULL, 'The beach south of Slateport City. Beat the trainers in the Seashore House and the owner gives you six bottles of Soda Pop.'),
   -- 33: Slateport City
-  (14, 33, 244, NULL, 'A port with an open-air market. Captain Stern is away from his shipyard, and a line of Grunts waits outside the Oceanic Museum. On your way out north, Lisia, the contest star, hands you a Contest Pass and a Pokéblock Kit.'),
+  (14, 33, 244, NULL, 'A port with an open-air market. Captain Stern is away from his shipyard, and a line of Grunts waits outside the Oceanic Museum. On your way out north, Lisia, the contest star, hands you a Contest Pass and a Pokéblock Kit. Enter one contest and a breeder gives you a Cosplay Pikachu.'),
   -- 34: Oceanic Museum (milestone)
   (14, 34, NULL, 140035, NULL),
   -- 35: Route 110
@@ -138,7 +138,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 55: Jagged Pass
   (14, 55, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
   -- 56: Lavaridge Town
-  (14, 56, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you an Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
+  (14, 56, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you a Wynaut Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
   -- 57: Heat Badge (milestone)
   (14, 57, NULL, 140007, NULL),
   -- 58: Route 111
@@ -154,7 +154,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 63: Southern Island (milestone)
   (14, 63, NULL, 140037, NULL),
   -- 64: Route 119
-  (14, 64, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute.'),
+  (14, 64, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute. Drive them out and a scientist inside gives you a Castform.'),
   -- 65: Weather Institute (milestone)
   (14, 65, NULL, 140038, NULL),
   -- 66: Route 119
@@ -188,7 +188,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 80: Route 124
   (14, 80, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
   -- 81: Mossdeep City
-  (14, 81, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south.'),
+  (14, 81, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south. After the Delta Episode, a Beldum waits in Steven''s house.'),
   -- 82: Mind Badge (milestone)
   (14, 82, NULL, 140010, NULL),
   -- 83: Route 127

@@ -141,7 +141,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 56: Jagged Pass
   (5, 56, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
   -- 57: Lavaridge Town
-  (5, 57, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you an Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
+  (5, 57, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you a Wynaut Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
   -- 58: Heat Badge (milestone)
   (5, 58, NULL, 50007, NULL),
   -- 59: Route 111
@@ -159,7 +159,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 65: Route 118
   (5, 65, 218, NULL, 'East of Mauville City, across the water. The Fisherman on the far shore gives you a Good Rod, and Steven greets you on the beach.'),
   -- 66: Route 119
-  (5, 66, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute.'),
+  (5, 66, 219, NULL, 'A long, rainy road north through tall grass. Grunts guard the bridge outside the Weather Institute. Drive them out and a scientist inside gives you a Castform.'),
   -- 67: Weather Institute (milestone)
   (5, 67, NULL, 50027, NULL),
   -- 68: Route 119
@@ -193,7 +193,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 82: Route 124
   (5, 82, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
   -- 83: Mossdeep City
-  (5, 83, 195, NULL, 'An island city with the Space Center. Steven, in the northwest house, gives you HM08 Dive. A Fisherman in the northeast house gives you the Super Rod, and a boy west of the Pokémon Center a King''s Rock. Tate and Liza''s Gym uses Psychic types.'),
+  (5, 83, 195, NULL, 'An island city with the Space Center. Steven, in the northwest house, gives you HM08 Dive. A Fisherman in the northeast house gives you the Super Rod, and a boy west of the Pokémon Center a King''s Rock. Tate and Liza''s Gym uses Psychic types. After the credits, a Beldum waits on Steven''s table.'),
   -- 84: Mind Badge (milestone)
   (5, 84, NULL, 50010, NULL),
   -- 85: Route 127

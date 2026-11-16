@@ -14,6 +14,10 @@
 -- data-mined encounter table gives it (Tatsugiri Curly Form, Meowstic male).
 -- Held items: Bulbapedia names no held item for these wild battles, so they hold nothing.
 -- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
+-- Naveen, Lida, Emma, Tarragon, Gwynn, Philippe, Lebanne and Griselle's Story
+-- battles, Korrina's test and the two Hyperspace Multi Battles: Bulbapedia's
+-- trainer pages only (team, levels, held Mega Stones and moves). The Multi
+-- Battle teams are stored at their lower level and list two moves each.
 -- Scope: Pokémon Mega Dimension Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -80,4 +84,36 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Meloetta, Special Scan 1: Meloetta Lv. 60
   (270016, 27023, 27, NULL, NULL, NULL, NULL, NULL, 1, 648, 64800, 60, NULL),
   -- Rogue Mega Zeraora, Raging Lightning 1: Mega Zeraora Lv. 85
-  (270024, 27024, 27, NULL, NULL, NULL, NULL, NULL, 1, 807, 80701, 85, NULL);
+  (270024, 27024, 27, NULL, NULL, NULL, NULL, NULL, 1, 807, 80701, 85, NULL),
+  -- Korrina, Rogue Mega Absol Z 1: Machamp Lv. 85
+  (270012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
+  -- Korrina, Rogue Mega Absol Z 2: Hawlucha Lv. 85
+  (270012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 85, NULL),
+  -- Korrina, Rogue Mega Absol Z 3: Sirfetch'd Lv. 85
+  (270012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 3, 865, 86500, 85, NULL),
+  -- Korrina, Rogue Mega Absol Z 4: Mega Lucario Z Lv. 85
+  (270012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 4, 448, 44802, 85, 493),
+  -- Lebanne, Rogue Mega Staraptor 1: Tyrantrum Lv. 69
+  (270013, 27025, 27, NULL, NULL, NULL, NULL, NULL, 1, 697, 69700, 69, NULL),
+  -- Lebanne, Rogue Mega Staraptor 2: Noivern Lv. 69
+  (270013, 27025, 27, NULL, NULL, NULL, NULL, NULL, 2, 715, 71500, 69, NULL),
+  -- Lebanne, Rogue Mega Staraptor 3: Mega Dragalge Lv. 70
+  (270013, 27025, 27, NULL, NULL, NULL, NULL, NULL, 3, 691, 69101, 70, 481),
+  -- Gwynn, Rogue Mega Staraptor 1: Banette Lv. 69
+  (270013, 27026, 27, NULL, NULL, NULL, NULL, NULL, 1, 354, 35400, 69, NULL),
+  -- Gwynn, Rogue Mega Staraptor 2: Gourgeist (Small) Lv. 69
+  (270013, 27026, 27, NULL, NULL, NULL, NULL, NULL, 2, 711, 71101, 69, NULL),
+  -- Gwynn, Rogue Mega Staraptor 3: Mega Chandelure Lv. 70
+  (270013, 27026, 27, NULL, NULL, NULL, NULL, NULL, 3, 609, 60901, 70, 473),
+  -- Jacinthe, Rogue Mega Meowstic 1: Carbink Lv. 69
+  (270015, 27027, 27, NULL, NULL, NULL, NULL, NULL, 1, 703, 70300, 69, NULL),
+  -- Jacinthe, Rogue Mega Meowstic 2: Sylveon Lv. 70
+  (270015, 27027, 27, NULL, NULL, NULL, NULL, NULL, 2, 700, 70000, 70, NULL),
+  -- Jacinthe, Rogue Mega Meowstic 3: Mega Clefable Lv. 71
+  (270015, 27027, 27, NULL, NULL, NULL, NULL, NULL, 3, 36, 3601, 71, 458),
+  -- Griselle, Rogue Mega Meowstic 1: Camerupt Lv. 69
+  (270015, 27028, 27, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 69, NULL),
+  -- Griselle, Rogue Mega Meowstic 2: Metagross Lv. 70
+  (270015, 27028, 27, NULL, NULL, NULL, NULL, NULL, 2, 376, 37600, 70, NULL),
+  -- Griselle, Rogue Mega Meowstic 3: Mega Pyroar Lv. 71
+  (270015, 27028, 27, NULL, NULL, NULL, NULL, NULL, 3, 668, 66801, 71, 477);

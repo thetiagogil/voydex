@@ -61,6 +61,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (80024, 80019, 8, 1, 1, NULL),
   -- Lake Guardians opens after Spear Pillar
   (80020, 80018, 8, 4, 1, NULL),
+  -- Roaming Mesprit opens after Spear Pillar
+  (80031, 80018, 8, 4, 1, NULL),
   -- Turnback Cave opens after Pokémon League
   (80021, 80015, 8, 4, 1, NULL),
   -- Roaming Cresselia opens after Pokémon League

@@ -59,11 +59,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 17: Route 4
   (17, 17, 57, NULL, 'Down the ledges to Cerulean City.'),
   -- 18: Cerulean City
-  (17, 18, 9, NULL, 'Misty''s Gym uses Water types, and asks for a Pokémon of level 15 or more. Trace battles you by the bridge to Route 24.'),
+  (17, 18, 9, NULL, 'Misty''s Gym uses Water types, and asks for a Pokémon of level 15 or more. Trace battles you by the bridge to Route 24. A Trainer in town gives you a Bulbasaur once you have caught 30 Pokémon.'),
   -- 19: Cascade Badge (milestone)
   (17, 19, NULL, 170004, NULL),
   -- 20: Route 24
-  (17, 20, 54, NULL, 'Five trainers in a row on Nugget Bridge, then a Team Rocket Grunt who tries to recruit you.'),
+  (17, 20, 54, NULL, 'Five trainers in a row on Nugget Bridge, then a Team Rocket Grunt who tries to recruit you. A Trainer past the bridge gives you a Charmander once you have caught 50 Pokémon.'),
   -- 21: Route 25
   (17, 21, 55, NULL, 'A row of trainers on the way to Bill''s Sea Cottage at the end of the cape.'),
   -- 22: Bill's Sea Cottage (milestone)
@@ -77,7 +77,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 26: Route 6
   (17, 26, 59, NULL, 'Out of the Underground Path and south to Vermilion City.'),
   -- 27: Vermilion City
-  (17, 27, 74, NULL, 'Kanto''s port. Show your S.S. Ticket at the harbour. Lt. Surge''s Gym uses Electric types, behind a tree that needs Chop Down. The Pokémon Fan Club is here.'),
+  (17, 27, 74, NULL, 'Kanto''s port. Show your S.S. Ticket at the harbour. Lt. Surge''s Gym uses Electric types, behind a tree that needs Chop Down. Officer Jenny gives you a Squirtle once you have caught 60 Pokémon. Show a Trainer five Growlithe for a Persian, or five Meowth for an Arcanine in Let''s Go, Eevee!.'),
   -- 28: S.S. Anne (milestone)
   (17, 28, NULL, 170020, NULL),
   -- 29: Thunder Badge (milestone)
@@ -121,7 +121,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 48: Route 8
   (17, 48, 61, NULL, 'West to Saffron City''s gate. The guard lets you through for the Tea.'),
   -- 49: Saffron City
-  (17, 49, 133, NULL, 'Give the Tea to a guard and the gates open. Team Rocket has taken over the city and Silph Co. Blue and Trace meet you at its door. Sabrina''s Gym uses Psychic types.'),
+  (17, 49, 133, NULL, 'Give the Tea to a guard and the gates open. Team Rocket holds the city and Silph Co., where Blue and Trace meet you and a worker on 7F gives you a Lapras. Beat the Fighting Dojo''s master for a Hitmonlee or a Hitmonchan. Once Giovanni is beaten, a Silph worker in town gives you a Porygon.'),
   -- 50: Silph Co. (milestone)
   (17, 50, NULL, 170022, NULL),
   -- 51: Marsh Badge (milestone)

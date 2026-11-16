@@ -320,7 +320,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Azelf: Azelf Lv. 50: Swift, Uproar, Future Sight, Nasty Plot
     (90021, 9018, NULL, NULL, NULL, NULL, 1, ARRAY[129, 253, 248, 417]),
     -- Mesprit: Mesprit Lv. 50: Swift, Lucky Chant, Future Sight, Charm
-    (90021, 9019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 381, 248, 204]),
+    (90032, 9019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 381, 248, 204]),
     -- Heatran: Heatran Lv. 50: Metal Sound, Crunch, Scary Face, Lava Plume
     (90020, 9020, NULL, NULL, NULL, NULL, 1, ARRAY[319, 242, 184, 436]),
     -- Cresselia: Cresselia Lv. 50: Mist, Aurora Beam, Future Sight, Slash

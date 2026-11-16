@@ -87,7 +87,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 32: Jubilife Village
   (22, 32, 704, NULL, 'Akari or Rei battles you at the front gate before you leave for the Alabaster Icelands. Professor Laventon wonders if Avalugg should be quelled at all, since it has hurt no one.'),
   -- 33: Whiteout Valley
-  (22, 33, 733, NULL, 'The way into the Alabaster Icelands. Adaman and Irida go ahead to meet Avalugg''s warden.'),
+  (22, 33, 733, NULL, 'The way into the Alabaster Icelands. Adaman and Irida go ahead to meet Avalugg''s warden. Keaka gives you an Alolan Vulpix if you find all five of his in the snow.'),
   -- 34: Avalugg's Legacy
   (22, 34, 665, NULL, 'Gaeric, Avalugg''s warden and Irida''s teacher, is not sure the lord needs quelling. He battles you to see what you are made of.'),
   -- 35: Snowpoint Temple

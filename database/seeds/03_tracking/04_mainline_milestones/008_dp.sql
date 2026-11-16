@@ -80,11 +80,13 @@ INSERT INTO tracking.mainline_milestones (
   (80019, 8, NULL, 803, 1, 2, NULL, 'fight-area', 'Fight Area', 'Once you have seen every Pokémon in the Sinnoh Pokédex, Professor Rowan upgrades it to the National Pokédex. Take the ship from Snowpoint City to the Fight Area, where Barry is waiting and Buck talks of a treasure in the volcano.', 1, false, 872),
   -- Stark Mountain (Stark Mountain)
   (80024, 8, NULL, 803, 6, 2, NULL, 'stark-mountain', 'Stark Mountain', 'Team up with Buck to cross Stark Mountain. He takes the Magma Stone from its deepest room. Talk to him and his grandfather in the Survival Area and he puts it back. Heatran then waits in that room. Catch or defeat it.', 2, false, 326),
-  -- Lake Guardians (Lake Verity)
-  (80020, 8, NULL, 804, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After the Spear Pillar, the three lake Pokémon go home. Uxie waits in Acuity Cavern and Azelf in Valor Cavern. Mesprit flies off when you meet it in Verity Cavern and then roams Sinnoh. Catch or defeat each one.', 1, false, 274),
+  -- Lake Guardians (Lake Valor)
+  (80020, 8, NULL, 804, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After the Spear Pillar, the lake Pokémon go home. Uxie waits in Acuity Cavern and Azelf in Valor Cavern. Catch or defeat each one.', 1, false, 273),
+  -- Roaming Mesprit (Lake Verity)
+  (80031, 8, NULL, 804, 6, 2, NULL, 'roaming-mesprit', 'Roaming Mesprit', 'After the Spear Pillar, Mesprit goes home to Verity Cavern. It flies off when you meet it there and then roams Sinnoh. Track it down and catch or defeat it.', 2, false, 274),
   -- Turnback Cave (Turnback Cave)
-  (80021, 8, NULL, 804, 6, 2, NULL, 'turnback-cave', 'Turnback Cave', 'After the Hall of Fame, the Spring Path on Route 214 opens the way to Sendoff Spring. Find three pillars inside Turnback Cave before you have passed thirty rooms, and Giratina waits in the last one. Catch or defeat it.', 2, false, 332),
+  (80021, 8, NULL, 804, 6, 2, NULL, 'turnback-cave', 'Turnback Cave', 'After the Hall of Fame, the Spring Path on Route 214 opens the way to Sendoff Spring. Find three pillars inside Turnback Cave before you have passed thirty rooms, and Giratina waits in the last one. Catch or defeat it.', 3, false, 332),
   -- Roaming Cresselia (Fullmoon Island)
-  (80022, 8, NULL, 804, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, visit Sailor Eldritch''s house in Canalave City, where his son can''t wake from a nightmare. Sail to Fullmoon Island for the Lunar Wing. Cresselia flies off when you meet it there and then roams Sinnoh.', 3, false, 873),
+  (80022, 8, NULL, 804, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, visit Sailor Eldritch''s house in Canalave City, where his son can''t wake from a nightmare. Sail to Fullmoon Island for the Lunar Wing. Cresselia flies off when you meet it there and then roams Sinnoh.', 4, false, 873),
   -- Snowpoint Temple (Snowpoint Temple)
-  (80023, 8, NULL, 804, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 4, false, 322);
+  (80023, 8, NULL, 804, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 5, false, 322);

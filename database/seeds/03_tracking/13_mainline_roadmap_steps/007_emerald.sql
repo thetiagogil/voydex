@@ -142,7 +142,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 56: Jagged Pass
   (7, 56, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
   -- 57: Lavaridge Town
-  (7, 57, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you an Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
+  (7, 57, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you a Wynaut Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
   -- 58: Heat Badge (milestone)
   (7, 58, NULL, 70007, NULL),
   -- 59: Route 111
@@ -160,7 +160,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 65: Route 118
   (7, 65, 218, NULL, 'East of Mauville City, across the water. The Fisherman on the far shore gives you a Good Rod, and Steven greets you on the beach.'),
   -- 66: Route 119
-  (7, 66, 219, NULL, 'A long, rainy road north through tall grass. Team Aqua has taken over the Weather Institute by the river.'),
+  (7, 66, 219, NULL, 'A long, rainy road north through tall grass. Team Aqua has taken over the Weather Institute by the river. Drive them out and a scientist inside gives you a Castform.'),
   -- 67: Weather Institute (milestone)
   (7, 67, NULL, 70032, NULL),
   -- 68: Route 119
@@ -200,7 +200,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 85: Route 124
   (7, 85, 224, NULL, 'The Wailmer are gone, so the sea east of Lilycove City is open. The Treasure Hunter''s house trades Shards for evolution stones.'),
   -- 86: Mossdeep City
-  (7, 86, 195, NULL, 'An island city with the Space Center. A Fisherman in the house above the Gym gives you the Super Rod, and a boy west of the Pokémon Center a King''s Rock. Tate and Liza''s Gym uses Psychic types.'),
+  (7, 86, 195, NULL, 'An island city with the Space Center. A Fisherman in the house above the Gym gives you the Super Rod, and a boy west of the Pokémon Center a King''s Rock. Tate and Liza''s Gym uses Psychic types. After the credits, a Beldum waits on the table in Steven''s house.'),
   -- 87: Mind Badge (milestone)
   (7, 87, NULL, 70010, NULL),
   -- 88: Mossdeep Space Center (milestone)

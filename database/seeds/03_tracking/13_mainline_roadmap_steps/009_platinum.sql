@@ -99,7 +99,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 36: Team Galactic Eterna Building (milestone)
   (9, 36, NULL, 90029, NULL),
   -- 37: Eterna City
-  (9, 37, 260, NULL, 'Cynthia meets you outside the bike shop and gives you an Egg, if you have room for it.'),
+  (9, 37, 260, NULL, 'Cynthia meets you outside the bike shop and gives you a Togepi Egg, if you have room for it.'),
   -- 38: Route 206
   (9, 38, 294, NULL, 'Cycling Road, south of Eterna City, for bikes only. Wayward Cave hides under it.'),
   -- 39: Route 207
@@ -109,7 +109,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 41: Route 208
   (9, 41, 296, NULL, 'East of Mt. Coronet. The Berry Master''s house gives you a Berry every day.'),
   -- 42: Hearthome City
-  (9, 42, 269, NULL, 'A friendly city with the Super Contest Hall, Amity Square and the Poffin House. Your mom is at the Contest Hall with Fantina, the Gym Leader, who goes back to her Gym to wait for you. Her Gym uses Ghost types. A Hiker gives you an Egg if you have room for it.'),
+  (9, 42, 269, NULL, 'A friendly city with the Super Contest Hall, Amity Square and the Poffin House. Your mom is at the Contest Hall with Fantina, the Gym Leader, who goes back to her Gym to wait for you. Her Gym uses Ghost types. Bebe, next to the Pokémon Center, gives you an Eevee.'),
   -- 43: Relic Badge (milestone)
   (9, 43, NULL, 90005, NULL),
   -- 44: Hearthome City
@@ -125,7 +125,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 49: Route 215
   (9, 49, 303, NULL, 'A road where it always rains, east to Veilstone City.'),
   -- 50: Veilstone City
-  (9, 50, 337, NULL, 'A city cut into rock, with Sinnoh''s Department Store and the Game Corner, where a man gives you a Coin Case. Team Galactic''s headquarters looms on the hill. Maylene''s Gym uses Fighting types.'),
+  (9, 50, 337, NULL, 'A city cut into rock, with Sinnoh''s Department Store and the Game Corner, where a man gives you a Coin Case. Team Galactic''s headquarters looms on the hill. Maylene''s Gym uses Fighting types. A Poké Fan in one of the houses gives you a Porygon.'),
   -- 51: Cobble Badge (milestone)
   (9, 51, NULL, 90006, NULL),
   -- 52: Veilstone City
@@ -161,7 +161,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 67: Canalave City
   (9, 67, 257, NULL, 'A port city split by a canal. Barry battles you on the drawbridge. Byron''s Gym uses Steel types. Sailor Eldritch takes you to Iron Island and back. The Move Deleter lives here.'),
   -- 68: Iron Island
-  (9, 68, 271, NULL, 'An old mine. Riley gives you HM04 Strength at the entrance, then teams up with you to drive off two Team Galactic Grunts and gives you an Egg.'),
+  (9, 68, 271, NULL, 'An old mine. Riley gives you HM04 Strength at the entrance, then teams up with you to drive off two Team Galactic Grunts and gives you a Riolu Egg.'),
   -- 69: Mine Badge (milestone)
   (9, 69, NULL, 90008, NULL),
   -- 70: Canalave City
@@ -222,15 +222,17 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (9, 97, NULL, 90020, NULL),
   -- 98: Lake Guardians (milestone)
   (9, 98, NULL, 90021, NULL),
-  -- 99: Roaming Cresselia (milestone)
-  (9, 99, NULL, 90022, NULL),
-  -- 100: Snowpoint Temple (milestone)
-  (9, 100, NULL, 90023, NULL),
-  -- 101: Spear Pillar (milestone)
-  (9, 101, NULL, 90024, NULL),
-  -- 102: Roaming Articuno (milestone)
-  (9, 102, NULL, 90025, NULL),
-  -- 103: Roaming Zapdos (milestone)
-  (9, 103, NULL, 90026, NULL),
-  -- 104: Roaming Moltres (milestone)
-  (9, 104, NULL, 90027, NULL);
+  -- 99: Roaming Mesprit (milestone)
+  (9, 99, NULL, 90032, NULL),
+  -- 100: Roaming Cresselia (milestone)
+  (9, 100, NULL, 90022, NULL),
+  -- 101: Snowpoint Temple (milestone)
+  (9, 101, NULL, 90023, NULL),
+  -- 102: Spear Pillar (milestone)
+  (9, 102, NULL, 90024, NULL),
+  -- 103: Roaming Articuno (milestone)
+  (9, 103, NULL, 90025, NULL),
+  -- 104: Roaming Zapdos (milestone)
+  (9, 104, NULL, 90026, NULL),
+  -- 105: Roaming Moltres (milestone)
+  (9, 105, NULL, 90027, NULL);

@@ -59,7 +59,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 14: Route 31
   (4, 14, 112, NULL, 'A short road west to Violet City. Dark Cave opens off it, too dark and too blocked to explore for now.'),
   -- 15: Violet City
-  (4, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with the Egg for you to carry.'),
+  (4, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with a Togepi Egg for you to carry.'),
   -- 16: Sprout Tower
   (4, 16, 135, NULL, 'A swaying pagoda full of Sages, north of town. Beat the Elder at the top and he gives you HM05 Flash.'),
   -- 17: Zephyr Badge (milestone)
@@ -89,7 +89,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 29: Plain Badge (milestone)
   (4, 29, NULL, 40005, NULL),
   -- 30: Route 35
-  (4, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry a Pokémon holding Mail to his friend on Route 31.'),
+  (4, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry his Spearow, which holds Mail, to his friend on Route 31.'),
   -- 31: National Park
   (4, 31, 100, NULL, 'A park between Route 35 and Route 36. The Bug-Catching Contest runs here on Tuesdays, Thursdays and Saturdays.'),
   -- 32: Route 36
@@ -97,7 +97,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 33: Route 37
   (4, 33, 118, NULL, 'A short road north to Ecruteak City.'),
   -- 34: Ecruteak City
-  (4, 34, 90, NULL, 'An old city with two towers. Beat the five Kimono Girls in the Dance Theater and a gentleman gives you HM03 Surf. A man in the southwest house gives you an Itemfinder. Morty''s Gym uses Ghost types.'),
+  (4, 34, 90, NULL, 'An old city with two towers. Beat the five Kimono Girls in the Dance Theater and a gentleman gives you HM03 Surf. A man in the southwest house gives you an Itemfinder. Morty''s Gym uses Ghost types. Meet Bill in the Pokémon Center, then visit his house in Goldenrod City and he gives you an Eevee.'),
   -- 35: Burned Tower (milestone)
   (4, 35, NULL, 40026, NULL),
   -- 36: Roaming Raikou (milestone)
@@ -117,7 +117,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 41
   (4, 43, 122, NULL, 'Open sea south to Cianwood City, full of Swimmers. The Whirl Islands lie in the middle, ringed by whirlpools you can''t cross yet.'),
   -- 44: Cianwood City
-  (4, 44, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly.'),
+  (4, 44, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly. A man in town asks you to look after his Shuckle.'),
   -- 45: Storm Badge (milestone)
   (4, 45, NULL, 40007, NULL),
   -- 46: Cianwood City
@@ -131,7 +131,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 50: Ecruteak City
   (4, 50, 90, NULL, 'Fly back to Ecruteak City and take the east exit to Route 42.'),
   -- 51: Route 42
-  (4, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Suicune waits in the Apricorn grove between them and runs off again. Mt. Mortar''s three entrances open off this road. The cave is optional.'),
+  (4, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Suicune waits in the Apricorn grove between them and runs off again. Mt. Mortar''s three entrances open off this road. The cave is optional. Beat the Karate King deep inside and he gives you a Tyrogue.'),
   -- 52: Mahogany Town
   (4, 52, 824, NULL, 'A quiet mountain town. One man blocks the road east, and another blocks the Gym and tells you to go and see the Lake of Rage. The souvenir shop looks shady.'),
   -- 53: Route 43
@@ -163,7 +163,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 66: Blackthorn City
   (4, 66, 82, NULL, 'A mountain town of Dragon trainers. Clair''s Gym uses Dragon types. The Move Deleter here makes a Pokémon forget a move, HM moves included.'),
   -- 67: Dragon's Den
-  (4, 67, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, pass the elder''s quiz in the shrine here and she hands over the badge. Come back with room in your party and the elder gives you a Pokémon.'),
+  (4, 67, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, pass the elder''s quiz in the shrine here and she hands over the badge. Come back with room in your party and the elder gives you a Dratini.'),
   -- 68: Rising Badge (milestone)
   (4, 68, NULL, 40010, NULL),
   -- 69: Route 45

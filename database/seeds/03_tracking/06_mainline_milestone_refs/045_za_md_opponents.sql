@@ -29,13 +29,13 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Rogue Mega Darkrai -> Darkrai
   (270003, 27001, 27, 'battle-opponent', 2, NULL, NULL),
   -- Rogue Mega Absol Z -> Rogue Mega Absol Z
-  (270012, 27011, 27, 'battle-opponent', 1, 'Taunie or Urbain and Korrina fight beside you', NULL),
+  (270012, 27011, 27, 'battle-opponent', 2, 'Taunie or Urbain and Korrina fight beside you', NULL),
   -- Rogue Mega Staraptor -> Rogue Mega Staraptor
-  (270013, 27012, 27, 'battle-opponent', 1, 'Taunie or Urbain and Korrina fight beside you', NULL),
+  (270013, 27012, 27, 'battle-opponent', 3, 'Taunie or Urbain and Korrina fight beside you', NULL),
   -- Rogue Mega Tatsugiri -> Rogue Mega Tatsugiri
   (270014, 27013, 27, 'battle-opponent', 1, 'Taunie or Urbain and Korrina fight beside you', NULL),
   -- Rogue Mega Meowstic -> Rogue Mega Meowstic
-  (270015, 27014, 27, 'battle-opponent', 1, 'Taunie or Urbain and Korrina fight beside you', NULL),
+  (270015, 27014, 27, 'battle-opponent', 3, 'Taunie or Urbain and Korrina fight beside you', NULL),
   -- Special Scans -> Latias
   (270016, 27017, 27, 'battle-opponent', 1, 'In an unknown zone a Special Scan opens. You can skip this battle.', NULL),
   -- Special Scans -> Latios
@@ -68,3 +68,24 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (270005, 27003, 27, 'battle-opponent', 1, NULL, NULL),
   -- Rogue Mega Rayquaza -> Rayquaza
   (270006, 27004, 27, 'battle-opponent', 1, NULL, NULL);
+
+-- Battles against named characters on the way to a Story point.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  location_id
+) VALUES
+  -- Rogue Mega Absol Z -> Korrina
+  (270012, 27016, 27, 'battle-opponent', 1, 'She tests your Mega Evolution before she joins you. The battle starts again if you do not Mega Evolve. Her Lucario Mega Evolves.', 981),
+  -- Rogue Mega Staraptor -> Lebanne
+  (270013, 27025, 27, 'battle-opponent', 1, 'In front of the hotel, a Multi Battle with Gwynn (Hyperspace Mission 2). Naveen fights beside you. Their Pokémon are four levels higher once you have won 20 reward matches.', 437),
+  -- Rogue Mega Staraptor -> Gwynn
+  (270013, 27026, 27, 'battle-opponent', 2, 'In front of the hotel, a Multi Battle with Lebanne (Hyperspace Mission 2). Naveen fights beside you. Their Pokémon are four levels higher once you have won 20 reward matches.', 437),
+  -- Rogue Mega Meowstic -> Jacinthe
+  (270015, 27027, 27, 'battle-opponent', 1, 'A Multi Battle with Griselle (Hyperspace Mission 8). Lida fights beside you. Their Pokémon are four levels higher once you have won 20 reward matches.', 982),
+  -- Rogue Mega Meowstic -> Griselle
+  (270015, 27028, 27, 'battle-opponent', 2, 'A Multi Battle with Jacinthe (Hyperspace Mission 8). Lida fights beside you. Their Pokémon are four levels higher once you have won 20 reward matches.', 982);

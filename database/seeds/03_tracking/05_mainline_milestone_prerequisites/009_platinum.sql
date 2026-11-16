@@ -59,6 +59,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (90020, 90015, 9, 1, 1, NULL),
   -- Lake Guardians opens after Distortion World
   (90021, 90019, 9, 4, 1, NULL),
+  -- Roaming Mesprit opens after Distortion World
+  (90032, 90019, 9, 4, 1, NULL),
   -- Roaming Cresselia opens after Pokémon League
   (90022, 90015, 9, 4, 1, 'Needs the National Pokédex.'),
   -- Snowpoint Temple opens after Pokémon League

@@ -319,8 +319,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (80020, 8018, 8, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50, NULL),
   -- Azelf, Lake Guardians 1: Azelf Lv. 50
   (80020, 8019, 8, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50, NULL),
-  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
-  (80020, 8020, 8, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
+  -- Mesprit, Roaming Mesprit 1: Mesprit Lv. 50
+  (80031, 8020, 8, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50, NULL),
   -- Giratina, Turnback Cave 1: Giratina Lv. 70
   (80021, 8021, 8, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70, NULL),
   -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50

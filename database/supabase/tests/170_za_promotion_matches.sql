@@ -69,7 +69,7 @@ SELECT
                             FROM tracking.mainline_milestone_prerequisites
                             WHERE
                                 mainline_milestone_prerequisites.milestone_id = ordered.id) IS DISTINCT FROM ARRAY[ordered.previous_id] $$, 'each required Z-A milestone follows the one before it');
--- Jacinthe's tournament: three rounds, L brings Zygarde, then the final.
+-- Lebanne presses Team MZ at Hotel Z, then Jacinthe's tournament: three rounds, L brings Zygarde, then the final.
 SELECT
     results_eq ($$
         SELECT
@@ -77,7 +77,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
             WHERE
                 mainline_milestone_opponent_refs.milestone_id = 260006 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('Canari'::text), ('Ivor'), ('Corbeau'), ('Zygarde'), ('Jacinthe') $$, 'Jacinthe''s tournament holds its rounds, Zygarde and the final in order');
+            VALUES ('Lebanne'::text), ('Canari'), ('Ivor'), ('Corbeau'), ('Zygarde'), ('Jacinthe') $$, 'after Lebanne at Hotel Z, Jacinthe''s tournament holds its rounds, Zygarde and the final in order');
 -- Canari, Ivor and Corbeau field stronger teams in the tournament than in their own promotion matches.
 SELECT
     results_eq ($$
@@ -90,7 +90,7 @@ SELECT
                 mainline_opponents.slug IN ('canari', 'ivor', 'corbeau')
                 AND mainline_opponents.version_group_id = 26 GROUP BY mainline_opponents.name, mainline_opponents.sort_order, mainline_milestones.slug, mainline_milestones.id ORDER BY mainline_opponents.sort_order, mainline_milestones.id DESC $$, $$
             VALUES ('Canari'::text, 'reach-rank-e'::text, 39), ('Canari', 'reach-rank-b', 55), ('Ivor', 'reach-rank-d', 47), ('Ivor', 'reach-rank-b', 55), ('Corbeau', 'reach-rank-c', 52), ('Corbeau', 'reach-rank-b', 56) $$, 'a tournament round has its own team, apart from the promotion match');
--- Zygarde (10% Forme) waits at Hotel Z after the Rogue Megas, before Canari's match.
+-- Zygarde (10% Forme) waits at Hotel Z after the Rogue Megas; Naveen and Tarragon battle you before Canari's match.
 SELECT
     results_eq ($$
         SELECT
@@ -98,7 +98,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
             WHERE
                 mainline_milestone_opponent_refs.milestone_id = 260018 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
-            VALUES ('Zygarde'::text), ('Canari') $$, 'Zygarde comes before Canari on the way to Rank E');
+            VALUES ('Zygarde'::text), ('Naveen'), ('Tarragon'), ('Canari') $$, 'Zygarde, Naveen and Tarragon come before Canari on the way to Rank E');
 -- Grisham fields a full team, Charizard last.
 SELECT
     results_eq ($$

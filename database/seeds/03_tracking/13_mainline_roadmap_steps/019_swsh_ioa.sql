@@ -20,7 +20,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   note
 ) VALUES
   -- 1: Fields of Honor
-  (19, 1, 588, NULL, 'The fields around the island''s station. Klara in Sword or Avery in Shield, a student of the dojo, takes you for the new student and battles you. A hiker asks you to find the Alolan Diglett hidden across the island.'),
+  (19, 1, 588, NULL, 'The fields around the island''s station. Klara in Sword or Avery in Shield, a student of the dojo, takes you for the new student and battles you. A hiker asks you to find the Alolan Diglett hidden across the island. He gives you Alolan Pokémon as you find more.'),
   -- 2: Master Dojo
   (19, 2, 612, NULL, 'The dojo of Mustard, once Galar''s Champion. He tests you on the battle court and takes you on as a student.'),
   -- 3: Arrive at the Isle of Armor (milestone)
@@ -28,7 +28,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 4: Soothing Wetlands
   (19, 4, 640, NULL, 'The first trial. Three fast Slowpoke have run off with the dojo uniform. Chase each one down and beat it.'),
   -- 5: Master Dojo
-  (19, 5, 612, NULL, 'Bring the uniform back. For passing the first trial, Mustard offers you one of two Pokémon that can Gigantamax.'),
+  (19, 5, 612, NULL, 'Bring the uniform back. For passing the first trial, you are given a Bulbasaur or a Squirtle that can Gigantamax.'),
   -- 6: Choose Dojo Starter (milestone)
   (19, 6, NULL, 190003, NULL),
   -- 7: Forest of Focus
@@ -38,7 +38,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 9: Warm-Up Tunnel
   (19, 9, 653, NULL, 'Max Mushrooms grow at the far end. Your rival gets there first and battles you for them.'),
   -- 10: Master Dojo
-  (19, 10, 612, NULL, 'The third trial. You and your rival are the only two left, and the secret armor goes to whoever wins on the battle court.'),
+  (19, 10, 612, NULL, 'The third trial. You and your rival are the only two left, and the secret armor goes to whoever wins on the battle court. The armor is a Kubfu.'),
   -- 11: Dojo Trials (milestone)
   (19, 11, NULL, 190002, NULL),
   -- 12: Challenge Beach
@@ -64,6 +64,6 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 22: Honeycalm Island
   (19, 22, 603, NULL, 'A Dynamax Vespiquen guards the Max Honey at the tree on this island. Beat it with Hop.'),
   -- 23: Master Dojo
-  (19, 23, 612, NULL, 'Make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength.'),
+  (19, 23, 612, NULL, 'Make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength. After you beat him, his son Hyde gives you a Porygon.'),
   -- 24: Final Mustard Battle (milestone)
   (19, 24, NULL, 190007, NULL);

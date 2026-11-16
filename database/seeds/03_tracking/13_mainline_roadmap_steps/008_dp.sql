@@ -106,7 +106,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 40: Route 208
   (8, 40, 296, NULL, 'East of Mt. Coronet. The Berry Master''s house gives you a Berry every day.'),
   -- 41: Hearthome City
-  (8, 41, 269, NULL, 'A friendly city with the Super Contest Hall, Amity Square and the Poffin House. Fantina, the Gym Leader, is outside the Contest Hall and says you are not strong enough for her yet. A Hiker gives you an Egg if you have room for it. Barry stops you for a battle on your way out.'),
+  (8, 41, 269, NULL, 'A friendly city with the Super Contest Hall, Amity Square and the Poffin House. Fantina, the Gym Leader, is outside the Contest Hall and says you are not strong enough for her yet. A Hiker gives you a Happiny Egg if you have room for it. Barry stops you for a battle on your way out.'),
   -- 42: Route 209
   (8, 42, 297, NULL, 'Southeast of Hearthome City. A Fisherman gives you a Good Rod. The Lost Tower stands at the north end.'),
   -- 43: Lost Tower
@@ -148,7 +148,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 61: Celestic Town (milestone)
   (8, 61, NULL, 80028, NULL),
   -- 62: Hearthome City
-  (8, 62, 269, NULL, 'With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City.'),
+  (8, 62, 269, NULL, 'With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City. Bebe, next to the Pokémon Center, gives you an Eevee once you have the National Pokédex.'),
   -- 63: Relic Badge (milestone)
   (8, 63, NULL, 80007, NULL),
   -- 64: Jubilife City
@@ -158,7 +158,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 66: Canalave City
   (8, 66, 257, NULL, 'A port city split by a canal. Barry battles you on the drawbridge. Byron''s Gym uses Steel types. Sailor Eldritch takes you to Iron Island and back. The Move Deleter lives here.'),
   -- 67: Iron Island
-  (8, 67, 271, NULL, 'An old mine. Riley teams up with you to drive off two Team Galactic Grunts, then gives you an Egg.'),
+  (8, 67, 271, NULL, 'An old mine. Riley teams up with you to drive off two Team Galactic Grunts, then gives you a Riolu Egg.'),
   -- 68: Mine Badge (milestone)
   (8, 68, NULL, 80008, NULL),
   -- 69: Canalave City
@@ -215,9 +215,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (8, 94, NULL, 80024, NULL),
   -- 95: Lake Guardians (milestone)
   (8, 95, NULL, 80020, NULL),
-  -- 96: Turnback Cave (milestone)
-  (8, 96, NULL, 80021, NULL),
-  -- 97: Roaming Cresselia (milestone)
-  (8, 97, NULL, 80022, NULL),
-  -- 98: Snowpoint Temple (milestone)
-  (8, 98, NULL, 80023, NULL);
+  -- 96: Roaming Mesprit (milestone)
+  (8, 96, NULL, 80031, NULL),
+  -- 97: Turnback Cave (milestone)
+  (8, 97, NULL, 80021, NULL),
+  -- 98: Roaming Cresselia (milestone)
+  (8, 98, NULL, 80022, NULL),
+  -- 99: Snowpoint Temple (milestone)
+  (8, 99, NULL, 80023, NULL);

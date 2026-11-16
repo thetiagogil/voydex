@@ -56,7 +56,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 14: Route 31
   (10, 14, 112, NULL, 'A short road west to Violet City. Dark Cave opens off it, too dark and too blocked to explore for now.'),
   -- 15: Violet City
-  (10, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with the Egg for you to carry, and a Kimono Girl stops you outside to look at it.'),
+  (10, 15, 138, NULL, 'An old town with a Pokémon school. Falkner''s Gym uses Flying types. After you win, Professor Elm''s aide waits in the Pokémon Center with a Togepi Egg for you to carry, and a Kimono Girl stops you outside to look at it.'),
   -- 16: Sprout Tower
   (10, 16, 135, NULL, 'A swaying pagoda full of Sages, north of town. Silver has just beaten the Elder at the top. Beat him too and he gives you TM70 Flash.'),
   -- 17: Zephyr Badge (milestone)
@@ -82,11 +82,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 27: Route 34
   (10, 27, 115, NULL, 'North of Ilex Forest. The Day Care couple here raise up to two Pokémon for you, and may find an Egg.'),
   -- 28: Goldenrod City
-  (10, 28, 91, NULL, 'Johto''s biggest city. The Bike Shop lends you a Bicycle for free, and the Radio Tower''s quiz wins you a Radio Card. Whitney''s Gym uses Normal types. After you win, the flower shop next door gives you the SquirtBottle.'),
+  (10, 28, 91, NULL, 'Johto''s biggest city. The Bike Shop lends you a Bicycle for free, and the Radio Tower''s quiz wins you a Radio Card. Whitney''s Gym uses Normal types. After you win, the flower shop next door gives you the SquirtBottle. Once you have met Bill in Ecruteak City, he gives you an Eevee at his house here.'),
   -- 29: Plain Badge (milestone)
   (10, 29, NULL, 100005, NULL),
   -- 30: Route 35
-  (10, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry a Pokémon holding Mail to his friend on Route 31.'),
+  (10, 30, 116, NULL, 'North of Goldenrod City. The guard in the gate asks you to carry his Spearow, which holds Mail, to his friend on Route 31.'),
   -- 31: National Park
   (10, 31, 100, NULL, 'A park between Route 35 and Route 36. The Bug-Catching Contest runs here on Tuesdays, Thursdays and Saturdays. The Pokéathlon Dome is just to the west.'),
   -- 32: Route 36
@@ -114,7 +114,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 43: Route 41
   (10, 43, 122, NULL, 'Open sea south to Cianwood City, full of Swimmers. The Whirl Islands lie in the middle, ringed by whirlpools you can''t cross yet.'),
   -- 44: Cianwood City
-  (10, 44, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly. The gate on the west side leads to Route 47 and the Safari Zone, which opens later.'),
+  (10, 44, 85, NULL, 'An island town. The pharmacy gives you the SecretPotion for Jasmine. Chuck''s Gym uses Fighting types. After you win, his wife outside gives you HM02 Fly. The gate on the west side leads to Route 47 and the Safari Zone, which opens later. A man in town lends you his Shuckle.'),
   -- 45: Storm Badge (milestone)
   (10, 45, NULL, 100007, NULL),
   -- 46: Cianwood City
@@ -128,7 +128,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 50: Ecruteak City
   (10, 50, 90, NULL, 'Fly back to Ecruteak City and take the east exit to Route 42.'),
   -- 51: Route 42
-  (10, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Mt. Mortar''s three entrances open off this road. The cave is optional.'),
+  (10, 51, 123, NULL, 'East of Ecruteak City, across ponds you Surf over. Mt. Mortar''s three entrances open off this road. The cave is optional. Beat the Karate King deep inside and he gives you a Tyrogue.'),
   -- 52: Mahogany Town
   (10, 52, 824, NULL, 'A quiet mountain town. One man blocks the road east, and another blocks the Gym and tells you to go and see the Lake of Rage. The souvenir shop looks shady.'),
   -- 53: Route 43
@@ -158,7 +158,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 65: Blackthorn City
   (10, 65, 82, NULL, 'A mountain town of Dragon trainers. Clair''s Gym uses Dragon types. The Move Deleter here makes a Pokémon forget a move, HM moves included.'),
   -- 66: Dragon's Den
-  (10, 66, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, answer the Master''s questions in the shrine and she hands over the badge.'),
+  (10, 66, 89, NULL, 'A cave behind the Gym, across water you Surf and Whirlpool through. After you beat Clair, answer the Master''s questions in the shrine and she hands over the badge. Come back with room in your party and the Master gives you a Dratini.'),
   -- 67: Rising Badge (milestone)
   (10, 67, NULL, 100010, NULL),
   -- 68: Route 45
@@ -298,7 +298,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 135: Earth Badge (milestone)
   (10, 135, NULL, 100024, NULL),
   -- 136: Pallet Town
-  (10, 136, 30, NULL, 'Tell Professor Oak you have all sixteen badges. He gives you HM08 Rock Climb and arranges for you to enter Mt. Silver.'),
+  (10, 136, 30, NULL, 'Tell Professor Oak you have all sixteen badges. He gives you HM08 Rock Climb and arranges for you to enter Mt. Silver. After you beat Red, Oak gives you a Bulbasaur, Charmander or Squirtle, and Steven then gives you a Treecko, Torchic or Mudkip at Silph Co.'),
   -- 137: Route 22
   (10, 137, 52, NULL, 'West of Viridian City to the League gate, where the guards now let you through to Route 28.'),
   -- 138: Route 28

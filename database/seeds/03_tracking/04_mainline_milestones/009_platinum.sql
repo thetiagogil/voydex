@@ -80,17 +80,19 @@ INSERT INTO tracking.mainline_milestones (
   (90015, 9, NULL, 901, 8, 3, NULL, 'pokemon-league', 'Pokémon League', 'Beat the Elite Four and Champion Cynthia back to back at the Pokémon League. Your team enters the Hall of Fame.', 18, true, 284),
   -- Stark Mountain (Stark Mountain)
   (90020, 9, NULL, 903, 1, 2, NULL, 'stark-mountain', 'Stark Mountain', 'With the National Pokédex, take the ship from Snowpoint City to the Battle Zone. Beat Mars and Jupiter at the mouth of Stark Mountain, then cross it with Buck. Charon takes the Magma Stone and Looker arrests him. Once Buck has put the stone back, Heatran waits in that room.', 1, false, 326),
-  -- Lake Guardians (Lake Verity)
-  (90021, 9, NULL, 904, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After the Distortion World, the three lake Pokémon go home. Uxie waits in Acuity Cavern and Azelf in Valor Cavern. Mesprit flies off when you meet it in Verity Cavern and then roams Sinnoh. Catch or defeat each one.', 1, false, 274),
+  -- Lake Guardians (Lake Valor)
+  (90021, 9, NULL, 904, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After the Distortion World, the lake Pokémon go home. Uxie waits in Acuity Cavern and Azelf in Valor Cavern. Catch or defeat each one.', 1, false, 273),
+  -- Roaming Mesprit (Lake Verity)
+  (90032, 9, NULL, 904, 6, 2, NULL, 'roaming-mesprit', 'Roaming Mesprit', 'After the Distortion World, Mesprit goes home to Verity Cavern. It flies off when you meet it there and then roams Sinnoh. Track it down and catch or defeat it.', 2, false, 274),
   -- Roaming Cresselia (Fullmoon Island)
-  (90022, 9, NULL, 904, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, visit Sailor Eldritch''s house in Canalave City, where his son can''t wake from a nightmare. Sail to Fullmoon Island for the Lunar Wing. Cresselia flies off when you meet it there and then roams Sinnoh.', 2, false, 873),
+  (90022, 9, NULL, 904, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, visit Sailor Eldritch''s house in Canalave City, where his son can''t wake from a nightmare. Sail to Fullmoon Island for the Lunar Wing. Cresselia flies off when you meet it there and then roams Sinnoh.', 3, false, 873),
   -- Snowpoint Temple (Snowpoint Temple)
-  (90023, 9, NULL, 904, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 3, false, 322),
+  (90023, 9, NULL, 904, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 4, false, 322),
   -- Spear Pillar (Spear Pillar)
-  (90024, 9, NULL, 904, 6, 2, NULL, 'spear-pillar', 'Spear Pillar', 'With the National Pokédex, find the Adamant Orb and the Lustrous Orb inside Mt. Coronet and carry them to the Spear Pillar. Dialga waits in the blue rift and Palkia in the pink one. Catch or defeat them.', 4, false, 870),
+  (90024, 9, NULL, 904, 6, 2, NULL, 'spear-pillar', 'Spear Pillar', 'With the National Pokédex, find the Adamant Orb and the Lustrous Orb inside Mt. Coronet and carry them to the Spear Pillar. Dialga waits in the blue rift and Palkia in the pink one. Catch or defeat them.', 5, false, 870),
   -- Roaming Articuno (Eterna City)
-  (90025, 9, NULL, 904, 6, 2, NULL, 'roaming-articuno', 'Roaming Articuno', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Articuno then roams Sinnoh. Track it down and catch or defeat it.', 5, false, 260),
+  (90025, 9, NULL, 904, 6, 2, NULL, 'roaming-articuno', 'Roaming Articuno', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Articuno then roams Sinnoh. Track it down and catch or defeat it.', 6, false, 260),
   -- Roaming Zapdos (Eterna City)
-  (90026, 9, NULL, 904, 6, 2, NULL, 'roaming-zapdos', 'Roaming Zapdos', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Zapdos then roams Sinnoh. Track it down and catch or defeat it.', 6, false, 260),
+  (90026, 9, NULL, 904, 6, 2, NULL, 'roaming-zapdos', 'Roaming Zapdos', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Zapdos then roams Sinnoh. Track it down and catch or defeat it.', 7, false, 260),
   -- Roaming Moltres (Eterna City)
-  (90027, 9, NULL, 904, 6, 2, NULL, 'roaming-moltres', 'Roaming Moltres', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Moltres then roams Sinnoh. Track it down and catch or defeat it.', 7, false, 260);
+  (90027, 9, NULL, 904, 6, 2, NULL, 'roaming-moltres', 'Roaming Moltres', 'With the National Pokédex, talk to Professor Oak at his house in Eterna City. Moltres then roams Sinnoh. Track it down and catch or defeat it.', 8, false, 260);

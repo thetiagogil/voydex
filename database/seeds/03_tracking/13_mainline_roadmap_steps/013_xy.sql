@@ -48,7 +48,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 11: Route 4
   (13, 11, 466, NULL, 'A garden road north to Lumiose City. Sina and Dexio, the professor''s helpers, meet you on the way and walk you to the gate.'),
   -- 12: Lumiose City
-  (13, 12, 798, NULL, 'The heart of Kalos. A blackout has closed its north half. The professor''s lab is on South Boulevard.'),
+  (13, 12, 798, NULL, 'The heart of Kalos. A blackout has closed its north half. The professor''s lab is on South Boulevard. Battle him there and he gives you a Bulbasaur, Charmander or Squirtle, with its Mega Stone.'),
   -- 13: Choose Kanto Starter (milestone)
   (13, 13, NULL, 130004, NULL),
   -- 14: Lumiose City
@@ -88,7 +88,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 31: Reflection Cave
   (13, 31, 449, NULL, 'A cave of mirror walls, where trainers spot you in the reflections.'),
   -- 32: Shalour City
-  (13, 32, 475, NULL, 'A port under the Tower of Mastery. Korrina''s Gym uses Fighting types. After you win, she waits at the top of the tower, and your neighbour gives you HM03 Surf by the east gate.'),
+  (13, 32, 475, NULL, 'A port under the Tower of Mastery. Korrina''s Gym uses Fighting types. After you win, she waits at the top of the tower, and your neighbour gives you HM03 Surf by the east gate. After the battle up there, one of her Lucario joins you, holding a Lucarionite.'),
   -- 33: Tower of Mastery
   (13, 33, 480, NULL, 'The Mega Evolution guru has one Mega Ring for you and your neighbour, so the two of you battle for it. Korrina then says you must win her badge first.'),
   -- 34: Rumble Badge (milestone)

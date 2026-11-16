@@ -31,7 +31,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 5: Loyalty Plaza
   (24, 5, 973, NULL, 'The first signboard stands by the monument to the Loyal Three, who are said to have died fighting an ogre.'),
   -- 6: Reveler's Road
-  (24, 6, 777, NULL, 'A road out of town through the rice fields.'),
+  (24, 6, 777, NULL, 'A road out of town through the rice fields. Later on, Jacq waits here with an Egg that hatches into a Turtwig, a Chimchar or a Piplup.'),
   -- 7: Oni Mountain
   (24, 7, 771, NULL, 'Kieran likes the ogre better than the Loyal Three. He takes you up to its home, the Dreaded Den, and battles you outside it.'),
   -- 8: Mossui Town
@@ -51,7 +51,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 15: Loyalty Plaza
   (24, 15, 973, NULL, 'Kieran battles you for the mask, loses and hits the monument. The Loyal Three come back to life.'),
   -- 16: Kitakami Hall
-  (24, 16, 760, NULL, 'The townspeople hand the Loyal Three the three masks kept here and feed them mochi, which makes them huge.'),
+  (24, 16, 760, NULL, 'The townspeople hand the Loyal Three the three masks kept here and feed them mochi, which makes them huge. Clear Ogre Oustin'' on hard here for a Shiny Munchlax.'),
   -- 17: Paradise Barrens
   (24, 17, 773, NULL, 'One of the Loyal Three has gone to ground here. Beat it with Carmine to win back a mask.'),
   -- 18: Wistful Fields
@@ -63,7 +63,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 21: Ogerpon (milestone)
   (24, 21, NULL, 240005, NULL),
   -- 22: Mossui Town
-  (24, 22, 765, NULL, 'Perrin, a photographer, is in town. She asks for help once your Kitakami Pokédex has 150 entries.'),
+  (24, 22, 765, NULL, 'Perrin, a photographer, is in town. She asks for help once your Kitakami Pokédex has 150 entries. Finish her search and she gives you a Hisuian Growlithe.'),
   -- 23: Bloodmoon Ursaluna (milestone)
   (24, 23, NULL, 240007, NULL),
   -- 24: Paradise Barrens

@@ -349,7 +349,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Azelf: Azelf Lv. 50: Imprison, Extrasensory, Nasty Plot, Psychic
     (210021, 21019, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 417, 94]),
     -- Mesprit: Mesprit Lv. 50: Imprison, Extrasensory, Charm, Psychic
-    (210021, 21020, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 204, 94]),
+    (210031, 21020, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 204, 94]),
     -- Giratina: Giratina Lv. 70: Shadow Force, Pain Split, Aura Sphere, Dragon Claw
     (210022, 21021, NULL, NULL, NULL, NULL, 1, ARRAY[467, 220, 396, 337]),
     -- Cresselia: Cresselia Lv. 50: Slash, Psycho Cut, Moonlight, Safeguard
