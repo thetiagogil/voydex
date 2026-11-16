@@ -66,8 +66,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (220009, 22032, 22, 'battle-opponent', 1, 'Beni bars the way.', 949),
   -- Commander Kamado -> Commander Kamado
   (220009, 22006, 22, 'battle-opponent', 2, NULL, NULL),
-  -- Origin Pokémon -> Dialga / Palkia
-  (220010, 22010, 22, 'battle-opponent', 1, 'The one that comes out of the rift first. You catch it.', NULL),
+  -- Commander Kamado -> Dialga / Palkia
+  (220009, 22010, 22, 'battle-opponent', 3, 'Comes out of the rift after Kamado''s battle. You catch it.', NULL),
   -- The Plate of the Lakes -> Uxie
   (220013, 22012, 22, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity', NULL),
   -- The Plate of the Lakes -> Mesprit
@@ -123,6 +123,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Noble Avalugg -> Hisuian Avalugg
   (220007, 22005, 22, 'battle-opponent', 4, NULL, NULL, 'not-a-battle'),
   -- Origin Pokémon -> Origin Dialga / Origin Palkia
-  (220010, 22007, 22, 'battle-opponent', 2, 'The second one, in its Origin Forme', NULL, 'not-a-battle'),
+  (220010, 22007, 22, 'battle-opponent', 1, 'The counterpart, in its Origin Forme.', NULL, 'not-a-battle'),
   -- Meet Arceus -> Arceus
   (220012, 22009, 22, 'battle-opponent', 1, NULL, NULL, 'not-a-battle');

@@ -96,10 +96,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 1, 175, 17500, 22),
   -- Volo, Noble Lilligant 2: Gible Lv. 22
   (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 2, 443, 44300, 22),
-  -- Dialga / Palkia (chose Adaman), Origin Pokémon 1: Dialga Lv. 65
-  (220010, 22010, 22, NULL, 220008, 'adaman', NULL, NULL, 1, 483, 48300, 65),
-  -- Dialga / Palkia (chose Irida), Origin Pokémon 1: Palkia Lv. 65
-  (220010, 22010, 22, NULL, 220008, 'irida', NULL, NULL, 1, 484, 48400, 65),
+  -- Dialga / Palkia (chose Adaman), Commander Kamado 3: Dialga Lv. 65
+  (220009, 22010, 22, NULL, 220008, 'adaman', NULL, NULL, 1, 483, 48300, 65),
+  -- Dialga / Palkia (chose Irida), Commander Kamado 3: Palkia Lv. 65
+  (220009, 22010, 22, NULL, 220008, 'irida', NULL, NULL, 1, 484, 48400, 65),
   -- Giratina, Defeat Volo 1: Giratina Lv. 70
   (220011, 22011, 22, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70),
   -- Giratina, Defeat Volo 2: Giratina (Origin) Lv. 70

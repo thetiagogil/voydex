@@ -58,7 +58,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 16: Camphrier Town
   (13, 16, 418, NULL, 'A town under an old castle. A sleeping Snorlax blocks the bridge on Route 7, and the Poké Flute that wakes it is at Parfum Palace.'),
   -- 17: Route 6
-  (13, 17, 468, NULL, 'A tree-lined avenue to Parfum Palace.'),
+  (13, 17, 468, NULL, 'A tree-lined avenue to Parfum Palace. It branches off Route 7 just past Camphrier Town, before the sleeping Snorlax.'),
   -- 18: Parfum Palace
   (13, 18, 443, NULL, 'The entry fee is 1,000 Pokédollars. Help Shauna catch the owner''s Furfrou in the garden maze and he lends you the Poké Flute. HM01 Cut is in the garden.'),
   -- 19: Route 7
@@ -74,7 +74,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 24: Fossil Choice (milestone)
   (13, 24, NULL, 130005, NULL),
   -- 25: Route 8
-  (13, 25, 470, NULL, 'Along the beach below Ambrette Town to Cyllage City. You are given a Dowsing Machine on the way.'),
+  (13, 25, 470, NULL, 'Back through Ambrette Town, where the Fossil Lab brings your fossil back to life. Then along the beach to Cyllage City. You are given a Dowsing Machine on the way.'),
   -- 26: Cyllage City
   (13, 26, 422, NULL, 'A cycling town on the cliffs. The bike shop gives you a Bicycle for answering a question. Grant, the Gym Leader, hands you HM04 Strength outside, and his Gym uses Rock types.'),
   -- 27: Cliff Badge (milestone)

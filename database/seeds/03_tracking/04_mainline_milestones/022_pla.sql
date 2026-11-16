@@ -46,9 +46,9 @@ INSERT INTO tracking.mainline_milestones (
   -- Choose Clan Leader (Ancient Retreat)
   (220008, 22, NULL, 2201, 12, 1, NULL, 'choose-clan-leader', 'Choose Clan Leader', 'Banished from Jubilife Village, you shelter with Cogita at the Ancient Retreat. Choose Adaman of the Diamond Clan or Irida of the Pearl Clan to go with you to the three lakes for the Red Chain.', 8, true, 950),
   -- Commander Kamado (Temple of Sinnoh)
-  (220009, 22, NULL, 2201, 6, 3, NULL, 'commander-kamado', 'Commander Kamado', 'Climb Mount Coronet to the Temple of Sinnoh. Beat Beni, who bars the Stone Portal, then Commander Kamado at the top.', 9, true, 796),
+  (220009, 22, NULL, 2201, 6, 3, NULL, 'commander-kamado', 'Commander Kamado', 'Climb Mount Coronet to the Temple of Sinnoh. Beat Beni, who bars the Stone Portal, then Commander Kamado at the top. Dialga or Palkia then comes out of the rift, depending on the clan leader you chose. Catch it.', 9, true, 796),
   -- Origin Pokémon (Temple of Sinnoh)
-  (220010, 22, NULL, 2201, 6, 3, NULL, 'origin-pokemon', 'Origin Pokémon', 'At the Temple of Sinnoh, Dialga or Palkia comes out of the rift, depending on the clan leader you chose. Catch it. The second one then arrives in its Origin Forme. Quell it and catch it with the Origin Ball.', 10, true, 796),
+  (220010, 22, NULL, 2201, 6, 3, NULL, 'origin-pokemon', 'Origin Pokémon', 'Its counterpart breaks out of the rift in its Origin Forme. With Origin Ore from the Primeval Grotto made into an Origin Ball, quell it at the Temple of Sinnoh and catch it. The credits roll.', 10, true, 796),
   -- The Plate of the Lakes (Lake Verity)
   (220013, 22, NULL, 2202, 6, 3, NULL, 'plate-of-the-lakes', 'The Plate of the Lakes', 'After the credits, Cogita sends you after the plates. Go back to the caverns of the three lakes and catch Uxie, Mesprit and Azelf.', 1, false, 274),
   -- The Plate of Firespit Island (Firespit Island)

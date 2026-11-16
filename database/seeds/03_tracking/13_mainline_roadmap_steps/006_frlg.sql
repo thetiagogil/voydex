@@ -252,7 +252,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 110: Dotted Hole (milestone)
   (6, 110, NULL, 60036, NULL),
   -- 111: Five Island (town)
-  (6, 111, 15, NULL, 'The Rocket Warehouse stands in Five Isle Meadow, just east of town. A gentleman in the Water Labyrinth, north of town, gives you a Togepi Egg if the first Pokémon in your party is fond of you.'),
+  (6, 111, 15, NULL, 'A ferry ride from Six Island. The Rocket Warehouse stands in Five Isle Meadow, just east of town. A gentleman in the Water Labyrinth, north of town, gives you a Togepi Egg if the first Pokémon in your party is fond of you.'),
   -- 112: Five Isle Meadow
   (6, 112, 16, NULL, 'Type the two passwords at the warehouse door to get in.'),
   -- 113: Rocket Warehouse (milestone)

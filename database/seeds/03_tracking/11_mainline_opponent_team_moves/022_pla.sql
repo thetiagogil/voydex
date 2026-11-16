@@ -89,9 +89,9 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Volo: Gible Lv. 22: Twister, Bulldoze
     (220004, 22008, NULL, NULL, NULL, NULL, 2, ARRAY[239, 523]),
     -- Dialga / Palkia: Dialga Lv. 65: Earth Power, Iron Tail, Flash Cannon, Roar of Time
-    (220010, 22010, NULL, 220008, 'adaman', NULL, 1, ARRAY[414, 231, 430, 459]),
+    (220009, 22010, NULL, 220008, 'adaman', NULL, 1, ARRAY[414, 231, 430, 459]),
     -- Dialga / Palkia: Palkia Lv. 65: Earth Power, Aqua Tail, Hydro Pump, Spacial Rend
-    (220010, 22010, NULL, 220008, 'irida', NULL, 1, ARRAY[414, 401, 56, 460]),
+    (220009, 22010, NULL, 220008, 'irida', NULL, 1, ARRAY[414, 401, 56, 460]),
     -- Giratina: Giratina Lv. 70: Aura Sphere, Dragon Claw, Earth Power, Shadow Force
     (220011, 22011, NULL, NULL, NULL, NULL, 1, ARRAY[396, 337, 414, 467]),
     -- Giratina: Giratina (Origin) Lv. 70: Aura Sphere, Dragon Claw, Earth Power, Shadow Force

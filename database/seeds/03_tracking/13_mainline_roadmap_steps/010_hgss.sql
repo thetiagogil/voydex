@@ -174,7 +174,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 73: Bell Tower
   (10, 73, 81, NULL, 'HeartGold: with the Rainbow Wing and the Clear Bell, climb to the roof. The Kimono Girls dance, and Ho-Oh comes down.'),
   -- 74: Whirl Islands
-  (10, 74, 139, NULL, 'SoulSilver: with the Silver Wing and the Tidal Bell, go in from the northeast island and down to the deepest chamber. The Kimono Girls dance, and Lugia rises. The islands need Whirlpool, and the caves are dark without Flash.'),
+  (10, 74, 139, NULL, 'SoulSilver: Fly to Cianwood City and Surf east to the islands on Route 41. With the Silver Wing and the Tidal Bell, go in from the northeast island and down to the deepest chamber. The Kimono Girls dance, and Lugia rises. The islands need Whirlpool, and the caves are dark without Flash.'),
   -- 75: New Bark Town
   (10, 75, 101, NULL, 'Fly home, then Surf east from town to start for the Pokémon League.'),
   -- 76: Route 27

@@ -105,7 +105,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 41: Lake Acuity
   (22, 41, 272, NULL, 'Uxie''s lake, in the Alabaster Icelands. Its cavern holds the last trial.'),
   -- 42: Shrouded Ruins
-  (22, 42, 720, NULL, 'The three lake guardians meet you here with Volo and Cogita, and forge the Red Chain.'),
+  (22, 42, 720, NULL, 'Volo takes you straight here from Lake Acuity. The three lake guardians meet you with Cogita, and forge the Red Chain.'),
   -- 43: Jubilife Village
   (22, 43, 704, NULL, 'Your clan leader speaks for you at the front gate. Commander Kamado has already left for Mount Coronet.'),
   -- 44: Cloudcap Pass
@@ -115,7 +115,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 46: Commander Kamado (milestone)
   (22, 46, NULL, 220009, NULL),
   -- 47: Primeval Grotto
-  (22, 47, 711, NULL, 'The second Pokémon breaks the Red Chain. Dig Origin Ore out of the wall here for a ball that can hold it. The Miss Fortune sisters turn up to take the ore and are driven off.'),
+  (22, 47, 711, NULL, 'The second Pokémon breaks the Red Chain. Lian, Kleavor''s warden, helps you dig Origin Ore out of the wall here for a ball that can hold it. The Miss Fortune sisters turn up to take the ore and are driven off.'),
   -- 48: Origin Pokémon (milestone)
   (22, 48, NULL, 220010, NULL),
   -- 49: Ancient Retreat
