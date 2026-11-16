@@ -2050,4 +2050,6 @@ VALUES
   -- Hyperspace Newmoon Nightmare: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Darkrai)
   (1007, 6, 'kalos-hyperspace-newmoon-nightmare', 'Hyperspace Newmoon Nightmare'),
   -- Hyperspace Sky Pillar: a Story place with no wild Pokémon (Mega Dimension's Rogue Mega Rayquaza)
-  (1008, 6, 'kalos-hyperspace-sky-pillar', 'Hyperspace Sky Pillar');
+  (1008, 6, 'kalos-hyperspace-sky-pillar', 'Hyperspace Sky Pillar'),
+  -- Seven Island (town): a Story place with no wild Pokémon (FireRed / LeafGreen's Sevii Islands)
+  (1009, 1, 'kanto-seven-island-town', 'Seven Island (town)');

@@ -90,10 +90,16 @@ INSERT INTO tracking.mainline_milestones (
   (60036, 6, NULL, 603, 1, 2, NULL, 'dotted-hole', 'Dotted Hole', 'Open the Dotted Hole in Ruin Valley on Six Island with Cut and drop through its floors in the order the Braille gives. A scientist takes the Sapphire before you can, and tells you the second password for the Rocket Warehouse.', 3, true, 850),
   -- Rocket Warehouse (Rocket Warehouse)
   (60037, 6, NULL, 603, 1, 2, NULL, 'rocket-warehouse', 'Rocket Warehouse', 'Enter the Rocket Warehouse on Five Island with the two passwords. Beat the two Team Rocket Admins and then Gideon, the scientist, for the Sapphire. Take it to Celio and the Network Machine links Kanto with Hoenn.', 4, true, 851),
+  -- Lost Cave (Lost Cave)
+  (60038, 6, NULL, 603, 1, 1, NULL, 'lost-cave', 'Lost Cave', 'Find Selphy, lost in the fog of Lost Cave east of Resort Gorgeous on Five Island. The number of rocks in each chamber points the way. Beat her and see her home, and from then on she rewards you for showing her the Pokémon she asks for.', 5, false, 24),
+  -- Trainer Tower (Trainer Tower)
+  (60039, 6, NULL, 603, 1, 1, NULL, 'trainer-tower', 'Trainer Tower', 'Climb Trainer Tower on Seven Island, battling through eight floors against the clock. Your team is not healed between battles. Each of its four kinds of battle gives a rare prize the first time you win it.', 6, false, 71),
+  -- Tanoby Chambers (Tanoby Chambers)
+  (60040, 6, NULL, 603, 1, 1, NULL, 'tanoby-chambers', 'Tanoby Chambers', 'Push a boulder into each of the seven pits of Tanoby Key, the small cave in Sevault Canyon. The earth rumbles far away, and the seven Tanoby Chambers off Seven Island open to the Pokémon that live inside.', 7, false, 68),
   -- Cerulean Cave (Cerulean Cave)
-  (60029, 6, NULL, 603, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Once Celio''s Network Machine is finished, Surf south from Route 24 into Cerulean Cave and catch or defeat Mewtwo in its depths.', 5, false, 8),
+  (60029, 6, NULL, 603, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Once Celio''s Network Machine is finished, Surf south from Route 24 into Cerulean Cave and catch or defeat Mewtwo in its depths.', 8, false, 8),
   -- Roaming Legendary Beast (One Island (town))
-  (60028, 6, NULL, 603, 6, 2, NULL, 'roaming-legendary-beast', 'Roaming Legendary Beast', 'Once Celio''s Network Machine is finished, a legendary Pokémon roams Kanto''s routes: Raikou if you chose Squirtle, Entei if you chose Bulbasaur, Suicune if you chose Charmander. Track it down and catch or defeat it.', 6, false, 28),
+  (60028, 6, NULL, 603, 6, 2, NULL, 'roaming-legendary-beast', 'Roaming Legendary Beast', 'Once Celio''s Network Machine is finished, a legendary Pokémon roams Kanto''s routes: Raikou if you chose Squirtle, Entei if you chose Bulbasaur, Suicune if you chose Charmander. Track it down and catch or defeat it.', 9, false, 28),
   -- Fighting Dojo Choice (Fighting Dojo)
   (60010, 6, NULL, 604, 12, 1, NULL, 'fighting-dojo-choice', 'Fighting Dojo Choice', 'Beat the Karate Master at the Fighting Dojo next to Saffron Gym and choose Hitmonlee or Hitmonchan.', 1, false, 14),
   -- Power Plant (Power Plant)

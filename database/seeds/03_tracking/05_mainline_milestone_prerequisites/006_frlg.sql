@@ -67,6 +67,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (60036, 60035, 6, 1, 1, NULL),
   -- Rocket Warehouse <- Dotted Hole
   (60037, 60036, 6, 1, 1, NULL),
+  -- Lost Cave <- Rocket Warehouse
+  (60038, 60037, 6, 1, 1, NULL),
+  -- Trainer Tower <- Lost Cave
+  (60039, 60038, 6, 1, 1, NULL),
+  -- Tanoby Chambers <- Trainer Tower
+  (60040, 60039, 6, 1, 1, NULL),
   -- Cerulean Cave <- Rocket Warehouse
   (60029, 60037, 6, 1, 1, NULL),
   -- Roaming Legendary Beast <- Cerulean Cave

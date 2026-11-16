@@ -26,7 +26,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 6
                 AND mainline_categories.slug = 'post-game' ORDER BY mainline_milestones.sort_order $$, $$
-            VALUES ('ruby-path'::text, TRUE), ('icefall-cave', TRUE), ('dotted-hole', TRUE), ('rocket-warehouse', TRUE), ('cerulean-cave', FALSE), ('roaming-legendary-beast', FALSE) $$, 'the Sevii Islands quest counts, and what it opens is optional');
+            VALUES ('ruby-path'::text, TRUE), ('icefall-cave', TRUE), ('dotted-hole', TRUE), ('rocket-warehouse', TRUE), ('lost-cave', FALSE), ('trainer-tower', FALSE), ('tanoby-chambers', FALSE), ('cerulean-cave', FALSE), ('roaming-legendary-beast', FALSE) $$, 'the Sevii Islands quest counts, and what it opens is optional');
 SELECT
     results_eq ($$
         SELECT
@@ -67,7 +67,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 6 $$, $$
-            VALUES (117, 85, 32) $$, 'FireRed / LeafGreen''s roadmap has 117 steps: 85 places and its 32 milestones');
+            VALUES (133, 98, 35) $$, 'FireRed / LeafGreen''s roadmap has 133 steps: 98 places and its 35 milestones');
 SELECT
     *
 FROM
