@@ -137,7 +137,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 55: Route 15
   (15, 55, 549, NULL, 'Team Skull has come to the Aether House while you were away. Plumeria battles you, and they leave with a child''s Yungoos. Grimsley, on the beach, adds Sharpedo to your Ride Pager to break the rocks in the water.', NULL),
   -- 56: Route 16
-  (15, 56, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow.', NULL),
+  (15, 56, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow. The Aether Base puts a Zygarde together from the Cells and Cores you collect.', NULL),
   -- 57: Ula'ula Meadow
   (15, 57, 569, NULL, 'A field of red flowers crossed by wooden walkways. Their Red Nectar changes a dancing Pokémon''s style. Route 17 runs north from here.', NULL),
   -- 58: Lake of the Moone
@@ -209,6 +209,6 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 91: Poni Gauntlet
   (15, 91, 537, NULL, 'A lush field on the north side of Poni Island, crossed by bridges over small waterfalls. Some of the strongest trainers in Alola gather here.', NULL),
   -- 92: Lake of the Sunne
-  (15, 92, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 25),
+  (15, 92, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 25),
   -- 93: Lake of the Moone
-  (15, 93, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 26);
+  (15, 93, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 26);

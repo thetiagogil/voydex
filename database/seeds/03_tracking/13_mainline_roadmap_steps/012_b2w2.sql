@@ -171,7 +171,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 72: Pinwheel Forest
   (12, 72, 371, NULL, 'Fly to Castelia City and cross Skyarrow Bridge into the forest.'),
   -- 73: Nacrene City
-  (12, 73, 367, NULL, 'A town of old warehouses, home of the Nacrene Museum and Loblolly''s studio.'),
+  (12, 73, 367, NULL, 'A town of old warehouses, home of the Nacrene Museum and Loblolly''s studio. Someone in the Nacrene Gate gives you a Happiny Egg.'),
   -- 74: Route 3
   (12, 74, 391, NULL, 'East toward Striaton City, past the Pokémon Day Care and the preschool.'),
   -- 75: Wellspring Cave

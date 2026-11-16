@@ -67,11 +67,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 20: Heahea City
   (16, 20, 923, NULL, 'Akala''s port. Olivia, the kahuna, and Mallow, a captain, meet you on the dock. Samson Oak, on Heahea Beach, swaps your Totem Stickers for totem-sized Pokémon.', NULL),
   -- 21: Heahea Beach
-  (16, 21, 517, NULL, 'The beach by Heahea City, where Samson Oak hangs out. It is also Akala''s spot for Mantine Surf.', NULL),
+  (16, 21, 517, NULL, 'The beach by Heahea City, where Samson Oak hangs out. It is also Akala''s spot for Mantine Surf. He gives you Totem-sized Pokémon for Totem Stickers.', NULL),
   -- 22: Route 4
   (16, 22, 554, NULL, 'North to Paniola Town.', NULL),
   -- 23: Pikachu Valley
-  (16, 23, 534, NULL, 'A side trip to a small fenced valley off Route 4, watched over by two Trial Guides. It is found only in Ultra Sun and Ultra Moon.', NULL),
+  (16, 23, 534, NULL, 'A side trip to a small fenced valley off Route 4, watched over by two Trial Guides. It is found only in Ultra Sun and Ultra Moon. The trailer in the middle gives you a Pikachu wearing a cap.', NULL),
   -- 24: Paniola Town
   (16, 24, 533, NULL, 'A ranch town. Hau battles you on your way through.', NULL),
   -- 25: Paniola Ranch
@@ -143,7 +143,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 58: Route 15
   (16, 58, 549, NULL, 'Team Skull has come to the Aether House while you were away. Plumeria battles you, and they leave with a child''s Yungoos. Grimsley, on the beach, adds Sharpedo to your Ride Pager to break the rocks in the water.', NULL),
   -- 59: Route 16
-  (16, 59, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow.', NULL),
+  (16, 59, 550, NULL, 'A short road with a Pokémon Center and an Aether Base, on the way to Ula''ula Meadow. The Aether Base puts a Zygarde together from the Cells and Cores you collect.', NULL),
   -- 60: Ula'ula Meadow
   (16, 60, 569, NULL, 'A field of red flowers crossed by wooden walkways. Their Red Nectar changes a dancing Pokémon''s style. Route 17 runs north from here.', NULL),
   -- 61: Lake of the Moone
@@ -223,6 +223,6 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 98: Sandy Cave
   (16, 98, 561, NULL, 'A mostly flooded cave off Big Wave Beach on Melemele Island, found only in Ultra Sun and Ultra Moon.', NULL),
   -- 99: Lake of the Sunne
-  (16, 99, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 27),
+  (16, 99, 523, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 27),
   -- 100: Lake of the Moone
-  (16, 100, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know.', 28);
+  (16, 100, 522, NULL, 'After the League, take the Ultra Wormhole at the altar above Vast Poni Canyon with your legendary partner. In that reverse world, this lake stands in place of the one you know. Go there with your partner and you can get a Cosmog.', 28);
