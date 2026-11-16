@@ -60,7 +60,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 18 $$, $$
-            VALUES (50, 34, 16) $$, 'Sword / Shield''s roadmap has 50 steps: 34 places and its 16 milestones');
+            VALUES (69, 53, 16) $$, 'Sword / Shield''s roadmap has 69 steps: 53 places and its 16 milestones');
 SELECT
     *
 FROM

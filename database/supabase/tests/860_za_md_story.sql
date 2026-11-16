@@ -25,7 +25,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 27
                 AND mainline_categories.slug <> 'dlc-story' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order, mainline_milestones.id $$, $$
-            VALUES ('side-content'::text, 'collecting-four-drives'::text, 'Wild Zone 13'::text), ('side-content', 'the-stealthy-shadow', 'Rouge Sector 1'), ('side-content', 'dreams-of-meltan', 'Rouge Sector 1'), ('side-content', 'volcanion-unleashed', 'Pokémon Research Lab'), ('side-content', 'the-djinn-unbound', 'Hyperspace Lumiose'), ('side-content', 'special-scans', 'Rust Syndicate Office'), ('side-content', 'restarting-magearna', 'Quasartico Inc. (building)'), ('side-content', 'raging-lightning', 'Gare de Lumiose') $$, 'Mega Dimension''s optional beats sit in their chapters, each at its place');
+            VALUES ('side-content'::text, 'collecting-four-drives'::text, 'Wild Zone 13'::text), ('side-content', 'the-stealthy-shadow', 'Rouge Sector 1'), ('side-content', 'dreams-of-meltan', 'Rouge Sector 1'), ('side-content', 'volcanion-unleashed', 'Pokémon Research Lab'), ('side-content', 'the-djinn-unbound', 'Hyperspace Lumiose'), ('side-content', 'special-scans', 'Rust Syndicate Office'), ('side-content', 'restarting-magearna', 'Quasartico Inc. (building)'), ('side-content', 'raging-lightning', 'Gare de Lumiose'), ('side-content', 'hyperspace-wild-zones', 'Hyperspace Lumiose') $$, 'Mega Dimension''s optional beats sit in their chapters, each at its place');
 SELECT
     results_eq ($$
         SELECT
@@ -43,7 +43,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 27 $$, $$
-            VALUES (35, 18, 17) $$, 'Mega Dimension''s roadmap has 35 steps: 18 places and its 17 milestones');
+            VALUES (37, 19, 18) $$, 'Mega Dimension''s roadmap has 37 steps: 19 places and its 18 milestones');
 SELECT
     *
 FROM

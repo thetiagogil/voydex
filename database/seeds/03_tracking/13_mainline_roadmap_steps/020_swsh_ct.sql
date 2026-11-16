@@ -72,13 +72,17 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (20, 25, NULL, 200008, NULL),
   -- 26: Frostpoint Field
   (20, 26, 592, NULL, 'Footprints lead away from a tree by the village. Sonia is studying them and asks you to find more across the tundra.'),
-  -- 27: Frigid Sea
-  (20, 27, 591, NULL, 'Past Three-Point Pass, the cold sea off the tundra''s coast, with one big island.'),
-  -- 28: Lakeside Cave
-  (20, 28, 610, NULL, 'A cave on the shore of Ballimere Lake.'),
-  -- 29: Swords of Justice (milestone)
-  (20, 29, NULL, 200009, NULL),
-  -- 30: Ballimere Lake
-  (20, 30, 574, NULL, 'A small island in the lake has an old cooking pot on it.'),
-  -- 31: Ballimere Lake (milestone)
-  (20, 31, NULL, 200010, NULL);
+  -- 27: Giant's Foot
+  (20, 27, 597, NULL, 'A side trip east of Giant''s Bed.'),
+  -- 28: Roaring-Sea Caves
+  (20, 28, 624, NULL, 'Caves north of Giant''s Foot that open onto the Frigid Sea.'),
+  -- 29: Frigid Sea
+  (20, 29, 591, NULL, 'Past Three-Point Pass, the cold sea off the tundra''s coast, with one big island.'),
+  -- 30: Lakeside Cave
+  (20, 30, 610, NULL, 'A cave on the shore of Ballimere Lake.'),
+  -- 31: Swords of Justice (milestone)
+  (20, 31, NULL, 200009, NULL),
+  -- 32: Ballimere Lake
+  (20, 32, 574, NULL, 'A small island in the lake has an old cooking pot on it.'),
+  -- 33: Ballimere Lake (milestone)
+  (20, 33, NULL, 200010, NULL);

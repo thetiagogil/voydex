@@ -89,4 +89,8 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 34: Restarting Magearna (milestone)
   (27, 34, NULL, 270023, NULL),
   -- 35: Raging Lightning (milestone)
-  (27, 35, NULL, 270024, NULL);
+  (27, 35, NULL, 270024, NULL),
+  -- 36: Hyperspace Wild Zones (milestone)
+  (27, 36, NULL, 270025, NULL),
+  -- 37: Bleu Sector 6
+  (27, 37, 805, NULL, 'A side trip to a sector of the Bleu District, north of Bleu Sector 8.');

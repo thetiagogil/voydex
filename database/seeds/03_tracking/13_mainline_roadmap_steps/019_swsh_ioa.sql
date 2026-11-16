@@ -61,9 +61,17 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (19, 20, 612, NULL, 'Back at the dojo, Hop is studying Dynamax. Urshifu can Gigantamax, but it won''t take Max Soup without a secret ingredient that Mustard has forgotten.'),
   -- 21: Forest of Focus
   (19, 21, 589, NULL, 'Hop thinks the ingredient is honey and looks for nectar here. A lost Pokémon needs its parent found first.'),
-  -- 22: Honeycalm Island
-  (19, 22, 603, NULL, 'An island out at sea. A Dynamax Vespiquen guards the Max Honey at its tree. Beat it with Hop.'),
-  -- 23: Master Dojo
-  (19, 23, 612, NULL, 'Back at the dojo, make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength. After you beat him, his son Hyde gives you a Porygon.'),
-  -- 24: Final Mustard Battle (milestone)
-  (19, 24, NULL, 190007, NULL);
+  -- 22: Honeycalm Sea
+  (19, 22, 604, NULL, 'Across the sea from the Training Lowlands, around Honeycalm Island.'),
+  -- 23: Honeycalm Island
+  (19, 23, 603, NULL, 'An island out at sea. A Dynamax Vespiquen guards the Max Honey at its tree. Beat it with Hop.'),
+  -- 24: Master Dojo
+  (19, 24, 612, NULL, 'Back at the dojo, make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength. After you beat him, his son Hyde gives you a Porygon.'),
+  -- 25: Final Mustard Battle (milestone)
+  (19, 25, NULL, 190007, NULL),
+  -- 26: Workout Sea
+  (19, 26, 658, NULL, 'A side trip by sea south of the Fields of Honor. A woman on the island with stone arches makes a Galarica Cuff from eight Galarica Twigs.'),
+  -- 27: Stepping-Stone Sea
+  (19, 27, 644, NULL, 'Sea west of the Workout Sea, dotted with islets.'),
+  -- 28: Insular Sea
+  (19, 28, 607, NULL, 'Outlying islands north of the Stepping-Stone Sea, at the far west of the island.');

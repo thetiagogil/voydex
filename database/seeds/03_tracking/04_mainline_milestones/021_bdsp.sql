@@ -83,4 +83,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Roaming Cresselia (Fullmoon Island)
   (210023, 21, NULL, 2104, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, visit Sailor Eldritch''s house in Canalave City, where his son can''t wake from a nightmare. Sail to Fullmoon Island for the Lunar Wing. Cresselia flies off when you meet it there and then roams Sinnoh.', 4, false, 873),
   -- Snowpoint Temple (Snowpoint Temple)
-  (210025, 21, NULL, 2104, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel from Ramanas Park to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 5, false, 322);
+  (210025, 21, NULL, 2104, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, Candice lets you into Snowpoint Temple. Bring Regirock, Regice and Registeel from Ramanas Park to the statue at the bottom and Regigigas wakes. Catch or defeat it.', 5, false, 322),
+  -- Grand Underground (Eterna City)
+  (210032, 21, NULL, 2104, 1, 1, NULL, 'grand-underground', 'Grand Underground', 'Get the Explorer Kit from the Underground Man in Eterna City and dig your way through the Grand Underground below Sinnoh. Its 18 hideaways each have their own Pokémon, and more of them appear as you earn badges.', 6, false, 260);

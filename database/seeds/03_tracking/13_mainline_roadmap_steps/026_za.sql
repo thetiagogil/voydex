@@ -171,4 +171,42 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 75: Hotel Z
   (26, 75, 437, NULL, 'With both caught, L asks for a battle to see if you are fit to meet Zygarde.'),
   -- 76: To Keep the World in Balance (milestone)
-  (26, 76, NULL, 260012, NULL);
+  (26, 76, NULL, 260012, NULL),
+  -- 77: Wild Zone 3
+  (26, 77, 497, NULL, 'A side trip through the Wild Zones you have not walked yet. This one is at Rouge Plaza in the Rouge District.'),
+  -- 78: Wild Zone 4
+  (26, 78, 498, NULL, 'Built on the Dormez Bien Cemetery in the Rouge District, one of the first Wild Zones that open.'),
+  -- 79: Wild Zone 5
+  (26, 79, 499, NULL, 'Most of Bleu Sectors 1 and 2 in the Bleu District.'),
+  -- 80: Wild Zone 7
+  (26, 80, 501, NULL, 'Magenta Plaza, between Magenta Sectors 3 and 4.'),
+  -- 81: Wild Zone 9
+  (26, 81, 503, NULL, 'Magenta Sector 5 in the Magenta District.'),
+  -- 82: Wild Zone 10
+  (26, 82, 485, NULL, 'Bleu Sector 10 in the Bleu District.'),
+  -- 83: Wild Zone 12
+  (26, 83, 487, NULL, 'Aymlis Park in the Bleu District. It opens with Main Mission 15.'),
+  -- 84: Wild Zone 13
+  (26, 84, 488, NULL, 'A stretch of North Boulevard in the Rouge District. It opens with Main Mission 15.'),
+  -- 85: Wild Zone 14
+  (26, 85, 489, NULL, 'The Electrical Substation in the Magenta District. It opens with Main Mission 20.'),
+  -- 86: Wild Zone 15
+  (26, 86, 490, NULL, 'A stretch of North Boulevard in the Jaune District. It opens with Main Mission 20.'),
+  -- 87: Wild Zone 16
+  (26, 87, 491, NULL, 'Bleu Plaza in the Bleu District. It opens with Mission 25.'),
+  -- 88: Wild Zone 17
+  (26, 88, 492, NULL, 'Vert Sector 7 in the Vert District. It opens with Mission 25.'),
+  -- 89: Wild Zone 18
+  (26, 89, 493, NULL, 'Parts of Magenta Sector 9 and North Boulevard. It opens with Main Mission 31.'),
+  -- 90: Wild Zone 19
+  (26, 90, 494, NULL, 'Parts of Jaune Sector 8. It opens with Mission 31.'),
+  -- 91: North Boulevard
+  (26, 91, 802, NULL, 'The street along the north half of Lumiose City, with three gates out of town.'),
+  -- 92: Lumiose Museum
+  (26, 92, 441, NULL, 'A white museum on North Boulevard, free to enter, full of art about people and Pokémon.'),
+  -- 93: Passage du Palais
+  (26, 93, 799, NULL, 'A shopping arcade in Rouge Sector 8, with eight boutiques and a hair salon.'),
+  -- 94: Saison Canal
+  (26, 94, 472, NULL, 'The canal that runs under Prism Tower and Centrico Plaza and splits the city in two.'),
+  -- 95: Magenta Sector 2
+  (26, 95, 801, NULL, 'Northwest of Centrico Plaza. In Main Mission 37, three Rogue Mega Evolutions are battled here beside Griselle and Grisham.');

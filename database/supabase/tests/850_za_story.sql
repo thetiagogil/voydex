@@ -43,7 +43,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 26 $$, $$
-            VALUES (76, 43, 33) $$, 'Legends: Z-A''s roadmap has 76 steps: 43 places and its 33 milestones');
+            VALUES (95, 62, 33) $$, 'Legends: Z-A''s roadmap has 95 steps: 62 places and its 33 milestones');
 SELECT
     *
 FROM

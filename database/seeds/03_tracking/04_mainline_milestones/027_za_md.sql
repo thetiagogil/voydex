@@ -59,4 +59,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Restarting Magearna (Quasartico Inc. (building))
   (270023, 27, NULL, 2702, 1, 2, NULL, 'restarting-magearna', 'Restarting Magearna', 'Gather the 999 Mega Shards Jett needs at Quasartico Inc. to wake Magearna, which joins you with its Magearnite.', 7, false, 448),
   -- Raging Lightning (Gare de Lumiose)
-  (270024, 27, NULL, 2702, 6, 2, NULL, 'raging-lightning', 'Raging Lightning', 'Make the Plasma-Glazed Donut with Ansha, then enter the distortion in front of the Gare de Lumiose with Emma and calm the Rogue Mega Zeraora.', 8, false, 976);
+  (270024, 27, NULL, 2702, 6, 2, NULL, 'raging-lightning', 'Raging Lightning', 'Make the Plasma-Glazed Donut with Ansha, then enter the distortion in front of the Gare de Lumiose with Emma and calm the Rogue Mega Zeraora.', 8, false, 976),
+  -- Hyperspace Wild Zones (Hyperspace Lumiose)
+  (270025, 27, NULL, 2702, 1, 1, NULL, 'hyperspace-wild-zones', 'Hyperspace Wild Zones', 'Hyperspace Lumiose has a Wild Zone for each of the 18 types, and each one holds Pokémon of its type. Find and explore them all.', 9, false, 806);

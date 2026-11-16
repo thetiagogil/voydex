@@ -25,7 +25,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 21
                 AND mainline_categories.slug <> 'main-story' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order, mainline_milestones.id $$, $$
-            VALUES ('post-game'::text, 'fight-area'::text, 'Fight Area'::text), ('post-game', 'stark-mountain', 'Stark Mountain'), ('post-game', 'ramanas-park', 'Ramanas Park'), ('side-content', 'lake-guardians', 'Lake Valor'), ('side-content', 'roaming-mesprit', 'Lake Verity'), ('side-content', 'turnback-cave', 'Turnback Cave'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple') $$, 'Brilliant Diamond / Shining Pearl''s optional beats sit in their chapters, each at its place');
+            VALUES ('post-game'::text, 'fight-area'::text, 'Fight Area'::text), ('post-game', 'stark-mountain', 'Stark Mountain'), ('post-game', 'ramanas-park', 'Ramanas Park'), ('side-content', 'lake-guardians', 'Lake Valor'), ('side-content', 'roaming-mesprit', 'Lake Verity'), ('side-content', 'turnback-cave', 'Turnback Cave'), ('side-content', 'roaming-cresselia', 'Fullmoon Island'), ('side-content', 'snowpoint-temple', 'Snowpoint Temple'), ('side-content', 'grand-underground', 'Eterna City') $$, 'Brilliant Diamond / Shining Pearl''s optional beats sit in their chapters, each at its place');
 SELECT
     results_eq ($$
         SELECT
@@ -59,7 +59,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 21 $$, $$
-            VALUES (124, 98, 26) $$, 'Brilliant Diamond / Shining Pearl''s roadmap has 124 steps: 98 places and its 26 milestones');
+            VALUES (125, 98, 27) $$, 'Brilliant Diamond / Shining Pearl''s roadmap has 125 steps: 98 places and its 27 milestones');
 SELECT
     *
 FROM

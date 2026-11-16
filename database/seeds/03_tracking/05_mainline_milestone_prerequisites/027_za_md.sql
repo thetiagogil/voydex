@@ -50,4 +50,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Restarting Magearna opens after Rogue Mega Rayquaza
   (270023, 270006, 27, 4, 1, NULL),
   -- Raging Lightning opens after Rogue Mega Rayquaza
-  (270024, 270006, 27, 4, 1, NULL);
+  (270024, 270006, 27, 4, 1, NULL),
+  -- Hyperspace Wild Zones opens after Investigate Hyperspace Lumiose
+  (270025, 270002, 27, 4, 1, NULL);

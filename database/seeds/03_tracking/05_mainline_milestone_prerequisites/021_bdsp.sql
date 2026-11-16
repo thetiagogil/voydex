@@ -69,4 +69,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Roaming Cresselia opens after Pokémon League
   (210023, 210015, 21, 4, 1, 'Needs the National Pokédex.'),
   -- Snowpoint Temple opens after Pokémon League
-  (210025, 210015, 21, 4, 1, 'Needs the National Pokédex, and Regirock, Regice and Registeel from Ramanas Park.');
+  (210025, 210015, 21, 4, 1, 'Needs the National Pokédex, and Regirock, Regice and Registeel from Ramanas Park.'),
+  -- Grand Underground opens after Forest Badge
+  (210032, 210004, 21, 4, 1, NULL);

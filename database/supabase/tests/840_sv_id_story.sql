@@ -48,7 +48,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 25 $$, $$
-            VALUES (25, 14, 11) $$, 'The Indigo Disk''s roadmap has 25 steps: 14 places and its 11 milestones');
+            VALUES (27, 16, 11) $$, 'The Indigo Disk''s roadmap has 27 steps: 16 places and its 11 milestones');
 SELECT
     *
 FROM

@@ -38,35 +38,39 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (25, 8, 747, NULL, 'Lacey sets her Elite Trial here.'),
   -- 9: BB Elite Four Lacey (milestone)
   (25, 9, NULL, 250004, NULL),
-  -- 10: Polar Biome
-  (25, 10, 776, NULL, 'Drayton sets his Elite Trial here.'),
-  -- 11: BB Elite Four Drayton (milestone)
-  (25, 11, NULL, 250005, NULL),
-  -- 12: League Club Room
-  (25, 12, 797, NULL, 'With the four beaten, you can challenge the Champion.'),
-  -- 13: BB Champion Kieran (milestone)
-  (25, 13, NULL, 250006, NULL),
-  -- 14: Blueberry Academy
-  (25, 14, 974, NULL, 'Briar has leave to enter Area Zero and asks you, Carmine and Kieran along. Geeta and Rika come by with an old researcher''s artifact, the Indigo Disk.'),
-  -- 15: Area Zero
-  (25, 15, 739, NULL, 'Back in the Great Crater of Paldea, go down to the Zero Lab.'),
-  -- 16: Zero Lab
-  (25, 16, 795, NULL, 'The Indigo Disk sends the lab''s lift further down than the time machine room.'),
-  -- 17: Terapagos (milestone)
-  (25, 17, NULL, 250008, NULL),
-  -- 18: Mossui Town
-  (25, 18, 765, NULL, 'After the story, fly back to Kitakami. A decoration has turned up at Peachy''s, the shop in Mossui Town.'),
-  -- 19: Mochi Mayhem (milestone)
-  (25, 19, NULL, 250009, NULL),
-  -- 20: Coastal Biome
-  (25, 20, 747, NULL, 'Back in the Terarium, a leaf cyclone turns east of the Coastal Outdoor Classroom.'),
-  -- 21: Coastal Biome (milestone)
-  (25, 21, NULL, 250010, NULL),
-  -- 22: Area Zero
-  (25, 22, 739, NULL, 'Perrin has photos of Pokémon nobody has recorded. She shares them once your Blueberry Pokédex has 200 entries.'),
-  -- 23: Perrin's Paradox Photos (milestone)
-  (25, 23, NULL, 250011, NULL),
-  -- 24: Blueberry Academy
-  (25, 24, 974, NULL, 'Snacksworth, by the entrance, hands out treats for finishing Blueberry Quests.'),
-  -- 25: Snacksworth's Legendary Treats (milestone)
-  (25, 25, NULL, 250012, NULL);
+  -- 10: Torchlit Labyrinth
+  (25, 10, 788, NULL, 'A side trip into the cavern under the Coastal Biome.'),
+  -- 11: Polar Biome
+  (25, 11, 776, NULL, 'Drayton sets his Elite Trial here.'),
+  -- 12: BB Elite Four Drayton (milestone)
+  (25, 12, NULL, 250005, NULL),
+  -- 13: Chargestone Cavern
+  (25, 13, 745, NULL, 'A side trip into the cavern under the Polar and Canyon Biomes, full of blue charged rocks.'),
+  -- 14: League Club Room
+  (25, 14, 797, NULL, 'With the four beaten, you can challenge the Champion.'),
+  -- 15: BB Champion Kieran (milestone)
+  (25, 15, NULL, 250006, NULL),
+  -- 16: Blueberry Academy
+  (25, 16, 974, NULL, 'Briar has leave to enter Area Zero and asks you, Carmine and Kieran along. Geeta and Rika come by with an old researcher''s artifact, the Indigo Disk.'),
+  -- 17: Area Zero
+  (25, 17, 739, NULL, 'Back in the Great Crater of Paldea, go down to the Zero Lab.'),
+  -- 18: Zero Lab
+  (25, 18, 795, NULL, 'The Indigo Disk sends the lab''s lift further down than the time machine room.'),
+  -- 19: Terapagos (milestone)
+  (25, 19, NULL, 250008, NULL),
+  -- 20: Mossui Town
+  (25, 20, 765, NULL, 'After the story, fly back to Kitakami. A decoration has turned up at Peachy''s, the shop in Mossui Town.'),
+  -- 21: Mochi Mayhem (milestone)
+  (25, 21, NULL, 250009, NULL),
+  -- 22: Coastal Biome
+  (25, 22, 747, NULL, 'Back in the Terarium, a leaf cyclone turns east of the Coastal Outdoor Classroom.'),
+  -- 23: Coastal Biome (milestone)
+  (25, 23, NULL, 250010, NULL),
+  -- 24: Area Zero
+  (25, 24, 739, NULL, 'Perrin has photos of Pokémon nobody has recorded. She shares them once your Blueberry Pokédex has 200 entries.'),
+  -- 25: Perrin's Paradox Photos (milestone)
+  (25, 25, NULL, 250011, NULL),
+  -- 26: Blueberry Academy
+  (25, 26, 974, NULL, 'Snacksworth, by the entrance, hands out treats for finishing Blueberry Quests.'),
+  -- 27: Snacksworth's Legendary Treats (milestone)
+  (25, 27, NULL, 250012, NULL);

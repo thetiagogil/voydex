@@ -43,7 +43,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 24 $$, $$
-            VALUES (27, 18, 9) $$, 'The Teal Mask''s roadmap has 27 steps: 18 places and its 9 milestones');
+            VALUES (32, 23, 9) $$, 'The Teal Mask''s roadmap has 32 steps: 23 places and its 9 milestones');
 SELECT
     *
 FROM
