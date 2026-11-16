@@ -416,4 +416,32 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Griselle, Reach Rank A 4: Metagross Lv. 60
   (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 4, 376, 37600, 60, NULL, NULL, FALSE),
   -- Griselle, Reach Rank A 5: Mega Pyroar Lv. 61
-  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 5, 668, 66801, 61, 477, NULL, FALSE);
+  (260021, 26039, 26, NULL, NULL, NULL, NULL, NULL, 5, 668, 66801, 61, 477, NULL, FALSE),
+  -- Rogue Mega Gengar, Stop the Ange Crisis 1: Mega Gengar Lv. 62
+  (260008, 26040, 26, NULL, NULL, NULL, NULL, NULL, 1, 94, 9401, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Heracross, Stop the Ange Crisis 1: Mega Heracross Lv. 62
+  (260008, 26041, 26, NULL, NULL, NULL, NULL, NULL, 1, 214, 21401, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Kangaskhan, Stop the Ange Crisis 1: Mega Kangaskhan Lv. 62
+  (260008, 26042, 26, NULL, NULL, NULL, NULL, NULL, 1, 115, 11501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Pidgeot, Stop the Ange Crisis 1: Mega Pidgeot Lv. 62
+  (260008, 26043, 26, NULL, NULL, NULL, NULL, NULL, 1, 18, 1801, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Garchomp, Stop the Ange Crisis 1: Mega Garchomp Lv. 62
+  (260008, 26044, 26, NULL, NULL, NULL, NULL, NULL, 1, 445, 44501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Blastoise, Stop the Ange Crisis 1: Mega Blastoise Lv. 62
+  (260008, 26045, 26, NULL, NULL, NULL, NULL, NULL, 1, 9, 901, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Steelix, Stop the Ange Crisis 1: Mega Steelix Lv. 62
+  (260008, 26046, 26, NULL, NULL, NULL, NULL, NULL, 1, 208, 20801, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Aggron, Stop the Ange Crisis 1: Mega Aggron Lv. 62
+  (260008, 26047, 26, NULL, NULL, NULL, NULL, NULL, 1, 306, 30601, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Salamence, Stop the Ange Crisis 1: Mega Salamence Lv. 62
+  (260008, 26048, 26, NULL, NULL, NULL, NULL, NULL, 1, 373, 37301, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Gardevoir, Stop the Ange Crisis 1: Mega Gardevoir Lv. 62
+  (260008, 26049, 26, NULL, NULL, NULL, NULL, NULL, 1, 282, 28201, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Gallade, Stop the Ange Crisis 1: Mega Gallade Lv. 62
+  (260008, 26050, 26, NULL, NULL, NULL, NULL, NULL, 1, 475, 47501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Alakazam, Stop the Ange Crisis 1: Mega Alakazam Lv. 62
+  (260008, 26051, 26, NULL, NULL, NULL, NULL, NULL, 1, 65, 6501, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Aerodactyl, Stop the Ange Crisis 1: Mega Aerodactyl Lv. 62
+  (260008, 26052, 26, NULL, NULL, NULL, NULL, NULL, 1, 142, 14201, 62, NULL, NULL, FALSE),
+  -- Rogue Mega Metagross, Stop the Ange Crisis 1: Mega Metagross Lv. 62
+  (260008, 26053, 26, NULL, NULL, NULL, NULL, NULL, 1, 376, 37601, 62, NULL, NULL, FALSE);

@@ -152,4 +152,32 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Reach Rank A -> Emma
   (260021, 26034, 26, 'battle-opponent', 1, 'She tells you what she knows about Grisham if you win. Her Malamar Mega Evolves.', 985),
   -- Reach Rank A -> Griselle
-  (260021, 26039, 26, 'battle-opponent', 2, 'Outside Lysandre Café, before you go in. Her Pyroar Mega Evolves.', NULL);
+  (260021, 26039, 26, 'battle-opponent', 2, 'Outside Lysandre Café, before you go in. Her Pyroar Mega Evolves.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Gengar
+  (260008, 26040, 26, 'battle-opponent', 2, 'On Vernal Avenue, with Lida and Naveen fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Heracross
+  (260008, 26041, 26, 'battle-opponent', 3, 'On Vernal Avenue, with Lida and Naveen fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Kangaskhan
+  (260008, 26042, 26, 'battle-opponent', 4, 'On Vert Street, with Ivor and Gwynn fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Pidgeot
+  (260008, 26043, 26, 'battle-opponent', 5, 'On Vert Street, with Ivor and Gwynn fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Garchomp
+  (260008, 26044, 26, 'battle-opponent', 6, 'On Vert Street, with Ivor and Gwynn fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Blastoise
+  (260008, 26045, 26, 'battle-opponent', 7, 'On Jaune Street, with Canari fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Steelix
+  (260008, 26046, 26, 'battle-opponent', 8, 'On Jaune Street, with Canari fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Aggron
+  (260008, 26047, 26, 'battle-opponent', 9, 'In Jaune Sector 3, with Lebanne fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Salamence
+  (260008, 26048, 26, 'battle-opponent', 10, 'In Jaune Sector 3, with Lebanne fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Gardevoir
+  (260008, 26049, 26, 'battle-opponent', 11, 'At the Galerie de la Lune, with Corbeau fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Gallade
+  (260008, 26050, 26, 'battle-opponent', 12, 'At the Galerie de la Lune, with Corbeau fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Alakazam
+  (260008, 26051, 26, 'battle-opponent', 13, 'In Magenta Sector 2, with Griselle and Grisham fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Aerodactyl
+  (260008, 26052, 26, 'battle-opponent', 14, 'In Magenta Sector 2, with Griselle and Grisham fighting beside you.', NULL),
+  -- Stop the Ange Crisis -> Rogue Mega Metagross
+  (260008, 26053, 26, 'battle-opponent', 15, 'In Magenta Sector 2, with Griselle and Grisham fighting beside you.', NULL);

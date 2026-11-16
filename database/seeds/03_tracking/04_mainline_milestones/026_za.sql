@@ -84,7 +84,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Reach Rank A (Lysandre Labs)
   (260021, 26, NULL, 2601, 14, 2, NULL, 'reach-rank-a', 'Reach Rank A', 'Follow Grisham and Griselle into Lysandre Labs under Lysandre Café, where L explains Ange and the ultimate weapon. Then beat Grisham of Team Flare Nouveau in his promotion match.', 28, true, 910),
   -- Stop the Ange Crisis (Centrico Plaza)
-  (260008, 26, NULL, 2601, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Prism Tower goes rogue. Beat Taunie or Urbain at Centrico Plaza to decide who climbs it, then stop Ange with Zygarde before it fires on the city.', 29, true, 984),
+  (260008, 26, NULL, 2601, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Prism Tower goes rogue. Beat Taunie or Urbain at Centrico Plaza to decide who climbs it. Then cross the city to Zygarde, calming the Rogue Mega Evolutions in your way with the help of Lumiose''s teams, and stop Ange with Zygarde before it fires on the city.', 29, true, 984),
   -- Infinite Z-A Royale (Centrico Plaza)
   (260009, 26, NULL, 2605, 1, 1, NULL, 'infinite-za-royale', 'Infinite Z-A Royale', 'After the credits, tell Vinnie your wish at Centrico Plaza. The Z-A Royale opens again with no last rank.', 1, false, 984),
   -- The One That Gives (Wild Zone 11)

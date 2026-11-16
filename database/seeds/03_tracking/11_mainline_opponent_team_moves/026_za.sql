@@ -388,7 +388,35 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Griselle: Metagross Lv. 60: Bullet Punch, Psycho Cut, Brutal Swing, Ice Punch
     (260021, 26039, NULL, NULL, NULL, NULL, 4, ARRAY[418, 427, 693, 8]),
     -- Griselle: Mega Pyroar Lv. 61: Flamethrower, Earth Power, Hyper Voice, Snarl
-    (260021, 26039, NULL, NULL, NULL, NULL, 5, ARRAY[53, 414, 304, 555])
+    (260021, 26039, NULL, NULL, NULL, NULL, 5, ARRAY[53, 414, 304, 555]),
+    -- Rogue Mega Gengar: Mega Gengar Lv. 62: Phantom Force, Dark Pulse, Sludge Wave, Icy Wind
+    (260008, 26040, NULL, NULL, NULL, NULL, 1, ARRAY[566, 399, 482, 196]),
+    -- Rogue Mega Heracross: Mega Heracross Lv. 62: Pin Missile, Rock Blast, Close Combat, Megahorn
+    (260008, 26041, NULL, NULL, NULL, NULL, 1, ARRAY[42, 350, 370, 224]),
+    -- Rogue Mega Kangaskhan: Mega Kangaskhan Lv. 62: Dynamic Punch, Take Down, Outrage, Crunch
+    (260008, 26042, NULL, NULL, NULL, NULL, 1, ARRAY[223, 36, 200, 242]),
+    -- Rogue Mega Pidgeot: Mega Pidgeot Lv. 62: Brave Bird, Twister, Hurricane, Quick Attack
+    (260008, 26043, NULL, NULL, NULL, NULL, 1, ARRAY[413, 239, 542, 98]),
+    -- Rogue Mega Garchomp: Mega Garchomp Lv. 62: Dragon Claw, Dig, Dragon Rush, Crunch
+    (260008, 26044, NULL, NULL, NULL, NULL, 1, ARRAY[337, 91, 407, 242]),
+    -- Rogue Mega Blastoise: Mega Blastoise Lv. 62: Flash Cannon, Hydro Pump, Liquidation, Bite
+    (260008, 26045, NULL, NULL, NULL, NULL, 1, ARRAY[430, 56, 710, 44]),
+    -- Rogue Mega Steelix: Mega Steelix Lv. 62: Iron Tail, Breaking Swipe, Stone Edge, Dig
+    (260008, 26046, NULL, NULL, NULL, NULL, 1, ARRAY[231, 784, 444, 91]),
+    -- Rogue Mega Aggron: Mega Aggron Lv. 62: Rock Slide, Rock Tomb, Heavy Slam, Iron Head
+    (260008, 26047, NULL, NULL, NULL, NULL, 1, ARRAY[157, 317, 484, 442]),
+    -- Rogue Mega Salamence: Mega Salamence Lv. 62: Outrage, Air Slash, Flamethrower, Zen Headbutt
+    (260008, 26048, NULL, NULL, NULL, NULL, 1, ARRAY[200, 403, 53, 428]),
+    -- Rogue Mega Gardevoir: Mega Gardevoir Lv. 62: Moonblast, Psychic, Mystical Fire, Magical Leaf
+    (260008, 26049, NULL, NULL, NULL, NULL, 1, ARRAY[585, 94, 595, 345]),
+    -- Rogue Mega Gallade: Mega Gallade Lv. 62: Psycho Cut, Psybeam, Close Combat, Leaf Blade
+    (260008, 26050, NULL, NULL, NULL, NULL, 1, ARRAY[427, 60, 370, 348]),
+    -- Rogue Mega Alakazam: Mega Alakazam Lv. 62: Calm Mind, Reflect, Psychic, Future Sight
+    (260008, 26051, NULL, NULL, NULL, NULL, 1, ARRAY[347, 115, 94, 248]),
+    -- Rogue Mega Aerodactyl: Mega Aerodactyl Lv. 62: Crunch, Iron Head, Giga Impact, Stone Edge
+    (260008, 26052, NULL, NULL, NULL, NULL, 1, ARRAY[242, 442, 416, 444]),
+    -- Rogue Mega Metagross: Mega Metagross Lv. 62: Iron Head, Hyper Beam, Brutal Swing, Psychic
+    (260008, 26053, NULL, NULL, NULL, NULL, 1, ARRAY[442, 63, 693, 94])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT
