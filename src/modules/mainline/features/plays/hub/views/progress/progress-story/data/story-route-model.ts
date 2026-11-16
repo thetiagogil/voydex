@@ -70,6 +70,16 @@ const isSideContent = (section: StorySection) =>
   section.chapterKind === "side-content";
 
 /* Required milestones recorded, or all of them where none is required. */
+/*
+ * The roadmap steps a Play walks: every shared step, plus the steps of a place
+ * found only in the Play's own game (Ruby's Team Magma Hideout, not
+ * Sapphire's Team Aqua Hideout).
+ */
+export const getStoryStepsForGame = <Step extends { game_id: number | null }>(
+  steps: Step[],
+  gameId: number | null,
+) => steps.filter((step) => step.game_id === null || step.game_id === gameId);
+
 export const formatStoryCount = (sections: StorySection[]) => {
   const total = sections.reduce((sum, section) => sum + section.totalCount, 0);
   const milestones = sections.flatMap((section) => section.milestones);

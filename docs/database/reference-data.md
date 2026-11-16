@@ -373,7 +373,13 @@ sources remain authoritative for game-specific mechanics and availability.
     (`615_story_battle_places.sql`).
   - Main Story follows the walkthrough's order. Only what the game forces is
     required; optional beats sit where the story meets them (or right after
-    the beat that opens them) and get no route of their own.
+    the beat that opens them).
+  - The route walks every place the game offers, optional or not. A side
+    place sits where the game opens it, its note starts "A side trip" and the
+    last note of the trip says the way back. A place found in only one game
+    of the pair is a step with that game (`game_id`). Places that move
+    around or change daily (Mirage spots, Hyperspace Wild Zones, the Grand
+    Underground's hideaways) are one optional milestone each.
   - The Pokémon League is one milestone that closes Main Story (Champion
     type, snapshot recommended), with the last rival battle, the Elite Four
     and the Champion as its battles. There is no League chapter and no

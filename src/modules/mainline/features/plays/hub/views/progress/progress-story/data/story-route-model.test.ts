@@ -6,7 +6,11 @@ import type {
   StoryScope,
   StorySection,
 } from "../types";
-import { buildStoryRoute, formatStoryCount } from "./story-route-model";
+import {
+  buildStoryRoute,
+  formatStoryCount,
+  getStoryStepsForGame,
+} from "./story-route-model";
 
 const milestone = (
   id: number,
@@ -363,5 +367,25 @@ describe("formatStoryCount", () => {
         ]),
       ]),
     ).toBe("1 of 2");
+  });
+});
+
+describe("getStoryStepsForGame", () => {
+  const steps = [
+    { game_id: null, id: 1 },
+    { game_id: 7, id: 2 },
+    { game_id: 8, id: 3 },
+  ];
+
+  it("keeps the shared steps and the Play's own game's steps", () => {
+    expect(getStoryStepsForGame(steps, 7).map((step) => step.id)).toEqual([
+      1, 2,
+    ]);
+  });
+
+  it("keeps only the shared steps when the Play has no game", () => {
+    expect(getStoryStepsForGame(steps, null).map((step) => step.id)).toEqual([
+      1,
+    ]);
   });
 });

@@ -7,7 +7,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (5);
+    plan (6);
 SELECT
     results_eq ($$
         SELECT
@@ -62,7 +62,17 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 5 $$, $$
-            VALUES (118, 94, 24) $$, 'Ruby / Sapphire''s roadmap has 118 steps: 94 places and its 24 milestones');
+            VALUES (120, 96, 24) $$, 'Ruby / Sapphire''s roadmap has 120 steps: 96 places and its 24 milestones');
+-- A hideout found in only one game is a step of that game alone.
+SELECT
+    results_eq ($$
+        SELECT
+            locations.name, games.slug FROM tracking.mainline_roadmap_steps
+            JOIN reference.locations ON locations.id = mainline_roadmap_steps.location_id
+            JOIN reference.games ON games.id = mainline_roadmap_steps.game_id
+            WHERE
+                mainline_roadmap_steps.version_group_id = 5 ORDER BY mainline_roadmap_steps.sort_order $$, $$
+            VALUES ('Team Magma Hideout'::text, 'ruby'::text), ('Team Aqua Hideout', 'sapphire') $$, 'Ruby / Sapphire''s two hideouts are each a step of their own game');
 SELECT
     *
 FROM

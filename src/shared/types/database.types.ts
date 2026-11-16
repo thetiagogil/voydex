@@ -5370,6 +5370,7 @@ export type Database = {
       mainline_roadmap_steps: {
         Row: {
           created_at: string;
+          game_id: number | null;
           id: number;
           location_id: number | null;
           milestone_id: number | null;
@@ -5380,6 +5381,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          game_id?: number | null;
           id?: never;
           location_id?: number | null;
           milestone_id?: number | null;
@@ -5389,6 +5391,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          game_id?: number | null;
           id?: never;
           location_id?: number | null;
           milestone_id?: number | null;

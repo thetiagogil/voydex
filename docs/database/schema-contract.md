@@ -64,8 +64,10 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   places) or a milestone (`milestone_id`, of the same version group, which
   carries its own place), never both. Places may repeat for revisits; a
   milestone appears once, and a version group with a roadmap lists every one
-  of its milestones. Signed-in read only, like the other Story tables. Red /
-  Blue has one so far.
+  of its milestones. A place found in only one game of the version group
+  (Ruby's Team Magma Hideout, Sun's Lake of the Moone) names that game in
+  `game_id`, and a Play of the other game skips the step. Signed-in read
+  only, like the other Story tables.
 - An opponent's team in a Story battle and the team of an ally fighting
   beside the player there share `tracking.mainline_opponent_team_members`:
   an ally's rows name it in `ally_opponent_id` (an opponent of the same

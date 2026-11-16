@@ -4,6 +4,7 @@ import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import { getStoryStepsForGame } from "../data/story-route-model";
 import {
   getRuledOutDecisionFormIds,
   groupStoryPlacePokemon,
@@ -202,7 +203,7 @@ export const readMainlinePlayStoryProgress = async (
             .schema("tracking")
             .from("mainline_roadmap_steps")
             .select(
-              "id, location_id, milestone_id, note, sort_order, version_group_id",
+              "game_id, id, location_id, milestone_id, note, sort_order, version_group_id",
             )
             .in("version_group_id", versionGroupIds)
             .order("sort_order", { ascending: true })
@@ -221,7 +222,8 @@ export const readMainlinePlayStoryProgress = async (
     throw new Error("Unable to load Mainline Story roadmap.");
   }
 
-  const steps = stepsResult.data ?? [];
+  const gameId = playResult.data?.game_id ?? null;
+  const steps = getStoryStepsForGame(stepsResult.data ?? [], gameId);
   const locationIds = uniqueNumberIds(steps.map((step) => step.location_id));
   const [locationsResult, placePokemon] = await Promise.all([
     locationIds.length
@@ -233,7 +235,7 @@ export const readMainlinePlayStoryProgress = async (
       : { data: [], error: null },
     readStoryPlacePokemon(
       supabase,
-      playResult.data?.game_id ?? null,
+      gameId,
       versionGroupIds,
       locationIds,
       getRuledOutDecisionFormIds(milestones),

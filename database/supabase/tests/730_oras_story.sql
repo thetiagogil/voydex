@@ -61,7 +61,7 @@ SELECT
             COUNT(*)::integer, COUNT(location_id)::integer, COUNT(milestone_id)::integer FROM tracking.mainline_roadmap_steps
             WHERE
                 version_group_id = 14 $$, $$
-            VALUES (127, 91, 36) $$, 'Omega Ruby / Alpha Sapphire''s roadmap has 127 steps: 91 places and its 36 milestones');
+            VALUES (129, 93, 36) $$, 'Omega Ruby / Alpha Sapphire''s roadmap has 129 steps: 93 places and its 36 milestones');
 SELECT
     *
 FROM
