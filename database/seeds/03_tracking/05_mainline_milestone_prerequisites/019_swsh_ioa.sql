@@ -18,12 +18,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   sort_order,
   notes
 ) VALUES
+  -- Choose Dojo Starter opens after Arrive at the Isle of Armor
+  (190003, 190001, 19, 4, 1, 'Passing the first of Mustard''s three trials is enough.'),
   -- Dojo Trials <- Arrive at the Isle of Armor
   (190002, 190001, 19, 1, 1, NULL),
-  -- Choose Dojo Starter <- Dojo Trials
-  (190003, 190002, 19, 1, 1, NULL),
-  -- Tower Choice <- Choose Dojo Starter
-  (190005, 190003, 19, 1, 1, NULL),
+  -- Tower Choice <- Dojo Trials
+  (190005, 190002, 19, 1, 1, NULL),
   -- Tower of Two Fists <- Tower Choice
   (190006, 190005, 19, 1, 1, NULL),
   -- Final Mustard Battle <- Tower of Two Fists

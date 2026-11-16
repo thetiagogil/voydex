@@ -80,7 +80,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 27: Mallow Trial (milestone)
   (16, 27, NULL, 160007, NULL),
   -- 28: Diglett's Tunnel
-  (16, 28, 510, NULL, 'Olivia has asked you to Konikoni City. Team Skull Grunts are making trouble in the tunnel on the way.'),
+  (16, 28, 510, NULL, 'Ride Charizard back to Heahea City. Olivia has asked you to Konikoni City. Team Skull Grunts are making trouble in the tunnel on the way.'),
   -- 29: Route 9
   (16, 29, 559, NULL, 'A short road into Konikoni City.'),
   -- 30: Konikoni City
@@ -92,11 +92,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 33: Grand Trial Olivia (milestone)
   (16, 33, NULL, 160008, NULL),
   -- 34: Heahea City
-  (16, 34, 923, NULL, 'Professor Kukui wants you at the Hano Grand Resort, where Faba of the Aether Foundation offers you a visit to Aether Paradise.'),
+  (16, 34, 923, NULL, 'Ride Charizard back to Heahea City. Professor Kukui wants you at the Hano Grand Resort, where Faba of the Aether Foundation offers you a visit to Aether Paradise.'),
   -- 35: Aether Paradise Visit (milestone)
   (16, 35, NULL, 160034, NULL),
   -- 36: Malie City
-  (16, 36, 525, NULL, 'Ula''ula''s port, built like a town from Johto. Hau battles you when you land. The library and Malie Garden are here.'),
+  (16, 36, 525, NULL, 'Ula''ula''s port, built like a town from Johto. The boat from Aether Paradise lands here, and Hau battles you. The library and Malie Garden are here.'),
   -- 37: Malie Garden
   (16, 37, 526, NULL, 'Professor Kukui is being heckled by Team Skull at the far end. Guzma, their boss, turns on you.'),
   -- 38: Route 10
@@ -122,7 +122,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 48: Po Town (milestone)
   (16, 48, NULL, 160035, NULL),
   -- 49: Aether House
-  (16, 49, 504, NULL, 'Team Skull took Lillie and Nebby while you were gone. Gladion blames you and battles you. After Episode RR, an Aether worker here gives you a Porygon.'),
+  (16, 49, 504, NULL, 'Back at the house, Team Skull has taken Lillie and Nebby. Gladion blames you and battles you. After Episode RR, an Aether worker here gives you a Porygon.'),
   -- 50: Grand Trial Nanu (milestone)
   (16, 50, NULL, 160011, NULL),
   -- 51: Malie City
@@ -138,7 +138,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 56: Poni Breaker Coast
   (16, 56, 535, NULL, 'At the Ruins of Hope beyond, Tapu Fini accepts Hapu as kahuna. She sends you to Exeggutor Island for a flute.'),
   -- 57: Exeggutor Island
-  (16, 57, 512, NULL, 'One of the two flutes you need rests on a stand at the top of the island.'),
+  (16, 57, 512, NULL, 'Back in Seafolk Village, the chief sails you to the island. One of the two flutes you need rests on a stand at the top of the island.'),
   -- 58: Vast Poni Canyon Trial (milestone)
   (16, 58, NULL, 160013, NULL),
   -- 59: Ultra Necrozma (milestone)

@@ -55,11 +55,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 17: Terapagos (milestone)
   (25, 17, NULL, 250008, NULL),
   -- 18: Mossui Town
-  (25, 18, 765, NULL, 'After the story, a decoration has turned up at Peachy''s, the shop in town.'),
+  (25, 18, 765, NULL, 'After the story, fly back to Kitakami. A decoration has turned up at Peachy''s, the shop in Mossui Town.'),
   -- 19: Mochi Mayhem (milestone)
   (25, 19, NULL, 250009, NULL),
   -- 20: Coastal Biome
-  (25, 20, 747, NULL, 'A leaf cyclone turns east of the Coastal Outdoor Classroom.'),
+  (25, 20, 747, NULL, 'Back in the Terarium, a leaf cyclone turns east of the Coastal Outdoor Classroom.'),
   -- 21: Coastal Biome (milestone)
   (25, 21, NULL, 250010, NULL),
   -- 22: Area Zero

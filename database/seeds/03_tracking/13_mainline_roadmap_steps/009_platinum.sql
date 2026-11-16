@@ -151,11 +151,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 62: Route 212
   (9, 62, 300, NULL, 'The road from Pastoria City to Hearthome City. Its south half is a swamp in the rain, and the Pokémon Mansion stands in its north half.'),
   -- 63: Route 210
-  (9, 63, 298, NULL, 'Use the SecretPotion on the Psyduck and they clear off. Cynthia asks you to take an Old Charm to her grandmother in Celestic Town. The road north is thick with fog, which Defog clears.'),
+  (9, 63, 298, NULL, 'Back north through Hearthome City and Solaceon Town. Use the SecretPotion on the Psyduck and they clear off. Cynthia asks you to take an Old Charm to her grandmother in Celestic Town. The road north is thick with fog, which Defog clears.'),
   -- 64: Celestic Town (milestone)
   (9, 64, NULL, 90017, NULL),
   -- 65: Jubilife City
-  (9, 65, 859, NULL, 'With Surf, head west from Jubilife City for Canalave City.'),
+  (9, 65, 859, NULL, 'With Surf, fly to Jubilife City and head west for Canalave City.'),
   -- 66: Route 218
   (9, 66, 306, NULL, 'West of Jubilife City. Surf across to Canalave City.'),
   -- 67: Canalave City
@@ -167,13 +167,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 70: Canalave City
   (9, 70, 257, NULL, 'Barry calls you to the library, where Professor Rowan sends the three of you to the three lakes. An explosion at Lake Valor shakes the city.'),
   -- 71: Valor Lakefront
-  (9, 71, 336, NULL, 'The scientists are gone from the lake''s entrance.'),
+  (9, 71, 336, NULL, 'Fly to Pastoria City and walk east to the lake. The scientists are gone from its entrance.'),
   -- 72: Lake Valor (milestone)
   (9, 72, NULL, 90030, NULL),
   -- 73: Lake Verity (milestone)
   (9, 73, NULL, 90031, NULL),
   -- 74: Route 211
-  (9, 74, 299, NULL, 'West of Celestic Town into Mt. Coronet, on the way to Snowpoint City.'),
+  (9, 74, 299, NULL, 'Fly to Celestic Town. West of it into Mt. Coronet, on the way to Snowpoint City.'),
   -- 75: Mount Coronet
   (9, 75, 277, NULL, 'Cross the north of the mountain and come out in the snow of Route 216.'),
   -- 76: Route 216
@@ -189,11 +189,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 81: Lake Acuity
   (9, 81, 272, NULL, 'The Grunts have left the lakefront. Barry has just lost to Commander Jupiter, who leaves for Veilstone City.'),
   -- 82: Veilstone City
-  (9, 82, 337, NULL, 'A lone Grunt outside the headquarters runs off when you ask about a key. Looker has the Storage Key and opens the warehouse next door, which leads into the building.'),
+  (9, 82, 337, NULL, 'Fly to Veilstone City. A lone Grunt outside the headquarters runs off when you ask about a key. Looker has the Storage Key and opens the warehouse next door, which leads into the building.'),
   -- 83: Team Galactic HQ (milestone)
   (9, 83, NULL, 90018, NULL),
   -- 84: Mount Coronet
-  (9, 84, 277, NULL, 'Go in from Route 207 or Route 208 and climb with Surf, Strength, Rock Smash and Rock Climb. Team Galactic Grunts guard the way up to the Spear Pillar.'),
+  (9, 84, 277, NULL, 'Fly to Oreburgh City or Hearthome City. Go in from Route 207 or Route 208 and climb with Surf, Strength, Rock Smash and Rock Climb. Team Galactic Grunts guard the way up to the Spear Pillar.'),
   -- 85: Spear Pillar
   (9, 85, 870, NULL, 'Mars and Jupiter turn on you, and Barry jumps in to fight beside you. Cyrus calls up Dialga and Palkia with the Red Chain, then a shadow rises from the floor and pulls him under. Cynthia arrives and goes into the portal with you.'),
   -- 86: Distortion World (milestone)
@@ -203,7 +203,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 88: Sandgem Town
   (9, 88, 857, NULL, 'Professor Rowan and his assistant are glad to see you back. He tells you the lake Pokémon have gone home.'),
   -- 89: Route 222
-  (9, 89, 310, NULL, 'A beach road east from Valor Lakefront to Sunyshore City.'),
+  (9, 89, 310, NULL, 'Fly to Pastoria City and cross Valor Lakefront. A beach road runs east from there to Sunyshore City.'),
   -- 90: Sunyshore City
   (9, 90, 329, NULL, 'A city of solar-panel walkways. Flint of the Elite Four asks you to fire up Volkner, the Gym Leader, who is brooding at the top of Vista Lighthouse. His Gym uses Electric types. After you win, Jasmine gives you HM07 Waterfall on the beach.'),
   -- 91: Beacon Badge (milestone)

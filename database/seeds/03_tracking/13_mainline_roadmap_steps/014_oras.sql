@@ -48,7 +48,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 10: Receive Pokédex (milestone)
   (14, 10, NULL, 140002, NULL),
   -- 11: Route 101
-  (14, 11, 201, NULL, 'Your rival catches up with you on the way north and hands you the DexNav from the professor.'),
+  (14, 11, 201, NULL, 'Your rival catches up with you on the way north and hands you the DexNav from the professor. After the credits, Professor Birch waits on this route with a Johto starter for you, then an Unova one after the Delta Episode and a Sinnoh one after your second Hall of Fame.'),
   -- 12: Oldale Town
   (14, 12, 832, NULL, 'The man has finished his sketch, so the road west is open. The footprints were his own.'),
   -- 13: Route 102
@@ -138,7 +138,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 55: Jagged Pass
   (14, 55, 155, NULL, 'The rough path down the south side of Mt. Chimney to Lavaridge Town. Going back up needs the Acro Bike.'),
   -- 56: Lavaridge Town
-  (14, 56, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you a Wynaut Egg, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
+  (14, 56, 156, NULL, 'A hot spring town. Flannery''s Gym uses Fire types. An old woman by the hot spring gives you a Wynaut Egg, and a Togepi Egg once the weather crisis is over, and the old man in the Herb Shop a piece of Charcoal. After you win, your rival meets you outside with the Go-Goggles.'),
   -- 57: Heat Badge (milestone)
   (14, 57, NULL, 140007, NULL),
   -- 58: Route 111
@@ -173,87 +173,89 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (14, 72, 221, NULL, 'Grunts at the top of the stairs leave for Mt. Pyre. The Safari Zone''s gate is on this road.'),
   -- 73: Safari Zone
   (14, 73, 237, NULL, 'Free to enter in these games, with no Safari Balls and no step limit. Some of its areas need the Mach Bike or the Acro Bike.'),
-  -- 74: Route 122
-  (14, 74, 222, NULL, 'A short stretch of sea around Mt. Pyre.'),
-  -- 75: Mt. Pyre (milestone)
-  (14, 75, NULL, 140039, NULL),
-  -- 76: Route 123
-  (14, 76, 223, NULL, 'West of Mt. Pyre, back toward Mauville City. The Berry Master''s house hands out rare Berries every day.'),
-  -- 77: Slateport City
-  (14, 77, 244, NULL, 'Captain Stern is being interviewed outside the harbour about an undersea cavern on Route 128. Maxie in Omega Ruby or Archie in Alpha Sapphire takes his submarine and leaves for Lilycove City.'),
-  -- 78: Lilycove City
-  (14, 78, 157, NULL, 'A big port with Hoenn''s Department Store, an art museum and the Master Rank Contest Hall. Grunts are all over town and one blocks the sea to the east. Your rival waits in front of the Department Store. The Move Deleter lives here.'),
-  -- 79: Team Magma or Aqua Hideout (milestone)
-  (14, 79, NULL, 140040, NULL),
-  -- 80: Route 124
-  (14, 80, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
-  -- 81: Mossdeep City
-  (14, 81, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south. After the Delta Episode, a Beldum waits in Steven''s house.'),
-  -- 82: Mind Badge (milestone)
-  (14, 82, NULL, 140010, NULL),
-  -- 83: Route 127
-  (14, 83, 227, NULL, 'South of Mossdeep City by sea.'),
-  -- 84: Route 128
-  (14, 84, 228, NULL, 'Dive at the dark patch of water to find the Seafloor Cavern, where the stolen submarine sits.'),
-  -- 85: Seafloor Cavern (milestone)
-  (14, 85, NULL, 140020, NULL),
-  -- 86: Route 128
-  (14, 86, 228, NULL, 'Back on the surface the weather has gone wild. Steven tells you to meet him in Sootopolis City.'),
-  -- 87: Route 126
-  (14, 87, 226, NULL, 'Sootopolis City sits inside a crater in this sea. Dive under it to find the way in.'),
-  -- 88: Sootopolis City
-  (14, 88, 246, NULL, 'A city in a crater, reached only by sea or sky. Everyone has shut themselves in. Wallace leads you and Steven to the Cave of Origin, where Maxie, Archie and their Admins hand you the Magma Suit in Omega Ruby or the Aqua Suit in Alpha Sapphire.'),
-  -- 89: Cave of Origin (milestone)
-  (14, 89, NULL, 140033, NULL),
-  -- 90: Sootopolis City
-  (14, 90, 246, NULL, 'With the weather calm, Steven gives you the Eon Flute, which calls Latias or Latios to fly you over Hoenn. The Gym on the island is open, and Wallace uses Water types.'),
-  -- 91: Rain Badge (milestone)
-  (14, 91, NULL, 140011, NULL),
-  -- 92: Route 129
-  (14, 92, 229, NULL, 'Open sea south of Route 128, heading west.'),
-  -- 93: Route 130
-  (14, 93, 230, NULL, 'Open sea, heading west.'),
-  -- 94: Route 131
-  (14, 94, 231, NULL, 'The Sky Pillar rises from an island here. Pacifidlog Town floats at the west end.'),
-  -- 95: Pacifidlog Town
-  (14, 95, 198, NULL, 'A town on rafts over a Corsola colony. Its people tell of three Pokémon of rock, ice and steel.'),
-  -- 96: Route 132
-  (14, 96, 232, NULL, 'A fast current carries you west from Pacifidlog Town.'),
-  -- 97: Route 133
-  (14, 97, 233, NULL, 'The current runs on west.'),
-  -- 98: Route 134
-  (14, 98, 234, NULL, 'The last of the currents, ending by Slateport City. A dive spot on the way leads to the Sealed Chamber.'),
-  -- 99: Sealed Chamber (milestone)
-  (14, 99, NULL, 140021, NULL),
-  -- 100: Ever Grande City
-  (14, 100, 150, NULL, 'Climb the waterfall with HM05 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
-  -- 101: Victory Road
-  (14, 101, 252, NULL, 'A long cave with dark lower floors and boulders to push. Wally stops you near the exit for one more battle.'),
-  -- 102: Ever Grande City
-  (14, 102, 150, NULL, 'Past Victory Road, a stone walkway leads to the Pokémon League. Stock up at its Poké Mart. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 103: Pokémon League (milestone)
-  (14, 103, NULL, 140016, NULL),
-  -- 104: Delta Episode (milestone)
-  (14, 104, NULL, 140018, NULL),
-  -- 105: Scorched Slab (milestone)
-  (14, 105, NULL, 140022, NULL),
-  -- 106: Sea Mauville (milestone)
-  (14, 106, NULL, 140023, NULL),
-  -- 107: Crescent Isle (milestone)
-  (14, 107, NULL, 140024, NULL),
-  -- 108: Storm Clouds (milestone)
-  (14, 108, NULL, 140025, NULL),
-  -- 109: Regigigas in Island Cave (milestone)
-  (14, 109, NULL, 140026, NULL),
-  -- 110: Trackless Forest (milestone)
-  (14, 110, NULL, 140027, NULL),
-  -- 111: Nameless Cavern (milestone)
-  (14, 111, NULL, 140028, NULL),
-  -- 112: Dimensional Rift (milestone)
-  (14, 112, NULL, 140029, NULL),
-  -- 113: Pathless Plain (milestone)
-  (14, 113, NULL, 140030, NULL),
-  -- 114: Fabled Cave (milestone)
-  (14, 114, NULL, 140031, NULL),
-  -- 115: Gnarled Den (milestone)
-  (14, 115, NULL, 140032, NULL);
+  -- 74: Lilycove City
+  (14, 74, 157, NULL, 'A big port with Hoenn''s Department Store, an art museum and the Master Rank Contest Hall. The Move Deleter lives here. Route 122 leaves Route 121 just west of town, south to Mt. Pyre.'),
+  -- 75: Route 122
+  (14, 75, 222, NULL, 'A short stretch of sea around Mt. Pyre.'),
+  -- 76: Mt. Pyre (milestone)
+  (14, 76, NULL, 140039, NULL),
+  -- 77: Route 123
+  (14, 77, 223, NULL, 'West of Mt. Pyre, back toward Mauville City. The Berry Master''s house hands out rare Berries every day.'),
+  -- 78: Slateport City
+  (14, 78, 244, NULL, 'Fly to Slateport City. Captain Stern is being interviewed outside the harbour about an undersea cavern on Route 128. Maxie in Omega Ruby or Archie in Alpha Sapphire takes his submarine and leaves for Lilycove City.'),
+  -- 79: Lilycove City
+  (14, 79, 157, NULL, 'Fly back to Lilycove City. Grunts are all over town and one blocks the sea to the east. Your rival waits in front of the Department Store.'),
+  -- 80: Team Magma or Aqua Hideout (milestone)
+  (14, 80, NULL, 140040, NULL),
+  -- 81: Route 124
+  (14, 81, 224, NULL, 'East of Lilycove City by sea. The Treasure Hunter''s house trades Shards for evolution stones.'),
+  -- 82: Mossdeep City
+  (14, 82, 195, NULL, 'An island city with the Space Center. A Fisherman gives you the Super Rod. Tate and Liza''s Gym uses Psychic types. After you win, a pillar of light bursts from the sea to the south. After the Delta Episode, a Beldum waits in Steven''s house.'),
+  -- 83: Mind Badge (milestone)
+  (14, 83, NULL, 140010, NULL),
+  -- 84: Route 127
+  (14, 84, 227, NULL, 'South of Mossdeep City by sea.'),
+  -- 85: Route 128
+  (14, 85, 228, NULL, 'Dive at the dark patch of water to find the Seafloor Cavern, where the stolen submarine sits.'),
+  -- 86: Seafloor Cavern (milestone)
+  (14, 86, NULL, 140020, NULL),
+  -- 87: Route 128
+  (14, 87, 228, NULL, 'Back on the surface the weather has gone wild. Steven tells you to meet him in Sootopolis City.'),
+  -- 88: Route 126
+  (14, 88, 226, NULL, 'Sootopolis City sits inside a crater in this sea. Dive under it to find the way in.'),
+  -- 89: Sootopolis City
+  (14, 89, 246, NULL, 'A city in a crater, reached only by sea or sky. Everyone has shut themselves in. Wallace leads you and Steven to the Cave of Origin, where Maxie, Archie and their Admins hand you the Magma Suit in Omega Ruby or the Aqua Suit in Alpha Sapphire.'),
+  -- 90: Cave of Origin (milestone)
+  (14, 90, NULL, 140033, NULL),
+  -- 91: Sootopolis City
+  (14, 91, 246, NULL, 'With the weather calm, Steven gives you the Eon Flute, which calls Latias or Latios to fly you over Hoenn. The Gym on the island is open, and Wallace uses Water types.'),
+  -- 92: Rain Badge (milestone)
+  (14, 92, NULL, 140011, NULL),
+  -- 93: Route 129
+  (14, 93, 229, NULL, 'Dive back out of Sootopolis City and Surf to Route 128. This is the open sea south of it, heading west.'),
+  -- 94: Route 130
+  (14, 94, 230, NULL, 'Open sea, heading west.'),
+  -- 95: Route 131
+  (14, 95, 231, NULL, 'The Sky Pillar rises from an island here. Pacifidlog Town floats at the west end.'),
+  -- 96: Pacifidlog Town
+  (14, 96, 198, NULL, 'A town on rafts over a Corsola colony. Its people tell of three Pokémon of rock, ice and steel.'),
+  -- 97: Route 132
+  (14, 97, 232, NULL, 'A fast current carries you west from Pacifidlog Town.'),
+  -- 98: Route 133
+  (14, 98, 233, NULL, 'The current runs on west.'),
+  -- 99: Route 134
+  (14, 99, 234, NULL, 'The last of the currents, ending by Slateport City. A dive spot on the way leads to the Sealed Chamber.'),
+  -- 100: Sealed Chamber (milestone)
+  (14, 100, NULL, 140021, NULL),
+  -- 101: Ever Grande City
+  (14, 101, 150, NULL, 'Fly to Mossdeep City and Surf south to Route 128, then east. Climb the waterfall with HM05 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
+  -- 102: Victory Road
+  (14, 102, 252, NULL, 'A long cave with dark lower floors and boulders to push. Wally stops you near the exit for one more battle.'),
+  -- 103: Ever Grande City
+  (14, 103, 150, NULL, 'Past Victory Road, a stone walkway leads to the Pokémon League. Stock up at its Poké Mart. Once you face the Elite Four, there''s no way out until you win or lose.'),
+  -- 104: Pokémon League (milestone)
+  (14, 104, NULL, 140016, NULL),
+  -- 105: Delta Episode (milestone)
+  (14, 105, NULL, 140018, NULL),
+  -- 106: Scorched Slab (milestone)
+  (14, 106, NULL, 140022, NULL),
+  -- 107: Sea Mauville (milestone)
+  (14, 107, NULL, 140023, NULL),
+  -- 108: Crescent Isle (milestone)
+  (14, 108, NULL, 140024, NULL),
+  -- 109: Storm Clouds (milestone)
+  (14, 109, NULL, 140025, NULL),
+  -- 110: Regigigas in Island Cave (milestone)
+  (14, 110, NULL, 140026, NULL),
+  -- 111: Trackless Forest (milestone)
+  (14, 111, NULL, 140027, NULL),
+  -- 112: Nameless Cavern (milestone)
+  (14, 112, NULL, 140028, NULL),
+  -- 113: Dimensional Rift (milestone)
+  (14, 113, NULL, 140029, NULL),
+  -- 114: Pathless Plain (milestone)
+  (14, 114, NULL, 140030, NULL),
+  -- 115: Fabled Cave (milestone)
+  (14, 115, NULL, 140031, NULL),
+  -- 116: Gnarled Den (milestone)
+  (14, 116, NULL, 140032, NULL);

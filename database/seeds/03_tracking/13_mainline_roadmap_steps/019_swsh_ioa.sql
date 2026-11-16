@@ -38,11 +38,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 9: Warm-Up Tunnel
   (19, 9, 653, NULL, 'Max Mushrooms grow at the far end. Your rival gets there first and battles you for them.'),
   -- 10: Master Dojo
-  (19, 10, 612, NULL, 'The third trial. You and your rival are the only two left, and the secret armor goes to whoever wins on the battle court. The armor is a Kubfu.'),
+  (19, 10, 612, NULL, 'The third trial, back at the dojo. You and your rival are the only two left, and the secret armor goes to whoever wins on the battle court. The armor is a Kubfu.'),
   -- 11: Dojo Trials (milestone)
   (19, 11, NULL, 190002, NULL),
   -- 12: Challenge Beach
-  (19, 12, 579, NULL, 'Mustard marks views around the island to show Kubfu. The first way runs along this beach, where the Tower of Waters stands.'),
+  (19, 12, 579, NULL, 'Mustard marks views around the island to show Kubfu. The first way runs past the Soothing Wetlands and along this beach, where the Tower of Waters stands.'),
   -- 13: Courageous Cavern
   (19, 13, 582, NULL, 'A cave on the way to the next view.'),
   -- 14: Loop Lagoon
@@ -58,12 +58,12 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 19: Tower of Two Fists (milestone)
   (19, 19, NULL, 190006, NULL),
   -- 20: Master Dojo
-  (19, 20, 612, NULL, 'Hop is at the dojo, studying Dynamax. Urshifu can Gigantamax, but it won''t take Max Soup without a secret ingredient that Mustard has forgotten.'),
+  (19, 20, 612, NULL, 'Back at the dojo, Hop is studying Dynamax. Urshifu can Gigantamax, but it won''t take Max Soup without a secret ingredient that Mustard has forgotten.'),
   -- 21: Forest of Focus
   (19, 21, 589, NULL, 'Hop thinks the ingredient is honey and looks for nectar here. A lost Pokémon needs its parent found first.'),
   -- 22: Honeycalm Island
-  (19, 22, 603, NULL, 'A Dynamax Vespiquen guards the Max Honey at the tree on this island. Beat it with Hop.'),
+  (19, 22, 603, NULL, 'An island out at sea. A Dynamax Vespiquen guards the Max Honey at its tree. Beat it with Hop.'),
   -- 23: Master Dojo
-  (19, 23, 612, NULL, 'Make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength. After you beat him, his son Hyde gives you a Porygon.'),
+  (19, 23, 612, NULL, 'Back at the dojo, make the Max Soup for Urshifu. Mustard is waiting on the battle court, this time at full strength. After you beat him, his son Hyde gives you a Porygon.'),
   -- 24: Final Mustard Battle (milestone)
   (19, 24, NULL, 190007, NULL);

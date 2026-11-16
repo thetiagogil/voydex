@@ -78,7 +78,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 27: Lurking Steel Titan (milestone)
   (23, 27, NULL, 230026, NULL),
   -- 28: Cascarrafa
-  (23, 28, 743, NULL, 'A city of waterfalls on the edge of the desert, with the Gym at the top. Kofu has left his wallet behind, and the Gym staff ask you to take it to him in Porto Marinada.'),
+  (23, 28, 743, NULL, 'Fly back to West Province (Area One) and ride north. A city of waterfalls on the edge of the desert, with the Gym at the top. Kofu has left his wallet behind, and the Gym staff ask you to take it to him in Porto Marinada.'),
   -- 29: Asado Desert
   (23, 29, 740, NULL, 'The desert between Cascarrafa and Porto Marinada.'),
   -- 30: Porto Marinada
@@ -102,7 +102,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 39: West Province (Area Three)
   (23, 39, 792, NULL, 'Dry hills east of Medali, on the way up to Glaseado Mountain.'),
   -- 40: Glaseado Mountain
-  (23, 40, 757, NULL, 'Paldea''s snowy peak. Montenevera is on its north slope, and the Glaseado Gym is near the top.'),
+  (23, 40, 757, NULL, 'Paldea''s snowy peak, up from Dalizapa Passage. Montenevera is on its north slope, and the Glaseado Gym is near the top.'),
   -- 41: Montenevera
   (23, 41, 959, NULL, 'A snowed-in town with a stage. Ryme''s Gym uses Ghost types, and its test is a set of Double Battles in front of the crowd.'),
   -- 42: Ghost Badge (milestone)
@@ -152,11 +152,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 64: Mesagoza
   (23, 64, 951, NULL, 'Nemona is waiting in the city for a battle between two Champions.'),
   -- 65: Poco Path Lighthouse
-  (23, 65, 969, NULL, 'Arven is waiting where you first met him, with his Mabosstiff well again.'),
+  (23, 65, 969, NULL, 'Arven is waiting at the lighthouse where you first met him, with his Mabosstiff well again.'),
   -- 66: Defeat Arven (milestone)
   (23, 66, NULL, 230029, NULL),
   -- 67: Mesagoza
-  (23, 67, 951, NULL, 'Go to the academy''s schoolyard at night to meet Cassiopeia.'),
+  (23, 67, 951, NULL, 'Back in Mesagoza, go to the academy''s schoolyard at night to meet Cassiopeia.'),
   -- 68: Defeat Penny (milestone)
   (23, 68, NULL, 230023, NULL),
   -- 69: Area Zero
@@ -168,7 +168,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 72: Defeat AI Professor (milestone)
   (23, 72, NULL, 230031, NULL),
   -- 73: Mesagoza
-  (23, 73, 951, NULL, 'After the credits, Geeta asks you to check on the eight Gym Leaders. Beat them all again and she opens the Academy Ace Tournament.'),
+  (23, 73, 951, NULL, 'After the credits you are back at the academy. Geeta asks you to check on the eight Gym Leaders. Beat them all again and she opens the Academy Ace Tournament.'),
   -- 74: Academy Ace Tournament (milestone)
   (23, 74, NULL, 230032, NULL),
   -- 75: Area Zero Depths (milestone)

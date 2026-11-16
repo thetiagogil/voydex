@@ -142,15 +142,15 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 59: Route 212
   (21, 59, 300, NULL, 'The road from Pastoria City to Hearthome City. Its south half is a swamp in the rain, and the Pokémon Mansion stands in its north half.'),
   -- 60: Route 210
-  (21, 60, 298, NULL, 'Use the SecretPotion on the Psyduck and they clear off. Cynthia asks you to take an Old Charm to her grandmother in Celestic Town. The road north is thick with fog, which Defog clears.'),
+  (21, 60, 298, NULL, 'Back north through Hearthome City and Solaceon Town. Use the SecretPotion on the Psyduck and they clear off. Cynthia asks you to take an Old Charm to her grandmother in Celestic Town. The road north is thick with fog, which Defog clears.'),
   -- 61: Celestic Town (milestone)
   (21, 61, NULL, 210028, NULL),
   -- 62: Hearthome City
-  (21, 62, 269, NULL, 'With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City. Bebe, next to the Pokémon Center, gives you an Eevee once you have the National Pokédex.'),
+  (21, 62, 269, NULL, 'Fly back to Hearthome City. With Surf in hand, Fantina is ready for you. Her Gym uses Ghost types. After you win, Cynthia points you to the library in Canalave City. Bebe, next to the Pokémon Center, gives you an Eevee once you have the National Pokédex.'),
   -- 63: Relic Badge (milestone)
   (21, 63, NULL, 210007, NULL),
   -- 64: Jubilife City
-  (21, 64, 859, NULL, 'Head west from Jubilife City for Canalave City.'),
+  (21, 64, 859, NULL, 'Fly to Jubilife City and head west for Canalave City.'),
   -- 65: Route 218
   (21, 65, 306, NULL, 'West of Jubilife City. Surf across to Canalave City.'),
   -- 66: Canalave City
@@ -162,13 +162,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 69: Canalave City
   (21, 69, 257, NULL, 'Barry calls you to the library, where Professor Rowan sends the three of you to the three lakes. An explosion at Lake Valor shakes the city.'),
   -- 70: Valor Lakefront
-  (21, 70, 336, NULL, 'The scientists are gone from the lake''s entrance.'),
+  (21, 70, 336, NULL, 'Fly to Pastoria City and walk east to the lake. The scientists are gone from its entrance.'),
   -- 71: Lake Valor (milestone)
   (21, 71, NULL, 210029, NULL),
   -- 72: Lake Verity (milestone)
   (21, 72, NULL, 210030, NULL),
   -- 73: Route 211
-  (21, 73, 299, NULL, 'West of Celestic Town into Mt. Coronet, on the way to Snowpoint City.'),
+  (21, 73, 299, NULL, 'Fly to Celestic Town. West of it into Mt. Coronet, on the way to Snowpoint City.'),
   -- 74: Mount Coronet
   (21, 74, 277, NULL, 'Cross the north of the mountain and come out in the snow of Route 216.'),
   -- 75: Route 216
@@ -184,11 +184,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 80: Lake Acuity
   (21, 80, 272, NULL, 'The Grunts have left the lakefront. Barry has just lost to Commander Jupiter, who leaves for Veilstone City.'),
   -- 81: Veilstone City
-  (21, 81, 337, NULL, 'A lone Grunt outside the headquarters drops the Storage Key as he runs. It opens the warehouse next door, which leads into the building.'),
+  (21, 81, 337, NULL, 'Fly to Veilstone City. A lone Grunt outside the headquarters drops the Storage Key as he runs. It opens the warehouse next door, which leads into the building.'),
   -- 82: Team Galactic HQ (milestone)
   (21, 82, NULL, 210018, NULL),
   -- 83: Mount Coronet
-  (21, 83, 277, NULL, 'Go in from Route 207 or Route 208 and climb with Surf, Strength, Rock Smash and Rock Climb. Team Galactic Grunts guard the way up to the Spear Pillar.'),
+  (21, 83, 277, NULL, 'Fly to Oreburgh City or Hearthome City. Go in from Route 207 or Route 208 and climb with Surf, Strength, Rock Smash and Rock Climb. Team Galactic Grunts guard the way up to the Spear Pillar.'),
   -- 84: Spear Pillar (milestone)
   (21, 84, NULL, 210019, NULL),
   -- 85: Route 222

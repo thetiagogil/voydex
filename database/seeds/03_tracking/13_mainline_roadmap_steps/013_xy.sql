@@ -130,15 +130,15 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 52: Psychic Badge (milestone)
   (13, 52, NULL, 130011, NULL),
   -- 53: Lumiose City
-  (13, 53, 798, NULL, 'Lysandre Café is north of the centre. Beat the two Team Flare Grunts inside and they give away the hidden door behind the cabinet.'),
+  (13, 53, 798, NULL, 'Fly back to Lumiose City. Lysandre Café is north of the centre. Beat the two Team Flare Grunts inside and they give away the hidden door behind the cabinet.'),
   -- 54: Lysandre Labs (milestone)
   (13, 54, NULL, 130021, NULL),
   -- 55: Geosenge Town
-  (13, 55, 432, NULL, 'The ultimate weapon has risen out of the town like a great flower. The way into Team Flare''s hideout is among the stones.'),
+  (13, 55, 432, NULL, 'Fly to Geosenge Town. The ultimate weapon has risen out of the town like a great flower. The way into Team Flare''s hideout is among the stones.'),
   -- 56: Team Flare Secret HQ (milestone)
   (13, 56, NULL, 130022, NULL),
   -- 57: Route 18
-  (13, 57, 459, NULL, 'A valley road east of Anistar City. Terminus Cave opens off it.'),
+  (13, 57, 459, NULL, 'Fly to Anistar City. A valley road runs east of it. Terminus Cave opens off it.'),
   -- 58: Couriway Town
   (13, 58, 421, NULL, 'A town under waterfalls. Professor Sycamore says sorry for not seeing through Lysandre, and asks you for a friendly battle.'),
   -- 59: Route 19

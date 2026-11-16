@@ -115,7 +115,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 45: Champion Cup (milestone)
   (18, 45, NULL, 180015, NULL),
   -- 46: Slumbering Weald
-  (18, 46, 638, NULL, 'The Darkest Day has begun. You and Hop find a rusted sword and a rusted shield at the altar deep in the wood.'),
+  (18, 46, 638, NULL, 'Take a Flying Taxi back to Postwick. The Darkest Day has begun. You and Hop find a rusted sword and a rusted shield at the altar deep in the wood.'),
   -- 47: Hammerlocke
   (18, 47, 601, NULL, 'Take the lift in Hammerlocke Stadium down to the Energy Plant.'),
   -- 48: Defeat Eternatus (milestone)

@@ -176,7 +176,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 72: Marsh Badge (milestone)
   (6, 72, NULL, 60009, NULL),
   -- 73: Fuchsia City
-  (6, 73, 18, NULL, 'Back in Fuchsia City with Surf and Strength. Head south from the beach to cross the sea.'),
+  (6, 73, 18, NULL, 'Fly back to Fuchsia City with Surf and Strength in hand. Head south from the beach to cross the sea.'),
   -- 74: Route 19
   (6, 74, 48, NULL, 'Surf south from Fuchsia City''s beach. Swimmers fill the water.'),
   -- 75: Route 20
@@ -234,9 +234,9 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 101: Pokémon League (milestone)
   (6, 101, NULL, 60017, NULL),
   -- 102: Pallet Town
-  (6, 102, 30, NULL, 'After the credits, Professor Oak checks your Pokédex. With 60 kinds caught he upgrades it to the National Pokédex.'),
+  (6, 102, 30, NULL, 'After the credits you are back at home. Professor Oak checks your Pokédex. With 60 kinds caught he upgrades it to the National Pokédex.'),
   -- 103: One Island (town)
-  (6, 103, 28, NULL, 'Celio needs a gemstone to link his Network Machine with faraway regions. It is said to be somewhere on One Island.'),
+  (6, 103, 28, NULL, 'Sail from Vermilion City''s harbour with the Tri-Pass. Celio needs a gemstone to link his Network Machine with faraway regions. It is said to be somewhere on One Island.'),
   -- 104: Ruby Path (milestone)
   (6, 104, NULL, 60034, NULL),
   -- 105: Four Island (town)
@@ -244,7 +244,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 106: Icefall Cave (milestone)
   (6, 106, NULL, 60035, NULL),
   -- 107: Six Island (town)
-  (6, 107, 849, NULL, 'Blue is in the Pokémon Center, done with the islands. Water Path leads north to Pattern Bush and south to Ruin Valley.'),
+  (6, 107, 849, NULL, 'A ferry ride from Four Island. Blue is in the Pokémon Center, done with the islands. Water Path leads north to Pattern Bush and south to Ruin Valley.'),
   -- 108: Water Path
   (6, 108, 79, NULL, 'Along the east coast of Six Island, north to Green Path and south to Ruin Valley.'),
   -- 109: Ruin Valley

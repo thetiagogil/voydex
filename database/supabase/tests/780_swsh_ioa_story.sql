@@ -15,7 +15,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 19
                 AND mainline_categories.slug = 'dlc-story' ORDER BY mainline_milestones.sort_order, mainline_milestones.id $$, $$
-            VALUES ('arrive-isle-of-armor'::text, 'Master Dojo'::text), ('dojo-trials', 'Master Dojo'), ('choose-dojo-starter', 'Master Dojo'), ('tower-choice', 'Towers of Two Fists'), ('tower-of-two-fists', 'Towers of Two Fists'), ('final-mustard-battle', 'Master Dojo') $$, 'The Isle of Armor''s Main Story follows its walkthrough, each beat at its place, and in order');
+            VALUES ('arrive-isle-of-armor'::text, 'Master Dojo'::text), ('choose-dojo-starter', 'Master Dojo'), ('dojo-trials', 'Master Dojo'), ('tower-choice', 'Towers of Two Fists'), ('tower-of-two-fists', 'Towers of Two Fists'), ('final-mustard-battle', 'Master Dojo') $$, 'The Isle of Armor''s Main Story follows its walkthrough, each beat at its place, and in order');
 SELECT
     results_eq ($$
         SELECT

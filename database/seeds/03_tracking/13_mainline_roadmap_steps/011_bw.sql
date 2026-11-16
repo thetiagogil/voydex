@@ -98,7 +98,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 35: Route 7
   (11, 35, 395, NULL, 'Raised walkways over tall grass, north to Celestial Tower.'),
   -- 36: Celestial Tower
-  (11, 36, 347, NULL, 'A tower of graves. Skyla is on the roof and asks you to ring the bell, then goes back to her Gym.'),
+  (11, 36, 347, NULL, 'A tower of graves. Skyla is on the roof and asks you to ring the bell, then goes back to her Gym. Follow her back down Route 7.'),
   -- 37: Jet Badge (milestone)
   (11, 37, NULL, 110008, NULL),
   -- 38: Route 7
@@ -118,9 +118,9 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 45: Relic Castle (milestone)
   (11, 45, NULL, 110027, NULL),
   -- 46: Nacrene City
-  (11, 46, 367, NULL, 'Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
+  (11, 46, 367, NULL, 'Fly to Nacrene City. Lenora brings the stone out of the museum for you. Head back north, past Icirrus City.'),
   -- 47: Route 8
-  (11, 47, 396, NULL, 'A marshy road east of Icirrus City. Bianca battles you on the way.'),
+  (11, 47, 396, NULL, 'Fly to Icirrus City. A marshy road runs east of it. Bianca battles you on the way.'),
   -- 48: Tubeline Bridge
   (11, 48, 887, NULL, 'A railway bridge. Ghetsis and the Shadow Triad wait for you at the far end with one more lecture.'),
   -- 49: Route 9

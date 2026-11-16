@@ -83,7 +83,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 26: Ilex Forest (milestone)
   (4, 26, NULL, 40034, NULL),
   -- 27: Route 34
-  (4, 27, 115, NULL, 'North of Ilex Forest. The Day Care couple here raise up to two Pokémon for you, and may find an Egg. The Day Care Man gives you an Odd Egg on your first visit.'),
+  (4, 27, 115, NULL, 'North of Ilex Forest. The Day Care couple here raise up to two Pokémon for you, and may find an Egg. The Day Care Man gives you an Odd Egg on your first visit. It hatches into one of seven baby Pokémon.'),
   -- 28: Goldenrod City
   (4, 28, 91, NULL, 'Johto''s biggest city. The Bike Shop lends you a Bicycle for free, and the Radio Tower''s quiz wins you a Radio Card. Whitney''s Gym uses Normal types.'),
   -- 29: Plain Badge (milestone)
@@ -147,7 +147,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 58: Glacier Badge (milestone)
   (4, 58, NULL, 40009, NULL),
   -- 59: Goldenrod City
-  (4, 59, 91, NULL, 'Professor Elm phones about strange broadcasts. Team Rocket has taken over the city and the Radio Tower. The man in the Director''s office is a fake, and he gives up the Basement Key when you beat him.'),
+  (4, 59, 91, NULL, 'Professor Elm phones about strange broadcasts, so fly back to Goldenrod City. Team Rocket has taken over the city and the Radio Tower. The man in the Director''s office is a fake, and he gives up the Basement Key when you beat him.'),
   -- 60: Goldenrod Underground
   (4, 60, 830, NULL, 'Enter from the north and unlock the door with the Basement Key. Silver waits in the basement. Past the shutter switches, the real Director is held in the warehouse and gives you the Card Key.'),
   -- 61: Radio Tower (milestone)
@@ -155,7 +155,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 62: Suicune (milestone)
   (4, 62, NULL, 40039, NULL),
   -- 63: Mahogany Town
-  (4, 63, 824, NULL, 'With Team Rocket gone, the man blocking the road east has left.'),
+  (4, 63, 824, NULL, 'Fly back to Mahogany Town. With Team Rocket gone, the man blocking the road east has left.'),
   -- 64: Route 44
   (4, 64, 125, NULL, 'East of Mahogany Town, toward the Ice Path.'),
   -- 65: Ice Path
@@ -191,7 +191,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 80: New Bark Town
   (4, 80, 101, NULL, 'After the credits you wake up at home. Professor Elm gives you the S.S. Ticket for the ship to Kanto.'),
   -- 81: Olivine City
-  (4, 81, 102, NULL, 'Show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
+  (4, 81, 102, NULL, 'Fly to Olivine City and show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
   -- 82: S.S. Aqua
   (4, 82, 831, NULL, 'A fast ship to Vermilion City. A gentleman has lost his granddaughter. Beat the sailor napping in a cabin so the lower deck opens, find her in the captain''s cabin, and he gives you a Metal Coat.'),
   -- 83: Vermilion City
@@ -227,7 +227,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 98: Lavender Town
   (4, 98, 23, NULL, 'The Radio Tower''s manager thanks you for the power with an EXPN Card. It tunes your Pokégear to the Poké Flute channel, which wakes sleeping Pokémon.'),
   -- 99: Route 25
-  (4, 99, 55, NULL, 'Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
+  (4, 99, 55, NULL, 'Fly back to Cerulean City and go north over Nugget Bridge. Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
   -- 100: Cascade Badge (milestone)
   (4, 100, NULL, 40018, NULL),
   -- 101: Route 5

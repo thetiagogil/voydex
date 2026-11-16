@@ -50,7 +50,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 10: Receive Pokédex (milestone)
   (7, 10, NULL, 70002, NULL),
   -- 11: Littleroot Town
-  (7, 11, 158, NULL, 'Your mom stops you outside with the Running Shoes.'),
+  (7, 11, 158, NULL, 'Your mom stops you outside with the Running Shoes. Much later, filling the Hoenn Pokédex earns you a Chikorita, Cyndaquil or Totodile from Professor Birch.'),
   -- 12: Route 101
   (7, 12, 201, NULL, 'North once more, now with a Pokédex and Poké Balls.'),
   -- 13: Oldale Town
@@ -188,11 +188,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 79: Route 123
   (7, 79, 223, NULL, 'West of Mt. Pyre, back toward Mauville City. The Berry Master''s house hands out rare Berries every day.'),
   -- 80: Jagged Pass
-  (7, 80, 155, NULL, 'Ride the cable car up Mt. Chimney and walk down, or climb from Lavaridge Town with the Acro Bike. Partway, a rock face shakes as the Magma Emblem comes near. The hideout''s first room needs Strength.'),
+  (7, 80, 155, NULL, 'Fly to Lavaridge Town. Ride the cable car up Mt. Chimney and walk down, or climb from Lavaridge Town with the Acro Bike. Partway, a rock face shakes as the Magma Emblem comes near. The hideout''s first room needs Strength.'),
   -- 81: Magma Hideout (milestone)
   (7, 81, NULL, 70021, NULL),
   -- 82: Slateport City
-  (7, 82, 244, NULL, 'Captain Stern is being interviewed outside the harbour about an undersea cavern. Archie takes his submarine and leaves for Lilycove City.'),
+  (7, 82, 244, NULL, 'Fly to Slateport City. Captain Stern is being interviewed outside the harbour about an undersea cavern. Archie takes his submarine and leaves for Lilycove City.'),
   -- 83: Lilycove City
   (7, 83, 157, NULL, 'Your rival waits in front of the Department Store for one last battle. Surf across the cove to Team Aqua''s hideout.'),
   -- 84: Aqua Hideout (milestone)
@@ -218,7 +218,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 94: Sootopolis City
   (7, 94, 246, NULL, 'A city in a crater, reached only by sea or sky. Groudon and Kyogre are fighting in its lake, and everyone has shut themselves in. Steven takes you to Wallace at the Cave of Origin. Wallace asks where Rayquaza is and leaves for the Sky Pillar.'),
   -- 95: Route 129
-  (7, 95, 229, NULL, 'Open sea south of Route 128, heading west.'),
+  (7, 95, 229, NULL, 'Dive back out of Sootopolis City and Surf to Route 128. This is the open sea south of it, heading west.'),
   -- 96: Route 130
   (7, 96, 230, NULL, 'On rare days, Mirage Island shows up in this stretch of sea.'),
   -- 97: Route 131
@@ -226,11 +226,11 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 98: Awaken Rayquaza (milestone)
   (7, 98, NULL, 70028, NULL),
   -- 99: Sootopolis City
-  (7, 99, 246, NULL, 'Rayquaza comes down and the two flee. Wallace gives you HM07 Waterfall. The Gym on the island is open again, now led by Juan, Wallace''s teacher, who uses Water types. A woman east of the Pokémon Center gives you a Wailmer Doll.'),
+  (7, 99, 246, NULL, 'Fly back to Sootopolis City. Rayquaza comes down and the two flee. Wallace gives you HM07 Waterfall. The Gym on the island is open again, now led by Juan, Wallace''s teacher, who uses Water types. A woman east of the Pokémon Center gives you a Wailmer Doll.'),
   -- 100: Rain Badge (milestone)
   (7, 100, NULL, 70011, NULL),
   -- 101: Route 131
-  (7, 101, 231, NULL, 'Rayquaza is back on top of the Sky Pillar. Pacifidlog Town floats at the west end of the route.'),
+  (7, 101, 231, NULL, 'Surf back out west along Routes 129 and 130. Rayquaza is back on top of the Sky Pillar. Pacifidlog Town floats at the west end of the route.'),
   -- 102: Sky Pillar (milestone)
   (7, 102, NULL, 70024, NULL),
   -- 103: Pacifidlog Town
@@ -246,7 +246,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 108: Abandoned Ship
   (7, 108, 140, NULL, 'A half-sunken ship on Route 108. Find the Scanner in its flooded cabins with Dive, and Captain Stern trades you a DeepSeaTooth or a DeepSeaScale for it.'),
   -- 109: Ever Grande City
-  (7, 109, 150, NULL, 'Climb the waterfall with HM07 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
+  (7, 109, 150, NULL, 'Fly to Mossdeep City and Surf south to Route 128, then east. Climb the waterfall with HM07 Waterfall to reach the island''s Pokémon Center, the last stop before Victory Road.'),
   -- 110: Victory Road
   (7, 110, 252, NULL, 'A long cave with dark lower floors and boulders to push. Wally stops you near the exit for one more battle.'),
   -- 111: Ever Grande City

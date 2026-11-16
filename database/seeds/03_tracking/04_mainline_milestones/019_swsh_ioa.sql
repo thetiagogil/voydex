@@ -28,10 +28,10 @@ INSERT INTO tracking.mainline_milestones (
 ) VALUES
   -- Arrive at the Isle of Armor (Master Dojo)
   (190001, 19, NULL, 1901, 1, 1, NULL, 'arrive-isle-of-armor', 'Arrive at the Isle of Armor', 'Travel to the Isle of Armor. Klara in Sword or Avery in Shield battles you at the station, then Mustard tests you at the Master Dojo and takes you on as a student.', 1, true, 612),
-  -- Dojo Trials (Master Dojo)
-  (190002, 19, NULL, 1901, 5, 2, NULL, 'dojo-trials', 'Dojo Trials', 'Pass Mustard''s three trials. Catch the three fast Slowpoke in the Soothing Wetlands, bring Max Mushrooms back from the Warm-Up Tunnel past your rival, then beat that rival on the dojo''s battle court. Mustard gives you the dojo''s secret armor, the Pokémon Kubfu.', 2, true, 612),
   -- Choose Dojo Starter (Master Dojo)
-  (190003, 19, NULL, 1901, 12, 1, NULL, 'choose-dojo-starter', 'Choose Dojo Starter', 'After the first trial, Mustard offers you a Bulbasaur or a Squirtle that can Gigantamax.', 3, false, 612),
+  (190003, 19, NULL, 1901, 12, 1, NULL, 'choose-dojo-starter', 'Choose Dojo Starter', 'After the first trial, Mustard offers you a Bulbasaur or a Squirtle that can Gigantamax.', 2, false, 612),
+  -- Dojo Trials (Master Dojo)
+  (190002, 19, NULL, 1901, 5, 2, NULL, 'dojo-trials', 'Dojo Trials', 'Pass Mustard''s three trials. Catch the three fast Slowpoke in the Soothing Wetlands, bring Max Mushrooms back from the Warm-Up Tunnel past your rival, then beat that rival on the dojo''s battle court. Mustard gives you the dojo''s secret armor, the Pokémon Kubfu.', 3, true, 612),
   -- Tower Choice (Towers of Two Fists)
   (190005, 19, NULL, 1901, 12, 1, NULL, 'tower-choice', 'Tower Choice', 'Walk with Kubfu and show it the island''s views until it trusts you, then take it to one of the Towers of Two Fists. The Tower of Darkness makes it a Single Strike Urshifu and the Tower of Waters a Rapid Strike Urshifu. You can enter only one.', 4, true, 942),
   -- Tower of Two Fists (Towers of Two Fists)

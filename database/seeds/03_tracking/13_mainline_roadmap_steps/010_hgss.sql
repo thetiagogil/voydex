@@ -144,13 +144,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 58: Glacier Badge (milestone)
   (10, 58, NULL, 100009, NULL),
   -- 59: Goldenrod City
-  (10, 59, 91, NULL, 'Professor Elm phones about strange broadcasts. Team Rocket has taken over the city and the Radio Tower. A Team Rocket Grunt in the Underground''s photo booth dresses you as one of them, which gets you in. The man in the Director''s office is a fake, and he gives up the Basement Key when you beat him.'),
+  (10, 59, 91, NULL, 'Professor Elm phones about strange broadcasts, so fly back to Goldenrod City. Team Rocket holds the city and the Radio Tower. A Grunt in the Underground''s photo booth dresses you as one of them, which gets you in. The man in the Director''s office is a fake, and gives up the Basement Key when beaten.'),
   -- 60: Goldenrod Underground
   (10, 60, 830, NULL, 'Enter from the north and unlock the door with the Basement Key. Silver waits in the basement. Past the shutter switches, the real Director is held in the warehouse and gives you the Card Key.'),
   -- 61: Radio Tower (milestone)
   (10, 61, NULL, 100029, NULL),
   -- 62: Mahogany Town
-  (10, 62, 824, NULL, 'With Team Rocket gone, the man blocking the road east has left.'),
+  (10, 62, 824, NULL, 'Fly back to Mahogany Town. With Team Rocket gone, the man blocking the road east has left.'),
   -- 63: Route 44
   (10, 63, 125, NULL, 'East of Mahogany Town, toward the Ice Path.'),
   -- 64: Ice Path
@@ -168,7 +168,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 70: New Bark Town
   (10, 70, 101, NULL, 'Professor Elm phones to ask you home, and gives you a Master Ball. He says the Kimono Girls are waiting for you at the Ecruteak Dance Theater.'),
   -- 71: Ecruteak City
-  (10, 71, 90, NULL, 'Silver is leaving the Dance Theater, beaten by the Kimono Girls. All five are on stage, waiting for you.'),
+  (10, 71, 90, NULL, 'Fly to Ecruteak City. Silver is leaving the Dance Theater, beaten by the Kimono Girls. All five are on stage, waiting for you.'),
   -- 72: Kimono Girls' Ritual (milestone)
   (10, 72, NULL, 100030, NULL),
   -- 73: Bell Tower
@@ -176,7 +176,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 74: Whirl Islands
   (10, 74, 139, NULL, 'SoulSilver: with the Silver Wing and the Tidal Bell, go in from the northeast island and down to the deepest chamber. The Kimono Girls dance, and Lugia rises. The islands need Whirlpool, and the caves are dark without Flash.'),
   -- 75: New Bark Town
-  (10, 75, 101, NULL, 'Surf east from town to start for the Pokémon League.'),
+  (10, 75, 101, NULL, 'Fly home, then Surf east from town to start for the Pokémon League.'),
   -- 76: Route 27
   (10, 76, 108, NULL, 'Across the water from New Bark Town, you step into Kanto.'),
   -- 77: Tohjo Falls
@@ -192,7 +192,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 82: New Bark Town
   (10, 82, 101, NULL, 'After the credits you wake up at home. Professor Elm gives you the S.S. Ticket for the ship to Kanto.'),
   -- 83: Olivine City
-  (10, 83, 102, NULL, 'Show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
+  (10, 83, 102, NULL, 'Fly to Olivine City and show the S.S. Ticket at the harbour to board the S.S. Aqua.'),
   -- 84: S.S. Aqua
   (10, 84, 831, NULL, 'A fast ship to Vermilion City. A gentleman has lost his granddaughter. Beat the sailor napping in a cabin so the lower deck opens, find her in the captain''s cabin, and he gives you a Metal Coat.'),
   -- 85: Vermilion City
@@ -228,7 +228,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 100: Lavender Town
   (10, 100, 23, NULL, 'The Radio Tower''s manager thanks you for the power with an EXPN Card. It tunes your Pokégear to the Poké Flute channel, which wakes sleeping Pokémon.'),
   -- 101: Route 25
-  (10, 101, 55, NULL, 'Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
+  (10, 101, 55, NULL, 'Fly back to Cerulean City and go north over Nugget Bridge. Six trainers in a row along the cape, with a Nugget for beating them all. Misty is on a date at the end. Interrupt it and she goes back to her Gym. Bill''s grandfather keeps the Sea Cottage.'),
   -- 102: Cascade Badge (milestone)
   (10, 102, NULL, 100018, NULL),
   -- 103: Route 5

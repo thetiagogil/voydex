@@ -45,7 +45,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 12: Freezington
   (20, 12, 590, NULL, 'The steed smells its carrot and charges into the village. Drive it back. After that, an old woman in the village gives you a Cosmog.'),
   -- 13: Tunnel to the Top
-  (20, 13, 650, NULL, 'A cave up the mountain toward the Crown Shrine.'),
+  (20, 13, 650, NULL, 'At the top of Snowslide Slope, a cave up the mountain toward the Crown Shrine.'),
   -- 14: Path to the Peak
   (20, 14, 621, NULL, 'A snowy climb to the shrine at the top.'),
   -- 15: Calyrex Quest (milestone)
@@ -67,13 +67,13 @@ INSERT INTO tracking.mainline_roadmap_steps (
   -- 23: Galarian Birds (milestone)
   (20, 23, NULL, 200007, NULL),
   -- 24: Freezington
-  (20, 24, 590, NULL, 'Tell Peony about each clue you finish. With all three done, he calls the expedition a success.'),
+  (20, 24, 590, NULL, 'Back in the village, tell Peony about each clue you finish. With all three done, he calls the expedition a success.'),
   -- 25: Finish Crown Tundra Expeditions (milestone)
   (20, 25, NULL, 200008, NULL),
   -- 26: Frostpoint Field
   (20, 26, 592, NULL, 'Footprints lead away from a tree by the village. Sonia is studying them and asks you to find more across the tundra.'),
   -- 27: Frigid Sea
-  (20, 27, 591, NULL, 'The cold sea off the tundra''s coast, with one big island.'),
+  (20, 27, 591, NULL, 'Past Three-Point Pass, the cold sea off the tundra''s coast, with one big island.'),
   -- 28: Lakeside Cave
   (20, 28, 610, NULL, 'A cave on the shore of Ballimere Lake.'),
   -- 29: Swords of Justice (milestone)
