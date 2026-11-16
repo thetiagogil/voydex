@@ -390,7 +390,7 @@ sources remain authoritative for game-specific mechanics and availability.
     rewards. A game without one has none. Forms the Pokédex counts as one
     species qualify when the game keeps its own count of them and rewards
     the full set (Unown's 26 forms in Gold / Silver).
-- Yellow follows Red / Blue step for step (the same Kanto, the same 81
+- Yellow follows Red / Blue step for step (the same Kanto, the same 90
   roadmap steps and place list). What differs comes from Yellow's own data
   (the pret pokeyellow disassembly): Receive Pikachu is not a choice, Jessie
   & James are fought at Mt. Moon once a Fossil is taken, in the Rocket
