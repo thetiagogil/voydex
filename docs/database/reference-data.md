@@ -327,15 +327,18 @@ sources remain authoritative for game-specific mechanics and availability.
   a named character, or who and where when the game leaves them unnamed),
   what a trade asks for (`trade_for_form_id`), the nickname and held item it
   comes with, a prize's or a bought Pokémon's `price`, and in `condition`
-  when it is offered ("After you get the Thunder Badge"). Generations I to
-  III are written out in full from the games' own data (the disassemblies'
-  trade tables, map scripts and prize lists), Bulbapedia's gift and trade
-  lists naming the givers the games leave unnamed; their rows live in the
-  `*_handovers_gen*.sql` files, and the seed audit and pgTAP 880 hold every
-  trade there to its ask and every hand-over to a giver or a condition. A
-  trader is named by the Original Trainer the game gives the Pokémon. Held
-  items outside the item catalogue (Mail, X Attack, Stardust, Tiny Mushroom)
-  wait for it. The later generations follow one at a time.
+  when it is offered ("After you get the Thunder Badge"). A trade that takes
+  any Pokémon of yours asks for none and says so in its condition. Every
+  game's hand-overs live in the `*_handovers_gen*.sql` files: Generations I
+  to III from the games' own data (the disassemblies' trade tables, map
+  scripts and prize lists), Generations IV to IX from Bulbapedia's gift and
+  in-game trade lists and Game Corner pages, Bulbapedia also naming the
+  givers the games leave unnamed. A trader is named by the Original Trainer
+  the game gives the Pokémon. The seed audit and pgTAP 880 hold every trade
+  to its ask (or its condition) and every hand-over to a giver or a
+  condition. Held items outside the item catalogue (Mail, X Attack,
+  Stardust, Tiny Mushroom, Berry Juice, Heart Scale, Max Elixir, Yellow
+  Shard, Balm Mushroom, Upgrade) stay empty until it holds them (#317).
 - Story places: each Red / Blue milestone names the place it happens at
   (`location_id`), a badge its Gym, and a battle fought elsewhere names its
   own (Blue on Route 22 before the Boulder Badge and before Victory Road, and

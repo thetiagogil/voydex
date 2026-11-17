@@ -8,7 +8,7 @@ import {
 
 const EXPECTED_LOCATION_ROWS = 1006;
 const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1967;
-const EXPECTED_ENCOUNTER_ROWS = 27839;
+const EXPECTED_ENCOUNTER_ROWS = 27834;
 
 /* Which rods each version group fishes with, by way slug: Old, Good and
    Super Rod through Generation IV, X / Y, Omega Ruby / Alpha Sapphire and
@@ -54,30 +54,17 @@ const HANDOVER_WAY_SLUGS = new Set([
 ]);
 const PRICED_WAY_SLUGS = new Set(["prize", "bought"]);
 
-/* Version groups whose hand-overs are written out in full (#322): every
-   trade says what it asks for, every hand-over says who gives it or how it
-   is found. The rest follow a generation at a time. */
-const DETAILED_HANDOVER_GROUP_SLUGS = new Set([
-  "rb",
-  "yellow",
-  "gs",
-  "crystal",
-  "rs",
-  "frlg",
-  "emerald",
-]);
-
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
 
 const isSet = (value) => value !== null && value !== undefined;
 
-/* A hand-over's details sit only on the ways they belong to, and a group
-   written out in full leaves none of them out. */
+/* A hand-over's details sit only on the ways they belong to, and every
+   hand-over says who gives it or how it is found (#322). */
 function assertHandoverDetails(
   context,
   row,
   filePath,
-  { waySlug, groupSlug, formSpecies },
+  { waySlug, formSpecies },
 ) {
   const where = `${relative(filePath)}: encounter of form ${row.form_id} at place ${row.location_id} in version group ${row.version_group_id}`;
   const handedOver = HANDOVER_WAY_SLUGS.has(waySlug);
@@ -102,9 +89,16 @@ function assertHandoverDetails(
       `${where}: a prize or a Pokémon you buy has a price, and nothing else does.`,
     );
   }
-  if (!handedOver || !DETAILED_HANDOVER_GROUP_SLUGS.has(groupSlug)) return;
-  if (waySlug === "trade" && !isSet(row.trade_for_form_id)) {
-    context.errors.push(`${where} is a trade that asks for nothing.`);
+  if (!handedOver) return;
+  /* A trade that takes any Pokémon of yours says so in its condition. */
+  if (
+    waySlug === "trade" &&
+    !isSet(row.trade_for_form_id) &&
+    !isSet(row.condition)
+  ) {
+    context.errors.push(
+      `${where} is a trade that asks for nothing and says nothing of it.`,
+    );
   }
   if (!isSet(row.giver) && !isSet(row.condition)) {
     context.errors.push(
@@ -313,7 +307,6 @@ export function assertLocationRows(context, tableRows) {
     }
     assertHandoverDetails(context, row, filePath, {
       waySlug: waySlugs.get(row.encounter_way_id),
-      groupSlug: versionGroups.get(row.version_group_id)?.slug,
       formSpecies,
     });
   }

@@ -1,12 +1,11 @@
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Pokémon handed over (#322): who gives each, what a trade asks for, its
--- nickname, held item and price, on the ways they belong to. Generations
--- I to III are written out in full from the games' own data.
+-- nickname, held item and price, on the ways they belong to, in every game.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (16);
+    plan (21);
 SELECT
     is_empty ($$
         SELECT
@@ -36,22 +35,19 @@ SELECT
         SELECT
             e.id FROM reference.pokemon_encounters e
             JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
-            JOIN reference.version_groups vg ON vg.id = e.version_group_id
             WHERE
-                vg.slug IN ('rb', 'yellow', 'gs', 'crystal', 'rs', 'frlg', 'emerald')
-                AND w.slug = 'trade'
-                AND e.trade_for_form_id IS NULL $$, 'every Generation I to III trade says what it asks for');
+                w.slug = 'trade'
+                AND e.trade_for_form_id IS NULL
+                AND e.condition IS NULL $$, 'every trade says what it asks for, or that it takes any Pokémon');
 SELECT
     is_empty ($$
         SELECT
             e.id FROM reference.pokemon_encounters e
             JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
-            JOIN reference.version_groups vg ON vg.id = e.version_group_id
             WHERE
-                vg.slug IN ('rb', 'yellow', 'gs', 'crystal', 'rs', 'frlg', 'emerald')
-                AND w.slug IN ('starter', 'gift', 'trade', 'fossil', 'egg', 'prize', 'bought')
+                w.slug IN ('starter', 'gift', 'trade', 'fossil', 'egg', 'prize', 'bought')
                 AND e.giver IS NULL
-                AND e.condition IS NULL $$, 'every Generation I to III hand-over says who gives it or how it is found');
+                AND e.condition IS NULL $$, 'every hand-over says who gives it or how it is found');
 -- Game Corner prizes and the Magikarp salesman are no longer gifts.
 SELECT
     is_empty ($$
@@ -61,12 +57,12 @@ SELECT
             JOIN reference.version_groups vg ON vg.id = e.version_group_id
             JOIN reference.locations l ON l.id = e.location_id
             WHERE
-                vg.slug IN ('rb', 'yellow', 'gs', 'crystal', 'frlg')
+                vg.slug IN ('rb', 'yellow', 'gs', 'crystal', 'frlg', 'hgss', 'bw', 'b2w2', 'lgpe')
                 AND w.slug = 'gift'
                 AND (l.name = 'Celadon City'
                     OR (l.name = 'Goldenrod City'
                         AND e.form_id <> 13300)
-                    OR (e.form_id = 12900)) $$, 'Game Corner prizes and the Magikarp salesman are not gifts');
+                    OR (e.form_id = 12900)) $$, 'Game Corner prizes and the Magikarp salesmen are not gifts');
 SELECT
     results_eq ($$
         SELECT
@@ -76,7 +72,7 @@ SELECT
             WHERE
                 e.version_group_id = 1
                 AND e.form_id = 12900
-                AND w.slug = 'bought'   $$, $$
+                AND w.slug = 'bought' ORDER BY 1 $$, $$
             VALUES ('Route 4', '500 Poké Dollars', 'The Magikarp salesman in the Pokémon Center') $$, 'Red / Blue''s Magikarp is bought for 500 at the Pokémon Center on Route 4, not Route 3');
 SELECT
     results_eq ($$
@@ -98,7 +94,7 @@ SELECT
             WHERE
                 e.version_group_id = 1
                 AND e.form_id = 12200
-                AND l.name = 'Route 2'   $$, $$
+                AND l.name = 'Route 2' ORDER BY 1 $$, $$
             VALUES ('abra', 'MARCEL', 'A boy in the trade house') $$, 'Red / Blue''s Route 2 trade gives Mr. Mime, MARCEL, for an Abra');
 SELECT
     results_eq ($$
@@ -121,7 +117,7 @@ SELECT
             WHERE
                 e.version_group_id = 4
                 AND e.form_id = 8200
-                AND l.name = 'Power Plant'   $$, $$
+                AND l.name = 'Power Plant' ORDER BY 1 $$, $$
             VALUES ('MAGGIE'::text, 'metal-coat'::text, 'Forest'::text) $$, 'Crystal''s Power Plant trade gives Magneton holding a Metal Coat');
 SELECT
     results_eq ($$
@@ -130,7 +126,7 @@ SELECT
             JOIN reference.locations l ON l.id = e.location_id
             WHERE
                 e.version_group_id = 2
-                AND e.form_id = 700 $$, $$
+                AND e.form_id = 700 ORDER BY 1 $$, $$
             VALUES ('Officer Jenny'::text, 'After you get the Thunder Badge'::text) $$, 'Yellow''s Squirtle comes from Officer Jenny after the Thunder Badge');
 SELECT
     results_eq ($$
@@ -140,7 +136,7 @@ SELECT
             JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
             WHERE
                 e.version_group_id = 2
-                AND e.form_id = 13300 $$, $$
+                AND e.form_id = 13300 ORDER BY 1 $$, $$
             VALUES ('Celadon Condominiums') $$, 'Yellow''s Eevee waits only in the Celadon Condominiums');
 SELECT
     is_empty ($$
@@ -169,6 +165,60 @@ SELECT
                 AND e.form_id IN (15200, 15500, 15800)
             ORDER BY e.form_id $$, $$
             VALUES ('Professor Birch''s Laboratory'::text, 'After you complete the Hoenn Pokédex; pick one'::text), ('Professor Birch''s Laboratory', 'After you complete the Hoenn Pokédex; pick one'), ('Professor Birch''s Laboratory', 'After you complete the Hoenn Pokédex; pick one') $$, 'Emerald''s Johto partners come from Birch''s lab once the Hoenn Pokédex is complete');
+SELECT
+    results_eq ($$
+        SELECT
+            g.slug, e.price FROM reference.pokemon_encounters e
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            JOIN reference.locations l ON l.id = e.location_id
+            LEFT JOIN reference.games g ON g.id = e.game_id
+            WHERE
+                e.version_group_id = 10
+                AND l.name = 'Goldenrod City'
+                AND w.slug = 'prize'
+                AND e.form_id = 14700 ORDER BY 1 $$, $$
+            VALUES (NULL::text, '2100 coins'::text) $$, 'HeartGold and SoulSilver''s Goldenrod Game Corner has Dratini for 2100 coins');
+SELECT
+    results_eq ($$
+        SELECT
+            COUNT(*)::integer, COUNT(DISTINCT e.location_id)::integer FROM reference.pokemon_encounters e
+            JOIN reference.encounter_ways w ON w.id = e.encounter_way_id
+            WHERE
+                e.version_group_id = 19
+                AND w.slug = 'trade'
+                AND e.giver = 'Regina' ORDER BY 1 $$, $$
+            VALUES (165, 15) $$, 'Regina offers her eleven trades at all fifteen of her Isle of Armor spots');
+SELECT
+    results_eq ($$
+        SELECT
+            f.slug, e.condition FROM reference.pokemon_encounters e
+            JOIN reference.pokemon_forms f ON f.id = e.form_id
+            JOIN reference.locations l ON l.id = e.location_id
+            WHERE
+                e.version_group_id = 19
+                AND l.name = 'Fields of Honor'
+                AND e.form_id IN (72200, 72500, 72800)
+                AND e.game_id IS NULL ORDER BY e.form_id $$, $$
+            VALUES ('rowlet'::text, 'For 100 Alolan Diglett, if your partner is Grookey'::text), ('litten', 'For 100 Alolan Diglett, if your partner is Scorbunny'), ('popplio', 'For 100 Alolan Diglett, if your partner is Sobble') $$, 'the Diglett-hunting Hiker''s Alola partner follows your own, in Sword and Shield alike');
+SELECT
+    results_eq ($$
+        SELECT
+            e.giver, e.condition FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            WHERE
+                e.version_group_id = 10
+                AND e.form_id = 20800
+                AND e.giver IS NOT NULL ORDER BY 1 $$, $$
+            VALUES ('Jasmine'::text, 'Early afternoons after a rematch; takes any Pokémon of yours'::text) $$, 'Jasmine''s Steelix trade takes any Pokémon');
+SELECT
+    is_empty ($$
+        SELECT
+            e.id FROM reference.pokemon_encounters e
+            JOIN reference.locations l ON l.id = e.location_id
+            WHERE
+                e.version_group_id = 13
+                AND l.name IN ('South Boulevard', 'Glittering Cave')
+                AND e.encounter_way_id IN (27, 28, 29, 30) $$, 'X and Y''s Kanto partners, Ralts and fossils are handed over once, at the lab, the café and Ambrette');
 SELECT
     *
 FROM

@@ -113,16 +113,13 @@ SELECT
                 mainline_milestones.version_group_id = gifts.version_group_id
                 AND options.label ILIKE '%' || gifts.species || '%')
         -- Bought, won or out of reach, so not handed over in the story:
-        -- Game Corner prizes and the Magikarp salesman in the games whose
-        -- hand-overs still wait for their Prize and Bought ways (#322),
         -- Crystal's Odd Egg (named as the Odd Egg), Primo's password Eggs,
-        -- event and code-only gifts,
-        -- the Totem-sized Pokémon (named as a group), the Isle of Armor's
-        -- Alolan starters for the Diglett hunt, Omega Ruby / Alpha Sapphire's
-        -- starters from older regions (named by region) and its Battle Resort
-        -- listing, which no second source confirms.
+        -- event and code-only gifts, the Totem-sized Pokémon (named as a
+        -- group), the Isle of Armor's rewards for the Diglett hunt, Omega
+        -- Ruby / Alpha Sapphire's starters from older regions (named by
+        -- region) and its Battle Resort gifts.
         AND (version_groups.slug, locations.name)
-        NOT IN (('hgss', 'Celadon City'), ('hgss', 'Goldenrod City'), ('lgpe', 'Route 4'), ('bw', 'Marvelous Bridge'), ('b2w2', 'Marvelous Bridge'), ('crystal', 'Route 34'), ('hgss', 'Violet City'), ('hgss', 'Cianwood City'), ('bw', 'Castelia City'), ('sm', 'Hau''oli City'), ('usum', 'Hau''oli City'), ('usum', 'Heahea Beach'), ('swsh-ioa', 'Fields of Honor'), ('oras', 'Route 101'), ('oras', 'Battle Resort'), ('za-md', 'Hyperspace Lumiose')) $$, 'a Pokémon someone hands you is named in the game''s Story');
+        NOT IN (('crystal', 'Route 34'), ('hgss', 'Violet City'), ('hgss', 'Cianwood City'), ('bw', 'Castelia City'), ('sm', 'Hau''oli City'), ('usum', 'Hau''oli City'), ('usum', 'Heahea Beach'), ('swsh-ioa', 'Fields of Honor'), ('oras', 'Route 101'), ('oras', 'Battle Resort'), ('za-md', 'Hyperspace Lumiose')) $$, 'a Pokémon someone hands you is named in the game''s Story');
 -- Notes and descriptions never say "other", which reads vague in a walkthrough.
 SELECT
     is_empty ($$
