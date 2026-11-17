@@ -10,6 +10,8 @@
 -- ============================================================================
 -- Table: reference.encounter_ways
 -- Scope: the ways a Pokémon is met at a place, from tall grass to a gift.
+-- A Game Corner prize (Prize) and a Pokémon you pay for (Bought) are their
+-- own ways, never a gift.
 -- Fishing names the rod it takes: Old, Good and Super Rod where a game has
 -- them (Black / White and Black 2 / White 2 have only the Super Rod), and
 -- one Fishing Rod for Sun / Moon to Sword / Shield, which have a single rod.
@@ -81,4 +83,8 @@ VALUES
   -- Fossil
   (29, 'fossil', 'Fossil', 32),
   -- Egg
-  (30, 'egg', 'Egg', 33);
+  (30, 'egg', 'Egg', 33),
+  -- Prize
+  (34, 'prize', 'Prize', 34),
+  -- Bought
+  (35, 'bought', 'Bought', 35);

@@ -20,7 +20,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_encounters),
-            27851,
+            27839,
             'every encounter row is seeded');
 SELECT
     is_empty ($$

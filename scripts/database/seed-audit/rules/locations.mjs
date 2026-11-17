@@ -8,7 +8,7 @@ import {
 
 const EXPECTED_LOCATION_ROWS = 1006;
 const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1967;
-const EXPECTED_ENCOUNTER_ROWS = 27851;
+const EXPECTED_ENCOUNTER_ROWS = 27839;
 
 /* Which rods each version group fishes with, by way slug: Old, Good and
    Super Rod through Generation IV, X / Y, Omega Ruby / Alpha Sapphire and
@@ -41,7 +41,80 @@ const RODS_BY_VERSION_GROUP_SLUG = new Map([
 ]);
 const FISHING_WAY_SLUGS = new Set([...THREE_RODS, "fishing-rod"]);
 
+/* The ways a Pokémon is handed over, which alone say who gives it, what a
+   trade asks for, its nickname, its held item and its price. */
+const HANDOVER_WAY_SLUGS = new Set([
+  "starter",
+  "gift",
+  "trade",
+  "fossil",
+  "egg",
+  "prize",
+  "bought",
+]);
+const PRICED_WAY_SLUGS = new Set(["prize", "bought"]);
+
+/* Version groups whose hand-overs are written out in full (#322): every
+   trade says what it asks for, every hand-over says who gives it or how it
+   is found. The rest follow a generation at a time. */
+const DETAILED_HANDOVER_GROUP_SLUGS = new Set([
+  "rb",
+  "yellow",
+  "gs",
+  "crystal",
+  "rs",
+  "frlg",
+  "emerald",
+]);
+
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
+
+const isSet = (value) => value !== null && value !== undefined;
+
+/* A hand-over's details sit only on the ways they belong to, and a group
+   written out in full leaves none of them out. */
+function assertHandoverDetails(
+  context,
+  row,
+  filePath,
+  { waySlug, groupSlug, formSpecies },
+) {
+  const where = `${relative(filePath)}: encounter of form ${row.form_id} at place ${row.location_id} in version group ${row.version_group_id}`;
+  const handedOver = HANDOVER_WAY_SLUGS.has(waySlug);
+  if (
+    !handedOver &&
+    [row.giver, row.nickname, row.held_item_id].some(isSet)
+  ) {
+    context.errors.push(
+      `${where} has a giver, nickname or held item, but its way (${waySlug}) is not a hand-over.`,
+    );
+  }
+  if (waySlug !== "trade" && isSet(row.trade_for_form_id)) {
+    context.errors.push(`${where} asks for a Pokémon but is not a trade.`);
+  }
+  if (
+    isSet(row.trade_for_form_id) &&
+    formSpecies.get(row.trade_for_form_id) !== row.trade_for_species_id
+  ) {
+    context.errors.push(
+      `${where} asks for form ${row.trade_for_form_id}, which is not a form of species ${row.trade_for_species_id}.`,
+    );
+  }
+  if (PRICED_WAY_SLUGS.has(waySlug) !== isSet(row.price)) {
+    context.errors.push(
+      `${where}: a prize or a Pokémon you buy has a price, and nothing else does.`,
+    );
+  }
+  if (!handedOver || !DETAILED_HANDOVER_GROUP_SLUGS.has(groupSlug)) return;
+  if (waySlug === "trade" && !isSet(row.trade_for_form_id)) {
+    context.errors.push(`${where} is a trade that asks for nothing.`);
+  }
+  if (!isSet(row.giver) && !isSet(row.condition)) {
+    context.errors.push(
+      `${where} is handed over with no giver and no word on how it is found.`,
+    );
+  }
+}
 
 /* Every place, which groups have it in story order, where each Pokémon is met, where Story milestones happen, and the Story roadmap's steps. */
 export function assertLocationRows(context, tableRows) {
@@ -69,6 +142,7 @@ export function assertLocationRows(context, tableRows) {
     ]),
   );
   const wayIds = new Set(ways.map(({ row }) => row.id));
+  const waySlugs = new Map(ways.map(({ row }) => [row.id, row.slug]));
   const levellessWayIds = new Set(
     ways
       .filter(({ row }) =>
@@ -240,6 +314,11 @@ export function assertLocationRows(context, tableRows) {
         `${relative(filePath)}: encounter of form ${row.form_id} at place ${row.location_id} has levels ${row.level_min}-${row.level_max}.`,
       );
     }
+    assertHandoverDetails(context, row, filePath, {
+      waySlug: waySlugs.get(row.encounter_way_id),
+      groupSlug: versionGroups.get(row.version_group_id)?.slug,
+      formSpecies,
+    });
   }
   assertFishingRods(context, encounters, ways, versionGroups);
   for (const wayKey of groupWideRows) {
