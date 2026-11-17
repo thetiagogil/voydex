@@ -7,7 +7,7 @@ import {
   getBrandHref,
   isCurrentLink,
   mainlineLinks,
-  publicMenuLinks,
+  publicLinks,
   tabBarLinks,
   youLinks,
 } from "./app-navigation";
@@ -72,16 +72,15 @@ describe("app navigation", () => {
     expect(isYouCurrent("/mainline/plays")).toBe(false);
   });
 
-  it("sends the V tile to Mainline once you're signed in", () => {
+  it("sends the V tile to Mainline in the app and the front page on the site", () => {
     expect(getBrandHref(true)).toBe("/mainline");
     expect(getBrandHref(false)).toBe("/");
   });
 
-  it("leads the signed-out phone menu with Start a Play", () => {
-    expect(publicMenuLinks.map((link) => link.label)).toEqual([
-      "Start a Play",
-      "How it works",
+  it("links the site's bar to the front page's parts", () => {
+    expect(publicLinks).toEqual([
+      { href: "/#how-it-works", label: "How it works" },
+      { href: "/#install", label: "Install" },
     ]);
-    expect(publicMenuLinks[0]?.href).toBe("/start");
   });
 });

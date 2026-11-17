@@ -7,7 +7,7 @@ import type {
 } from "@/config/public-art";
 
 /*
- * The example Play the public pages show ("Here's one."): a late Pokémon
+ * The example Play the front page shows: a late Pokémon
  * Sword run. Every name, date and number below is the example's, drawn as
  * copy; none of it is anyone's data.
  */
@@ -35,52 +35,6 @@ export const samplePlay: PublicSamplePlay = {
   status: "Playing",
   tabs: ["Overview", "Team", "Progress", "History", "Settings"],
   trainer: "Bea",
-};
-
-type SampleStoryBeat = {
-  detail: string;
-  moment: PublicMoment;
-  title: string;
-  when: string;
-};
-
-/* Home's strip: the Play's moments in order, then what comes next. */
-export const samplePlayStory: {
-  beats: readonly SampleStoryBeat[];
-  next: { detail: string; title: string };
-} = {
-  beats: [
-    {
-      detail: "With Grookey, nicknamed Buddy",
-      moment: { kind: "pokemon", pokemon: grookey },
-      title: "The journey began",
-      when: "May 7",
-    },
-    {
-      detail: "Into Toxtricity, at Lv. 30",
-      moment: { kind: "pokemon", pokemon: toxtricity },
-      title: "Toxel evolved",
-      when: "Jun 30",
-    },
-    {
-      detail:
-        "“Pausing here. Mustard's final trial keeps ending the same way.”",
-      moment: { kind: "note" },
-      title: "A note to self",
-      when: "Jul 14",
-    },
-    {
-      detail: "The eighth badge, from Raihan",
-      moment: {
-        kind: "badge",
-        spriteSlug: "galar-dragon-badge",
-        type: "dragon",
-      },
-      title: "Dragon Badge",
-      when: "Aug 12",
-    },
-  ],
-  next: { detail: "Wyndon Stadium", title: "Champion Cup" },
 };
 
 export const samplePlayTeam: readonly PublicPokemon[] = [

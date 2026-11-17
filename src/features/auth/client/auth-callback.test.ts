@@ -29,8 +29,8 @@ beforeEach(() => {
 
 describe("completeAuthLink", () => {
   it("exchanges a code once and goes on to the link's next page", async () => {
-    await expect(finish({ code: "abc", next: "/welcome" })).resolves.toBe(
-      "/welcome",
+    await expect(finish({ code: "abc", next: "/mainline" })).resolves.toBe(
+      "/mainline",
     );
     expect(auth.exchangeCodeForSession).toHaveBeenCalledExactlyOnceWith("abc");
   });
@@ -41,18 +41,18 @@ describe("completeAuthLink", () => {
 
   it("never follows a next page on another site", async () => {
     await expect(
-      finish({ code: "abc", next: "https://evil.example/welcome" }),
+      finish({ code: "abc", next: "https://evil.example/mainline" }),
     ).resolves.toBe(fallback);
   });
 
   it("sends a code that fails back to Log in, keeping where it was going", async () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
-    await expect(finish({ code: "abc", next: "/welcome" })).resolves.toBe(
+    await expect(finish({ code: "abc", next: "/mainline" })).resolves.toBe(
       getAuthPageHref({
         error: "link-expired",
         mode: "log-in",
-        next: "/welcome",
+        next: "/mainline",
       }),
     );
   });
@@ -91,14 +91,14 @@ describe("completeAuthLink", () => {
 
   it("verifies a sign-up token link and goes on", async () => {
     await expect(
-      finish({ next: "/welcome", token_hash: "hash", type: "signup" }),
-    ).resolves.toBe("/welcome");
+      finish({ next: "/mainline", token_hash: "hash", type: "signup" }),
+    ).resolves.toBe("/mainline");
   });
 
   it("ignores a token link of an unknown type", async () => {
     await expect(
-      finish({ next: "/welcome", token_hash: "hash", type: "sms" }),
-    ).resolves.toBe("/welcome");
+      finish({ next: "/mainline", token_hash: "hash", type: "sms" }),
+    ).resolves.toBe("/mainline");
     expect(auth.verifyOtp).not.toHaveBeenCalled();
   });
 

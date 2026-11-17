@@ -39,16 +39,16 @@ type AuthPanelProps = {
 
 const copyByMode = {
   "log-in": {
-    lede: "Your Plays are right where you left them.",
+    lede: "Log in to bring your Plays to this device.",
     pendingLabel: "Logging in...",
     submit: "Log in",
     title: "Welcome back",
   },
   "sign-up": {
-    lede: "Keep every playthrough in one place.",
+    lede: "An account keeps a copy online and brings your Plays to your other devices.",
     pendingLabel: "Creating account...",
     submit: "Create account",
-    title: "Start your journey",
+    title: "Back up your Plays",
   },
 } satisfies Record<AuthMode, Record<string, string>>;
 

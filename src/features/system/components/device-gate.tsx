@@ -18,8 +18,19 @@ import {
 } from "@/platform/local-db/use-open-local-db";
 
 /*
- * Opens the device database once per visit and shows the screens under it
- * when it's ready: the start screen until then, or why it couldn't open.
+ * The start screen and a device problem stand alone on the page: the app's
+ * bars come with the app, once the device is ready.
+ */
+const StartFrame = ({ children }: { children: ReactNode }) => (
+  <main className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
+    {children}
+  </main>
+);
+
+/*
+ * Opens the device database once per visit and shows the app under it when
+ * it's ready: the start screen until then, or why it couldn't open. The app's
+ * frame and bars sit inside it, so nothing of the app shows before it works.
  * The server renders the start screen too, so a page never flashes blank.
  *
  * The start screen stays while the database opens and `prepare` gets the
@@ -51,15 +62,25 @@ export const DeviceGate = ({
   useEffect(() => (open ? watchBackgroundDownloads() : undefined), [open]);
 
   return (
-    <Suspense fallback={<DeviceStartState step={null} />}>
+    <Suspense
+      fallback={
+        <StartFrame>
+          <DeviceStartState step={null} />
+        </StartFrame>
+      }
+    >
       {state.status === "opening" ? (
-        <DeviceStartState step={state.step} />
+        <StartFrame>
+          <DeviceStartState step={state.step} />
+        </StartFrame>
       ) : state.status === "failed" ? (
-        <DeviceProblemState
-          problem={state.problem}
-          onRetry={() => void retry()}
-          onStartFresh={() => void startFresh()}
-        />
+        <StartFrame>
+          <DeviceProblemState
+            problem={state.problem}
+            onRetry={() => void retry()}
+            onStartFresh={() => void startFresh()}
+          />
+        </StartFrame>
       ) : (
         <LocalDbProvider db={state.db} versions={state.versions}>
           {children}

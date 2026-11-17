@@ -16,7 +16,7 @@ export type AccountIcon = {
  * you signed in with (only for backups; null when you haven't).
  */
 export type AppAccount = {
-  /* The name you chose on Welcome or in Settings; null until you choose one. */
+  /* The name you chose in Settings; null until you choose one. */
   displayName: string | null;
   /* The signed-in account's email; null when you haven't signed in. */
   email: string | null;

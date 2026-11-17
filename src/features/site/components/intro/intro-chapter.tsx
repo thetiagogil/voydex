@@ -12,7 +12,7 @@ type IntroChapterProps = {
 };
 
 /*
- * One step of the Intro's story: the partner at that stage down the left, a
+ * One step of How it works: the partner at that stage down the left, a
  * dashed path to the next step, the words, then a drawing of the screen.
  */
 export const IntroChapter = ({
@@ -33,7 +33,7 @@ export const IntroChapter = ({
         <p className="text-14 text-ink-3 mb-2 font-extrabold">
           {when} · {partner.name}
         </p>
-        <h2 className="title-section">{title}</h2>
+        <h3 className="title-section">{title}</h3>
         <p className="text-16 text-ink-2 mt-3 max-w-[44em] leading-relaxed font-semibold">
           {text}
         </p>

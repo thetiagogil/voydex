@@ -3,6 +3,7 @@
 import { Link } from "@/shared/components/link";
 import { usePathname } from "next/navigation";
 
+import { appRoutes } from "@/config/routes";
 import { useAppAccount } from "@/features/app-shell/components/app-account-provider";
 import { useSignOut } from "@/features/app-shell/client/sign-out";
 import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
@@ -22,8 +23,8 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 
 /*
- * You on the top bar: your icon opens Library, Settings and, signed in, Log out,
- * nothing more (your profile lives on its page). A floating layer, so it takes the
+ * You on the top bar: your icon opens Library, Settings and Log in (Log out
+ * once you're signed in), nothing more (your profile lives on its page). A floating layer, so it takes the
  * float shadow and no edge. Phones reach the same things from the You
  * page instead.
  */
@@ -87,7 +88,7 @@ export const UserMenu = () => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        {/* Signing in is only for backups: Log out shows once you have. */}
+        {/* Signing in is only for backups: Log in until you have, Log out after. */}
         {account.email ? (
           <form action={signOut}>
             <DropdownMenuItem
@@ -104,7 +105,17 @@ export const UserMenu = () => {
               />
             </DropdownMenuItem>
           </form>
-        ) : null}
+        ) : (
+          <DropdownMenuGroup className="mt-1">
+            <DropdownMenuItem render={<Link href={appRoutes.login} />}>
+              <MenuOptionContent
+                description="Back up your Plays to an account"
+                leading={<AppIcon icon={appIcons.actions.login} size="lg" />}
+                title="Log in"
+              />
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

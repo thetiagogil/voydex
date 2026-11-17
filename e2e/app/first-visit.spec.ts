@@ -1,11 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signedOut } from "../support/accounts";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
- * The once-per-visit reveals (the meadow's partners, Statistics' title) play
- * through once in a fresh tab, and a reload in that tab doesn't start them.
+ * The once-per-visit reveal (Statistics' title) plays through once in a
+ * fresh tab, and a reload in that tab doesn't start it.
  * A reveal the page cuts off part-way, once it hydrates, is the bug these
  * guard against.
  */
@@ -67,21 +66,6 @@ const expectStill = async (page: Page, animationName: string) => {
     started: 0,
   });
 };
-
-test.describe("The meadow's partners", () => {
-  test.use({ storageState: signedOut });
-
-  test("pop in once in a fresh tab, and stay still on a reload", async ({
-    page,
-  }) => {
-    await recordAnimations(page);
-    await page.goto("/");
-    await expectPlayedThrough(page, "meadow-pop");
-
-    await page.reload();
-    await expectStill(page, "meadow-pop");
-  });
-});
 
 test.describe("Statistics' title", () => {
   /*

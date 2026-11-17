@@ -19,8 +19,7 @@ type ProfileIconPickerProps = {
 /*
  * The Pokémon you can pick as your icon, as round discs on a pale wash of
  * their type: the picked one takes the action border, and tapping it again
- * puts it back to your initial. One picker for Settings' trainer card and
- * Welcome.
+ * puts it back to your initial. Settings' trainer card uses it.
  */
 export const ProfileIconPicker = ({
   ariaLabel,

@@ -80,7 +80,3 @@ export const getCheckEmailHref = ({
 /* The `sent` query of a page that sends an email link. */
 export const parseAuthLinkSent = (value: unknown): AuthLinkSent | null =>
   value === "again" || value === "once" ? value : null;
-
-/* Welcome, the first run after signing up, keeping where to go afterwards. */
-export const getWelcomeHref = (next: string) =>
-  buildAuthHref(appRoutes.welcome, { next });

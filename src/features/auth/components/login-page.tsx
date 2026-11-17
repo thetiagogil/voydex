@@ -12,10 +12,15 @@ import { useRememberedAuthEmail } from "@/features/auth/client/auth-email";
 import { readDevTestAccounts } from "@/features/auth/dev-test-accounts";
 import { TextLink } from "@/shared/components/text-link";
 
-/* Log in and Sign up: a quiet form on one card, its state in the address. */
+/*
+ * Log in and Sign up: a quiet form on one card, its state in the address.
+ * An account is only for backups, and the line under the card says so.
+ */
 export const LoginPage = () => {
   const params = useSearchParams();
   const next = getSafeAuthRedirectPath(params.get("next"), LOGIN_DEFAULT_NEXT);
+  /* Back to the page that sent you here, or the front page. */
+  const back = params.get("next") ? next : appRoutes.home;
   const mode: AuthMode =
     params.get("mode") === "sign-up" ? "sign-up" : "log-in";
   const error = parseAuthErrorCode(params.get("error"));
@@ -25,10 +30,8 @@ export const LoginPage = () => {
     <AuthFrame
       after={
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
-          Just looking?{" "}
-          <TextLink href={appRoutes.codexPokemon}>Browse the Codex</TextLink>,
-          no account needed, or{" "}
-          <TextLink href={appRoutes.home}>go back home</TextLink>.
+          Voydex works the same without an account.{" "}
+          <TextLink href={back}>Go back</TextLink>.
         </p>
       }
     >

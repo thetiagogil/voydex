@@ -1,12 +1,12 @@
 /*
- * The once-per-visit reveals: motion that rewards arriving (the meadow's
- * partners popping in, the Statistics title rising) plays the first time a
- * piece is shown in a browser tab, then never again, not even on a reload.
+ * The once-per-visit reveals: motion that rewards arriving (the Statistics
+ * title rising) plays the first time a piece is shown in a browser tab, then
+ * never again, not even on a reload.
  *
  * A reveal's root carries `data-first-visit="<name>"` while it may play, and
  * its parts animate under it (`group-data-first-visit/<group>:animate-…`).
  */
-export const firstVisitNames = ["meadow", "stats-title"] as const;
+export const firstVisitNames = ["stats-title"] as const;
 
 export type FirstVisitName = (typeof firstVisitNames)[number];
 

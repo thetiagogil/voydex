@@ -1,13 +1,22 @@
+import { frontDoorScript } from "@/config/front-door";
+import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
+import { FrontDoorRedirect } from "@/features/site/components/front-door-redirect";
+import { FrontPage } from "@/features/site/components/front-page";
 import { publicPlayArt } from "@/modules/mainline/public-play-art";
 import { publicArt } from "@/modules/reference/public-art";
-import { PublicAppShell } from "@/features/app-shell/components/public-app-shell";
-import { HomeMeadow, HomePage } from "@/features/site/components/home-page";
 
+/*
+ * The front page. Its first line is a script that sends a device that has
+ * opened the app straight back in, before anything paints.
+ */
 export default function Page() {
   return (
-    <PublicAppShell bar="door">
-      <HomeMeadow art={publicArt} />
-      <HomePage art={publicArt} playArt={publicPlayArt} />
-    </PublicAppShell>
+    <>
+      <script dangerouslySetInnerHTML={{ __html: frontDoorScript }} />
+      <FrontDoorRedirect />
+      <PublicAppShell>
+        <FrontPage art={publicArt} playArt={publicPlayArt} />
+      </PublicAppShell>
+    </>
   );
 }

@@ -14,6 +14,12 @@ const playHref = (
   query: Record<string, string> = {},
 ) => `${PLAY_PATH}${view}?${new URLSearchParams({ id: playId, ...query })}`;
 
+/* The front page's parts, by the id each one carries. */
+export const frontPageSections = {
+  howItWorks: "how-it-works",
+  install: "install",
+} as const;
+
 export const appRoutes = {
   appEntry: "/app",
   authCallback: "/auth/callback",
@@ -54,8 +60,12 @@ export const appRoutes = {
   /* Ask for a password reset link. */
   forgotPassword: "/forgot-password",
   home: "/",
-  intro: "/intro",
+  /* How it works and Install: parts of the front page, linked by name. */
+  howItWorks: `/#${frontPageSections.howItWorks}`,
+  install: `/#${frontPageSections.install}`,
   login: "/login",
+  /* Log in, then back to the app page that offered it. */
+  loginFrom: (next: string) => `/login?${new URLSearchParams({ next })}`,
   /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
   mainline: "/mainline",
   /*
@@ -149,11 +159,7 @@ export const appRoutes = {
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
   settings: "/settings",
-  /* Start a Play: pick a game and a partner, then New Play opens on them. */
-  start: "/start",
   terms: "/terms",
-  /* First run after sign-up: name and icon. */
-  welcome: "/welcome",
   /* The You page on phones: trainer card, Statistics, Collection, Settings. */
   you: "/you",
 } as const;
@@ -162,7 +168,6 @@ export const appRoutes = {
 const appRoutePrefixes = [
   appRoutes.mainline,
   appRoutes.settings,
-  appRoutes.welcome,
   appRoutes.you,
 ] as const;
 

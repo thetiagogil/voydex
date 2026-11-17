@@ -3,56 +3,15 @@ import { expect, test } from "@playwright/test";
 import { expectAccessible } from "../support/accessibility";
 import { waitForAction } from "../support/actions";
 import { newTestEmail, signedOut } from "../support/accounts";
-import { leaveWelcome, signUp } from "../support/auth";
+import { signUp } from "../support/auth";
 
 test.use({ storageState: signedOut });
 
-test.describe("Profile: icon, default trainer name and Welcome", () => {
-  test("Welcome saves your icon and then never opens again @phone", async ({
-    page,
-  }) => {
-    await signUp(page, newTestEmail("icon"));
-
-    const aboutYou = page.getByRole("form", { name: "About you" });
-    const icons = aboutYou.getByRole("group", { name: "Pick your icon" });
-
-    await icons.getByRole("button", { name: "Mudkip" }).click();
-    await expect(icons.getByRole("button", { name: "Mudkip" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await expectAccessible(page);
-    await aboutYou
-      .getByRole("textbox", { name: "What should we call you?" })
-      .fill("Red");
-    await leaveWelcome(page, "Continue");
-
-    /* The same link now just moves on. */
-    await page.goto("/welcome");
-    await page.waitForURL("**/mainline");
-
-    await page.goto("/settings");
-    await expect(
-      page
-        .getByRole("group", { name: "Your icon" })
-        .getByRole("button", { name: "Mudkip" }),
-    ).toHaveAttribute("aria-pressed", "true");
-  });
-
-  test("Skipping Welcome ends it too", async ({ page }) => {
-    await signUp(page, newTestEmail("skip"));
-
-    await leaveWelcome(page);
-
-    await page.goto("/welcome");
-    await page.waitForURL("**/mainline");
-  });
-
+test.describe("Profile: icon and default trainer name", () => {
   test("a default trainer name from Settings starts New Play", async ({
     page,
   }) => {
     await signUp(page, newTestEmail("trainer"));
-    await leaveWelcome(page);
 
     await page.goto("/settings");
     const profile = page.getByRole("form", { name: "Profile" });

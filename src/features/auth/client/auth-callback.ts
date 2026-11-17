@@ -26,7 +26,7 @@ const emailOtpTypes = new Set<string>([
 
 /*
  * Every email link comes back to the callback page: a sign-up confirmation
- * (on to Welcome), a password reset (on to Choose a new password) or an
+ * (on to the app), a password reset (on to Choose a new password) or an
  * email change. A `code` is exchanged for a session in this browser; a
  * `token_hash` link (an email template that works on any device) is
  * verified instead. A link that fails sends a reset back to Reset your

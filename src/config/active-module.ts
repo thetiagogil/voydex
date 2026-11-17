@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ACTIVE_MODULE_STORAGE_KEY,
   DEFAULT_MODULE_KEY,
   getModuleKeyForPathname,
   isModuleKey,
@@ -12,7 +13,7 @@ import {
  * so `/app` and logging in land there. A small setting, so it lives in
  * localStorage; a browser that refuses storage just lands on the default.
  */
-const storageKey = "voydex-active-module";
+const storageKey = ACTIVE_MODULE_STORAGE_KEY;
 
 /* Remembers the module a page belongs to; pages outside one change nothing. */
 export const rememberActiveModule = (pathname: string) => {

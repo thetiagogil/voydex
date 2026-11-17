@@ -5,7 +5,7 @@ import { appRoutes } from "@/config/routes";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 
 const footerLinks = [
-  { href: appRoutes.intro, label: "How it works" },
+  { href: appRoutes.howItWorks, label: "How it works" },
   { href: appRoutes.codexPokemon, label: "Codex" },
   { href: appRoutes.login, label: "Log in" },
   { href: appRoutes.privacy, label: "Privacy" },
@@ -13,7 +13,7 @@ const footerLinks = [
 ] as const;
 
 /*
- * The signed-out frame's quiet footer (v3 `.pub-foot`): its rule runs the full
+ * The site frame's quiet footer: its rule runs the full
  * width, and inside it the name, the catchphrase, a few links (How it works,
  * Codex, Log in, Privacy, Terms) and the fan-project notice line up with the
  * page.

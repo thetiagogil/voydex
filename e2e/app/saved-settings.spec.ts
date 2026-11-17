@@ -4,7 +4,7 @@ import { expectAccessible } from "../support/accessibility";
 import { newTestEmail, signedOut } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { openFilters } from "../support/filters";
-import { leaveWelcome, signUp } from "../support/auth";
+import { signUp } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Settings change the trainer's own preferences, so each test signs up its own. */
@@ -15,7 +15,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("motion"));
-    await leaveWelcome(page);
     await page.goto("/settings", { waitUntil: "networkidle" });
 
     const look = page.getByRole("region", { name: "Look and feel" });
@@ -47,7 +46,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("search-filters"));
-    await leaveWelcome(page);
 
     /* Folded by default. */
     await page.goto("/codex/pokemon");
@@ -85,7 +83,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("tracking"));
-    await leaveWelcome(page);
     await page.goto("/settings", { waitUntil: "networkidle" });
 
     const defaults = page.getByRole("region", { name: "New Play defaults" });
@@ -178,7 +175,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("collectibles"));
-    await leaveWelcome(page);
     await page.goto("/mainline?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
@@ -200,7 +196,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("uncatch"));
-    await leaveWelcome(page);
 
     const playId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
@@ -248,7 +243,6 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     page,
   }) => {
     await signUp(page, newTestEmail("ontrack"));
-    await leaveWelcome(page);
 
     const playId = await startPlay(page, {
       game: "Pokémon Blue, 1996",

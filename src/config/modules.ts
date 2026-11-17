@@ -3,6 +3,9 @@ import { appRoutes } from "@/config/routes";
 
 export const DEFAULT_MODULE_KEY = "codex";
 
+/* Where a device keeps the module it was last in (see `active-module.ts`). */
+export const ACTIVE_MODULE_STORAGE_KEY = "voydex-active-module";
+
 export const modules = {
   codex: {
     basePath: appRoutes.codex,

@@ -40,7 +40,7 @@ export default defineConfig({
   retries: isCI ? 1 : 0,
   /*
    * The dev server compiles pages on first visit, so keep the load modest.
-   * On GitHub, four workers made sign-ups miss their Welcome in time.
+   * On GitHub, four workers made sign-ups miss their landing page in time.
    */
   workers: isCI ? 2 : 3,
   timeout: 60_000,

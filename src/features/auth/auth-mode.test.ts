@@ -5,7 +5,6 @@ import {
   getCheckEmailHref,
   getForgotPasswordHref,
   getResetPasswordHref,
-  getWelcomeHref,
   LOGIN_DEFAULT_NEXT,
   parseAuthLinkSent,
 } from "./auth-mode";
@@ -69,13 +68,6 @@ describe("recovery and first-run links", () => {
     );
     expect(getCheckEmailHref({ next: "/mainline/plays", resent: true })).toBe(
       "/check-email?sent=again&next=%2Fmainline%2Fplays",
-    );
-  });
-
-  it("links Welcome, leaving out the default destination", () => {
-    expect(getWelcomeHref(LOGIN_DEFAULT_NEXT)).toBe("/welcome");
-    expect(getWelcomeHref("/mainline/plays")).toBe(
-      "/welcome?next=%2Fmainline%2Fplays",
     );
   });
 

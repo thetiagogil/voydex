@@ -5,7 +5,6 @@ import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-ba
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { CodexMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
-import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
@@ -27,22 +26,21 @@ type AppShellProps = {
    */
   frame?: "app" | "site";
   /*
-   * The site's top bar: `full` (the V and name, how it works, the Codex,
-   * Log in), `door` (the front door: Log in alone, no pill, the meadow
-   * carries the name) or `none` (the log-in pages, which link home
-   * themselves). The app's bar is always full.
+   * The site's top bar: `full` (the V and name, the front page's parts,
+   * Log in) or `none` (the log-in pages, which link back themselves). The
+   * app's bar is always full.
    */
-  bar?: "door" | "full" | "none";
+  bar?: "full" | "none";
   children: React.ReactNode;
 };
 
 /*
- * v3's two bars. Signed in: the V tile and the name (to Mainline Home), Mainline's views
- * in the middle, the Codex menu and your icon on the right; on phones and tablets
- * the views, the Codex and You move to a bottom bar. Signed out: the V tile
- * with the name, how it works and the Codex, and Log in; on phones the links
- * fold into a menu with Start a Play. The front door shows Log in alone, and
- * the log-in pages show no bar. The signed-out frame ends on the site footer.
+ * The two bars. The app's: the V tile and the name (to Mainline Home),
+ * Mainline's views in the middle, the Codex menu and your icon on the right;
+ * on phones and tablets the views, the Codex and You move to a bottom bar.
+ * The site's: the V tile with the name, How it works and Install (parts of
+ * the front page), and Log in; on phones only the V tile and Log in. The
+ * log-in pages show no bar. The site frame ends on the site footer.
  * The bar is transparent: a page that opens on a band (`page-band`) runs it
  * edge to edge under the bar, which sits on the band's colour.
  */
@@ -98,28 +96,18 @@ export const AppShell = ({
             </div>
           }
         />
-      ) : bar === "none" ? null : bar === "door" ? (
-        <AppNavbar bare brandHref={getBrandHref(false)} end={logIn} />
-      ) : (
+      ) : bar === "none" ? null : (
         <AppNavbar
           brandHref={getBrandHref(false)}
           showName
           center={
-            <div className="hidden items-center gap-1 sm:flex">
-              <NavigationLinks
-                ariaLabel="Main"
-                links={publicLinks}
-                className="flex"
-              />
-              <CodexMenu />
-            </div>
+            <NavigationLinks
+              ariaLabel="Main"
+              links={publicLinks}
+              className="hidden sm:flex"
+            />
           }
-          end={
-            <>
-              {logIn}
-              <PublicMenu className="sm:hidden" />
-            </>
-          }
+          end={logIn}
         />
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">

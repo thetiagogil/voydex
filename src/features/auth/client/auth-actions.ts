@@ -20,7 +20,6 @@ import {
   getCheckEmailHref,
   getForgotPasswordHref,
   getResetPasswordHref,
-  getWelcomeHref,
 } from "@/features/auth/auth-mode";
 import { getLogInLandingPath } from "@/features/auth/auth-redirects";
 import {
@@ -87,19 +86,19 @@ export const logInWithPassword = async (formData: FormData) => {
 };
 
 /*
- * One password with Show, no confirmation field (v3). A new account goes to
- * Welcome first; when its email still needs confirming, to Check your email,
- * and the email's link leads to Welcome.
+ * One password with Show, no confirmation field. A new account lands where
+ * Log in would; when its email still needs confirming, on Check your email,
+ * and the email's link leads to the same place.
  */
 export const signUpWithPassword = async (formData: FormData) => {
   const form = readAuthForm(formData, "sign-up");
 
   if (!form.ok) return form.href;
 
-  const welcomeHref = getWelcomeHref(form.context.next);
+  const landing = getLogInLandingPath(form.context.next);
   const { data, error } = await getBrowserSupabaseClient().auth.signUp({
     email: form.email,
-    options: { emailRedirectTo: callbackUrl(welcomeHref) },
+    options: { emailRedirectTo: callbackUrl(landing) },
     password: form.password,
   });
 
@@ -112,7 +111,7 @@ export const signUpWithPassword = async (formData: FormData) => {
   if (data.session) {
     forgetAuthEmail();
 
-    return welcomeHref;
+    return landing;
   }
 
   rememberAuthEmail(form.email);
@@ -130,7 +129,7 @@ export const resendSignUpEmail = async (formData: FormData) => {
 
   const { error } = await getBrowserSupabaseClient().auth.resend({
     email,
-    options: { emailRedirectTo: callbackUrl(getWelcomeHref(next)) },
+    options: { emailRedirectTo: callbackUrl(getLogInLandingPath(next)) },
     type: "signup",
   });
 

@@ -1,6 +1,7 @@
 import type { PlayTracking } from "@/config/play-tracking";
 import type { LookAndFeel } from "@/features/settings/client/preferences-actions";
 import type { ProfileIconChoice } from "@/features/settings/types";
+import { SettingsAboutSection } from "@/features/settings/components/settings-about-section";
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
 import { PageBand } from "@/shared/components/page-band";
 import { SettingsDataSection } from "@/features/settings/components/settings-data-section";
@@ -28,9 +29,9 @@ type SettingsPageProps = {
 };
 
 /*
- * v3's Account settings: one column, the trainer card on the band (it is the
- * profile form), then quiet sections: Look and feel, New Play defaults,
- * Account and Your data.
+ * Settings: one column, the trainer card on the band (it is the profile
+ * form), then quiet sections: Look and feel, New Play defaults, Account,
+ * Your data and About Voydex.
  */
 export const SettingsPage = ({
   choices,
@@ -63,11 +64,9 @@ export const SettingsPage = ({
     <div className="mt-6 flex flex-col gap-6">
       <SettingsLookSection lookAndFeel={lookAndFeel} />
       <SettingsNewPlayDefaultsSection defaults={newPlayDefaults} />
-      {/* Signing in is only for backups: the account section shows once you have. */}
-      {email ? (
-        <SettingsAccountSection email={email} signOutAction={signOutAction} />
-      ) : null}
+      <SettingsAccountSection email={email} signOutAction={signOutAction} />
       <SettingsDataSection />
+      <SettingsAboutSection />
     </div>
   </div>
 );

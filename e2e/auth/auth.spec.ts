@@ -7,22 +7,16 @@ import { logIn, signUp } from "../support/auth";
 test.use({ storageState: signedOut });
 
 test.describe("Sign up and log in", () => {
-  test("signs up, names the trainer on Welcome and reaches Home @phone", async ({
+  test("signs up and lands on Home, with no step in between @phone", async ({
     page,
   }) => {
     await page.goto("/login?mode=sign-up");
+    await expect(
+      page.getByRole("heading", { name: "Back up your Plays" }),
+    ).toBeVisible();
     await expectAccessible(page);
 
-    await signUp(page, newTestEmail("welcome"));
-    await expectAccessible(page);
-
-    const aboutYou = page.getByRole("form", { name: "About you" });
-    await aboutYou
-      .getByRole("textbox", { name: "What should we call you?" })
-      .fill("Red");
-    await aboutYou.getByRole("button", { name: "Continue" }).click();
-
-    await page.waitForURL("**/mainline");
+    await signUp(page, newTestEmail("sign-up"));
     await expect(
       page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
         name: "Games",

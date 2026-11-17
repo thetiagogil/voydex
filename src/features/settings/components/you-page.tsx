@@ -69,8 +69,9 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
 );
 
 /*
- * You (v3 `you`), the fifth tab on phones: your trainer card on the band, then the pages
- * about you (Statistics, Collection, Settings) and Log out. On a wide screen
+ * You, the fifth tab on phones: your trainer card on the band, then the
+ * pages about you (Statistics, Collection, Library, Settings), then Log in,
+ * or Log out once you're signed in. On a wide screen
  * the same things sit in the account menu, but the page still works there.
  */
 export const YouPage = ({
@@ -128,9 +129,18 @@ export const YouPage = ({
             title="Settings"
             description="Profile, look and feel, New Play defaults"
           />
+          {/* Signing in is only for backups: the way in until you have. */}
+          {email ? null : (
+            <YouRow
+              href={appRoutes.loginFrom(appRoutes.you)}
+              icon={appIcons.actions.login}
+              title="Log in"
+              description="Back up your Plays to an account"
+            />
+          )}
         </nav>
       </Card>
-      {/* Signing in is only for backups: Log out shows once you have. */}
+      {/* Log out shows once you've signed in. */}
       {email ? (
         <form action={signOutAction} className="mt-5.5">
           <SettingsLogOutButton className="w-full" />
