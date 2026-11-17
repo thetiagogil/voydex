@@ -70,14 +70,21 @@ const Toaster = ({ ...props }: ToasterProps) => {
  * For a toast with two actions (Not now, Try again). From 768px it may grow
  * past the usual width, up to 26rem (416px), so its words sit on one line
  * beside the actions. Below that the words take the whole first line and the
- * actions wrap under them, at the end, instead of squeezing the words into
- * a narrow column.
+ * actions share the line under them, lined up with the words, instead of
+ * squeezing the words into a narrow column.
  */
 const twoActionToast = {
   classNames: {
-    cancelButton: "max-md:ml-auto",
+    /*
+     * Each takes half the row, which starts where the words start; Not now
+     * gets a quiet fill there, so the two read as a pair of buttons.
+     */
+    actionButton: "max-md:ml-0 max-md:flex-1",
+    cancelButton: "max-md:bg-on-ink/10 max-md:ml-7 max-md:flex-1",
     content: "max-md:basis-[calc(100%-1.75rem)]",
-    toast: "max-md:flex-wrap max-md:gap-y-2 md:w-max md:max-w-104",
+    /* Even sides, so the row ends as far in as the icon starts. */
+    toast:
+      "max-md:flex-wrap max-md:gap-y-2.5 max-md:pr-4.5 md:w-max md:max-w-104",
   },
 };
 
