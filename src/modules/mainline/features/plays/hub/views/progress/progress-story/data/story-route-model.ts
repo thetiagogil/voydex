@@ -51,6 +51,8 @@ export type StoryRouteEntry =
        * its battles fought here show, not again when the story comes back.
        */
       firstPass: boolean;
+      /* The first time the route comes to this place at all (#322). */
+      firstVisit: boolean;
       kind: "place";
       /* What happens there, in a line; null where nothing does. */
       note: string | null;
@@ -205,6 +207,8 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
   const placed = new Set<number>();
   /* Each place already passed on the way to each milestone. */
   const passed = new Set<string>();
+  /* Each place the route has come to at all. */
+  const visited = new Set<number>();
   let shownChapter: StorySection | null = null;
   /* Every required milestone so far is recorded. */
   let walked = true;
@@ -233,10 +237,13 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
     if (step.place && leadsTo) {
       const pass = `${step.place.id}-${leadsTo.id}`;
       const firstPass = !passed.has(pass);
+      const firstVisit = !visited.has(step.place.id);
 
       passed.add(pass);
+      visited.add(step.place.id);
       entries.push({
         firstPass,
+        firstVisit,
         key: `place-${step.id}`,
         kind: "place",
         note: step.note,

@@ -1,0 +1,39 @@
+# Weekly, grouped dependency updates. Small dev tool updates merge
+# themselves once Quality passes (see dependabot-auto-merge.yml); the owner
+# merges the rest.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 3
+    labels: []
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      dev-tools:
+        dependency-type: development
+        update-types: [minor, patch]
+      app-packages:
+        dependency-type: production
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+    labels: []
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      github-actions:
+        patterns: ["*"]

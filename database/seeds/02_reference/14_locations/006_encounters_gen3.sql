@@ -22,9 +22,6 @@ VALUES
   (261, 26100, 201, 5, NULL, 1, 2, 3, NULL),
   (263, 26300, 201, 5, NULL, 1, 2, 3, NULL),
   (265, 26500, 201, 5, NULL, 1, 2, 3, NULL),
-  (252, 25200, 201, 5, NULL, 27, 5, 5, NULL),
-  (255, 25500, 201, 5, NULL, 27, 5, 5, NULL),
-  (258, 25800, 201, 5, NULL, 27, 5, 5, NULL),
   -- Route 103 in rs
   (261, 26100, 203, 5, NULL, 1, 2, 4, NULL),
   (263, 26300, 203, 5, NULL, 1, 2, 4, NULL),
@@ -82,11 +79,6 @@ VALUES
   (276, 27600, 200, 5, NULL, 1, 5, 6, NULL),
   (285, 28500, 200, 5, NULL, 1, 5, 6, NULL),
   (287, 28700, 200, 5, NULL, 1, 5, 6, NULL),
-  -- Rustboro City in rs
-  (296, 29600, 235, 5, NULL, 28, NULL, NULL, NULL),
-  -- Devon Corporation in rs
-  (345, 34500, 148, 5, NULL, 29, 20, 20, NULL),
-  (347, 34700, 148, 5, NULL, 29, 20, 20, NULL),
   -- Route 116 in rs
   (263, 26300, 216, 5, NULL, 1, 6, 8, NULL),
   (276, 27600, 216, 5, NULL, 1, 6, 8, NULL),
@@ -272,8 +264,6 @@ VALUES
   (322, 32200, 155, 5, 8, 1, 20, 22, NULL),
   (325, 32500, 155, 5, 7, 1, 18, 20, NULL),
   (325, 32500, 155, 5, 8, 1, 20, 22, NULL),
-  -- Lavaridge Town in rs
-  (360, 36000, 156, 5, NULL, 30, 5, 5, NULL),
   -- New Mauville in rs
   (81, 8100, 197, 5, NULL, 3, 22, 26, NULL),
   (82, 8200, 197, 5, NULL, 3, 26, 26, NULL),
@@ -314,10 +304,6 @@ VALUES
   (349, 34900, 219, 5, NULL, 32, 20, 25, NULL),
   (318, 31800, 219, 5, NULL, 33, 20, 45, NULL),
   (349, 34900, 219, 5, NULL, 33, 20, 25, NULL),
-  -- Weather Institute in rs
-  (351, 35100, 253, 5, NULL, 27, 25, 25, NULL),
-  -- Fortree City in rs
-  (300, 30000, 153, 5, NULL, 28, NULL, NULL, NULL),
   -- Route 120 in rs
   (43, 4300, 220, 5, NULL, 1, 25, 27, NULL),
   (183, 18300, 220, 5, NULL, 1, 25, 27, NULL),
@@ -458,7 +444,6 @@ VALUES
   (320, 32000, 195, 5, NULL, 32, 10, 30, NULL),
   (319, 31900, 195, 5, NULL, 33, 30, 35, NULL),
   (320, 32000, 195, 5, NULL, 33, 25, 45, NULL),
-  (374, 37400, 195, 5, NULL, 27, 5, 5, NULL),
   -- Route 125 in rs
   (72, 7200, 225, 5, NULL, 6, 5, 35, NULL),
   (278, 27800, 225, 5, NULL, 6, 10, 30, NULL),
@@ -588,7 +573,6 @@ VALUES
   (320, 32000, 198, 5, NULL, 32, 10, 30, NULL),
   (319, 31900, 198, 5, NULL, 33, 30, 35, NULL),
   (320, 32000, 198, 5, NULL, 33, 25, 45, NULL),
-  (222, 22200, 198, 5, NULL, 28, NULL, NULL, NULL),
   -- Route 132 in rs
   (72, 7200, 232, 5, NULL, 6, 5, 35, NULL),
   (278, 27800, 232, 5, NULL, 6, 10, 30, NULL),
@@ -739,10 +723,6 @@ VALUES
   (117, 11700, 30, 6, 9, 33, 25, 35, NULL),
   (120, 12000, 30, 6, 10, 33, 15, 25, NULL),
   (130, 13000, 30, 6, NULL, 33, 15, 25, NULL),
-  -- Professor Oak's Laboratory in frlg
-  (1, 100, 35, 6, NULL, 27, 5, 5, NULL),
-  (4, 400, 35, 6, NULL, 27, 5, 5, NULL),
-  (7, 700, 35, 6, NULL, 27, 5, 5, NULL),
   -- Route 1 in frlg
   (16, 1600, 38, 6, NULL, 1, 2, 5, NULL),
   (19, 1900, 38, 6, NULL, 1, 2, 4, NULL),
@@ -778,7 +758,6 @@ VALUES
   (13, 1300, 49, 6, NULL, 1, 4, 5, NULL),
   (16, 1600, 49, 6, NULL, 1, 2, 5, NULL),
   (19, 1900, 49, 6, NULL, 1, 2, 5, NULL),
-  (122, 12200, 49, 6, NULL, 28, NULL, NULL, NULL),
   -- Viridian Forest in frlg
   (10, 1000, 77, 6, NULL, 1, 3, 5, NULL),
   (11, 1100, 77, 6, 9, 1, 5, 5, NULL),
@@ -796,7 +775,6 @@ VALUES
   (32, 3200, 56, 6, 10, 1, 6, 6, NULL),
   (39, 3900, 56, 6, NULL, 1, 3, 7, NULL),
   (56, 5600, 56, 6, NULL, 1, 7, 7, NULL),
-  (129, 12900, 56, 6, NULL, 27, 5, 5, NULL),
   -- Route 4 in frlg
   (19, 1900, 57, 6, NULL, 1, 8, 12, NULL),
   (21, 2100, 57, 6, NULL, 1, 8, 12, NULL),
@@ -813,7 +791,6 @@ VALUES
   (98, 9800, 57, 6, 10, 33, 15, 35, NULL),
   (116, 11600, 57, 6, 9, 33, 15, 35, NULL),
   (130, 13000, 57, 6, NULL, 33, 15, 25, NULL),
-  (129, 12900, 57, 6, NULL, 27, 5, 5, NULL),
   -- Mt. Moon in frlg
   (35, 3500, 27, 6, NULL, 3, 8, 12, NULL),
   (41, 4100, 27, 6, NULL, 3, 7, 11, NULL),
@@ -830,7 +807,6 @@ VALUES
   (98, 9800, 9, 6, 10, 33, 15, 35, NULL),
   (116, 11600, 9, 6, 9, 33, 15, 35, NULL),
   (130, 13000, 9, 6, NULL, 33, 15, 25, NULL),
-  (124, 12400, 9, 6, NULL, 28, NULL, NULL, NULL),
   -- Route 24 in frlg
   (10, 1000, 54, 6, NULL, 1, 7, 7, NULL),
   (11, 1100, 54, 6, NULL, 1, 8, 8, NULL),
@@ -875,9 +851,6 @@ VALUES
   (43, 4300, 58, 6, 9, 1, 13, 16, NULL),
   (52, 5200, 58, 6, NULL, 1, 10, 16, NULL),
   (69, 6900, 58, 6, 10, 1, 13, 16, NULL),
-  -- Underground Path (Kanto Routes 5-6) in frlg
-  (29, 2900, 73, 6, 9, 28, NULL, NULL, NULL),
-  (32, 3200, 73, 6, 10, 28, NULL, NULL, NULL),
   -- Route 6 in frlg
   (16, 1600, 59, 6, NULL, 1, 13, 16, NULL),
   (43, 4300, 59, 6, 9, 1, 13, 16, NULL),
@@ -908,7 +881,6 @@ VALUES
   (116, 11600, 74, 6, 10, 33, 25, 35, NULL),
   (120, 12000, 74, 6, 10, 33, 15, 25, NULL),
   (130, 13000, 74, 6, NULL, 33, 15, 25, NULL),
-  (83, 8300, 74, 6, NULL, 28, NULL, NULL, NULL),
   -- Route 11 in frlg
   (21, 2100, 40, 6, NULL, 1, 13, 17, NULL),
   (23, 2300, 40, 6, 9, 1, 12, 15, NULL),
@@ -924,8 +896,6 @@ VALUES
   (98, 9800, 40, 6, 10, 33, 15, 35, NULL),
   (116, 11600, 40, 6, 9, 33, 15, 35, NULL),
   (130, 13000, 40, 6, NULL, 33, 15, 25, NULL),
-  (30, 3000, 40, 6, 9, 28, NULL, NULL, NULL),
-  (33, 3300, 40, 6, 10, 28, NULL, NULL, NULL),
   -- Diglett's Cave in frlg
   (50, 5000, 13, 6, NULL, 3, 15, 22, NULL),
   (51, 5100, 13, 6, NULL, 3, 29, 31, NULL),
@@ -983,16 +953,6 @@ VALUES
   (129, 12900, 6, 6, NULL, 32, 5, 15, NULL),
   (88, 8800, 6, 6, NULL, 33, 30, 40, NULL),
   (129, 12900, 6, 6, NULL, 33, 15, 35, NULL),
-  (35, 3500, 6, 6, 9, 27, 8, 8, NULL),
-  (35, 3500, 6, 6, 10, 27, 12, 12, NULL),
-  (63, 6300, 6, 6, 9, 27, 9, 9, NULL),
-  (63, 6300, 6, 6, 10, 27, 7, 7, NULL),
-  (123, 12300, 6, 6, 9, 27, 25, 25, NULL),
-  (127, 12700, 6, 6, 10, 27, 18, 18, NULL),
-  (137, 13700, 6, 6, 9, 27, 26, 26, NULL),
-  (137, 13700, 6, 6, 10, 27, 18, 18, NULL),
-  (147, 14700, 6, 6, 9, 27, 18, 18, NULL),
-  (147, 14700, 6, 6, 10, 27, 24, 24, NULL),
   -- Route 16 in frlg
   (19, 1900, 45, 6, NULL, 1, 18, 22, NULL),
   (20, 2000, 45, 6, NULL, 1, 23, 25, NULL),
@@ -1011,7 +971,6 @@ VALUES
   (21, 2100, 47, 6, NULL, 1, 20, 22, NULL),
   (22, 2200, 47, 6, NULL, 1, 25, 29, NULL),
   (84, 8400, 47, 6, NULL, 1, 24, 28, NULL),
-  (108, 10800, 47, 6, NULL, 28, NULL, NULL, NULL),
   -- Fuchsia City in frlg
   (54, 5400, 18, 6, 9, 6, 20, 40, NULL),
   (79, 7900, 18, 6, 10, 6, 20, 40, NULL),
@@ -1112,11 +1071,6 @@ VALUES
   (116, 11600, 41, 6, 9, 33, 15, 35, NULL),
   (130, 13000, 41, 6, NULL, 33, 15, 25, NULL),
   (143, 14300, 41, 6, NULL, 25, 30, 30, NULL),
-  -- Silph Co. in frlg
-  (131, 13100, 67, 6, NULL, 27, 25, 25, NULL),
-  -- Fighting Dojo in frlg
-  (106, 10600, 14, 6, NULL, 27, 25, 25, NULL),
-  (107, 10700, 14, 6, NULL, 27, 25, 25, NULL),
   -- Route 19 in frlg
   (72, 7200, 48, 6, NULL, 6, 5, 40, NULL),
   (129, 12900, 48, 6, NULL, 31, 5, 5, NULL),
@@ -1201,13 +1155,6 @@ VALUES
   (117, 11700, 28, 6, 9, 33, 25, 35, NULL),
   (120, 12000, 28, 6, 10, 33, 15, 25, NULL),
   (130, 13000, 28, 6, NULL, 33, 15, 25, NULL),
-  -- Cinnabar Lab in frlg
-  (86, 8600, 12, 6, NULL, 28, NULL, NULL, NULL),
-  (101, 10100, 12, 6, NULL, 28, NULL, NULL, NULL),
-  (114, 11400, 12, 6, NULL, 28, NULL, NULL, NULL),
-  (138, 13800, 12, 6, NULL, 29, 5, 5, NULL),
-  (140, 14000, 12, 6, NULL, 29, 5, 5, NULL),
-  (142, 14200, 12, 6, NULL, 29, 5, 5, NULL),
   -- Pokémon Mansion in frlg
   (19, 1900, 32, 6, NULL, 3, 26, 28, NULL),
   (20, 2000, 32, 6, NULL, 3, 32, 38, NULL),
@@ -1559,7 +1506,6 @@ VALUES
   (130, 13000, 78, 6, NULL, 33, 15, 25, NULL),
   (211, 21100, 78, 6, 9, 33, 15, 25, NULL),
   (223, 22300, 78, 6, 10, 33, 15, 25, NULL),
-  (175, 17500, 78, 6, NULL, 30, 5, 5, NULL),
   -- Resort Gorgeous in frlg
   (72, 7200, 36, 6, NULL, 6, 5, 40, NULL),
   (73, 7300, 36, 6, NULL, 6, 35, 40, NULL),
@@ -1661,8 +1607,6 @@ VALUES
   (74, 7400, 8, 6, NULL, 12, 30, 60, NULL),
   (75, 7500, 8, 6, NULL, 12, 40, 65, NULL),
   (150, 15000, 8, 6, NULL, 25, 70, 70, NULL),
-  -- Celadon Condominiums in frlg
-  (133, 13300, 7, 6, NULL, 27, 25, 25, NULL),
   -- Icefall Cave in frlg
   (41, 4100, 20, 6, NULL, 3, 40, 40, NULL),
   (42, 4200, 20, 6, NULL, 3, 45, 48, NULL),
@@ -1775,17 +1719,10 @@ VALUES
   (201, 20125, 68, 6, NULL, 3, 25, 25, NULL),
   (201, 20126, 68, 6, NULL, 3, 25, 25, NULL),
   (201, 20127, 68, 6, NULL, 3, 25, 25, NULL),
-  -- Littleroot Town in emerald
-  (152, 15200, 158, 7, NULL, 27, 5, 5, NULL),
-  (155, 15500, 158, 7, NULL, 27, 5, 5, NULL),
-  (158, 15800, 158, 7, NULL, 27, 5, 5, NULL),
   -- Route 101 in emerald
   (261, 26100, 201, 7, NULL, 1, 2, 3, NULL),
   (263, 26300, 201, 7, NULL, 1, 2, 3, NULL),
   (265, 26500, 201, 7, NULL, 1, 2, 3, NULL),
-  (252, 25200, 201, 7, NULL, 27, 5, 5, NULL),
-  (255, 25500, 201, 7, NULL, 27, 5, 5, NULL),
-  (258, 25800, 201, 7, NULL, 27, 5, 5, NULL),
   -- Route 103 in emerald
   (261, 26100, 203, 7, NULL, 1, 2, 4, NULL),
   (263, 26300, 203, 7, NULL, 1, 3, 4, NULL),
@@ -1843,11 +1780,6 @@ VALUES
   (276, 27600, 200, 7, NULL, 1, 5, 6, NULL),
   (285, 28500, 200, 7, NULL, 1, 5, 6, NULL),
   (287, 28700, 200, 7, NULL, 1, 5, 6, NULL),
-  -- Rustboro City in emerald
-  (273, 27300, 235, 7, NULL, 28, NULL, NULL, NULL),
-  -- Devon Corporation in emerald
-  (345, 34500, 148, 7, NULL, 29, 20, 20, NULL),
-  (347, 34700, 148, 7, NULL, 29, 20, 20, NULL),
   -- Route 116 in emerald
   (63, 6300, 216, 7, NULL, 1, 7, 7, NULL),
   (261, 26100, 216, 7, NULL, 1, 6, 8, NULL),
@@ -2039,8 +1971,6 @@ VALUES
   (74, 7400, 159, 7, NULL, 3, 27, 30, NULL),
   (75, 7500, 159, 7, NULL, 3, 30, 33, NULL),
   (324, 32400, 159, 7, NULL, 3, 28, 30, NULL),
-  -- Lavaridge Town in emerald
-  (360, 36000, 156, 7, NULL, 30, 5, 5, NULL),
   -- Mirage Tower in emerald
   (27, 2700, 194, 7, NULL, 3, 20, 24, NULL),
   (328, 32800, 194, 7, NULL, 3, 20, 24, NULL),
@@ -2123,10 +2053,6 @@ VALUES
   (349, 34900, 219, 7, NULL, 32, 20, 25, NULL),
   (318, 31800, 219, 7, NULL, 33, 20, 45, NULL),
   (349, 34900, 219, 7, NULL, 33, 20, 25, NULL),
-  -- Weather Institute in emerald
-  (351, 35100, 253, 7, NULL, 27, 25, 25, NULL),
-  -- Fortree City in emerald
-  (311, 31100, 153, 7, NULL, 28, NULL, NULL, NULL),
   -- Route 120 in emerald
   (43, 4300, 220, 7, NULL, 1, 25, 27, NULL),
   (183, 18300, 220, 7, NULL, 1, 25, 27, NULL),
@@ -2220,7 +2146,6 @@ VALUES
   (320, 32000, 195, 7, NULL, 32, 10, 30, NULL),
   (319, 31900, 195, 7, NULL, 33, 30, 35, NULL),
   (320, 32000, 195, 7, NULL, 33, 25, 45, NULL),
-  (374, 37400, 195, 7, NULL, 27, 5, 5, NULL),
   -- Route 125 in emerald
   (72, 7200, 225, 7, NULL, 6, 5, 35, NULL),
   (278, 27800, 225, 7, NULL, 6, 10, 30, NULL),
@@ -2388,7 +2313,6 @@ VALUES
   (320, 32000, 198, 7, NULL, 32, 10, 30, NULL),
   (319, 31900, 198, 7, NULL, 33, 30, 35, NULL),
   (320, 32000, 198, 7, NULL, 33, 25, 45, NULL),
-  (116, 11600, 198, 7, NULL, 28, NULL, NULL, NULL),
   -- Mirage Island (Generation III) in emerald
   (360, 36000, 177, 7, NULL, 1, 5, 50, NULL),
   -- Sky Pillar in emerald
@@ -2487,8 +2411,6 @@ VALUES
   (336, 33600, 143, 7, NULL, 4, 46, 96, NULL),
   (350, 35000, 143, 7, NULL, 4, 46, 96, NULL),
   (356, 35600, 143, 7, NULL, 4, 45, 95, NULL),
-  -- Battle Frontier (Generation III) in emerald
-  (52, 5200, 142, 7, NULL, 28, NULL, NULL, NULL),
   -- Team Aqua Hideout in emerald
   (101, 10100, 248, 7, NULL, 25, 30, 30, NULL),
   -- Artisan Cave in emerald

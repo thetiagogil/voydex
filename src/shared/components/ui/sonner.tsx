@@ -12,7 +12,10 @@ import { Spinner } from "@/shared/components/ui/spinner";
  * green. They sit bottom right on wide screens, out of the content's way,
  * and bottom centre on phones, in thumb's reach. They slide in quietly;
  * toasts never bounce. Where the shell has a bottom bar, it sets
- * `--toast-bottom` so toasts sit above it.
+ * `--toast-bottom` so toasts sit above it. Up to 600px Sonner draws its list
+ * a gutter in from the left but the screen's full width, and sizes each toast
+ * to fit between the gutters, so there a toast sits at the list's start,
+ * not centred in it (which pushed it against the right edge).
  */
 const Toaster = ({ ...props }: ToasterProps) => {
   const isMobile = useIsMobile();
@@ -46,7 +49,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast:
-            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:mx-auto md:right-0 md:ml-auto",
+            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
           content: "flex min-w-0 flex-col gap-0.5",
           title: "text-white",
           description: "text-13 text-on-ink font-semibold",
@@ -63,4 +66,26 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster };
+/*
+ * For a toast with two actions (Not now, Try again). From 768px it may grow
+ * past the usual width, up to 26rem (416px), so its words sit on one line
+ * beside the actions. Below that the words take the whole first line and the
+ * actions share the line under them, lined up with the words, instead of
+ * squeezing the words into a narrow column.
+ */
+const twoActionToast = {
+  classNames: {
+    /*
+     * Each takes half the row, which starts where the words start; Not now
+     * gets a quiet fill there, so the two read as a pair of buttons.
+     */
+    actionButton: "max-md:ml-0 max-md:flex-1",
+    cancelButton: "max-md:bg-on-ink/10 max-md:ml-7 max-md:flex-1",
+    content: "max-md:basis-[calc(100%-1.75rem)]",
+    /* Even sides, so the row ends as far in as the icon starts. */
+    toast:
+      "max-md:flex-wrap max-md:gap-y-2.5 max-md:pr-4.5 md:w-max md:max-w-104",
+  },
+};
+
+export { Toaster, twoActionToast };

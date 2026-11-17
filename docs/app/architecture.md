@@ -515,8 +515,13 @@ The app's layout wraps every app page in the device gate
 while the database opens and the tabs get ready (`AppDeviceGate` passes
 Mainline's tab reads; at most four seconds, the rest carry on in the
 background), then the page; or a screen for offline on a new
-device, a full device, a failed update, or a fresh start. Codex pieces about
-your Plays use the quiet boundary, which shows nothing until it's open.
+device, a full device, a failed update, or a fresh start. A game data
+update that doesn't go in (a dropped download, a refused release) doesn't
+stop the app: the device keeps the release it has, the reason is logged as a
+console warning, and `OldGameDataNotice` shows a toast that its game data is out
+of date, with Try again, until it's current or you pick Not now.
+Codex pieces about your Plays use the quiet boundary, which shows nothing
+until it's open.
 
 The readers and commands were written against Supabase's query interface
 (`.schema().from().select().eq()…`, `.rpc()`). `createLocalQueryClient` gives

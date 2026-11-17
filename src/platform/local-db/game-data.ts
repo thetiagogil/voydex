@@ -135,7 +135,7 @@ export const readGameDataFile = async (
   const text = await readMaybeGzippedText(bytes);
 
   if ((await sha256Hex(text)) !== entry.hash) {
-    throw new LocalDbError(
+    throw new GameDataDownloadError(
       `The ${entry.name} game data file didn't download whole; try again.`,
     );
   }
@@ -267,6 +267,27 @@ export class GameDataRefusedError extends LocalDbError {
       { cause: new Error(missing.join("; ")) },
     );
     this.name = "GameDataRefusedError";
+  }
+}
+
+/* A game data file or the version list that didn't download, or not whole. */
+export class GameDataDownloadError extends LocalDbError {
+  constructor(message: string) {
+    super(message);
+    this.name = "GameDataDownloadError";
+  }
+}
+
+/*
+ * A release made for a newer version of Voydex than the one running: the
+ * app needs a reload, which brings the device's schema up to it first.
+ */
+export class GameDataNeedsReloadError extends LocalDbError {
+  constructor() {
+    super(
+      "This game data is for another version of Voydex; reload the app first.",
+    );
+    this.name = "GameDataNeedsReloadError";
   }
 }
 
@@ -465,6 +486,18 @@ export const isGameDataOutdated = (
   return [...installed].some(([name, hash]) => latest.get(name) !== hash);
 };
 
+/*
+ * Whether the device is still on older game data than `versions`, the
+ * latest list it knows: an update that didn't go in. Offline (no list), it
+ * can't tell, and says no.
+ */
+export const isGameDataBehind = async (
+  db: LocalDb,
+  versions: GameDataVersions | null,
+) =>
+  versions !== null &&
+  isGameDataOutdated(await readInstalledGameData(db), versions);
+
 /* Downloads files one by one and checks each is the one the list names. */
 const downloadFiles = async (
   entries: GameDataFileEntry[],
@@ -571,9 +604,7 @@ const installFilesOnce = async (
   { update }: { update: boolean },
 ): Promise<GameDataInstall> => {
   if ((await readInstalledSchemaHash(db)) !== options.versions.schemaHash) {
-    throw new LocalDbError(
-      "This game data is for another version of Voydex; reload the app first.",
-    );
+    throw new GameDataNeedsReloadError();
   }
 
   /* Another tab can change the files meanwhile; then this one looks again. */
@@ -703,7 +734,7 @@ export const fetchGameDataVersions = async () => {
   });
 
   if (!response.ok) {
-    throw new LocalDbError(
+    throw new GameDataDownloadError(
       "The game data list didn't download. Check the connection and try again.",
     );
   }
@@ -736,7 +767,7 @@ const fetchGameDataFile = async (
   const response = await fetch(`${gameDataUrl}/${path}`, { signal });
 
   if (!response.ok || !response.body) {
-    throw new LocalDbError(
+    throw new GameDataDownloadError(
       "The game data didn't download. Check the connection and try again.",
     );
   }

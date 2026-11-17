@@ -66,6 +66,7 @@ const parseDecisionOptions = (
     return Number.isFinite(id) && label
       ? [
           {
+            formId: Number.isFinite(formId) ? formId : null,
             id,
             imageUrl:
               speciesName && formSlug

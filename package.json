@@ -90,7 +90,7 @@
     "tailwindcss": "^4",
     "tsx": "4.23.15",
     "typescript": "^5",
-    "vitest": "4.1.10",
+    "vitest": "4.1.12",
     "wrangler": "4.159.0"
   },
   "allowScripts": {

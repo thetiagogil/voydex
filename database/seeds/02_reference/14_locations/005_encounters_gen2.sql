@@ -33,9 +33,6 @@ VALUES
   (90, 9000, 101, 3, NULL, 33, 40, 40, NULL),
   (170, 17000, 101, 3, NULL, 33, 40, 40, NULL),
   (171, 17100, 101, 3, NULL, 33, 40, 40, NULL),
-  (152, 15200, 101, 3, NULL, 27, 5, 5, NULL),
-  (155, 15500, 101, 3, NULL, 27, 5, 5, NULL),
-  (158, 15800, 101, 3, NULL, 27, 5, 5, NULL),
   -- Route 29 in gs
   (16, 1600, 110, 3, NULL, 1, 2, 4, 'Morning and day'),
   (19, 1900, 110, 3, NULL, 1, 2, 4, NULL),
@@ -137,8 +134,6 @@ VALUES
   (129, 12900, 138, 3, NULL, 32, 20, 20, NULL),
   (60, 6000, 138, 3, NULL, 33, 40, 40, NULL),
   (129, 12900, 138, 3, NULL, 33, 40, 40, NULL),
-  (95, 9500, 138, 3, NULL, 28, NULL, NULL, NULL),
-  (175, 17500, 138, 3, NULL, 30, 5, 5, NULL),
   -- Sprout Tower in gs
   (19, 1900, 135, 3, NULL, 4, 3, 6, NULL),
   (92, 9200, 135, 3, NULL, 4, 3, 6, 'Night'),
@@ -303,15 +298,6 @@ VALUES
   (15, 1500, 115, 3, 5, 11, 10, 10, NULL),
   (102, 10200, 115, 3, NULL, 11, 10, 10, NULL),
   (204, 20400, 115, 3, NULL, 11, 10, 10, NULL),
-  -- Goldenrod City in gs
-  (21, 2100, 91, 3, NULL, 27, 10, 10, NULL),
-  (23, 2300, 91, 3, 4, 27, 10, 10, NULL),
-  (27, 2700, 91, 3, 5, 27, 10, 10, NULL),
-  (63, 6300, 91, 3, NULL, 27, 10, 10, NULL),
-  (133, 13300, 91, 3, NULL, 27, 20, 20, NULL),
-  (147, 14700, 91, 3, NULL, 27, 10, 10, NULL),
-  -- Goldenrod Department Store in gs
-  (66, 6600, 92, 3, NULL, 28, NULL, NULL, NULL),
   -- Route 35 in gs
   (16, 1600, 116, 3, NULL, 1, 14, 14, 'Morning and day'),
   (29, 2900, 116, 3, NULL, 1, 12, 12, NULL),
@@ -343,7 +329,6 @@ VALUES
   (132, 13200, 116, 3, NULL, 15, 10, 10, NULL),
   (163, 16300, 116, 3, NULL, 15, 14, 14, 'Night'),
   (193, 19300, 116, 3, NULL, 15, 12, 14, NULL),
-  (21, 2100, 116, 3, NULL, 27, 10, 10, NULL),
   -- National Park in gs
   (10, 1000, 100, 3, NULL, 1, 7, 18, NULL),
   (11, 1100, 100, 3, NULL, 1, 9, 18, NULL),
@@ -454,7 +439,6 @@ VALUES
   (170, 17000, 102, 3, NULL, 33, 40, 40, NULL),
   (171, 17100, 102, 3, NULL, 33, 40, 40, NULL),
   (222, 22200, 102, 3, NULL, 33, 40, 40, 'Morning and day'),
-  (100, 10000, 102, 3, NULL, 28, NULL, NULL, NULL),
   -- Route 40 in gs
   (72, 7200, 121, 3, NULL, 6, 15, 24, NULL),
   (73, 7300, 121, 3, NULL, 6, 20, 24, NULL),
@@ -520,7 +504,6 @@ VALUES
   (222, 22200, 85, 3, NULL, 33, 40, 40, 'Morning and day'),
   (98, 9800, 85, 3, NULL, 12, 15, 15, NULL),
   (213, 21300, 85, 3, NULL, 12, 15, 15, NULL),
-  (213, 21300, 85, 3, NULL, 27, 15, 15, NULL),
   -- Route 42 in gs
   (21, 2100, 123, 3, NULL, 1, 14, 16, 'Morning and day'),
   (41, 4100, 123, 3, NULL, 1, 14, 16, 'Night'),
@@ -564,7 +547,6 @@ VALUES
   (66, 6600, 97, 3, NULL, 15, 14, 14, NULL),
   (74, 7400, 97, 3, NULL, 15, 14, 14, NULL),
   (183, 18300, 97, 3, NULL, 15, 13, 15, NULL),
-  (236, 23600, 97, 3, NULL, 27, 10, 10, NULL),
   -- Route 43 in gs
   (17, 1700, 124, 3, NULL, 1, 17, 17, 'Morning and day'),
   (48, 4800, 124, 3, NULL, 1, 16, 16, 'Morning and night'),
@@ -632,7 +614,6 @@ VALUES
   (129, 12900, 82, 3, NULL, 32, 20, 20, NULL),
   (60, 6000, 82, 3, NULL, 33, 40, 40, NULL),
   (129, 12900, 82, 3, NULL, 33, 40, 40, NULL),
-  (112, 11200, 82, 3, NULL, 28, NULL, NULL, NULL),
   -- Dragon's Den in gs
   (129, 12900, 89, 3, NULL, 6, 10, 19, NULL),
   (147, 14700, 89, 3, NULL, 6, 10, 14, NULL),
@@ -904,9 +885,6 @@ VALUES
   -- Celadon City in gs
   (88, 8800, 6, 3, NULL, 6, 15, 24, NULL),
   (89, 8900, 6, 3, NULL, 6, 15, 19, NULL),
-  (122, 12200, 6, 3, NULL, 27, 15, 15, NULL),
-  (133, 13300, 6, 3, NULL, 27, 15, 15, NULL),
-  (137, 13700, 6, 3, NULL, 27, 20, 20, NULL),
   -- Route 16 in gs
   (22, 2200, 45, 3, NULL, 1, 27, 29, 'Morning and day'),
   (88, 8800, 45, 3, NULL, 1, 26, 28, NULL),
@@ -957,7 +935,6 @@ VALUES
   (99, 9900, 43, 3, NULL, 33, 40, 40, NULL),
   (120, 12000, 43, 3, NULL, 33, 40, 40, 'Night'),
   (222, 22200, 43, 3, NULL, 33, 40, 40, 'Morning and day'),
-  (142, 14200, 43, 3, NULL, 28, NULL, NULL, NULL),
   -- Route 13 in gs
   (17, 1700, 42, 3, NULL, 1, 25, 25, 'Morning and day'),
   (30, 3000, 42, 3, NULL, 1, 23, 23, NULL),
@@ -1013,8 +990,6 @@ VALUES
   (166, 16600, 49, 3, 5, 1, 7, 7, 'Morning'),
   (167, 16700, 49, 3, 4, 1, 3, 3, 'Night'),
   (168, 16800, 49, 3, 4, 1, 7, 7, 'Night'),
-  -- Pewter City in gs
-  (78, 7800, 104, 3, NULL, 28, NULL, NULL, NULL),
   -- Route 3 in gs
   (19, 1900, 56, 3, 4, 1, 5, 10, NULL),
   (19, 1900, 56, 3, 5, 1, 5, 8, NULL),
@@ -1210,9 +1185,6 @@ VALUES
   (90, 9000, 101, 4, NULL, 33, 40, 40, NULL),
   (170, 17000, 101, 4, NULL, 33, 40, 40, NULL),
   (171, 17100, 101, 4, NULL, 33, 40, 40, NULL),
-  (152, 15200, 101, 4, NULL, 27, 5, 5, NULL),
-  (155, 15500, 101, 4, NULL, 27, 5, 5, NULL),
-  (158, 15800, 101, 4, NULL, 27, 5, 5, NULL),
   -- Route 29 in crystal
   (16, 1600, 110, 4, NULL, 1, 2, 3, 'Morning and day'),
   (19, 1900, 110, 4, NULL, 1, 2, 3, NULL),
@@ -1294,8 +1266,6 @@ VALUES
   (129, 12900, 138, 4, NULL, 32, 20, 20, NULL),
   (60, 6000, 138, 4, NULL, 33, 40, 40, NULL),
   (129, 12900, 138, 4, NULL, 33, 40, 40, NULL),
-  (95, 9500, 138, 4, NULL, 28, NULL, NULL, NULL),
-  (175, 17500, 138, 4, NULL, 30, 5, 5, NULL),
   -- Sprout Tower in crystal
   (19, 1900, 135, 4, NULL, 4, 3, 6, NULL),
   (92, 9200, 135, 4, NULL, 4, 3, 6, 'Night'),
@@ -1453,29 +1423,6 @@ VALUES
   (165, 16500, 115, 4, NULL, 11, 10, 10, NULL),
   (167, 16700, 115, 4, NULL, 11, 10, 10, NULL),
   (204, 20400, 115, 4, NULL, 11, 10, 10, NULL),
-  (172, 17200, 115, 4, NULL, 30, 5, 5, NULL),
-  (173, 17300, 115, 4, NULL, 30, 5, 5, NULL),
-  (174, 17400, 115, 4, NULL, 30, 5, 5, NULL),
-  (236, 23600, 115, 4, NULL, 30, 5, 5, NULL),
-  (238, 23800, 115, 4, NULL, 30, 5, 5, NULL),
-  (239, 23900, 115, 4, NULL, 30, 5, 5, NULL),
-  (240, 24000, 115, 4, NULL, 30, 5, 5, NULL),
-  -- Goldenrod City in crystal
-  (21, 2100, 91, 4, NULL, 27, 10, 10, NULL),
-  (63, 6300, 91, 4, NULL, 27, 5, 5, NULL),
-  (104, 10400, 91, 4, NULL, 27, 15, 15, NULL),
-  (133, 13300, 91, 4, NULL, 27, 20, 20, NULL),
-  (202, 20200, 91, 4, NULL, 27, 15, 15, NULL),
-  -- Pokémon Communication Center in crystal
-  (172, 17200, 106, 4, NULL, 30, 5, 5, NULL),
-  (173, 17300, 106, 4, NULL, 30, 5, 5, NULL),
-  (174, 17400, 106, 4, NULL, 30, 5, 5, NULL),
-  (236, 23600, 106, 4, NULL, 30, 5, 5, NULL),
-  (238, 23800, 106, 4, NULL, 30, 5, 5, NULL),
-  (239, 23900, 106, 4, NULL, 30, 5, 5, NULL),
-  (240, 24000, 106, 4, NULL, 30, 5, 5, NULL),
-  -- Goldenrod Department Store in crystal
-  (66, 6600, 92, 4, NULL, 28, NULL, NULL, NULL),
   -- Route 35 in crystal
   (16, 1600, 116, 4, NULL, 1, 14, 14, 'Morning and day'),
   (39, 3900, 116, 4, NULL, 1, 12, 12, NULL),
@@ -1506,7 +1453,6 @@ VALUES
   (132, 13200, 116, 4, NULL, 15, 10, 10, NULL),
   (163, 16300, 116, 4, NULL, 15, 14, 14, 'Night'),
   (193, 19300, 116, 4, NULL, 15, 12, 14, NULL),
-  (21, 2100, 116, 4, NULL, 27, 10, 10, NULL),
   -- National Park in crystal
   (10, 1000, 100, 4, NULL, 1, 7, 18, NULL),
   (11, 1100, 100, 4, NULL, 1, 9, 18, NULL),
@@ -1621,7 +1567,6 @@ VALUES
   (170, 17000, 102, 4, NULL, 33, 40, 40, NULL),
   (171, 17100, 102, 4, NULL, 33, 40, 40, NULL),
   (222, 22200, 102, 4, NULL, 33, 40, 40, 'Morning and day'),
-  (100, 10000, 102, 4, NULL, 28, NULL, NULL, NULL),
   -- Route 40 in crystal
   (72, 7200, 121, 4, NULL, 6, 15, 24, NULL),
   (73, 7300, 121, 4, NULL, 6, 20, 24, NULL),
@@ -1685,7 +1630,6 @@ VALUES
   (222, 22200, 85, 4, NULL, 33, 40, 40, 'Morning and day'),
   (98, 9800, 85, 4, NULL, 12, 15, 15, NULL),
   (213, 21300, 85, 4, NULL, 12, 15, 15, NULL),
-  (213, 21300, 85, 4, NULL, 27, 15, 15, NULL),
   -- Route 42 in crystal
   (19, 1900, 123, 4, NULL, 1, 13, 15, NULL),
   (20, 2000, 123, 4, NULL, 1, 15, 16, NULL),
@@ -1729,7 +1673,6 @@ VALUES
   (118, 11800, 97, 4, NULL, 33, 40, 40, NULL),
   (119, 11900, 97, 4, NULL, 33, 40, 40, NULL),
   (129, 12900, 97, 4, NULL, 33, 40, 40, NULL),
-  (236, 23600, 97, 4, NULL, 27, 10, 10, NULL),
   -- Route 43 in crystal
   (17, 1700, 124, 4, NULL, 1, 16, 16, 'Morning and day'),
   (20, 2000, 124, 4, NULL, 1, 16, 17, NULL),
@@ -1795,7 +1738,6 @@ VALUES
   (129, 12900, 82, 4, NULL, 32, 20, 20, NULL),
   (60, 6000, 82, 4, NULL, 33, 40, 40, NULL),
   (129, 12900, 82, 4, NULL, 33, 40, 40, NULL),
-  (85, 8500, 82, 4, NULL, 28, NULL, NULL, NULL),
   -- Dragon's Den in crystal
   (129, 12900, 89, 4, NULL, 6, 10, 19, NULL),
   (147, 14700, 89, 4, NULL, 6, 10, 14, NULL),
@@ -1805,7 +1747,6 @@ VALUES
   (129, 12900, 89, 4, NULL, 33, 40, 40, NULL),
   (147, 14700, 89, 4, NULL, 33, 40, 40, NULL),
   (148, 14800, 89, 4, NULL, 33, 40, 40, NULL),
-  (147, 14700, 89, 4, NULL, 27, 15, 15, NULL),
   -- Route 45 in crystal
   (74, 7400, 126, 4, NULL, 1, 23, 23, NULL),
   (75, 7500, 126, 4, NULL, 1, 23, 27, NULL),
@@ -2008,8 +1949,6 @@ VALUES
   (118, 11800, 62, 4, NULL, 33, 40, 40, NULL),
   (119, 11900, 62, 4, NULL, 33, 40, 40, NULL),
   (129, 12900, 62, 4, NULL, 33, 40, 40, NULL),
-  -- Power Plant in crystal
-  (82, 8200, 34, 4, NULL, 28, NULL, NULL, NULL),
   -- Route 24 in crystal
   (10, 1000, 54, 4, NULL, 1, 8, 10, 'Morning and day'),
   (11, 1100, 54, 4, NULL, 1, 12, 12, 'Morning'),
@@ -2072,9 +2011,6 @@ VALUES
   -- Celadon City in crystal
   (88, 8800, 6, 4, NULL, 6, 15, 24, NULL),
   (89, 8900, 6, 4, NULL, 6, 15, 19, NULL),
-  (25, 2500, 6, 4, NULL, 27, 25, 25, NULL),
-  (137, 13700, 6, 4, NULL, 27, 15, 15, NULL),
-  (246, 24600, 6, 4, NULL, 27, 40, 40, NULL),
   -- Route 16 in crystal
   (22, 2200, 45, 4, NULL, 1, 27, 29, 'Morning and day'),
   (88, 8800, 45, 4, NULL, 1, 26, 28, NULL),
@@ -2129,7 +2065,6 @@ VALUES
   (99, 9900, 43, 4, NULL, 33, 40, 40, NULL),
   (120, 12000, 43, 4, NULL, 33, 40, 40, 'Night'),
   (222, 22200, 43, 4, NULL, 33, 40, 40, 'Morning and day'),
-  (142, 14200, 43, 4, NULL, 28, NULL, NULL, NULL),
   -- Route 13 in crystal
   (17, 1700, 42, 4, NULL, 1, 25, 25, 'Morning and day'),
   (30, 3000, 42, 4, NULL, 1, 23, 23, 'Morning and day'),
@@ -2186,8 +2121,6 @@ VALUES
   (166, 16600, 49, 4, NULL, 1, 7, 7, 'Morning'),
   (167, 16700, 49, 4, NULL, 1, 3, 3, 'Night'),
   (168, 16800, 49, 4, NULL, 1, 7, 7, 'Night'),
-  -- Pewter City in crystal
-  (178, 17800, 104, 4, NULL, 28, NULL, NULL, NULL),
   -- Route 3 in crystal
   (19, 1900, 56, 4, NULL, 1, 5, 10, NULL),
   (20, 2000, 56, 4, NULL, 1, 10, 10, NULL),

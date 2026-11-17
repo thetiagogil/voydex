@@ -5,10 +5,15 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
+import { SheetSection } from "@/shared/components/sheet-section";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
+import {
+  getStoryChoiceFormIds,
+  getStoryHandoverGroups,
+} from "../../data/story-place-pokemon";
 import type { StoryMilestone, StoryPlace, StoryScope } from "../../types";
 import { StoryBattleReport } from "../battles/story-battle-report";
 import {
@@ -25,6 +30,7 @@ import {
 } from "./story-milestone-battles";
 import { StoryMilestoneDetail } from "./story-milestone-detail";
 import { StoryPlaceDetail } from "./story-place-detail";
+import { StoryPokemonRows } from "./story-place-pokemon-list";
 
 /* What the detail shows: a milestone, or a place on the way to one. */
 export type StoryDetailTarget =
@@ -44,7 +50,8 @@ export type StoryDetailTarget =
  * from 1024px (`panel`, following the scroll), in a bottom sheet below it
  * (`sheet`). A milestone's marker and name head it; then where it stands,
  * what it asks, what has to come first and what was recorded with it, and
- * its battles one line each, with Record (or Edit, once recorded) at its
+ * its battles one line each, then the Pokémon handed over at its place
+ * (#322) that no choice offers, with Record (or Edit, once recorded) at its
  * foot. A place shows the milestone it leads to, its battles and the
  * Pokémon found there. A battle opens its report in a sheet of its own
  * beside the route, or in the same sheet below 1024px with a way back, so
@@ -123,6 +130,15 @@ export const StoryDetail = ({
   }
 
   const milestone = target.kind === "milestone" ? target.milestone : null;
+  /* What's handed over where it happens, less what a choice offers. */
+  const handedOver = milestone?.place
+    ? getStoryHandoverGroups(
+        scope.placePokemon.get(milestone.place.id) ?? [],
+        getStoryChoiceFormIds(
+          scope.sections.flatMap((section) => section.milestones),
+        ),
+      )
+    : [];
   const name =
     milestone?.name ?? (target.kind === "place" ? target.place.name : "");
 
@@ -191,6 +207,11 @@ export const StoryDetail = ({
         totalCount={scope.totalCount}
       />
       <StoryMilestoneBattles battles={battles} onSelect={showBattle} />
+      {handedOver.length ? (
+        <SheetSection title="Pokémon handed over here">
+          <StoryPokemonRows groups={handedOver} />
+        </SheetSection>
+      ) : null}
     </>
   ) : target.kind === "place" ? (
     <StoryPlaceDetail

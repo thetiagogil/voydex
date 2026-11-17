@@ -1,69 +1,39 @@
-import type { ReactNode } from "react";
-
-import { appRoutes } from "@/config/routes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PageHeader } from "@/shared/components/page-header";
-import { TextLink } from "@/shared/components/text-link";
-import { PendingData } from "@/shared/components/pending-data";
+import {
+  legalTexts,
+  legalUpdatedOn,
+  type LegalPageKind,
+} from "@/features/site/components/legal-text";
 
-type LegalPageKind = "privacy" | "terms";
-
-const legalPages: Record<
-  LegalPageKind,
-  { description: string; pending: string; summary: ReactNode; title: string }
-> = {
-  privacy: {
-    description: "What Voydex keeps about you, and what you can do with it.",
-    pending: "The full privacy policy isn't written yet.",
-    summary: (
-      <>
-        <p>
-          Voydex keeps the email you log in with and what you record in it: your
-          Plays, their Pokémon, progress and notes, and your Plans.
-        </p>
-        <p>
-          You can download all of it as a file from{" "}
-          <TextLink href={appRoutes.settings}>Settings</TextLink>.
-        </p>
-      </>
-    ),
-    title: "Privacy policy",
-  },
-  terms: {
-    description: "The terms for using Voydex.",
-    pending: "The full terms aren't written yet.",
-    summary: (
-      <p>
-        Voydex is an unofficial fan project. It isn&apos;t affiliated with or
-        endorsed by Nintendo, Creatures, GAME FREAK or The Pokémon Company, and
-        Pokémon names and artwork belong to them.
-      </p>
-    ),
-    title: "Terms",
-  },
-};
+/* Paragraphs and lists inside a legal card, at the app's reading size. */
+const legalBodyClassName =
+  "text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold [&_li]:pl-1 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5";
 
 /*
- * Privacy and Terms, from the footer and the sign-up line: what is already
- * true of Voydex, and a marker where the legal text will go.
+ * Privacy and Terms, from the footer and the sign-up line: the short
+ * version first, then each part in its own card.
  */
 export const LegalPage = ({ kind }: { kind: LegalPageKind }) => {
-  const page = legalPages[kind];
+  const page = legalTexts[kind];
 
   return (
     <div className="mx-auto flex w-full max-w-189 flex-col">
-      <PageHeader title={page.title} description={page.description} />
-      <DetailSectionCard title="In short" className="mt-7">
-        <div className="text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold">
-          {page.summary}
-        </div>
-        {/* TODO(v3-data): the legal text for this page; it needs writing and review before launch. */}
-        <PendingData
-          className="mt-5"
-          label="Not written yet"
-          note={page.pending}
-        />
-      </DetailSectionCard>
+      <PageHeader
+        title={page.title}
+        description={page.description}
+        note={`Last updated ${legalUpdatedOn}`}
+      />
+      <div className="mt-7 flex flex-col gap-5">
+        <DetailSectionCard title="In short">
+          <div className={legalBodyClassName}>{page.summary}</div>
+        </DetailSectionCard>
+        {page.sections.map((section) => (
+          <DetailSectionCard key={section.title} title={section.title}>
+            <div className={legalBodyClassName}>{section.body}</div>
+          </DetailSectionCard>
+        ))}
+      </div>
     </div>
   );
 };

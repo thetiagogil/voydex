@@ -3478,11 +3478,17 @@ export type Database = {
           encounter_way_id: number;
           form_id: number;
           game_id: number | null;
+          giver: string | null;
+          held_item_id: number | null;
           id: number;
           level_max: number | null;
           level_min: number | null;
           location_id: number;
+          nickname: string | null;
+          price: string | null;
           species_id: number;
+          trade_for_form_id: number | null;
+          trade_for_species_id: number | null;
           version_group_id: number;
         };
         ComputedFields: never;
@@ -3492,11 +3498,17 @@ export type Database = {
           encounter_way_id: number;
           form_id: number;
           game_id?: number | null;
+          giver?: string | null;
+          held_item_id?: number | null;
           id?: number;
           level_max?: number | null;
           level_min?: number | null;
           location_id: number;
+          nickname?: string | null;
+          price?: string | null;
           species_id: number;
+          trade_for_form_id?: number | null;
+          trade_for_species_id?: number | null;
           version_group_id: number;
         };
         Update: {
@@ -3505,11 +3517,17 @@ export type Database = {
           encounter_way_id?: number;
           form_id?: number;
           game_id?: number | null;
+          giver?: string | null;
+          held_item_id?: number | null;
           id?: number;
           level_max?: number | null;
           level_min?: number | null;
           location_id?: number;
+          nickname?: string | null;
+          price?: string | null;
           species_id?: number;
+          trade_for_form_id?: number | null;
+          trade_for_species_id?: number | null;
           version_group_id?: number;
         };
         Relationships: [
@@ -3535,6 +3553,13 @@ export type Database = {
             referencedColumns: ["game_id", "version_group_id"];
           },
           {
+            foreignKeyName: "pokemon_encounters_held_item_fkey";
+            columns: ["held_item_id"];
+            isOneToOne: false;
+            referencedRelation: "items";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "pokemon_encounters_location_id_fkey";
             columns: ["location_id"];
             isOneToOne: false;
@@ -3547,6 +3572,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "location_version_groups";
             referencedColumns: ["location_id", "version_group_id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_trade_for_fkey";
+            columns: ["trade_for_species_id", "trade_for_form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
           },
           {
             foreignKeyName: "pokemon_encounters_version_group_id_fkey";

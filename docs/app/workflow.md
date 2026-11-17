@@ -143,7 +143,7 @@ Voydex until all six are done.
 | GitHub Actions            | Scripts GitHub runs on every pull request    | Quick checks, the deploy and the keep-awake ping; slow gates on the Mac | Merges only when green      |
 | Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                                      | Nothing once set            |
 | Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                            | Reads the notes             |
-| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves                | Merges the big ones         |
+| Dependabot                | GitHub's bot that opens package-update PRs   | Mondays, grouped; green small tool updates merge themselves             | Merges the rest             |
 | Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                              | Nothing                     |
 | Cloudflare                | The real site, as plain files                | Deploys when `main` changes ([Deploys](#deploys))                       | Keeps the deploy secrets    |
 | Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset`        | Nothing                     |
