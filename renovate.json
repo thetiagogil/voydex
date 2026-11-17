@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "schedule:weekly"],
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "minimumReleaseAge": "3 days",
+  "prConcurrentLimit": 3,
+  "packageRules": [
+    {
+      "description": "One PR for small updates to the tools used to build and check the app; it merges itself when the checks pass.",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "groupName": "dev tools",
+      "automerge": true
+    },
+    {
+      "description": "One PR for small updates to the packages the app ships; the owner merges it.",
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "groupName": "app packages"
+    },
+    {
+      "description": "One PR for GitHub Actions updates.",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    }
+  ]
+}
