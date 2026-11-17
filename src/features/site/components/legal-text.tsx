@@ -86,8 +86,28 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
                 &quot;Mac&quot;). Only the last three are kept; older ones are
                 deleted. Only you can read them.
               </li>
+              <li>
+                Sign-in records. The login service notes when you sign in and
+                from which IP address, to keep accounts safe.
+              </li>
             </ul>
             <p>Logging out leaves your data on the device.</p>
+          </>
+        ),
+      },
+      {
+        title: "Why, and for how long",
+        body: (
+          <>
+            <p>
+              Voydex keeps your account and backups because you asked for them:
+              they are the service you signed up for. They stay until you delete
+              your account, and then they go too.
+            </p>
+            <p>
+              Sign-in and web host records are kept by those services to run
+              Voydex safely, under their own rules.
+            </p>
           </>
         ),
       },
@@ -106,9 +126,15 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
               </li>
             </ul>
             <p>
-              That&apos;s all. Voydex has no analytics, ads or tracking cookies.
-              A shared Plan&apos;s team rides in the link itself, so it never
-              reaches a server.
+              Both are US companies. Where your data leaves the EU, they protect
+              it under the EU&apos;s approved terms for data transfers.
+            </p>
+            <p>
+              That&apos;s all. Voydex has no analytics or ads and sets no
+              cookies. Besides your data, your browser&apos;s storage only
+              remembers your login, so you stay signed in, and small things such
+              as the part of Voydex you used last. A shared Plan&apos;s team
+              rides in the link itself, so it never reaches a server.
             </p>
           </>
         ),
@@ -124,9 +150,14 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
               in that browser.
             </li>
             <li>
-              To delete your account and its backups, or to ask what Voydex
-              keeps about you, write to <Contact />. It&apos;s done within a
-              month.
+              To delete your account and its backups, or to see, correct or get
+              a copy of what Voydex keeps about you, write to <Contact />.
+              It&apos;s done within a month.
+            </li>
+            <li>
+              Not happy with the answer? You can complain to Portugal&apos;s
+              data protection authority,{" "}
+              <TextLink href="https://www.cnpd.pt">the CNPD</TextLink>.
             </li>
           </ul>
         ),
@@ -141,12 +172,18 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         ),
       },
       {
-        title: "Changes",
+        title: "Changes and contact",
         body: (
-          <p>
-            If this policy changes, this page shows the new text and the date at
-            the top moves.
-          </p>
+          <>
+            <p>
+              If this policy changes, this page shows the new text and the date
+              at the top moves.
+            </p>
+            <p>
+              Voydex is a fan project run by one person in Portugal. Write to{" "}
+              <Contact /> about anything on this page.
+            </p>
+          </>
         ),
       },
     ],
@@ -223,6 +260,15 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
             Voydex is an unofficial fan project. Pokémon names, artwork and
             trademarks belong to Nintendo, Creatures, GAME FREAK and The Pokémon
             Company.
+          </p>
+        ),
+      },
+      {
+        title: "Law",
+        body: (
+          <p>
+            These terms follow Portuguese law. Nothing here takes away the
+            rights your own country&apos;s law gives you.
           </p>
         ),
       },
