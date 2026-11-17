@@ -83,4 +83,30 @@ describe("splitStoryRouteChapters", () => {
       ["sign-3", []],
     ]);
   });
+
+  it("keeps each chapter's key unique when a chapter comes back later", () => {
+    const chapters = splitStoryRouteChapters([
+      sign(1),
+      stop(11),
+      sign(2),
+      stop(21),
+      sign(1),
+      stop(12),
+      sign(1),
+    ]);
+
+    expect(chapters.map((chapter) => chapter.key)).toEqual([
+      "sign-1",
+      "sign-2",
+      "sign-1-2",
+      "sign-1-3",
+    ]);
+    /* The chapter is still the same one: only its card's key changes. */
+    expect(chapters.map((chapter) => chapter.sign.key)).toEqual([
+      "sign-1",
+      "sign-2",
+      "sign-1",
+      "sign-1",
+    ]);
+  });
 });
