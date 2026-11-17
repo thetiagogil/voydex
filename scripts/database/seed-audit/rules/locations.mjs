@@ -81,10 +81,7 @@ function assertHandoverDetails(
 ) {
   const where = `${relative(filePath)}: encounter of form ${row.form_id} at place ${row.location_id} in version group ${row.version_group_id}`;
   const handedOver = HANDOVER_WAY_SLUGS.has(waySlug);
-  if (
-    !handedOver &&
-    [row.giver, row.nickname, row.held_item_id].some(isSet)
-  ) {
+  if (!handedOver && [row.giver, row.nickname, row.held_item_id].some(isSet)) {
     context.errors.push(
       `${where} has a giver, nickname or held item, but its way (${waySlug}) is not a hand-over.`,
     );
