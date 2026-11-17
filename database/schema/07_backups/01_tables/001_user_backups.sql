@@ -15,16 +15,18 @@ CREATE TABLE public.user_backups (
     CONSTRAINT user_backups_object_path_unique UNIQUE (object_path),
     CONSTRAINT user_backups_object_path_owner_check CHECK (SPLIT_PART(object_path, '/', 1) = user_id::text),
     CONSTRAINT user_backups_format_positive_check CHECK (format > 0),
-    CONSTRAINT user_backups_byte_size_positive_check CHECK (byte_size > 0),
+    CONSTRAINT user_backups_byte_size_check CHECK (byte_size BETWEEN 1 AND 5242880),
     CONSTRAINT user_backups_device_name_length_check CHECK (device_name IS NULL OR CHAR_LENGTH(BTRIM(device_name)) BETWEEN 1 AND 120)
 );
 
 CREATE INDEX user_backups_user_created_at_idx ON public.user_backups (user_id, created_at DESC);
 
-COMMENT ON TABLE public.user_backups IS 'An account''s backups, newest by created_at; the app keeps the last three. Deleting the account deletes the rows (the files go with the account deletion operation).';
+COMMENT ON TABLE public.user_backups IS 'An account''s backups, newest by created_at; the app keeps the last three and an account holds at most five (private.cap_user_backups). Deleting the account deletes the rows (the files go with the account deletion operation).';
 
 COMMENT ON COLUMN public.user_backups.object_path IS 'The file in the private backups bucket, inside the owner''s folder: <user id>/<file>.json.gz.';
 
 COMMENT ON COLUMN public.user_backups.format IS 'The backup file format the app wrote (backupFormat in src/platform/local-db/backup-file.ts).';
+
+COMMENT ON COLUMN public.user_backups.byte_size IS 'The file''s size; the backups bucket refuses files over 5 MB.';
 
 COMMENT ON COLUMN public.user_backups.saved_at IS 'When the device saved the backup, by its own clock; created_at orders them.';

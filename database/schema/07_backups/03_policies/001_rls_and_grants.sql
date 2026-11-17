@@ -30,10 +30,11 @@ CREATE POLICY user_backups_delete_own ON public.user_backups
         SELECT
             auth.uid ()) = user_id);
 
--- The files: gzipped JSON, at most 20 MB each, in the owner's folder. A
--- reset keeps storage's own tables, so the bucket may already be there.
+-- The files: gzipped JSON, at most 5 MB each (a busy account's backup is
+-- a few hundred KB), at most five in the owner's folder. A reset keeps
+-- storage's own tables, so the bucket may already be there.
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-    VALUES ('backups', 'backups', FALSE, 20971520, ARRAY['application/gzip'])
+    VALUES ('backups', 'backups', FALSE, 5242880, ARRAY['application/gzip'])
 ON CONFLICT (id)
     DO UPDATE SET
         public = EXCLUDED.public,
@@ -52,7 +53,8 @@ CREATE POLICY backups_insert_own ON storage.objects
     WITH CHECK (bucket_id = 'backups'
     AND (storage.foldername (name))[1] = (
         SELECT
-            auth.uid ())::text);
+            auth.uid ())::text
+            AND public.backup_folder_has_room ());
 
 CREATE POLICY backups_delete_own ON storage.objects
     FOR DELETE TO authenticated
