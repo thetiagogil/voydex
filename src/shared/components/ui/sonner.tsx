@@ -12,7 +12,10 @@ import { Spinner } from "@/shared/components/ui/spinner";
  * green. They sit bottom right on wide screens, out of the content's way,
  * and bottom centre on phones, in thumb's reach. They slide in quietly;
  * toasts never bounce. Where the shell has a bottom bar, it sets
- * `--toast-bottom` so toasts sit above it.
+ * `--toast-bottom` so toasts sit above it. Up to 600px Sonner draws its list
+ * a gutter in from the left but the screen's full width, and sizes each toast
+ * to fit between the gutters, so there a toast sits at the list's start,
+ * not centred in it (which pushed it against the right edge).
  */
 const Toaster = ({ ...props }: ToasterProps) => {
   const isMobile = useIsMobile();
@@ -46,7 +49,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast:
-            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:mx-auto md:right-0 md:ml-auto",
+            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
           content: "flex min-w-0 flex-col gap-0.5",
           title: "text-white",
           description: "text-13 text-on-ink font-semibold",
