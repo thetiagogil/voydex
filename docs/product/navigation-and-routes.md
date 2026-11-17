@@ -15,8 +15,7 @@ switcher.
 
 The app opens for everyone: your data lives on this device
 ([ADR 0008](../decisions/0008-user-data-on-the-device.md)), and signing in is
-only for backups. Mainline, Settings, You, Welcome and the Codex take this
-frame.
+only for backups. Mainline, Settings, You and the Codex take this frame.
 
 - **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
   Mainline Home (`/mainline`). Mainline's views sit centred in module order:
@@ -26,13 +25,14 @@ frame.
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
   open theirs; it is bold while you are anywhere under `/codex`.
 - **Account menu:** Library (`/mainline/library`, your rules and tags),
-  Settings (`/settings`) and, once you've signed in, Log out at the foot.
+  Settings (`/settings`) and, at the foot, Log in (back up your Plays to an
+  account) or, once you've signed in, Log out.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/you` (the
-  trainer card, Statistics, Collection, Library, Settings and, signed in,
-  Log out) and
-  stays current on You, Settings, Library, Welcome, Statistics and
+  trainer card, Statistics, Collection, Library, Settings and Log in, or
+  Log out once you've signed in) and
+  stays current on You, Settings, Library, Statistics and
   Collection. The current
   item takes the soft action tint. Toasts sit above the bar.
 - Mainline's views come from `src/config/modules.ts`; nothing appears as a
@@ -40,19 +40,31 @@ frame.
 
 ### The Site Frame
 
-The site (`/`, `/intro`, `/start`, Privacy, Terms) and the log-in pages.
+The website is one page, the front page (`/`), with Privacy, Terms and the
+log-in pages beside it. Everything else is the app.
 
+- **The front page:** the name, the catchphrase, one paragraph and one
+  button on the band, then How it works (`/#how-it-works`: one Play
+  followed over time, the Team Planner and the Codex) and Install
+  (`/#install`: how to add Voydex to a Home Screen on an iPhone or iPad,
+  and on Android or a computer). Its button reads Start a Play and opens
+  the app (`/mainline`), whose Home asks which game you are playing.
 - **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
-  phones), then How it works (`/intro`) and the Codex menu centred, and Log
-  in on the right. On phones the links fold into a menu behind one icon
-  beside Log in; it leads with Start a Play (`/start`), then How it works,
-  then the Codex's Pokémon and Games under its name.
+  phones), How it works and Install centred (they scroll to those parts of
+  the front page; phones leave them out), and Log in on the right. The
+  log-in pages show no bar.
 - The site frame ends on the quiet site footer (name, catchphrase, How it
   works, Codex, Log in, Privacy, Terms and the fan-project notice).
-- Nothing sends you to log in: the app's pages (`/mainline`, `/settings`,
-  `/welcome`, `/you` and everything under them) open on this device's data
-  behind one short start screen while its database opens and every tab
-  gets ready, so changing tabs afterwards never waits.
+- **Coming back:** a device that has opened the app (Mainline, Settings or
+  You) skips the front page: `/` sends it to the module it was last in. A
+  Codex visit alone doesn't count. A link to one of the front page's parts
+  still shows it, with Continue in place of Start a Play; Settings' About
+  Voydex links there.
+- **The start screen:** the app's pages (`/mainline`, `/settings`, `/you`
+  and everything under them) open on this device's data behind one short
+  start screen, alone on the page with no bars, while its database opens
+  and every tab gets ready, so the bars appear with a working app and
+  changing tabs afterwards never waits. Nothing sends you to log in.
 
 ### Inside A Module
 
@@ -108,9 +120,7 @@ reference/filter context; they are not currently a required top-level view.
 ## Route Families
 
 ```txt
-/                       site Home
-/intro
-/start                  Start a Play: ?game=, ?partner=, ?gen=
+/                       the front page: #how-it-works, #install
 /privacy, /terms
 
 /login                  ?mode=sign-up, ?next=, ?game=, ?partner=
@@ -149,7 +159,6 @@ reference/filter context; they are not currently a required top-level view.
 
 /settings
   /export               your rows as one JSON file
-/welcome                once after sign-up, then moves on
 /you
 ```
 
@@ -218,8 +227,8 @@ Mainline Home (the shelf, Continue) or Plays -> Play Hub
 Mainline Home (no Plays: the game picker) -> Start -> Play Hub
 Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play dialog over the page, game picked
-Start a Play (game, partner) -> New Play over Mainline Home with the game and
-  partner picked (/mainline?new=&partner=)
+The front page -> Start a Play -> the start screen -> Mainline Home (no Plays:
+  the game picker)
 ```
 
 Codex is an optional contextual entry, never a required funnel.
@@ -263,9 +272,10 @@ data.
 ### Authenticate Or Recover
 
 ```txt
-Log in or Sign up (only for backups) -> /login?next=[path] -> the destination
-Sign up -> /welcome (or /check-email, whose link returns through
-  /auth/callback to /welcome)
+Settings' Account, the account menu or You -> Log in or Sign up (only for
+  backups) -> /login?next=[path] -> the destination
+Sign up -> where Log in would land (or /check-email, whose link returns
+  through /auth/callback to the same place)
 Log in -> Forgot password -> /forgot-password (sent state)
   -> the email's link -> /auth/callback -> /reset-password -> next
 ```
@@ -277,7 +287,7 @@ them. A signed-in request to Login redirects to the validated destination or
 normal app entry.
 
 Every email link returns through `/auth/callback`: a sign-up confirmation
-continues to Welcome, a reset to `/reset-password`, an email change to
+continues into the app, a reset to `/reset-password`, an email change to
 Settings. A failed or expired reset link returns to `/forgot-password` with
 its reason; any other failed link to Log in. External, protocol-relative,
 malformed or unsupported continuation targets fall back safely.

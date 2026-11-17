@@ -266,9 +266,9 @@ src/modules/reference/
 
 The three TypeScript root files are the public contracts for cross-module
 catalogue types, data helpers, and paged/chunked reference reads. The game
-picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
+picker (`GameShelfPicker`) and its public reads
 (`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`) also live
-in reference, so Start a Play, New Play and the Planner share them. `readGameCatalogue` (every game,
+in reference, so Home's first run, New Play and the Planner share them. `readGameCatalogue` (every game,
 its first partners and expansions) runs once in the build, into the
 pre-built game catalogue file; `games/client/game-catalogue.ts` reads it in
 the browser (`useGameCatalogue`, `fetchGameCatalogue`), so New Play, Start
@@ -466,7 +466,7 @@ the device:
   writes a gzipped JSON file per page to `/codex-data/` (see
   [Codex Files](../database/architecture.md#codex-files)). Pages download
   their file in the browser with `useCodexFile` (Codex) or
-  `useGameCatalogue` (the game catalogue New Play, Start a Play, Home and
+  `useGameCatalogue` (the game catalogue New Play, Home and
   Collection show), through `src/platform/prebuilt-data`; an address that
   names no file is a 404, and an old game or expansion address moves on to
   its base group.
@@ -510,8 +510,9 @@ src/platform/local-db/
   account-sync.ts        # syncing while signed in, with useAccountSync
 ```
 
-The app's layout wraps every app page in the device gate
-(`src/features/system/components/device-gate.tsx`): one short start screen
+The app's layout wraps the app's frame and every app page in the device gate
+(`src/features/system/components/device-gate.tsx`): one short start screen,
+alone on the page with no bars,
 while the database opens and the tabs get ready (`AppDeviceGate` passes
 Mainline's tab reads; at most four seconds, the rest carry on in the
 background), then the page; or a screen for offline on a new
@@ -715,7 +716,10 @@ problem or a small set of tightly related problems.
 
 Current route groups remain:
 
-- site: `/`, `/intro`, `/start`, `/privacy` and `/terms`;
+- site: `/` (the front page, which is the whole website), `/privacy` and
+  `/terms`. `src/config/front-door.ts` holds the rule that sends a device
+  that has opened the app from `/` back into it, and the inline script that
+  applies it before the page paints;
 - auth: `/login`, `/forgot-password`, `/reset-password`, `/check-email` and
   `/auth/callback`;
 - system: `/app`;
@@ -725,7 +729,7 @@ Current route groups remain:
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
   (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
-  `/welcome` and `/you`.
+  and `/you`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every
 address; code is the evidence for what is mounted.

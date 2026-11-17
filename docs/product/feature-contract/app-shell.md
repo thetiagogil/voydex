@@ -5,15 +5,17 @@ This is the Accounts, Settings And System States part of the [Feature Contract](
 ## Authentication And Resumption
 
 The app opens without an account: your data lives on this device, and
-signing in is only for backups (#248). Start a Play (`/start`) lets a visitor
-pick a game and partner, then opens New Play over Mainline Home with both
-picked. Log in and Sign up share `/login`;
+signing in is only for backups (#248). The front page's Start a Play opens
+the app, whose Home asks which game you are playing. Logging in is offered
+inside the app and never asked for: Settings' Account card, the account menu
+and You each carry Log in while you're signed out. Log in and Sign up share
+`/login`, whose words say what an account is for (Sign up is titled "Back up
+your Plays") and whose last line says Voydex works the same without one;
 Reset your password, Choose a new password and Check your email are their own
 routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
-password with Show and no confirmation field (v3), then Welcome (`/welcome`):
-your name and a Pokémon icon on the trainer card, before your first Play.
-Welcome shows once: Continue saves them and Skip saves nothing, and either one
-marks Welcome done, after which `/welcome` just moves on (`profiles.welcome_completed_at`).
+password with Show and no confirmation field, and lands where Log in would,
+with no step in between: your name and icon are on the trainer card in
+Settings, and New Play asks for the trainer name.
 
 Login is a focused global transition with visible Log in, Sign up, Recover
 account, Check your email, or Choose a new password identity. Direct Login uses
@@ -47,13 +49,17 @@ in again, preserves safe read intent, and never silently replays a write.
 
 ## Global Settings
 
-Global Settings is one authenticated `/settings` page outside product modules,
-one readable column: the trainer card, which is the profile form (your
+Global Settings is one `/settings` page outside product modules, open to
+everyone, one readable column: the trainer card, which is the profile form (your
 Pokémon icon, display name and default trainer name; the card changes as you
-pick or type and Save appears once it has changed), Look and feel, New Play defaults, Account and Your data. On phones
-`/you` gathers the trainer card, Statistics, Collection and Settings.
+pick or type and Save appears once it has changed), Look and feel, New Play
+defaults, Account, Your data and About Voydex (How it works, Privacy, Terms
+and the fan-project notice). On phones `/you` gathers the trainer card,
+Statistics, Collection, Library and Settings, then Log in, or Log out once
+you've signed in.
 
-Account shows your email with Change email (confirmed by a link Supabase
+Signed out, Account is one row, Back up to an account, with Log in (it
+returns to Settings). Signed in, Account shows your email with Change email (confirmed by a link Supabase
 sends; the change takes effect once it is opened), Change password, Sync
 (when this device last synced with the account, with Sync now, or Choose
 while a clash waits) and Log out on this device. When two devices changed
@@ -89,7 +95,7 @@ Colour theme wait on #38 with pending markers; only the light look is
 designed. New Play defaults are what a new Play starts tracking: Story on or
 off, the Pokédex as caught only or caught and seen, and Collectibles on or
 off. New Play opens its Tracking step from them and every other way a Play
-starts (Home's offer, Start a Play) uses them too; each Play then keeps its
+starts (Home's offer) uses them too; each Play then keeps its
 own switches (Play Settings), so changing a default never touches an existing
 Play. Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
 

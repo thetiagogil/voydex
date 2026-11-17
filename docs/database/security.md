@@ -8,7 +8,7 @@ row. Hosted Supabase serves only what the device can't hold for itself:
 
 - `reference` and `tracking`: client read-only, with RLS. Signed-out
   visitors read `reference` and, in `tracking`, only `mainline_badges`
-  (Start a Play counts the badges ahead, of kind `badge`; Alola's Z-Crystal
+  (the game pickers count the badges ahead, of kind `badge`; Alola's Z-Crystal
   rows don't count), `mainline_collectibles` (the cached game list tells New
   Play which games have collectibles), `mainline_opponents` and
   `mainline_opponent_team_members` (the Codex game page lists each game's
