@@ -46,9 +46,8 @@ export const StoryPlaceDetail = ({
   pokemon: StoryPlacePokemonGroup[];
 }) => {
   const [detailsOpen, setDetailsOpen] = useState(false);
-  /* Beside the route, gifts and trades are a line each; the rest, sprites. */
+  /* Beside the route, what only sprites show waits in the sheet. */
   const glance = pokemon.filter((group) => !isStoryGiftOrTradeGroup(group));
-  const handedOver = pokemon.filter(isStoryGiftOrTradeGroup);
 
   return (
     <>
@@ -74,12 +73,16 @@ export const StoryPlaceDetail = ({
             No wild Pokémon here.
           </p>
         ) : compact ? (
-          <>
-            {glance.length ? <StoryPokemonSprites groups={glance} /> : null}
-            {handedOver.length ? (
-              <StoryPokemonRows groups={handedOver} />
-            ) : null}
-          </>
+          /* In the ways' order: a gift or a trade a line, the rest sprites. */
+          <div className="grid gap-4">
+            {pokemon.map((group) =>
+              isStoryGiftOrTradeGroup(group) ? (
+                <StoryPokemonRows key={group.way} groups={[group]} />
+              ) : (
+                <StoryPokemonSprites key={group.way} groups={[group]} />
+              ),
+            )}
+          </div>
         ) : (
           <StoryPokemonRows groups={pokemon} />
         )}
