@@ -19,6 +19,7 @@ import {
   isStoryRouteEntryDone,
   type StoryRouteEntry,
 } from "../../data/story-route-model";
+import { countStoryPlaceHandovers } from "../../data/story-place-pokemon";
 import type { StoryMilestone, StoryScope } from "../../types";
 import { StoryChapterCard } from "./story-chapter-card";
 import { StoryMilestoneMemento } from "./story-milestone-memento";
@@ -139,9 +140,16 @@ export const StoryRoadmap = ({
 
   const renderEntry = (item: StoryRouteItem) => {
     if (item.kind === "place") {
+      /* What's given or traded there shows the first time the route comes by. */
+      const handovers = item.firstVisit
+        ? countStoryPlaceHandovers(scope.placePokemon.get(item.place.id) ?? [])
+        : { gifts: 0, trades: 0 };
+
       return (
         <StoryRoutePlace
           battleCount={getPlaceBattleCount(item)}
+          giftCount={handovers.gifts}
+          tradeCount={handovers.trades}
           id={getStoryRoutePlaceId(item.key)}
           name={item.place.name}
           onSelect={() => onPlaceSelect(item)}

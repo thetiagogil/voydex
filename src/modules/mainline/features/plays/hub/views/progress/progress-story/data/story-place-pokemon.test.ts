@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  countStoryPlaceHandovers,
   getRuledOutDecisionFormIds,
+  getStoryChoiceFormIds,
+  getStoryHandoverGroups,
   groupStoryPlacePokemon,
+  type StoryHandover,
   type StoryPlaceEncounterRow,
 } from "./story-place-pokemon";
 
@@ -47,7 +51,13 @@ describe("groupStoryPlacePokemon", () => {
       groupStoryPlacePokemon([row({}), row({ levelMax: 7, levelMin: 6 })])[0]
         .pokemon,
     ).toEqual([
-      { formId: 1600, levels: "Lv. 2–7", name: "Pidgey", slug: "pidgey" },
+      {
+        formId: 1600,
+        handover: null,
+        levels: "Lv. 2–7",
+        name: "Pidgey",
+        slug: "pidgey",
+      },
     ]);
   });
 
@@ -72,6 +82,109 @@ describe("groupStoryPlacePokemon", () => {
       groupStoryPlacePokemon([row({ levelMax: null, levelMin: null })])[0]
         .pokemon[0].levels,
     ).toBeNull();
+  });
+});
+
+const handover = (overrides: Partial<StoryHandover>): StoryHandover => ({
+  condition: null,
+  giver: null,
+  heldItem: null,
+  nickname: null,
+  price: null,
+  tradeFor: null,
+  ...overrides,
+});
+
+const trade = row({
+  formId: 12200,
+  formName: "Mr. Mime",
+  formSlug: "mr-mime",
+  handover: handover({
+    giver: "A boy in the trade house",
+    nickname: "MARCEL",
+    tradeFor: { name: "Abra", slug: "abra" },
+  }),
+  levelMax: null,
+  levelMin: null,
+  wayName: "In-game trade",
+  waySlug: "trade",
+  waySortOrder: 31,
+});
+const gift = (formId: number, formName: string, waySlug = "gift") =>
+  row({
+    formId,
+    formName,
+    handover: handover({ giver: "Professor Oak" }),
+    levelMax: 5,
+    levelMin: 5,
+    wayName: waySlug,
+    waySlug,
+    waySortOrder: 30,
+  });
+
+describe("hand-overs (#322)", () => {
+  it("keeps who hands a Pokémon over, and never on one met in the wild", () => {
+    const groups = groupStoryPlacePokemon([
+      row({ handover: handover({ giver: "Nobody" }) }),
+      trade,
+    ]);
+
+    expect(groups.map((group) => group.pokemon[0].handover)).toEqual([
+      null,
+      trade.handover,
+    ]);
+    expect(groups.map((group) => group.waySlug)).toEqual([
+      "tall-grass",
+      "trade",
+    ]);
+  });
+
+  it("counts gifts (fossils and Eggs too) and trades, never prizes or bought ones", () => {
+    expect(
+      countStoryPlaceHandovers(
+        groupStoryPlacePokemon([
+          row({}),
+          gift(100, "Bulbasaur"),
+          gift(13800, "Omanyte", "fossil"),
+          gift(17500, "Togepi", "egg"),
+          gift(6300, "Abra", "prize"),
+          gift(12900, "Magikarp", "bought"),
+          trade,
+        ]),
+      ),
+    ).toEqual({ gifts: 3, trades: 1 });
+  });
+
+  it("collects the Pokémon every choice offers", () => {
+    expect([
+      ...getStoryChoiceFormIds([
+        { decisionOptions: [{ formId: 100 }, { formId: 400 }] },
+        { decisionOptions: [{ formId: null }] },
+        { decisionOptions: [] },
+      ]),
+    ]).toEqual([100, 400]);
+  });
+
+  it("gives a milestone's place its hand-overs, without a choice's", () => {
+    const groups = groupStoryPlacePokemon([
+      row({}),
+      gift(100, "Bulbasaur"),
+      gift(400, "Charmander"),
+      gift(12900, "Magikarp", "bought"),
+    ]);
+
+    expect(
+      getStoryHandoverGroups(groups, new Set([100])).map((group) => [
+        group.waySlug,
+        group.pokemon.map((pokemon) => pokemon.name),
+      ]),
+    ).toEqual([
+      ["gift", ["Charmander"]],
+      ["bought", ["Magikarp"]],
+    ]);
+    expect(getStoryHandoverGroups(groups, new Set([100, 400, 12900]))).toEqual(
+      [],
+    );
   });
 });
 

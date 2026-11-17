@@ -70,6 +70,8 @@ export type StorySnapshotEventSource = Pick<
 >;
 
 export type StoryDecisionOption = {
+  /* The Pokémon it hands over, if it's one. */
+  formId: number | null;
   id: number;
   imageUrl: string | null;
   label: string;
