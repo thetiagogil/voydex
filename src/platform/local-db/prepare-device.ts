@@ -7,6 +7,7 @@ import {
   type DeviceUpdate,
 } from "@/platform/local-db/device-updates";
 import {
+  GameDataRefusedError,
   installGameBase,
   readInstalledGameData,
   updateGameData,
@@ -73,6 +74,39 @@ export const isStorageFullError = (error: unknown) => {
   ].join(" ");
 
   return /QuotaExceeded|quota|No space left|ENOSPC/i.test(text);
+};
+
+/*
+ * A game data update that didn't go in leaves the device on the release it
+ * has; the reason goes to the console, for whoever looks into it. A
+ * warning, not an error: the app carries on, and says so on screen.
+ */
+export const logGameDataUpdateFailure = (error: unknown) => {
+  console.warn(
+    "The game data update failed; this device keeps the game data it has.",
+    error,
+  );
+};
+
+/*
+ * Why a game data update didn't go in, in words for the screen: Voydex's
+ * own messages (offline, a refused release, a dropped download) as they
+ * are; a full device as the device gate says it; anything else (a database
+ * error, a network error) plainly, its detail left to the console.
+ */
+export const describeGameDataUpdateFailure = (error: unknown) => {
+  if (isStorageFullError(error)) {
+    return "This device is out of room for Voydex's data.";
+  }
+
+  if (error instanceof GameDataRefusedError) return error.message;
+
+  /* Voydex's own messages carry no cause; a wrapped database error does. */
+  if (error instanceof LocalDbError && error.cause === undefined) {
+    return error.message;
+  }
+
+  return "The update didn't finish. Try again later.";
 };
 
 /*
@@ -164,8 +198,9 @@ export const prepareDevice = async (
       /*
        * A new release of the game data: the device takes it before the
        * screens open (on the same release, it only follows ID changes it
-       * hasn't had). If it can't (a dropped connection), the screens keep
-       * the release the device has, and the next game download tries again.
+       * hasn't had). If it can't (a dropped connection, a refused
+       * release), the screens keep the release the device has and say so
+       * (`isGameDataBehind`), and the next game download tries again.
        */
       await updateGameData(db, {
         download: sources.download,
@@ -173,6 +208,8 @@ export const prepareDevice = async (
         versions,
       }).catch((error: unknown) => {
         if (isStorageFullError(error)) throw error;
+
+        logGameDataUpdateFailure(error);
       });
     }
 

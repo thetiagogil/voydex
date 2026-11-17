@@ -23,6 +23,7 @@ vi.mock("@/platform/local-db/game-data", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/platform/local-db/game-data")>()),
   downloadGameDataFileWithin: vi.fn(() => "timed download"),
   fetchGameDataVersions: vi.fn(async () => ({ schemaHash: "fresh" })),
+  updateGameData: vi.fn(async () => ({ status: "already-installed" })),
 }));
 vi.mock("@/platform/local-db/local-db", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/platform/local-db/local-db")>()),
@@ -69,6 +70,7 @@ const load = async () => {
     readMissing: vi.mocked(background.readBackgroundDownloads),
     refreshVersions: vi.mocked(opened.refreshGameDataVersions),
     run: vi.mocked(background.runBackgroundDownloads),
+    update: vi.mocked(gameData.updateGameData),
   };
 };
 
@@ -360,5 +362,89 @@ describe("watchBackgroundDownloads", () => {
     await expect(ensuring).resolves.toBe("failed");
     await settle(0);
     expect(gaveWay).toBe(true);
+  });
+});
+
+describe("retryGameDataUpdate", () => {
+  const logged =
+    "The game data update failed; this device keeps the game data it has.";
+
+  it("updates the device to the list the server has now", async () => {
+    const { refreshVersions, retryGameDataUpdate, update } = await load();
+
+    await retryGameDataUpdate();
+
+    expect(refreshVersions).toHaveBeenCalledOnce();
+    expect(update).toHaveBeenCalledWith(
+      {},
+      { versions: { schemaHash: "refreshed" } },
+    );
+  });
+
+  it("logs and says why when the update fails again", async () => {
+    const { retryGameDataUpdate, update } = await load();
+    const failure = new Error("The game data didn't download.");
+    const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    update.mockRejectedValueOnce(failure);
+
+    await expect(retryGameDataUpdate()).rejects.toBe(failure);
+    expect(log).toHaveBeenCalledWith(logged, failure);
+    log.mockRestore();
+  });
+
+  it("says to connect first when offline", async () => {
+    const { refreshVersions, retryGameDataUpdate, update } = await load();
+    const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    refreshVersions.mockResolvedValueOnce(null);
+
+    await expect(retryGameDataUpdate()).rejects.toThrow(
+      "You're offline. Connect, then try again.",
+    );
+    expect(update).not.toHaveBeenCalled();
+    log.mockRestore();
+  });
+
+  it("holds the background downloads until it's done", async () => {
+    const { retryGameDataUpdate, run, update, watchBackgroundDownloads } =
+      await load();
+    let finish: () => void = () => undefined;
+
+    update.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          finish = () => resolve({ status: "already-installed" });
+        }),
+    );
+
+    const retrying = retryGameDataUpdate();
+
+    stop = watchBackgroundDownloads();
+    await settle();
+
+    const { beforeEach: giveWay } = run.mock.calls[0][1];
+    let gaveWay = false;
+
+    void giveWay?.().then(() => {
+      gaveWay = true;
+    });
+    await settle(0);
+    expect(gaveWay).toBe(false);
+
+    finish();
+    await retrying;
+    await settle(0);
+    expect(gaveWay).toBe(true);
+  });
+});
+
+describe("readGameDataBehind", () => {
+  it("is false offline, with no list to compare against", async () => {
+    const { readGameDataBehind } = await load();
+
+    state.versions = null;
+
+    await expect(readGameDataBehind()).resolves.toBe(false);
   });
 });

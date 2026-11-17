@@ -4,6 +4,7 @@ import { Suspense, useEffect, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
+import { OldGameDataNotice } from "@/features/system/components/old-game-data-notice";
 import { watchBackgroundDownloads } from "@/platform/local-db/game-downloads";
 import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import {
@@ -26,7 +27,9 @@ import {
  * shows its own loading state (each folder's `loading.tsx`). This fallback
  * shows only if something else waits outside a transition.
  *
- * Once open, the games the device should have download in the background.
+ * Once open, the games the device should have download in the background,
+ * and a device still on older game data (an update that didn't go in) says
+ * so, with a way to try again (`OldGameDataNotice`).
  *
  * `prepare` names the pages to get ready while the start screen shows (the
  * app's tabs), so changing tabs never waits on the device. They are read
@@ -60,6 +63,7 @@ export const DeviceGate = ({
       ) : (
         <LocalDbProvider db={state.db} versions={state.versions}>
           {children}
+          <OldGameDataNotice />
           {prepare ? <KeepPagesReady prepare={prepare} /> : null}
         </LocalDbProvider>
       )}

@@ -8,7 +8,9 @@ import {
   findGameData,
   installGame,
   installGameLearnsets,
+  isGameDataBehind,
   readInstalledGameData,
+  updateGameData,
   type GameDataProgress,
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
@@ -28,7 +30,10 @@ import {
   openLocalDb,
   refreshGameDataVersions,
 } from "@/platform/local-db/open-local-db";
-import { isStorageFullError } from "@/platform/local-db/prepare-device";
+import {
+  isStorageFullError,
+  logGameDataUpdateFailure,
+} from "@/platform/local-db/prepare-device";
 
 /*
  * A game's data on the device, downloaded the first time something needs
@@ -186,11 +191,53 @@ const ensureVersionGroup = async (versionGroupId: number) => {
      * A game already on the device keeps the release it has when the new
      * one can't come in (a dropped connection, a refused release).
      */
-    if (installed.has(root.slug) && !isStorageFullError(error)) return;
+    if (installed.has(root.slug) && !isStorageFullError(error)) {
+      logGameDataUpdateFailure(error);
+
+      return;
+    }
 
     throw error;
   } finally {
     setCurrent(null);
+  }
+};
+
+/*
+ * Whether this device is still on older game data than the latest list
+ * this visit knows: an update that didn't go in when the app opened or a
+ * game downloaded.
+ */
+export const readGameDataBehind = async () => {
+  const { db, versions } = await openLocalDb();
+
+  return isGameDataBehind(db, versions);
+};
+
+/*
+ * Tries the game data update again, from the list the server has now. The
+ * background gives way while it runs; a failure is logged and thrown, for
+ * the screen to say why.
+ */
+export const retryGameDataUpdate = async () => {
+  waitedFor += 1;
+
+  try {
+    const { db } = await openLocalDb();
+    const versions = await refreshGameDataVersions();
+
+    if (!versions) {
+      throw new LocalDbError("You're offline. Connect, then try again.");
+    }
+
+    await updateGameData(db, { versions });
+  } catch (error) {
+    logGameDataUpdateFailure(error);
+
+    throw error;
+  } finally {
+    waitedFor -= 1;
+    notify();
   }
 };
 

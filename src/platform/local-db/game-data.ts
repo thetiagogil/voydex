@@ -465,6 +465,18 @@ export const isGameDataOutdated = (
   return [...installed].some(([name, hash]) => latest.get(name) !== hash);
 };
 
+/*
+ * Whether the device is still on older game data than `versions`, the
+ * latest list it knows: an update that didn't go in. Offline (no list), it
+ * can't tell, and says no.
+ */
+export const isGameDataBehind = async (
+  db: LocalDb,
+  versions: GameDataVersions | null,
+) =>
+  versions !== null &&
+  isGameDataOutdated(await readInstalledGameData(db), versions);
+
 /* Downloads files one by one and checks each is the one the list names. */
 const downloadFiles = async (
   entries: GameDataFileEntry[],

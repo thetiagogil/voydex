@@ -4,9 +4,16 @@ import { gzipSync } from "node:zlib";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
-import type { GameDataVersions } from "@/platform/local-db/game-data";
+import {
+  GameDataRefusedError,
+  isGameDataBehind,
+  updateGameData,
+  type GameDataVersions,
+} from "@/platform/local-db/game-data";
+import { LocalDbError, toLocalDbError } from "@/platform/local-db/local-db";
 import { createTestDb } from "@/platform/local-db/local-db-test-support";
 import {
+  describeGameDataUpdateFailure,
   DeviceProblemError,
   isStorageFullError,
   prepareDevice,
@@ -65,6 +72,7 @@ const {
 const openDbs: PGlite[] = [];
 
 afterEach(async () => {
+  vi.restoreAllMocks();
   await Promise.all(openDbs.splice(0).map((db) => db.close()));
 });
 
@@ -186,6 +194,46 @@ describe("prepareDevice", () => {
     expect(rows).toEqual([{ hash: baseHash, name: "Generation VIII" }]);
   });
 
+  it("logs why a new release didn't go in, and the device says it's behind", async () => {
+    const db = await setUpDevice();
+    const next = buildBase("Generation 8");
+    const failure = new Error("The game data didn't download.");
+    const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    await prepareDevice(
+      db,
+      sources({
+        download: () => Promise.reject(failure),
+        fetchVersions: () => Promise.resolve(next.versions),
+      }),
+    );
+
+    expect(log).toHaveBeenCalledWith(
+      "The game data update failed; this device keeps the game data it has.",
+      failure,
+    );
+    await expect(isGameDataBehind(db, next.versions)).resolves.toBe(true);
+
+    /* Trying again once the file downloads brings the device up to date. */
+    await updateGameData(db, {
+      download: async (_path, onBytes) => {
+        onBytes(next.bytes.byteLength);
+
+        return next.bytes;
+      },
+      versions: next.versions,
+    });
+
+    await expect(isGameDataBehind(db, next.versions)).resolves.toBe(false);
+  });
+
+  it("is never behind on the release it has, or offline", async () => {
+    const db = await setUpDevice();
+
+    await expect(isGameDataBehind(db, versions)).resolves.toBe(false);
+    await expect(isGameDataBehind(db, null)).resolves.toBe(false);
+  });
+
   it("works offline once the device is set up", async () => {
     const db = await setUpDevice();
 
@@ -279,5 +327,44 @@ describe("isStorageFullError", () => {
       isStorageFullError(new DOMException("x", "QuotaExceededError")),
     ).toBe(true);
     expect(isStorageFullError(new Error("Something else"))).toBe(false);
+  });
+});
+
+describe("describeGameDataUpdateFailure", () => {
+  it("says Voydex's own reasons as they are", () => {
+    expect(
+      describeGameDataUpdateFailure(
+        new LocalDbError("You're offline. Connect, then try again."),
+      ),
+    ).toBe("You're offline. Connect, then try again.");
+    expect(
+      describeGameDataUpdateFailure(
+        new GameDataRefusedError(["reference.pokemon 25"]),
+      ),
+    ).toBe(
+      "This game data update leaves out something your Plays or Plans use, so this device keeps the game data it has.",
+    );
+  });
+
+  it("says a full device plainly", () => {
+    expect(
+      describeGameDataUpdateFailure(
+        new DOMException("Quota exceeded", "QuotaExceededError"),
+      ),
+    ).toBe("This device is out of room for Voydex's data.");
+  });
+
+  it("keeps database and network detail off the screen", () => {
+    expect(
+      describeGameDataUpdateFailure(
+        toLocalDbError(new Error('relation "reference.x" does not exist')),
+      ),
+    ).toBe("The update didn't finish. Try again later.");
+    expect(
+      describeGameDataUpdateFailure(new TypeError("Failed to fetch")),
+    ).toBe("The update didn't finish. Try again later.");
+    expect(describeGameDataUpdateFailure("nope")).toBe(
+      "The update didn't finish. Try again later.",
+    );
   });
 });
