@@ -1861,6 +1861,11 @@ export type Database = {
         };
         Returns: string;
       };
+      backup_folder_has_room: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+      keep_awake: { Args: Record<PropertyKey, never>; Returns: string };
     };
     Enums: {
       [_ in never]: never;

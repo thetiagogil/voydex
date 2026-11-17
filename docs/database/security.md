@@ -19,6 +19,20 @@ row. Hosted Supabase serves only what the device can't hold for itself:
   account reads, adds and deletes only its own rows and the files in its
   own folder (`<user id>/…`); nothing edits a backup. Update policies, where
   a hosted table has them, require both `USING` and `WITH CHECK`.
+- Nobody can fill the hosted project: a backup file is at most 5 MB (the
+  bucket's limit; a busy account's backup is a few hundred KB), and an
+  account holds at most five backups, rows (`private.cap_user_backups`) and
+  files (`public.backup_folder_has_room()` in the bucket's insert policy).
+  The app keeps three; the other two leave room for the one being saved and
+  another device saving at the same moment. Both counts take turns per
+  account, so uploads at once can't slip past them. Before and after each
+  upload the app deletes the backups past the newest three and any file no
+  backup points to once it is an hour old, so a failed cleanup can't leave
+  an account full.
+- `public.keep_awake()` is the one thing signed-out visitors can run: it
+  returns the database's time and reads nothing, for the scheduled ping that
+  keeps the free project from pausing (see
+  [Workflow](../app/workflow.md#keeping-hosted-supabase-awake)).
 - Your tables (`public` profiles, preferences and tags, `gameplay`,
   `planning`, and the `mainline_` views) have no RLS and no policies: on the
   device they would protect nothing. Instead the API roles get nothing on

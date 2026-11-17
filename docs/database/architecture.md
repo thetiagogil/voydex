@@ -49,8 +49,9 @@ three places:
 - `reference` and `tracking` reach the device as files (see Game Data Files
   below), served by the app itself on Cloudflare, so the files always fit
   the schema of the app that serves them.
-- `database/schema/07_backups` is hosted only: the account backups table and
-  the private `backups` storage bucket. The device schema leaves it out
+- `database/schema/07_backups` is hosted only: the account backups table,
+  the private `backups` storage bucket, their size caps and the keep-awake
+  ping function. The device schema leaves it out
   (`stripHostedOnly` in `scripts/database/device-schema.mjs`).
 - Your tables (`public` profiles, preferences and tags, `gameplay`,
   `planning` and the `mainline_` views) carry no row security, and the API

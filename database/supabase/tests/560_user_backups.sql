@@ -9,7 +9,7 @@ INSERT INTO public.user_backups (user_id, object_path, format, saved_at, byte_si
 INSERT INTO storage.objects (bucket_id, name, owner_id)
     VALUES ('backups', '00000000-0000-0000-0000-0000000005b2/b.json.gz', '00000000-0000-0000-0000-0000000005b2');
 SELECT
-    plan (18);
+    plan (27);
 SELECT
     IS ((
             SELECT
@@ -18,6 +18,14 @@ SELECT
                 storage.buckets
             WHERE
                 id = 'backups'), FALSE, 'the backups bucket is private');
+SELECT
+    IS ((
+            SELECT
+                file_size_limit
+            FROM
+                storage.buckets
+            WHERE
+                id = 'backups'), 5242880::bigint, 'a backup file is at most 5 MB');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000005a1', TRUE);
 SET LOCAL ROLE authenticated;
@@ -93,6 +101,32 @@ SELECT
             LIMIT 1),
         '00000000-0000-0000-0000-0000000005a1/c.json.gz',
         'the recorded backup is the newest');
+-- An account holds at most five backups, rows and files.
+SELECT
+    throws_ok ($$ INSERT INTO public.user_backups (user_id, object_path, format, saved_at, byte_size)
+            VALUES ('00000000-0000-0000-0000-0000000005a1', '00000000-0000-0000-0000-0000000005a1/big.json.gz', 2, NOW(), 5242881) $$, '23514', NULL, 'a backup row over 5 MB is refused');
+SELECT
+    lives_ok ($$ INSERT INTO public.user_backups (user_id, object_path, format, saved_at, byte_size)
+        SELECT
+            '00000000-0000-0000-0000-0000000005a1', '00000000-0000-0000-0000-0000000005a1/r' || n || '.json.gz', 2, NOW(), 100 FROM generate_series(1, 3) AS n $$, 'an account records up to five backups');
+SELECT
+    throws_ok ($$ INSERT INTO public.user_backups (user_id, object_path, format, saved_at, byte_size)
+            VALUES ('00000000-0000-0000-0000-0000000005a1', '00000000-0000-0000-0000-0000000005a1/r6.json.gz', 2, NOW(), 100) $$, '54000', NULL, 'a sixth backup row is refused');
+SELECT
+    IS (public.backup_folder_has_room (),
+        TRUE,
+        'a folder with one file has room');
+SELECT
+    lives_ok ($$ INSERT INTO storage.objects (bucket_id, name, owner_id)
+        SELECT
+            'backups', '00000000-0000-0000-0000-0000000005a1/f' || n || '.json.gz', '00000000-0000-0000-0000-0000000005a1' FROM generate_series(1, 4) AS n $$, 'an account stores up to five files');
+SELECT
+    IS (public.backup_folder_has_room (),
+        FALSE,
+        'a folder with five files is full');
+SELECT
+    throws_ok ($$ INSERT INTO storage.objects (bucket_id, name, owner_id)
+            VALUES ('backups', '00000000-0000-0000-0000-0000000005a1/f6.json.gz', '00000000-0000-0000-0000-0000000005a1') $$, '42501', NULL, 'a sixth file is refused');
 RESET ROLE;
 SELECT
     set_config('request.jwt.claim.sub', '', TRUE);
@@ -105,6 +139,8 @@ SELECT
     throws_ok ($$
         SELECT
             public.add_user_backup ('x/y.json.gz', 2, NOW(), 10, NULL, NULL) $$, '42501', NULL, 'signed-out visitors cannot record a backup');
+SELECT
+    isnt (public.keep_awake (), NULL, 'signed-out visitors can run the keep-awake ping');
 RESET ROLE;
 SELECT
     IS ((

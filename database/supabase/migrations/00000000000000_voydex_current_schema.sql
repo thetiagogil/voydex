@@ -11083,17 +11083,19 @@ CREATE TABLE public.user_backups (
     CONSTRAINT user_backups_object_path_unique UNIQUE (object_path),
     CONSTRAINT user_backups_object_path_owner_check CHECK (SPLIT_PART(object_path, '/', 1) = user_id::text),
     CONSTRAINT user_backups_format_positive_check CHECK (format > 0),
-    CONSTRAINT user_backups_byte_size_positive_check CHECK (byte_size > 0),
+    CONSTRAINT user_backups_byte_size_check CHECK (byte_size BETWEEN 1 AND 5242880),
     CONSTRAINT user_backups_device_name_length_check CHECK (device_name IS NULL OR CHAR_LENGTH(BTRIM(device_name)) BETWEEN 1 AND 120)
 );
 
 CREATE INDEX user_backups_user_created_at_idx ON public.user_backups (user_id, created_at DESC);
 
-COMMENT ON TABLE public.user_backups IS 'An account''s backups, newest by created_at; the app keeps the last three. Deleting the account deletes the rows (the files go with the account deletion operation).';
+COMMENT ON TABLE public.user_backups IS 'An account''s backups, newest by created_at; the app keeps the last three and an account holds at most five (private.cap_user_backups). Deleting the account deletes the rows (the files go with the account deletion operation).';
 
 COMMENT ON COLUMN public.user_backups.object_path IS 'The file in the private backups bucket, inside the owner''s folder: <user id>/<file>.json.gz.';
 
 COMMENT ON COLUMN public.user_backups.format IS 'The backup file format the app wrote (backupFormat in src/platform/local-db/backup-file.ts).';
+
+COMMENT ON COLUMN public.user_backups.byte_size IS 'The file''s size; the backups bucket refuses files over 5 MB.';
 
 COMMENT ON COLUMN public.user_backups.saved_at IS 'When the device saved the backup, by its own clock; created_at orders them.';
 
@@ -11158,6 +11160,127 @@ GRANT EXECUTE ON FUNCTION public.add_user_backup (TEXT, INTEGER, TIMESTAMPTZ, IN
 COMMENT ON FUNCTION public.add_user_backup (TEXT, INTEGER, TIMESTAMPTZ, INTEGER, TEXT, UUID) IS 'Records the signed-in account''s new backup only when p_parent_id is still its newest (null for none), taking turns per account; returns the new id, or null when another device recorded one first. The time it records orders the backups. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
+-- Source: database/schema/07_backups/02_functions/002_cap_user_backups.sql
+-- ============================================================================
+-- ============================================================================
+-- Function: private.cap_user_backups()
+-- An account holds at most five backup rows: the three the app keeps, the
+-- one being saved and one from another device saving at the same moment.
+-- Inserts take turns per account (the lock add_user_backup takes), so
+-- several at once can't slip past the count.
+-- ============================================================================
+CREATE FUNCTION private.cap_user_backups ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+BEGIN
+    PERFORM
+        pg_advisory_xact_lock(hashtextextended('user_backups:' || NEW.user_id::text, 0));
+    IF (
+        SELECT
+            COUNT(*)
+        FROM
+            public.user_backups
+        WHERE
+            user_id = NEW.user_id) >= 5 THEN
+        RAISE EXCEPTION 'This account already holds five backups'
+            USING ERRCODE = '54000';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION private.cap_user_backups () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION private.cap_user_backups () FROM anon;
+
+REVOKE ALL ON FUNCTION private.cap_user_backups () FROM authenticated;
+
+GRANT EXECUTE ON FUNCTION private.cap_user_backups () TO service_role;
+
+CREATE TRIGGER user_backups_cap
+    BEFORE INSERT ON public.user_backups
+    FOR EACH ROW
+    EXECUTE FUNCTION private.cap_user_backups ();
+
+COMMENT ON FUNCTION private.cap_user_backups () IS 'Refuses a sixth backup row for one account, taking turns per account. Runs as SECURITY INVOKER.';
+
+-- ============================================================================
+-- Source: database/schema/07_backups/02_functions/003_backup_folder_has_room.sql
+-- ============================================================================
+-- ============================================================================
+-- Function: public.backup_folder_has_room()
+-- Whether the signed-in account's backups folder holds fewer than five
+-- files, the backups bucket's insert rule. Uploads take turns per account,
+-- and the count runs after the turn starts, so it sees an upload that
+-- finished meanwhile.
+-- ============================================================================
+CREATE FUNCTION public.backup_folder_has_room ()
+    RETURNS boolean
+    LANGUAGE plpgsql
+    VOLATILE
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_folder text := (
+        SELECT
+            auth.uid ())::text;
+BEGIN
+    IF v_folder IS NULL THEN
+        RETURN FALSE;
+    END IF;
+    PERFORM
+        pg_advisory_xact_lock(hashtextextended('backup_files:' || v_folder, 0));
+    RETURN (
+        SELECT
+            COUNT(*)
+        FROM
+            storage.objects
+        WHERE
+            bucket_id = 'backups'
+            AND (storage.foldername (name))[1] = v_folder) < 5;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.backup_folder_has_room () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION public.backup_folder_has_room () FROM anon;
+
+GRANT EXECUTE ON FUNCTION public.backup_folder_has_room () TO authenticated, service_role;
+
+COMMENT ON FUNCTION public.backup_folder_has_room () IS 'True while the signed-in account''s folder in the backups bucket holds fewer than five files; the bucket''s insert policy calls it. Runs as SECURITY INVOKER.';
+
+-- ============================================================================
+-- Source: database/schema/07_backups/02_functions/004_keep_awake.sql
+-- ============================================================================
+-- ============================================================================
+-- Function: public.keep_awake()
+-- A free hosted project pauses after a week with no database activity. A
+-- scheduled GitHub job (.github/workflows/keep-awake.yml) calls this twice
+-- a week with the publishable key; it reads nothing and returns the
+-- database's time.
+-- ============================================================================
+CREATE FUNCTION public.keep_awake ()
+    RETURNS timestamptz
+    LANGUAGE sql
+    STABLE
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+    SELECT
+        NOW();
+$$;
+
+REVOKE ALL ON FUNCTION public.keep_awake () FROM PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.keep_awake () TO anon, authenticated, service_role;
+
+COMMENT ON FUNCTION public.keep_awake () IS 'The scheduled keep-awake ping: returns the database time and touches no table. Runs as SECURITY INVOKER.';
+
+-- ============================================================================
 -- Source: database/schema/07_backups/03_policies/001_rls_and_grants.sql
 -- ============================================================================
 -- ============================================================================
@@ -11192,10 +11315,11 @@ CREATE POLICY user_backups_delete_own ON public.user_backups
         SELECT
             auth.uid ()) = user_id);
 
--- The files: gzipped JSON, at most 20 MB each, in the owner's folder. A
--- reset keeps storage's own tables, so the bucket may already be there.
+-- The files: gzipped JSON, at most 5 MB each (a busy account's backup is
+-- a few hundred KB), at most five in the owner's folder. A reset keeps
+-- storage's own tables, so the bucket may already be there.
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-    VALUES ('backups', 'backups', FALSE, 20971520, ARRAY['application/gzip'])
+    VALUES ('backups', 'backups', FALSE, 5242880, ARRAY['application/gzip'])
 ON CONFLICT (id)
     DO UPDATE SET
         public = EXCLUDED.public,
@@ -11214,7 +11338,8 @@ CREATE POLICY backups_insert_own ON storage.objects
     WITH CHECK (bucket_id = 'backups'
     AND (storage.foldername (name))[1] = (
         SELECT
-            auth.uid ())::text);
+            auth.uid ())::text
+            AND public.backup_folder_has_room ());
 
 CREATE POLICY backups_delete_own ON storage.objects
     FOR DELETE TO authenticated
