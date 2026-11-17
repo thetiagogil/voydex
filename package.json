@@ -89,7 +89,7 @@
     "supabase": "2.121.0",
     "tailwindcss": "^4",
     "tsx": "4.23.15",
-    "typescript": "^5",
+    "typescript": "^7",
     "vitest": "4.1.10",
     "wrangler": "4.159.0"
   },
