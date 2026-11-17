@@ -9,6 +9,7 @@ import {
   retryGameDataUpdate,
 } from "@/platform/local-db/game-downloads";
 import { useLocalRead } from "@/platform/local-db/local-db-context";
+import { wideToast } from "@/shared/components/ui/sonner";
 import { describeGameDataUpdateFailure } from "@/platform/local-db/prepare-device";
 
 const toastId = "old-game-data";
@@ -52,6 +53,7 @@ export const OldGameDataNotice = () => {
     const ask = (title: string, description?: string) => {
       phase.current = "asking";
       toast.warning(title, {
+        ...wideToast,
         action: {
           label: oldGameDataCopy.retry,
           onClick: (event) => {
@@ -87,7 +89,7 @@ export const OldGameDataNotice = () => {
       }
     };
 
-    ask(oldGameDataCopy.title, oldGameDataCopy.description);
+    ask(oldGameDataCopy.title);
   }, [isBehind]);
 
   return null;

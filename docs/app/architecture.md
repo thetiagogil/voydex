@@ -518,8 +518,8 @@ background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. A game data
 update that doesn't go in (a dropped download, a refused release) doesn't
 stop the app: the device keeps the release it has, the reason is logged as a
-console warning, and `OldGameDataNotice` shows a toast that the device is on
-older game data, with Try again, until it's current or you pick Not now.
+console warning, and `OldGameDataNotice` shows a toast that its game data is out
+of date, with Try again, until it's current or you pick Not now.
 Codex pieces about your Plays use the quiet boundary, which shows nothing
 until it's open.
 

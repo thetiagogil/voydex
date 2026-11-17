@@ -4,8 +4,8 @@ import { signedOut } from "../support/accounts";
 
 /*
  * A device that can't take a new game data release keeps the one it has,
- * and says so (#320): the reason goes to the console, and a toast says the
- * device is on older game data, with Try again. A test makes the release:
+ * and says so (#320): the reason goes to the console, and a toast says its
+ * game data is out of date, with Try again. A test makes the release:
  * the version list names a newer base file that won't download.
  */
 
@@ -30,7 +30,7 @@ const offerBrokenRelease = (page: Page) =>
 const notice = (page: Page) =>
   page
     .locator("[data-sonner-toast]")
-    .filter({ hasText: "This device is on older game data" });
+    .filter({ hasText: "Game data is out of date" });
 
 /* A device set up on the current release, then offered a broken one. */
 const openBehind = async (page: Page) => {
@@ -60,9 +60,6 @@ test.describe("Older game data", () => {
     const logged = await openBehind(page);
 
     await expect(notice(page)).toBeVisible();
-    await expect(notice(page)).toContainText(
-      "The latest update didn't finish, so some screens may show older details.",
-    );
     expect(logged.some((text) => text.includes(failedLog))).toBe(true);
 
     /* Still failing: the toast stays, with the reason. */

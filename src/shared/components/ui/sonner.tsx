@@ -66,4 +66,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster };
+/*
+ * For a toast with two actions (Not now, Try again): from 768px it may grow
+ * past the usual width, up to 26rem (416px), so its words sit on one line beside
+ * the actions instead of in a narrow column. On phones every toast already
+ * spans the screen between the gutters.
+ */
+const wideToast = {
+  classNames: { toast: "md:w-max md:max-w-104" },
+};
+
+export { Toaster, wideToast };
