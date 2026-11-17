@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { PendingData } from "@/shared/components/pending-data";
 import { TextLink } from "@/shared/components/text-link";
 
 export type LegalPageKind = "privacy" | "terms";
@@ -17,12 +16,6 @@ export type LegalText = {
 
 /* When either text last changed; both pages show it. */
 export const legalUpdatedOn = "17 November 2026";
-
-/* Where people write about their data or account. */
-const Contact = () => (
-  /* TODO(v3-data): the contact address for privacy and account requests. */
-  <PendingData variant="inline" label="Contact to come" />
-);
 
 const settings = <TextLink href={appRoutes.settings}>Settings</TextLink>;
 
@@ -143,20 +136,22 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         title: "Your choices",
         body: (
           <ul>
-            <li>Save everything as a backup file from {settings}.</li>
+            <li>
+              See and keep a copy of everything by saving a backup file from{" "}
+              {settings}. Correct anything by editing it in Voydex.
+            </li>
             <li>Change your email or password in {settings}.</li>
             <li>
               Delete what&apos;s on a device by clearing Voydex&apos;s site data
               in that browser.
             </li>
             <li>
-              To delete your account and its backups, or to see, correct or get
-              a copy of what Voydex keeps about you, write to <Contact />.
-              It&apos;s done within a month.
+              Deleting your account and its backups from {settings} is coming.
+              Until then, they stay with your account.
             </li>
             <li>
-              Not happy with the answer? You can complain to Portugal&apos;s
-              data protection authority,{" "}
+              If you think Voydex mishandles your data, you can complain to
+              Portugal&apos;s data protection authority,{" "}
               <TextLink href="https://www.cnpd.pt">the CNPD</TextLink>.
             </li>
           </ul>
@@ -172,17 +167,14 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         ),
       },
       {
-        title: "Changes and contact",
+        title: "Changes",
         body: (
           <>
             <p>
               If this policy changes, this page shows the new text and the date
               at the top moves.
             </p>
-            <p>
-              Voydex is a fan project run by one person in Portugal. Write to{" "}
-              <Contact /> about anything on this page.
-            </p>
+            <p>Voydex is a fan project run by one person in Portugal.</p>
           </>
         ),
       },
@@ -273,11 +265,11 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         ),
       },
       {
-        title: "Changes and contact",
+        title: "Changes",
         body: (
           <p>
             If these terms change, this page shows the new text and the date at
-            the top moves. Questions? Write to <Contact />.
+            the top moves.
           </p>
         ),
       },
