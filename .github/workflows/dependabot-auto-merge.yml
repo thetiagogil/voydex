@@ -1,0 +1,27 @@
+name: Dependabot auto-merge
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Turns on GitHub's auto-merge for Dependabot's small dev tool updates. The
+# pull request still waits for the required Quality check before it merges.
+jobs:
+  auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Read the update details
+        id: meta
+        uses: dependabot/fetch-metadata@v3
+
+      - name: Turn on auto-merge for dev tools
+        if: steps.meta.outputs.dependency-group == 'dev-tools'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
