@@ -58,6 +58,16 @@ variables → Actions); none of them live in the repository:
 
 The images site (`NEXT_PUBLIC_ASSETS_URL`) is public and set in the workflow.
 
+## Keeping Hosted Supabase Awake
+
+A free Supabase project pauses after a week with no database activity, and
+login and account backups stop until someone restores it by hand.
+`.github/workflows/keep-awake.yml` calls the hosted `public.keep_awake()`
+function (it only returns the database's time) every Monday and Thursday,
+with the same two Supabase secrets as the deploy. Each run is one `curl`
+(about 9 Actions minutes a month). GitHub emails the owner when a run fails;
+after restoring a paused project, run it by hand from the Actions tab.
+
 ## Writing Commits, Pull Requests And Releases
 
 Everything on GitHub reads as written by the owner. Never mention AI: no
@@ -125,22 +135,22 @@ Voydex until all six are done.
 
 ## Platform Features
 
-| Feature                   | What it is                                   | How Voydex uses it                                               | What the owner does         |
-| ------------------------- | -------------------------------------------- | ---------------------------------------------------------------- | --------------------------- |
-| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                   | Reports in chat             |
-| Milestones                | A group of issues with a goal                | One per phase above                                              | Watches the % done          |
-| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                | Reviews and merges          |
-| GitHub Actions            | Scripts GitHub runs on every pull request    | Quick checks only; slow gates run on the Mac                     | Merges only when green      |
-| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                               | Nothing once set            |
-| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                     | Reads the notes             |
-| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves         | Merges the big ones         |
-| Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                       | Nothing                     |
-| Cloudflare                | The real site, as plain files                | Deploys when `main` changes ([Deploys](#deploys))                | Keeps the deploy secrets    |
-| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset` | Nothing                     |
-| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user       | Approves migration releases |
-| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                        | Nothing                     |
-| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling | Approves the wording        |
-| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                         | Nothing                     |
-| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                      | Reads the email; agents fix |
-| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                | Nothing                     |
-| Next.js caching           | Remembering results between visits           | Reference data only, never user data                             | Nothing                     |
+| Feature                   | What it is                                   | How Voydex uses it                                                      | What the owner does         |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------------------------------- | --------------------------- |
+| GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                          | Reports in chat             |
+| Milestones                | A group of issues with a goal                | One per phase above                                                     | Watches the % done          |
+| Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                       | Reviews and merges          |
+| GitHub Actions            | Scripts GitHub runs on every pull request    | Quick checks, the deploy and the keep-awake ping; slow gates on the Mac | Merges only when green      |
+| Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                                      | Nothing once set            |
+| Releases                  | A named, dated version with notes            | One per finished milestone (v0.2, v0.3, ...)                            | Reads the notes             |
+| Renovate                  | A bot that opens package-update PRs          | Weekly and grouped; small green updates merge themselves                | Merges the big ones         |
+| Vercel previews           | A live copy of the app per pull request      | Fallback host only; its checks are ignored                              | Nothing                     |
+| Cloudflare                | The real site, as plain files                | Deploys when `main` changes ([Deploys](#deploys))                       | Keeps the deploy secrets    |
+| Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset`        | Nothing                     |
+| Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user              | Approves migration releases |
+| Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                               | Nothing                     |
+| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling        | Approves the wording        |
+| Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                                | Nothing                     |
+| Sentry                    | Error tracking                               | Emails grouped errors with the failing line                             | Reads the email; agents fix |
+| Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                       | Nothing                     |
+| Next.js caching           | Remembering results between visits           | Reference data only, never user data                                    | Nothing                     |
