@@ -1,10 +1,27 @@
 import type { Json } from "@/shared/types/database.types";
 
+/* Who hands a Pokémon over and on what terms (#322). */
+export type StoryHandover = {
+  /* When or how it is offered ("After you get the Thunder Badge"). */
+  condition: string | null;
+  /* A named character, or who and where ("A boy in the trade house"). */
+  giver: string | null;
+  heldItem: string | null;
+  /* As the game writes it ("MARCEL"). */
+  nickname: string | null;
+  /* A prize's or a bought Pokémon's cost ("180 coins"). */
+  price: string | null;
+  /* A trade's ask: the Pokémon you hand over for it. */
+  tradeFor: { name: string; slug: string } | null;
+};
+
 /* One encounter row at a place, as the reader hands it over. */
 export type StoryPlaceEncounterRow = {
   formId: number;
   formName: string;
   formSlug: string;
+  /* Who hands it over, on a hand-over way; null on the others. */
+  handover?: StoryHandover | null;
   /* Null where the level isn't known (a gift's, say). */
   levelMax: number | null;
   levelMin: number | null;
@@ -18,6 +35,8 @@ export type StoryPlaceEncounterRow = {
 /* A Pokémon found at a place one way, its rows folded into one. */
 export type StoryPlacePokemon = {
   formId: number;
+  /* Who hands it over and on what terms; null for one met in the wild. */
+  handover: StoryHandover | null;
   /* "Lv. 2–5"; null where no level is known. */
   levels: string | null;
   name: string;
@@ -28,7 +47,75 @@ export type StoryPlacePokemon = {
 export type StoryPlacePokemonGroup = {
   pokemon: StoryPlacePokemon[];
   way: string;
+  /* The way's slug ("gift", "tall-grass"). */
+  waySlug: string;
 };
+
+/*
+ * The ways someone hands a Pokémon over: a gift (a first partner, a fossil
+ * revived, an Egg), a trade, a Game Corner prize or one you buy.
+ */
+const giftWaySlugs = new Set(["egg", "fossil", "gift", "starter"]);
+const handoverWaySlugs = new Set([...giftWaySlugs, "bought", "prize", "trade"]);
+
+export const isStoryHandoverGroup = (group: StoryPlacePokemonGroup) =>
+  handoverWaySlugs.has(group.waySlug);
+
+/* A gift (fossils and Eggs too) or a trade: what a place's line counts. */
+export const isStoryGiftOrTradeGroup = (group: StoryPlacePokemonGroup) =>
+  giftWaySlugs.has(group.waySlug) || group.waySlug === "trade";
+
+/*
+ * How many Pokémon a place hands over as gifts and as trades, for its line
+ * on the route. Prizes and bought ones aren't counted: you pay for those.
+ */
+export const countStoryPlaceHandovers = (
+  groups: readonly StoryPlacePokemonGroup[],
+) => {
+  let gifts = 0;
+  let trades = 0;
+
+  for (const group of groups) {
+    if (giftWaySlugs.has(group.waySlug)) gifts += group.pokemon.length;
+    if (group.waySlug === "trade") trades += group.pokemon.length;
+  }
+
+  return { gifts, trades };
+};
+
+/*
+ * The Pokémon a Story's choices offer (the starters, the Fighting Dojo's
+ * pair), which their own milestone already shows.
+ */
+export const getStoryChoiceFormIds = (
+  milestones: readonly { decisionOptions: { formId: number | null }[] }[],
+): Set<number> =>
+  new Set(
+    milestones.flatMap((milestone) =>
+      milestone.decisionOptions.flatMap((option) =>
+        option.formId === null ? [] : [option.formId],
+      ),
+    ),
+  );
+
+/*
+ * The Pokémon handed over at a milestone's place, for its detail: the
+ * hand-over ways only, without the ones a choice already offers (the
+ * starters at Oak's lab, the Fighting Dojo's pair).
+ */
+export const getStoryHandoverGroups = (
+  groups: readonly StoryPlacePokemonGroup[],
+  offeredFormIds: ReadonlySet<number> = new Set(),
+): StoryPlacePokemonGroup[] =>
+  groups.flatMap((group) => {
+    if (!isStoryHandoverGroup(group)) return [];
+
+    const pokemon = group.pokemon.filter(
+      (entry) => !offeredFormIds.has(entry.formId),
+    );
+
+    return pokemon.length ? [{ ...group, pokemon }] : [];
+  });
 
 const formatLevels = (min: number | null, max: number | null) =>
   min === null || max === null
@@ -121,9 +208,16 @@ export const groupStoryPlacePokemon = (
     string,
     {
       sortOrder: number;
+      slug: string;
       forms: Map<
         number,
-        { max: number | null; min: number | null; name: string; slug: string }
+        {
+          handover: StoryHandover | null;
+          max: number | null;
+          min: number | null;
+          name: string;
+          slug: string;
+        }
       >;
     }
   >();
@@ -131,6 +225,7 @@ export const groupStoryPlacePokemon = (
   for (const row of rows) {
     const group = groups.get(row.wayName) ?? {
       forms: new Map(),
+      slug: row.waySlug,
       sortOrder: row.waySortOrder,
     };
     const form = group.forms.get(row.formId);
@@ -139,6 +234,9 @@ export const groupStoryPlacePokemon = (
 
     if (!form) {
       group.forms.set(row.formId, {
+        handover: handoverWaySlugs.has(row.waySlug)
+          ? (row.handover ?? null)
+          : null,
         max: row.levelMax,
         min: row.levelMin,
         name: row.formName,
@@ -162,10 +260,12 @@ export const groupStoryPlacePokemon = (
     .map(([way, group]) => ({
       pokemon: [...group.forms.entries()].map(([formId, form]) => ({
         formId,
+        handover: form.handover,
         levels: formatLevels(form.min, form.max),
         name: form.name,
         slug: form.slug,
       })),
       way,
+      waySlug: group.slug,
     }));
 };

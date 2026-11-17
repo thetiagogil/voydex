@@ -2,6 +2,7 @@ import type { AnimationEventHandler, CSSProperties, ReactNode } from "react";
 
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import type { AppIconComponent } from "@/shared/domain/icons/app-icons";
 import { cn } from "@/shared/utils/cn";
 
 /* The stop's button id, so focus can come back to it when its detail closes. */
@@ -138,29 +139,55 @@ export const StoryRouteStop = ({
   </button>
 );
 
+/* One count on a place's line: its icon and number, its word from 640px. */
+const PlaceMark = ({
+  count,
+  icon,
+  one,
+  many,
+}: {
+  count: number;
+  icon: AppIconComponent;
+  many: string;
+  one: string;
+}) => (
+  <span className="inline-flex items-center gap-1">
+    <AppIcon icon={icon} size="xs" />
+    {count}
+    <span className="max-sm:sr-only">&nbsp;{count === 1 ? one : many}</span>
+  </span>
+);
+
 /*
  * A place the route passes between milestones (Route 1, Viridian Forest): a
  * small quiet dot on the line with its name and how many battles are fought
- * there, so you see the way to the next milestone. Nothing to record; it
- * opens what is there (its note, its battles, the Pokémon found there). The
- * dot fills once you're past it.
+ * there and how many Pokémon are given or traded there (#322), so you see
+ * the way to the next milestone and what not to miss on it. Nothing to
+ * record; it opens what is there (its note, its battles, the Pokémon found
+ * there). The dot fills once you're past it.
  */
 export const StoryRoutePlace = ({
   battleCount,
+  giftCount,
   id,
   name,
   onSelect,
   opensSheet,
   reached,
   selected,
+  tradeCount,
 }: {
   battleCount: number;
+  /* Pokémon handed over there as gifts (fossils and Eggs too). */
+  giftCount: number;
   id: string;
   name: string;
   onSelect: () => void;
   opensSheet: boolean;
   reached: boolean;
   selected: boolean;
+  /* In-game trades offered there. */
+  tradeCount: number;
 }) => (
   <button
     id={id}
@@ -182,7 +209,7 @@ export const StoryRoutePlace = ({
         )}
       />
     </span>
-    {/* Its name, and on the same line, the battles fought there. Its note is in its detail. */}
+    {/* Its name, and on the same line, what's there. Its note is in its detail. */}
     <span className="flex min-w-0 flex-1 items-baseline gap-3 py-1">
       <span
         className={cn(
@@ -193,10 +220,32 @@ export const StoryRoutePlace = ({
         {name}
         {reached ? <span className="sr-only">, passed</span> : null}
       </span>
-      {battleCount ? (
-        <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">
-          <AppIcon icon={appIcons.product.battle} size="xs" />
-          {battleCount === 1 ? "1 battle" : `${battleCount} battles`}
+      {battleCount || giftCount || tradeCount ? (
+        <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-3 font-semibold">
+          {battleCount ? (
+            <PlaceMark
+              count={battleCount}
+              icon={appIcons.product.battle}
+              one="battle"
+              many="battles"
+            />
+          ) : null}
+          {giftCount ? (
+            <PlaceMark
+              count={giftCount}
+              icon={appIcons.product.gift}
+              one="gift"
+              many="gifts"
+            />
+          ) : null}
+          {tradeCount ? (
+            <PlaceMark
+              count={tradeCount}
+              icon={appIcons.product.trade}
+              one="trade"
+              many="trades"
+            />
+          ) : null}
         </span>
       ) : null}
     </span>

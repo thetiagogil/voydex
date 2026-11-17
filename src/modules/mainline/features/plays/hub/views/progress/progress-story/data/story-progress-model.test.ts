@@ -60,9 +60,16 @@ describe("buildStoryProgressModel", () => {
     const groups = [
       {
         pokemon: [
-          { formId: 16, levels: "Lv. 2–5", name: "Pidgey", slug: "pidgey" },
+          {
+            formId: 16,
+            handover: null,
+            levels: "Lv. 2–5",
+            name: "Pidgey",
+            slug: "pidgey",
+          },
         ],
         way: "Walking",
+        waySlug: "tall-grass",
       },
     ];
     const model = buildStoryProgressModel({

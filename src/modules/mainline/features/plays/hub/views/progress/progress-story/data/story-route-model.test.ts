@@ -313,6 +313,28 @@ describe("buildStoryRoute from a roadmap", () => {
     ]);
   });
 
+  it("marks only the first visit of a place on the whole route", () => {
+    const [block] = buildStoryRoute(
+      roadmap(
+        [section(1, "main-story", [milestone(11), milestone(12)])],
+        [place(1), place(2), place(1), at(11), place(1), at(12)],
+      ),
+    );
+
+    expect(
+      block.kind === "route"
+        ? block.entries.flatMap((entry) =>
+            entry.kind === "place" ? [[entry.place.id, entry.firstVisit]] : [],
+          )
+        : [],
+    ).toEqual([
+      [1, true],
+      [2, true],
+      [1, false],
+      [1, false],
+    ]);
+  });
+
   it("keeps side content where the walkthrough meets it", () => {
     expect(
       read(

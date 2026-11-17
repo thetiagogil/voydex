@@ -40,6 +40,7 @@ import {
   Gamepad2,
   Gauge,
   Gem,
+  Gift,
   Grid2X2,
   Heart,
   HeartPulse,
@@ -179,6 +180,8 @@ export const appIcons = {
     genderFemale: Venus,
     genderless: CircleOff,
     genderMale: Mars,
+    /* A Pokémon someone hands you: a gift, a fossil revived, an Egg. */
+    gift: Gift,
     health: HeartPulse,
     /* A held item's stand-in until it has its own sprite. */
     heldItem: Package,
@@ -203,6 +206,8 @@ export const appIcons = {
     teamAdded: UserRoundPlus,
     /* A moment that kept the team as it was (a milestone's snapshot). */
     teamSnapshot: Camera,
+    /* An in-game trade: your Pokémon for theirs. */
+    trade: ArrowLeftRight,
     trainer: UserRound,
     uncaught: Circle,
     uncollected: Circle,

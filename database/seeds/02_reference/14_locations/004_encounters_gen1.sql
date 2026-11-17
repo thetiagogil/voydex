@@ -24,10 +24,6 @@ VALUES
   (118, 11800, 30, 1, NULL, 32, 10, 10, NULL),
   (60, 6000, 30, 1, NULL, 33, 15, 15, NULL),
   (72, 7200, 30, 1, NULL, 33, 15, 15, NULL),
-  -- Professor Oak's Laboratory in rb
-  (1, 100, 35, 1, NULL, 27, 5, 5, NULL),
-  (4, 400, 35, 1, NULL, 27, 5, 5, NULL),
-  (7, 700, 35, 1, NULL, 27, 5, 5, NULL),
   -- Route 1 in rb
   (16, 1600, 38, 1, NULL, 1, 2, 5, NULL),
   (19, 1900, 38, 1, NULL, 1, 2, 4, NULL),
@@ -54,7 +50,6 @@ VALUES
   (13, 1300, 49, 1, 1, 1, 3, 5, NULL),
   (16, 1600, 49, 1, NULL, 1, 3, 5, NULL),
   (19, 1900, 49, 1, NULL, 1, 2, 5, NULL),
-  (122, 12200, 49, 1, NULL, 28, NULL, NULL, NULL),
   -- Viridian Forest in rb
   (10, 1000, 77, 1, 1, 1, 3, 3, NULL),
   (10, 1000, 77, 1, 2, 1, 3, 5, NULL),
@@ -69,7 +64,6 @@ VALUES
   (16, 1600, 56, 1, NULL, 1, 6, 8, NULL),
   (21, 2100, 56, 1, NULL, 1, 5, 8, NULL),
   (39, 3900, 56, 1, NULL, 1, 3, 7, NULL),
-  (129, 12900, 56, 1, NULL, 27, 5, 5, NULL),
   -- Route 4 in rb
   (19, 1900, 57, 1, NULL, 1, 8, 12, NULL),
   (21, 2100, 57, 1, NULL, 1, 8, 12, NULL),
@@ -81,7 +75,6 @@ VALUES
   (54, 5400, 57, 1, NULL, 33, 15, 15, NULL),
   (98, 9800, 57, 1, NULL, 33, 15, 15, NULL),
   (118, 11800, 57, 1, NULL, 33, 15, 15, NULL),
-  (129, 12900, 57, 1, NULL, 27, 5, 5, NULL),
   -- Mt. Moon in rb
   (35, 3500, 27, 1, NULL, 3, 8, 12, NULL),
   (41, 4100, 27, 1, NULL, 3, 6, 12, NULL),
@@ -94,7 +87,6 @@ VALUES
   (54, 5400, 9, 1, NULL, 33, 15, 15, NULL),
   (98, 9800, 9, 1, NULL, 33, 15, 15, NULL),
   (118, 11800, 9, 1, NULL, 33, 15, 15, NULL),
-  (124, 12400, 9, 1, NULL, 28, NULL, NULL, NULL),
   -- Cerulean Gym in rb
   (129, 12900, 10, 1, NULL, 31, 5, 5, NULL),
   (60, 6000, 10, 1, NULL, 32, 10, 10, NULL),
@@ -140,8 +132,6 @@ VALUES
   (52, 5200, 58, 1, 2, 1, 10, 16, NULL),
   (56, 5600, 58, 1, 1, 1, 10, 16, NULL),
   (69, 6900, 58, 1, 2, 1, 13, 16, NULL),
-  -- Underground Path (Kanto Routes 5-6) in rb
-  (29, 2900, 73, 1, NULL, 28, NULL, NULL, NULL),
   -- Route 6 in rb
   (16, 1600, 59, 1, NULL, 1, 13, 16, NULL),
   (43, 4300, 59, 1, 1, 1, 13, 16, NULL),
@@ -159,7 +149,6 @@ VALUES
   (118, 11800, 74, 1, NULL, 32, 10, 10, NULL),
   (90, 9000, 74, 1, NULL, 33, 15, 15, NULL),
   (98, 9800, 74, 1, NULL, 33, 15, 15, NULL),
-  (83, 8300, 74, 1, NULL, 28, NULL, NULL, NULL),
   -- Route 11 in rb
   (21, 2100, 40, 1, NULL, 1, 13, 17, NULL),
   (23, 2300, 40, 1, 1, 1, 12, 15, NULL),
@@ -170,7 +159,6 @@ VALUES
   (118, 11800, 40, 1, NULL, 32, 10, 10, NULL),
   (90, 9000, 40, 1, NULL, 33, 15, 15, NULL),
   (98, 9800, 40, 1, NULL, 33, 15, 15, NULL),
-  (30, 3000, 40, 1, NULL, 28, NULL, NULL, NULL),
   -- Diglett's Cave in rb
   (50, 5000, 13, 1, NULL, 3, 15, 22, NULL),
   (51, 5100, 13, 1, NULL, 3, 29, 31, NULL),
@@ -220,23 +208,6 @@ VALUES
   (118, 11800, 6, 1, NULL, 32, 10, 10, NULL),
   (61, 6100, 6, 1, NULL, 33, 23, 23, NULL),
   (79, 7900, 6, 1, NULL, 33, 15, 15, NULL),
-  (30, 3000, 6, 1, 1, 27, 17, 17, NULL),
-  (33, 3300, 6, 1, 2, 27, 17, 17, NULL),
-  (35, 3500, 6, 1, 1, 27, 8, 8, NULL),
-  (35, 3500, 6, 1, 2, 27, 12, 12, NULL),
-  (63, 6300, 6, 1, 1, 27, 9, 9, NULL),
-  (63, 6300, 6, 1, 2, 27, 6, 6, NULL),
-  (123, 12300, 6, 1, 1, 27, 25, 25, NULL),
-  (127, 12700, 6, 1, 2, 27, 20, 20, NULL),
-  (137, 13700, 6, 1, 1, 27, 26, 26, NULL),
-  (137, 13700, 6, 1, 2, 27, 18, 18, NULL),
-  (147, 14700, 6, 1, 1, 27, 18, 18, NULL),
-  (147, 14700, 6, 1, 2, 27, 24, 24, NULL),
-  -- Silph Co. in rb
-  (131, 13100, 67, 1, NULL, 27, 15, 15, NULL),
-  -- Fighting Dojo in rb
-  (106, 10600, 14, 1, NULL, 27, 30, 30, NULL),
-  (107, 10700, 14, 1, NULL, 27, 30, 30, NULL),
   -- Route 16 in rb
   (19, 1900, 45, 1, NULL, 1, 18, 22, NULL),
   (20, 2000, 45, 1, NULL, 1, 23, 25, NULL),
@@ -267,7 +238,6 @@ VALUES
   (98, 9800, 47, 1, NULL, 33, 15, 15, NULL),
   (118, 11800, 47, 1, NULL, 33, 15, 15, NULL),
   (129, 12900, 47, 1, NULL, 33, 15, 15, NULL),
-  (108, 10800, 47, 1, NULL, 28, NULL, NULL, NULL),
   -- Fuchsia City in rb
   (129, 12900, 18, 1, NULL, 31, 5, 5, NULL),
   (60, 6000, 18, 1, NULL, 32, 10, 10, NULL),
@@ -410,13 +380,6 @@ VALUES
   (116, 11600, 11, 1, NULL, 33, 15, 15, NULL),
   (118, 11800, 11, 1, NULL, 33, 15, 15, NULL),
   (120, 12000, 11, 1, NULL, 33, 15, 15, NULL),
-  -- Cinnabar Lab in rb
-  (86, 8600, 12, 1, NULL, 28, NULL, NULL, NULL),
-  (101, 10100, 12, 1, NULL, 28, NULL, NULL, NULL),
-  (114, 11400, 12, 1, NULL, 28, NULL, NULL, NULL),
-  (138, 13800, 12, 1, NULL, 29, 30, 30, NULL),
-  (140, 14000, 12, 1, NULL, 29, 30, 30, NULL),
-  (142, 14200, 12, 1, NULL, 29, 30, 30, NULL),
   -- Pokémon Mansion in rb
   (37, 3700, 32, 1, 2, 3, 32, 35, NULL),
   (58, 5800, 32, 1, 1, 3, 32, 35, NULL),
@@ -504,8 +467,6 @@ VALUES
   (117, 11700, 8, 1, NULL, 33, 23, 23, NULL),
   (119, 11900, 8, 1, NULL, 33, 23, 23, NULL),
   (150, 15000, 8, 1, NULL, 25, 70, 70, NULL),
-  -- Celadon Condominiums in rb
-  (133, 13300, 7, 1, NULL, 27, 25, 25, NULL),
   -- Pallet Town in yellow
   (129, 12900, 30, 2, NULL, 31, 5, 5, NULL),
   (60, 6000, 30, 2, NULL, 32, 10, 10, NULL),
@@ -513,8 +474,6 @@ VALUES
   (72, 7200, 30, 2, NULL, 33, 10, 20, NULL),
   (120, 12000, 30, 2, NULL, 33, 5, 10, NULL),
   (25, 2500, 30, 2, NULL, 25, 5, 5, NULL),
-  -- Professor Oak's Laboratory in yellow
-  (25, 2500, 35, 2, NULL, 27, 5, 5, NULL),
   -- Route 1 in yellow
   (16, 1600, 38, 2, NULL, 1, 2, 7, NULL),
   (19, 1900, 38, 2, NULL, 1, 2, 4, NULL),
@@ -539,7 +498,6 @@ VALUES
   (19, 1900, 49, 2, NULL, 1, 3, 4, NULL),
   (29, 2900, 49, 2, NULL, 1, 4, 6, NULL),
   (32, 3200, 49, 2, NULL, 1, 4, 6, NULL),
-  (122, 12200, 49, 2, NULL, 28, NULL, NULL, NULL),
   -- Viridian Forest in yellow
   (10, 1000, 77, 2, NULL, 1, 3, 6, NULL),
   (11, 1100, 77, 2, NULL, 1, 4, 6, NULL),
@@ -550,7 +508,6 @@ VALUES
   (21, 2100, 56, 2, NULL, 1, 8, 12, NULL),
   (27, 2700, 56, 2, NULL, 1, 8, 10, NULL),
   (56, 5600, 56, 2, NULL, 1, 9, 9, NULL),
-  (129, 12900, 56, 2, NULL, 27, 5, 5, NULL),
   -- Route 4 in yellow
   (19, 1900, 57, 2, NULL, 1, 10, 12, NULL),
   (21, 2100, 57, 2, NULL, 1, 8, 12, NULL),
@@ -561,7 +518,6 @@ VALUES
   (118, 11800, 57, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 57, 2, NULL, 33, 20, 30, NULL),
   (119, 11900, 57, 2, NULL, 33, 30, 30, NULL),
-  (129, 12900, 57, 2, NULL, 27, 5, 5, NULL),
   -- Mt. Moon in yellow
   (27, 2700, 27, 2, NULL, 3, 12, 12, NULL),
   (35, 3500, 27, 2, NULL, 3, 9, 13, NULL),
@@ -574,7 +530,6 @@ VALUES
   (118, 11800, 9, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 9, 2, NULL, 33, 25, 30, NULL),
   (119, 11900, 9, 2, NULL, 33, 30, 40, NULL),
-  (1, 100, 9, 2, NULL, 27, 10, 10, NULL),
   -- Cerulean Gym in yellow
   (129, 12900, 10, 2, NULL, 31, 5, 5, NULL),
   (60, 6000, 10, 2, NULL, 32, 10, 10, NULL),
@@ -590,7 +545,6 @@ VALUES
   (118, 11800, 54, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 54, 2, NULL, 33, 20, 30, NULL),
   (119, 11900, 54, 2, NULL, 33, 30, 30, NULL),
-  (4, 400, 54, 2, NULL, 27, 10, 10, NULL),
   -- Route 25 in yellow
   (16, 1600, 55, 2, NULL, 1, 13, 17, NULL),
   (17, 1700, 55, 2, NULL, 1, 17, 17, NULL),
@@ -608,8 +562,6 @@ VALUES
   (19, 1900, 58, 2, NULL, 1, 14, 16, NULL),
   (39, 3900, 58, 2, NULL, 1, 3, 7, NULL),
   (63, 6300, 58, 2, NULL, 1, 7, 7, NULL),
-  -- Underground Path (Kanto Routes 5-6) in yellow
-  (67, 6700, 73, 2, NULL, 28, NULL, NULL, NULL),
   -- Route 6 in yellow
   (16, 1600, 59, 2, NULL, 1, 15, 17, NULL),
   (17, 1700, 59, 2, NULL, 1, 17, 17, NULL),
@@ -630,7 +582,6 @@ VALUES
   (90, 9000, 74, 2, NULL, 33, 10, 10, NULL),
   (116, 11600, 74, 2, NULL, 33, 5, 5, NULL),
   (120, 12000, 74, 2, NULL, 33, 15, 15, NULL),
-  (7, 700, 74, 2, NULL, 27, 10, 10, NULL),
   -- Route 11 in yellow
   (16, 1600, 40, 2, NULL, 1, 16, 18, NULL),
   (17, 1700, 40, 2, NULL, 1, 18, 20, NULL),
@@ -642,7 +593,6 @@ VALUES
   (118, 11800, 40, 2, NULL, 32, 10, 10, NULL),
   (72, 7200, 40, 2, NULL, 33, 10, 20, NULL),
   (116, 11600, 40, 2, NULL, 33, 5, 5, NULL),
-  (51, 5100, 40, 2, NULL, 28, NULL, NULL, NULL),
   -- Diglett's Cave in yellow
   (50, 5000, 13, 2, NULL, 3, 15, 22, NULL),
   (51, 5100, 13, 2, NULL, 3, 29, 31, NULL),
@@ -695,18 +645,6 @@ VALUES
   (60, 6000, 6, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 6, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 6, 2, NULL, 33, 5, 20, NULL),
-  (37, 3700, 6, 2, NULL, 27, 18, 18, NULL),
-  (40, 4000, 6, 2, NULL, 27, 22, 22, NULL),
-  (63, 6300, 6, 2, NULL, 27, 15, 15, NULL),
-  (123, 12300, 6, 2, NULL, 27, 30, 30, NULL),
-  (127, 12700, 6, 2, NULL, 27, 30, 30, NULL),
-  (133, 13300, 6, 2, NULL, 27, 25, 25, NULL),
-  (137, 13700, 6, 2, NULL, 27, 26, 26, NULL),
-  -- Silph Co. in yellow
-  (131, 13100, 67, 2, NULL, 27, 15, 15, NULL),
-  -- Fighting Dojo in yellow
-  (106, 10600, 14, 2, NULL, 27, 30, 30, NULL),
-  (107, 10700, 14, 2, NULL, 27, 30, 30, NULL),
   -- Route 16 in yellow
   (19, 1900, 45, 2, NULL, 1, 23, 24, NULL),
   (20, 2000, 45, 2, NULL, 1, 25, 26, NULL),
@@ -735,7 +673,6 @@ VALUES
   (118, 11800, 47, 2, NULL, 32, 10, 10, NULL),
   (72, 7200, 47, 2, NULL, 33, 15, 15, NULL),
   (90, 9000, 47, 2, NULL, 33, 20, 40, NULL),
-  (47, 4700, 47, 2, NULL, 28, NULL, NULL, NULL),
   -- Fuchsia City in yellow
   (129, 12900, 18, 2, NULL, 31, 5, 5, NULL),
   (60, 6000, 18, 2, NULL, 32, 10, 10, NULL),
@@ -856,13 +793,6 @@ VALUES
   (118, 11800, 11, 2, NULL, 32, 10, 10, NULL),
   (72, 7200, 11, 2, NULL, 33, 15, 30, NULL),
   (120, 12000, 11, 2, NULL, 33, 10, 15, NULL),
-  -- Cinnabar Lab in yellow
-  (87, 8700, 12, 2, NULL, 28, NULL, NULL, NULL),
-  (89, 8900, 12, 2, NULL, 28, NULL, NULL, NULL),
-  (112, 11200, 12, 2, NULL, 28, NULL, NULL, NULL),
-  (138, 13800, 12, 2, NULL, 29, 30, 30, NULL),
-  (140, 14000, 12, 2, NULL, 29, 30, 30, NULL),
-  (142, 14200, 12, 2, NULL, 29, 30, 30, NULL),
   -- Pokémon Mansion in yellow
   (19, 1900, 32, 2, NULL, 3, 34, 43, NULL),
   (20, 2000, 32, 2, NULL, 3, 34, 46, NULL),
@@ -930,6 +860,4 @@ VALUES
   (118, 11800, 8, 2, NULL, 32, 10, 10, NULL),
   (118, 11800, 8, 2, NULL, 33, 25, 30, NULL),
   (119, 11900, 8, 2, NULL, 33, 35, 60, NULL),
-  (150, 15000, 8, 2, NULL, 25, 70, 70, NULL),
-  -- Celadon Condominiums in yellow
-  (133, 13300, 7, 2, NULL, 27, 25, 25, NULL);
+  (150, 15000, 8, 2, NULL, 25, 70, 70, NULL);

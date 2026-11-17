@@ -16,21 +16,28 @@ import type {
 } from "../types";
 
 type PlaceEncounterRow = {
+  condition: string | null;
   encounter_ways: { name: string; slug: string; sort_order: number } | null;
   form_id: number;
   game_id: number | null;
+  giver: string | null;
+  held_item: { name: string } | null;
   level_max: number | null;
   level_min: number | null;
   location_id: number;
+  nickname: string | null;
   pokemon_forms: { name: string; slug: string } | null;
+  price: string | null;
+  trade_for: { name: string; slug: string } | null;
   version_group_id: number;
 };
 
 /*
- * The Pokémon found at every place on the roadmap, read with the Story so a
- * place opens with them at once: the Play's own game only (a Red Play never
- * lists Blue's), grouped by how you meet them, levels included. A one-off
- * Pokémon the Play's recorded choices ruled out is left off.
+ * The Pokémon found at every place on the roadmap and at every milestone's
+ * place, read with the Story so a place opens with them at once: the Play's
+ * own game only (a Red Play never lists Blue's), grouped by how you meet
+ * them, levels included, and who hands over the ones handed over (#322).
+ * A one-off Pokémon the Play's recorded choices ruled out is left off.
  */
 const readStoryPlacePokemon = async (
   supabase: ServerSupabaseClient,
@@ -50,7 +57,7 @@ const readStoryPlacePokemon = async (
         .schema("reference")
         .from("pokemon_encounters")
         .select(
-          "form_id, game_id, level_min, level_max, location_id, version_group_id, pokemon_forms(name, slug), encounter_ways(name, slug, sort_order)",
+          "condition, form_id, game_id, giver, level_min, level_max, location_id, nickname, price, version_group_id, pokemon_forms!form_id(name, slug), trade_for:pokemon_forms!trade_for_form_id(name, slug), held_item:items(name), encounter_ways(name, slug, sort_order)",
         )
         .in("location_id", ids)
         .in("version_group_id", versionGroupIds)
@@ -87,6 +94,14 @@ const readStoryPlacePokemon = async (
       formId: row.form_id,
       formName: row.pokemon_forms.name,
       formSlug: row.pokemon_forms.slug,
+      handover: {
+        condition: row.condition,
+        giver: row.giver,
+        heldItem: row.held_item?.name ?? null,
+        nickname: row.nickname,
+        price: row.price,
+        tradeFor: row.trade_for,
+      },
       levelMax: row.level_max ?? row.level_min ?? null,
       levelMin: row.level_min ?? row.level_max ?? null,
       wayName: row.encounter_ways.name,
@@ -225,6 +240,11 @@ export const readMainlinePlayStoryProgress = async (
   const gameId = playResult.data?.game_id ?? null;
   const steps = getStoryStepsForGame(stepsResult.data ?? [], gameId);
   const locationIds = uniqueNumberIds(steps.map((step) => step.location_id));
+  /* A milestone's place too, for the Pokémon handed over there. */
+  const pokemonLocationIds = uniqueNumberIds([
+    ...locationIds,
+    ...milestones.map((milestone) => milestone.location_id),
+  ]);
   const [locationsResult, placePokemon] = await Promise.all([
     locationIds.length
       ? supabase
@@ -237,7 +257,7 @@ export const readMainlinePlayStoryProgress = async (
       supabase,
       gameId,
       versionGroupIds,
-      locationIds,
+      pokemonLocationIds,
       getRuledOutDecisionFormIds(milestones),
     ),
   ]);
