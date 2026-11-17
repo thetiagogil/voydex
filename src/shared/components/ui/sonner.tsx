@@ -67,13 +67,18 @@ const Toaster = ({ ...props }: ToasterProps) => {
 };
 
 /*
- * For a toast with two actions (Not now, Try again): from 768px it may grow
- * past the usual width, up to 26rem (416px), so its words sit on one line beside
- * the actions instead of in a narrow column. On phones every toast already
- * spans the screen between the gutters.
+ * For a toast with two actions (Not now, Try again). From 768px it may grow
+ * past the usual width, up to 26rem (416px), so its words sit on one line
+ * beside the actions. Below that the words take the whole first line and the
+ * actions wrap under them, at the end, instead of squeezing the words into
+ * a narrow column.
  */
-const wideToast = {
-  classNames: { toast: "md:w-max md:max-w-104" },
+const twoActionToast = {
+  classNames: {
+    cancelButton: "max-md:ml-auto",
+    content: "max-md:basis-[calc(100%-1.75rem)]",
+    toast: "max-md:flex-wrap max-md:gap-y-2 md:w-max md:max-w-104",
+  },
 };
 
-export { Toaster, wideToast };
+export { Toaster, twoActionToast };
