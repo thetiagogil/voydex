@@ -7,6 +7,8 @@ import {
   type DeviceUpdate,
 } from "@/platform/local-db/device-updates";
 import {
+  GameDataDownloadError,
+  GameDataNeedsReloadError,
   GameDataRefusedError,
   installGameBase,
   readInstalledGameData,
@@ -88,25 +90,35 @@ export const logGameDataUpdateFailure = (error: unknown) => {
   );
 };
 
+/* A fetch that never reached the server: offline, dropped or timed out. */
+const isConnectionError = (error: unknown) =>
+  error instanceof GameDataDownloadError ||
+  error instanceof TypeError ||
+  (error instanceof DOMException &&
+    ["AbortError", "NetworkError", "TimeoutError"].includes(error.name));
+
 /*
- * Why a game data update didn't go in, in words for the screen: Voydex's
- * own messages (offline, a refused release, a dropped download) as they
- * are; a full device as the device gate says it; anything else (a database
- * error, a network error) plainly, its detail left to the console.
+ * Why a game data update didn't go in, in a few words for a toast whose
+ * title already says the game data is out of date and whose button already
+ * says Try again: what to do, never a database or network detail (those go
+ * to the console).
  */
-export const describeGameDataUpdateFailure = (error: unknown) => {
-  if (isStorageFullError(error)) {
-    return "This device is out of room for Voydex's data.";
+export const describeGameDataUpdateFailure = (
+  error: unknown,
+  { online = true }: { online?: boolean } = {},
+) => {
+  if (!online) return "You're offline.";
+  if (isStorageFullError(error)) return "This device is out of room.";
+
+  if (error instanceof GameDataRefusedError) {
+    return "This update leaves out something your Plays use.";
   }
 
-  if (error instanceof GameDataRefusedError) return error.message;
+  if (error instanceof GameDataNeedsReloadError)
+    return "Reload Voydex to get it.";
+  if (isConnectionError(error)) return "Check your connection.";
 
-  /* Voydex's own messages carry no cause; a wrapped database error does. */
-  if (error instanceof LocalDbError && error.cause === undefined) {
-    return error.message;
-  }
-
-  return "The update didn't finish. Try again later.";
+  return "The update didn't finish.";
 };
 
 /*

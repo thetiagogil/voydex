@@ -64,9 +64,7 @@ test.describe("Older game data", () => {
 
     /* Still failing: the toast stays, with the reason. */
     await notice(page).getByRole("button", { name: "Try again" }).click();
-    await expect(notice(page)).toContainText(
-      "The game data didn't download. Check the connection and try again.",
-    );
+    await expect(notice(page)).toContainText("Check your connection.");
 
     /* The release downloads again: the device is current. */
     await page.unroute(versionsUrl);

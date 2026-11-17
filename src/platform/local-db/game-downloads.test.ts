@@ -399,9 +399,10 @@ describe("retryGameDataUpdate", () => {
 
     refreshVersions.mockResolvedValueOnce(null);
 
-    await expect(retryGameDataUpdate()).rejects.toThrow(
-      "You're offline. Connect, then try again.",
-    );
+    /* Loaded anew per test, so its class is matched by name. */
+    await expect(retryGameDataUpdate()).rejects.toMatchObject({
+      name: "GameDataDownloadError",
+    });
     expect(update).not.toHaveBeenCalled();
     log.mockRestore();
   });

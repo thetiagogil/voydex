@@ -6,6 +6,7 @@ import {
   downloadGameDataFileWithin,
   fetchGameDataVersions,
   findGameData,
+  GameDataDownloadError,
   installGame,
   installGameLearnsets,
   isGameDataBehind,
@@ -227,7 +228,9 @@ export const retryGameDataUpdate = async () => {
     const versions = await refreshGameDataVersions();
 
     if (!versions) {
-      throw new LocalDbError("You're offline. Connect, then try again.");
+      throw new GameDataDownloadError(
+        "The game data list didn't download. Check the connection and try again.",
+      );
     }
 
     await updateGameData(db, { versions });

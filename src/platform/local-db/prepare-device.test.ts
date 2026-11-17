@@ -5,6 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import {
+  GameDataDownloadError,
+  GameDataNeedsReloadError,
   GameDataRefusedError,
   isGameDataBehind,
   updateGameData,
@@ -331,40 +333,54 @@ describe("isStorageFullError", () => {
 });
 
 describe("describeGameDataUpdateFailure", () => {
-  it("says Voydex's own reasons as they are", () => {
+  it("says what to do in a few words", () => {
     expect(
       describeGameDataUpdateFailure(
-        new LocalDbError("You're offline. Connect, then try again."),
+        new GameDataDownloadError("The game data didn't download."),
       ),
-    ).toBe("You're offline. Connect, then try again.");
+    ).toBe("Check your connection.");
+    expect(
+      describeGameDataUpdateFailure(new TypeError("Failed to fetch")),
+    ).toBe("Check your connection.");
+    expect(
+      describeGameDataUpdateFailure(
+        new DOMException("Signal timed out", "TimeoutError"),
+      ),
+    ).toBe("Check your connection.");
     expect(
       describeGameDataUpdateFailure(
         new GameDataRefusedError(["reference.pokemon 25"]),
       ),
-    ).toBe(
-      "This game data update leaves out something your Plays or Plans use, so this device keeps the game data it has.",
+    ).toBe("This update leaves out something your Plays use.");
+    expect(describeGameDataUpdateFailure(new GameDataNeedsReloadError())).toBe(
+      "Reload Voydex to get it.",
     );
-  });
-
-  it("says a full device plainly", () => {
     expect(
       describeGameDataUpdateFailure(
         new DOMException("Quota exceeded", "QuotaExceededError"),
       ),
-    ).toBe("This device is out of room for Voydex's data.");
+    ).toBe("This device is out of room.");
   });
 
-  it("keeps database and network detail off the screen", () => {
+  it("says offline before anything else", () => {
     expect(
-      describeGameDataUpdateFailure(
-        toLocalDbError(new Error('relation "reference.x" does not exist')),
+      describeGameDataUpdateFailure(new TypeError("Failed to fetch"), {
+        online: false,
+      }),
+    ).toBe("You're offline.");
+  });
+
+  it("never repeats Try again, and keeps database detail off the screen", () => {
+    for (const error of [
+      toLocalDbError(new Error('relation "reference.x" does not exist')),
+      new LocalDbError(
+        "The game data on this device kept changing in another tab; try again.",
       ),
-    ).toBe("The update didn't finish. Try again later.");
-    expect(
-      describeGameDataUpdateFailure(new TypeError("Failed to fetch")),
-    ).toBe("The update didn't finish. Try again later.");
-    expect(describeGameDataUpdateFailure("nope")).toBe(
-      "The update didn't finish. Try again later.",
-    );
+      "nope",
+    ]) {
+      expect(describeGameDataUpdateFailure(error)).toBe(
+        "The update didn't finish.",
+      );
+    }
   });
 });

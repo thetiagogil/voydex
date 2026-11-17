@@ -85,7 +85,10 @@ export const OldGameDataNotice = () => {
         phase.current = "done";
         toast.success(oldGameDataCopy.updated, { duration: 4000, id: toastId });
       } catch (error) {
-        ask(oldGameDataCopy.title, describeGameDataUpdateFailure(error));
+        ask(
+          oldGameDataCopy.title,
+          describeGameDataUpdateFailure(error, { online: navigator.onLine }),
+        );
       }
     };
 
