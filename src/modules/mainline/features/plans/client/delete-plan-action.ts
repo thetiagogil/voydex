@@ -5,8 +5,7 @@ import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type DeletePlanResult =
-  | { status: "success" }
-  | { message: string; status: "error" };
+  { status: "success" } | { message: string; status: "error" };
 
 /*
  * Delete a Plan from My Plans. One row: its Pokémon, moves, expansions, tags

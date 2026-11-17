@@ -135,9 +135,8 @@ const getUniqueOptions = (
           sensitivity: "base",
         }),
     )
-    .map(
-      ({ description, label, value }): PlayBrowseOption =>
-        description ? { description, label, value } : { label, value },
+    .map(({ description, label, value }): PlayBrowseOption =>
+      description ? { description, label, value } : { label, value },
     );
 };
 

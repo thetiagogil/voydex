@@ -357,7 +357,9 @@ describe("activate", () => {
       [metaCacheName, releaseCacheName("r2"), releaseCacheName("r3")].sort(),
     );
     expect(
-      await (await caches.open(metaCacheName))
+      await (
+        await caches.open(metaCacheName)
+      )
         .match(releasesKey)
         .then((r) => r?.json()),
     ).toEqual({ current: "r3", previous: "r2" });

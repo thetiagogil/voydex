@@ -1,8 +1,5 @@
 export type StoryMilestoneWriteIntent =
-  | "complete"
-  | "decision"
-  | "note"
-  | "story-moment";
+  "complete" | "decision" | "note" | "story-moment";
 
 /*
  * What a Story milestone save writes to History. Completing a milestone is a

@@ -96,8 +96,7 @@ export type PlayBrowseTeam = {
  * game records no story or it couldn't be read.
  */
 export type PlayBrowseStoryPosition =
-  | { kind: "complete" }
-  | { kind: "next"; name: string };
+  { kind: "complete" } | { kind: "next"; name: string };
 
 /* A tag of the trainer's, as a Play carries it. */
 export type PlayBrowseTag = {

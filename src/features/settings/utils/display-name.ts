@@ -9,8 +9,7 @@ export const DISPLAY_NAME_MAX_LENGTH = 100;
 export const TRAINER_NAME_MAX_LENGTH = 120;
 
 export type DisplayNameResult =
-  | { ok: true; value: string | null }
-  | { message: string; ok: false };
+  { ok: true; value: string | null } | { message: string; ok: false };
 
 /*
  * A name as you typed it, trimmed. Empty clears it (null). Longer than the

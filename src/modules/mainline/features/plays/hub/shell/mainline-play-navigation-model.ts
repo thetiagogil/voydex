@@ -1,11 +1,7 @@
 import { appRoutes } from "@/config/routes";
 
 export type MainlinePlaySection =
-  | "history"
-  | "overview"
-  | "progress"
-  | "settings"
-  | "team";
+  "history" | "overview" | "progress" | "settings" | "team";
 export type MainlinePlayTeamView = "analysis" | "plan" | "roster";
 export type MainlinePlayProgressView = "collectibles" | "pokedex" | "story";
 

@@ -6,11 +6,7 @@
  * the objective just shows the new one.
  */
 export type ObjectiveHandover =
-  | "entering"
-  | "idle"
-  | "leaving"
-  | "stamping"
-  | "waiting";
+  "entering" | "idle" | "leaving" | "stamping" | "waiting";
 
 type HandoverStep = {
   handover?: ObjectiveHandover;

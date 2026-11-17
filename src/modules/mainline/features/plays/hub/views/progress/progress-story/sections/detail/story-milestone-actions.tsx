@@ -33,9 +33,7 @@ import {
  */
 /* What a milestone's actions ask for: an editor intent, or a way to record. */
 export type StoryMilestoneChoice =
-  | StoryMilestoneActionIntent
-  | "complete-only"
-  | "complete-with-team";
+  StoryMilestoneActionIntent | "complete-only" | "complete-with-team";
 
 export const StoryMilestoneActions = ({
   className,

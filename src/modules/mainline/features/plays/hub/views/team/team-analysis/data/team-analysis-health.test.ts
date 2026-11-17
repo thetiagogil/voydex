@@ -28,17 +28,14 @@ const referenceType = (id: number) =>
 const typeReadings = (
   changes: Record<number, Partial<Omit<TeamFieldTypeReading, "type">>> = {},
 ) =>
-  Array.from(
-    { length: 10 },
-    (_, id): TeamFieldTypeReading => ({
-      answerCost: 0.2,
-      beats: [],
-      hitsToKnockOut: 2,
-      type: referenceType(id),
-      sharedCost: 0.2,
-      ...changes[id],
-    }),
-  );
+  Array.from({ length: 10 }, (_, id): TeamFieldTypeReading => ({
+    answerCost: 0.2,
+    beats: [],
+    hitsToKnockOut: 2,
+    type: referenceType(id),
+    sharedCost: 0.2,
+    ...changes[id],
+  }));
 
 const field = ({
   lagging = [],

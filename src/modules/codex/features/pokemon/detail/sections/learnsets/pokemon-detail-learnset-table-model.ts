@@ -8,8 +8,7 @@ import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";
 
 export type PokemonDetailLearnsetMethodFilter =
-  | typeof POKEMON_DETAIL_LEARNSET_ALL_METHODS
-  | string;
+  typeof POKEMON_DETAIL_LEARNSET_ALL_METHODS | string;
 
 export type PokemonDetailLearnsetMethodOption = {
   count: number;

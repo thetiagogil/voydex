@@ -1,10 +1,6 @@
 /* The stats a nature can raise or lower, as the natures table stores them. */
 export type NatureStat =
-  | "attack"
-  | "defense"
-  | "special_attack"
-  | "special_defense"
-  | "speed";
+  "attack" | "defense" | "special_attack" | "special_defense" | "speed";
 
 /* Each stat as a list's short form ("SPA"), a panel's ("Sp. Atk") and in full. */
 const natureStats: Record<

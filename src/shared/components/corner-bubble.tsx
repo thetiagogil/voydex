@@ -4,11 +4,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 export type CornerBubbleCorner =
-  | "bottom"
-  | "inside-top-left"
-  | "inside-top-right"
-  | "top-left"
-  | "top-right";
+  "bottom" | "inside-top-left" | "inside-top-right" | "top-left" | "top-right";
 
 /*
  * A mark sits 12px in from its card's outer edge, whatever border the card

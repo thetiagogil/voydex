@@ -30,8 +30,7 @@ export type LibraryActionResult =
   | { message: string; status: "error" };
 
 export type LibraryDeleteResult =
-  | { message: string; status: "success" }
-  | { message: string; status: "error" };
+  { message: string; status: "success" } | { message: string; status: "error" };
 
 const ruleIdSchema = uuidSchema("That rule couldn't be found.");
 const tagIdSchema = uuidSchema("That tag couldn't be found.");

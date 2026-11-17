@@ -3,8 +3,7 @@ import { z } from "zod";
 import { safeParseInput } from "@/shared/utils/input-schemas";
 
 export type ProfileIconInputResult =
-  | { formId: number | null; ok: true }
-  | { message: string; ok: false };
+  { formId: number | null; ok: true } | { message: string; ok: false };
 
 const message = "That icon isn't one you can pick.";
 

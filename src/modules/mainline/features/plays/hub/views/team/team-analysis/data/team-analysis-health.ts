@@ -237,14 +237,12 @@ export const buildTeamAnalysisHealth = ({
         ? missingTip
         : {
             rows: withRoughNote([
-              ...field.lagging.map(
-                (pokemon): TeamAnalysisTipRow => ({
-                  chip: `Lv. ${pokemon.level}`,
-                  detail: `${field.level - pokemon.level} levels below your top (Lv. ${field.level})`,
-                  subject: { pokemon: pokemon.name },
-                  tone: "warn",
-                }),
-              ),
+              ...field.lagging.map((pokemon): TeamAnalysisTipRow => ({
+                chip: `Lv. ${pokemon.level}`,
+                detail: `${field.level - pokemon.level} levels below your top (Lv. ${field.level})`,
+                subject: { pokemon: pokemon.name },
+                tone: "warn",
+              })),
               ...(evidence.activeCount < field.theirCount
                 ? [
                     {

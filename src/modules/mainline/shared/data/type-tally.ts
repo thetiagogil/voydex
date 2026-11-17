@@ -8,11 +8,7 @@ import type { TypeMatchupCell } from "./type-matchup-rows";
  */
 
 export type TypeTallyTone =
-  | "immune"
-  | "neutral"
-  | "resist"
-  | "unknown"
-  | "weak";
+  "immune" | "neutral" | "resist" | "unknown" | "weak";
 
 export type TypeTallyBar = {
   direction: "down" | "flat" | "up";
