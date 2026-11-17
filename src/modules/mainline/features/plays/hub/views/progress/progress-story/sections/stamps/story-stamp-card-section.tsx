@@ -32,7 +32,7 @@ export const StoryStampCardSection = ({
         Stamp card
       </h2>
       <StampGrid
-        className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-[64px] sm:px-7"
+        className="no-scrollbar auto-cols-14 grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-16 sm:px-7"
         onStampSelect={onStampSelect}
         scrollLabel="Stamps"
         stamps={stamps}

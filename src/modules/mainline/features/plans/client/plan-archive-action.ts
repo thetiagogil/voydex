@@ -5,8 +5,7 @@ import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type PlanArchiveResult =
-  | { status: "success" }
-  | { message: string; status: "error" };
+  { status: "success" } | { message: string; status: "error" };
 
 /*
  * Archive a Plan, or restore it to active. One row's status: an archived

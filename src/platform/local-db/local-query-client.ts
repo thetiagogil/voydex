@@ -678,8 +678,7 @@ class LocalQuery implements PromiseLike<LocalQueryResult> {
 
   then<Result1 = LocalQueryResult, Result2 = never>(
     onfulfilled?:
-      | ((value: LocalQueryResult) => Result1 | PromiseLike<Result1>)
-      | null,
+      ((value: LocalQueryResult) => Result1 | PromiseLike<Result1>) | null,
     onrejected?: ((reason: unknown) => Result2 | PromiseLike<Result2>) | null,
   ): PromiseLike<Result1 | Result2> {
     return this.run().then(onfulfilled, onrejected);

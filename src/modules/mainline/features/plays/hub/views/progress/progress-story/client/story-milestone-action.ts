@@ -12,11 +12,7 @@ import {
 } from "@/shared/utils/input-schemas";
 
 export type StoryMilestoneActionIntent =
-  | "complete"
-  | "decision"
-  | "incomplete"
-  | "note"
-  | "story-moment";
+  "complete" | "decision" | "incomplete" | "note" | "story-moment";
 
 export type StoryMilestoneActionState = {
   message: string | null;

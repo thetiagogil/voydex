@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@playwright/test": "^1.64.1",
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -82,16 +82,16 @@
     "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
-    "eslint-plugin-better-tailwindcss": "^4.9.1",
-    "knip": "^6.41.0",
-    "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.8.0",
+    "eslint-plugin-better-tailwindcss": "^4.11.0",
+    "knip": "^6.45.1",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "supabase": "2.121.0",
     "tailwindcss": "^4",
     "tsx": "4.23.15",
     "typescript": "^5",
     "vitest": "4.1.12",
-    "wrangler": "4.159.0"
+    "wrangler": "4.162.0"
   },
   "allowScripts": {
     "sharp@0.34.5": true,

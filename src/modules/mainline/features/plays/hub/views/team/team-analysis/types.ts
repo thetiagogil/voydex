@@ -31,10 +31,7 @@ export type TeamAnalysisEvidence = {
 };
 
 export type TeamAnalysisHealthStatus =
-  | "limited-data"
-  | "moderate"
-  | "weak"
-  | "strong";
+  "limited-data" | "moderate" | "weak" | "strong";
 
 /* A card's specific line: words, and a type shown as its dot and name. */
 export type TeamAnalysisHealthLinePart = { text: string } | { type: Type };

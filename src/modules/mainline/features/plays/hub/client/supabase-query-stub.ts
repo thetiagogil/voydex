@@ -18,8 +18,7 @@ export class SupabaseQueryStub implements PromiseLike<SupabaseStubResult> {
 
   then<TResult1 = SupabaseStubResult, TResult2 = never>(
     onFulfilled?:
-      | ((value: SupabaseStubResult) => TResult1 | PromiseLike<TResult1>)
-      | null,
+      ((value: SupabaseStubResult) => TResult1 | PromiseLike<TResult1>) | null,
     onRejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null,
   ): PromiseLike<TResult1 | TResult2> {
     return Promise.resolve(this.result).then(onFulfilled, onRejected);

@@ -399,14 +399,12 @@ const toHitDetails = (
 
   return [...byIndex]
     .sort(([, left], [, right]) => right.strength - left.strength)
-    .map(
-      ([index, detail]): StoryHitDetail => ({
-        byType: isByType(their[index]),
-        multiplier: detail.multiplier,
-        pokemon: their[index],
-        via: detail.via,
-      }),
-    );
+    .map(([index, detail]): StoryHitDetail => ({
+      byType: isByType(their[index]),
+      multiplier: detail.multiplier,
+      pokemon: their[index],
+      via: detail.via,
+    }));
 };
 
 /*

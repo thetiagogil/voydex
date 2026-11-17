@@ -3,12 +3,7 @@ import { cn } from "@/shared/utils/cn";
 
 /* A meaning, as a small mark: a pill with a dot, never a filled banner. */
 export type StatusBadgeTone =
-  | "danger"
-  | "gold"
-  | "calm"
-  | "neutral"
-  | "ok"
-  | "warn";
+  "danger" | "gold" | "calm" | "neutral" | "ok" | "warn";
 
 export type StatusBadgeSize = "md" | "sm" | "xs";
 

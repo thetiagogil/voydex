@@ -24,8 +24,7 @@ import { notifyLocalSave } from "@/platform/local-db/local-db-context";
  */
 
 export type BackupResult =
-  | { message: string; status: "error" }
-  | { status: "success" };
+  { message: string; status: "error" } | { status: "success" };
 
 /* Hands the browser a file to save, the way a download link does. */
 const offerFile = (bytes: Uint8Array, fileName: string) => {

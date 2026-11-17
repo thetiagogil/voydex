@@ -19,8 +19,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 
 type RuleDialog =
-  | { mode: "delete"; rule: LibraryRule }
-  | { mode: "view"; rule: LibraryRule };
+  { mode: "delete"; rule: LibraryRule } | { mode: "view"; rule: LibraryRule };
 
 /*
  * One rule as a card: its kind, its name, what it asks and where it's used.

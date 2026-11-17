@@ -388,34 +388,30 @@ export const resolveMemberBattle = ({
         hasBattleFormMechanic(mechanics, form.mechanic) &&
         !(checksHeldItem && form.needsUnlockItem && !form.unlockItems.length),
     )
-    .map(
-      (form): MemberBattleForm => ({
-        // Gigantamax keeps the Pokémon's own ability.
-        abilityName:
-          form.mechanic === battleFormMechanics.dynamax
-            ? null
-            : form.abilityName,
-        formId: form.formId,
-        label: getBattleFormLabel(form),
-        maxMoves:
-          form.mechanic === battleFormMechanics.dynamax
-            ? getMaxMoves(form, member, reference)
-            : null,
-        mechanic: form.mechanic,
-        name: form.name,
-        primaryType: form.primaryType,
-        secondaryType: form.secondaryType,
-        slug: form.slug,
-        statChanges: getStatChanges(
-          form.stats,
-          reference.baseStatsByFormId[member.formId],
-        ),
-        warning: getBattleFormWarning(form, member, {
-          checksHeldItem,
-          zCrystal,
-        }),
+    .map((form): MemberBattleForm => ({
+      // Gigantamax keeps the Pokémon's own ability.
+      abilityName:
+        form.mechanic === battleFormMechanics.dynamax ? null : form.abilityName,
+      formId: form.formId,
+      label: getBattleFormLabel(form),
+      maxMoves:
+        form.mechanic === battleFormMechanics.dynamax
+          ? getMaxMoves(form, member, reference)
+          : null,
+      mechanic: form.mechanic,
+      name: form.name,
+      primaryType: form.primaryType,
+      secondaryType: form.secondaryType,
+      slug: form.slug,
+      statChanges: getStatChanges(
+        form.stats,
+        reference.baseStatsByFormId[member.formId],
+      ),
+      warning: getBattleFormWarning(form, member, {
+        checksHeldItem,
+        zCrystal,
       }),
-    );
+    }));
   const zMoves = zCrystal ? getZMoves(zCrystal, member, reference) : [];
 
   return forms.length || zCrystal ? { forms, zCrystal, zMoves } : null;

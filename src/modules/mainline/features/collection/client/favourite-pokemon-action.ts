@@ -7,8 +7,7 @@ import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { parseInput, positiveIdSchema } from "@/shared/utils/input-schemas";
 
 export type FavouritePokemonActionResult =
-  | { status: "success" }
-  | { message: string; status: "error" };
+  { status: "success" } | { message: string; status: "error" };
 
 const favouriteInputSchema = z.object({
   favourite: z.boolean(),

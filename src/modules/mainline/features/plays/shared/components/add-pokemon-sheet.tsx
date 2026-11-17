@@ -88,8 +88,7 @@ export type AddPokemonPreset = {
 
 /* Adding to the roster, or choosing who replaces one of your Pokémon. */
 export type AddPokemonMode =
-  | { kind: "add" }
-  | { kind: "replace"; name: string; playPokemonId: string };
+  { kind: "add" } | { kind: "replace"; name: string; playPokemonId: string };
 
 /* The list grows as you scroll, so a whole Pokédex opens at once. */
 const choiceBatchSize = 48;

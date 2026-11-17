@@ -339,10 +339,7 @@ const battleKinds: Record<string, string> = {
  * dodging and balms.
  */
 export type StoryPlayerSide =
-  | "lent-pokemon"
-  | "not-a-battle"
-  | "one-own-pokemon"
-  | "own-team";
+  "lent-pokemon" | "not-a-battle" | "one-own-pokemon" | "own-team";
 
 const playerSides = new Set<StoryPlayerSide>([
   "lent-pokemon",

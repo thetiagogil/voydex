@@ -7,8 +7,7 @@ import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type PlanRenameResult =
-  | { name: string; status: "success" }
-  | { message: string; status: "error" };
+  { name: string; status: "success" } | { message: string; status: "error" };
 
 /* As long as a name the Planner's title takes. */
 const nameMaxLength = 200;

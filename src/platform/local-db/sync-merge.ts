@@ -380,9 +380,13 @@ type MergedRow = { records: ChangeRecord[]; row: UserRow | null };
 const latestChangeOf = (index: SideIndex, id: string) =>
   [...(index.records.get(id)?.values() ?? [])]
     .filter((record) => !quietColumns.has(record.column))
-    .reduce<
-      string | null
-    >((latest, record) => (latest === null || later(record.changedAt, latest) ? record.changedAt : latest), null);
+    .reduce<string | null>(
+      (latest, record) =>
+        latest === null || later(record.changedAt, latest)
+          ? record.changedAt
+          : latest,
+      null,
+    );
 
 const recordsFrom = (index: SideIndex, id: string) => [
   ...(index.records.get(id)?.values() ?? []),

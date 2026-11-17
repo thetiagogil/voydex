@@ -107,10 +107,7 @@ export type MainlinePlayTeamPlanRows = {
 };
 
 export type MainlinePlayTeamPlanFollowingState =
-  | "following"
-  | "following-with-changes"
-  | "not-following"
-  | "not-started";
+  "following" | "following-with-changes" | "not-following" | "not-started";
 
 export type MainlinePlayTeamPlanRelation =
   | "exact"

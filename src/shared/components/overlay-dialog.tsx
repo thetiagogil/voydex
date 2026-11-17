@@ -63,8 +63,7 @@ type OverlayDialogFramedProps = OverlayDialogBaseProps &
   Omit<OverlayFrameProps, "placement" | "titleRef"> & { bare?: false };
 
 export type OverlayDialogProps =
-  | OverlayDialogBareProps
-  | OverlayDialogFramedProps;
+  OverlayDialogBareProps | OverlayDialogFramedProps;
 
 /*
  * The one dialog, for something quick: a name, a rule's details, a short

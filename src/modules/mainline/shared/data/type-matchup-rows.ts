@@ -7,11 +7,7 @@ import type { TeamTypeMatchupRow } from "./team-type-analysis";
  */
 
 export type TypeMatchupEffectiveness =
-  | "immune"
-  | "neutral"
-  | "resistant"
-  | "unknown"
-  | "weak";
+  "immune" | "neutral" | "resistant" | "unknown" | "weak";
 
 export type TypeMatchupCell = {
   effectiveness: TypeMatchupEffectiveness;

@@ -20,8 +20,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 
 type PresetDialog =
-  | { mode: "delete"; preset: RulePreset }
-  | { mode: "view"; preset: RulePreset };
+  { mode: "delete"; preset: RulePreset } | { mode: "view"; preset: RulePreset };
 
 /*
  * One preset as a card: its name and its rules, by kind.

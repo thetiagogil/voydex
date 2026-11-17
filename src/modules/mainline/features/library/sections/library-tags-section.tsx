@@ -15,8 +15,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
 
 type TagDialog =
-  | { mode: "delete"; tag: LibraryTag }
-  | { mode: "view"; tag: LibraryTag };
+  { mode: "delete"; tag: LibraryTag } | { mode: "view"; tag: LibraryTag };
 
 /*
  * Tags: each of yours as a pill on a soft shadow, with how many Plays
