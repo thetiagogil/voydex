@@ -5,7 +5,7 @@ import { ForgotPasswordPage } from "@/features/auth/components/forgot-password-p
 
 export default function Page() {
   return (
-    <PublicAppShell bar="none">
+    <PublicAppShell bar="account">
       <Suspense>
         <ForgotPasswordPage />
       </Suspense>

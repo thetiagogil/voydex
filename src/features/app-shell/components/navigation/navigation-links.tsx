@@ -1,5 +1,7 @@
 "use client";
 
+import type { MouseEvent } from "react";
+
 import { Link } from "@/shared/components/link";
 import { usePathname } from "next/navigation";
 
@@ -14,6 +16,34 @@ type NavigationLinksProps = {
   ariaLabel: string;
   className?: string;
   links: readonly AppNavigationLink[];
+};
+
+/*
+ * A link to a part of the page you are on (`/#install` on the front page):
+ * the page glides down to it instead of jumping (it jumps for anyone who
+ * asked for less motion). The address takes the part's name, and keyboard
+ * focus moves there with it. Anything else is left to the link.
+ */
+const glideToPart = (
+  event: MouseEvent<HTMLAnchorElement>,
+  pathname: string,
+  href: string,
+) => {
+  const [path, part] = href.split("#");
+  const target =
+    part && path === pathname ? document.getElementById(part) : null;
+
+  if (!target) return;
+
+  event.preventDefault();
+  target.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth",
+    block: "start",
+  });
+  window.history.pushState(null, "", `#${part}`);
+  target.focus({ preventScroll: true });
 };
 
 /*
@@ -38,6 +68,7 @@ export const NavigationLinks = ({
             key={link.href}
             href={link.href}
             aria-current={isCurrent ? "page" : undefined}
+            onClick={(event) => glideToPart(event, pathname, link.href)}
             className={getBarLinkClassName(isCurrent)}
           >
             <SteadyLabel>{link.label}</SteadyLabel>

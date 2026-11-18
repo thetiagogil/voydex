@@ -43,32 +43,32 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
 The website is one page, the front page (`/`), with Privacy, Terms and the
 log-in pages beside it. Everything else is the app.
 
-- **The front page:** its head is the Dex, since Voydex is a Pokédex for
-  your playthroughs: a red device with the blue lens, three lights, the
-  Voydex name and Log in along its top (How it works and Install beside
-  Log in from 640px, scrolling to those parts), then the headline, one
-  paragraph and one white button beside the Dex's screen, which shows an
-  example Play as an entry (cover, status, progress, team, badges). Its
+- **The front page:** built as every page of the app is, a bar on a band
+  with the page under it, and outside the app the band is the action red
+  (the door is red, the app is quiet). The band holds the Voydex name, one
+  line, one paragraph and one white button beside an example Play, drawn as
+  one of Voydex's own cards (cover, status, progress, team, badges). Its
   button reads Start a Play and opens the app (`/app`), whose Home asks
-  which game you are playing. Under the Dex: How it works
-  (`/#how-it-works`): three steps, each wearing one of the Dex's lights
-  (red, yellow, green), with one Play followed through them and its partner
-  growing along the way, then the Team Planner and the Codex in two small
-  cards. Then Install (`/#install`): one quiet card with a drawn phone's
-  Home Screen, Voydex's icon among blank ones, beside the two ways to put
-  it there (iPhone and iPad; Android and computer) as numbered steps. Only
-  the head is the Dex; the parts under it are the app's own quiet cards.
-  The example Play throughout is a Pokémon Red run. The top's links glide
-  to their parts.
-- **Top bar:** the front page draws its own top (the Dex). Privacy and
-  Terms take the site bar: the "V" tile with the Voydex name (the word
-  drops on narrow phones), How it works and Install centred, and Log in on
-  the right. The log-in pages show no site bar: they take the same Dex
-  head as the front page (the darker stepped top with the lens, the lights,
-  and Go back where the front page has Log in, over the red), so the top
-  stays where it is between the two. The page's title and its one line sit
-  on the red; below the head the form is on one quiet card on the page's
-  own ground.
+  which game you are playing. Under the band: How it works
+  (`/#how-it-works`): three steps, each with a small light (red, yellow,
+  green), with one Play followed through them and its partner growing
+  along the way, then the Team Planner and the Codex in two small cards.
+  Then Install (`/#install`): one quiet card with a drawn phone's Home
+  Screen, Voydex's icon among blank ones, beside the two ways to put it
+  there (iPhone and iPad; Android and computer) as numbered steps. The
+  example Play throughout is a Pokémon Red run. The bar's links glide to
+  their parts.
+- **Top bar:** the site takes the app's own bar: the "V" tile with the
+  Voydex name, How it works and Install centred, and Log in on the right.
+  On Privacy and Terms it is the quiet pill on the page's ground (the word
+  drops on narrow phones). On the red band it is a solid white pill at
+  every width: the front page shows the V alone, since its title is the
+  name, and the log-in pages drop Log in. The V always leads to the start
+  page.
+- **The log-in pages** follow the same pattern: the red band with the
+  page's title and one line at its left, where every page puts its title,
+  and Go back at the end of that row; below the band the form sits on one
+  quiet card, centred.
 - The site frame ends on the quiet site footer: a rule across the full
   width, then the "V" mark and the name, the tagline, How it works,
   Install, Codex, Log in, Privacy, Terms and the fan-project notice.

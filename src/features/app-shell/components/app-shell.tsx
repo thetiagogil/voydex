@@ -25,11 +25,15 @@ type AppShellProps = {
    */
   frame?: "app" | "site";
   /*
-   * The site's top bar: `full` (the V and name, the front page's parts,
-   * Log in) or `none` (the log-in pages, which link back themselves). The
+   * The site's top bar. `full` (the default): the V and name, the front
+   * page's parts and Log in, on the page's own ground (Privacy, Terms).
+   * `front` and `account` are the same bar for a page that opens on the red
+   * band, as a solid white pill: `front` shows the V alone, since the front
+   * page's title is the name, and `account` drops Log in (the log-in
+   * pages). `none`: no bar (the moment an email link is finished). The
    * app's bar is always full.
    */
-  bar?: "full" | "none";
+  bar?: "account" | "front" | "full" | "none";
   children: React.ReactNode;
 };
 
@@ -38,8 +42,9 @@ type AppShellProps = {
  * Mainline's views in the middle, the Codex menu and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
- * the front page), and Log in; on phones only the V tile and Log in. The
- * log-in pages show no bar. The site frame ends on the site footer.
+ * the front page), and Log in; on phones only the V tile and Log in. On the
+ * front page and the log-in pages, which open on the red band, it is a
+ * solid white pill. The site frame ends on the site footer.
  * The bar is transparent: a page that opens on a band (`page-band`) runs it
  * edge to edge under the bar, which sits on the band's colour.
  */
@@ -97,7 +102,8 @@ export const AppShell = ({
       ) : bar === "none" ? null : (
         <AppNavbar
           brandHref={getBrandHref(false)}
-          showName
+          showName={bar !== "front"}
+          solid={bar !== "full"}
           center={
             <NavigationLinks
               ariaLabel="Main"
@@ -105,7 +111,7 @@ export const AppShell = ({
               className="hidden sm:flex"
             />
           }
-          end={logIn}
+          end={bar === "account" ? null : logIn}
         />
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">
