@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { DexLens } from "@/shared/components/brand/dex-lens";
 import { DexLights } from "@/shared/components/brand/dex-lights";
@@ -8,7 +8,8 @@ import { cn } from "@/shared/utils/cn";
 type DexDeviceProps = {
   /* The id of the heading that names this part of the page. */
   ariaLabelledBy?: string;
-  children: ReactNode;
+  /* What stands on the red under the top; left out, only the top shows. */
+  children?: ReactNode;
   className?: string;
   /* Where the lens leads: always the start page. */
   homeHref: string;
@@ -60,46 +61,4 @@ export const DexDevice = ({
       {children}
     </div>
   </section>
-);
-
-type DexScreenFrameProps = Omit<ComponentProps<"div">, "children"> & {
-  children: ReactNode;
-  screenClassName?: string;
-};
-
-/*
- * The Dex's screen: a white screen in the device's dark bezel, with the
- * three slits under it. What it shows is the page's own (an example Play on
- * the front page, the form on the log-in pages). The screen counts as a
- * card (`data-slot`), so fields on it are drawn as on any card, and controls
- * on it take the usual focus ring again.
- */
-export const DexScreenFrame = ({
-  children,
-  className,
-  screenClassName,
-  ...props
-}: DexScreenFrameProps) => (
-  <div
-    className={cn(
-      "bg-action-lip w-full rounded-2xl p-3 pb-3.5 sm:p-4 sm:pb-4.5",
-      className,
-    )}
-    {...props}
-  >
-    <div
-      data-slot="card"
-      className={cn(
-        "bg-surface text-ink rounded-xl p-4 text-left [--focus:var(--focus-ink)] sm:p-5.5",
-        screenClassName,
-      )}
-    >
-      {children}
-    </div>
-    <span aria-hidden className="mt-3 flex flex-col gap-1 px-1.5">
-      <span className="bg-action block h-1 w-11 rounded-full" />
-      <span className="bg-action block h-1 w-11 rounded-full" />
-      <span className="bg-action block h-1 w-11 rounded-full" />
-    </span>
-  </div>
 );

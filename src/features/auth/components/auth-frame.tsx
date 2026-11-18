@@ -2,60 +2,61 @@ import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import {
-  DexDevice,
-  DexScreenFrame,
-} from "@/shared/components/brand/dex-device";
+import { DexDevice } from "@/shared/components/brand/dex-device";
 import { Link } from "@/shared/components/link";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 type AuthFrameProps = {
   /*
-   * The way out, in the device's top row: back to the page that sent you
-   * here (Log in), or home when left out.
+   * The way out, in the Dex's top row: back to the page that sent you here
+   * (Log in), or home when left out.
    */
   back?: { href: string; label: string };
   children: ReactNode;
-  /* One quiet line under the screen, such as what an account is for. */
+  /* One quiet line under the card, such as what you have without an account. */
   note?: ReactNode;
 };
 
 /*
- * The sign-in family's page: the Dex, as the front page and the start
- * screen draw it, filling the window, with the form on its screen. Log in,
- * Reset your password and Choose a new password all stand in it.
+ * The sign-in family's page: the Dex's top, as the front page draws it, and
+ * under it one quiet card with the form, set a little into the red so the
+ * two belong together. A form is a place to work, so only the top is loud.
+ * Log in, Reset your password and Choose a new password all stand in it.
  */
 export const AuthFrame = ({
   back = { href: appRoutes.home, label: "Go back home" },
   children,
   note,
 }: AuthFrameProps) => (
-  <DexDevice
-    className="min-h-svh"
-    homeHref={appRoutes.home}
-    top={
-      <Link
-        href={back.href}
-        className={buttonVariants({ size: "sm", variant: "inverse" })}
-      >
-        <AppIcon icon={appIcons.actions.back} inline="start" />
-        {back.label}
-      </Link>
-    }
-  >
-    <div className="flex flex-1 flex-col items-center justify-center pt-4 pb-10 sm:pt-6 sm:pb-16">
-      <DexScreenFrame
-        className="max-w-120"
-        screenClassName="text-15 px-5 pt-5.5 pb-6 sm:px-7 sm:pt-6.5 sm:pb-7"
-      >
-        {children}
-      </DexScreenFrame>
-      {note ? (
-        <p className="text-14 mt-4.5 text-center font-semibold">{note}</p>
-      ) : null}
+  <div className="flex min-w-0 flex-1 flex-col">
+    <DexDevice
+      className="pb-18 sm:pb-22"
+      homeHref={appRoutes.home}
+      top={
+        <Link
+          href={back.href}
+          className={buttonVariants({ size: "sm", variant: "inverse" })}
+        >
+          <AppIcon icon={appIcons.actions.back} inline="start" />
+          {back.label}
+        </Link>
+      }
+    />
+    <div className="relative z-1 -mt-14 flex w-full justify-center pb-4 sm:-mt-18 sm:pb-8">
+      <div className="w-full max-w-110 min-w-0">
+        <Card className="gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
+          {children}
+        </Card>
+        {note ? (
+          <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
+            {note}
+          </p>
+        ) : null}
+      </div>
     </div>
-  </DexDevice>
+  </div>
 );
 
 type AuthHeadingProps = {
