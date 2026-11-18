@@ -23,13 +23,14 @@ const footerLinks = [
 export const SiteFooter = () => (
   <footer className="border-line border-t">
     <div className="page-column pt-6.5 pb-8.5">
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5.5">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-5.5">
         <Link
           href={appRoutes.home}
-          className="font-display text-17 inline-flex w-fit items-center gap-2.5 rounded-sm font-semibold"
+          className="font-display text-17 inline-flex w-fit items-baseline gap-2.5 rounded-sm font-semibold"
         >
-          <LogoMark className="size-7.5" />
-          Voydex
+          <LogoMark className="size-7.5 self-center" />
+          {/* As tall as the mark, so the name centres on it and the row's words share its baseline. */}
+          <span className="leading-7.5">Voydex</span>
         </Link>
         <p className="text-13 text-ink-2 font-semibold">
           A Pokédex for your playthroughs.

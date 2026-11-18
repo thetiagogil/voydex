@@ -193,6 +193,31 @@ test.describe("Entry flow", () => {
     await expect(page.getByRole("navigation").first()).toBeVisible();
   });
 
+  test("the footer's name, tagline and links share one baseline", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const footer = page.getByRole("contentinfo");
+    /* Where a text's baseline sits: the bottom of an empty box set in it. */
+    const baselineOf = (text: string) =>
+      footer.getByText(text, { exact: true }).evaluate((element) => {
+        const mark = document.createElement("span");
+        mark.style.cssText = "display:inline-block;width:0;height:0";
+        element.append(mark);
+        const { bottom } = mark.getBoundingClientRect();
+        mark.remove();
+        return bottom;
+      });
+
+    const name = await baselineOf("Voydex");
+
+    expect(
+      Math.abs((await baselineOf("A Pokédex for your playthroughs.")) - name),
+    ).toBeLessThan(0.5);
+    expect(Math.abs((await baselineOf("Terms")) - name)).toBeLessThan(0.5);
+  });
+
   test("Settings offers Log in when signed out, and comes back @phone", async ({
     page,
   }) => {
