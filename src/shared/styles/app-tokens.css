@@ -94,6 +94,13 @@
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
   /*
+   * The Dex's three lights (the front page's head, the start screen): a red,
+   * a yellow and a green bright enough to read as lit on the action red.
+   */
+  --dex-red: #ff7a6c;
+  --dex-yellow: #f8d24c;
+  --dex-green: #63d281;
+  /*
    * The band that opens every page but Home: the pale blue of a Pokémon
    * Center's windows, under the top bar and the page's head.
    */
@@ -266,6 +273,9 @@
   --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
+  --color-dex-red: var(--dex-red);
+  --color-dex-yellow: var(--dex-yellow);
+  --color-dex-green: var(--dex-green);
   --color-band: var(--band-fill);
   --color-game: var(--game);
   --color-game-strong: var(--game-strong);

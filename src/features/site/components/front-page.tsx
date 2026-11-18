@@ -3,6 +3,7 @@ import { appRoutes, frontPageSections } from "@/config/routes";
 import { DexScreen } from "@/features/site/components/dex-screen";
 import { HowItWorksSection } from "@/features/site/components/how-it-works-section";
 import { InstallSection } from "@/features/site/components/install-section";
+import { SectionLink } from "@/features/site/components/section-link";
 import { StartAction } from "@/features/site/components/start-action";
 import { DexLens } from "@/shared/components/brand/dex-lens";
 import { DexLights } from "@/shared/components/brand/dex-lights";
@@ -20,8 +21,8 @@ const topLinkClassName =
 /*
  * The front page's head is the Dex itself: Voydex is a Pokédex for your
  * playthroughs, so the page opens as the device. Its top carries the lens,
- * the three lights, the name and the way to log in, over the stepped edge a
- * Pokédex has; under it, the words and the one way in beside the screen,
+ * the three lights and the way to log in, over the stepped edge a Pokédex
+ * has; under it, the name, the words and the one way in beside the screen,
  * which shows a Play as an entry. It draws its own top, so the page takes no
  * site bar, and it runs the full width of the window.
  */
@@ -39,22 +40,19 @@ const DexHero = ({ art, playArt }: FrontPageProps) => (
       <header className="flex h-21 items-center gap-3 sm:h-26 sm:gap-4">
         <DexLens className="text-12 sm:text-16 size-13 sm:size-18" />
         <DexLights className="mt-4 -ml-1 self-start sm:mt-5" />
-        <span className="font-display text-24 sm:text-28 leading-none font-semibold">
-          Voydex
-        </span>
         <nav aria-label="Main" className="ml-auto flex items-center gap-1.5">
-          <a
-            href={`#${frontPageSections.howItWorks}`}
+          <SectionLink
+            section={frontPageSections.howItWorks}
             className={topLinkClassName}
           >
             How it works
-          </a>
-          <a
-            href={`#${frontPageSections.install}`}
+          </SectionLink>
+          <SectionLink
+            section={frontPageSections.install}
             className={topLinkClassName}
           >
             Install
-          </a>
+          </SectionLink>
           <Link
             href={appRoutes.login}
             className={buttonVariants({ size: "sm", variant: "inverse" })}
@@ -65,10 +63,13 @@ const DexHero = ({ art, playArt }: FrontPageProps) => (
       </header>
       <div className="grid items-center gap-8 pt-6 pb-8 sm:pt-10 sm:pb-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,35rem)] lg:gap-14 lg:pb-14">
         <div className="flex flex-col items-start">
-          <h1 id="front-title" className="title-display">
-            A Pokédex for your playthroughs.
+          <h1 id="front-title" className="title-wordmark">
+            Voydex
           </h1>
-          <p className="text-16 sm:text-18 mt-4 mb-6 max-w-[31em] leading-relaxed font-semibold sm:mt-5.5 sm:mb-7.5">
+          <p className="title-section mt-1.5 sm:mt-2.5">
+            A Pokédex for your playthroughs.
+          </p>
+          <p className="text-16 sm:text-18 mt-3.5 mb-6 max-w-[31em] leading-relaxed font-semibold sm:mt-4.5 sm:mb-7.5">
             Every run you play becomes an entry: its team, its badges, its
             Pokédex and exactly where you left off. One place for all your
             Pokémon games, from every generation.

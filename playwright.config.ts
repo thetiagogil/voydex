@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+import { signedOut } from "./e2e/support/accounts";
+
 const isCI = Boolean(process.env.CI);
 /* `E2E_PORT` runs the tests beside a dev server already on 3000. */
 const port = Number(process.env.E2E_PORT ?? 3000);
@@ -58,9 +60,11 @@ export default defineConfig({
      * tests (`e2e/app/offline.spec.ts`) let it run.
      */
     serviceWorkers: "block",
+    /* A device already in the app, so no test waits on the Dex's boot. */
+    storageState: signedOut,
   },
   /*
-   * Every test starts signed out, on a new device: the app needs no
+   * Every test starts signed out, on a device with no data: the app needs no
    * account, and a signed-in device syncs with its account, so tests that
    * share one would mix their data. A test that needs an account signs up
    * its own.

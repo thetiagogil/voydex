@@ -47,7 +47,8 @@ export const HowItWorksSection = ({ art, playArt }: HowItWorksSectionProps) => (
   <section
     id={frontPageSections.howItWorks}
     aria-labelledby="how-it-works-title"
-    className="scroll-mt-6"
+    tabIndex={-1}
+    className="scroll-mt-6 outline-none"
   >
     <SiteSectionHead
       id="how-it-works-title"

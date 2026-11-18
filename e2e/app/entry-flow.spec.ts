@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { signedOut } from "../support/accounts";
+import { newDevice } from "../support/accounts";
 
-test.use({ storageState: signedOut });
+test.use({ storageState: newDevice });
 
 /*
  * The way in: the website is one page, and one button leads into the app.
@@ -17,10 +17,7 @@ test.describe("Entry flow", () => {
     await page.goto("/");
 
     await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "A Pokédex for your playthroughs.",
-      }),
+      page.getByRole("heading", { level: 1, name: "Voydex" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { level: 2, name: "How it works" }),
@@ -96,6 +93,27 @@ test.describe("Entry flow", () => {
       page.getByRole("link", { name: "Start a Play" }),
     ).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
+  });
+
+  test("the Dex boots for two seconds when you enter the app", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Start a Play" }).click();
+
+    const boot = page.getByRole("status");
+
+    await expect(boot).toBeVisible();
+
+    const shownAt = Date.now();
+
+    /* The app's bars come only once the boot has had its time. */
+    await expect(page.getByRole("navigation").first()).toBeVisible();
+    expect(Date.now() - shownAt).toBeGreaterThan(1500);
+
+    /* Now in the app: a reload opens as soon as the device is ready. */
+    await page.reload();
+    await expect(page.getByRole("navigation").first()).toBeVisible();
   });
 
   test("the start screen stands alone, without the app's bars", async ({

@@ -31,8 +31,7 @@ const describeStep = (step: PrepareStep | null) => {
  * the app, alone on the page in the Dex's red while the device database
  * opens. A ring round the lens fills while game data downloads (the first
  * time Voydex sets up on a device, or when new game data came out) and
- * turns otherwise; the three lights come on as it goes: one while it opens
- * or downloads, two while it saves.
+ * turns otherwise, and the three lights flash one at a time.
  */
 export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => {
   const { detail, title } = describeStep(step);
@@ -50,7 +49,7 @@ export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => {
         progress={progress ? getGameDataPercent(progress) : "busy"}
         progressLabel={saving ? "Saving game data" : "Downloading game data"}
       />
-      <DexLights lit={saving ? 2 : 1} />
+      <DexLights loading />
       <p className="title-card mt-2">{title}</p>
       {detail ? <p className="text-15 font-semibold">{detail}</p> : null}
     </div>

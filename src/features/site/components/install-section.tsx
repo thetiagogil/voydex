@@ -22,7 +22,8 @@ export const InstallSection = () => (
   <section
     id={frontPageSections.install}
     aria-labelledby="install-title"
-    className="scroll-mt-6"
+    tabIndex={-1}
+    className="scroll-mt-6 outline-none"
   >
     <SiteSectionHead
       id="install-title"

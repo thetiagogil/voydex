@@ -251,6 +251,8 @@
   --animate-fade-up: fade-up 0.45s ease-out both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
+  /* The Dex's lights while it boots: each one flashes in its turn. */
+  --animate-dex-light: dex-light 1.2s ease-in-out infinite;
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {
@@ -278,6 +280,18 @@
     from {
       transform: translateY(8px);
       opacity: 0;
+    }
+  }
+
+  @keyframes dex-light {
+    0%,
+    45%,
+    100% {
+      opacity: 0.18;
+    }
+    15%,
+    30% {
+      opacity: 1;
     }
   }
 

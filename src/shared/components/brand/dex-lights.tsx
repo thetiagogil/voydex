@@ -2,27 +2,35 @@ import { cn } from "@/shared/utils/cn";
 
 type DexLightsProps = {
   className?: string;
-  /* How many of the three are on, left to right; all of them when left out. */
-  lit?: 0 | 1 | 2 | 3;
+  /*
+   * Flashing one at a time, as a device does while it loads (the start
+   * screen); left out, all three are on.
+   */
+  loading?: boolean;
 };
 
-const lights = ["bg-action-soft", "bg-gold", "bg-ok-soft-2"] as const;
+const lights = ["bg-dex-red", "bg-dex-yellow", "bg-dex-green"] as const;
 
 /*
- * The Dex's three small lights, beside the lens. On the start screen they
- * come on one by one as the device gets ready; elsewhere all three are on.
- * They sit on the action red.
+ * The Dex's three small lights, beside the lens: a red, a yellow and a
+ * green, each in a dark socket. They sit on the action red.
  */
-export const DexLights = ({ className, lit = 3 }: DexLightsProps) => (
+export const DexLights = ({ className, loading = false }: DexLightsProps) => (
   <span aria-hidden className={cn("inline-flex gap-1.5", className)}>
     {lights.map((colour, index) => (
       <span
         key={colour}
-        className={cn(
-          "border-action-lip block size-3.5 rounded-full border-2 transition-colors duration-300",
-          index < lit ? colour : "bg-action-lip",
-        )}
-      />
+        className="bg-action-lip block size-3.5 rounded-full p-0.5"
+      >
+        <span
+          style={loading ? { animationDelay: `${index * 0.25}s` } : undefined}
+          className={cn(
+            "block size-full rounded-full",
+            colour,
+            loading && "animate-dex-light motion-reduce:animate-none",
+          )}
+        />
+      </span>
     ))}
   </span>
 );
