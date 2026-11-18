@@ -26,6 +26,7 @@ const topLinkClassName =
 const DexHero = ({ art, playArt }: FrontPageProps) => (
   <DexDevice
     ariaLabelledBy="front-title"
+    homeHref={appRoutes.home}
     top={
       <>
         <SectionLink

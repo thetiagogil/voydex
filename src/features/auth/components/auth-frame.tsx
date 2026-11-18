@@ -33,6 +33,7 @@ export const AuthFrame = ({
 }: AuthFrameProps) => (
   <DexDevice
     className="min-h-svh"
+    homeHref={appRoutes.home}
     top={
       <Link
         href={back.href}

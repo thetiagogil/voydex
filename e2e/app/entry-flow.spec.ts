@@ -193,6 +193,22 @@ test.describe("Entry flow", () => {
     await expect(page.getByRole("navigation").first()).toBeVisible();
   });
 
+  test("the Dex's lens leads to the start page, from Log in too", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(
+      page.getByRole("link", { name: "Voydex home" }),
+    ).toHaveAttribute("href", "/");
+
+    await page.goto("/login");
+    await page.getByRole("link", { name: "Voydex home" }).click();
+    await page.waitForURL((url) => url.pathname === "/");
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Voydex" }),
+    ).toBeVisible();
+  });
+
   test("the footer's name, tagline and links share one baseline", async ({
     page,
   }) => {

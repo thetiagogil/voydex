@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { DexLens } from "@/shared/components/brand/dex-lens";
 import { DexLights } from "@/shared/components/brand/dex-lights";
+import { Link } from "@/shared/components/link";
 import { cn } from "@/shared/utils/cn";
 
 type DexDeviceProps = {
@@ -9,14 +10,17 @@ type DexDeviceProps = {
   ariaLabelledBy?: string;
   children: ReactNode;
   className?: string;
+  /* Where the lens leads: always the start page. */
+  homeHref: string;
   /* The top row's right side: the page's own links (Log in, Go back). */
   top: ReactNode;
 };
 
 /*
  * A page that opens as the Dex itself: the action red across the window,
- * with the device's top (the lens, the three lights and the page's own
- * links over the stepped darker edge a Pokédex has). The front page's head
+ * with the device's top (the lens, which leads to the start page, the three
+ * lights and the page's own links over the stepped darker edge a Pokédex
+ * has). The front page's head
  * and the log-in pages stand in it. It draws its own top, so its page takes
  * no site bar. Links set straight on it take a white focus ring.
  */
@@ -24,6 +28,7 @@ export const DexDevice = ({
   ariaLabelledBy,
   children,
   className,
+  homeHref,
   top,
 }: DexDeviceProps) => (
   <section
@@ -40,7 +45,13 @@ export const DexDevice = ({
     />
     <div className="mx-auto flex w-full max-w-(--page-width) flex-1 flex-col px-(--page-gutter)">
       <header className="flex h-21 shrink-0 items-center gap-3 sm:h-26 sm:gap-4">
-        <DexLens className="text-12 sm:text-16 size-13 sm:size-18" />
+        <Link
+          href={homeHref}
+          aria-label="Voydex home"
+          className="focus-ring inline-grid rounded-full"
+        >
+          <DexLens className="text-12 sm:text-16 size-13 sm:size-18" />
+        </Link>
         <DexLights className="mt-4 -ml-1 self-start sm:mt-5" />
         <nav aria-label="Main" className="ml-auto flex items-center gap-1.5">
           {top}
