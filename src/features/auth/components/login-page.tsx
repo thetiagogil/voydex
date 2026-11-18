@@ -10,11 +10,11 @@ import { AuthFrame } from "@/features/auth/components/auth-frame";
 import { AuthPanel } from "@/features/auth/components/auth-panel";
 import { useRememberedAuthEmail } from "@/features/auth/client/auth-email";
 import { readDevTestAccounts } from "@/features/auth/dev-test-accounts";
-import { TextLink } from "@/shared/components/text-link";
 
 /*
- * Log in and Sign up: a quiet form on one card, its state in the address.
- * An account is only for backups, and the line under the card says so.
+ * Log in and Sign up: a quiet form on the Dex's screen, its state in the
+ * address. An account is only for backups, and the line under the screen
+ * says so.
  */
 export const LoginPage = () => {
   const params = useSearchParams();
@@ -28,12 +28,8 @@ export const LoginPage = () => {
 
   return (
     <AuthFrame
-      after={
-        <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
-          Voydex works the same without an account.{" "}
-          <TextLink href={back}>Go back</TextLink>.
-        </p>
-      }
+      back={{ href: back, label: "Go back" }}
+      note="Voydex works the same without an account."
     >
       <AuthPanel
         /* The email typed last on this device: after a failed try, "Log in with this email" or a sign-up. */

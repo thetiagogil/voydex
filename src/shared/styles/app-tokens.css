@@ -47,7 +47,9 @@
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
   /* The main button under the pointer: between the action red and its lip. */
   --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
-  --focus: #9e261f;
+  /* The focus ring on the page's own grounds; a page on the red sets `--focus` white. */
+  --focus-ink: #9e261f;
+  --focus: var(--focus-ink);
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
   --gold: #edb443;
