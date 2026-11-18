@@ -9,7 +9,8 @@ signing in is only for backups (#248). The front page's Start a Play opens
 the app, whose Home asks which game you are playing. Logging in is offered
 inside the app and never asked for: Settings' Account card, the account menu
 and You each carry Log in while you're signed out. `/login` is Log in only,
-and its last line says Voydex works the same without an account; Reset your
+and its last line says what you have without an account (your Plays, saved
+on this device only), never that it is "the same"; Reset your
 password and Choose a new password are their own routes
 ([Navigation And Routes](../navigation-and-routes.md)). **There is no Sign
 up for now** (2026-11-18): Voydex makes no new accounts, so the app has no

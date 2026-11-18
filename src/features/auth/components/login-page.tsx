@@ -13,7 +13,8 @@ import { readDevTestAccounts } from "@/features/auth/dev-test-accounts";
 
 /*
  * Log in: a quiet form on the Dex's screen, its state in the address. An
- * account is only for backups, and the line under the screen says so.
+ * account is only for backups: the line under the screen says what you have
+ * without one (your Plays, on this device only).
  * Voydex makes no new accounts for now, so there is no Sign up.
  */
 export const LoginPage = () => {
@@ -27,7 +28,7 @@ export const LoginPage = () => {
   return (
     <AuthFrame
       back={{ href: back, label: "Go back" }}
-      note="Voydex works the same without an account."
+      note="No account? Your Plays are saved on this device only."
     >
       <AuthPanel
         /* The email typed last on this device, after a failed try. */

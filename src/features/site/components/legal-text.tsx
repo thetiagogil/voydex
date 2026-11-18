@@ -164,8 +164,8 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         title: "Children",
         body: (
           <p>
-            Under 13? Ask a parent before using an account. Voydex works fully
-            without one.
+            Under 13? Ask a parent before using an account. Voydex works without
+            one, with your data saved on your device only.
           </p>
         ),
       },

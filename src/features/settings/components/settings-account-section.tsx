@@ -33,7 +33,7 @@ export const SettingsAccountSection = ({
     <DetailSectionCard title="Account">
       <SettingsRow
         title="Have an account?"
-        description="Log in to keep a copy of your Plays online and bring them to your other devices. Voydex isn't making new accounts for now, and works the same without one."
+        description="Log in to keep a copy of your Plays online and bring them to your other devices. Without an account they are saved on this device only. Voydex isn't making new accounts for now."
       >
         <Link
           href={appRoutes.loginFrom(appRoutes.settings)}
