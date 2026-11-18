@@ -65,8 +65,8 @@ log-in pages beside it. Everything else is the app.
   drops on narrow phones), How it works and Install centred, and Log in on
   the right. The log-in pages show no bar: they take the Dex's top only
   (the lens, the lights, and Go back where the front page has Log in), and
-  under it the form sits on one quiet card on the page's own ground, set a
-  little into the red. A form is a place to work, so the red stops at the
+  under it, clear of the red, the form sits on one quiet card on the
+  page's own ground. A form is a place to work, so the red stops at the
   top.
 - The site frame ends on the quiet site footer: a rule across the full
   width, then the "V" mark and the name, the tagline, How it works,
