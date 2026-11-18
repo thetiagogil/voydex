@@ -18,8 +18,10 @@ const ringLength = 2 * Math.PI * ringRadius;
 /*
  * The Dex's lens: the round blue glass of a Pokédex, in a white rim. It is
  * Voydex's mark wherever the app shows as the device (the front page, the
- * start screen). Flat shapes only: the glass, and one lighter glint. Size it
- * with `size-*`; it sits on the action red.
+ * start screen). The glass is domed: shaded inside its lower right, lit
+ * inside its upper left, with two glints, in a rim that sits in a dark
+ * socket. No gradient fills, only shadows. Size it with `size-*`, and its
+ * rim and shadows with a text size; it sits on the action red.
  */
 export const DexLens = ({
   className,
@@ -75,13 +77,14 @@ export const DexLens = ({
       <span
         aria-hidden
         className={cn(
-          "bg-calm relative block rounded-full border-white",
+          "bg-calm shadow-dex-lens relative block rounded-full border-white",
           progress === undefined
             ? "size-full border-[0.4em]"
             : "size-[78%] border-[0.25em]",
         )}
       >
-        <span className="bg-calm-soft absolute top-[16%] left-[18%] block size-[26%] rounded-full opacity-80" />
+        <span className="bg-calm-soft absolute top-[15%] left-[18%] block size-[26%] rounded-full opacity-85" />
+        <span className="bg-calm-soft absolute top-[45%] left-[13%] block size-[9%] rounded-full opacity-60" />
       </span>
     </span>
   );

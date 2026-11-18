@@ -101,6 +101,18 @@
   --dex-yellow: #f8d24c;
   --dex-green: #63d281;
   /*
+   * The Dex's glass, domed and lit from the top left: a shade inside its
+   * lower right, a light inside its upper left. The lens also sits in a dark
+   * socket and lifts off the device. Sizes follow the lens (`em`).
+   */
+  --shadow-dex-lens-value:
+    inset -0.16em -0.2em 0.36em rgb(0 0 0 / 0.36),
+    inset 0.1em 0.12em 0.28em rgb(255 255 255 / 0.32),
+    0 0 0 0.09em var(--action-lip), 0 0.22em 0.4em rgb(0 0 0 / 0.3);
+  --shadow-dex-light-value:
+    inset -1px -1.5px 2px rgb(0 0 0 / 0.28),
+    inset 1px 1px 1.5px rgb(255 255 255 / 0.5);
+  /*
    * The band that opens every page but Home: the pale blue of a Pokémon
    * Center's windows, under the top bar and the page's head.
    */
@@ -339,6 +351,8 @@
   --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
   --shadow-track: var(--shadow-track-value);
   --shadow-fill: var(--shadow-fill-value);
+  --shadow-dex-lens: var(--shadow-dex-lens-value);
+  --shadow-dex-light: var(--shadow-dex-light-value);
   --shadow-card:
     0 1px 2px rgb(var(--shade) / 0.05),
     0 10px 24px -18px rgb(var(--shade) / 0.28);

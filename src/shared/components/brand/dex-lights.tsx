@@ -19,8 +19,8 @@ type DexLightProps = {
 };
 
 /*
- * One of the Dex's lights: its colour in a dark socket. Size it with
- * `size-*`; the three together are `DexLights`.
+ * One of the Dex's lights: its colour, domed like the lens, in a dark
+ * socket. Size it with `size-*`; the three together are `DexLights`.
  */
 export const DexLight = ({
   className,
@@ -39,7 +39,7 @@ export const DexLight = ({
       data-slot="dex-light"
       style={style}
       className={cn(
-        "absolute inset-[14%] rounded-full",
+        "shadow-dex-light absolute inset-[14%] rounded-full",
         colourClassNames[colour],
         loading && "animate-dex-light motion-reduce:animate-none",
       )}

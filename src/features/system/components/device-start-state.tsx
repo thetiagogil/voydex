@@ -45,7 +45,7 @@ export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => {
       className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center text-white"
     >
       <DexLens
-        className="size-36"
+        className="text-24 size-36"
         progress={progress ? getGameDataPercent(progress) : "busy"}
         progressLabel={saving ? "Saving game data" : "Downloading game data"}
       />
