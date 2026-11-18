@@ -37,10 +37,6 @@ export const DexScreen = ({
     inert
     className="bg-action-lip w-full rounded-2xl p-3 pb-3.5 sm:p-4 sm:pb-4.5"
   >
-    <div className="mb-3 flex justify-center gap-3">
-      <span className="bg-action-soft size-2 rounded-full" />
-      <span className="bg-action-soft size-2 rounded-full" />
-    </div>
     <div className="bg-surface text-ink rounded-xl p-4 text-left sm:p-5.5">
       <p className="text-12 text-ink-2 font-extrabold tracking-wider uppercase">
         A Play · {samplePlay.game.region}
