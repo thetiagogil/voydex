@@ -29,7 +29,7 @@ const topLinkClassName =
 const DexHero = ({ art, playArt }: FrontPageProps) => (
   <section
     aria-labelledby="front-title"
-    className="bg-action relative isolate mx-[calc(50%-50vw)] -mt-(--page-top) w-screen overflow-hidden rounded-b-[28px] text-white sm:rounded-b-[44px]"
+    className="bg-action relative isolate mx-[calc(50%-50vw)] -mt-(--page-top) w-screen overflow-hidden rounded-b-[28px] text-white [--focus:var(--surface)] sm:rounded-b-[44px]"
   >
     {/* The device's darker top, cut with the Dex's step. */}
     <span

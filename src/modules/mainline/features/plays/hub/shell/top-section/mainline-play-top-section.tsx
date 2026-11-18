@@ -12,15 +12,10 @@ import { MainlinePlayTopInfo } from "./mainline-play-top-info";
 
 type MainlinePlayTopSectionProps = {
   data: MainlinePlayShellData;
-  /* The Play details button; the public site's still leaves it out. */
+  /* The Play details button. */
   details?: ReactNode;
   /* A Play's own head lets status, trainer and playtime be edited in place. */
   editing?: PlayHeaderEditing;
-  /*
-   * `band` opens a Play's pages; `card` is the same head as a card, for the
-   * public site's sample Play.
-   */
-  form?: "band" | "card";
   navigation: ReactNode;
 };
 
@@ -33,7 +28,6 @@ export const MainlinePlayTopSection = ({
   data,
   details,
   editing,
-  form = "band",
   navigation,
 }: MainlinePlayTopSectionProps) => {
   const gameName = data.play.game_name ?? "Unknown game";
@@ -69,11 +63,5 @@ export const MainlinePlayTopSection = ({
     </section>
   );
 
-  return form === "band" ? (
-    <PageBand className="pt-4 pb-5 sm:pt-6 sm:pb-6">{head}</PageBand>
-  ) : (
-    <div className="bg-band shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
-      {head}
-    </div>
-  );
+  return <PageBand className="pt-4 pb-5 sm:pt-6 sm:pb-6">{head}</PageBand>;
 };

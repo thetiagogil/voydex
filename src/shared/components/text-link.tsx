@@ -19,9 +19,10 @@ type TextLinkBaseProps = {
   standalone?: boolean;
   /*
    * `action` is the link green; `quiet` is secondary ink (a footer, a
-   * breadcrumb); `onInk` sits on an ink tip, always underlined.
+   * breadcrumb); `onInk` sits on an ink tip, always underlined; `onAction`
+   * sits on the action red (the site's footer), in white.
    */
-  tone?: "action" | "onInk" | "quiet";
+  tone?: "action" | "onAction" | "onInk" | "quiet";
 };
 
 type TextLinkProps = TextLinkBaseProps &
@@ -38,6 +39,7 @@ type TextLinkProps = TextLinkBaseProps &
 
 const toneClassNames = {
   action: "font-extrabold text-link",
+  onAction: "font-bold text-white",
   onInk: "font-extrabold text-on-ink underline",
   quiet: "font-bold text-ink-2 hover:text-ink",
 };

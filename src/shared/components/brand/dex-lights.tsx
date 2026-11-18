@@ -1,4 +1,51 @@
+import type { CSSProperties } from "react";
+
 import { cn } from "@/shared/utils/cn";
+
+export type DexLightColour = "green" | "red" | "yellow";
+
+const colourClassNames: Record<DexLightColour, string> = {
+  green: "bg-dex-green",
+  red: "bg-dex-red",
+  yellow: "bg-dex-yellow",
+};
+
+type DexLightProps = {
+  className?: string;
+  colour: DexLightColour;
+  /* Flashing in its turn; `DexLights` sets when through `style`. */
+  loading?: boolean;
+  style?: CSSProperties;
+};
+
+/*
+ * One of the Dex's lights: its colour in a dark socket. Size it with
+ * `size-*`; the three together are `DexLights`.
+ */
+export const DexLight = ({
+  className,
+  colour,
+  loading = false,
+  style,
+}: DexLightProps) => (
+  <span
+    aria-hidden
+    className={cn(
+      "bg-action-lip relative block size-3.5 shrink-0 rounded-full",
+      className,
+    )}
+  >
+    <span
+      data-slot="dex-light"
+      style={style}
+      className={cn(
+        "absolute inset-[14%] rounded-full",
+        colourClassNames[colour],
+        loading && "animate-dex-light motion-reduce:animate-none",
+      )}
+    />
+  </span>
+);
 
 type DexLightsProps = {
   className?: string;
@@ -9,29 +56,22 @@ type DexLightsProps = {
   loading?: boolean;
 };
 
-const lights = ["bg-dex-red", "bg-dex-yellow", "bg-dex-green"] as const;
+const lights = ["red", "yellow", "green"] as const;
 
 /*
  * The Dex's three small lights, beside the lens: a red, a yellow and a
- * green, each in a dark socket. They sit on the action red.
+ * green. They sit on the action red. How it works gives each of its steps
+ * one of them.
  */
 export const DexLights = ({ className, loading = false }: DexLightsProps) => (
   <span aria-hidden className={cn("inline-flex gap-1.5", className)}>
     {lights.map((colour, index) => (
-      <span
+      <DexLight
         key={colour}
-        className="bg-action-lip block size-3.5 rounded-full p-0.5"
-      >
-        <span
-          data-slot="dex-light"
-          style={loading ? { animationDelay: `${index * 0.4}s` } : undefined}
-          className={cn(
-            "block size-full rounded-full",
-            colour,
-            loading && "animate-dex-light motion-reduce:animate-none",
-          )}
-        />
-      </span>
+        colour={colour}
+        loading={loading}
+        style={loading ? { animationDelay: `${index * 0.4}s` } : undefined}
+      />
     ))}
   </span>
 );

@@ -23,7 +23,7 @@ test.describe("Entry flow", () => {
       page.getByRole("heading", { level: 2, name: "How it works" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { level: 2, name: "Install" }),
+      page.getByRole("heading", { level: 2, name: "Carry the Dex" }),
     ).toBeVisible();
     await expectAccessible(page);
 

@@ -3,100 +3,49 @@ import type {
   PublicMoment,
   PublicPokemon,
   PublicSamplePlay,
-  PublicTypeSlug,
 } from "@/config/public-art";
 
 /*
- * The example Play the front page shows: a late Pokémon
- * Sword run. Every name, date and number below is the example's, drawn as
- * copy; none of it is anyone's data.
+ * The example Play the front page shows: a late Pokémon Red run, the game
+ * most people know. Every name, date and number below is the example's,
+ * drawn as copy; none of it is anyone's data.
  */
-const toxtricity: PublicPokemon = {
-  name: "Toxtricity",
-  slug: "toxtricity",
-  type: "electric",
-};
-
 export const samplePlay: PublicSamplePlay = {
-  game: {
-    generation: "Generation VIII",
-    name: "Pokémon Sword",
-    region: "Galar",
-    slug: "sword",
-  },
-  name: "Sword · Late Journey",
-  playtimeMinutes: 32 * 60 + 54,
-  startedOn: "2025-05-07",
+  game: { name: "Pokémon Red", region: "Kanto", slug: "red" },
+  name: "Red · Late Journey",
+  playtimeMinutes: 28 * 60 + 12,
   status: "Playing",
-  tabs: ["Overview", "Team", "Progress", "History", "Settings"],
-  trainer: "Bea",
+  trainer: "Sam",
 };
 
 /* How far along the example Play is, as its entry's bars read it. */
 export const samplePlayProgress = [
-  { label: "Story", percent: 88 },
-  { label: "Pokédex", percent: 68 },
+  { label: "Story", percent: 89 },
+  { label: "Pokédex", percent: 62 },
 ] as const;
 
 /* What the example Play has ahead, with all eight badges earned. */
-export const samplePlayNext = "Champion Cup";
+export const samplePlayNext = "Elite Four";
 
 export const samplePlayTeam: readonly PublicPokemon[] = [
-  { name: "Rillaboom", slug: "rillaboom", type: "grass" },
-  { name: "Corviknight", slug: "corviknight", type: "flying" },
-  { name: "Drednaw", slug: "drednaw", type: "water" },
-  toxtricity,
-  { name: "Grimmsnarl", slug: "grimmsnarl", type: "dark" },
-  { name: "Dragapult", slug: "dragapult", type: "dragon" },
+  { name: "Charizard", slug: "charizard", type: "fire" },
+  { name: "Pikachu", slug: "pikachu", type: "electric" },
+  { name: "Lapras", slug: "lapras", type: "water" },
+  { name: "Snorlax", slug: "snorlax", type: "normal" },
+  { name: "Gengar", slug: "gengar", type: "ghost" },
+  { name: "Dragonite", slug: "dragonite", type: "dragon" },
 ];
 
-/* Galar's eight gym badges, in order, by their gyms' types. */
+/* Kanto's eight gym badges, in order, by their gyms' types. */
 export const samplePlayBadges: readonly (PublicBadge & { name: string })[] = [
-  { name: "Grass Badge", spriteSlug: "galar-grass-badge", type: "grass" },
-  { name: "Water Badge", spriteSlug: "galar-water-badge", type: "water" },
-  { name: "Fire Badge", spriteSlug: "galar-fire-badge", type: "fire" },
-  {
-    name: "Fighting Badge",
-    spriteSlug: "galar-fighting-badge",
-    type: "fighting",
-  },
-  { name: "Fairy Badge", spriteSlug: "galar-fairy-badge", type: "fairy" },
-  { name: "Rock Badge", spriteSlug: "galar-rock-badge", type: "rock" },
-  { name: "Dark Badge", spriteSlug: "galar-dark-badge", type: "dark" },
-  { name: "Dragon Badge", spriteSlug: "galar-dragon-badge", type: "dragon" },
-];
-
-type SamplePokedexEntry = PublicPokemon & {
-  number: string;
-  state: "caught" | "missing" | "seen";
-  types: readonly PublicTypeSlug[];
-};
-
-export const samplePlayPokedex: readonly SamplePokedexEntry[] = [
-  {
-    name: "Corviknight",
-    number: "#023",
-    slug: "corviknight",
-    state: "caught",
-    type: "flying",
-    types: ["flying", "steel"],
-  },
-  {
-    name: "Vikavolt",
-    number: "#018",
-    slug: "vikavolt",
-    state: "seen",
-    type: "bug",
-    types: ["bug", "electric"],
-  },
-  {
-    name: "Dottler",
-    number: "#011",
-    slug: "dottler",
-    state: "missing",
-    type: "bug",
-    types: ["bug", "psychic"],
-  },
+  { name: "Boulder Badge", spriteSlug: "boulder-badge", type: "rock" },
+  { name: "Cascade Badge", spriteSlug: "cascade-badge", type: "water" },
+  { name: "Thunder Badge", spriteSlug: "thunder-badge", type: "electric" },
+  { name: "Rainbow Badge", spriteSlug: "rainbow-badge", type: "grass" },
+  { name: "Soul Badge", spriteSlug: "soul-badge", type: "poison" },
+  { name: "Marsh Badge", spriteSlug: "marsh-badge", type: "psychic" },
+  { name: "Volcano Badge", spriteSlug: "volcano-badge", type: "fire" },
+  { name: "Earth Badge", spriteSlug: "earth-badge", type: "ground" },
 ];
 
 type SampleRecord = {
@@ -106,30 +55,17 @@ type SampleRecord = {
   moment: PublicMoment;
 };
 
-/* Three moments from the Play's history, newest first. */
+/* Two moments from the Play's history, newest first: a badge and a note. */
 export const samplePlayHistory: readonly SampleRecord[] = [
   {
-    description: "Defeated Raihan at Hammerlocke Stadium.",
-    headline: [{ bold: "Dragon Badge" }],
-    kicker: "Milestone · Aug 12, 2025 · 9:48 PM",
-    moment: { kind: "badge", spriteSlug: "galar-dragon-badge", type: "dragon" },
+    description: "Defeated Giovanni.",
+    headline: [{ bold: "Earth Badge" }],
+    kicker: "Milestone · Aug 12",
+    moment: { kind: "badge", spriteSlug: "earth-badge", type: "ground" },
   },
   {
-    headline: [
-      "“Pausing here. Mustard's final trial keeps ending the same way. Back once I raise something that answers Fighting types.”",
-    ],
-    kicker: "Note · Jul 14, 2025 · 10:40 PM",
+    headline: ["“Pausing before Victory Road.”"],
+    kicker: "Note · Jul 14",
     moment: { kind: "note" },
-  },
-  {
-    description: "Evolved at Lv. 30 into the Amped form.",
-    headline: [
-      { bold: "Toxtricity" },
-      " evolved from ",
-      { bold: "Toxel" },
-      ".",
-    ],
-    kicker: "Evolved · Jun 30, 2025 · 7:20 PM",
-    moment: { kind: "pokemon", pokemon: toxtricity },
   },
 ];
