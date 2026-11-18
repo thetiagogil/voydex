@@ -8,10 +8,10 @@ import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getForgotPasswordHref,
   LOGIN_DEFAULT_NEXT,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
-import { AuthFrame, AuthHeading } from "@/features/auth/components/auth-frame";
+import { AuthFrame } from "@/features/auth/components/auth-frame";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { PasswordInput } from "@/shared/components/password-input";
 import { saveNewPassword } from "@/features/auth/client/auth-actions";
@@ -45,11 +45,10 @@ export const ResetPasswordPage = () => {
 
   if (!session) {
     return (
-      <AuthFrame>
-        <AuthHeading className="mt-2.5" title="That link didn't work">
-          It may have expired or been used already, or it was opened on another
-          device. Ask for a new one and open it here.
-        </AuthHeading>
+      <AuthFrame
+        title="That link didn't work"
+        lede="It may have expired or been used already, or it was opened on another device. Ask for a new one and open it here."
+      >
         <Link
           href={getForgotPasswordHref({ next })}
           className={buttonVariants({ className: "w-full", size: "lg" })}
@@ -61,15 +60,19 @@ export const ResetPasswordPage = () => {
   }
 
   return (
-    <AuthFrame>
-      <AuthHeading className="mt-2.5" title="Choose a new password">
-        {email ? (
-          <>
-            For <b className="text-ink font-extrabold">{email}</b>.{" "}
-          </>
-        ) : null}
-        You&apos;ll stay logged in on this device.
-      </AuthHeading>
+    <AuthFrame
+      title="Choose a new password"
+      lede={
+        <>
+          {email ? (
+            <>
+              For <b className="font-extrabold">{email}</b>.{" "}
+            </>
+          ) : null}
+          You&apos;ll stay logged in on this device.
+        </>
+      }
+    >
       {error ? <AuthErrorAlert error={error} /> : null}
       <form action={saveAction} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />

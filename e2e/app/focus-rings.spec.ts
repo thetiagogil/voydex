@@ -18,18 +18,18 @@ import {
  */
 /* Each page, and whether it shows cards with corner marks. */
 const pages = [
-  ["Home", "/mainline", false],
-  ["Plays", "/mainline/plays", false],
-  ["Plans", "/mainline/plans", false],
-  ["Team Planner", "/mainline/plans/new?vg=rb", false],
-  ["Library", "/mainline/library", false],
-  ["Collection", "/mainline/collection", true],
+  ["Home", "/app", false],
+  ["Plays", "/app/plays", false],
+  ["Plans", "/app/plans", false],
+  ["Team Planner", "/app/planner?vg=rb", false],
+  ["Library", "/app/library", false],
+  ["Collection", "/app/collection", true],
   /* Its corner marks need a family used across Plays, more than this test makes. */
-  ["Statistics", "/mainline/stats", false],
-  ["Codex Pokémon", "/codex/pokemon", false],
-  ["Codex Pokémon detail", "/codex/pokemon/pikachu", false],
-  ["Codex Games", "/codex/games", false],
-  ["Settings", "/settings", false],
+  ["Statistics", "/app/statistics", false],
+  ["Codex Pokémon", "/app/codex/pokemon", false],
+  ["Codex Pokémon detail", "/app/codex/pokemon/pikachu", false],
+  ["Codex Games", "/app/codex/games", false],
+  ["Settings", "/app/settings", false],
 ] as const;
 
 /* A Play's views. */
@@ -81,7 +81,7 @@ test.describe("Focus rings and corner marks", () => {
   test("a full Plan in the Team Planner cuts nothing off @phone", async ({
     page,
   }) => {
-    await page.goto("/mainline/plans/new?vg=rb");
+    await page.goto("/app/planner?vg=rb");
     const random = page.getByRole("menuitem", { name: /^Random team/ });
     /* The menu opens once the page is interactive; click until it does. */
     await expect(async () => {
@@ -108,7 +108,7 @@ test.describe("Focus rings and corner marks", () => {
   test("a focused control lifts above its siblings @phone", async ({
     page,
   }) => {
-    await page.goto("/mainline/plans/new?vg=rb");
+    await page.goto("/app/planner?vg=rb");
     const random = page.getByRole("button", { name: "Random team" });
     await expect(random).toBeVisible();
     await random.focus();
@@ -125,7 +125,7 @@ test.describe("Focus rings and corner marks", () => {
 
   for (const [name, view] of playViews) {
     test(`a Play's ${name} cuts nothing off @phone`, async ({ page }) => {
-      await page.goto(`/mainline/plays/play${view}?id=${playId}`, {
+      await page.goto(`/app/plays/play${view}?id=${playId}`, {
         waitUntil: "networkidle",
       });
 

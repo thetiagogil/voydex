@@ -1,6 +1,5 @@
 import { modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
-import { getStartPlayHref } from "@/config/start-intent";
 
 export type AppNavigationLink = {
   /* Current only on its own page, not under it (Home, whose path holds every view). */
@@ -31,10 +30,9 @@ const isPlannerHref = (href: string) =>
   href.startsWith(`${appRoutes.mainlinePlans}?`);
 
 /*
- * v3's bar. Signed in, Mainline's views sit in the middle in the order the
- * module lists them (Home, Plays, Team Planner, Statistics, Collection as
- * each ships) and the Codex sits beside your account. Signed out, the bar
- * offers how Voydex works and the Codex.
+ * The app's bar: Mainline's views sit in the middle in the order the module
+ * lists them (Home, Plays, Team Planner, Statistics, Collection as each
+ * ships) and the Codex sits beside your account.
  */
 export const mainlineLinks: readonly MainlineNavigationLink[] = (
   modules.mainline.views as readonly MainlineView[]
@@ -95,28 +93,17 @@ export const youLinks: readonly AppNavigationLink[] = [
   { href: appRoutes.you, label: "You" },
   accountLink,
   libraryLink,
-  { href: appRoutes.welcome, label: "Welcome" },
   ...mainlineLinks.filter((link) => youSectionHrefs.has(link.href)),
 ];
 
-/* Where the V tile leads: Mainline Home once you're signed in, the front door otherwise. */
-export const getBrandHref = (isSignedIn: boolean): string =>
-  isSignedIn ? appRoutes.mainline : appRoutes.home;
+/* Where the V tile leads: Mainline Home in the app, the front page on the site. */
+export const getBrandHref = (isApp: boolean): string =>
+  isApp ? appRoutes.mainline : appRoutes.home;
 
-export const startPlayLink: AppNavigationLink = {
-  href: getStartPlayHref(),
-  label: "Start a Play",
-};
-
-/* Signed out, the bar's one plain link; the Codex menu sits beside it. */
+/* The site's bar: the front page's parts, which scroll to them. */
 export const publicLinks: readonly AppNavigationLink[] = [
-  { href: appRoutes.intro, label: "How it works" },
-];
-
-/* Signed-out phones: the menu leads with Start a Play, the Codex's pages last. */
-export const publicMenuLinks: readonly AppNavigationLink[] = [
-  startPlayLink,
-  ...publicLinks,
+  { href: appRoutes.howItWorks, label: "How it works" },
+  { href: appRoutes.install, label: "Install" },
 ];
 
 export const isCurrentLink = (pathname: string, link: AppNavigationLink) => {

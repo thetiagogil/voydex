@@ -91,7 +91,7 @@ task; use more only when the user asks for parallel work on independent scopes.
   ([ADR 0009](./docs/decisions/0009-app-as-plain-files.md)): no Server
   Actions, Route Handlers, proxy or request-time server code. Login and
   account changes call Supabase from the browser; an id the build can't know
-  rides in the query (`/mainline/plays/play?id=`).
+  rides in the query (`/app/plays/play?id=`).
 
 ## Database Boundaries
 

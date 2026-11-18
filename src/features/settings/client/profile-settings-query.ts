@@ -8,8 +8,6 @@ export type ProfileSettings = {
   displayName: string | null;
   /* The Pokémon form you picked as your icon; null until you pick one. */
   iconFormId: number | null;
-  /* Null until Welcome is finished or skipped. */
-  welcomeCompletedAt: string | null;
 };
 
 /*
@@ -27,9 +25,7 @@ export const readProfileSettings = async (): Promise<ProfileSettings> => {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select(
-      "default_trainer_name, display_name, icon_form_id, welcome_completed_at",
-    )
+    .select("default_trainer_name, display_name, icon_form_id")
     .eq("id", userId)
     .maybeSingle();
 
@@ -41,6 +37,5 @@ export const readProfileSettings = async (): Promise<ProfileSettings> => {
     defaultTrainerName: data?.default_trainer_name?.trim() || null,
     displayName: data?.display_name?.trim() || null,
     iconFormId: data?.icon_form_id ?? null,
-    welcomeCompletedAt: data?.welcome_completed_at ?? null,
   };
 };

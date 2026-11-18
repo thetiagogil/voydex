@@ -19,13 +19,16 @@ describe("Link", () => {
    * page's HTML, and the click then goes nowhere.
    */
   it("prefetches the page's files, never a server render", () => {
-    renderToStaticMarkup(<Link href="/codex/pokemon">Pokémon</Link>);
+    renderToStaticMarkup(<Link href="/app/codex/pokemon">Pokémon</Link>);
     expect(nextLink).toHaveBeenLastCalledWith(
-      expect.objectContaining({ href: "/codex/pokemon", prefetch: undefined }),
+      expect.objectContaining({
+        href: "/app/codex/pokemon",
+        prefetch: undefined,
+      }),
     );
 
     renderToStaticMarkup(
-      <Link href="/codex/pokemon" prefetch>
+      <Link href="/app/codex/pokemon" prefetch>
         Pokémon
       </Link>,
     );
@@ -36,7 +39,7 @@ describe("Link", () => {
 
   it("keeps a link that asks for no prefetch", () => {
     renderToStaticMarkup(
-      <Link href="/codex/pokemon" prefetch={false}>
+      <Link href="/app/codex/pokemon" prefetch={false}>
         Pokémon
       </Link>,
     );

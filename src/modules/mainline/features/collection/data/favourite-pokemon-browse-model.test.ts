@@ -39,7 +39,7 @@ const favourite = (
   plays = 0,
   type = "normal",
 ): FavouritePokemon => ({
-  codexHref: `/codex/pokemon/${name.toLowerCase()}`,
+  codexHref: `/app/codex/pokemon/${name.toLowerCase()}`,
   favouritedAt,
   formId: nationalNumber * 100,
   imageUrl: null,

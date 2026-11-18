@@ -12,14 +12,14 @@ import { openFilters } from "../support/filters";
  */
 const subjects = {
   desktop: {
-    codexHref: "/codex/pokemon/spinda",
-    entry: "/codex/pokemon/spinda?game=rs",
+    codexHref: "/app/codex/pokemon/spinda",
+    entry: "/app/codex/pokemon/spinda?game=rs",
     name: "Spinda",
     number: "#327",
   },
   phone: {
-    codexHref: "/codex/pokemon/smeargle",
-    entry: "/codex/pokemon/smeargle?game=gs",
+    codexHref: "/app/codex/pokemon/smeargle",
+    entry: "/app/codex/pokemon/smeargle?game=gs",
     name: "Smeargle",
     number: "#235",
   },
@@ -87,7 +87,7 @@ test.describe("Codex: favourites", () => {
     await page.reload({ waitUntil: "networkidle" });
     await expect(heart(page)).toHaveAttribute("aria-pressed", "true");
 
-    await page.goto("/mainline/collection?view=favourites", {
+    await page.goto("/app/collection?view=favourites", {
       waitUntil: "networkidle",
     });
     const views = page.getByRole("navigation", { name: "Collection views" });

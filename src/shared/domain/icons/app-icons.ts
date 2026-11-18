@@ -31,6 +31,7 @@ import {
   Compass,
   Crown,
   Dices,
+  DoorOpen,
   Dna,
   Download,
   Eraser,
@@ -112,6 +113,8 @@ export const appIcons = {
     enterApp: Compass,
     /* Add Voydex to the Home Screen. */
     install: Smartphone,
+    /* Leave the app for the front page; your data stays on the device. */
+    leave: DoorOpen,
     edit: Pencil,
     expand: ChevronDown,
     filter: SlidersHorizontal,

@@ -116,7 +116,7 @@ shared Tag from one record does not delete the reusable Tag.
 
 ## Library
 
-The Library (`/mainline/library`) keeps the rules, presets and tags you
+The Library (`/app/library`) keeps the rules, presets and tags you
 reuse across Plays, in three tabs. Rules and Presets each list yours first,
 then Voydex's own under "Made by Voydex" (any Play can use them; nobody
 can change them):

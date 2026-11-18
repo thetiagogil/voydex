@@ -11,7 +11,7 @@ const legalBodyClassName =
   "text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold [&_li]:pl-1 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5";
 
 /*
- * Privacy and Terms, from the footer and the sign-up line: the short
+ * Privacy and Terms, from the footer: the short
  * version first, then each part in its own card.
  */
 export const LegalPage = ({ kind }: { kind: LegalPageKind }) => {

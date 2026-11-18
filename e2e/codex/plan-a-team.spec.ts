@@ -4,7 +4,7 @@ import { expectAccessible } from "../support/accessibility";
 import { openSearchBar } from "../support/filters";
 import { uniquePlayName } from "../support/plays";
 
-const gamePage = "/codex/games/rb";
+const gamePage = "/app/codex/games/rb";
 
 /* Opens the Planner over the game page, on its game. */
 const openPlanner = async (page: Page) => {
@@ -66,7 +66,7 @@ test.describe("Codex: Plan a team", () => {
 
     await details.getByRole("textbox", { name: "Plan name" }).fill(name);
     await details.getByRole("button", { name: "Save Plan" }).click();
-    await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+    await page.waitForURL(/\/app\/plans\/plan\?id=[0-9a-f-]{36}/);
     await expect(
       page.getByRole("heading", { level: 1, name: new RegExp(name) }),
     ).toBeVisible();
@@ -120,7 +120,7 @@ test.describe("Codex: Plan a team", () => {
     page,
   }) => {
     /* A draft of a Sun / Moon Plan, kept by the Planner's own page. */
-    await page.goto("/mainline/plans/new?vg=sm", { waitUntil: "networkidle" });
+    await page.goto("/app/planner?vg=sm", { waitUntil: "networkidle" });
     await openSearchBar(page);
     const standalone = page.getByRole("region", { name: "Pick your Pokémon" });
 

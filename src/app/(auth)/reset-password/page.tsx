@@ -5,7 +5,7 @@ import { ResetPasswordPage } from "@/features/auth/components/reset-password-pag
 
 export default function Page() {
   return (
-    <PublicAppShell bar="none">
+    <PublicAppShell bar="account">
       <Suspense>
         <ResetPasswordPage />
       </Suspense>

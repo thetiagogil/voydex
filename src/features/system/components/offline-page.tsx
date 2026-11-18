@@ -26,7 +26,7 @@ export const OfflinePage = () => (
           Try again
         </Button>
         <Link
-          href={appRoutes.appEntry}
+          href={appRoutes.mainline}
           className={buttonVariants({ variant: "secondary", size: "lg" })}
         >
           <AppIcon icon={appIcons.actions.home} inline="start" />

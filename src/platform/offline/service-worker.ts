@@ -63,14 +63,14 @@ const installDownloads = 6;
 
 /*
  * Whether a response came from the address it was asked for: a redirect
- * only between `/codex/` and `/codex` counts as the same file.
+ * only between `/app/codex/` and `/app/codex` counts as the same file.
  */
 const isSameAddress = (response: Response, key: string) =>
   !response.redirected || cacheKeyFor(response.url) === key;
 
 /*
- * A copy that can answer any request: a redirected response (`/codex/` to
- * `/codex`) can't answer a page, so its body is kept without the redirect.
+ * A copy that can answer any request: a redirected response (`/app/codex/` to
+ * `/app/codex`) can't answer a page, so its body is kept without the redirect.
  */
 const cleanCopy = (response: Response, body: BodyInit | null) =>
   new Response(body, {

@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { appRoutes } from "@/config/routes";
 import {
-  getAuthPageHref,
+  getLogInHref,
   getForgotPasswordHref,
   getResetPasswordHref,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { completeAuthLink } from "@/features/auth/client/auth-callback";
 
 const auth = vi.hoisted(() => ({
@@ -17,7 +17,7 @@ vi.mock("@/platform/supabase/browser-client", () => ({
   getBrowserSupabaseClient: () => ({ auth }),
 }));
 
-const fallback = "/codex/pokemon";
+const fallback = "/app/codex/pokemon";
 const resetLanding = (next: string) => getResetPasswordHref({ next });
 const finish = (query: Record<string, string>) =>
   completeAuthLink(new URLSearchParams(query), fallback);
@@ -29,9 +29,7 @@ beforeEach(() => {
 
 describe("completeAuthLink", () => {
   it("exchanges a code once and goes on to the link's next page", async () => {
-    await expect(finish({ code: "abc", next: "/welcome" })).resolves.toBe(
-      "/welcome",
-    );
+    await expect(finish({ code: "abc", next: "/app" })).resolves.toBe("/app");
     expect(auth.exchangeCodeForSession).toHaveBeenCalledExactlyOnceWith("abc");
   });
 
@@ -41,24 +39,20 @@ describe("completeAuthLink", () => {
 
   it("never follows a next page on another site", async () => {
     await expect(
-      finish({ code: "abc", next: "https://evil.example/welcome" }),
+      finish({ code: "abc", next: "https://evil.example/mainline" }),
     ).resolves.toBe(fallback);
   });
 
   it("sends a code that fails back to Log in, keeping where it was going", async () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
-    await expect(finish({ code: "abc", next: "/welcome" })).resolves.toBe(
-      getAuthPageHref({
-        error: "link-expired",
-        mode: "log-in",
-        next: "/welcome",
-      }),
+    await expect(finish({ code: "abc", next: "/app" })).resolves.toBe(
+      getLogInHref({ error: "link-expired", next: "/app" }),
     );
   });
 
   it("lands a reset link on Choose a new password, keeping its own next page", async () => {
-    const next = resetLanding("/settings");
+    const next = resetLanding("/app/settings");
 
     await expect(finish({ code: "abc", next })).resolves.toBe(next);
   });
@@ -73,45 +67,53 @@ describe("completeAuthLink", () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
     await expect(
-      finish({ code: "abc", next: resetLanding("/settings") }),
+      finish({ code: "abc", next: resetLanding("/app/settings") }),
     ).resolves.toBe(
-      getForgotPasswordHref({ error: "reset-link-expired", next: "/settings" }),
+      getForgotPasswordHref({
+        error: "reset-link-expired",
+        next: "/app/settings",
+      }),
     );
   });
 
   it("verifies a token link, and a recovery one lands on Choose a new password", async () => {
     await expect(
-      finish({ next: "/settings", token_hash: "hash", type: "recovery" }),
-    ).resolves.toBe(resetLanding("/settings"));
+      finish({ next: "/app/settings", token_hash: "hash", type: "recovery" }),
+    ).resolves.toBe(resetLanding("/app/settings"));
     expect(auth.verifyOtp).toHaveBeenCalledExactlyOnceWith({
       token_hash: "hash",
       type: "recovery",
     });
   });
 
-  it("verifies a sign-up token link and goes on", async () => {
+  it("verifies an email change token link and goes on", async () => {
     await expect(
-      finish({ next: "/welcome", token_hash: "hash", type: "signup" }),
-    ).resolves.toBe("/welcome");
+      finish({ next: "/app", token_hash: "hash", type: "email_change" }),
+    ).resolves.toBe("/app");
+    expect(auth.verifyOtp).toHaveBeenCalledWith({
+      token_hash: "hash",
+      type: "email_change",
+    });
+  });
+
+  it("no longer verifies a sign-up token link", async () => {
+    await expect(
+      finish({ next: "/app", token_hash: "hash", type: "signup" }),
+    ).resolves.toBe("/app");
+    expect(auth.verifyOtp).not.toHaveBeenCalled();
   });
 
   it("ignores a token link of an unknown type", async () => {
     await expect(
-      finish({ next: "/welcome", token_hash: "hash", type: "sms" }),
-    ).resolves.toBe("/welcome");
+      finish({ next: "/app", token_hash: "hash", type: "sms" }),
+    ).resolves.toBe("/app");
     expect(auth.verifyOtp).not.toHaveBeenCalled();
   });
 
   it("passes on an error the link itself carries", async () => {
     await expect(
       finish({ error: "access_denied", error_code: "otp_expired" }),
-    ).resolves.toBe(
-      getAuthPageHref({
-        error: "link-expired",
-        mode: "log-in",
-        next: fallback,
-      }),
-    );
+    ).resolves.toBe(getLogInHref({ error: "link-expired", next: fallback }));
     expect(auth.exchangeCodeForSession).not.toHaveBeenCalled();
   });
 });

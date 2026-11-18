@@ -1,16 +1,16 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { newTestEmail, signedOut, testPassword } from "../support/accounts";
+import { newTestEmail, signedOut } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { expectAccessible } from "../support/accessibility";
-import { leaveWelcome, logIn, signUp } from "../support/auth";
+import { createAccount, logIn, logInToNewAccount } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
-/* Each test signs up its own account, so no other test's backups mix in. */
+/* Each test makes its own account, so no other test's backups mix in. */
 test.use({ storageState: signedOut });
 
 const rename = async (page: Page, name: string) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await page.getByRole("textbox", { name: "Display name" }).fill(name);
 
   const saved = waitForAction(page);
@@ -22,18 +22,16 @@ const rename = async (page: Page, name: string) => {
 /* The account's side of Supabase (data and files), not the app or login. */
 const accountRequests = /127\.0\.0\.1:54621\/(rest|storage)\//;
 
-/* Logs out, then makes a second account on the same device. */
+/* Logs out, then logs in to a second, new account on the same device. */
 const switchAccount = async (page: Page, email: string) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await page
     .getByRole("region", { name: "Account" })
     .getByRole("button", { name: "Log out" })
     .click();
   await page.waitForURL("**/login**");
-  await page.goto("/login?mode=sign-up");
-  await page.getByRole("textbox", { name: "Email" }).fill(email);
-  await page.getByRole("textbox", { name: "Password" }).fill(testPassword);
-  await page.getByRole("button", { name: "Create account" }).click();
+  await createAccount(email);
+  await logIn(page, email);
 };
 
 const otherPlaysQuestion = (page: Page) =>
@@ -42,7 +40,7 @@ const otherPlaysQuestion = (page: Page) =>
   });
 
 const waitForSync = async (page: Page) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await expect(
     page.getByRole("region", { name: "Account" }).getByText(/Synced today/),
   ).toBeVisible(forTheAnswer);
@@ -56,8 +54,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const email = newTestEmail("sync");
     const name = uniquePlayName("Synced");
 
-    await signUp(page, email);
-    await leaveWelcome(page);
+    await logInToNewAccount(page, email);
     await startPlay(page, {
       game: "Pokémon Red, 1996",
       name,
@@ -71,9 +68,9 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(second, email);
-      await second.waitForURL("**/mainline**");
+      await second.waitForURL("**/app**");
       await waitForSync(second);
-      await second.goto("/mainline/plays");
+      await second.goto("/app/plays");
       await expect(second.getByText(name)).toBeVisible(forTheAnswer);
     } finally {
       await other.close();
@@ -88,8 +85,9 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     const email = newTestEmail("clash");
 
-    await signUp(page, email);
-    await leaveWelcome(page);
+    await logInToNewAccount(page, email);
+    /* A first save: a new device with nothing changed has nothing to back up. */
+    await rename(page, "Red");
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });
@@ -97,7 +95,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(laptop, email);
-      await laptop.waitForURL("**/mainline**");
+      await laptop.waitForURL("**/app**");
       await waitForSync(laptop);
 
       /* The laptop is cut off from the account while both change the name. */
@@ -115,7 +113,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
           .getByRole("button", { name: "Sync now" }),
       ).toBeEnabled(forTheAnswer);
       await other.unroute(accountRequests);
-      await laptop.goto("/settings", { waitUntil: "networkidle" });
+      await laptop.goto("/app/settings", { waitUntil: "networkidle" });
 
       const dialog = laptop.getByRole("dialog", {
         name: "Which version to keep?",
@@ -149,8 +147,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const name = uniquePlayName("First account");
     const second = newTestEmail("second");
 
-    await signUp(page, newTestEmail("first"));
-    await leaveWelcome(page);
+    await logInToNewAccount(page, newTestEmail("first"));
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, second);
@@ -172,9 +169,9 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(laptop, second);
-      await laptop.waitForURL("**/mainline**");
+      await laptop.waitForURL("**/app**");
       await waitForSync(laptop);
-      await laptop.goto("/mainline/plays");
+      await laptop.goto("/app/plays");
       await expect(laptop.getByText(name)).toBeVisible(forTheAnswer);
     } finally {
       await other.close();
@@ -188,8 +185,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     const name = uniquePlayName("Left out");
 
-    await signUp(page, newTestEmail("first"));
-    await leaveWelcome(page);
+    await logInToNewAccount(page, newTestEmail("first"));
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await waitForSync(page);
     await switchAccount(page, newTestEmail("second"));
@@ -208,7 +204,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     );
     await expect(question).toBeHidden(forTheAnswer);
     await saved;
-    await page.goto("/mainline/plays", { waitUntil: "networkidle" });
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: "Plays" })).toBeVisible();
     await expect(page.getByText(name)).toBeHidden();
   });

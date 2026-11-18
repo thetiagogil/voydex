@@ -28,14 +28,9 @@ const request = (
 
 describe("ruleFor", () => {
   it("answers pages network first", () => {
-    expect(ruleFor(request("/mainline", { mode: "navigate" }), origin)).toBe(
-      "page",
-    );
+    expect(ruleFor(request("/app", { mode: "navigate" }), origin)).toBe("page");
     expect(
-      ruleFor(
-        request("/mainline/plays/play?id=abc", { mode: "navigate" }),
-        origin,
-      ),
+      ruleFor(request("/app/plays/play?id=abc", { mode: "navigate" }), origin),
     ).toBe("page");
   });
 
@@ -55,7 +50,7 @@ describe("ruleFor", () => {
   });
 
   it("answers page data, icons and Codex files network first", () => {
-    expect(ruleFor(request("/mainline.txt?_rsc=1x"), origin)).toBe("file");
+    expect(ruleFor(request("/app.txt?_rsc=1x"), origin)).toBe("file");
     expect(
       ruleFor(request("/codex-data/pokemon/pikachu.json.gz"), origin),
     ).toBe("file");
@@ -83,10 +78,7 @@ describe("ruleFor", () => {
       ruleFor(request("https://project.supabase.co/auth/v1/token"), origin),
     ).toBe("pass");
     expect(
-      ruleFor(
-        request("/mainline", { method: "POST", mode: "navigate" }),
-        origin,
-      ),
+      ruleFor(request("/app", { method: "POST", mode: "navigate" }), origin),
     ).toBe("pass");
   });
 });
@@ -105,16 +97,16 @@ describe("isPrefetch", () => {
 
 describe("cacheKeyFor", () => {
   it("files a page under its path, whatever its query", () => {
-    expect(cacheKeyFor(`${origin}/mainline/plays/play?id=abc`)).toBe(
-      `${origin}/mainline/plays/play`,
+    expect(cacheKeyFor(`${origin}/app/plays/play?id=abc`)).toBe(
+      `${origin}/app/plays/play`,
     );
-    expect(cacheKeyFor(`${origin}/codex/`)).toBe(`${origin}/codex`);
+    expect(cacheKeyFor(`${origin}/app/codex/`)).toBe(`${origin}/app/codex`);
     expect(cacheKeyFor(`${origin}/`)).toBe(`${origin}/`);
   });
 
   it("files a page's data file without Next.js's cache buster", () => {
-    expect(cacheKeyFor(`${origin}/mainline/plays.txt?_rsc=1x2y`)).toBe(
-      `${origin}/mainline/plays.txt`,
+    expect(cacheKeyFor(`${origin}/app/plays.txt?_rsc=1x2y`)).toBe(
+      `${origin}/app/plays.txt`,
     );
   });
 });
@@ -135,24 +127,24 @@ describe("keptAddressFor", () => {
 
   it("keeps every app page under the address that serves it", () => {
     expect(keptAddressFor("index.html")).toBe("/");
-    expect(keptAddressFor("mainline.html")).toBe("/mainline");
-    expect(keptAddressFor("mainline/plays/play.html")).toBe(
-      "/mainline/plays/play",
-    );
+    expect(keptAddressFor("app.html")).toBe("/app");
+    expect(keptAddressFor("app/plays/play.html")).toBe("/app/plays/play");
     expect(keptAddressFor("offline.html")).toBe("/offline");
-    expect(keptAddressFor("codex/pokemon.html")).toBe("/codex/pokemon");
-    expect(keptAddressFor("codex/games.html")).toBe("/codex/games");
+    expect(keptAddressFor("app/codex/pokemon.html")).toBe("/app/codex/pokemon");
+    expect(keptAddressFor("app/codex/games.html")).toBe("/app/codex/games");
   });
 
   it("keeps the data files Next.js reads to move between kept pages", () => {
     expect(keptAddressFor("index.txt")).toBe("/index.txt");
-    expect(keptAddressFor("mainline/plays.txt")).toBe("/mainline/plays.txt");
-    expect(keptAddressFor("mainline/__next._tree.txt")).toBe(
-      "/mainline/__next._tree.txt",
+    expect(keptAddressFor("app/plays.txt")).toBe("/app/plays.txt");
+    expect(keptAddressFor("app/__next._tree.txt")).toBe(
+      "/app/__next._tree.txt",
     );
-    expect(keptAddressFor("codex/pokemon.txt")).toBe("/codex/pokemon.txt");
-    expect(keptAddressFor("codex/pokemon/__next._tree.txt")).toBe(
-      "/codex/pokemon/__next._tree.txt",
+    expect(keptAddressFor("app/codex/pokemon.txt")).toBe(
+      "/app/codex/pokemon.txt",
+    );
+    expect(keptAddressFor("app/codex/pokemon/__next._tree.txt")).toBe(
+      "/app/codex/pokemon/__next._tree.txt",
     );
   });
 
@@ -182,11 +174,13 @@ describe("keptAddressFor", () => {
   });
 
   it("leaves out each Codex entry, kept only once opened", () => {
-    expect(keptAddressFor("codex/pokemon/pikachu.html")).toBeNull();
-    expect(keptAddressFor("codex/games/swsh.html")).toBeNull();
-    expect(keptAddressFor("codex/games/swsh/galar.html")).toBeNull();
-    expect(keptAddressFor("codex/pokemon/pikachu.txt")).toBeNull();
-    expect(keptAddressFor("codex/pokemon/pikachu/__next._tree.txt")).toBeNull();
+    expect(keptAddressFor("app/codex/pokemon/pikachu.html")).toBeNull();
+    expect(keptAddressFor("app/codex/games/swsh.html")).toBeNull();
+    expect(keptAddressFor("app/codex/games/swsh/galar.html")).toBeNull();
+    expect(keptAddressFor("app/codex/pokemon/pikachu.txt")).toBeNull();
+    expect(
+      keptAddressFor("app/codex/pokemon/pikachu/__next._tree.txt"),
+    ).toBeNull();
     expect(keptAddressFor("codex-data/pokemon/pikachu.json.gz")).toBeNull();
     expect(keptAddressFor("codex-data/games/swsh.json.gz")).toBeNull();
     expect(keptAddressFor("codex-data/games/swsh/galar.json.gz")).toBeNull();

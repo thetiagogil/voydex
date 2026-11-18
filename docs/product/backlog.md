@@ -134,7 +134,6 @@ secure account deletion. Preserve these later improvements:
   management when the audience or threat model justifies them;
 - a deliberately designed night-expedition dark mode, its Appearance control,
   and any later cross-device theme sync as an explicit account preference;
-- cross-device last-active-module sync as an explicit account preference;
 - user-requested personal-data export before account deletion;
 - richer account security history and recovery-code flows.
 

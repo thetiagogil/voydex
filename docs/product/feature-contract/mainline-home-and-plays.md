@@ -4,7 +4,7 @@ This is the Mainline Home And Plays part of the [Feature Contract](../feature-co
 
 ## Mainline Home
 
-Mainline Home (`/mainline`) is where a signed-in trainer lands and what the
+Mainline Home (`/app`) is where a signed-in trainer lands and what the
 "V" tile opens. It is for resuming an adventure, not for figures (those belong
 to Statistics), and it owns no mutation of its own.
 
@@ -98,8 +98,8 @@ handed to Mainline with its layout, so it always opens complete. The Codex's
 game page and Pokémon entry host it too (their Your Plays and In your Plays
 sections), so "Start a {Version} Play" and "Start a new Play" open it over the
 page and only starting the Play moves on. From elsewhere outside Mainline
-(Start a Play signed in) a link to `/mainline?new=<game>` (`?new=1` for no game) opens it over Home on
-that game, with `&partner=<species>` (Start a Play's pick) already choosing
+a link to `/app?new=<game>` (`?new=1` for no game) opens it over Home on
+that game, with `&partner=<species>` already choosing
 its first partner when the game offers it, and the parameters leave the
 address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
 choose later), then, under the game's cover and the partner side by side on

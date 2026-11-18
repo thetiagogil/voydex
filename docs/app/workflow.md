@@ -131,7 +131,7 @@ Voydex until all six are done.
 | Restructure       | One folder vocabulary, portable readers and commands, multi-table writes as database functions, Zod, split the largest files             |
 | Components        | Rebuild every component family on shared pieces; each family's look is settled with the owner while it is rebuilt                        |
 | Data and features | Reference data one section at a time, and the backlog features                                                                           |
-| Ready for others  | Security headers, Sentry, backups, production database and release step, sign-up emails, legal, speed, analytics, installable on a phone |
+| Ready for others  | Security headers, Sentry, backups, production database and release step, account emails, legal, speed, analytics, installable on a phone |
 
 ## Platform Features
 
@@ -149,7 +149,7 @@ Voydex until all six are done.
 | Supabase local            | The database on the owner's Mac (Docker)     | Daily work and all tests; `npm run db:start`, `npm run db:reset`        | Nothing                     |
 | Supabase hosted           | The production database                      | Previews also point at it while the owner is the only user              | Approves migration releases |
 | Supabase Advisors         | Automatic security and speed checks          | Run in CI                                                               | Nothing                     |
-| Supabase Auth emails      | Sign-up, magic link and reset emails         | Custom SMTP (a free sender) on our own domain; Soft Clay styling        | Approves the wording        |
+| Supabase Auth emails      | Password reset and email change emails       | Custom SMTP (a free sender) on our own domain; Soft Clay styling        | Approves the wording        |
 | Supabase Edge Functions   | Small server jobs                            | Export, account deletion, nightly backup                                | Nothing                     |
 | Sentry                    | Error tracking                               | Emails grouped errors with the failing line                             | Reads the email; agents fix |
 | Next.js `loading`/`error` | Skeleton and failure screens per route group | One per route group, in Soft Clay                                       | Nothing                     |

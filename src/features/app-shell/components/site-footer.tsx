@@ -1,11 +1,11 @@
-import { Link } from "@/shared/components/link";
-
-import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
+import { Link } from "@/shared/components/link";
+import { TextLink } from "@/shared/components/text-link";
 
 const footerLinks = [
-  { href: appRoutes.intro, label: "How it works" },
+  { href: appRoutes.howItWorks, label: "How it works" },
+  { href: appRoutes.install, label: "Install" },
   { href: appRoutes.codexPokemon, label: "Codex" },
   { href: appRoutes.login, label: "Log in" },
   { href: appRoutes.privacy, label: "Privacy" },
@@ -13,28 +13,31 @@ const footerLinks = [
 ] as const;
 
 /*
- * The signed-out frame's quiet footer (v3 `.pub-foot`): its rule runs the full
- * width, and inside it the name, the catchphrase, a few links (How it works,
- * Codex, Log in, Privacy, Terms) and the fan-project notice line up with the
- * page.
+ * The site frame's quiet footer: its rule runs the full width, and inside
+ * it the name, the tagline, a few links (How it works, Install, Codex, Log
+ * in, Privacy, Terms) and the fan-project notice line up with the page. On
+ * a phone the links sit in three even columns, so none is left alone on a
+ * line. The page's loud part is its head; the footer is chrome and stays
+ * quiet.
  */
 export const SiteFooter = () => (
   <footer className="border-line border-t">
     <div className="page-column pt-6.5 pb-8.5">
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5.5">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-5.5">
         <Link
           href={appRoutes.home}
-          className="font-display text-17 inline-flex w-fit items-center gap-2.5 rounded-sm font-semibold"
+          className="font-display text-17 inline-flex w-fit items-baseline gap-2.5 rounded-sm font-semibold"
         >
-          <LogoMark className="size-7.5" />
-          Voydex
+          <LogoMark className="size-7.5 self-center" />
+          {/* As tall as the mark, so the name centres on it and the row's words share its baseline. */}
+          <span className="leading-7.5">Voydex</span>
         </Link>
         <p className="text-13 text-ink-2 font-semibold">
-          Keep the story behind every playthrough.
+          A Pokédex for your playthroughs.
         </p>
         <nav
           aria-label="Footer"
-          className="text-14 text-ink-2 flex flex-wrap gap-x-5 gap-y-1.5 font-bold sm:ml-auto"
+          className="text-14 text-ink-2 grid grid-cols-[repeat(3,max-content)] gap-x-6 gap-y-1.5 font-bold sm:ml-auto sm:flex sm:flex-wrap sm:gap-x-5"
         >
           {footerLinks.map((link) => (
             <TextLink key={link.href} href={link.href} tone="quiet">

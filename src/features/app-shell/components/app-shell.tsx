@@ -1,11 +1,9 @@
 import { appRoutes } from "@/config/routes";
-import { ActiveModuleMark } from "@/features/app-shell/components/active-module-mark";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { CodexMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
-import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
@@ -27,22 +25,27 @@ type AppShellProps = {
    */
   frame?: "app" | "site";
   /*
-   * The site's top bar: `full` (the V and name, how it works, the Codex,
-   * Log in), `door` (the front door: Log in alone, no pill, the meadow
-   * carries the name) or `none` (the log-in pages, which link home
-   * themselves). The app's bar is always full.
+   * The site's top bar. `full` (the default): the V and name, the front
+   * page's parts and Log in, as the quiet pill on the page's own ground
+   * (Privacy, Terms). `front` and `account` are the same bar for a page
+   * that opens on the red band, where it is part of the red (white words on
+   * the band's darker top): `front` for the front page, and `account`,
+   * which drops Log in, for the log-in pages. `none`: no bar (the moment an email link is finished). The
+   * app's bar is always full.
    */
-  bar?: "door" | "full" | "none";
+  bar?: "account" | "front" | "full" | "none";
   children: React.ReactNode;
 };
 
 /*
- * v3's two bars. Signed in: the V tile and the name (to Mainline Home), Mainline's views
- * in the middle, the Codex menu and your icon on the right; on phones and tablets
- * the views, the Codex and You move to a bottom bar. Signed out: the V tile
- * with the name, how it works and the Codex, and Log in; on phones the links
- * fold into a menu with Start a Play. The front door shows Log in alone, and
- * the log-in pages show no bar. The signed-out frame ends on the site footer.
+ * The two bars. The app's: the V tile and the name (to Mainline Home),
+ * Mainline's views in the middle, the Codex menu and your icon on the right;
+ * on phones and tablets the views, the Codex and You move to a bottom bar.
+ * The site's: the V tile with the name, How it works and Install (parts of
+ * the front page), and Log in; on phones only the V tile and Log in. On the
+ * front page and the log-in pages, which open on the red band, it is part
+ * of the red: white words on the band's darker top. The site frame ends on
+ * the site footer.
  * The bar is transparent: a page that opens on a band (`page-band`) runs it
  * edge to edge under the bar, which sits on the band's colour.
  */
@@ -52,15 +55,20 @@ export const AppShell = ({
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
+  const onAction = bar === "front" || bar === "account";
   const logIn = (
     <Link
       href={appRoutes.login}
-      className={buttonVariants({
-        className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-        /* Small, so it sits inside the bar's pill with room round it. */
-        size: "sm",
-        variant: "secondary",
-      })}
+      className={buttonVariants(
+        onAction
+          ? { size: "sm", variant: "inverse" }
+          : {
+              className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
+              /* Small, so it sits inside the bar's pill with room round it. */
+              size: "sm",
+              variant: "secondary",
+            },
+      )}
     >
       Log in
     </Link>
@@ -75,7 +83,6 @@ export const AppShell = ({
           : "[--toast-bottom:1.5rem]",
       )}
     >
-      <ActiveModuleMark />
       {isApp ? <MotionPreferenceMark /> : null}
       {isApp ? (
         <AppNavbar
@@ -98,28 +105,19 @@ export const AppShell = ({
             </div>
           }
         />
-      ) : bar === "none" ? null : bar === "door" ? (
-        <AppNavbar bare brandHref={getBrandHref(false)} end={logIn} />
-      ) : (
+      ) : bar === "none" ? null : (
         <AppNavbar
           brandHref={getBrandHref(false)}
+          onAction={onAction}
           showName
           center={
-            <div className="hidden items-center gap-1 sm:flex">
-              <NavigationLinks
-                ariaLabel="Main"
-                links={publicLinks}
-                className="flex"
-              />
-              <CodexMenu />
-            </div>
+            <NavigationLinks
+              ariaLabel="Main"
+              links={publicLinks}
+              className="hidden sm:flex"
+            />
           }
-          end={
-            <>
-              {logIn}
-              <PublicMenu className="sm:hidden" />
-            </>
-          }
+          end={bar === "account" ? null : logIn}
         />
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">

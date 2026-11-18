@@ -75,33 +75,22 @@ export type PublicMoment =
   | { kind: "note" }
   | { kind: "pokemon"; pokemon: PublicPokemon };
 
-/* The example Play the public pages show, as its header reads it. */
+/* The example Play the front page shows. */
 export type PublicSamplePlay = {
-  game: PublicGame & { generation: string; region: string };
+  game: PublicGame & { region: string };
   name: string;
   playtimeMinutes: number;
-  startedOn: string;
   status: string;
-  tabs: readonly string[];
   trainer: string;
 };
 
 /*
- * The Play's own pieces the public pages draw: the medallion, the record row,
- * a badge stamp and the Play header, so the public pages draw what a Play
- * draws.
+ * The Play's own pieces the front page draws: a badge stamp and a history
+ * row, so the front page draws what a Play draws.
  */
 export type PublicPlayArt = {
   /* An earned gym badge stamp at its resting tilt, decorative. */
   badgeStamp: (props: PublicBadge & { tilt: number }) => ReactNode;
-  /* A moment's medallion, decorative; `lg` is the Intro's partner. */
-  medallion: (props: {
-    className?: string;
-    moment: PublicMoment;
-    size?: "lg" | "md";
-  }) => ReactNode;
-  /* The Play header for the example Play, its tabs drawn still. */
-  playHeader: (play: PublicSamplePlay) => ReactNode;
   /* One moment as the Play's history lists it. */
   recordRow: (props: {
     description?: ReactNode;

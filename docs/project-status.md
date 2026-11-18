@@ -15,7 +15,10 @@ on the device, game data as files, plain-file hosting with no Worker; see
 1. Launch fixes (#293 to #299 in #148's list): ID changes applied to saved Plays, Privacy and Terms text, hosted database
    keep-awake and backup size cap, Sentry, Renovate.
 2. #199 Milestones and collectibles review, game by game.
-3. #201 Redesign pass over the whole app.
+3. #201 Redesign pass over the whole app. Started 2026-11-17 with the entry
+   flow (#265): the website is one page, one button leads into the app, and
+   logging in is offered inside it. Next: Home merged with Plays and the bar
+   menus, then the component pass.
 4. #202 Architecture audit of the code and the database.
 5. Tests and checks brought up to date for the new design and architecture.
 6. Launch: delete the old hosted Supabase and Vercel projects (not before
@@ -48,7 +51,7 @@ phase is a GitHub milestone, and the to-do list lives in GitHub Issues (see
 5. **Data and features**: the `TODO(v3-data)` placeholders get real data one
    section at a time, and the backlog features are built from their issues.
 6. **Ready for others**: security headers, Sentry, backups, a production
-   database and release step, sign-up emails, legal text, speed, analytics and
+   database and release step, account emails, legal text, speed, analytics and
    an installable phone app.
 
 Nobody else uses Voydex until all six phases are done. Speed work waits for
@@ -66,9 +69,9 @@ phase 6; the New Plan cache fix is parked on the local branch
 - **Codex**: Pokémon browse and the version-group-scoped entry, Games browse,
   the version group page and its Pokédexes. Routes are in
   [Navigation And Routes](./product/navigation-and-routes.md).
-- **Global features**: authentication with password reset and email change,
-  Start a Play, Welcome, You, Settings, the site pages, Privacy and Terms, and
-  the health surfaces. Voydex keeps no export or import of your data for now
+- **Global features**: the front page (the whole website: how it works and
+  how to install), the start screen, authentication with password reset and
+  email change, You, Settings, Privacy and Terms, and the health surfaces. Voydex keeps no export or import of your data for now
   (a Plan's share link is the one import).
 - **Foundation**: thin routes, product code under `src/modules` and
   `src/features`, Supabase adapters under `src/platform`. The internal

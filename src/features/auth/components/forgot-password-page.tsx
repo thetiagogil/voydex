@@ -4,17 +4,13 @@ import { useSearchParams } from "next/navigation";
 
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
-  getAuthPageHref,
+  getLogInHref,
   LOGIN_DEFAULT_NEXT,
   parseAuthLinkSent,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
-import {
-  AuthFrame,
-  AuthHeading,
-  AuthMailMark,
-} from "@/features/auth/components/auth-frame";
+import { AuthFrame, AuthMailMark } from "@/features/auth/components/auth-frame";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
 import {
@@ -38,23 +34,27 @@ export const ForgotPasswordPage = () => {
   const sent = parseAuthLinkSent(params.get("sent"));
   const email = useRememberedAuthEmail();
   const requestAction = useAuthFormAction(requestPasswordReset);
-  const logInHref = getAuthPageHref({ mode: "log-in", next });
+  const logInHref = getLogInHref({ next });
 
   if (sent) {
     return (
-      <AuthFrame>
+      <AuthFrame
+        title="Check your email"
+        lede={
+          <>
+            {email ? (
+              <>
+                If <b className="font-extrabold">{email}</b> has an account, a
+                link to choose a new password is on its way.
+              </>
+            ) : (
+              "If that email has an account, a link to choose a new password is on its way."
+            )}{" "}
+            It works for an hour.
+          </>
+        }
+      >
         <AuthMailMark />
-        <AuthHeading className="mt-2.5" title="Check your email">
-          {email ? (
-            <>
-              If <b className="text-ink font-extrabold">{email}</b> has an
-              account, a link to choose a new password is on its way.
-            </>
-          ) : (
-            "If that email has an account, a link to choose a new password is on its way."
-          )}{" "}
-          It works for an hour.
-        </AuthHeading>
         {error ? <AuthErrorAlert error={error} /> : null}
         <EmailSentActions
           resendAction={resendPasswordReset}
@@ -67,11 +67,10 @@ export const ForgotPasswordPage = () => {
   }
 
   return (
-    <AuthFrame>
-      <AuthHeading className="mt-2.5" title="Reset your password">
-        Enter the email you signed up with and we&apos;ll send you a link to
-        choose a new one.
-      </AuthHeading>
+    <AuthFrame
+      title="Reset your password"
+      lede="Enter your account's email and we'll send you a link to choose a new one."
+    >
       {error ? <AuthErrorAlert error={error} /> : null}
       <form action={requestAction} className="flex flex-col gap-4">
         <input type="hidden" name="next" value={next} />

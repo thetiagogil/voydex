@@ -4,9 +4,9 @@ export const NEW_PLAY_PARAM = "new";
 export const NEW_PLAY_PARTNER_PARAM = "partner";
 
 /* Where a Play's pages live; the Play's id goes in the query. */
-export const PLAY_PATH = "/mainline/plays/play";
+export const PLAY_PATH = "/app/plays/play";
 /* Where a Plan opens in the Team Planner; the Plan's id goes in the query. */
-export const PLAN_PATH = "/mainline/plans/plan";
+export const PLAN_PATH = "/app/plans/plan";
 
 const playHref = (
   view: string,
@@ -14,17 +14,24 @@ const playHref = (
   query: Record<string, string> = {},
 ) => `${PLAY_PATH}${view}?${new URLSearchParams({ id: playId, ...query })}`;
 
+/* The front page's parts, by the id each one carries. */
+export const frontPageSections = {
+  howItWorks: "how-it-works",
+  install: "install",
+} as const;
+
+/*
+ * Every address. The website is `/` (with Privacy, Terms and the log-in
+ * pages beside it); the app is everything under `/app`, the Codex included.
+ */
 export const appRoutes = {
-  appEntry: "/app",
   authCallback: "/auth/callback",
-  /* After sign-up without a session: confirm the email, resend or change it. */
-  checkEmail: "/check-email",
-  codex: "/codex",
-  codexGames: "/codex/games",
-  codexPokemon: "/codex/pokemon",
+  codex: "/app/codex",
+  codexGames: "/app/codex/games",
+  codexPokemon: "/app/codex/pokemon",
   /*
    * A Pokémon's entry read in one version group, with a special form as
-   * `&form=`: `/codex/pokemon/arcanine?game=swsh`. One page per species, so
+   * `&form=`: `/app/codex/pokemon/arcanine?game=swsh`. One page per species, so
    * the group is in the query.
    */
   codexPokemonEntry: (
@@ -38,26 +45,31 @@ export const appRoutes = {
       query.set("form", formSlug);
     }
 
-    return `/codex/pokemon/${speciesSlug}?${query.toString()}`;
+    return `/app/codex/pokemon/${speciesSlug}?${query.toString()}`;
   },
   /* A Pokémon's entry in the version group it was introduced in. */
-  codexPokemonSpecies: (speciesSlug: string) => `/codex/pokemon/${speciesSlug}`,
+  codexPokemonSpecies: (speciesSlug: string) =>
+    `/app/codex/pokemon/${speciesSlug}`,
   /* A version group's page, with one of its games picked in the version switch. */
   codexVersionGroup: (versionGroupSlug: string, gameSlug?: string) =>
     gameSlug
-      ? `/codex/games/${versionGroupSlug}?version=${encodeURIComponent(gameSlug)}`
-      : `/codex/games/${versionGroupSlug}`,
+      ? `/app/codex/games/${versionGroupSlug}?version=${encodeURIComponent(gameSlug)}`
+      : `/app/codex/games/${versionGroupSlug}`,
   codexVersionGroupPokedex: (versionGroupSlug: string, pokedexSlug: string) =>
-    `/codex/games/${versionGroupSlug}/pokedexes/${pokedexSlug}`,
+    `/app/codex/games/${versionGroupSlug}/pokedexes/${pokedexSlug}`,
   /* Runs the device database with Sword / Shield and times it (local data). */
   deviceCheck: "/device-check",
   /* Ask for a password reset link. */
   forgotPassword: "/forgot-password",
   home: "/",
-  intro: "/intro",
+  /* How it works and Install: parts of the front page, linked by name. */
+  howItWorks: `/#${frontPageSections.howItWorks}`,
+  install: `/#${frontPageSections.install}`,
   login: "/login",
-  /* Mainline Home: your Plays shelf, the team on the meadow, latest moments. */
-  mainline: "/mainline",
+  /* Log in, then back to the app page that offered it. */
+  loginFrom: (next: string) => `/login?${new URLSearchParams({ next })}`,
+  /* Home, where the app opens: your Plays shelf, the team, latest moments. */
+  mainline: "/app",
   /*
    * Mainline Home with New Play open over it, optionally with its game (and
    * that game's partner) already picked. The dialog drops both parameters
@@ -70,23 +82,23 @@ export const appRoutes = {
       query.set(NEW_PLAY_PARTNER_PARAM, partnerSpeciesSlug);
     }
 
-    return `/mainline?${query.toString()}`;
+    return `/app?${query.toString()}`;
   },
   /* Mainline Home with one of your Plays on the meadow. */
   mainlineHomePlay: (playId: string) =>
-    `/mainline?play=${encodeURIComponent(playId)}`,
-  mainlineCollection: "/mainline/collection",
+    `/app?play=${encodeURIComponent(playId)}`,
+  mainlineCollection: "/app/collection",
   /* The Collection's Games: every game, the ones you've played stamped. */
   /* The Collection's Favourites: every Pokémon you hearted in the Codex. */
-  mainlineCollectionFavourites: "/mainline/collection?view=favourites",
-  mainlineCollectionGames: "/mainline/collection?view=games",
+  mainlineCollectionFavourites: "/app/collection?view=favourites",
+  mainlineCollectionGames: "/app/collection?view=games",
   /* The Collection with one species' sheet open. */
   mainlineCollectionSpecies: (speciesSlug: string) =>
-    `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,
+    `/app/collection?species=${encodeURIComponent(speciesSlug)}`,
   /* Your challenge rules and tags, kept for every Play and Plan. */
-  mainlineLibrary: "/mainline/library",
+  mainlineLibrary: "/app/library",
   mainlineLibraryTab: (tab: "presets" | "rules" | "tags") =>
-    `/mainline/library?tab=${tab}`,
+    `/app/library?tab=${tab}`,
   /*
    * A Plan in the Team Planner, optionally read in another version group.
    * Plans live on the device, so the id is in the query: one page for all.
@@ -98,10 +110,10 @@ export const appRoutes = {
   /* The Team Planner on a blank Plan, optionally for one version group. */
   mainlinePlanNew: (versionGroupSlug?: string) =>
     versionGroupSlug
-      ? `/mainline/plans/new?vg=${encodeURIComponent(versionGroupSlug)}`
-      : "/mainline/plans/new",
-  mainlinePlans: "/mainline/plans",
-  mainlinePlansArchived: "/mainline/plans?view=archived",
+      ? `/app/planner?vg=${encodeURIComponent(versionGroupSlug)}`
+      : "/app/planner",
+  mainlinePlans: "/app/plans",
+  mainlinePlansArchived: "/app/plans?view=archived",
   /*
    * A Play's pages. Plays live on the device, so the id is in the query
    * (`?id=`): one page serves every Play.
@@ -141,33 +153,20 @@ export const appRoutes = {
   mainlinePlayTeamAnalysis: (playId: string) =>
     playHref("/team/analysis", playId),
   mainlinePlayTeamPlan: (playId: string) => playHref("/team/plan", playId),
-  mainlinePlays: "/mainline/plays",
+  mainlinePlays: "/app/plays",
   /* The Plays you archived, each with Restore. */
-  mainlinePlaysArchived: "/mainline/plays?view=archived",
-  mainlineStats: "/mainline/stats",
+  mainlinePlaysArchived: "/app/plays?view=archived",
+  mainlineStats: "/app/statistics",
   privacy: "/privacy",
   /* Choose a new password, from the reset link. */
   resetPassword: "/reset-password",
-  settings: "/settings",
-  /* Start a Play: pick a game and a partner, then New Play opens on them. */
-  start: "/start",
+  settings: "/app/settings",
   terms: "/terms",
-  /* First run after sign-up: name and icon. */
-  welcome: "/welcome",
   /* The You page on phones: trainer card, Statistics, Collection, Settings. */
-  you: "/you",
+  you: "/app/you",
 } as const;
 
 /* The app's own pages: open to everyone, with your data on this device. */
-const appRoutePrefixes = [
-  appRoutes.mainline,
-  appRoutes.settings,
-  appRoutes.welcome,
-  appRoutes.you,
-] as const;
-
-export const isAppRoute = (pathname: string) => {
-  return appRoutePrefixes.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
-};
+export const isAppRoute = (pathname: string) =>
+  pathname === appRoutes.mainline ||
+  pathname.startsWith(`${appRoutes.mainline}/`);

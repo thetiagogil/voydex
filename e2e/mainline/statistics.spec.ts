@@ -20,7 +20,7 @@ test.describe("Statistics", () => {
       name: uniquePlayName("Stats run"),
       partner: "Squirtle",
     });
-    await page.goto("/mainline/stats");
+    await page.goto("/app/statistics");
 
     await expect(page.getByText("Pokémon Trainer").first()).toBeVisible();
     await expectAccessible(page);

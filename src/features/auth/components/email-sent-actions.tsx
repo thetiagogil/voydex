@@ -7,12 +7,10 @@ import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button"
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type EmailSentActionsProps = {
-  /* The other way on, such as "Back to Log in" or "Use a different email". */
+  /* The other way on, such as "Back to Log in". */
   alternative: ReactNode;
   /* The fields "Send it again" needs, such as where to go afterwards. */
   hiddenFields?: ReactNode;
-  /* A quiet line under the actions. */
-  note?: ReactNode;
   /* Sends it again and answers with the address to show next. */
   resendAction: (formData: FormData) => Promise<string>;
   /* "Send it again" was just used and worked. */
@@ -23,7 +21,6 @@ type EmailSentActionsProps = {
 export const EmailSentActions = ({
   alternative,
   hiddenFields,
-  note,
   resendAction,
   sentAgain,
 }: EmailSentActionsProps) => {
@@ -54,9 +51,6 @@ export const EmailSentActions = ({
           </>
         ) : null}
       </p>
-      {note ? (
-        <p className="text-13 text-ink-2 mt-3.5 font-semibold">{note}</p>
-      ) : null}
     </>
   );
 };

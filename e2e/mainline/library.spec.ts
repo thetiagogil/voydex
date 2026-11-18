@@ -11,7 +11,7 @@ test.describe("Library", () => {
     page.on("console", (message) => {
       if (message.type() === "error") errors.push(message.text());
     });
-    await page.goto("/mainline/library", { waitUntil: "networkidle" });
+    await page.goto("/app/library", { waitUntil: "networkidle" });
     const tabs = page.getByRole("navigation", { name: "Library sections" });
 
     for (const name of ["Presets", "Tags", "Rules"]) {
@@ -38,7 +38,7 @@ test.describe("Library", () => {
     });
 
     /* On the Play: "Add tag" makes the tag and adds it; Save keeps it. */
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+    await page.goto(`/app/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const tags = page.getByRole("region", { name: "Tags" });
@@ -57,7 +57,7 @@ test.describe("Library", () => {
     await expect(tags.getByText("Unsaved changes")).toBeHidden(forTheAnswer);
 
     /* In the Library: it opens in full, names its Play, and renames. */
-    await page.goto("/mainline/library?tab=tags", { waitUntil: "networkidle" });
+    await page.goto("/app/library?tab=tags", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: `${tagName}, In 1 Play` }).click();
     const details = page.getByRole("dialog", { name: tagName });
     await expect(
@@ -72,7 +72,7 @@ test.describe("Library", () => {
       page.getByRole("button", { name: `${renamed}, In 1 Play` }),
     ).toBeVisible(forTheAnswer);
 
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`);
+    await page.goto(`/app/plays/play/settings?id=${playId}`);
     await expect(
       page.getByRole("region", { name: "Tags" }).getByText(renamed, {
         exact: true,
@@ -80,7 +80,7 @@ test.describe("Library", () => {
     ).toBeVisible();
 
     /* Deleting it for good takes it off the Play too. */
-    await page.goto("/mainline/library?tab=tags", { waitUntil: "networkidle" });
+    await page.goto("/app/library?tab=tags", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: `${renamed}, In 1 Play` }).click();
     await page
       .getByRole("dialog", { name: renamed })
@@ -97,7 +97,7 @@ test.describe("Library", () => {
       page.getByRole("button", { name: new RegExp(renamed) }),
     ).toBeHidden(forTheAnswer);
 
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`);
+    await page.goto(`/app/plays/play/settings?id=${playId}`);
     await expect(
       page.getByRole("region", { name: "Tags" }).getByText(renamed),
     ).toBeHidden();
@@ -110,7 +110,7 @@ test.describe("Library", () => {
     const ruleName = `No healing ${suffix}`;
 
     /* New rule takes a name, a kind and what it asks. */
-    await page.goto("/mainline/library?tab=rules", {
+    await page.goto("/app/library?tab=rules", {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "New rule" }).click();

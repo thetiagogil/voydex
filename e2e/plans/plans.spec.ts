@@ -7,7 +7,7 @@ import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Saves a Red / Blue Plan through the Team Planner, named in Save Plan; returns its id. */
 const savePlan = async (page: Page, name: string, members: string[]) => {
-  await page.goto("/mainline/plans/new?vg=rb");
+  await page.goto("/app/planner?vg=rb");
 
   /* The list draws in batches as you scroll, so search for each one. */
   const picker = page.getByRole("region", { name: "Pick your Pokémon" });
@@ -32,7 +32,7 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   /* Written to the device before a test leaves or reloads the page. */
   const saved = waitForAction(page);
   await details.getByRole("button", { name: "Save Plan" }).click();
-  await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+  await page.waitForURL(/\/app\/plans\/plan\?id=[0-9a-f-]{36}/);
   await saved;
 
   return new URL(page.url()).searchParams.get("id")!;
@@ -40,7 +40,7 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
 
 test.describe("Team Planner", () => {
   test("builds a Plan, saves it and finds it in My Plans", async ({ page }) => {
-    await page.goto("/mainline/plans/new?vg=rb");
+    await page.goto("/app/planner?vg=rb");
     await expectAccessible(page);
 
     const name = uniquePlayName("Kanto starters");
@@ -63,10 +63,10 @@ test.describe("Team Planner", () => {
       page.getByRole("button", { name: "Save changes" }),
     ).toBeDisabled();
 
-    await page.goto("/mainline/plans");
+    await page.goto("/app/plans");
     await expect(
       page.getByRole("link", { name: new RegExp(name) }),
-    ).toHaveAttribute("href", `/mainline/plans/plan?id=${planId}`);
+    ).toHaveAttribute("href", `/app/plans/plan?id=${planId}`);
     await expectAccessible(page);
   });
 
@@ -75,7 +75,7 @@ test.describe("Team Planner", () => {
   }) => {
     /* The game never reaches the device: the Planner shows from its file. */
     await page.route(/\/game-data\/swsh[.-]/, (route) => route.abort());
-    await page.goto("/mainline/plans/new?vg=swsh");
+    await page.goto("/app/planner?vg=swsh");
 
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     const tiles = picker.getByRole("listitem");
@@ -101,7 +101,7 @@ test.describe("Team Planner", () => {
   test("saves a Plan for one version, whose exclusives follow it", async ({
     page,
   }) => {
-    await page.goto("/mainline/plans/new?vg=swsh");
+    await page.goto("/app/planner?vg=swsh");
     const version = page.getByRole("group", { name: "Version" });
     await expect(
       version.getByRole("button", { name: "Either" }),
@@ -132,7 +132,7 @@ test.describe("Team Planner", () => {
     await details.getByRole("textbox", { name: "Plan name" }).fill(name);
     const created = waitForAction(page);
     await details.getByRole("button", { name: "Save Plan" }).click();
-    await page.waitForURL(/\/mainline\/plans\/plan\?id=[0-9a-f-]{36}/);
+    await page.waitForURL(/\/app\/plans\/plan\?id=[0-9a-f-]{36}/);
     await created;
 
     /* It reopens as a Shield Plan; going back to Either is a change to save. */
@@ -158,7 +158,7 @@ test.describe("Team Planner", () => {
   });
 
   test("offers a Galarian bird beside its Kantonian form", async ({ page }) => {
-    await page.goto("/mainline/plans/new?vg=swsh");
+    await page.goto("/app/planner?vg=swsh");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Articuno");
@@ -180,7 +180,7 @@ test.describe("Team Planner", () => {
   test("offers what an expansion hands out beyond its Pokédex", async ({
     page,
   }) => {
-    await page.goto("/mainline/plans/new?vg=sv");
+    await page.goto("/app/planner?vg=sv");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     const extras = picker.getByRole("region", {
       name: "Also in The Indigo Disk",
@@ -207,7 +207,7 @@ test.describe("Team Planner", () => {
   });
 
   test("drags a Pokémon onto another slot to swap them", async ({ page }) => {
-    await page.goto("/mainline/plans/new?vg=rb");
+    await page.goto("/app/planner?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     await openSearchBar(page);
     const search = picker.getByRole("searchbox");
@@ -252,7 +252,7 @@ test.describe("Team Planner", () => {
       name: playName,
       partner: "Charmander",
     });
-    await page.goto(`/mainline/plays/play/team/plan?id=${playId}`);
+    await page.goto(`/app/plays/play/team/plan?id=${playId}`);
     await page.getByRole("button", { name: "Follow a Plan" }).click();
     await page
       .getByRole("menu", { name: "Follow a Plan" })
@@ -272,7 +272,7 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
 
     /* Followed, the Plan opens locked: it reads, and Unlock comes first. */
-    await page.goto(`/mainline/plans/plan?id=${planId}`);
+    await page.goto(`/app/plans/plan?id=${planId}`);
     await expect(page.getByText("Locked: followed by 1 Play.")).toBeVisible();
     const team = page.getByRole("region", { name: "Your team" });
     await expect(
@@ -318,7 +318,7 @@ test.describe("Team Planner", () => {
     await expect(plays.getByRole("img", { name: "Charmander" })).toBeVisible();
     await expectAccessible(page);
     await plays.getByRole("link", { name: new RegExp(playName) }).click();
-    await page.waitForURL(`**/mainline/plays/play?id=${playId}`);
+    await page.waitForURL(`**/app/plays/play?id=${playId}`);
   });
 
   test("asks before a game switch drops Pokémon", async ({ page }) => {
@@ -347,7 +347,7 @@ test.describe("Team Planner", () => {
 
     await pickGame("Sun / Moon");
     await confirm.getByRole("button", { name: "Switch game" }).click();
-    await page.waitForURL(`**/mainline/plans/plan?id=${planId}&vg=sm`);
+    await page.waitForURL(`**/app/plans/plan?id=${planId}&vg=sm`);
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
     ).toBeVisible();
@@ -363,7 +363,7 @@ test.describe("Team Planner", () => {
     const name = uniquePlayName("Shelved plan");
     const planId = await savePlan(page, name, ["Pikachu"]);
 
-    await page.goto("/mainline/plans");
+    await page.goto("/app/plans");
     await page.getByRole("button", { name: `${name}: more actions` }).click();
     await page.getByRole("menuitem", { name: "Archive" }).click();
 
@@ -371,7 +371,7 @@ test.describe("Team Planner", () => {
     const card = page.getByRole("link", { name: new RegExp(name) });
     await expect(card).toBeHidden();
     await page.getByRole("link", { name: /^Archived · \d+/ }).click();
-    await page.waitForURL("**/mainline/plans?view=archived");
+    await page.waitForURL("**/app/plans?view=archived");
     await expectAccessible(page);
 
     /* An archived Plan doesn't open: its card stays put, its link leads back. */
@@ -379,14 +379,14 @@ test.describe("Team Planner", () => {
       page.getByRole("link", { name: new RegExp(name) }),
     ).toBeHidden();
     await expect(page.getByRole("heading", { name })).toBeVisible();
-    await page.goto(`/mainline/plans/plan?id=${planId}`);
-    await page.waitForURL("**/mainline/plans?view=archived");
+    await page.goto(`/app/plans/plan?id=${planId}`);
+    await page.waitForURL("**/app/plans?view=archived");
 
     /* Restored, it's back in My Plans. */
     await page.getByRole("button", { name: `${name}: more actions` }).click();
     await page.getByRole("menuitem", { name: "Restore" }).click();
     await expect(page.getByRole("heading", { name })).toBeHidden();
-    await page.goto("/mainline/plans");
+    await page.goto("/app/plans");
     await expect(card).toBeVisible();
   });
 
@@ -395,7 +395,7 @@ test.describe("Team Planner", () => {
     const renamed = uniquePlayName("New name");
     await savePlan(page, name, ["Squirtle"]);
 
-    await page.goto("/mainline/plans", { waitUntil: "networkidle" });
+    await page.goto("/app/plans", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: `${name}: more actions` }).click();
     await page.getByRole("menuitem", { name: "Rename" }).click();
     const dialog = page.getByRole("dialog", { name: "Rename Plan" });
@@ -413,7 +413,7 @@ test.describe("Team Planner", () => {
   test("saves a sheet's edits on Save, and asks before removing a Pokémon with a build", async ({
     page,
   }) => {
-    await page.goto("/mainline/plans/new?vg=rb");
+    await page.goto("/app/planner?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Charizard");
@@ -463,7 +463,7 @@ test.describe("Team Planner", () => {
     const name = uniquePlayName("Short-lived plan");
     await savePlan(page, name, ["Pikachu"]);
 
-    await page.goto("/mainline/plans");
+    await page.goto("/app/plans");
     const card = page.getByRole("link", { name: new RegExp(name) });
     await expect(card).toBeVisible();
     await page.getByRole("button", { name: `${name}: more actions` }).click();

@@ -40,8 +40,8 @@ src/
 The active source follows these ownership rules:
 
 - `src/lib` is retired. Environment and Supabase adapters live under
-  `src/platform`, auth workflows live under `src/features/auth`, app-shell and
-  active-module behavior live under `src/features/app-shell`, and the generic
+  `src/platform`, auth workflows live under `src/features/auth`, the app
+  shell lives under `src/features/app-shell`, and the generic
   `cn` helper lives under `src/shared/utils`.
 - route adapters compose the app shell around auth, site, and system content;
   those global features do not import each other.
@@ -49,8 +49,7 @@ The active source follows these ownership rules:
   [ADR 0009](../decisions/0009-app-as-plain-files.md)): no server code runs
   for a page. Login and account changes call Supabase from the browser
   (`src/features/auth/client`, `src/features/settings/client`), the signed-in
-  session is read through `useAuthSession` (`src/platform/local-db`), and the
-  module you were last in is kept in this browser (`src/config/active-module.ts`).
+  session is read through `useAuthSession` (`src/platform/local-db`).
 - reusable Pokemon/game contracts, domain rules, artwork/type primitives,
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
@@ -266,9 +265,9 @@ src/modules/reference/
 
 The three TypeScript root files are the public contracts for cross-module
 catalogue types, data helpers, and paged/chunked reference reads. The game
-picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
+picker (`GameShelfPicker`) and its public reads
 (`games/server/game-shelf-reader.ts`, `game-catalogue-query.ts`) also live
-in reference, so Start a Play, New Play and the Planner share them. `readGameCatalogue` (every game,
+in reference, so Home's first run, New Play and the Planner share them. `readGameCatalogue` (every game,
 its first partners and expansions) runs once in the build, into the
 pre-built game catalogue file; `games/client/game-catalogue.ts` reads it in
 the browser (`useGameCatalogue`, `fetchGameCatalogue`), so New Play, Start
@@ -466,7 +465,7 @@ the device:
   writes a gzipped JSON file per page to `/codex-data/` (see
   [Codex Files](../database/architecture.md#codex-files)). Pages download
   their file in the browser with `useCodexFile` (Codex) or
-  `useGameCatalogue` (the game catalogue New Play, Start a Play, Home and
+  `useGameCatalogue` (the game catalogue New Play, Home and
   Collection show), through `src/platform/prebuilt-data`; an address that
   names no file is a 404, and an old game or expansion address moves on to
   its base group.
@@ -510,8 +509,9 @@ src/platform/local-db/
   account-sync.ts        # syncing while signed in, with useAccountSync
 ```
 
-The app's layout wraps every app page in the device gate
-(`src/features/system/components/device-gate.tsx`): one short start screen
+The app's layout wraps the app's frame and every app page in the device gate
+(`src/features/system/components/device-gate.tsx`): one short start screen,
+alone on the page with no bars,
 while the database opens and the tabs get ready (`AppDeviceGate` passes
 Mainline's tab reads; at most four seconds, the rest carry on in the
 background), then the page; or a screen for offline on a new
@@ -671,7 +671,7 @@ Next.js, React or `src/platform` at runtime; type-only imports are fine.
   folders; only the build runs those.
 - A page whose id lives in the address takes it from the query, not from a
   path segment, because a file host can't make a page for an id it has never
-  seen: `/mainline/plays/play?id=`, `/mainline/plans/plan?id=`. The Codex
+  seen: `/app/plays/play?id=`, `/app/plans/plan?id=`. The Codex
   makes a page per Pokémon, base game and Pokédex ahead of time
   (`generateStaticParams`, `dynamicParams = false`), each with its own title
   and description.
@@ -715,17 +715,20 @@ problem or a small set of tightly related problems.
 
 Current route groups remain:
 
-- site: `/`, `/intro`, `/start`, `/privacy` and `/terms`;
-- auth: `/login`, `/forgot-password`, `/reset-password`, `/check-email` and
+- site: `/` (the front page, which is the whole website), `/privacy` and
+  `/terms`. `src/config/front-door.ts` holds the rule that sends a device
+  that has opened the app from `/` back into it, and the inline script that
+  applies it before the page paints;
+- auth: `/login`, `/forgot-password`, `/reset-password` and
   `/auth/callback`;
-- system: `/app`;
-- public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
-  Pokedex routes;
-- app (open to everyone, data on the device): Mainline Home (`/mainline`), Plays and New Play, every Play
+- the Codex, under the app's address and frame but with no device gate
+  (`src/app/(app-public)/app/codex`): `/app/codex`, Pokemon browse/detail,
+  Games browse/detail, and game Pokedex routes;
+- app (open to everyone, data on the device, `src/app/(app)/app`): Home (`/app`), Plays and New Play, every Play
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
-  (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
-  `/welcome` and `/you`.
+  (`/app/planner`, `/app/plans`), `/app/statistics`, `/app/collection`,
+  `/app/library`, `/app/settings` and `/app/you`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every
 address; code is the evidence for what is mounted.

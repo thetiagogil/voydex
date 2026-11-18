@@ -20,7 +20,7 @@ test.describe("Backups: save a file, restore it on another device", () => {
       name,
       partner: null,
     });
-    await page.goto("/settings#your-data", { waitUntil: "networkidle" });
+    await page.goto("/app/settings#your-data", { waitUntil: "networkidle" });
 
     const data = page.getByRole("region", { name: "Your data" });
 
@@ -47,7 +47,7 @@ test.describe("Backups: save a file, restore it on another device", () => {
     const fresh = await other.newPage();
 
     try {
-      await fresh.goto("/settings#your-data", { waitUntil: "networkidle" });
+      await fresh.goto("/app/settings#your-data", { waitUntil: "networkidle" });
       await fresh
         .getByRole("region", { name: "Your data" })
         .getByLabel("Backup file to restore")
@@ -74,7 +74,7 @@ test.describe("Backups: save a file, restore it on another device", () => {
       );
       await restored;
 
-      await fresh.goto("/mainline/plays");
+      await fresh.goto("/app/plays");
       await expect(fresh.getByText(name)).toBeVisible();
     } finally {
       await other.close();
@@ -82,7 +82,7 @@ test.describe("Backups: save a file, restore it on another device", () => {
   });
 
   test("a file that isn't a backup is refused", async ({ page }) => {
-    await page.goto("/settings#your-data", { waitUntil: "networkidle" });
+    await page.goto("/app/settings#your-data", { waitUntil: "networkidle" });
     await page
       .getByRole("region", { name: "Your data" })
       .getByLabel("Backup file to restore")
@@ -105,10 +105,10 @@ test.describe("Backups: save a file, restore it on another device", () => {
       partner: null,
     });
     await page.clock.install({ time: new Date(Date.now() + 31 * dayMs) });
-    await page.goto("/mainline");
+    await page.goto("/app");
 
     await expect(page.getByText(/No backup yet\./)).toBeVisible();
     await page.getByRole("link", { name: "Save a backup" }).click();
-    await page.waitForURL("**/settings#your-data");
+    await page.waitForURL("**/app/settings#your-data");
   });
 });

@@ -8,10 +8,10 @@ import {
   getAuthLinkErrorCode,
 } from "@/features/auth/auth-errors";
 import {
-  getAuthPageHref,
   getForgotPasswordHref,
+  getLogInHref,
   getResetPasswordHref,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
 
@@ -21,13 +21,11 @@ const emailOtpTypes = new Set<string>([
   "invite",
   "magiclink",
   "recovery",
-  "signup",
 ]);
 
 /*
- * Every email link comes back to the callback page: a sign-up confirmation
- * (on to Welcome), a password reset (on to Choose a new password) or an
- * email change. A `code` is exchanged for a session in this browser; a
+ * Every email link comes back to the callback page: a password reset (on
+ * to Choose a new password) or an email change (on to the app). A `code` is exchanged for a session in this browser; a
  * `token_hash` link (an email template that works on any device) is
  * verified instead. A link that fails sends a reset back to Reset your
  * password and anything else to Log in. Answers with where to go next;
@@ -55,7 +53,7 @@ export const completeAuthLink = async (
   const errorHref = (error: AuthErrorCode) =>
     isPasswordReset
       ? getForgotPasswordHref({ error: "reset-link-expired", next: afterReset })
-      : getAuthPageHref({ error, mode: "log-in", next });
+      : getLogInHref({ error, next });
 
   if (code) {
     const { error } =

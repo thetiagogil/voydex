@@ -239,7 +239,7 @@ function getCodexBuildViolation(segments, specifier) {
     segments.includes("server");
   const isCodexRuntime =
     (startsWithSegments(segments, ["modules", "codex"]) ||
-      startsWithSegments(segments, ["app", "(app-public)", "codex"])) &&
+      startsWithSegments(segments, ["app", "(app-public)", "app", "codex"])) &&
     !isCodexBuildReader;
 
   if (isTest) {
@@ -268,12 +268,12 @@ function verifyCodexBuildBoundaryFixtures() {
       violates: true,
     },
     {
-      source: "app/(app-public)/codex/games/(browse)/page.tsx",
+      source: "app/(app-public)/app/codex/games/(browse)/page.tsx",
       specifier: "@/platform/supabase/browser-client",
       violates: true,
     },
     {
-      source: "app/(app-public)/codex/pokemon/[speciesSlug]/page.tsx",
+      source: "app/(app-public)/app/codex/pokemon/[speciesSlug]/page.tsx",
       specifier:
         "@/modules/codex/features/pokemon/detail/server/pokemon-detail-page-query",
       violates: true,
@@ -746,6 +746,7 @@ async function checkFile(filePath) {
   const retiredPokemonCompatibilityRoute = [
     "app",
     "(app-public)",
+    "app",
     "codex",
     "pokemon",
     "[gameSlug]",
@@ -759,7 +760,7 @@ async function checkFile(filePath) {
     segments.length === retiredPokemonCompatibilityRoute.length
   ) {
     violations.push(
-      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon detail routes must use the [speciesSlug] segment; do not restore src/app/(app-public)/codex/pokemon/[gameSlug]/page.tsx`,
+      `${normalizePath(path.relative(projectRoot, filePath))}: Pokemon detail routes must use the [speciesSlug] segment; do not restore src/app/(app-public)/app/codex/pokemon/[gameSlug]/page.tsx`,
     );
   }
 

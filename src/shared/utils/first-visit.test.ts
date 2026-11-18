@@ -69,10 +69,7 @@ describe("firstVisitScript", () => {
 });
 
 describe("firstVisitStyles", () => {
-  it("keeps each seen reveal still, and only that reveal", () => {
-    expect(firstVisitStyles).toContain(
-      ':root[data-first-visit-seen~="meadow"] [data-first-visit="meadow"] *{animation:none}',
-    );
+  it("keeps a seen reveal still, and only that reveal", () => {
     expect(firstVisitStyles).toContain(
       ':root[data-first-visit-seen~="stats-title"] [data-first-visit="stats-title"] *{animation:none}',
     );

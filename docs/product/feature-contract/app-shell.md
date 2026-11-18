@@ -5,20 +5,24 @@ This is the Accounts, Settings And System States part of the [Feature Contract](
 ## Authentication And Resumption
 
 The app opens without an account: your data lives on this device, and
-signing in is only for backups (#248). Start a Play (`/start`) lets a visitor
-pick a game and partner, then opens New Play over Mainline Home with both
-picked. Log in and Sign up share `/login`;
-Reset your password, Choose a new password and Check your email are their own
-routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
-password with Show and no confirmation field (v3), then Welcome (`/welcome`):
-your name and a Pokémon icon on the trainer card, before your first Play.
-Welcome shows once: Continue saves them and Skip saves nothing, and either one
-marks Welcome done, after which `/welcome` just moves on (`profiles.welcome_completed_at`).
+signing in is only for backups (#248). The front page's Start a Play opens
+the app, whose Home asks which game you are playing. Logging in is offered
+inside the app and never asked for: Settings' Account card, the account menu
+and You each carry Log in while you're signed out. `/login` is Log in only,
+and its last line says what you have without an account (your Plays, saved
+on this device only), never that it is "the same"; Reset your
+password and Choose a new password are their own routes
+([Navigation And Routes](../navigation-and-routes.md)). **There is no Sign
+up for now** (2026-11-18): Voydex makes no new accounts, so the app has no
+Sign up screen, no Check your email and no confirmation email, and Settings'
+Account row and the Privacy policy say so. Logging in lands on Home with no
+step in between: your name and icon are on the trainer card in Settings, and
+New Play asks for the trainer name.
 
-Login is a focused global transition with visible Log in, Sign up, Recover
-account, Check your email, or Choose a new password identity. Direct Login uses
-the normal last-active-module resolver. A user who is already authenticated is
-redirected to the validated destination or normal app entry rather than shown
+Login is a focused global transition with visible Log in, Recover
+account, or Choose a new password identity. Direct Login
+lands on Home (`/app`). A user who is already authenticated is
+redirected to the validated destination or Home rather than shown
 the form again.
 
 When authentication interrupts a Codex action or a backup, Login shows a
@@ -28,16 +32,12 @@ apply. Validate all continuation data, reject external or tampered targets, and
 revalidate the owning Mainline operation after authentication. Login never
 performs or automatically replays the mutation.
 
-Log in uses Email, Password, password visibility, recovery, and an alternate
-Create account action. Sign up uses Email, Password with visible requirements
-and visibility, and an alternate Log in action. Do not add Profile,
-preferences, game selection, or onboarding fields to account creation.
+Log in uses Email, Password, password visibility and recovery. It offers no
+way to create an account.
 
 Password recovery returns the same neutral Check Email response whether or not
 an account exists. Recovery links open a focused new-password mode and handle
-expired or reused links without losing a safe destination. When email
-confirmation is required after Sign up, show a clear Check Email state instead
-of looping back to Log in.
+expired or reused links without losing a safe destination.
 
 Recoverable errors preserve Email and non-sensitive intent, clear passwords,
 associate field errors, translate provider messages into stable user-facing
@@ -47,13 +47,19 @@ in again, preserves safe read intent, and never silently replays a write.
 
 ## Global Settings
 
-Global Settings is one authenticated `/settings` page outside product modules,
-one readable column: the trainer card, which is the profile form (your
+Global Settings is one `/app/settings` page outside product modules, open to
+everyone, one readable column: the trainer card, which is the profile form (your
 Pokémon icon, display name and default trainer name; the card changes as you
-pick or type and Save appears once it has changed), Look and feel, New Play defaults, Account and Your data. On phones
-`/you` gathers the trainer card, Statistics, Collection and Settings.
+pick or type and Save appears once it has changed), Look and feel, New Play
+defaults, Account, Your data and About Voydex (How it works, Privacy, Terms
+and the fan-project notice). On phones `/app/you` gathers the trainer card,
+Statistics, Collection, Library and Settings, then Log in, or Log out once
+you've signed in. Leave the app sits on You and in the account
+menu: it returns to the front page, which then shows until you continue
+from it, and leaves everything on the device as it is.
 
-Account shows your email with Change email (confirmed by a link Supabase
+Signed out, Account is one row, Back up to an account, with Log in (it
+returns to Settings). Signed in, Account shows your email with Change email (confirmed by a link Supabase
 sends; the change takes effect once it is opened), Change password, Sync
 (when this device last synced with the account, with Sync now, or Choose
 while a clash waits) and Log out on this device. When two devices changed
@@ -89,7 +95,7 @@ Colour theme wait on #38 with pending markers; only the light look is
 designed. New Play defaults are what a new Play starts tracking: Story on or
 off, the Pokédex as caught only or caught and seen, and Collectibles on or
 off. New Play opens its Tracking step from them and every other way a Play
-starts (Home's offer, Start a Play) uses them too; each Play then keeps its
+starts (Home's offer) uses them too; each Play then keeps its
 own switches (Play Settings), so changing a default never touches an existing
 Play. Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
 

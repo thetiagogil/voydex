@@ -5,7 +5,7 @@ import { forTheAnswer, waitForAction } from "../support/actions";
 
 test.describe("Presets", () => {
   test("Voydex's Nuzlocke reads in full, locked", async ({ page }) => {
-    await page.goto("/mainline/library?tab=presets", {
+    await page.goto("/app/library?tab=presets", {
       waitUntil: "networkidle",
     });
     const presets = page.getByRole("region", { name: "Presets" });
@@ -29,7 +29,7 @@ test.describe("Presets", () => {
   }) => {
     const name = `My run ${Math.random().toString(36).slice(2, 7)}`;
 
-    await page.goto("/mainline/library?tab=presets", {
+    await page.goto("/app/library?tab=presets", {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "New preset" }).click();
@@ -91,7 +91,7 @@ test.describe("Presets", () => {
   test("New Play takes a preset's rules in one tap @phone", async ({
     page,
   }) => {
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Red, 1996" }).click();

@@ -4,19 +4,18 @@ import { expectAccessible } from "../support/accessibility";
 import { newTestEmail, signedOut } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { openFilters } from "../support/filters";
-import { leaveWelcome, signUp } from "../support/auth";
+import { logInToNewAccount } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
-/* Settings change the trainer's own preferences, so each test signs up its own. */
+/* Settings change the trainer's own preferences, so each test makes its own account. */
 test.use({ storageState: signedOut });
 
 test.describe("Saved settings: look and feel, New Play defaults and tracking", () => {
   test("Motion is saved and applied across the app @phone", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("motion"));
-    await leaveWelcome(page);
-    await page.goto("/settings", { waitUntil: "networkidle" });
+    await logInToNewAccount(page, newTestEmail("motion"));
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
 
     const look = page.getByRole("region", { name: "Look and feel" });
 
@@ -32,10 +31,10 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await expect(page.locator("html")).toHaveAttribute("data-motion", "none");
 
     /* Another page, and a reload, keep it. */
-    await page.goto("/mainline");
+    await page.goto("/app");
     await expect(page.locator("html")).toHaveAttribute("data-motion", "none");
 
-    await page.goto("/settings", { waitUntil: "networkidle" });
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
     await look.getByRole("button", { name: "Full" }).click();
     const reset = waitForAction(page);
     await look.getByRole("button", { name: "Save" }).click();
@@ -46,16 +45,15 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
   test("Always open shows every list's search and filters on arrival", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("search-filters"));
-    await leaveWelcome(page);
+    await logInToNewAccount(page, newTestEmail("search-filters"));
 
     /* Folded by default. */
-    await page.goto("/codex/pokemon");
+    await page.goto("/app/codex/pokemon");
     await expect(
       page.getByRole("button", { name: "Show search and filters" }),
     ).toBeVisible();
 
-    await page.goto("/settings", { waitUntil: "networkidle" });
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
     const look = page.getByRole("region", { name: "Look and feel" });
 
     await look.getByRole("button", { name: "Always open" }).click();
@@ -66,7 +64,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
       forTheAnswer,
     );
 
-    for (const path of ["/codex/games", "/codex/pokemon"]) {
+    for (const path of ["/app/codex/games", "/app/codex/pokemon"]) {
       await page.goto(path);
       await expect(
         page.getByRole("button", { name: "Hide search and filters" }),
@@ -84,9 +82,8 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
   test("defaults start New Play, and each Play's tracking hides what is off", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("tracking"));
-    await leaveWelcome(page);
-    await page.goto("/settings", { waitUntil: "networkidle" });
+    await logInToNewAccount(page, newTestEmail("tracking"));
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
 
     const defaults = page.getByRole("region", { name: "New Play defaults" });
 
@@ -101,7 +98,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     );
 
     /* New Play starts from them, and each Play can still change them. */
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Blue, 1996" }).click();
@@ -129,16 +126,16 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     const started = waitForAction(page);
     await dialog.getByRole("button", { name: /^Start/ }).click();
     await started;
-    await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
+    await page.waitForURL(/\/app\/plays\/play\?id=[0-9a-f-]{36}$/);
     const playId = new URL(page.url()).searchParams.get("id")!;
 
     /* With Story off, Home never asks which partner was decided later. */
-    await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
+    await page.goto(`/app?play=${playId}`, { waitUntil: "networkidle" });
     await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
     await expect(
       page.getByRole("group", { name: "First partners" }),
     ).toHaveCount(0);
-    await page.goto(`/mainline/plays/play?id=${playId}`);
+    await page.goto(`/app/plays/play?id=${playId}`);
 
     /* The Play kept what was off: no Story tab, and its link goes to the Pokédex. */
     await page.getByRole("button", { name: "Progress" }).first().click();
@@ -147,12 +144,12 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /^Story/ })).toHaveCount(0);
     await page.keyboard.press("Escape");
-    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
+    await page.goto(`/app/plays/play/progress/story?id=${playId}`);
     await page.waitForURL(`**/progress/pokedex?id=${playId}`);
     await expect(page.getByText("Tap marks as")).toHaveCount(0);
 
     /* Play settings shows the same switches, and turning Story on restores it. */
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+    await page.goto(`/app/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const tracking = page.getByRole("region", { name: "Tracking" });
@@ -168,18 +165,17 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await tracked;
     await expect(page.getByText("Tracking saved")).toBeVisible(forTheAnswer);
 
-    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
+    await page.goto(`/app/plays/play/progress/story?id=${playId}`);
     await expect(page).toHaveURL(new RegExp(`/progress/story\\?id=${playId}$`));
-    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`);
+    await page.goto(`/app/plays/play/progress/pokedex?id=${playId}`);
     await expect(page.getByText("Tap marks as").first()).toBeVisible();
   });
 
   test("New Play names Collectibles only where the game or an owned expansion has them", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("collectibles"));
-    await leaveWelcome(page);
-    await page.goto("/mainline?new=1");
+    await logInToNewAccount(page, newTestEmail("collectibles"));
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Sword, 2019" }).click();
@@ -199,8 +195,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
   test("un-catching in caught only leaves no Seen behind for caught and seen", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("uncatch"));
-    await leaveWelcome(page);
+    await logInToNewAccount(page, newTestEmail("uncatch"));
 
     const playId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
@@ -208,7 +203,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
       partner: null,
     });
     const setPokedexMode = async (mode: "Caught and seen" | "Caught only") => {
-      await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+      await page.goto(`/app/plays/play/settings?id=${playId}`, {
         waitUntil: "networkidle",
       });
       const tracking = page.getByRole("region", { name: "Tracking" });
@@ -221,7 +216,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     };
 
     await setPokedexMode("Caught only");
-    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`, {
+    await page.goto(`/app/plays/play/progress/pokedex?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const caught = waitForAction(page);
@@ -234,7 +229,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await cleared;
 
     await setPokedexMode("Caught and seen");
-    await page.goto(`/mainline/plays/play/progress/pokedex?id=${playId}`, {
+    await page.goto(`/app/plays/play/progress/pokedex?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const { filters } = await openFilters(page);
@@ -247,8 +242,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
   test("a Play can start without its areas when the defaults are on", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("ontrack"));
-    await leaveWelcome(page);
+    await logInToNewAccount(page, newTestEmail("ontrack"));
 
     const playId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
@@ -256,7 +250,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`);
+    await page.goto(`/app/plays/play/progress/story?id=${playId}`);
     await expect(page).toHaveURL(new RegExp(`/progress/story\\?id=${playId}$`));
   });
 });

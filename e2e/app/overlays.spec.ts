@@ -9,7 +9,7 @@ const tablet = { height: 900, width: 820 };
 const phone = { height: 720, width: 390 };
 
 const openNuzlockeSheet = async (page: Page) => {
-  await page.goto("/mainline/library?tab=presets", {
+  await page.goto("/app/library?tab=presets", {
     waitUntil: "networkidle",
   });
   await page
@@ -21,7 +21,7 @@ const openNuzlockeSheet = async (page: Page) => {
 };
 
 const openRuleDialog = async (page: Page) => {
-  await page.goto("/mainline/library?tab=rules", { waitUntil: "networkidle" });
+  await page.goto("/app/library?tab=rules", { waitUntil: "networkidle" });
   const rule = page
     .getByRole("region", { name: "Rules" })
     .getByRole("button")
@@ -188,7 +188,7 @@ test.describe("Sheets and dialogs", () => {
   test("New Play scrolls inside a short window @phone", async ({ page }) => {
     for (const viewport of [{ height: 560, width: 1280 }, phone]) {
       await page.setViewportSize(viewport);
-      await page.goto("/mainline?new=1", { waitUntil: "networkidle" });
+      await page.goto("/app?new=1", { waitUntil: "networkidle" });
       const dialog = page.getByRole("dialog", { name: "New Play" });
       const frame = await box(dialog);
 

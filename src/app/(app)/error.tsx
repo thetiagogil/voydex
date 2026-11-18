@@ -13,5 +13,5 @@ export default function Error(props: ErrorBoundaryProps) {
   /* A page whose read failed reads again when you try again. */
   useEffect(forgetFailedPageReads, []);
 
-  return <ErrorPage {...props} homeHref={appRoutes.appEntry} />;
+  return <ErrorPage {...props} homeHref={appRoutes.mainline} />;
 }

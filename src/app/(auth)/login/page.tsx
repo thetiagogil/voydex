@@ -5,7 +5,7 @@ import { LoginPage } from "@/features/auth/components/login-page";
 
 export default function Page() {
   return (
-    <PublicAppShell bar="none">
+    <PublicAppShell bar="account">
       <Suspense>
         <LoginPage />
       </Suspense>

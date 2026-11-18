@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-import { readActiveModuleHref } from "@/config/active-module";
-import { getAuthPageHref } from "@/features/auth/auth-mode";
+import { appRoutes } from "@/config/routes";
+import { getLogInHref } from "@/features/auth/auth-links";
 import { completeAuthLink } from "@/features/auth/client/auth-callback";
 import { PageLoadingState } from "@/shared/components/page-loading-state";
 
@@ -23,13 +23,13 @@ export const AuthCallbackPage = () => {
     let finish = finishing.get(query);
 
     if (!finish) {
-      const next = readActiveModuleHref();
+      const next = appRoutes.mainline;
 
       /* A link that can't be finished (no network) lands on Log in. */
       finish = completeAuthLink(new URLSearchParams(query), next).catch(() => {
         finishing.delete(query);
 
-        return getAuthPageHref({ error: "link-expired", mode: "log-in", next });
+        return getLogInHref({ error: "link-expired", next });
       });
       finishing.set(query, finish);
     }

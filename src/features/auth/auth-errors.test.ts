@@ -11,10 +11,10 @@ import {
 describe("auth error codes", () => {
   it("maps Supabase Auth errors to the page's reasons", () => {
     expect(getAuthErrorCode("invalid_credentials")).toBe("credentials");
-    expect(getAuthErrorCode("user_already_exists")).toBe("email-taken");
-    expect(getAuthErrorCode("email_exists")).toBe("email-taken");
     expect(getAuthErrorCode("weak_password")).toBe("weak-password");
-    expect(getAuthErrorCode("email_not_confirmed")).toBe("email-not-confirmed");
+    /* Sign up's reasons went with it. */
+    expect(getAuthErrorCode("user_already_exists")).toBe("unknown");
+    expect(getAuthErrorCode("email_not_confirmed")).toBe("unknown");
     expect(getAuthErrorCode("over_request_rate_limit")).toBe("rate-limited");
     expect(getAuthErrorCode("over_email_send_rate_limit")).toBe("rate-limited");
     expect(getAuthErrorCode("email_address_invalid")).toBe("email-invalid");
@@ -59,7 +59,7 @@ describe("auth error codes", () => {
   it("finds no link error when the link carries none", () => {
     expect(getAuthLinkErrorCode(new URLSearchParams(""))).toBeNull();
     expect(
-      getAuthLinkErrorCode(new URLSearchParams("code=abc&next=%2Fmainline")),
+      getAuthLinkErrorCode(new URLSearchParams("code=abc&next=%2Fapp")),
     ).toBeNull();
   });
 
@@ -72,7 +72,9 @@ describe("auth error codes", () => {
 
   it("accepts only its own codes from the query", () => {
     expect(parseAuthErrorCode("credentials")).toBe("credentials");
-    expect(parseAuthErrorCode("email-taken")).toBe("email-taken");
+    expect(parseAuthErrorCode("email-invalid")).toBe("email-invalid");
+    /* Sign up's codes went with it. */
+    expect(parseAuthErrorCode("email-taken")).toBeNull();
     expect(parseAuthErrorCode(undefined)).toBeNull();
     expect(parseAuthErrorCode(["credentials"])).toBeNull();
     expect(parseAuthErrorCode("Your account is locked. Call 555-0100.")).toBe(
@@ -88,13 +90,14 @@ describe("auth error codes", () => {
       expect(copy.title.length).toBeGreaterThan(0);
       expect(copy.description.length).toBeGreaterThan(0);
       expect(
-        `${copy.title} ${copy.description} ${copy.link?.label ?? ""}`,
+        `${copy.title} ${copy.description} ${copy.resetLink?.label ?? ""}`,
       ).not.toContain("—");
     }
   });
 
-  it("offers a reset after wrong credentials and Log in after a taken email", () => {
-    expect(authErrorCopy.credentials.link?.target).toBe("forgot-password");
-    expect(authErrorCopy["email-taken"].link?.target).toBe("log-in");
+  it("offers a reset after wrong credentials", () => {
+    expect(authErrorCopy.credentials.resetLink?.label).toBe(
+      "reset your password",
+    );
   });
 });

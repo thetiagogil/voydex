@@ -15,7 +15,7 @@ test.describe("Challenge rules", () => {
   }) => {
     const name = uniquePlayName("Mono run");
 
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Red, 1996" }).click();
@@ -65,7 +65,7 @@ test.describe("Challenge rules", () => {
     ).toBeVisible();
 
     await dialog.getByRole("button", { name: /^Start/ }).click();
-    await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
+    await page.waitForURL(/\/app\/plays\/play\?id=[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
     await page.getByRole("button", { name: "Play details" }).click();
@@ -86,7 +86,7 @@ test.describe("Challenge rules", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+    await page.goto(`/app/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const rules = page.getByRole("region", { name: "Challenge rules" });
@@ -151,7 +151,7 @@ test.describe("Challenge rules", () => {
   test("the Library shows Voydex's rules locked, in full and apart from yours", async ({
     page,
   }) => {
-    await page.goto("/mainline/library?tab=rules", {
+    await page.goto("/app/library?tab=rules", {
       waitUntil: "networkidle",
     });
     /* Apart from yours: under Made by Voydex, never under Yours. */

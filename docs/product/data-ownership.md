@@ -89,16 +89,18 @@ Some derived values may be cached later for performance, but caching should not 
 Supabase Auth owns account identity, email, password, confirmation, recovery,
 and authenticated session truth. `public.profiles` owns the optional Voydex
 Display name, the Pokémon icon (`icon_form_id`, a reference form), the default
-trainer name a new Play starts with and when Welcome was finished or skipped
-(`welcome_completed_at`). `public.user_preferences` is the home for global defaults that
+trainer name a new Play starts with. Its `welcome_completed_at` column is
+left from the Welcome step, which the entry flow removed (#265): nothing
+reads or writes it, and it goes with the next device update to `profiles`.
+`public.user_preferences` is the home for global defaults that
 are not play-specific: the New Play defaults (`default_track_story`,
 `default_pokedex_mode`, `default_track_collectibles`), the motion
 preference (`motion`: full or none) and the Search and filters
 choice (`search_filters_open`). Pokémon reuse is a Play's No Pokémon reuse
 rule.
 
-The game and partner picked on Start a Play are a wish, not a record: they
-travel as `?new=` and `?partner=` into New Play, which validates them again
+A game and partner handed to New Play in the address (`?new=` and
+`?partner=`) are a wish, not a record: New Play validates them again
 when it starts the Play; nothing stores them. The email typed on an auth page is kept for half an hour in an HTTP-only cookie so the
 next page can say where the link went; it never goes in a URL.
 
@@ -338,7 +340,7 @@ a percentage.
 A Play keeps three tracking switches in `gameplay.mainline_play_settings`:
 `story_tracking_enabled`, `pokedex_mode` (`caught_only` or `caught_and_seen`)
 and `collectibles_tracking_enabled`. A new Play copies them from the owner's
-New Play defaults unless Start a Play sets them. With Story or collectibles
+New Play defaults unless New Play's Tracking step changes them. With Story or collectibles
 off, completion leaves their entries out; what was recorded stays. Counting
 collectibles toward completion (`include_collectibles_in_completion`) stays its
 own choice and requires collectible tracking.

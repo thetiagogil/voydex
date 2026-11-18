@@ -56,12 +56,7 @@ vi.mock("@/platform/local-db/open-local-db", () => ({
   })),
 }));
 
-import {
-  finishWelcomeAction,
-  saveProfileAction,
-  skipWelcomeAction,
-  type ProfileFormState,
-} from "./profile-actions";
+import { saveProfileAction, type ProfileFormState } from "./profile-actions";
 
 const idle: ProfileFormState = { message: null, status: "idle" };
 
@@ -180,55 +175,5 @@ describe("saveProfileAction", () => {
     );
 
     expect(result.status).toBe("error");
-  });
-});
-
-describe("finishWelcomeAction", () => {
-  it("saves the name and icon and marks Welcome done", async () => {
-    const result = await finishWelcomeAction(
-      idle,
-      form({ displayName: "Red", iconFormId: "100" }),
-    );
-
-    expect(updates).toHaveLength(1);
-    expect(updates[0]).toMatchObject({
-      display_name: "Red",
-      icon_form_id: 100,
-    });
-    expect(updates[0]?.welcome_completed_at).toEqual(expect.any(String));
-    expect(result.status).toBe("success");
-  });
-
-  it("leaves your name and icon alone when you gave none, and still marks it done", async () => {
-    await finishWelcomeAction(idle, form({ displayName: " ", iconFormId: "" }));
-
-    expect(Object.keys(updates[0] ?? {})).toEqual(["welcome_completed_at"]);
-  });
-
-  it("does not mark Welcome done when the icon is refused", async () => {
-    state.iconAllowed = false;
-
-    const result = await finishWelcomeAction(
-      idle,
-      form({ displayName: "Red", iconFormId: "600" }),
-    );
-
-    expect(result.status).toBe("error");
-    expect(updates).toEqual([]);
-  });
-});
-
-describe("skipWelcomeAction", () => {
-  it("only marks Welcome done", async () => {
-    const result = await skipWelcomeAction();
-
-    expect(Object.keys(updates[0] ?? {})).toEqual(["welcome_completed_at"]);
-    expect(result.status).toBe("success");
-  });
-
-  it("reports a failed save so Welcome isn't left half done", async () => {
-    state.saveFails = true;
-
-    expect((await skipWelcomeAction()).status).toBe("error");
   });
 });

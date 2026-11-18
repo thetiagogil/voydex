@@ -70,17 +70,17 @@ test.describe("Offline", () => {
       .getByRole("navigation", { name: "Play sections" })
       .getByRole("link", { name: "History" })
       .click();
-    await expect(page).toHaveURL(/\/mainline\/plays\/play\/history\?id=/);
+    await expect(page).toHaveURL(/\/app\/plays\/play\/history\?id=/);
     await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
     for (const path of [
-      "/mainline",
-      "/mainline/plays",
-      "/mainline/plans",
-      "/mainline/library",
-      "/mainline/collection",
-      "/settings",
-      "/codex/pokemon",
+      "/app",
+      "/app/plays",
+      "/app/plans",
+      "/app/library",
+      "/app/collection",
+      "/app/settings",
+      "/app/codex/pokemon",
     ]) {
       await page.goto(path);
       await expect(pageHeading(page), path).toBeVisible();
@@ -98,7 +98,7 @@ test.describe("Offline", () => {
     context,
     page,
   }) => {
-    await page.goto("/codex/pokemon/pikachu");
+    await page.goto("/app/codex/pokemon/pikachu");
     await expect(
       page.getByRole("heading", { level: 1, name: "Pikachu" }),
     ).toBeVisible();
@@ -111,19 +111,19 @@ test.describe("Offline", () => {
 
     await context.setOffline(true);
 
-    await page.goto("/codex/pokemon/mewtwo");
+    await page.goto("/app/codex/pokemon/mewtwo");
     await expect(
       page.getByRole("heading", { level: 1, name: "You're offline" }),
     ).toBeVisible();
     await expect(notKept(page)).toBeVisible();
 
-    await page.goto("/codex/pokemon/pikachu");
+    await page.goto("/app/codex/pokemon/pikachu");
     await expect(
       page.getByRole("heading", { level: 1, name: "Pikachu" }),
     ).toBeVisible();
 
     await context.setOffline(false);
-    await page.goto("/codex/pokemon/mewtwo");
+    await page.goto("/app/codex/pokemon/mewtwo");
     await expect(
       page.getByRole("heading", { level: 1, name: "Mewtwo" }),
     ).toBeVisible();

@@ -5,8 +5,8 @@
   /*
    * Plain files only: the app is built as files (`npm run build` writes
    * out/), and Cloudflare hands them out with no Worker script running, so
-   * any number of visits stays free. `/codex/pokemon` serves
-   * `codex/pokemon.html`; an address with no file gets the 404 page.
+   * any number of visits stays free. `/app/codex/pokemon` serves
+   * `app/codex/pokemon.html`; an address with no file gets the 404 page.
    */
   "assets": {
     "directory": "out",

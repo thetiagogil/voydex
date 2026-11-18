@@ -34,7 +34,7 @@ const readBrowsePokemon = () => {
   return browsePokemon;
 };
 
-/* Every species' page: `/codex/pokemon/{species}`. */
+/* Every species' page: `/app/codex/pokemon/{species}`. */
 export const getCodexPokemonPageParams = () =>
   readBrowsePokemon().map(({ slug }) => ({ speciesSlug: slug }));
 
