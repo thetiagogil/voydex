@@ -10,7 +10,7 @@ const playId = "00000000-0000-4000-8000-000000000001";
 describe("getMainlinePlayNavigationState", () => {
   it.each([
     [
-      "/mainline/plays/play",
+      "/app/plays/play",
       {
         activeProgressView: null,
         activeSection: "overview",
@@ -18,7 +18,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/team",
+      "/app/plays/play/team",
       {
         activeProgressView: null,
         activeSection: "team",
@@ -26,7 +26,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/team/plan",
+      "/app/plays/play/team/plan",
       {
         activeProgressView: null,
         activeSection: "team",
@@ -34,7 +34,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/team/analysis",
+      "/app/plays/play/team/analysis",
       {
         activeProgressView: null,
         activeSection: "team",
@@ -42,7 +42,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/progress",
+      "/app/plays/play/progress",
       {
         activeProgressView: "story",
         activeSection: "progress",
@@ -50,7 +50,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/progress/story",
+      "/app/plays/play/progress/story",
       {
         activeProgressView: "story",
         activeSection: "progress",
@@ -58,7 +58,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/progress/pokedex",
+      "/app/plays/play/progress/pokedex",
       {
         activeProgressView: "pokedex",
         activeSection: "progress",
@@ -66,7 +66,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/progress/collectibles",
+      "/app/plays/play/progress/collectibles",
       {
         activeProgressView: "collectibles",
         activeSection: "progress",
@@ -74,7 +74,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/history",
+      "/app/plays/play/history",
       {
         activeProgressView: null,
         activeSection: "history",
@@ -82,7 +82,7 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      "/mainline/plays/play/settings",
+      "/app/plays/play/settings",
       {
         activeProgressView: null,
         activeSection: "settings",
@@ -96,7 +96,7 @@ describe("getMainlinePlayNavigationState", () => {
   it("keeps compound sections active for unknown child routes", () => {
     expect(
       getMainlinePlayNavigationState(
-        "/mainline/plays/play/team/future-view",
+        "/app/plays/play/team/future-view",
         playId,
       ),
     ).toEqual({
@@ -106,7 +106,7 @@ describe("getMainlinePlayNavigationState", () => {
     });
     expect(
       getMainlinePlayNavigationState(
-        "/mainline/plays/play/progress/future-view",
+        "/app/plays/play/progress/future-view",
         playId,
       ),
     ).toEqual({
@@ -118,7 +118,7 @@ describe("getMainlinePlayNavigationState", () => {
 
   it("accepts trailing slashes on route-backed views", () => {
     expect(
-      getMainlinePlayNavigationState("/mainline/plays/play/team/plan/", playId),
+      getMainlinePlayNavigationState("/app/plays/play/team/plan/", playId),
     ).toEqual({
       activeProgressView: null,
       activeSection: "team",
@@ -128,8 +128,8 @@ describe("getMainlinePlayNavigationState", () => {
 });
 
 describe("getMainlinePlayMarkedPath", () => {
-  const analysis = "/mainline/plays/play/team/analysis";
-  const story = "/mainline/plays/play/progress/story";
+  const analysis = "/app/plays/play/team/analysis";
+  const story = "/app/plays/play/progress/story";
 
   /* A picked tab's href carries the Play's id in its query. */
   it("lights a picked tab whose href carries the Play's query", () => {
@@ -137,7 +137,7 @@ describe("getMainlinePlayMarkedPath", () => {
       getMainlinePlayNavigationState(
         getMainlinePlayMarkedPath(analysis, {
           from: analysis,
-          href: `/mainline/plays/play/team/plan?id=${playId}`,
+          href: `/app/plays/play/team/plan?id=${playId}`,
         }),
         playId,
       ),

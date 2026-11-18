@@ -232,7 +232,7 @@ describe("getPokemonDetailWhereToFindRows", () => {
       "The Isle of Armor",
     ]);
     expect(rows[0]?.ways.map((way) => way.label)).toEqual(["Wild"]);
-    expect(rows[0]?.href).toBe("/codex/games/swsh?version=sword");
+    expect(rows[0]?.href).toBe("/app/codex/games/swsh?version=sword");
     /* A Sword-only way leaves Shield without one: a version exclusive. */
     expect(rows[1]?.ways).toEqual([]);
     expect(rows[1]?.missingLabel).toBe("Not in this version");

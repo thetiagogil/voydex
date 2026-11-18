@@ -13,7 +13,7 @@ test.describe("Profile: icon and default trainer name", () => {
   }) => {
     await signUp(page, newTestEmail("trainer"));
 
-    await page.goto("/settings");
+    await page.goto("/app/settings");
     const profile = page.getByRole("form", { name: "Profile" });
 
     await profile
@@ -37,7 +37,7 @@ test.describe("Profile: icon and default trainer name", () => {
         .getByRole("button", { name: "Squirtle" }),
     ).toHaveAttribute("aria-pressed", "true");
 
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Red, 1996" }).click();

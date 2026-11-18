@@ -24,8 +24,8 @@ describe("auth page links", () => {
   });
 
   it("keeps the sign-up mode and where to go afterwards", () => {
-    expect(getAuthPageHref({ mode: "sign-up", next: "/mainline/plays" })).toBe(
-      "/login?mode=sign-up&next=%2Fmainline%2Fplays",
+    expect(getAuthPageHref({ mode: "sign-up", next: "/app/plays" })).toBe(
+      "/login?mode=sign-up&next=%2Fapp%2Fplays",
     );
   });
 
@@ -45,8 +45,8 @@ describe("recovery and first-run links", () => {
     expect(getForgotPasswordHref({ next: LOGIN_DEFAULT_NEXT })).toBe(
       "/forgot-password",
     );
-    expect(getForgotPasswordHref({ next: "/settings", sent: "once" })).toBe(
-      "/forgot-password?sent=once&next=%2Fsettings",
+    expect(getForgotPasswordHref({ next: "/app/settings", sent: "once" })).toBe(
+      "/forgot-password?sent=once&next=%2Fapp%2Fsettings",
     );
     expect(
       getForgotPasswordHref({
@@ -57,8 +57,8 @@ describe("recovery and first-run links", () => {
   });
 
   it("links Choose a new password with where to go afterwards", () => {
-    expect(getResetPasswordHref({ next: "/mainline/plays" })).toBe(
-      "/reset-password?next=%2Fmainline%2Fplays",
+    expect(getResetPasswordHref({ next: "/app/plays" })).toBe(
+      "/reset-password?next=%2Fapp%2Fplays",
     );
   });
 
@@ -66,8 +66,8 @@ describe("recovery and first-run links", () => {
     expect(getCheckEmailHref({ next: LOGIN_DEFAULT_NEXT })).toBe(
       "/check-email",
     );
-    expect(getCheckEmailHref({ next: "/mainline/plays", resent: true })).toBe(
-      "/check-email?sent=again&next=%2Fmainline%2Fplays",
+    expect(getCheckEmailHref({ next: "/app/plays", resent: true })).toBe(
+      "/check-email?sent=again&next=%2Fapp%2Fplays",
     );
   });
 

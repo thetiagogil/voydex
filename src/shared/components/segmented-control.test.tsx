@@ -66,19 +66,21 @@ describe("SegmentedControl", () => {
         value={null}
         options={[
           {
-            href: "/codex/pokemon",
+            href: "/app/codex/pokemon",
             label: "Pokémon",
             value: "pokemon",
             current: true,
           },
-          { href: "/codex/games", label: "Games", value: "games" },
+          { href: "/app/codex/games", label: "Games", value: "games" },
         ]}
       />,
     );
 
     expect(html).toContain("<nav");
-    expect(html).toMatch(/<a aria-current="true"[^>]*href="\/codex\/pokemon"/);
-    expect(html).toMatch(/<a class="[^"]*" href="\/codex\/games"/);
+    expect(html).toMatch(
+      /<a aria-current="true"[^>]*href="\/app\/codex\/pokemon"/,
+    );
+    expect(html).toMatch(/<a class="[^"]*" href="\/app\/codex\/games"/);
   });
 
   it("renders a disabled link without an href", () => {
@@ -87,9 +89,9 @@ describe("SegmentedControl", () => {
         ariaLabel="Codex"
         value="pokemon"
         options={[
-          { href: "/codex/pokemon", label: "Pokémon", value: "pokemon" },
+          { href: "/app/codex/pokemon", label: "Pokémon", value: "pokemon" },
           {
-            href: "/codex/moves",
+            href: "/app/codex/moves",
             label: "Moves",
             value: "moves",
             disabled: true,
@@ -100,7 +102,7 @@ describe("SegmentedControl", () => {
 
     expect(html).toContain('aria-current="page"');
     expect(html).toContain('role="link" aria-disabled="true"');
-    expect(html).not.toContain('href="/codex/moves"');
+    expect(html).not.toContain('href="/app/codex/moves"');
   });
 
   it("renders disabled buttons, counts and a colour dot in segment mode", () => {

@@ -65,9 +65,9 @@ widths. Verify:
 - Responsive hierarchy, overflow, and the supported V1 light theme.
 - Console errors, framework overlays, and failed network requests.
 
-Representative public routes include `/`, `/codex/pokemon`, `/codex/games`, and
+Representative public routes include `/`, `/app/codex/pokemon`, `/app/codex/games`, and
 game-scoped Pokémon detail. Representative authenticated routes include
-`/mainline/plays`, an owned Play Hub, and `/settings`.
+`/app/plays`, an owned Play Hub, and `/app/settings`.
 
 If a tool cannot reach a host-local development server, report that as an
 environment limitation rather than claiming visual verification.

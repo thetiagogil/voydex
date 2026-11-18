@@ -23,10 +23,10 @@ test.describe("New Play", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    await page.goto(`/mainline/plays/play/history?id=${playId}`);
+    await page.goto(`/app/plays/play/history?id=${playId}`);
     await expect(page.getByText("Charmander chose you")).toBeVisible();
 
-    await page.goto("/mainline/plays");
+    await page.goto("/app/plays");
     await expect(
       page.getByRole("link", { name: new RegExp(name) }),
     ).toBeVisible();
@@ -65,7 +65,7 @@ test.describe("New Play", () => {
   test("lights only the generation jumped to while the shelf scrolls there", async ({
     page,
   }) => {
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const marks = page
       .getByRole("dialog", { name: "New Play" })
       .getByRole("group", { name: "Jump to a generation" });
@@ -98,7 +98,7 @@ test.describe("New Play", () => {
   test("asks for a Play name and shows the game beside the partner", async ({
     page,
   }) => {
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await dialog.getByRole("option", { name: "Pokémon Red, 1996" }).click();
@@ -122,7 +122,7 @@ test.describe("New Play", () => {
   });
 
   test("keeps Next off until a game is picked", async ({ page }) => {
-    await page.goto("/mainline?new=1");
+    await page.goto("/app?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
 
     await expect(dialog.getByRole("button", { name: "Next" })).toBeDisabled();

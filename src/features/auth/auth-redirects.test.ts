@@ -8,14 +8,14 @@ import {
 
 describe("auth redirect safety", () => {
   it("keeps protected routes with their query and hash", () => {
-    expect(
-      getSafeAuthRedirectPath("/mainline/plays?status=active#current"),
-    ).toBe("/mainline/plays?status=active#current");
+    expect(getSafeAuthRedirectPath("/app/plays?status=active#current")).toBe(
+      "/app/plays?status=active#current",
+    );
   });
 
   it("allows public module routes", () => {
-    expect(getSafeAuthRedirectPath("/codex/pokemon/pikachu")).toBe(
-      "/codex/pokemon/pikachu",
+    expect(getSafeAuthRedirectPath("/app/codex/pokemon/pikachu")).toBe(
+      "/app/codex/pokemon/pikachu",
     );
   });
 
@@ -29,20 +29,25 @@ describe("auth redirect safety", () => {
   });
 
   it("uses a safe fallback for non-string values", () => {
-    expect(getSafeAuthRedirectPath(null, "/codex/games")).toBe("/codex/games");
+    expect(getSafeAuthRedirectPath(null, "/app/codex/games")).toBe(
+      "/app/codex/games",
+    );
   });
 });
 
 describe("log in landing", () => {
-  it("lands on Mainline by default and from public pages", () => {
-    expect(getLogInLandingPath(DEFAULT_AUTH_REDIRECT_PATH)).toBe("/mainline");
-    expect(getLogInLandingPath("/codex/pokemon/pikachu")).toBe("/mainline");
+  it("lands on Home by default and from outside the app", () => {
+    expect(getLogInLandingPath(DEFAULT_AUTH_REDIRECT_PATH)).toBe("/app");
+    expect(getLogInLandingPath("/reset-password")).toBe("/app");
   });
 
-  it("returns to the protected page that sent you to Log in", () => {
-    expect(getLogInLandingPath("/mainline/plays?status=active")).toBe(
-      "/mainline/plays?status=active",
+  it("returns to the app page that sent you to Log in", () => {
+    expect(getLogInLandingPath("/app/plays?status=active")).toBe(
+      "/app/plays?status=active",
     );
-    expect(getLogInLandingPath("/settings")).toBe("/settings");
+    expect(getLogInLandingPath("/app/settings")).toBe("/app/settings");
+    expect(getLogInLandingPath("/app/codex/pokemon/pikachu")).toBe(
+      "/app/codex/pokemon/pikachu",
+    );
   });
 });

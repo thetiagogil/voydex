@@ -53,7 +53,7 @@ describe("PokemonDetailBreedingCard", () => {
         femaleRatioEighths={1}
         hasGender
         note={{ arrivesIn: 2, text: "Eggs arrive in" }}
-        noteHref="/codex/pokemon/charizard?generation=ii"
+        noteHref="/app/codex/pokemon/charizard?generation=ii"
       />,
     );
 

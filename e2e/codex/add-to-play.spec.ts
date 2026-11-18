@@ -6,7 +6,7 @@ import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Signed in, the Codex adds to your Plays without leaving the entry. */
 test.describe("Codex: Add to a Play", () => {
-  const entry = "/codex/pokemon/pikachu?game=rb";
+  const entry = "/app/codex/pokemon/pikachu?game=rb";
   let playName: string;
   let playId: string;
 
@@ -50,7 +50,7 @@ test.describe("Codex: Add to a Play", () => {
     ).toBeVisible(forTheAnswer);
 
     await page.getByRole("button", { name: "Open the roster" }).click();
-    await page.waitForURL(`**/mainline/plays/play/team?id=${playId}`);
+    await page.waitForURL(`**/app/plays/play/team?id=${playId}`);
     await expect(
       page
         .getByRole("region", { name: /^Active team/ })
@@ -72,7 +72,7 @@ test.describe("Codex: Add to a Play", () => {
     ).toBeFocused();
     await expect(onThisPlay(page)).toHaveCount(0);
 
-    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
+    await page.goto(`/app/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(page.getByRole("button", { name: /^Pikachu\b/ })).toHaveCount(

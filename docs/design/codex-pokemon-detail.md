@@ -6,8 +6,8 @@ history.
 
 ## Current Status
 
-- `/codex/pokemon` is the stable Codex browse view for now.
-- `/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` is on Soft Clay (v3's
+- `/app/codex/pokemon` is the stable Codex browse view for now.
+- `/app/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` is on Soft Clay (v3's
   entry): the head and the hero on the page's band, then quiet section cards
   one a row but the two short ones, the learnset and your Plays last.
 
@@ -18,7 +18,7 @@ still names one base version group, its expansions included, which picks the
 generation and the game the learnset is read in:
 
 ```txt
-/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]&form=[formSlug]
+/app/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]&form=[formSlug]
 ```
 
 The version group determines the generation. Do not add generation or game to

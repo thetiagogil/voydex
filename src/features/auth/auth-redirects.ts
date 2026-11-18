@@ -1,17 +1,14 @@
-import { getModuleKeyForPathname } from "@/config/modules";
 import { appRoutes, isAppRoute } from "@/config/routes";
 
-export const DEFAULT_AUTH_REDIRECT_PATH: string = appRoutes.appEntry;
+/* Where signing in lands when nothing asked for somewhere else: Home. */
+export const DEFAULT_AUTH_REDIRECT_PATH: string = appRoutes.mainline;
 
 const AUTH_REDIRECT_BASE_URL = "https://voydex.local";
 
 const isAllowedAuthRedirectPath = (pathname: string) => {
   return (
-    pathname === appRoutes.appEntry ||
     /* Where a password reset link lands, through the callback. */
-    pathname === appRoutes.resetPassword ||
-    isAppRoute(pathname) ||
-    Boolean(getModuleKeyForPathname(pathname))
+    pathname === appRoutes.resetPassword || isAppRoute(pathname)
   );
 };
 
@@ -47,13 +44,11 @@ export const getSafeAuthRedirectPath = (
 };
 
 /*
- * Where Log in lands: always Mainline, unless a protected page sent you to
- * Log in (`/login?next=`), which you go back to. `next` is already safe.
+ * Where Log in lands: Home, unless an app page sent you to Log in
+ * (`/login?next=`), which you go back to. `next` is already safe.
  */
 export const getLogInLandingPath = (next: string): string => {
   const { pathname } = new URL(next, AUTH_REDIRECT_BASE_URL);
 
-  return pathname !== appRoutes.appEntry && isAppRoute(pathname)
-    ? next
-    : appRoutes.mainline;
+  return isAppRoute(pathname) ? next : appRoutes.mainline;
 };

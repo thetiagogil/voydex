@@ -10,7 +10,7 @@ import { startPlay, uniquePlayName } from "../support/plays";
 test.use({ storageState: signedOut });
 
 const rename = async (page: Page, name: string) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await page.getByRole("textbox", { name: "Display name" }).fill(name);
 
   const saved = waitForAction(page);
@@ -24,7 +24,7 @@ const accountRequests = /127\.0\.0\.1:54621\/(rest|storage)\//;
 
 /* Logs out, then makes a second account on the same device. */
 const switchAccount = async (page: Page, email: string) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await page
     .getByRole("region", { name: "Account" })
     .getByRole("button", { name: "Log out" })
@@ -42,7 +42,7 @@ const otherPlaysQuestion = (page: Page) =>
   });
 
 const waitForSync = async (page: Page) => {
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/app/settings", { waitUntil: "networkidle" });
   await expect(
     page.getByRole("region", { name: "Account" }).getByText(/Synced today/),
   ).toBeVisible(forTheAnswer);
@@ -70,9 +70,9 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(second, email);
-      await second.waitForURL("**/mainline**");
+      await second.waitForURL("**/app**");
       await waitForSync(second);
-      await second.goto("/mainline/plays");
+      await second.goto("/app/plays");
       await expect(second.getByText(name)).toBeVisible(forTheAnswer);
     } finally {
       await other.close();
@@ -97,7 +97,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(laptop, email);
-      await laptop.waitForURL("**/mainline**");
+      await laptop.waitForURL("**/app**");
       await waitForSync(laptop);
 
       /* The laptop is cut off from the account while both change the name. */
@@ -115,7 +115,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
           .getByRole("button", { name: "Sync now" }),
       ).toBeEnabled(forTheAnswer);
       await other.unroute(accountRequests);
-      await laptop.goto("/settings", { waitUntil: "networkidle" });
+      await laptop.goto("/app/settings", { waitUntil: "networkidle" });
 
       const dialog = laptop.getByRole("dialog", {
         name: "Which version to keep?",
@@ -171,9 +171,9 @@ test.describe("Account sync: backups that follow you between devices", () => {
 
     try {
       await logIn(laptop, second);
-      await laptop.waitForURL("**/mainline**");
+      await laptop.waitForURL("**/app**");
       await waitForSync(laptop);
-      await laptop.goto("/mainline/plays");
+      await laptop.goto("/app/plays");
       await expect(laptop.getByText(name)).toBeVisible(forTheAnswer);
     } finally {
       await other.close();
@@ -206,7 +206,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     );
     await expect(question).toBeHidden(forTheAnswer);
     await saved;
-    await page.goto("/mainline/plays", { waitUntil: "networkidle" });
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
     await expect(page.getByRole("heading", { name: "Plays" })).toBeVisible();
     await expect(page.getByText(name)).toBeHidden();
   });

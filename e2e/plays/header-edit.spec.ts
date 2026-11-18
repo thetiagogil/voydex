@@ -12,7 +12,7 @@ const startBluePlay = async (page: Page, label: string) => {
     partner: null,
   });
 
-  await page.goto(`/mainline/plays/play?id=${playId}`, {
+  await page.goto(`/app/plays/play?id=${playId}`, {
     waitUntil: "networkidle",
   });
 
@@ -78,7 +78,7 @@ test.describe("Play header edits", () => {
     ).toBeVisible(forTheAnswer);
 
     /* Settings shows the same values, and History has the status moment. */
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+    await page.goto(`/app/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     const general = page.getByRole("region", { name: "General" });
@@ -98,7 +98,7 @@ test.describe("Play header edits", () => {
         .getByRole("button", { name: "Paused" }),
     ).toHaveAttribute("aria-pressed", "true");
 
-    await page.goto(`/mainline/plays/play/history?id=${playId}`, {
+    await page.goto(`/app/plays/play/history?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await expect(

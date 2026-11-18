@@ -51,24 +51,24 @@ test.describe("Page changes", () => {
       partner: "Bulbasaur",
     });
 
-    await page.goto(`/mainline?play=${secondId}`, { waitUntil: "networkidle" });
+    await page.goto(`/app?play=${secondId}`, { waitUntil: "networkidle" });
     const shelf = page.getByRole("navigation", { name: "Your Plays" });
 
     await expect(shelf).toBeVisible();
 
     /* Another Play on Home's shelf. */
     await watchFrames(page);
-    await shelf.locator(`a[href="/mainline?play=${firstId}"]`).click();
+    await shelf.locator(`a[href="/app?play=${firstId}"]`).click();
     await expect(shelf.locator('a[aria-current="true"]')).toHaveAttribute(
       "href",
-      `/mainline?play=${firstId}`,
+      `/app?play=${firstId}`,
     );
     expect(await emptyFrames(page)).toEqual([]);
 
     /* Into that Play. */
     await watchFrames(page);
     await page.getByRole("link", { exact: true, name: "Continue" }).click();
-    await expect(page).toHaveURL(`/mainline/plays/play?id=${firstId}`);
+    await expect(page).toHaveURL(`/app/plays/play?id=${firstId}`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Page change first",
     );
@@ -87,7 +87,7 @@ test.describe("Page changes", () => {
     await page.getByRole("button", { name: "You" }).click();
     await watchFrames(page);
     await page.getByRole("menuitem", { name: /^Settings/ }).click();
-    await expect(page).toHaveURL("/settings");
+    await expect(page).toHaveURL("/app/settings");
     await expect(
       page.getByRole("heading", { level: 1, name: "Settings" }),
     ).toBeVisible();
@@ -119,12 +119,12 @@ test.describe("Page changes", () => {
       await fileSent;
       await route.continue();
     });
-    await page.goto(`/mainline/plays/play/team/plan?id=${playId}`, {
+    await page.goto(`/app/plays/play/team/plan?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await watchFrames(page);
     await page.getByRole("button", { name: "Plan a team" }).click();
-    await expect(page).toHaveURL("/mainline/plans/new?vg=rb");
+    await expect(page).toHaveURL("/app/planner?vg=rb");
     await expect(
       page.getByRole("main").locator("[aria-busy='true']"),
     ).toBeVisible();
@@ -137,7 +137,7 @@ test.describe("Page changes", () => {
      * The newest game isn't: the Planner opens from its file, with no
      * download to wait on.
      */
-    await page.goto("/mainline/plans", { waitUntil: "networkidle" });
+    await page.goto("/app/plans", { waitUntil: "networkidle" });
     await watchFrames(page);
     await page.getByRole("link", { name: "New Plan" }).first().click();
     await expect(pool).toBeVisible();

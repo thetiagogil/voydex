@@ -38,7 +38,7 @@ export const startPlay = async (
   page: Page,
   { game, name, partner, rules = [] }: NewPlay,
 ) => {
-  await page.goto("/mainline?new=1");
+  await page.goto("/app?new=1");
   const dialog = page.getByRole("dialog", { name: "New Play" });
 
   await dialog.getByRole("option", { name: game }).click();
@@ -77,7 +77,7 @@ export const startPlay = async (
 
   await dialog.getByRole("button", { name: /^Start/ }).click();
   await started;
-  await page.waitForURL(/\/mainline\/plays\/play\?id=[0-9a-f-]{36}$/);
+  await page.waitForURL(/\/app\/plays\/play\?id=[0-9a-f-]{36}$/);
   await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
 
   return new URL(page.url()).searchParams.get("id")!;

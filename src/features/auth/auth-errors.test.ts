@@ -59,7 +59,7 @@ describe("auth error codes", () => {
   it("finds no link error when the link carries none", () => {
     expect(getAuthLinkErrorCode(new URLSearchParams(""))).toBeNull();
     expect(
-      getAuthLinkErrorCode(new URLSearchParams("code=abc&next=%2Fmainline")),
+      getAuthLinkErrorCode(new URLSearchParams("code=abc&next=%2Fapp")),
     ).toBeNull();
   });
 

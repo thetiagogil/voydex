@@ -42,7 +42,7 @@ not V1 requirements. They remain personalization follow-ups; personal usage
 belongs primarily to Collection.
 
 Pokémon Detail uses the canonical
-`/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` address (a persistent
+`/app/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` address (a persistent
 form as `?form=`), one pre-built page per species. A game's slug or an
 expansion's child-group slug in `?game=` moves on to its base group; an
 unknown group or species shows the not-found page; a group from before the
@@ -129,7 +129,7 @@ not require pagination, personal overlays, or inline Mainline actions. It
 targets compact multi-column density on desktop and two phone columns.
 
 Game Detail explains one base version group at
-`/codex/games/[versionGroupSlug]`, with a version switch for its games
+`/app/codex/games/[versionGroupSlug]`, with a version switch for its games
 (`?version=[gameSlug]`; an unknown version falls back to the group's first
 game). A game's slug or an expansion's child-group slug redirects permanently
 (308) to the base group, keeping the game it named; an unknown slug is a 404.
@@ -167,7 +167,7 @@ explainable paired or otherwise reference-supported relationship; sharing only
 a generation or region is insufficient.
 
 Game Pokédex uses the canonical
-`/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` route (an expansion's
+`/app/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` route (an expansion's
 Pokédex is read under its base group; old game or child-group addresses
 redirect permanently, unknown ones are a 404) and makes the named Pokédex its
 prominent page scope. The selector groups Base game and applicable

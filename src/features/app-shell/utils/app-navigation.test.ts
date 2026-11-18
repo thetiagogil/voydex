@@ -17,21 +17,21 @@ describe("app navigation", () => {
     const plays = mainlineLinks.find((link) => link.slug === "plays");
 
     expect(plays).toBeDefined();
-    expect(isCurrentLink("/mainline/plays", plays!)).toBe(true);
-    expect(isCurrentLink("/mainline/plays/play/team", plays!)).toBe(true);
+    expect(isCurrentLink("/app/plays", plays!)).toBe(true);
+    expect(isCurrentLink("/app/plays/play/team", plays!)).toBe(true);
   });
 
   it("keeps Home current only on Home itself", () => {
-    const home = { exact: true, href: "/mainline", label: "Home" };
+    const home = { exact: true, href: "/app", label: "Home" };
 
-    expect(isCurrentLink("/mainline", home)).toBe(true);
-    expect(isCurrentLink("/mainline/plays", home)).toBe(false);
+    expect(isCurrentLink("/app", home)).toBe(true);
+    expect(isCurrentLink("/app/plays", home)).toBe(false);
   });
 
   it("keeps the Codex current across its sections", () => {
-    expect(codexLink.href).toBe("/codex/pokemon");
-    expect(isCurrentLink("/codex/games/sword", codexLink)).toBe(true);
-    expect(isCurrentLink("/codex/pokemon/bulbasaur", codexLink)).toBe(true);
+    expect(codexLink.href).toBe("/app/codex/pokemon");
+    expect(isCurrentLink("/app/codex/games/sword", codexLink)).toBe(true);
+    expect(isCurrentLink("/app/codex/pokemon/bulbasaur", codexLink)).toBe(true);
   });
 
   it("offers the Codex's pages, each current under its own path", () => {
@@ -41,23 +41,22 @@ describe("app navigation", () => {
     ]);
     const [pokemon, games] = codexViewLinks;
 
-    expect(isCurrentLink("/codex/pokemon/bulbasaur", pokemon!)).toBe(true);
-    expect(isCurrentLink("/codex/pokemon/bulbasaur", games!)).toBe(false);
-    expect(isCurrentLink("/codex/games/sword-shield", games!)).toBe(true);
+    expect(isCurrentLink("/app/codex/pokemon/bulbasaur", pokemon!)).toBe(true);
+    expect(isCurrentLink("/app/codex/pokemon/bulbasaur", games!)).toBe(false);
+    expect(isCurrentLink("/app/codex/games/sword-shield", games!)).toBe(true);
   });
 
   it("does not match a path that only shares a prefix", () => {
     expect(isCurrentLink("/codexes", codexLink)).toBe(false);
     expect(isCurrentLink("/settings-old", accountLink)).toBe(false);
-    expect(isCurrentLink("/settings", accountLink)).toBe(true);
+    expect(isCurrentLink("/app/settings", accountLink)).toBe(true);
   });
 
   it("leaves Statistics and Collection to You on phones", () => {
     expect(
       tabBarLinks.some(
         (link) =>
-          link.href === "/mainline/stats" ||
-          link.href === "/mainline/collection",
+          link.href === "/app/statistics" || link.href === "/app/collection",
       ),
     ).toBe(false);
     expect(tabBarLinks.length).toBeGreaterThan(0);
@@ -67,13 +66,13 @@ describe("app navigation", () => {
     const isYouCurrent = (pathname: string) =>
       youLinks.some((link) => isCurrentLink(pathname, link));
 
-    expect(isYouCurrent("/you")).toBe(true);
-    expect(isYouCurrent("/settings")).toBe(true);
-    expect(isYouCurrent("/mainline/plays")).toBe(false);
+    expect(isYouCurrent("/app/you")).toBe(true);
+    expect(isYouCurrent("/app/settings")).toBe(true);
+    expect(isYouCurrent("/app/plays")).toBe(false);
   });
 
   it("sends the V tile to Mainline in the app and the front page on the site", () => {
-    expect(getBrandHref(true)).toBe("/mainline");
+    expect(getBrandHref(true)).toBe("/app");
     expect(getBrandHref(false)).toBe("/");
   });
 

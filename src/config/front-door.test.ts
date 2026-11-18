@@ -1,21 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { rememberActiveModule } from "@/config/active-module";
 import {
   frontDoorScript,
   readAppEntered,
-  readFrontDoorHref,
   rememberAppEntered,
+  shouldSkipFrontPage,
 } from "@/config/front-door";
 
 /* The browser's storage and address, stood in for by plain objects. */
-const location = { hash: "" };
+const location = { hash: "", replace: vi.fn() };
 
 describe("front door", () => {
   beforeEach(() => {
     const store = new Map<string, string>();
 
     location.hash = "";
+    location.replace.mockClear();
     vi.stubGlobal("window", {
       localStorage: {
         getItem: (key: string) => store.get(key) ?? null,
@@ -31,39 +31,29 @@ describe("front door", () => {
 
   it("shows the front page on a device that has never opened the app", () => {
     expect(readAppEntered()).toBe(false);
-    expect(readFrontDoorHref()).toBeNull();
+    expect(shouldSkipFrontPage()).toBe(false);
   });
 
-  it("sends a device that has opened the app to Mainline", () => {
+  it("skips the front page on a device that has opened the app", () => {
     rememberAppEntered();
 
     expect(readAppEntered()).toBe(true);
-    expect(readFrontDoorHref()).toBe("/mainline");
-  });
-
-  it("goes back to the module the device was last in", () => {
-    rememberAppEntered();
-    rememberActiveModule("/codex/games");
-
-    expect(readFrontDoorHref()).toBe("/codex/pokemon");
+    expect(shouldSkipFrontPage()).toBe(true);
   });
 
   it("keeps the front page for a link to one of its parts", () => {
     rememberAppEntered();
     location.hash = "#how-it-works";
 
-    expect(readFrontDoorHref()).toBeNull();
+    expect(shouldSkipFrontPage()).toBe(false);
   });
 
-  it("does not count a Codex visit as opening the app", () => {
-    rememberActiveModule("/codex/pokemon");
+  it("sends a returning device to the app from the inline script", () => {
+    new Function(frontDoorScript)();
+    expect(location.replace).not.toHaveBeenCalled();
 
-    expect(readFrontDoorHref()).toBeNull();
-  });
-
-  it("carries everything the inline script needs", () => {
-    expect(frontDoorScript).toContain("voydex-app-entered");
-    expect(frontDoorScript).toContain("voydex-active-module");
-    expect(frontDoorScript).toContain("/mainline");
+    rememberAppEntered();
+    new Function(frontDoorScript)();
+    expect(location.replace).toHaveBeenCalledWith("/app");
   });
 });

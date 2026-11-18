@@ -20,7 +20,7 @@ test.describe("Collection", () => {
       partner: "Charmander",
     });
 
-    await page.goto("/mainline/collection", { waitUntil: "networkidle" });
+    await page.goto("/app/collection", { waitUntil: "networkidle" });
     const views = page.getByRole("navigation", { name: "Collection views" });
 
     await expect(views.getByRole("link", { name: /^Pokémon/ })).toHaveAttribute(
@@ -49,7 +49,7 @@ test.describe("Collection", () => {
     await expect(charmander).toBeVisible();
 
     await views.getByRole("link", { name: /^Games/ }).click();
-    await expect(page).toHaveURL(/\/mainline\/collection\?view=games$/);
+    await expect(page).toHaveURL(/\/app\/collection\?view=games$/);
     await expect(views.getByRole("link", { name: /^Games/ })).toHaveAttribute(
       "aria-current",
       "page",
@@ -96,7 +96,7 @@ test.describe("Collection", () => {
     await expect(sheet).toBeVisible();
     await expect(sheet.getByRole("link", { name: playName })).toHaveAttribute(
       "href",
-      `/mainline/plays/play?id=${playId}`,
+      `/app/plays/play?id=${playId}`,
     );
     await expect(
       sheet.getByRole("link", { name: "Open in Codex" }),
@@ -107,7 +107,7 @@ test.describe("Collection", () => {
 
     /* The way back keeps the Pokémon view's address clean. */
     await views.getByRole("link", { name: /^Pokémon/ }).click();
-    await expect(page).toHaveURL(/\/mainline\/collection$/);
+    await expect(page).toHaveURL(/\/app\/collection$/);
     expect(errors).toEqual([]);
   });
 });

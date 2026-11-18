@@ -1,10 +1,10 @@
-import { ACTIVE_MODULE_STORAGE_KEY, modules } from "@/config/modules";
+import { appRoutes } from "@/config/routes";
 
 /*
  * The front page is for people who are new here. A device that has opened
- * the app before goes straight back in: `/` opens the module it was last in.
- * A link that names a part of the front page (`/#how-it-works`) still shows
- * it, so the app can link to how Voydex works.
+ * the app before goes straight back in: `/` opens the app. A link that names
+ * a part of the front page (`/#how-it-works`) still shows it, so the app can
+ * link to how Voydex works.
  */
 const enteredStorageKey = "voydex-app-entered";
 
@@ -25,29 +25,19 @@ export const readAppEntered = () => {
   }
 };
 
-/* Each module's first page, by its key, as the script below reads them. */
-const moduleHrefs: Record<string, string> = Object.fromEntries(
-  Object.entries(modules).map(([key, value]) => [key, value.defaultHref]),
-);
-
 /*
- * Where the front page sends a device that has opened the app: the module it
- * was last in, or Mainline. Null when the front page should show.
+ * Whether the front page should send this device on to the app: it has
+ * opened the app, and the address names no part of the front page.
  */
-export const readFrontDoorHref = (
+export const shouldSkipFrontPage = (
   enteredKey: string = enteredStorageKey,
-  moduleKey: string = ACTIVE_MODULE_STORAGE_KEY,
-  hrefs: Record<string, string> = moduleHrefs,
-  fallback: string = modules.mainline.defaultHref,
-): string | null => {
-  if (window.location.hash) return null;
+): boolean => {
+  if (window.location.hash) return false;
 
   try {
-    if (window.localStorage.getItem(enteredKey) !== "1") return null;
-
-    return hrefs[window.localStorage.getItem(moduleKey) ?? ""] ?? fallback;
+    return window.localStorage.getItem(enteredKey) === "1";
   } catch {
-    return null;
+    return false;
   }
 };
 
@@ -56,11 +46,6 @@ export const readFrontDoorHref = (
  * never sees it flash. It is serialised into the HTML, so it uses nothing
  * from outside itself.
  */
-export const frontDoorScript = `(function(){var href=(${readFrontDoorHref.toString()})(${[
+export const frontDoorScript = `(function(){if((${shouldSkipFrontPage.toString()})(${JSON.stringify(
   enteredStorageKey,
-  ACTIVE_MODULE_STORAGE_KEY,
-  moduleHrefs,
-  modules.mainline.defaultHref,
-]
-  .map((value) => JSON.stringify(value))
-  .join(",")});if(href)window.location.replace(href)})()`;
+)}))window.location.replace(${JSON.stringify(appRoutes.mainline)})})()`;

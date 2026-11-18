@@ -40,8 +40,8 @@ src/
 The active source follows these ownership rules:
 
 - `src/lib` is retired. Environment and Supabase adapters live under
-  `src/platform`, auth workflows live under `src/features/auth`, app-shell and
-  active-module behavior live under `src/features/app-shell`, and the generic
+  `src/platform`, auth workflows live under `src/features/auth`, the app
+  shell lives under `src/features/app-shell`, and the generic
   `cn` helper lives under `src/shared/utils`.
 - route adapters compose the app shell around auth, site, and system content;
   those global features do not import each other.
@@ -49,8 +49,7 @@ The active source follows these ownership rules:
   [ADR 0009](../decisions/0009-app-as-plain-files.md)): no server code runs
   for a page. Login and account changes call Supabase from the browser
   (`src/features/auth/client`, `src/features/settings/client`), the signed-in
-  session is read through `useAuthSession` (`src/platform/local-db`), and the
-  module you were last in is kept in this browser (`src/config/active-module.ts`).
+  session is read through `useAuthSession` (`src/platform/local-db`).
 - reusable Pokemon/game contracts, domain rules, artwork/type primitives,
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
@@ -672,7 +671,7 @@ Next.js, React or `src/platform` at runtime; type-only imports are fine.
   folders; only the build runs those.
 - A page whose id lives in the address takes it from the query, not from a
   path segment, because a file host can't make a page for an id it has never
-  seen: `/mainline/plays/play?id=`, `/mainline/plans/plan?id=`. The Codex
+  seen: `/app/plays/play?id=`, `/app/plans/plan?id=`. The Codex
   makes a page per Pokémon, base game and Pokédex ahead of time
   (`generateStaticParams`, `dynamicParams = false`), each with its own title
   and description.
@@ -722,14 +721,14 @@ Current route groups remain:
   applies it before the page paints;
 - auth: `/login`, `/forgot-password`, `/reset-password`, `/check-email` and
   `/auth/callback`;
-- system: `/app`;
-- public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
-  Pokedex routes;
-- app (open to everyone, data on the device): Mainline Home (`/mainline`), Plays and New Play, every Play
+- the Codex, under the app's address and frame but with no device gate
+  (`src/app/(app-public)/app/codex`): `/app/codex`, Pokemon browse/detail,
+  Games browse/detail, and game Pokedex routes;
+- app (open to everyone, data on the device, `src/app/(app)/app`): Home (`/app`), Plays and New Play, every Play
   Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
   Collectibles, History, Settings), the Team Planner and My Plans
-  (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
-  and `/you`.
+  (`/app/planner`, `/app/plans`), `/app/statistics`, `/app/collection`,
+  `/app/library`, `/app/settings` and `/app/you`.
 
 [Navigation And Routes](../product/navigation-and-routes.md) lists every
 address; code is the evidence for what is mounted.

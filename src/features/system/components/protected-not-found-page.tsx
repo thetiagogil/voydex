@@ -30,7 +30,7 @@ export const ProtectedNotFoundPage = ({
       actions={
         <>
           <Link
-            href={appRoutes.appEntry}
+            href={appRoutes.mainline}
             className={buttonVariants({ size: "lg" })}
           >
             <AppIcon icon={appIcons.actions.home} inline="start" />

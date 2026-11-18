@@ -1,11 +1,6 @@
 import { productFamilies } from "@/config/product-families";
 import { appRoutes } from "@/config/routes";
 
-export const DEFAULT_MODULE_KEY = "codex";
-
-/* Where a device keeps the module it was last in (see `active-module.ts`). */
-export const ACTIVE_MODULE_STORAGE_KEY = "voydex-active-module";
-
 export const modules = {
   codex: {
     basePath: appRoutes.codex,
@@ -67,20 +62,3 @@ export const modules = {
     ],
   },
 } as const;
-
-export type ModuleKey = keyof typeof modules;
-
-export const moduleKeys = Object.keys(modules) as ModuleKey[];
-
-export const isModuleKey = (value: unknown): value is ModuleKey => {
-  return typeof value === "string" && moduleKeys.includes(value as ModuleKey);
-};
-
-export const getModuleKeyForPathname = (pathname: string) => {
-  return (
-    moduleKeys.find((moduleKey) => {
-      const basePath = modules[moduleKey].basePath;
-      return pathname === basePath || pathname.startsWith(`${basePath}/`);
-    }) ?? null
-  );
-};

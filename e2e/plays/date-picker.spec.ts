@@ -12,7 +12,7 @@ const openSettings = async (page: Page) => {
     partner: null,
   });
 
-  await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+  await page.goto(`/app/plays/play/settings?id=${playId}`, {
     waitUntil: "networkidle",
   });
 

@@ -6,7 +6,7 @@ This is the Collection And Statistics part of the [Feature Contract](../feature-
 
 Collection is the user's used Pokémon history across plays.
 
-As built (v3, `/mainline/collection`): every species that has joined one of
+As built (v3, `/app/collection`): every species that has joined one of
 your teams, as stickers, with Search, a Show choice (All, On a team now, In
 several Plays, Shiny), Generation, Sort (Most used by default, Pokédex
 number, Recently recorded)
@@ -100,7 +100,7 @@ Plays are not forced into a false global chronology.
 
 Stats are derived from user data.
 
-As built (v3, `/mainline/stats`), Statistics shows rather than tells: a band
+As built (v3, `/app/statistics`), Statistics shows rather than tells: a band
 with three big figures (hours, Plays, Pokémon met), small facts under them and
 one highlight (the old friend back for the most runs, else a clear favourite
 type, else the Play with the most time); then your team style (the types you

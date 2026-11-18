@@ -18,18 +18,18 @@ The app opens for everyone: your data lives on this device
 only for backups. Mainline, Settings, You and the Codex take this frame.
 
 - **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
-  Mainline Home (`/mainline`). Mainline's views sit centred in module order:
-  Home, Plays, Team Planner (`/mainline/plans/new`, current anywhere under
-  `/mainline/plans`), Statistics and Collection. The Codex menu and your
+  Mainline Home (`/app`). Mainline's views sit centred in module order:
+  Home, Plays, Team Planner (`/app/planner`, current anywhere under
+  `/app/plans`), Statistics and Collection. The Codex menu and your
   account icon sit on the right. The Codex menu (its name, no icon) opens
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
-  open theirs; it is bold while you are anywhere under `/codex`.
-- **Account menu:** Library (`/mainline/library`, your rules and tags),
-  Settings (`/settings`) and, at the foot, Log in (back up your Plays to an
+  open theirs; it is bold while you are anywhere under `/app/codex`.
+- **Account menu:** Library (`/app/library`, your rules and tags),
+  Settings (`/app/settings`) and, at the foot, Log in (back up your Plays to an
   account) or, once you've signed in, Log out.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
-  Pokémon and Games menu upward. You opens `/you` (the
+  Pokémon and Games menu upward. You opens `/app/you` (the
   trainer card, Statistics, Collection, Library, Settings and Log in, or
   Log out once you've signed in) and
   stays current on You, Settings, Library, Statistics and
@@ -48,7 +48,7 @@ log-in pages beside it. Everything else is the app.
   followed over time, the Team Planner and the Codex) and Install
   (`/#install`: how to add Voydex to a Home Screen on an iPhone or iPad,
   and on Android or a computer). Its button reads Start a Play and opens
-  the app (`/mainline`), whose Home asks which game you are playing.
+  the app (`/app`), whose Home asks which game you are playing.
 - **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
   phones), How it works and Install centred (they scroll to those parts of
   the front page; phones leave them out), and Log in on the right. The
@@ -56,11 +56,11 @@ log-in pages beside it. Everything else is the app.
 - The site frame ends on the quiet site footer (name, catchphrase, How it
   works, Codex, Log in, Privacy, Terms and the fan-project notice).
 - **Coming back:** a device that has opened the app (Mainline, Settings or
-  You) skips the front page: `/` sends it to the module it was last in. A
+  You) skips the front page: `/` sends it to Home (`/app`). A
   Codex visit alone doesn't count. A link to one of the front page's parts
   still shows it, with Continue in place of Start a Play; Settings' About
   Voydex links there.
-- **The start screen:** the app's pages (`/mainline`, `/settings`, `/you`
+- **The start screen:** the app's pages (`/app`, `/app/settings`, `/app/you`
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens
   and every tab gets ready, so the bars appear with a working app and
@@ -78,32 +78,26 @@ log-in pages beside it. Everything else is the app.
 
 ### Entry
 
-Explicit URLs determine the rendered module, and authorization still happens at
-server boundaries. Logging in and `/app` follow this precedence:
+The address says where you are: the website is `/` (with Privacy, Terms and
+the log-in pages beside it), and the app is everything under `/app`, the
+Codex included. `/app` is Home.
 
-1. A validated destination or action-resumption target wins when the user is
-   returning from authentication.
-2. A signed-in user is sent to the default landing view of their last active,
-   currently available module (Mainline: Home at `/mainline`; Codex:
-   Pokémon).
-3. Without a valid module preference, entry falls back to the Codex.
-4. A signed-out user receives the public product entry experience unless they
-   explicitly requested a public Codex URL.
+1. A validated destination wins when you return from logging in
+   (`/login?next=`): the app page that sent you there.
+2. Otherwise logging in, signing up and the front page's skip all land on
+   Home (`/app`).
+3. Only addresses under `/app` (and the reset page) are accepted as a
+   destination; anything external, malformed or outside the app falls back
+   to Home.
 
-Remember the last module rather than an arbitrary deep route. The proxy keeps
-the active module cookie in step with the module of each visited route. Each
-present or future module owns a stable default landing view, so a future
-Pokopia-only user can enter Pokopia without passing through Mainline. An
-unavailable, retired, or unauthorized module preference falls back safely
-instead of producing a broken entry flow. Whether the preference must also
-follow a user across browsers or devices remains a product and data design
-question; it is not yet a confirmed database requirement.
+A later module (a second game family) takes its own prefix under `/app`;
+today's pages stay where they are.
 
 ## Module Views
 
 Mainline owns:
 
-- Home (`/mainline`).
+- Home (`/app`).
 - Plays, New Play and the Play Hub.
 - Plans: the Team Planner and My Plans.
 - Collection.
@@ -123,13 +117,13 @@ reference/filter context; they are not currently a required top-level view.
 /                       the front page: #how-it-works, #install
 /privacy, /terms
 
-/login                  ?mode=sign-up, ?next=, ?game=, ?partner=
+/login                  ?mode=sign-up, ?next=
 /forgot-password        ?sent=
 /reset-password         where the reset link lands
 /check-email            after a sign-up that needs its email confirmed
 /auth/callback          every email link
 
-/mainline               Home: ?play= puts one of your Plays on the meadow,
+/app                    Home: ?play= puts one of your Plays on the meadow,
                         ?new= opens New Play over it (a game slug, or 1),
                         with ?partner= its first partner already picked
   /plays                ?view=archived lists archived Plays, each with Restore
@@ -143,23 +137,20 @@ reference/filter context; they are not currently a required top-level view.
         /collectibles
       /history
       /settings
+  /planner              the Team Planner on a blank Plan: ?vg=
   /plans                My Plans
-    /new                the Team Planner on a blank Plan: ?vg=
     /plan               ?id= names the Plan, ?vg=
-  /stats
+  /statistics
   /collection           ?species=
   /library              ?tab=rules|tags
-
-/codex
-  /pokemon
-    /[speciesSlug]      ?game= names the base group, ?form=
-  /games
-    /[versionGroupSlug]
-    /[versionGroupSlug]/pokedexes/[pokedexSlug]
-
-/settings
-  /export               your rows as one JSON file
-/you
+  /settings
+  /you
+  /codex
+    /pokemon
+      /[speciesSlug]    ?game= names the base group, ?form=
+    /games
+      /[versionGroupSlug]
+      /[versionGroupSlug]/pokedexes/[pokedexSlug]
 ```
 
 `src/config/routes.ts` builds every address. Thin route adapters compose feature-owned page entry points. Every
@@ -176,12 +167,12 @@ version-group segment resolves through one rule
 canonical; a game's slug or a child group's slug moves on to its base group
 in the browser; an unknown slug shows the not-found page.
 
-Pokémon Browse lives at `/codex/pokemon` (a stray query redirects to the bare
+Pokémon Browse lives at `/app/codex/pokemon` (a stray query redirects to the bare
 path). Each species card opens
-`/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` in the first base group
+`/app/codex/pokemon/[speciesSlug]?game=[versionGroupSlug]` in the first base group
 of the generation it was introduced in. A persistent form rides as `?form=`. A
 game's or child group's slug in `?game=` moves on to its base group. An entry
-in a group from before the species existed, and `/codex/pokemon/[speciesSlug]`
+in a group from before the species existed, and `/app/codex/pokemon/[speciesSlug]`
 with no `?game=`, open the introduced generation's first base group the
 species can be found in (Legends: Arceus for Wyrdeer, Let's Go for Meltan),
 the same rule as the entry's generation pills, and the address stays as it
@@ -194,13 +185,13 @@ Collection's Favourites links this way. Back or an explicit return to Browse
 should restore criteria, result position, scroll, and useful focus.
 
 Games Browse keeps Search (`q`) and the kind of game (`kind`) in URL state
-under `/codex/games`. A game opens its version group's page,
-`/codex/games/[versionGroupSlug]?version=[gameSlug]`, with that game picked in
+under `/app/codex/games`. A game opens its version group's page,
+`/app/codex/games/[versionGroupSlug]?version=[gameSlug]`, with that game picked in
 the version switch; an unknown `version` falls back to the group's first game.
 An old game address redirects there, keeping the game it named.
 
 Game Pokédex uses
-`/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` as the complete
+`/app/codex/games/[versionGroupSlug]/pokedexes/[pokedexSlug]` as the complete
 public scope; its expansions' Pokédexes and its own National Pokédex (386 in
 Ruby and Sapphire) appear under the base group, National last. The
 selected named Pokédex is route identity, not a hidden filter; an unknown
@@ -236,7 +227,7 @@ Codex is an optional contextual entry, never a required funnel.
 ### Plan A Team
 
 ```txt
-Team Planner (/mainline/plans/new) -> Save -> /mainline/plans/plan?id=
+Team Planner (/app/planner) -> Save -> /app/plans/plan?id=
 My Plans -> a Plan -> Team Planner
 A Play's Team -> Plan -> Follow a Plan, or Plan a team (the Planner on the
   Play's version group)
@@ -319,23 +310,23 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   remains active; it does not list an Overall destination. Named Pokédex and
   Collectible-group selectors stay inside their owning child views.
 - The contextual Team Plan comparison is a focused view inside the active Team
-  section at `/mainline/plays/play/team/plan?id=`. The Play shell and primary
+  section at `/app/plays/play/team/plan?id=`. The Play shell and primary
   navigation remain visible.
-- History is the Play's History tab at `/mainline/plays/play/history?id=`;
+- History is the Play's History tab at `/app/plays/play/history?id=`;
   its search and its Story, Team, Notes and Status filters are local state. Team History is
   retired: its old address is gone and its events are History's Team filter.
 - Settings is one route with four local cards (General, Tracking, Challenge
   rules, Archive or delete); they add no routes.
 - An archived Play leaves Home and the Plays list but keeps its address: its
   Hub opens with a quiet "Archived" note and Restore, and Plays links to an
-  Archived list (`/mainline/plays?view=archived`) where each Play restores.
-- Standalone Plans live under `/mainline/plans` because they exist without a
+  Archived list (`/app/plays?view=archived`) where each Play restores.
+- Standalone Plans live under `/app/plans` because they exist without a
   Play. The contextual comparison does not add another primary Play tab.
-- Global Settings remains one `/settings` page (the trainer card, Look and
+- Global Settings remains one `/app/settings` page (the trainer card, Look and
   feel, New Play defaults, Account, Your data); there is no data export.
-  On phones `/you` gathers the trainer card, Statistics, Collection,
+  On phones `/app/you` gathers the trainer card, Statistics, Collection,
   Library and Settings.
-- The Library (`/mainline/library`) is not in the main bars: the account
+- The Library (`/app/library`) is not in the main bars: the account
   menu, the You page and every rule or tag picker's "Manage in Library"
   reach it.
 - Site not-found states keep the site frame. An app resource that isn't on

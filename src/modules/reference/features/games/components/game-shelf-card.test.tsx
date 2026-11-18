@@ -18,13 +18,13 @@ const getWords = (markup: string) => markup.replace(/<[^>]+>/g, "");
 describe("GameShelfCard", () => {
   it("names the game, its year and region, never your Plays", () => {
     const markup = renderToStaticMarkup(
-      <GameShelfCard game={game} href="/codex/games/swsh?game=sword" />,
+      <GameShelfCard game={game} href="/app/codex/games/swsh?game=sword" />,
     );
 
     /* The link reads its own words: the full name, then the year and region. */
     expect(markup).not.toContain("aria-label");
     expect(getWords(markup)).toContain("Pokémon Sword2019 · Galar");
-    expect(markup).toContain('href="/codex/games/swsh?game=sword"');
+    expect(markup).toContain('href="/app/codex/games/swsh?game=sword"');
     expect(markup).toContain("plain-card");
     expect(markup).not.toContain("sticker");
     expect(markup).not.toContain("empty-slot");

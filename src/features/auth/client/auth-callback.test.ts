@@ -17,7 +17,7 @@ vi.mock("@/platform/supabase/browser-client", () => ({
   getBrowserSupabaseClient: () => ({ auth }),
 }));
 
-const fallback = "/codex/pokemon";
+const fallback = "/app/codex/pokemon";
 const resetLanding = (next: string) => getResetPasswordHref({ next });
 const finish = (query: Record<string, string>) =>
   completeAuthLink(new URLSearchParams(query), fallback);
@@ -29,9 +29,7 @@ beforeEach(() => {
 
 describe("completeAuthLink", () => {
   it("exchanges a code once and goes on to the link's next page", async () => {
-    await expect(finish({ code: "abc", next: "/mainline" })).resolves.toBe(
-      "/mainline",
-    );
+    await expect(finish({ code: "abc", next: "/app" })).resolves.toBe("/app");
     expect(auth.exchangeCodeForSession).toHaveBeenCalledExactlyOnceWith("abc");
   });
 
@@ -48,17 +46,17 @@ describe("completeAuthLink", () => {
   it("sends a code that fails back to Log in, keeping where it was going", async () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
-    await expect(finish({ code: "abc", next: "/mainline" })).resolves.toBe(
+    await expect(finish({ code: "abc", next: "/app" })).resolves.toBe(
       getAuthPageHref({
         error: "link-expired",
         mode: "log-in",
-        next: "/mainline",
+        next: "/app",
       }),
     );
   });
 
   it("lands a reset link on Choose a new password, keeping its own next page", async () => {
-    const next = resetLanding("/settings");
+    const next = resetLanding("/app/settings");
 
     await expect(finish({ code: "abc", next })).resolves.toBe(next);
   });
@@ -73,16 +71,19 @@ describe("completeAuthLink", () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
     await expect(
-      finish({ code: "abc", next: resetLanding("/settings") }),
+      finish({ code: "abc", next: resetLanding("/app/settings") }),
     ).resolves.toBe(
-      getForgotPasswordHref({ error: "reset-link-expired", next: "/settings" }),
+      getForgotPasswordHref({
+        error: "reset-link-expired",
+        next: "/app/settings",
+      }),
     );
   });
 
   it("verifies a token link, and a recovery one lands on Choose a new password", async () => {
     await expect(
-      finish({ next: "/settings", token_hash: "hash", type: "recovery" }),
-    ).resolves.toBe(resetLanding("/settings"));
+      finish({ next: "/app/settings", token_hash: "hash", type: "recovery" }),
+    ).resolves.toBe(resetLanding("/app/settings"));
     expect(auth.verifyOtp).toHaveBeenCalledExactlyOnceWith({
       token_hash: "hash",
       type: "recovery",
@@ -91,14 +92,14 @@ describe("completeAuthLink", () => {
 
   it("verifies a sign-up token link and goes on", async () => {
     await expect(
-      finish({ next: "/mainline", token_hash: "hash", type: "signup" }),
-    ).resolves.toBe("/mainline");
+      finish({ next: "/app", token_hash: "hash", type: "signup" }),
+    ).resolves.toBe("/app");
   });
 
   it("ignores a token link of an unknown type", async () => {
     await expect(
-      finish({ next: "/mainline", token_hash: "hash", type: "sms" }),
-    ).resolves.toBe("/mainline");
+      finish({ next: "/app", token_hash: "hash", type: "sms" }),
+    ).resolves.toBe("/app");
     expect(auth.verifyOtp).not.toHaveBeenCalled();
   });
 

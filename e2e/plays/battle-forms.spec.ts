@@ -13,7 +13,7 @@ test.describe("Battle forms", () => {
       partner: "Treecko",
     });
 
-    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
+    await page.goto(`/app/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await openAllChapters(page);
@@ -40,7 +40,7 @@ test.describe("Battle forms", () => {
     });
 
     await page.goto(
-      `/mainline/plays/play/team?id=${playId}&add=charizard&form=mega-charizard-x`,
+      `/app/plays/play/team?id=${playId}&add=charizard&form=mega-charizard-x`,
       { waitUntil: "networkidle" },
     );
 
@@ -56,7 +56,7 @@ test.describe("Battle forms", () => {
   /* Adds a Pokémon through the "Add to a Play" link and opens its profile. */
   const addFromLink = async (page: Page, playId: string, name: string) => {
     await page.goto(
-      `/mainline/plays/play/team?id=${playId}&add=${name.toLowerCase()}`,
+      `/app/plays/play/team?id=${playId}&add=${name.toLowerCase()}`,
       { waitUntil: "networkidle" },
     );
     const details = page.getByRole("dialog", { name });
@@ -170,7 +170,7 @@ test.describe("Battle forms", () => {
       partner: "Fuecoco",
     });
 
-    await page.goto(`/mainline/plays/play/team?id=${playId}`, {
+    await page.goto(`/app/plays/play/team?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await page.getByRole("button", { name: "Edit Fuecoco" }).click();

@@ -18,9 +18,9 @@ with no step in between: your name and icon are on the trainer card in
 Settings, and New Play asks for the trainer name.
 
 Login is a focused global transition with visible Log in, Sign up, Recover
-account, Check your email, or Choose a new password identity. Direct Login uses
-the normal last-active-module resolver. A user who is already authenticated is
-redirected to the validated destination or normal app entry rather than shown
+account, Check your email, or Choose a new password identity. Direct Login
+lands on Home (`/app`). A user who is already authenticated is
+redirected to the validated destination or Home rather than shown
 the form again.
 
 When authentication interrupts a Codex action or a backup, Login shows a
@@ -49,12 +49,12 @@ in again, preserves safe read intent, and never silently replays a write.
 
 ## Global Settings
 
-Global Settings is one `/settings` page outside product modules, open to
+Global Settings is one `/app/settings` page outside product modules, open to
 everyone, one readable column: the trainer card, which is the profile form (your
 Pokémon icon, display name and default trainer name; the card changes as you
 pick or type and Save appears once it has changed), Look and feel, New Play
 defaults, Account, Your data and About Voydex (How it works, Privacy, Terms
-and the fan-project notice). On phones `/you` gathers the trainer card,
+and the fan-project notice). On phones `/app/you` gathers the trainer card,
 Statistics, Collection, Library and Settings, then Log in, or Log out once
 you've signed in.
 

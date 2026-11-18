@@ -90,7 +90,7 @@ test.describe("Statistics' title", () => {
       partner: "Squirtle",
     });
     await recordAnimations(page);
-    await page.goto("/mainline/stats");
+    await page.goto("/app/statistics");
     await expect(title).toBeVisible();
     await expectPlayedThrough(page, "title-rise");
 
@@ -117,7 +117,7 @@ test.describe("Statistics' title", () => {
       partner: "Squirtle",
     });
     await recordAnimations(page);
-    await page.goto("/mainline");
+    await page.goto("/app");
     await bar.getByRole("link", { name: "Statistics" }).click();
     await expect(title).toBeVisible();
     await expectPlayedThrough(page, "title-rise");
@@ -131,7 +131,7 @@ test.describe("Statistics' title", () => {
       for (const key of Object.keys(revealCounts)) delete revealCounts[key];
     });
     await bar.getByRole("link", { name: "Home" }).click();
-    await page.waitForURL("**/mainline");
+    await page.waitForURL("**/app");
     await bar.getByRole("link", { name: "Statistics" }).click();
     await expect(title).toBeVisible();
     await expectStill(page, "title-rise");

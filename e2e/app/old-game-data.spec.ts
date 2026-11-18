@@ -40,7 +40,7 @@ const openBehind = async (page: Page) => {
     if (message.type() === "warning") logged.push(message.text());
   });
 
-  await page.goto("/mainline");
+  await page.goto("/app");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(notice(page)).toHaveCount(0);
 
@@ -86,7 +86,7 @@ test.describe("Older game data", () => {
 
     /* Moving between tabs doesn't bring it back. */
     await page.getByRole("link", { name: "Plays" }).first().click();
-    await expect(page).toHaveURL(/\/mainline\/plays/);
+    await expect(page).toHaveURL(/\/app\/plays/);
     await page.waitForTimeout(1000);
     await expect(notice(page)).toHaveCount(0);
   });

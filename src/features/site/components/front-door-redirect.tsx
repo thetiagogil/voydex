@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useLayoutEffect } from "react";
 
-import { readFrontDoorHref } from "@/config/front-door";
+import { shouldSkipFrontPage } from "@/config/front-door";
+import { appRoutes } from "@/config/routes";
 
 /*
  * Reaching the front page from inside the site (a link, the back button)
@@ -14,9 +15,7 @@ export const FrontDoorRedirect = () => {
   const router = useRouter();
 
   useLayoutEffect(() => {
-    const href = readFrontDoorHref();
-
-    if (href) router.replace(href);
+    if (shouldSkipFrontPage()) router.replace(appRoutes.mainline);
   }, [router]);
 
   return null;

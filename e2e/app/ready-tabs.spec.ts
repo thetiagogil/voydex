@@ -46,12 +46,7 @@ const waitForQuiet = (page: Page) =>
     )
     .toBe(0);
 
-const tabs = [
-  "/mainline/plays",
-  "/mainline/plans/new",
-  "/mainline/stats",
-  "/mainline",
-];
+const tabs = ["/app/plays", "/app/planner", "/app/statistics", "/app"];
 
 /*
  * Follows the link to `href` (path and query) on the page and says whether
@@ -160,11 +155,11 @@ test.describe("Ready tabs", () => {
      * The Planner's newest game on the device first: a game added gets
      * every tab ready again, which the test would race.
      */
-    await page.goto("/mainline/plans/new", { waitUntil: "networkidle" });
+    await page.goto("/app/planner", { waitUntil: "networkidle" });
     await waitForQuiet(page);
 
     /* Opening the app gets every tab ready behind the start screen. */
-    await page.goto(`/mainline/plays/play/settings?id=${playId}`, {
+    await page.goto(`/app/plays/play/settings?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await waitForQuiet(page);
@@ -172,21 +167,18 @@ test.describe("Ready tabs", () => {
 
     /* A Play on Home's shelf opens without waiting, from the Plays list too. */
     expect(
-      await waitsBeforeShowing(page, "/mainline/plays"),
+      await waitsBeforeShowing(page, "/app/plays"),
       "it waited on the device",
     ).toBe(false);
     expect(
-      await waitsBeforeShowing(page, `/mainline/plays/play?id=${playId}`),
+      await waitsBeforeShowing(page, `/app/plays/play?id=${playId}`),
       "the Play waited on the device",
     ).toBe(false);
 
     /* The Play's sections get ready while it is open. */
     await waitForQuiet(page);
     expect(
-      await waitsBeforeShowing(
-        page,
-        `/mainline/plays/play/settings?id=${playId}`,
-      ),
+      await waitsBeforeShowing(page, `/app/plays/play/settings?id=${playId}`),
       "the Play's Settings waited on the device",
     ).toBe(false);
 

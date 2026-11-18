@@ -21,7 +21,7 @@ export const StartAction = () => {
   const entered = useSyncExternalStore(subscribe, readAppEntered, () => false);
 
   return entered ? (
-    <Link href={appRoutes.appEntry} className={buttonVariants({ size: "lg" })}>
+    <Link href={appRoutes.mainline} className={buttonVariants({ size: "lg" })}>
       <AppIcon icon={appIcons.actions.continue} inline="start" />
       Continue
     </Link>

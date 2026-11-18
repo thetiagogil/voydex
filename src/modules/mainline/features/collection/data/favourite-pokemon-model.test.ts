@@ -57,8 +57,8 @@ describe("buildFavouritePokemon", () => {
     const favourites = buildFavouritePokemon(rows, types, []);
 
     expect(favourites.map((each) => [each.name, each.codexHref])).toEqual([
-      ["Arcanine", "/codex/pokemon/arcanine"],
-      ["Pikachu (Partner)", "/codex/pokemon/pikachu?form=pikachu-partner"],
+      ["Arcanine", "/app/codex/pokemon/arcanine"],
+      ["Pikachu (Partner)", "/app/codex/pokemon/pikachu?form=pikachu-partner"],
     ]);
   });
 

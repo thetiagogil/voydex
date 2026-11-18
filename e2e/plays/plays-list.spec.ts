@@ -24,7 +24,7 @@ test.describe("Plays list", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/play/settings?id=${pausedId}`, {
+    await page.goto(`/app/plays/play/settings?id=${pausedId}`, {
       waitUntil: "networkidle",
     });
     const saved = waitForAction(page);
@@ -39,7 +39,7 @@ test.describe("Plays list", () => {
       .click();
     await saved;
 
-    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    await page.goto(`/app/plays?q=${encodeURIComponent(label)}`);
     const library = page.getByRole("region", { name: "Play library" });
 
     await expect(library.getByRole("link")).toHaveCount(2, forTheAnswer);
@@ -64,9 +64,7 @@ test.describe("Plays list", () => {
     ).toBeVisible();
     await expect(page).toHaveURL(/status=paused/);
 
-    await page.goto(
-      `/mainline/plays?q=${encodeURIComponent(label)}&status=paused`,
-    );
+    await page.goto(`/app/plays?q=${encodeURIComponent(label)}&status=paused`);
     await expect(library.getByRole("link")).toHaveCount(1, forTheAnswer);
   });
 
@@ -77,7 +75,7 @@ test.describe("Plays list", () => {
     const older = `${label} older`;
     const newer = `${label} newer`;
 
-    await page.goto("/mainline/plays");
+    await page.goto("/app/plays");
     const olderId = await startPlay(page, {
       game: "Pokémon Gold, 1999",
       name: older,
@@ -89,13 +87,13 @@ test.describe("Plays list", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    await page.goto(`/app/plays?q=${encodeURIComponent(label)}`);
     const titles = page
       .getByRole("region", { name: "Play library" })
       .getByRole("heading", { level: 3 });
     await expect(titles).toHaveText([newer, older], forTheAnswer);
 
-    await page.goto(`/mainline/plays/play?id=${olderId}`, {
+    await page.goto(`/app/plays/play?id=${olderId}`, {
       waitUntil: "networkidle",
     });
     const partnerChoice = page.getByRole("region", {
@@ -110,7 +108,7 @@ test.describe("Plays list", () => {
       .click();
     await saved;
 
-    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    await page.goto(`/app/plays?q=${encodeURIComponent(label)}`);
     await expect(titles).toHaveText([older, newer], forTheAnswer);
   });
 
@@ -134,7 +132,7 @@ test.describe("Plays list", () => {
       partner: null,
     });
 
-    await page.goto(`/mainline/plays/play/settings?id=${taggedId}`, {
+    await page.goto(`/app/plays/play/settings?id=${taggedId}`, {
       waitUntil: "networkidle",
     });
     const tags = page.getByRole("region", { name: "Tags" });
@@ -150,7 +148,7 @@ test.describe("Plays list", () => {
     await tags.getByRole("button", { name: "Save" }).click();
     await saved;
 
-    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    await page.goto(`/app/plays?q=${encodeURIComponent(label)}`);
     const library = page.getByRole("region", { name: "Play library" });
 
     await expect(library.getByRole("link")).toHaveCount(2, forTheAnswer);

@@ -17,7 +17,7 @@ import type { VersionGroup } from "@/modules/reference/types";
  */
 
 /*
- * What picks the group `/codex/pokemon/{species}` opens in when its query
+ * What picks the group `/app/codex/pokemon/{species}` opens in when its query
  * names none: an old address's game, group or generation, and the form to
  * open.
  */
@@ -121,7 +121,7 @@ const getFormFoundVersionGroupSlug = (
 };
 
 /*
- * Where `/codex/pokemon/{species}` opens without a group: the group a legacy game or
+ * Where `/app/codex/pokemon/{species}` opens without a group: the group a legacy game or
  * `?versionGroup=` names, else the generation a legacy `?generation=` names,
  * when the species exists there; else, for a later `?form=`, where that form
  * can first be found; otherwise the generation it was introduced in. A

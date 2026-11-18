@@ -13,7 +13,7 @@ test.describe("Home", () => {
       partner: "Squirtle",
     });
 
-    await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
+    await page.goto(`/app?play=${playId}`, { waitUntil: "networkidle" });
     const squirtle = page.getByRole("button", { name: "Pick Squirtle" });
     const continueToPlay = page.getByRole("link", {
       exact: true,
@@ -26,16 +26,16 @@ test.describe("Home", () => {
     /* Nothing picked: Continue opens the Play. */
     await expect(continueToPlay).toHaveAttribute(
       "href",
-      `/mainline/plays/play?id=${playId}`,
+      `/app/plays/play?id=${playId}`,
     );
 
     /* A tap picks it and stays on Home; Continue now opens it. */
     await squirtle.click();
     await expect(squirtle).toHaveAttribute("aria-pressed", "true");
-    await expect(page).toHaveURL(/\/mainline\?play=/);
+    await expect(page).toHaveURL(/\/app\?play=/);
     await expect(continueWithSquirtle).toHaveAttribute(
       "href",
-      new RegExp(`/mainline/plays/play/team\\?id=${playId}&pokemon=`),
+      new RegExp(`/app/plays/play/team\\?id=${playId}&pokemon=`),
     );
     await expectAccessible(page);
 
@@ -47,7 +47,7 @@ test.describe("Home", () => {
     await squirtle.click();
     await continueWithSquirtle.click();
     await expect(page).toHaveURL(
-      new RegExp(`/mainline/plays/play/team\\?id=${playId}&pokemon=`),
+      new RegExp(`/app/plays/play/team\\?id=${playId}&pokemon=`),
     );
     await expect(
       page
@@ -69,7 +69,7 @@ test.describe("Home", () => {
       partner: "Bulbasaur",
     });
 
-    await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
+    await page.goto(`/app?play=${playId}`, { waitUntil: "networkidle" });
     const bulbasaur = page.getByRole("button", { name: "Pick Bulbasaur" });
     const shelf = page.getByRole("navigation", { name: "Your Plays" });
 
@@ -109,7 +109,7 @@ test.describe("Home", () => {
       partner: "Squirtle",
     });
     const shelfOrder = async () => {
-      await page.goto("/mainline", { waitUntil: "networkidle" });
+      await page.goto("/app", { waitUntil: "networkidle" });
       /* The shelf draws once the device database has opened. */
       const shelf = page.getByRole("navigation", { name: "Your Plays" });
       await expect(shelf).toBeVisible();
@@ -125,7 +125,7 @@ test.describe("Home", () => {
       };
     };
     const moments = async () => {
-      await page.goto(`/mainline/plays/play/history?id=${olderId}`, {
+      await page.goto(`/app/plays/play/history?id=${olderId}`, {
         waitUntil: "networkidle",
       });
 

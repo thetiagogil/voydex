@@ -144,7 +144,7 @@ export const ruleFor = (
 /*
  * The address a kept copy is filed under, without its query: a page reads
  * its query in the browser (a Play's id), and Next.js adds `?_rsc=<hash>`
- * to a page's data file (`/mainline.txt`) only to dodge shared caches.
+ * to a page's data file (`/app.txt`) only to dodge shared caches.
  */
 export const cacheKeyFor = (url: string) => {
   const { origin, pathname } = new URL(url);
@@ -159,7 +159,7 @@ export const cacheKeyFor = (url: string) => {
 /*
  * The release's file list as the build reads `out/`: every page that
  * isn't one Codex entry among thousands, with the data files Next.js reads
- * to move between pages (`mainline.txt`, `mainline/__next._tree.txt`), the
+ * to move between pages (`app.txt`, `app/__next._tree.txt`), the
  * build's scripts, the device schema, the shared pre-built files (the game
  * catalogue Home and New Play read, the Codex's lists) and the app's own
  * small files. `path` is relative to `out/`, with forward slashes.
@@ -174,7 +174,7 @@ export const keptAddressFor = (path: string): string | null => {
   return `/${path}`;
 };
 
-/* `index` is the folder's own page; `mainline/plays` is `/mainline/plays`. */
+/* `index` is the folder's own page; `app/plays` is `/app/plays`. */
 const pageAddress = (path: string) => {
   if (path === "index") return "/";
   if (path.endsWith("/index")) return `/${path.slice(0, -6)}`;
@@ -187,12 +187,13 @@ const isPgliteRawBundle = (path: string) =>
 
 /*
  * One page per Pokémon, base game and Pokédex, with its data files: kept as
- * they are opened. Their lists (`codex/pokemon`, `codex/games`) are kept
- * with the release, the list's own data files (`codex/pokemon/__next.*`)
+ * they are opened. Their lists (`app/codex/pokemon`, `app/codex/games`) are
+ * kept with the release, the list's own data files
+ * (`app/codex/pokemon/__next.*`)
  * included.
  */
 const isCodexEntry = (path: string) =>
-  /^codex\/(pokemon|games)\/(?!__next\.)/.test(path);
+  /^app\/codex\/(pokemon|games)\/(?!__next\.)/.test(path);
 
 /* An entry's pre-built file (`codex-data/pokemon/pikachu.json.gz`). */
 const isCodexEntryFile = (path: string) =>

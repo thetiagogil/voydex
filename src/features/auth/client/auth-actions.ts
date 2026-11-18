@@ -2,7 +2,7 @@
 
 import { isAuthSessionMissingError } from "@supabase/supabase-js";
 
-import { readActiveModuleHref } from "@/config/active-module";
+import { appRoutes } from "@/config/routes";
 import {
   type AuthErrorCode,
   getAuthErrorCode,
@@ -45,7 +45,7 @@ const callbackUrl = (next: string) =>
   buildAuthCallbackUrl(window.location.origin, next);
 
 const readNext = (formData: FormData) =>
-  readSafeNext(formData, readActiveModuleHref());
+  readSafeNext(formData, appRoutes.mainline);
 
 const readAuthForm = (formData: FormData, mode: AuthMode) => {
   const context: AuthFormContext = { mode, next: readNext(formData) };
@@ -214,5 +214,5 @@ export const saveNewPassword = async (formData: FormData) => {
 
   forgetAuthEmail();
 
-  return resolveAuthRedirectPath(next, readActiveModuleHref());
+  return resolveAuthRedirectPath(next, appRoutes.mainline);
 };

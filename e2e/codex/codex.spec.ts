@@ -8,7 +8,7 @@ test.use({ storageState: signedOut });
 
 test.describe("Codex", () => {
   test("finds a Pokémon and opens its entry @phone", async ({ page }) => {
-    await page.goto("/codex/pokemon");
+    await page.goto("/app/codex/pokemon");
     await openSearchBar(page);
     await expect(page.getByText("Showing all 1,025 Pokémon")).toBeVisible();
     await expectAccessible(page);
@@ -21,7 +21,7 @@ test.describe("Codex", () => {
       .first()
       .click();
 
-    await page.waitForURL("**/codex/pokemon/charizard?game=rb");
+    await page.waitForURL("**/app/codex/pokemon/charizard?game=rb");
     await expect(
       page.getByRole("heading", { level: 1, name: "Charizard" }),
     ).toBeVisible();
@@ -33,7 +33,7 @@ test.describe("Codex", () => {
   test("reads a species' breeding facts in a game with eggs and gender", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/charizard?game=swsh");
+    await page.goto("/app/codex/pokemon/charizard?game=swsh");
 
     const breeding = page.getByRole("region", { name: "Breeding" });
     await expect(breeding.getByText("Egg cycles")).toBeVisible();
@@ -48,7 +48,7 @@ test.describe("Codex", () => {
   test("reads a form's training values from the open game", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/charizard?game=swsh");
+    await page.goto("/app/codex/pokemon/charizard?game=swsh");
     const training = page.getByRole("region", { name: "Training" });
     await expect(training.getByText("EV yield")).toBeVisible();
     await expect(training.getByText("3 Sp. Atk")).toBeVisible();
@@ -56,7 +56,7 @@ test.describe("Codex", () => {
     await expect(training.getByText("Medium Slow")).toBeVisible();
 
     /* Red / Blue counts no EVs and has no friendship; Yellow's Pikachu is harder to catch. */
-    await page.goto("/codex/pokemon/pikachu?game=yellow");
+    await page.goto("/app/codex/pokemon/pikachu?game=yellow");
     const early = page.getByRole("region", { name: "Training" });
     await expect(early.getByText("EV yield")).toHaveCount(0);
     await expect(early.getByText("Base friendship")).toHaveCount(0);
@@ -67,7 +67,7 @@ test.describe("Codex", () => {
   test("reads the open game's Pokédex words, a version each when they differ", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/charizard?game=swsh");
+    await page.goto("/app/codex/pokemon/charizard?game=swsh");
     const hero = page.getByRole("region", { name: "Charizard" });
     await expect(hero.getByText("Sword", { exact: true })).toBeVisible();
     await expect(hero.getByText("Shield", { exact: true })).toBeVisible();
@@ -76,7 +76,7 @@ test.describe("Codex", () => {
     ).toBeVisible();
 
     /* Red and Blue say the same, so one paragraph with no version label. */
-    await page.goto("/codex/pokemon/charizard?game=rb");
+    await page.goto("/app/codex/pokemon/charizard?game=rb");
     const early = page.getByRole("region", { name: "Charizard" });
     await expect(
       early.getByText(/Spits fire that is hot enough/),
@@ -88,7 +88,7 @@ test.describe("Codex", () => {
   test("names the rod a fished Pokémon takes, and when it bites", async ({
     page,
   }) => {
-    await page.goto("/codex/pokemon/whiscash?game=hgss");
+    await page.goto("/app/codex/pokemon/whiscash?game=hgss");
     const whereToFind = page.getByRole("region", { name: "Where to find" });
     /* Violet City's Whiscash bites on every rod, but only during a swarm. */
     await expect(
@@ -110,7 +110,7 @@ test.describe("Codex", () => {
     const menu = page.getByRole("combobox", { name: "Form" });
     const options = page.getByRole("option");
 
-    await page.goto("/codex/pokemon/charizard?game=xy");
+    await page.goto("/app/codex/pokemon/charizard?game=xy");
     await menu.click();
     await expect(options).toHaveCount(3);
     await expect(options.nth(1)).toContainText("Mega Charizard X");
@@ -124,7 +124,7 @@ test.describe("Codex", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    await page.goto("/codex/pokemon/charizard?game=swsh");
+    await page.goto("/app/codex/pokemon/charizard?game=swsh");
     await menu.click();
     await expect(options).toHaveCount(2);
     await expect(options.nth(1)).toContainText("Gigantamax Charizard");
@@ -142,7 +142,7 @@ test.describe("Codex", () => {
     ] as const;
 
     for (const [species, form, name] of cases) {
-      const address = `/codex/pokemon/${species}?form=${form}`;
+      const address = `/app/codex/pokemon/${species}?form=${form}`;
       await page.goto(address);
       await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
       await expect(page).toHaveURL(address);
@@ -150,7 +150,7 @@ test.describe("Codex", () => {
   });
 
   test("filters Pokémon by type", async ({ page }) => {
-    await page.goto("/codex/pokemon");
+    await page.goto("/app/codex/pokemon");
     const { filters } = await openFilters(page);
     await filters
       .getByRole("group", { name: "Filter by type" })
@@ -162,7 +162,7 @@ test.describe("Codex", () => {
   });
 
   test("opens a game and its Pokédex", async ({ page }) => {
-    await page.goto("/codex/games");
+    await page.goto("/app/codex/games");
     await expectAccessible(page);
 
     await page.getByRole("link", { name: /^Pokémon Red 1996 · Kanto/ }).click();

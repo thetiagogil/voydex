@@ -1,5 +1,4 @@
 import { appRoutes } from "@/config/routes";
-import { ActiveModuleMark } from "@/features/app-shell/components/active-module-mark";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
@@ -73,7 +72,6 @@ export const AppShell = ({
           : "[--toast-bottom:1.5rem]",
       )}
     >
-      <ActiveModuleMark />
       {isApp ? <MotionPreferenceMark /> : null}
       {isApp ? (
         <AppNavbar

@@ -10,7 +10,7 @@ A frontend product workspace inside the Voydex app.
 
 Current app modules include `mainline` and `codex`.
 
-Home (`/mainline`) is a view inside `mainline`. Settings is a global app/account area.
+Home (`/app`) is a view inside `mainline`. Settings is a global app/account area.
 
 ### Product Family
 

@@ -1,4 +1,3 @@
-import { DEFAULT_MODULE_KEY, modules } from "@/config/modules";
 import { appRoutes } from "@/config/routes";
 import type { AuthErrorCode } from "@/features/auth/auth-errors";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
@@ -6,12 +5,11 @@ import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
 export type AuthMode = "log-in" | "sign-up";
 
 /* Where the Log in page sends you afterwards when nothing asked for somewhere else. */
-export const LOGIN_DEFAULT_NEXT: string =
-  modules[DEFAULT_MODULE_KEY].defaultHref;
+export const LOGIN_DEFAULT_NEXT: string = DEFAULT_AUTH_REDIRECT_PATH;
 
 /* Whether `next` is only the default, so links can leave it out. */
 export const isDefaultAuthNext = (next: string) =>
-  next === DEFAULT_AUTH_REDIRECT_PATH || next === LOGIN_DEFAULT_NEXT;
+  next === DEFAULT_AUTH_REDIRECT_PATH;
 
 type AuthHrefOptions = {
   error?: AuthErrorCode | null;

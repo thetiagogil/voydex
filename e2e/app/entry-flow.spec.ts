@@ -28,7 +28,7 @@ test.describe("Entry flow", () => {
     await expectAccessible(page);
 
     await page.getByRole("link", { name: "Start a Play" }).click();
-    await page.waitForURL("**/mainline");
+    await page.waitForURL("**/app");
     await expect(
       page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
         name: "Games",
@@ -39,11 +39,11 @@ test.describe("Entry flow", () => {
   test("a device that has opened the app skips the front page", async ({
     page,
   }) => {
-    await page.goto("/mainline");
+    await page.goto("/app");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     await page.goto("/");
-    await page.waitForURL("**/mainline");
+    await page.waitForURL("**/app");
 
     /* A link to one of the front page's parts still shows it. */
     await page.goto("/#how-it-works");
@@ -55,7 +55,7 @@ test.describe("Entry flow", () => {
   });
 
   test("a Codex visit alone keeps the front page", async ({ page }) => {
-    await page.goto("/codex/pokemon");
+    await page.goto("/app/codex/pokemon");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     await page.goto("/");
@@ -78,7 +78,7 @@ test.describe("Entry flow", () => {
       await held;
       await route.continue();
     });
-    await page.goto("/mainline");
+    await page.goto("/app");
 
     await expect(page.getByRole("status")).toBeVisible();
     await expect(page.getByRole("navigation")).toHaveCount(0);
@@ -90,12 +90,15 @@ test.describe("Entry flow", () => {
   test("Settings offers Log in when signed out, and comes back @phone", async ({
     page,
   }) => {
-    await page.goto("/settings");
+    await page.goto("/app/settings");
 
     const account = page.getByRole("region", { name: "Account" });
     const logIn = account.getByRole("link", { name: "Log in" });
 
-    await expect(logIn).toHaveAttribute("href", "/login?next=%2Fsettings");
+    await expect(logIn).toHaveAttribute(
+      "href",
+      "/login?next=%2Fapp%2Fsettings",
+    );
     await expect(
       page
         .getByRole("navigation", { name: "About Voydex" })
@@ -108,6 +111,6 @@ test.describe("Entry flow", () => {
       page.getByRole("heading", { name: "Welcome back" }),
     ).toBeVisible();
     await page.getByRole("link", { name: "Go back" }).click();
-    await page.waitForURL("**/settings");
+    await page.waitForURL("**/app/settings");
   });
 });

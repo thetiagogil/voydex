@@ -195,7 +195,7 @@ const request = async (
 /* A release built from what the server holds now, as the build would. */
 const release = (
   id: string,
-  files: string[] = ["/", "/mainline", "/offline", "/_next/static/a.js"],
+  files: string[] = ["/", "/app", "/offline", "/_next/static/a.js"],
 ): OfflineRelease => ({
   files,
   hashLength: 32,
@@ -220,11 +220,11 @@ beforeEach(() => {
   caches = new MemoryCaches();
   network = new Map([
     ["/", "front door v1"],
-    ["/mainline", "home v1"],
+    ["/app", "home v1"],
     ["/offline", "offline page v1"],
     ["/_next/static/a.js", "script a"],
     ["/_next/static/b.js", "script b"],
-    ["/codex/pokemon/pikachu", "pikachu page"],
+    ["/app/codex/pokemon/pikachu", "pikachu page"],
     ["/codex-data/pokemon/pikachu.json.gz", "pikachu data"],
     ["/game-data/versions.json", "versions"],
   ]);
@@ -257,9 +257,7 @@ describe("install", () => {
     await loadWorker(release("r1"));
     await runLifecycle("install");
 
-    expect(await caches.text(releaseCacheName("r1"), "/mainline")).toBe(
-      "home v1",
-    );
+    expect(await caches.text(releaseCacheName("r1"), "/app")).toBe("home v1");
     expect(
       await caches.text(releaseCacheName("r1"), "/_next/static/a.js"),
     ).toBe("script a");
@@ -269,10 +267,10 @@ describe("install", () => {
   it("never takes over with a partial copy", async () => {
     const r1 = release("r1");
 
-    network.delete("/mainline");
+    network.delete("/app");
     await loadWorker(r1);
 
-    await expect(runLifecycle("install")).rejects.toThrow("/mainline");
+    await expect(runLifecycle("install")).rejects.toThrow("/app");
     expect(worker.skipWaiting).not.toHaveBeenCalled();
   });
 
@@ -284,7 +282,7 @@ describe("install", () => {
     await runLifecycle("install");
 
     expect(fetchCalls).not.toContain("/_next/static/a.js");
-    expect(fetchCalls).toContain("/mainline");
+    expect(fetchCalls).toContain("/app");
     expect(
       await caches.text(releaseCacheName("r2"), "/_next/static/a.js"),
     ).toBe("script a");
@@ -293,28 +291,26 @@ describe("install", () => {
   it("never keeps a page from a deploy that landed while it installed", async () => {
     const r1 = release("r1");
 
-    network.set("/mainline", "home v2");
+    network.set("/app", "home v2");
     await loadWorker(r1);
 
-    await expect(runLifecycle("install")).rejects.toThrow("/mainline");
+    await expect(runLifecycle("install")).rejects.toThrow("/app");
     expect(worker.skipWaiting).not.toHaveBeenCalled();
   });
 
   it("never keeps a file the server answered from another address", async () => {
-    redirects.set("/mainline", "/");
+    redirects.set("/app", "/");
     await loadWorker(release("r1"));
 
-    await expect(runLifecycle("install")).rejects.toThrow("/mainline");
+    await expect(runLifecycle("install")).rejects.toThrow("/app");
   });
 
   it("keeps a page the server answered from its address with a slash", async () => {
-    redirects.set("/mainline", "/mainline/");
+    redirects.set("/app", "/app/");
     await loadWorker(release("r1"));
     await runLifecycle("install");
 
-    expect(await caches.text(releaseCacheName("r1"), "/mainline")).toBe(
-      "home v1",
-    );
+    expect(await caches.text(releaseCacheName("r1"), "/app")).toBe("home v1");
   });
 
   it("never takes over when its copy was deleted while it filled", async () => {
@@ -383,30 +379,28 @@ describe("activate", () => {
 describe("pages", () => {
   it("come from the network while online, so a deploy shows at once", async () => {
     await install(release("r1"));
-    network.set("/mainline", "home v2");
+    network.set("/app", "home v2");
 
-    const answer = await request("/mainline", { mode: "navigate" });
+    const answer = await request("/app", { mode: "navigate" });
 
     expect(await answer?.text()).toBe("home v2");
   });
 
   it("never overwrite the release's copy with a newer build's page", async () => {
     await install(release("r1"));
-    network.set("/mainline", "home v2");
+    network.set("/app", "home v2");
 
-    await (await request("/mainline", { mode: "navigate" }))?.text();
+    await (await request("/app", { mode: "navigate" }))?.text();
     await flush();
 
-    expect(await caches.text(releaseCacheName("r1"), "/mainline")).toBe(
-      "home v1",
-    );
+    expect(await caches.text(releaseCacheName("r1"), "/app")).toBe("home v1");
   });
 
   it("come from the release's copy offline, whatever the query", async () => {
     await install(release("r1"));
     online = false;
 
-    const answer = await request("/mainline?new=1", { mode: "navigate" });
+    const answer = await request("/app?new=1", { mode: "navigate" });
 
     expect(await answer?.text()).toBe("home v1");
   });
@@ -415,7 +409,7 @@ describe("pages", () => {
     await install(release("r1"));
     online = false;
 
-    const answer = await request("/mainline?id=abc", { mode: "navigate" });
+    const answer = await request("/app?id=abc", { mode: "navigate" });
 
     /* An answer with no address of its own takes the request's. */
     expect(answer?.url).toBe("");
@@ -425,7 +419,7 @@ describe("pages", () => {
     await install(release("r1"));
     online = false;
 
-    const answer = await request("/codex/pokemon/pikachu", {
+    const answer = await request("/app/codex/pokemon/pikachu", {
       mode: "navigate",
     });
 
@@ -436,12 +430,12 @@ describe("pages", () => {
     await install(release("r1"));
 
     await (
-      await request("/codex/pokemon/pikachu", { mode: "navigate" })
+      await request("/app/codex/pokemon/pikachu", { mode: "navigate" })
     )?.text();
     await flush();
     online = false;
 
-    const answer = await request("/codex/pokemon/pikachu", {
+    const answer = await request("/app/codex/pokemon/pikachu", {
       mode: "navigate",
     });
 
@@ -452,12 +446,12 @@ describe("pages", () => {
     await install(release("r1"));
 
     await (
-      await request("/codex/pokemon/pikachu.txt", {
+      await request("/app/codex/pokemon/pikachu.txt", {
         headers: { "Next-Router-Prefetch": "1" },
       })
     )?.text();
     await (
-      await request("/codex/pokemon/pikachu/__next._tree.txt", {
+      await request("/app/codex/pokemon/pikachu/__next._tree.txt", {
         headers: { "Next-Router-Segment-Prefetch": "/_tree" },
       })
     )?.text();
@@ -471,15 +465,15 @@ describe("pages", () => {
   it("still open offline after a deploy, from the release before", async () => {
     await install(release("r1"));
     await (
-      await request("/codex/pokemon/pikachu", { mode: "navigate" })
+      await request("/app/codex/pokemon/pikachu", { mode: "navigate" })
     )?.text();
     await flush();
 
-    network.set("/mainline", "home v2");
+    network.set("/app", "home v2");
     await install(release("r2"));
     online = false;
 
-    const answer = await request("/codex/pokemon/pikachu", {
+    const answer = await request("/app/codex/pokemon/pikachu", {
       mode: "navigate",
     });
 
@@ -490,9 +484,9 @@ describe("pages", () => {
     await install(release("r1"));
 
     for (let index = 0; index <= visitedLimit; index += 1) {
-      network.set(`/codex/pokemon/p${index}`, `page ${index}`);
+      network.set(`/app/codex/pokemon/p${index}`, `page ${index}`);
       await (
-        await request(`/codex/pokemon/p${index}`, { mode: "navigate" })
+        await request(`/app/codex/pokemon/p${index}`, { mode: "navigate" })
       )?.text();
       await flush();
     }
@@ -500,9 +494,9 @@ describe("pages", () => {
     const visited = caches.stores.get(visitedCacheName("r1"));
 
     expect(visited?.entries.size).toBe(visitedLimit);
-    expect(visited?.entries.has(`${origin}/codex/pokemon/p0`)).toBe(false);
+    expect(visited?.entries.has(`${origin}/app/codex/pokemon/p0`)).toBe(false);
     expect(
-      visited?.entries.has(`${origin}/codex/pokemon/p${visitedLimit}`),
+      visited?.entries.has(`${origin}/app/codex/pokemon/p${visitedLimit}`),
     ).toBe(true);
   });
 });

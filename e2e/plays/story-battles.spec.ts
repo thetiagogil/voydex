@@ -13,7 +13,7 @@ const openBattle = async (
   battle: RegExp,
   reportName: string,
 ) => {
-  await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
+  await page.goto(`/app/plays/play/progress/story?id=${playId}`, {
     waitUntil: "networkidle",
   });
   await openAllChapters(page);
@@ -116,7 +116,7 @@ test.describe("Story battles", () => {
       partner: "Chikorita",
     });
 
-    await page.goto(`/mainline/plays/play/progress/story?id=${playId}`, {
+    await page.goto(`/app/plays/play/progress/story?id=${playId}`, {
       waitUntil: "networkidle",
     });
     await openAllChapters(page);
