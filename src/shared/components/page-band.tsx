@@ -12,9 +12,9 @@ type PageBandProps = {
    */
   mark?: ReactNode;
   /*
-   * `action` is the site's band, on the action red with white words: the
-   * door into the app (the front page, the log-in pages). The app's own
-   * pages keep the neutral band.
+   * `action` is the site's band, on the action red with white words and a
+   * darker stepped top for the bar: the door into the app (the front page,
+   * the log-in pages). The app's own pages keep the neutral band.
    */
   tone?: "action" | "neutral";
 };
@@ -65,6 +65,16 @@ export const PageBand = ({
         )}
       </span>
     </span>
+    {tone === "action" ? (
+      /*
+       * The darker top the bar sits on: it parts the bar from the page, and
+       * steps down a little on the left.
+       */
+      <span
+        aria-hidden
+        className="bg-action-deep absolute inset-x-0 top-0 -z-1 h-[calc(var(--bar-h)+0.875rem)] [clip-path:polygon(0_0,100%_0,100%_calc(100%-0.875rem),46%_calc(100%-0.875rem),42%_100%,0_100%)]"
+      />
+    ) : null}
     <div
       className={cn(
         "mx-auto w-full max-w-(--page-width) px-(--page-gutter) pb-6 sm:pb-8",

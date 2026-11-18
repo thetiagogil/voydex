@@ -61,10 +61,11 @@ log-in pages beside it. Everything else is the app.
 - **Top bar:** the site takes the app's own bar: the "V" tile with the
   Voydex name, How it works and Install centred, and Log in on the right.
   On Privacy and Terms it is the quiet pill on the page's ground (the word
-  drops on narrow phones). On the red band it is a solid white pill at
-  every width: the front page shows the V alone, since its title is the
-  name, and the log-in pages drop Log in. The V always leads to the start
-  page.
+  drops on narrow phones). On the red band it is part of the red: no pill,
+  white words and a white V tile on the band's darker top, which is as
+  thin as the bar and steps down a little on the left. The front page
+  shows the V alone, since its title is the name, and the log-in pages
+  drop Log in. The V always leads to the start page.
 - **The log-in pages** follow the same pattern: the red band with the
   page's title and one line at its left, where every page puts its title,
   and Go back at the end of that row; below the band the form sits on one

@@ -26,9 +26,10 @@ type AppShellProps = {
   frame?: "app" | "site";
   /*
    * The site's top bar. `full` (the default): the V and name, the front
-   * page's parts and Log in, on the page's own ground (Privacy, Terms).
-   * `front` and `account` are the same bar for a page that opens on the red
-   * band, as a solid white pill: `front` shows the V alone, since the front
+   * page's parts and Log in, as the quiet pill on the page's own ground
+   * (Privacy, Terms). `front` and `account` are the same bar for a page
+   * that opens on the red band, where it is part of the red (white words on
+   * the band's darker top): `front` shows the V alone, since the front
    * page's title is the name, and `account` drops Log in (the log-in
    * pages). `none`: no bar (the moment an email link is finished). The
    * app's bar is always full.
@@ -43,8 +44,9 @@ type AppShellProps = {
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
  * the front page), and Log in; on phones only the V tile and Log in. On the
- * front page and the log-in pages, which open on the red band, it is a
- * solid white pill. The site frame ends on the site footer.
+ * front page and the log-in pages, which open on the red band, it is part
+ * of the red: white words on the band's darker top. The site frame ends on
+ * the site footer.
  * The bar is transparent: a page that opens on a band (`page-band`) runs it
  * edge to edge under the bar, which sits on the band's colour.
  */
@@ -54,15 +56,20 @@ export const AppShell = ({
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
+  const onAction = bar === "front" || bar === "account";
   const logIn = (
     <Link
       href={appRoutes.login}
-      className={buttonVariants({
-        className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-        /* Small, so it sits inside the bar's pill with room round it. */
-        size: "sm",
-        variant: "secondary",
-      })}
+      className={buttonVariants(
+        onAction
+          ? { size: "sm", variant: "inverse" }
+          : {
+              className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
+              /* Small, so it sits inside the bar's pill with room round it. */
+              size: "sm",
+              variant: "secondary",
+            },
+      )}
     >
       Log in
     </Link>
@@ -102,8 +109,8 @@ export const AppShell = ({
       ) : bar === "none" ? null : (
         <AppNavbar
           brandHref={getBrandHref(false)}
+          onAction={onAction}
           showName={bar !== "front"}
-          solid={bar !== "full"}
           center={
             <NavigationLinks
               ariaLabel="Main"

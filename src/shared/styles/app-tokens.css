@@ -228,6 +228,8 @@
   --bar-current: var(--select-soft);
   --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
+  /* The bar's words under the pointer; white where the bar sits on the red. */
+  --bar-ink: var(--ink);
   /* A touch darker than ink-2, so the words hold 4.5:1 on the thinned pill over any page. */
   --bar-ink-2: color-mix(in oklab, var(--ink-2) 60%, var(--ink));
 }

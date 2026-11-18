@@ -20,11 +20,11 @@ export const Logo = ({
       {showText ? (
         <span
           className={cn(
-            "font-display text-20 leading-none font-semibold",
+            "font-display text-ink text-20 leading-none font-semibold",
             textClassName,
           )}
         >
-          <span className="text-ink">Voydex</span>
+          Voydex
         </span>
       ) : null}
     </span>
