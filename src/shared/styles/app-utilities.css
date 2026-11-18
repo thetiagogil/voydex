@@ -384,7 +384,6 @@
  *   title-page     a page's head: the lists, a Plan, an error page
  *   title-section  a section, a sheet, a dialog, a wizard step
  *   title-card     a card's own title
- *   title-wordmark the front door's "Voydex"
  *   figure         a big number on a tile (hours played, a stat)
  */
 @utility title-display {
@@ -448,18 +447,6 @@
 
   @media (width >= 40rem) {
     font-size: var(--text-24);
-  }
-}
-
-@utility title-wordmark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--text-60);
-  line-height: 1;
-  letter-spacing: -0.03em;
-
-  @media (width >= 40rem) {
-    font-size: var(--text-112);
   }
 }
 

@@ -97,14 +97,15 @@ and calm meanings (settled 2026-10-19).
 - Nothing under 16px is Fredoka.
 - **Title steps (2026-10-19)**: every title of 20px and up takes one of the
   shared steps in `app-utilities.css`, never its own size, line height or
-  tracking: `title-display` (a celebration: a trainer title,
-  Welcome back; 36, 52 from 640px, 64 from 1024px),
+  tracking: `title-display` (a celebration or a front door: a trainer
+  title, Welcome back, the front page's title; 36, 52 from 640px, 64 from
+  1024px),
   `title-hero` (a subject's head: a Pokémon, a Play, a game, the next
   objective; 36, then 48), `title-page` (a page's head: the lists, a Plan, an
   error page, a sheet's subject; 28, then 36), `title-section` (a section, a
   wizard step, a form's head; 24, then 28), `title-card` (a card, a sheet or
-  dialog title, a range heading; 20, then 24), `title-wordmark` (the front
-  door's "Voydex") and `figure` (a big number on a tile). Prose takes
+  dialog title, a range heading; 20, then 24) and `figure` (a big number on
+  a tile). Prose takes
   `leading-relaxed`. `npm run design:check` fails on a hand-sized text,
   tracking or line height.
 

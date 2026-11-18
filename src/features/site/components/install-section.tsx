@@ -1,5 +1,6 @@
 import { frontPageSections } from "@/config/routes";
 import { SiteSectionHead } from "@/features/site/components/site-section-head";
+import { StepNumber } from "@/features/site/components/step-number";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 import { Card } from "@/shared/components/ui/card";
 
@@ -78,12 +79,7 @@ export const InstallSection = () => (
                   key={step}
                   className="text-15 text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5 font-semibold"
                 >
-                  <span
-                    aria-hidden
-                    className="bg-surface-2 text-ink text-13 grid size-7 place-items-center rounded-full font-extrabold"
-                  >
-                    {index + 1}
-                  </span>
+                  <StepNumber number={index + 1} />
                   {step}
                 </li>
               ))}

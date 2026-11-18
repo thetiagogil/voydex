@@ -17,7 +17,10 @@ test.describe("Entry flow", () => {
     await page.goto("/");
 
     await expect(
-      page.getByRole("heading", { level: 1, name: "Voydex" }),
+      page.getByRole("heading", {
+        level: 1,
+        name: "A Pokédex for your playthroughs.",
+      }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { level: 2, name: "How it works" }),
@@ -205,7 +208,10 @@ test.describe("Entry flow", () => {
     await page.getByRole("link", { name: "Voydex home" }).click();
     await page.waitForURL((url) => url.pathname === "/");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Voydex" }),
+      page.getByRole("heading", {
+        level: 1,
+        name: "A Pokédex for your playthroughs.",
+      }),
     ).toBeVisible();
   });
 

@@ -15,11 +15,8 @@ import {
 } from "@/features/site/components/intro/intro-stages";
 import { PokemonRender } from "@/features/site/components/pokemon-render";
 import { SiteSectionHead } from "@/features/site/components/site-section-head";
+import { StepNumber } from "@/features/site/components/step-number";
 import { stepPartners } from "@/features/site/data/intro-showcase";
-import {
-  DexLight,
-  type DexLightColour,
-} from "@/shared/components/brand/dex-lights";
 import { Card } from "@/shared/components/ui/card";
 
 type HowItWorksSectionProps = {
@@ -30,8 +27,8 @@ type HowItWorksSectionProps = {
 type StepCardProps = {
   art: PublicArt;
   children: ReactNode;
-  /* The Dex light this step wears: red, then yellow, then green. */
-  light: DexLightColour;
+  /* Which step it is: 1, 2 or 3. */
+  number: number;
   /* The partner at this point of the Play, standing on the card. */
   partner: PublicPokemon;
   text: string;
@@ -40,14 +37,14 @@ type StepCardProps = {
 };
 
 /*
- * One step of How it works: its light and when it happens, the words, then a
+ * One step of How it works: its number and when it happens, the words, then a
  * small picture of the screen. The partner stands on the card's top edge,
  * growing from step to step.
  */
 const StepCard = ({
   art,
   children,
-  light,
+  number,
   partner,
   text,
   title,
@@ -61,7 +58,7 @@ const StepCard = ({
     />
     <Card className="w-full gap-0 p-5 sm:p-6">
       <p className="text-13 text-ink-2 flex items-center gap-2.5 pr-28 font-extrabold tracking-wider uppercase">
-        <DexLight colour={light} className="size-7" />
+        <StepNumber number={number} />
         {when}
       </p>
       <h3 className="title-card mt-4">{title}</h3>
@@ -94,9 +91,9 @@ const AlsoCard = ({
 );
 
 /*
- * How it works, on the front page: three steps, each wearing one of the
- * Dex's lights (red, yellow, green), with one Play followed through them
- * and its partner growing along the way. Then two smaller things.
+ * How it works, on the front page: three numbered steps, with one Play
+ * followed through them and its partner growing along the way. Then two
+ * smaller things.
  */
 export const HowItWorksSection = ({ art, playArt }: HowItWorksSectionProps) => (
   <section
@@ -108,12 +105,12 @@ export const HowItWorksSection = ({ art, playArt }: HowItWorksSectionProps) => (
     <SiteSectionHead
       id="how-it-works-title"
       title="How it works"
-      text="Three steps, one light each. Every playthrough gets its own Play, so you can put the game down for months and still know exactly where you were."
+      text="Every playthrough gets its own Play, so you can put the game down for months and still know exactly where you were."
     />
     <div className="grid gap-x-6 gap-y-18 pt-13 sm:pt-15 lg:grid-cols-3">
       <StepCard
         art={art}
-        light="red"
+        number={1}
         partner={stepPartners.dayOne}
         when="Day one"
         title="Start a Play"
@@ -123,7 +120,7 @@ export const HowItWorksSection = ({ art, playArt }: HowItWorksSectionProps) => (
       </StepCard>
       <StepCard
         art={art}
-        light="yellow"
+        number={2}
         partner={stepPartners.alongTheWay}
         when="Along the way"
         title="Record as you go"
@@ -133,7 +130,7 @@ export const HowItWorksSection = ({ art, playArt }: HowItWorksSectionProps) => (
       </StepCard>
       <StepCard
         art={art}
-        light="green"
+        number={3}
         partner={stepPartners.monthsLater}
         when="Months later"
         title="Look back"

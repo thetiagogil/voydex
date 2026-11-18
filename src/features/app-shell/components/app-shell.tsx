@@ -29,9 +29,8 @@ type AppShellProps = {
    * page's parts and Log in, as the quiet pill on the page's own ground
    * (Privacy, Terms). `front` and `account` are the same bar for a page
    * that opens on the red band, where it is part of the red (white words on
-   * the band's darker top): `front` shows the V alone, since the front
-   * page's title is the name, and `account` drops Log in (the log-in
-   * pages). `none`: no bar (the moment an email link is finished). The
+   * the band's darker top): `front` for the front page, and `account`,
+   * which drops Log in, for the log-in pages. `none`: no bar (the moment an email link is finished). The
    * app's bar is always full.
    */
   bar?: "account" | "front" | "full" | "none";
@@ -110,7 +109,7 @@ export const AppShell = ({
         <AppNavbar
           brandHref={getBrandHref(false)}
           onAction={onAction}
-          showName={bar !== "front"}
+          showName
           center={
             <NavigationLinks
               ariaLabel="Main"

@@ -45,14 +45,14 @@ log-in pages beside it. Everything else is the app.
 
 - **The front page:** built as every page of the app is, a bar on a band
   with the page under it, and outside the app the band is the action red
-  (the door is red, the app is quiet). The band holds the Voydex name, one
-  line, one paragraph and one white button beside an example Play, drawn as
+  (the door is red, the app is quiet). The band holds what Voydex is as
+  its title ("A Pokédex for your playthroughs."), one paragraph and one
+  white button beside an example Play, drawn as
   one of Voydex's own cards (cover, status, progress, team, badges). Its
   button reads Start a Play and opens the app (`/app`), whose Home asks
   which game you are playing. Under the band: How it works
-  (`/#how-it-works`): three steps, each with a small light (red, yellow,
-  green), with one Play followed through them and its partner growing
-  along the way, then the Team Planner and the Codex in two small cards.
+  (`/#how-it-works`): three numbered steps, with one Play followed through
+  them and its partner growing along the way, then the Team Planner and the Codex in two small cards.
   Then Install (`/#install`): one quiet card with a drawn phone's Home
   Screen, Voydex's icon among blank ones, beside the two ways to put it
   there (iPhone and iPad; Android and computer) as numbered steps. The
@@ -63,9 +63,9 @@ log-in pages beside it. Everything else is the app.
   On Privacy and Terms it is the quiet pill on the page's ground (the word
   drops on narrow phones). On the red band it is part of the red: no pill,
   white words and a white V tile on the band's darker top, which is as
-  thin as the bar and steps down a little on the left. The front page
-  shows the V alone, since its title is the name, and the log-in pages
-  drop Log in. The V always leads to the start page.
+  thin as the bar and steps down a little on the left. The name is in the
+  bar on every page, so no page's title repeats it; the log-in pages drop
+  Log in. The V always leads to the start page.
 - **The log-in pages** follow the same pattern: the red band with the
   page's title and one line at its left, where every page puts its title,
   and Go back at the end of that row; below the band the form sits on one
