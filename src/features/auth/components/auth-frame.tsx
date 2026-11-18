@@ -20,9 +20,9 @@ type AuthFrameProps = {
 };
 
 /*
- * The sign-in family's page: the Dex's top, as the front page draws it, and
- * under it, clear of the red, one quiet card with the form. A form is a
- * place to work, so only the top is loud.
+ * The sign-in family's page: the Dex's top as a bar on its own (the stepped
+ * shape, nothing under it), and below it one quiet card with the form. A
+ * form is a place to work, so only the bar is loud.
  * Log in, Reset your password and Choose a new password all stand in it.
  */
 export const AuthFrame = ({
@@ -32,7 +32,6 @@ export const AuthFrame = ({
 }: AuthFrameProps) => (
   <div className="flex min-w-0 flex-1 flex-col">
     <DexDevice
-      className="pb-9 sm:pb-11"
       homeHref={appRoutes.home}
       top={
         <Link

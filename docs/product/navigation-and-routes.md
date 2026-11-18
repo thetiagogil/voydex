@@ -63,11 +63,13 @@ log-in pages beside it. Everything else is the app.
 - **Top bar:** the front page draws its own top (the Dex). Privacy and
   Terms take the site bar: the "V" tile with the Voydex name (the word
   drops on narrow phones), How it works and Install centred, and Log in on
-  the right. The log-in pages show no bar: they take the Dex's top only
-  (the lens, the lights, and Go back where the front page has Log in), and
-  under it, clear of the red, the form sits on one quiet card on the
-  page's own ground. A form is a place to work, so the red stops at the
-  top.
+  the right. The log-in pages show no site bar: they take the Dex's top as
+  a bar on its own (the lens, the lights, and Go back where the front page
+  has Log in). A red that holds only the bar is the stepped shape itself,
+  taller where the lens sits and thinner for the links, with no panel and
+  no rounded corners under it; the rounded red panel is only for a head
+  that holds the page's opening (the front page). Below the bar the form
+  sits on one quiet card on the page's own ground.
 - The site frame ends on the quiet site footer: a rule across the full
   width, then the "V" mark and the name, the tagline, How it works,
   Install, Codex, Log in, Privacy, Terms and the fan-project notice.
