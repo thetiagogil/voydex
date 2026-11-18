@@ -116,6 +116,61 @@ test.describe("Entry flow", () => {
     await expect(page.getByRole("navigation").first()).toBeVisible();
   });
 
+  test("the boot lights flash one at a time, from the first moment", async ({
+    page,
+  }) => {
+    /* Held open: the device's own files wait while the lights are watched. */
+    let release = () => {};
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    await page.route("**/local-db/**", async (route) => {
+      await held;
+      await route.continue().catch(() => undefined);
+    });
+    await page.goto("/app", { waitUntil: "commit" });
+    await expect(page.getByRole("status")).toBeVisible();
+
+    /* How bright each light is on every frame, for a cycle and a half. */
+    const frames = await page.evaluate(
+      () =>
+        new Promise<number[][]>((resolve) => {
+          const lights = [
+            ...document.querySelectorAll<HTMLElement>(
+              '[data-slot="dex-light"]',
+            ),
+          ];
+          const seen: number[][] = [];
+          const startedAt = performance.now();
+          const read = () => {
+            seen.push(
+              lights.map((light) => Number(getComputedStyle(light).opacity)),
+            );
+            if (performance.now() - startedAt < 1800) {
+              requestAnimationFrame(read);
+            } else {
+              resolve(seen);
+            }
+          };
+
+          read();
+        }),
+    );
+
+    release();
+
+    expect(frames[0]).toHaveLength(3);
+    /* Never two lit together, the first frame included. */
+    for (const frame of frames) {
+      expect(frame.filter((opacity) => opacity > 0.6).length).toBeLessThan(2);
+    }
+    /* Each one has its turn. */
+    for (const light of [0, 1, 2]) {
+      expect(frames.some((frame) => (frame[light] ?? 0) > 0.9)).toBe(true);
+    }
+  });
+
   test("the start screen stands alone, without the app's bars", async ({
     page,
   }) => {

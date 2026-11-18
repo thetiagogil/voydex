@@ -23,7 +23,8 @@ export const DexLights = ({ className, loading = false }: DexLightsProps) => (
         className="bg-action-lip block size-3.5 rounded-full p-0.5"
       >
         <span
-          style={loading ? { animationDelay: `${index * 0.25}s` } : undefined}
+          data-slot="dex-light"
+          style={loading ? { animationDelay: `${index * 0.4}s` } : undefined}
           className={cn(
             "block size-full rounded-full",
             colour,
