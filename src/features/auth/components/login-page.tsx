@@ -28,6 +28,8 @@ export const LoginPage = () => {
   return (
     <AuthFrame
       back={{ href: back, label: "Go back" }}
+      title="Welcome back"
+      lede="Log in to bring your Plays to this device."
       note="No account? Your Plays are saved on this device only."
     >
       <AuthPanel
