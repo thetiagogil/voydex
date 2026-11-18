@@ -10,11 +10,7 @@ import {
   type CodexViewLink,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
-import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
-import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
-import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,11 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import {
-  NavigationMenuItem,
-  NavigationMenuTrigger,
-} from "@/shared/components/ui/navigation-menu";
-import { cn } from "@/shared/utils/cn";
 
 const codexViewIcons: Record<
   CodexViewLink["slug"],
@@ -39,49 +30,6 @@ const codexViewIcons: Record<
 const CodexViewIcon = ({ slug }: { slug: CodexViewLink["slug"] }) => (
   <AppIcon icon={codexViewIcons[slug]} size="lg" />
 );
-
-/*
- * The Codex on the top bar: its name opens a menu of its pages, as a Play's
- * Team and Progress tabs do, marked as the current link while you're in it.
- * Each module will bring its own Codex pages, so they live here, not on the
- * page.
- */
-export const CodexMenu = ({ className }: { className?: string }) => {
-  const pathname = usePathname();
-  const isCurrent = isCurrentLink(pathname, codexLink);
-
-  return (
-    <NavigationMenuBar
-      align="end"
-      aria-label={codexLink.label}
-      className={className}
-    >
-      <NavigationMenuItem>
-        <NavigationMenuTrigger
-          className={cn(
-            getBarLinkClassName(isCurrent),
-            !isCurrent &&
-              "data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
-          )}
-        >
-          <SteadyLabel>{codexLink.label}</SteadyLabel>
-        </NavigationMenuTrigger>
-        <NavigationMenuOptionsPanel>
-          {codexViewLinks.map((view) => (
-            <NavigationMenuOption
-              key={view.href}
-              active={isCurrentLink(pathname, view)}
-              description={view.description}
-              leading={<CodexViewIcon slug={view.slug} />}
-              render={<Link href={view.href} />}
-              title={view.label}
-            />
-          ))}
-        </NavigationMenuOptionsPanel>
-      </NavigationMenuItem>
-    </NavigationMenuBar>
-  );
-};
 
 /*
  * Phones and tablets: the Codex tab opens the same pages upward, as a menu
