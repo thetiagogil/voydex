@@ -88,6 +88,8 @@ test.describe("Account sync: backups that follow you between devices", () => {
     const email = newTestEmail("clash");
 
     await signUp(page, email);
+    /* A first save: a new device with nothing changed has nothing to back up. */
+    await rename(page, "Red");
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });

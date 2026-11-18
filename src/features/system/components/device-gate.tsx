@@ -19,12 +19,12 @@ import {
 
 /*
  * The start screen and a device problem stand alone on the page: the app's
- * bars come with the app, once the device is ready.
+ * bars and its `main` come with the app, once the device is ready.
  */
 const StartFrame = ({ children }: { children: ReactNode }) => (
-  <main className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
+  <div className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
     {children}
-  </main>
+  </div>
 );
 
 /*
