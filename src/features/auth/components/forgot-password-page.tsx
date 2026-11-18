@@ -4,10 +4,10 @@ import { useSearchParams } from "next/navigation";
 
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
-  getAuthPageHref,
+  getLogInHref,
   LOGIN_DEFAULT_NEXT,
   parseAuthLinkSent,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
 import {
@@ -38,7 +38,7 @@ export const ForgotPasswordPage = () => {
   const sent = parseAuthLinkSent(params.get("sent"));
   const email = useRememberedAuthEmail();
   const requestAction = useAuthFormAction(requestPasswordReset);
-  const logInHref = getAuthPageHref({ mode: "log-in", next });
+  const logInHref = getLogInHref({ next });
 
   if (sent) {
     return (
@@ -69,8 +69,8 @@ export const ForgotPasswordPage = () => {
   return (
     <AuthFrame>
       <AuthHeading className="mt-2.5" title="Reset your password">
-        Enter the email you signed up with and we&apos;ll send you a link to
-        choose a new one.
+        Enter your account&apos;s email and we&apos;ll send you a link to choose
+        a new one.
       </AuthHeading>
       {error ? <AuthErrorAlert error={error} /> : null}
       <form action={requestAction} className="flex flex-col gap-4">

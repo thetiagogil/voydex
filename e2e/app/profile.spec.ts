@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 import { expectAccessible } from "../support/accessibility";
 import { waitForAction } from "../support/actions";
 import { newTestEmail, signedOut } from "../support/accounts";
-import { signUp } from "../support/auth";
+import { logInToNewAccount } from "../support/auth";
 
 test.use({ storageState: signedOut });
 
@@ -11,7 +11,7 @@ test.describe("Profile: icon and default trainer name", () => {
   test("a default trainer name from Settings starts New Play", async ({
     page,
   }) => {
-    await signUp(page, newTestEmail("trainer"));
+    await logInToNewAccount(page, newTestEmail("trainer"));
 
     await page.goto("/app/settings");
     const profile = page.getByRole("form", { name: "Profile" });

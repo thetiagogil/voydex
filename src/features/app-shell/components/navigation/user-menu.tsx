@@ -111,7 +111,7 @@ export const UserMenu = () => {
           <DropdownMenuGroup className="mt-1">
             <DropdownMenuItem render={<Link href={appRoutes.login} />}>
               <MenuOptionContent
-                description="Back up your Plays to an account"
+                description="Bring your Plays from your account"
                 leading={<AppIcon icon={appIcons.actions.login} size="lg" />}
                 title="Log in"
               />

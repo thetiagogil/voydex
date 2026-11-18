@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { appRoutes } from "@/config/routes";
 import {
-  getAuthPageHref,
+  getLogInHref,
   getForgotPasswordHref,
   getResetPasswordHref,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { completeAuthLink } from "@/features/auth/client/auth-callback";
 
 const auth = vi.hoisted(() => ({
@@ -47,11 +47,7 @@ describe("completeAuthLink", () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: new Error("x") });
 
     await expect(finish({ code: "abc", next: "/app" })).resolves.toBe(
-      getAuthPageHref({
-        error: "link-expired",
-        mode: "log-in",
-        next: "/app",
-      }),
+      getLogInHref({ error: "link-expired", next: "/app" }),
     );
   });
 
@@ -90,10 +86,21 @@ describe("completeAuthLink", () => {
     });
   });
 
-  it("verifies a sign-up token link and goes on", async () => {
+  it("verifies an email change token link and goes on", async () => {
+    await expect(
+      finish({ next: "/app", token_hash: "hash", type: "email_change" }),
+    ).resolves.toBe("/app");
+    expect(auth.verifyOtp).toHaveBeenCalledWith({
+      token_hash: "hash",
+      type: "email_change",
+    });
+  });
+
+  it("no longer verifies a sign-up token link", async () => {
     await expect(
       finish({ next: "/app", token_hash: "hash", type: "signup" }),
     ).resolves.toBe("/app");
+    expect(auth.verifyOtp).not.toHaveBeenCalled();
   });
 
   it("ignores a token link of an unknown type", async () => {
@@ -106,13 +113,7 @@ describe("completeAuthLink", () => {
   it("passes on an error the link itself carries", async () => {
     await expect(
       finish({ error: "access_denied", error_code: "otp_expired" }),
-    ).resolves.toBe(
-      getAuthPageHref({
-        error: "link-expired",
-        mode: "log-in",
-        next: fallback,
-      }),
-    );
+    ).resolves.toBe(getLogInHref({ error: "link-expired", next: fallback }));
     expect(auth.exchangeCodeForSession).not.toHaveBeenCalled();
   });
 });

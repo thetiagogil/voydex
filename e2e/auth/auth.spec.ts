@@ -2,26 +2,34 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { newTestEmail, seededAccounts, signedOut } from "../support/accounts";
-import { logIn, signUp } from "../support/auth";
+import { logIn, logInToNewAccount } from "../support/auth";
 
 test.use({ storageState: signedOut });
 
-test.describe("Sign up and log in", () => {
-  test("signs up and lands on Home, with no step in between @phone", async ({
+test.describe("Log in", () => {
+  test("a new account logs in and lands on Home, with no step in between @phone", async ({
     page,
   }) => {
-    await page.goto("/login?mode=sign-up");
-    await expect(
-      page.getByRole("heading", { name: "Back up your Plays" }),
-    ).toBeVisible();
-    await expectAccessible(page);
-
-    await signUp(page, newTestEmail("sign-up"));
+    await logInToNewAccount(page, newTestEmail("new"));
     await expect(
       page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
         name: "Games",
       }),
     ).toBeVisible();
+  });
+
+  test("there is no Sign up, and its old address shows Log in", async ({
+    page,
+  }) => {
+    await page.goto("/login?mode=sign-up");
+
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Welcome back" }),
+    ).toBeVisible();
+    await expect(page.getByText("Sign up")).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Create account" }),
+    ).toHaveCount(0);
   });
 
   test("logs in, then logs out from Settings", async ({ page }) => {

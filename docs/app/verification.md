@@ -90,7 +90,9 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
   (`startPlay` in `e2e/support/plays.ts`); nothing reads seeded user data.
   Every test also starts signed out: a signed-in device syncs with its
   account, so tests sharing one would mix their data. A test that needs an
-  account signs up its own (`e2e-…@voydex.test`); the local Supabase stack
+  account makes its own (`e2e-…@voydex.test`) straight on the local Supabase
+  (`logInToNewAccount` in `e2e/support/auth.ts`, which refuses any other
+  host), since the app has no Sign up; the local Supabase stack
   is only needed for those and for the game catalogue.
 - Images come from a local stand-in (`e2e/support/asset-stub-server.mjs`,
   the same 1px picture for every path): when `NEXT_PUBLIC_ASSETS_URL` (from
@@ -105,7 +107,7 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 - `expectAccessible` (`e2e/support/accessibility.ts`) fails on any WCAG 2.2 AA
   axe finding except the rules listed there as known issues; remove a rule
   from that list once its findings are fixed.
-- Local Supabase allows 30 sign-ups and log-ins per five minutes, so several
+- Local Supabase allows 30 new accounts and log-ins per five minutes, so several
   full runs in a row can hit its limit; wait a few minutes.
 - Tests run with service workers blocked. Two need the built app, so under
   `next dev` they skip: the offline tests (`e2e/app/offline.spec.ts`), which
@@ -131,7 +133,7 @@ When unsure which area a change reaches, run the full suite.
   boundaries.
 - Vitest covers focused domain, mapping, navigation, auth, and tooling behavior.
 - Playwright covers New Play, Team, Story, Pokédex, History and Play
-  settings, the Team Planner and following a Plan, the Codex, sign-up, log in
+  settings, the Team Planner and following a Plan, the Codex, log in
   and Statistics, with axe on each page.
 - Offline database audits validate authored schema and the full deterministic
   seed corpus.

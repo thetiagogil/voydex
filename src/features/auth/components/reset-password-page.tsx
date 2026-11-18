@@ -8,7 +8,7 @@ import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getForgotPasswordHref,
   LOGIN_DEFAULT_NEXT,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
 import { AuthFrame, AuthHeading } from "@/features/auth/components/auth-frame";

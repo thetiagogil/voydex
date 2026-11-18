@@ -26,8 +26,6 @@ export const frontPageSections = {
  */
 export const appRoutes = {
   authCallback: "/auth/callback",
-  /* After sign-up without a session: confirm the email, resend or change it. */
-  checkEmail: "/check-email",
   codex: "/app/codex",
   codexGames: "/app/codex/games",
   codexPokemon: "/app/codex/pokemon",

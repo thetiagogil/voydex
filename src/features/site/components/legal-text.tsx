@@ -15,7 +15,7 @@ export type LegalText = {
 };
 
 /* When either text last changed; both pages show it. */
-export const legalUpdatedOn = "17 November 2026";
+export const legalUpdatedOn = "18 November 2026";
 
 const settings = <TextLink href={appRoutes.settings}>Settings</TextLink>;
 
@@ -36,7 +36,7 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
           without an account.
         </p>
         <p>
-          If you make an account, Voydex keeps your email and a backup of your
+          If you have an account, Voydex keeps your email and a backup of your
           data, so your other devices can have it too.
         </p>
         <p>No ads, no tracking, and nothing is sold or shared.</p>
@@ -64,13 +64,16 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         title: "With an account",
         body: (
           <>
-            <p>An account is optional. If you make one, Voydex keeps:</p>
+            <p>
+              An account is optional, and Voydex isn&apos;t making new ones for
+              now. If you have one, Voydex keeps:
+            </p>
             <ul>
               <li>
                 Your email and password, to log you in. The password is stored
                 scrambled, so nobody can read it. Your email is only used for
-                account messages: confirming it, resetting your password and
-                changing your email.
+                account messages: resetting your password and changing your
+                email.
               </li>
               <li>
                 Backups of your data. A few seconds after each change, a copy of
@@ -94,8 +97,8 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
           <>
             <p>
               Voydex keeps your account and backups because you asked for them:
-              they are the service you signed up for. They stay until you delete
-              your account, and then they go too.
+              they are what the account is for. They stay until you delete your
+              account, and then they go too.
             </p>
             <p>
               Sign-in and web host records are kept by those services to run
@@ -161,7 +164,7 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
         title: "Children",
         body: (
           <p>
-            Under 13? Ask a parent before making an account. Voydex works fully
+            Under 13? Ask a parent before using an account. Voydex works fully
             without one.
           </p>
         ),

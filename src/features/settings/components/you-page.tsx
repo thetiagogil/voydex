@@ -141,7 +141,7 @@ export const YouPage = ({
               href={appRoutes.loginFrom(appRoutes.you)}
               icon={appIcons.actions.login}
               title="Log in"
-              description="Back up your Plays to an account"
+              description="Bring your Plays from your account"
             />
           )}
           <YouRow

@@ -24,8 +24,7 @@ type AuthFrameProps = {
 /*
  * The sign-in family's page: the Dex, as the front page and the start
  * screen draw it, filling the window, with the form on its screen. Log in,
- * Sign up, Reset your password, Choose a new password and Check your email
- * all stand in it.
+ * Reset your password and Choose a new password all stand in it.
  */
 export const AuthFrame = ({
   back = { href: appRoutes.home, label: "Go back home" },

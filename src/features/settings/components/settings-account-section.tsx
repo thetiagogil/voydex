@@ -20,7 +20,8 @@ type SettingsAccountSectionProps = {
 /*
  * The Account section. Signed in: your email, your password, account sync,
  * and Log out on this device. Signed out: what an account is for and the
- * way to log in, since nothing else in the app asks you to.
+ * way to log in, since nothing else in the app asks you to. There is no way
+ * to make an account for now, and the row says so.
  */
 export const SettingsAccountSection = ({
   email,
@@ -31,8 +32,8 @@ export const SettingsAccountSection = ({
   ) : (
     <DetailSectionCard title="Account">
       <SettingsRow
-        title="Back up to an account"
-        description="Keeps a copy of your Plays online and brings them to your other devices. Voydex works the same without one."
+        title="Have an account?"
+        description="Log in to keep a copy of your Plays online and bring them to your other devices. Voydex isn't making new accounts for now, and works the same without one."
       >
         <Link
           href={appRoutes.loginFrom(appRoutes.settings)}

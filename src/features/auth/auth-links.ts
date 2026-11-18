@@ -2,8 +2,6 @@ import { appRoutes } from "@/config/routes";
 import type { AuthErrorCode } from "@/features/auth/auth-errors";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "@/features/auth/auth-redirects";
 
-export type AuthMode = "log-in" | "sign-up";
-
 /* Where the Log in page sends you afterwards when nothing asked for somewhere else. */
 export const LOGIN_DEFAULT_NEXT: string = DEFAULT_AUTH_REDIRECT_PATH;
 
@@ -16,7 +14,7 @@ type AuthHrefOptions = {
   next: string;
 };
 
-/* A page of the sign-in family with its query: error first, then mode and next. */
+/* A page of the sign-in family with its query: error first, then its own state and next. */
 const buildAuthHref = (
   path: string,
   { error, next }: AuthHrefOptions,
@@ -39,16 +37,9 @@ const buildAuthHref = (
   return query ? `${path}?${query}` : path;
 };
 
-/* The Log in page in one mode, keeping where to go afterwards and any error to show. */
-export const getAuthPageHref = ({
-  mode,
-  ...options
-}: AuthHrefOptions & { mode: AuthMode }) =>
-  buildAuthHref(
-    appRoutes.login,
-    options,
-    mode === "sign-up" ? { mode } : undefined,
-  );
+/* The Log in page, keeping where to go afterwards and any error to show. */
+export const getLogInHref = (options: AuthHrefOptions) =>
+  buildAuthHref(appRoutes.login, options);
 
 /* How far an email link has gone: sent once, or sent again from the sent state. */
 export type AuthLinkSent = "again" | "once";
@@ -64,17 +55,6 @@ export const getForgotPasswordHref = ({
 export const getResetPasswordHref = (options: AuthHrefOptions) =>
   buildAuthHref(appRoutes.resetPassword, options);
 
-/* Check your email, after a sign-up that still needs its email confirmed. */
-export const getCheckEmailHref = ({
-  resent = false,
-  ...options
-}: AuthHrefOptions & { resent?: boolean }) =>
-  buildAuthHref(
-    appRoutes.checkEmail,
-    options,
-    resent ? { sent: "again" } : undefined,
-  );
-
-/* The `sent` query of a page that sends an email link. */
+/* The `sent` query of Reset your password, which sends an email link. */
 export const parseAuthLinkSent = (value: unknown): AuthLinkSent | null =>
   value === "again" || value === "once" ? value : null;

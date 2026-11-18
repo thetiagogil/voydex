@@ -51,7 +51,7 @@ phase is a GitHub milestone, and the to-do list lives in GitHub Issues (see
 5. **Data and features**: the `TODO(v3-data)` placeholders get real data one
    section at a time, and the backlog features are built from their issues.
 6. **Ready for others**: security headers, Sentry, backups, a production
-   database and release step, sign-up emails, legal text, speed, analytics and
+   database and release step, account emails, legal text, speed, analytics and
    an installable phone app.
 
 Nobody else uses Voydex until all six phases are done. Speed work waits for

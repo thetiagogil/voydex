@@ -719,7 +719,7 @@ Current route groups remain:
   `/terms`. `src/config/front-door.ts` holds the rule that sends a device
   that has opened the app from `/` back into it, and the inline script that
   applies it before the page paints;
-- auth: `/login`, `/forgot-password`, `/reset-password`, `/check-email` and
+- auth: `/login`, `/forgot-password`, `/reset-password` and
   `/auth/callback`;
 - the Codex, under the app's address and frame but with no device gate
   (`src/app/(app-public)/app/codex`): `/app/codex`, Pokemon browse/detail,

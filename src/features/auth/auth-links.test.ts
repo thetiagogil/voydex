@@ -1,46 +1,34 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  getAuthPageHref,
-  getCheckEmailHref,
   getForgotPasswordHref,
+  getLogInHref,
   getResetPasswordHref,
   LOGIN_DEFAULT_NEXT,
   parseAuthLinkSent,
-} from "./auth-mode";
+} from "./auth-links";
 import { DEFAULT_AUTH_REDIRECT_PATH } from "./auth-redirects";
 
-describe("auth page links", () => {
+describe("Log in links", () => {
   it("links Log in without a query by default", () => {
-    expect(
-      getAuthPageHref({ mode: "log-in", next: DEFAULT_AUTH_REDIRECT_PATH }),
-    ).toBe("/login");
+    expect(getLogInHref({ next: DEFAULT_AUTH_REDIRECT_PATH })).toBe("/login");
+    expect(getLogInHref({ next: LOGIN_DEFAULT_NEXT })).toBe("/login");
   });
 
-  it("leaves out the Log in page's own default destination", () => {
-    expect(getAuthPageHref({ mode: "sign-up", next: LOGIN_DEFAULT_NEXT })).toBe(
-      "/login?mode=sign-up",
-    );
-  });
-
-  it("keeps the sign-up mode and where to go afterwards", () => {
-    expect(getAuthPageHref({ mode: "sign-up", next: "/app/plays" })).toBe(
-      "/login?mode=sign-up&next=%2Fapp%2Fplays",
+  it("keeps where to go afterwards", () => {
+    expect(getLogInHref({ next: "/app/plays" })).toBe(
+      "/login?next=%2Fapp%2Fplays",
     );
   });
 
   it("puts an error code first", () => {
-    expect(
-      getAuthPageHref({
-        error: "weak-password",
-        mode: "sign-up",
-        next: DEFAULT_AUTH_REDIRECT_PATH,
-      }),
-    ).toBe("/login?error=weak-password&mode=sign-up");
+    expect(getLogInHref({ error: "credentials", next: "/app/plays" })).toBe(
+      "/login?error=credentials&next=%2Fapp%2Fplays",
+    );
   });
 });
 
-describe("recovery and first-run links", () => {
+describe("password reset links", () => {
   it("links Reset your password and its sent states", () => {
     expect(getForgotPasswordHref({ next: LOGIN_DEFAULT_NEXT })).toBe(
       "/forgot-password",
@@ -59,15 +47,6 @@ describe("recovery and first-run links", () => {
   it("links Choose a new password with where to go afterwards", () => {
     expect(getResetPasswordHref({ next: "/app/plays" })).toBe(
       "/reset-password?next=%2Fapp%2Fplays",
-    );
-  });
-
-  it("links Check your email with a resend", () => {
-    expect(getCheckEmailHref({ next: LOGIN_DEFAULT_NEXT })).toBe(
-      "/check-email",
-    );
-    expect(getCheckEmailHref({ next: "/app/plays", resent: true })).toBe(
-      "/check-email?sent=again&next=%2Fapp%2Fplays",
     );
   });
 

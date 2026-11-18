@@ -1,5 +1,5 @@
 /*
- * Why Log in, Sign up or a password reset didn't work, as a fixed code in the
+ * Why Log in or a password reset didn't work, as a fixed code in the
  * page's `error` query. The page shows its own copy for each code and never
  * the query's text, so a link can't make the page say something Voydex
  * didn't write.
@@ -7,8 +7,6 @@
 export const authErrorCodes = [
   "credentials",
   "email-invalid",
-  "email-not-confirmed",
-  "email-taken",
   "invalid-details",
   "link-expired",
   "missing-fields",
@@ -33,14 +31,11 @@ export const parseAuthErrorCode = (value: unknown): AuthErrorCode | null =>
 /* Supabase Auth's error codes, by the reason the page gives. */
 const supabaseErrorCodes = new Map<string, AuthErrorCode>([
   ["email_address_invalid", "email-invalid"],
-  ["email_exists", "email-taken"],
-  ["email_not_confirmed", "email-not-confirmed"],
   ["invalid_credentials", "credentials"],
   ["over_email_send_rate_limit", "rate-limited"],
   ["over_request_rate_limit", "rate-limited"],
   ["reauthentication_needed", "reauthentication-needed"],
   ["same_password", "same-password"],
-  ["user_already_exists", "email-taken"],
   /* Generic (a malformed email, a password over 72 characters): no field named. */
   ["validation_failed", "invalid-details"],
   ["weak_password", "weak-password"],
@@ -79,18 +74,13 @@ export const getAuthLinkErrorCode = (
     : "unknown";
 };
 
-/* Where an error's link leads: Log in, or asking for a reset link. */
-export type AuthErrorLinkTarget = "forgot-password" | "log-in";
-
 export type AuthErrorCopy = {
   description: string;
-  /* A way forward after the description, such as "reset your password". */
-  link?: {
-    label: string;
-    target: AuthErrorLinkTarget;
-    /* Punctuation that closes the sentence after the link. */
-    trailing?: string;
-  };
+  /*
+   * The way forward after the description: asking for a reset link, with
+   * the punctuation that closes the sentence after it.
+   */
+  resetLink?: { label: string; trailing: string };
   title: string;
 };
 
@@ -98,25 +88,12 @@ export type AuthErrorCopy = {
 export const authErrorCopy: Record<AuthErrorCode, AuthErrorCopy> = {
   credentials: {
     description: "The email or password isn't right. Try again, or",
-    link: {
-      label: "reset your password",
-      target: "forgot-password",
-      trailing: ".",
-    },
+    resetLink: { label: "reset your password", trailing: "." },
     title: "That didn't work",
   },
   "email-invalid": {
     description: "Check the email for a typo and try again.",
     title: "That email doesn't look right",
-  },
-  "email-not-confirmed": {
-    description: "Open the link we sent to your email, then log in.",
-    title: "Confirm your email first",
-  },
-  "email-taken": {
-    description: "Log in instead, or use a different email.",
-    link: { label: "Log in with this email", target: "log-in" },
-    title: "That email already has an account",
   },
   "invalid-details": {
     description:

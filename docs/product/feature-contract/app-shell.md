@@ -8,17 +8,18 @@ The app opens without an account: your data lives on this device, and
 signing in is only for backups (#248). The front page's Start a Play opens
 the app, whose Home asks which game you are playing. Logging in is offered
 inside the app and never asked for: Settings' Account card, the account menu
-and You each carry Log in while you're signed out. Log in and Sign up share
-`/login`, whose words say what an account is for (Sign up is titled "Back up
-your Plays") and whose last line says Voydex works the same without one;
-Reset your password, Choose a new password and Check your email are their own
-routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
-password with Show and no confirmation field, and lands where Log in would,
-with no step in between: your name and icon are on the trainer card in
-Settings, and New Play asks for the trainer name.
+and You each carry Log in while you're signed out. `/login` is Log in only,
+and its last line says Voydex works the same without an account; Reset your
+password and Choose a new password are their own routes
+([Navigation And Routes](../navigation-and-routes.md)). **There is no Sign
+up for now** (2026-11-18): Voydex makes no new accounts, so the app has no
+Sign up screen, no Check your email and no confirmation email, and Settings'
+Account row and the Privacy policy say so. Logging in lands on Home with no
+step in between: your name and icon are on the trainer card in Settings, and
+New Play asks for the trainer name.
 
-Login is a focused global transition with visible Log in, Sign up, Recover
-account, Check your email, or Choose a new password identity. Direct Login
+Login is a focused global transition with visible Log in, Recover
+account, or Choose a new password identity. Direct Login
 lands on Home (`/app`). A user who is already authenticated is
 redirected to the validated destination or Home rather than shown
 the form again.
@@ -30,16 +31,12 @@ apply. Validate all continuation data, reject external or tampered targets, and
 revalidate the owning Mainline operation after authentication. Login never
 performs or automatically replays the mutation.
 
-Log in uses Email, Password, password visibility, recovery, and an alternate
-Create account action. Sign up uses Email, Password with visible requirements
-and visibility, and an alternate Log in action. Do not add Profile,
-preferences, game selection, or onboarding fields to account creation.
+Log in uses Email, Password, password visibility and recovery. It offers no
+way to create an account.
 
 Password recovery returns the same neutral Check Email response whether or not
 an account exists. Recovery links open a focused new-password mode and handle
-expired or reused links without losing a safe destination. When email
-confirmation is required after Sign up, show a clear Check Email state instead
-of looping back to Log in.
+expired or reused links without losing a safe destination.
 
 Recoverable errors preserve Email and non-sensitive intent, clear passwords,
 associate field errors, translate provider messages into stable user-facing

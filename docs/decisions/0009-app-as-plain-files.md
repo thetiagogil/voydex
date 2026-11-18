@@ -19,7 +19,7 @@ for good, never paying for other people's use.
   page is a plain file in `out/`, made once at build time, and Cloudflare
   serves the folder as static files (`wrangler.jsonc` has no Worker script).
   Static file requests are free and unlimited.
-- Login, sign-up, password resets, email links and account changes call
+- Login, password resets, email links and account changes call
   Supabase from the browser. The session lives in this browser's storage and
   the Supabase client refreshes it; there is no login cookie and no proxy.
 - A page whose id the build can't know takes it from the query:

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { getAuthPageHref } from "@/features/auth/auth-mode";
+import { getLogInHref } from "@/features/auth/auth-links";
 import { completeAuthLink } from "@/features/auth/client/auth-callback";
 import { PageLoadingState } from "@/shared/components/page-loading-state";
 
@@ -29,7 +29,7 @@ export const AuthCallbackPage = () => {
       finish = completeAuthLink(new URLSearchParams(query), next).catch(() => {
         finishing.delete(query);
 
-        return getAuthPageHref({ error: "link-expired", mode: "log-in", next });
+        return getLogInHref({ error: "link-expired", next });
       });
       finishing.set(query, finish);
     }

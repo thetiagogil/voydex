@@ -135,10 +135,9 @@ reference/filter context; they are not currently a required top-level view.
 /                       the front page: #how-it-works, #install
 /privacy, /terms
 
-/login                  ?mode=sign-up, ?next=
+/login                  ?next= (Log in only; there is no Sign up for now)
 /forgot-password        ?sent=
 /reset-password         where the reset link lands
-/check-email            after a sign-up that needs its email confirmed
 /auth/callback          every email link
 
 /app                    Home: ?play= puts one of your Plays on the meadow,
@@ -281,23 +280,20 @@ data.
 ### Authenticate Or Recover
 
 ```txt
-Settings' Account, the account menu or You -> Log in or Sign up (only for
-  backups) -> /login?next=[path] -> the destination
-Sign up -> where Log in would land (or /check-email, whose link returns
-  through /auth/callback to the same place)
+Settings' Account, the account menu or You -> Log in (only for backups)
+  -> /login?next=[path] -> the destination
 Log in -> Forgot password -> /forgot-password (sent state)
   -> the email's link -> /auth/callback -> /reset-password -> next
 ```
 
-`/login` owns Log in and Sign up (`?mode=sign-up`). Reset your password
-(`/forgot-password`), Choose a new password (`/reset-password`) and Check your
-email (`/check-email`) are their own routes; `?next=` travels through all of
-them. A signed-in request to Login redirects to the validated destination or
+`/login` owns Log in; Voydex makes no new accounts for now, so there is no
+Sign up and no email confirmation. Reset your password (`/forgot-password`)
+and Choose a new password (`/reset-password`) are their own routes; `?next=`
+travels through all of them. A signed-in request to Login redirects to the validated destination or
 normal app entry.
 
-Every email link returns through `/auth/callback`: a sign-up confirmation
-continues into the app, a reset to `/reset-password`, an email change to
-Settings. A failed or expired reset link returns to `/forgot-password` with
+Every email link returns through `/auth/callback`: a reset continues to
+`/reset-password`, an email change to Settings. A failed or expired reset link returns to `/forgot-password` with
 its reason; any other failed link to Log in. External, protocol-relative,
 malformed or unsupported continuation targets fall back safely.
 

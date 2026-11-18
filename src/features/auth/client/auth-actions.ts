@@ -3,10 +3,7 @@
 import { isAuthSessionMissingError } from "@supabase/supabase-js";
 
 import { appRoutes } from "@/config/routes";
-import {
-  type AuthErrorCode,
-  getAuthErrorCode,
-} from "@/features/auth/auth-errors";
+import { getAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   buildAuthCallbackUrl,
   readEmail,
@@ -15,12 +12,10 @@ import {
   resolveAuthRedirectPath,
 } from "@/features/auth/auth-form";
 import {
-  type AuthMode,
-  getAuthPageHref,
-  getCheckEmailHref,
   getForgotPasswordHref,
+  getLogInHref,
   getResetPasswordHref,
-} from "@/features/auth/auth-mode";
+} from "@/features/auth/auth-links";
 import { getLogInLandingPath } from "@/features/auth/auth-redirects";
 import {
   forgetAuthEmail,
@@ -30,16 +25,11 @@ import {
 import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
 
 /*
- * Log in, Sign up and password resets, run in the browser against Supabase.
+ * Log in and password resets, run in the browser against Supabase.
  * Each one answers with the address to go to next: the page it lands on, or
  * the form again with a fixed reason in `?error=` (Supabase's own message
  * never reaches the page).
  */
-
-type AuthFormContext = { mode: AuthMode; next: string };
-
-const authErrorHref = (error: AuthErrorCode, context: AuthFormContext) =>
-  getAuthPageHref({ error, ...context });
 
 const callbackUrl = (next: string) =>
   buildAuthCallbackUrl(window.location.origin, next);
@@ -47,97 +37,31 @@ const callbackUrl = (next: string) =>
 const readNext = (formData: FormData) =>
   readSafeNext(formData, appRoutes.mainline);
 
-const readAuthForm = (formData: FormData, mode: AuthMode) => {
-  const context: AuthFormContext = { mode, next: readNext(formData) };
+export const logInWithPassword = async (formData: FormData) => {
+  const next = readNext(formData);
   const email = readEmail(formData);
   const password = readPassword(formData);
 
   if (!email || !password) {
     if (email) rememberAuthEmail(email);
 
-    return {
-      href: authErrorHref("missing-fields", context),
-      ok: false,
-    } as const;
+    return getLogInHref({ error: "missing-fields", next });
   }
 
-  return { context, email, ok: true, password } as const;
-};
-
-export const logInWithPassword = async (formData: FormData) => {
-  const form = readAuthForm(formData, "log-in");
-
-  if (!form.ok) return form.href;
-
   const { error } = await getBrowserSupabaseClient().auth.signInWithPassword({
-    email: form.email,
-    password: form.password,
+    email,
+    password,
   });
 
   if (error) {
-    rememberAuthEmail(form.email);
+    rememberAuthEmail(email);
 
-    return authErrorHref(getAuthErrorCode(error.code), form.context);
+    return getLogInHref({ error: getAuthErrorCode(error.code), next });
   }
 
   forgetAuthEmail();
 
-  return getLogInLandingPath(form.context.next);
-};
-
-/*
- * One password with Show, no confirmation field. A new account lands where
- * Log in would; when its email still needs confirming, on Check your email,
- * and the email's link leads to the same place.
- */
-export const signUpWithPassword = async (formData: FormData) => {
-  const form = readAuthForm(formData, "sign-up");
-
-  if (!form.ok) return form.href;
-
-  const landing = getLogInLandingPath(form.context.next);
-  const { data, error } = await getBrowserSupabaseClient().auth.signUp({
-    email: form.email,
-    options: { emailRedirectTo: callbackUrl(landing) },
-    password: form.password,
-  });
-
-  if (error) {
-    rememberAuthEmail(form.email);
-
-    return authErrorHref(getAuthErrorCode(error.code), form.context);
-  }
-
-  if (data.session) {
-    forgetAuthEmail();
-
-    return landing;
-  }
-
-  rememberAuthEmail(form.email);
-
-  return getCheckEmailHref({ next: form.context.next });
-};
-
-/* Check your email's "Send it again": the same confirmation link, to the email just used. */
-export const resendSignUpEmail = async (formData: FormData) => {
-  const next = readNext(formData);
-  const email = readAuthEmail();
-
-  /* The remembered email has gone: start Sign up again. */
-  if (!email) return getAuthPageHref({ mode: "sign-up", next });
-
-  const { error } = await getBrowserSupabaseClient().auth.resend({
-    email,
-    options: { emailRedirectTo: callbackUrl(getLogInLandingPath(next)) },
-    type: "signup",
-  });
-
-  return getCheckEmailHref({
-    error: error ? getAuthErrorCode(error.code) : null,
-    next,
-    resent: !error,
-  });
+  return getLogInLandingPath(next);
 };
 
 /*

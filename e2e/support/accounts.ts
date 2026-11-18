@@ -15,7 +15,8 @@ export const testPassword = "123456";
 
 /*
  * A new account for each run, so tests that write never touch the seeded
- * data. Local sign-up needs no email confirmation.
+ * data. `logInToNewAccount` makes it on the local Supabase, which needs no
+ * email confirmation.
  */
 export const newTestEmail = (label: string) =>
   `e2e-${label}-${randomUUID().slice(0, 8)}@voydex.test`;
