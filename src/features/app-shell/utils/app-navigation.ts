@@ -11,6 +11,8 @@ export type AppNavigationLink = {
 };
 
 export type MainlineNavigationLink = AppNavigationLink & {
+  /* Every path the view stays current under, when its pages don't share one. */
+  sections?: readonly string[];
   /* The bottom bar's shorter name, such as "Planner" for Team Planner. */
   shortLabel: string;
   slug: string;
@@ -24,10 +26,8 @@ const youSectionHrefs = new Set<string>([
   appRoutes.mainlineStats,
 ]);
 
-const isPlannerHref = (href: string) =>
-  href === appRoutes.mainlinePlans ||
-  href.startsWith(`${appRoutes.mainlinePlans}/`) ||
-  href.startsWith(`${appRoutes.mainlinePlans}?`);
+/* The Team Planner's two pages: the planner itself and My Plans. */
+const plannerSections = [appRoutes.mainlinePlanNew(), appRoutes.mainlinePlans];
 
 /*
  * The app's bar: Mainline's views sit in the middle in the order the module
@@ -37,13 +37,13 @@ const isPlannerHref = (href: string) =>
 export const mainlineLinks: readonly MainlineNavigationLink[] = (
   modules.mainline.views as readonly MainlineView[]
 ).map((view) => {
-  const isPlanner = isPlannerHref(view.href);
+  const isPlanner = view.slug === "planner";
 
   return {
     exact: view.href === appRoutes.mainline,
     href: view.href,
     label: view.label,
-    section: isPlanner ? appRoutes.mainlinePlans : undefined,
+    sections: isPlanner ? plannerSections : undefined,
     shortLabel: isPlanner ? "Planner" : view.label,
     slug: view.slug,
   };
@@ -83,7 +83,7 @@ export type BarMenuView = AppNavigationLink & {
   icon: "favourites" | "games" | "planner" | "plans" | "pokemon";
 };
 
-/* One item of the app's top bar: a link, or a name that opens its pages. */
+/* One item of the app's bars: a link, or a name that opens its pages. */
 export type AppBarItem = AppNavigationLink & {
   /* Every path the item stays current under, when its pages don't share one. */
   sections?: readonly string[];
@@ -137,10 +137,6 @@ const barMenuViews: Partial<Record<string, readonly BarMenuView[]>> = {
 export const appBarItems: readonly AppBarItem[] = [
   ...mainlineLinks.map((link): AppBarItem => ({
     ...link,
-    sections:
-      link.slug === "planner"
-        ? [appRoutes.mainlinePlanNew(), appRoutes.mainlinePlans]
-        : undefined,
     views: barMenuViews[link.slug],
   })),
   {

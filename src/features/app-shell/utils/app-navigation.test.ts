@@ -65,6 +65,15 @@ describe("app navigation", () => {
     expect(tabBarLinks.length).toBeGreaterThan(0);
   });
 
+  it("calls the planner Planner on the bottom bar and keeps it current on My Plans", () => {
+    const planner = tabBarLinks.find((link) => link.slug === "planner")!;
+
+    expect(planner.shortLabel).toBe("Planner");
+    expect(isCurrentBarItem("/app/planner", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plans", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plays", planner)).toBe(false);
+  });
+
   it("keeps You current on the pages about you", () => {
     const isYouCurrent = (pathname: string) =>
       youLinks.some((link) => isCurrentLink(pathname, link));

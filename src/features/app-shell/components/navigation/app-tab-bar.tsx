@@ -9,6 +9,7 @@ import { useAppAccount } from "@/features/app-shell/components/app-account-provi
 import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import { CodexTabMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import {
+  isCurrentBarItem,
   isCurrentLink,
   tabBarLinks,
   youLinks,
@@ -69,7 +70,7 @@ export const AppTabBar = () => {
               className="size-5.5"
             />
           }
-          isCurrent={isCurrentLink(pathname, link)}
+          isCurrent={isCurrentBarItem(pathname, link)}
           label={link.shortLabel}
         />
       ))}
