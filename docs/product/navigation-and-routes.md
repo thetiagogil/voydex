@@ -54,19 +54,19 @@ log-in pages beside it. Everything else is the app.
   (`/#how-it-works`): three steps, each wearing one of the Dex's lights
   (red, yellow, green), with one Play followed through them and its partner
   growing along the way, then the Team Planner and the Codex in two small
-  cards. Then Install (`/#install`, "Carry the Dex"): a band in the Dex's
-  deep red with the icon Voydex wears on a Home Screen and the two ways to
-  put it there (iPhone and iPad; Android and computer) as numbered steps.
+  cards. Then Install (`/#install`): one quiet card with a drawn phone's
+  Home Screen, Voydex's icon among blank ones, beside the two ways to put
+  it there (iPhone and iPad; Android and computer) as numbered steps. Only
+  the head is the Dex; the parts under it are the app's own quiet cards.
   The example Play throughout is a Pokémon Red run. The top's links glide
   to their parts.
 - **Top bar:** the front page draws its own top (the Dex). Privacy and
   Terms take the site bar: the "V" tile with the Voydex name (the word
   drops on narrow phones), How it works and Install centred, and Log in on
   the right. The log-in pages show no bar.
-- The site frame ends on the site footer, the Dex's lower body: the action
-  red with the top's stepped edge mirrored, holding the lens and the name,
-  the tagline, How it works, Codex, Log in, Privacy, Terms and the
-  fan-project notice.
+- The site frame ends on the quiet site footer: a rule across the full
+  width, then the "V" mark and the name, the tagline, How it works, Codex,
+  Log in, Privacy, Terms and the fan-project notice.
 - **Coming back:** a device that has opened the app (Mainline, Settings or
   You) skips the front page: `/` sends it to Home (`/app`). A
   Codex visit alone doesn't count. A link to one of the front page's parts

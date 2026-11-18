@@ -1,5 +1,6 @@
 import { frontPageSections } from "@/config/routes";
-import { DexLens } from "@/shared/components/brand/dex-lens";
+import { SiteSectionHead } from "@/features/site/components/site-section-head";
+import { LogoMark } from "@/shared/components/brand/logo-mark";
 import { Card } from "@/shared/components/ui/card";
 
 const installWays = [
@@ -17,58 +18,79 @@ const installWays = [
   },
 ] as const;
 
+/* The other apps on the pictured Home Screen: eleven blank tiles. */
+const otherApps = Array.from({ length: 11 }, (_, index) => index);
+
 /*
- * Install, on the front page: carry the Dex. One band in the Dex's deep red
- * with the icon Voydex wears on a Home Screen (the lens), and the two ways
- * to put it there as numbered steps. Nothing that isn't there yet.
+ * What installing gives you: a phone's Home Screen with Voydex on it, its
+ * own icon among blank ones. A picture, so one image to a screen reader.
+ */
+const HomeScreenPicture = () => (
+  <div
+    role="img"
+    aria-label="A phone's Home Screen with the Voydex icon on it"
+    className="border-ink bg-band mx-auto w-44 shrink-0 rounded-[1.75rem] border-[5px] px-3.5 pt-5 pb-6 sm:w-48"
+  >
+    <span className="bg-ink mx-auto mb-4 block h-1.5 w-12 rounded-full" />
+    <div className="grid grid-cols-3 gap-x-3 gap-y-2.5">
+      <span className="flex flex-col items-center gap-1">
+        <LogoMark className="aspect-square h-auto w-full rounded-[28%]" />
+        <span className="text-ink text-12 leading-none font-extrabold">
+          Voydex
+        </span>
+      </span>
+      {otherApps.map((app) => (
+        <span key={app} className="flex flex-col items-center gap-1">
+          <span className="bg-surface block aspect-square w-full rounded-[28%]" />
+          <span className="bg-surface block h-1.5 w-3/4 rounded-full" />
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+/*
+ * Install, on the front page: what it gives you, shown (Voydex on a Home
+ * Screen), beside the two ways to put it there as numbered steps. Nothing
+ * that isn't there yet.
  */
 export const InstallSection = () => (
   <section
     id={frontPageSections.install}
     aria-labelledby="install-title"
     tabIndex={-1}
-    className="bg-action-lip grid scroll-mt-6 gap-7 rounded-2xl p-5.5 text-white outline-none sm:p-9 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-center lg:gap-10"
+    className="scroll-mt-6 outline-none"
   >
-    <div>
-      <span
-        aria-hidden
-        className="bg-action grid size-21 place-items-center rounded-xl sm:size-23"
-      >
-        <DexLens className="text-12 size-13 sm:size-14" />
-      </span>
-      <p className="text-13 mt-5 font-extrabold tracking-wider uppercase">
-        Install
-      </p>
-      <h2 id="install-title" className="title-page mt-1.5">
-        Carry the Dex
-      </h2>
-      <p className="text-16 sm:text-17 mt-2.5 max-w-[30em] leading-relaxed font-semibold">
-        Add Voydex to your Home Screen and it opens like any other app, offline
-        too.
-      </p>
-    </div>
-    <div className="grid gap-4 sm:grid-cols-2">
-      {installWays.map((way) => (
-        <Card key={way.title} className="text-ink gap-0 p-5">
-          <h3 className="title-card">{way.title}</h3>
-          <ol className="mt-3.5 flex flex-col gap-2.5">
-            {way.steps.map((step, index) => (
-              <li
-                key={step}
-                className="text-15 text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5 font-semibold"
-              >
-                <span
-                  aria-hidden
-                  className="bg-surface-2 text-ink text-13 grid size-7 place-items-center rounded-full font-extrabold"
+    <SiteSectionHead
+      id="install-title"
+      title="Install"
+      text="Add Voydex to your Home Screen and it opens like any other app, offline too."
+    />
+    <Card className="grid items-center gap-x-10 gap-y-7 p-5.5 sm:p-8 md:grid-cols-[auto_minmax(0,1fr)]">
+      <HomeScreenPicture />
+      <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+        {installWays.map((way) => (
+          <div key={way.title}>
+            <h3 className="title-card">{way.title}</h3>
+            <ol className="mt-3.5 flex flex-col gap-2.5">
+              {way.steps.map((step, index) => (
+                <li
+                  key={step}
+                  className="text-15 text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5 font-semibold"
                 >
-                  {index + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-        </Card>
-      ))}
-    </div>
+                  <span
+                    aria-hidden
+                    className="bg-surface-2 text-ink text-13 grid size-7 place-items-center rounded-full font-extrabold"
+                  >
+                    {index + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </Card>
   </section>
 );
