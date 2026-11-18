@@ -11,11 +11,6 @@ import type {
  * Sword run. Every name, date and number below is the example's, drawn as
  * copy; none of it is anyone's data.
  */
-const grookey: PublicPokemon = {
-  name: "Grookey",
-  slug: "grookey",
-  type: "grass",
-};
 const toxtricity: PublicPokemon = {
   name: "Toxtricity",
   slug: "toxtricity",
