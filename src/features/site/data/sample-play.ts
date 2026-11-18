@@ -24,9 +24,6 @@ export const samplePlayProgress = [
   { label: "Pokédex", percent: 62 },
 ] as const;
 
-/* What the example Play has ahead, with all eight badges earned. */
-export const samplePlayNext = "Elite Four";
-
 export const samplePlayTeam: readonly PublicPokemon[] = [
   { name: "Charizard", slug: "charizard", type: "fire" },
   { name: "Pikachu", slug: "pikachu", type: "electric" },

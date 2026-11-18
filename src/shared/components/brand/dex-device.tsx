@@ -53,8 +53,6 @@ export const DexDevice = ({
 
 type DexScreenFrameProps = Omit<ComponentProps<"div">, "children"> & {
   children: ReactNode;
-  /* A short line beside the slits under the screen, such as what is next. */
-  foot?: ReactNode;
   screenClassName?: string;
 };
 
@@ -68,7 +66,6 @@ type DexScreenFrameProps = Omit<ComponentProps<"div">, "children"> & {
 export const DexScreenFrame = ({
   children,
   className,
-  foot,
   screenClassName,
   ...props
 }: DexScreenFrameProps) => (
@@ -88,17 +85,10 @@ export const DexScreenFrame = ({
     >
       {children}
     </div>
-    <div className="mt-3 flex items-center justify-between px-1.5">
-      <span aria-hidden className="flex flex-col gap-1">
-        <span className="bg-action block h-1 w-11 rounded-full" />
-        <span className="bg-action block h-1 w-11 rounded-full" />
-        <span className="bg-action block h-1 w-11 rounded-full" />
-      </span>
-      {foot ? (
-        <span className="text-12 font-extrabold tracking-wider text-white uppercase">
-          {foot}
-        </span>
-      ) : null}
-    </div>
+    <span aria-hidden className="mt-3 flex flex-col gap-1 px-1.5">
+      <span className="bg-action block h-1 w-11 rounded-full" />
+      <span className="bg-action block h-1 w-11 rounded-full" />
+      <span className="bg-action block h-1 w-11 rounded-full" />
+    </span>
   </div>
 );
