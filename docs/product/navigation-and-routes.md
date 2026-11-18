@@ -65,8 +65,8 @@ log-in pages beside it. Everything else is the app.
   drops on narrow phones), How it works and Install centred, and Log in on
   the right. The log-in pages show no bar.
 - The site frame ends on the quiet site footer: a rule across the full
-  width, then the "V" mark and the name, the tagline, How it works, Codex,
-  Log in, Privacy, Terms and the fan-project notice.
+  width, then the "V" mark and the name, the tagline, How it works,
+  Install, Codex, Log in, Privacy, Terms and the fan-project notice.
 - **Coming back:** a device that has opened the app (Mainline, Settings or
   You) skips the front page: `/` sends it to Home (`/app`). A
   Codex visit alone doesn't count. A link to one of the front page's parts

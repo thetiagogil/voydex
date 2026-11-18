@@ -5,6 +5,7 @@ import { TextLink } from "@/shared/components/text-link";
 
 const footerLinks = [
   { href: appRoutes.howItWorks, label: "How it works" },
+  { href: appRoutes.install, label: "Install" },
   { href: appRoutes.codexPokemon, label: "Codex" },
   { href: appRoutes.login, label: "Log in" },
   { href: appRoutes.privacy, label: "Privacy" },
@@ -13,9 +14,11 @@ const footerLinks = [
 
 /*
  * The site frame's quiet footer: its rule runs the full width, and inside
- * it the name, the tagline, a few links (How it works, Codex, Log in,
- * Privacy, Terms) and the fan-project notice line up with the page. The
- * page's loud part is its head; the footer is chrome and stays quiet.
+ * it the name, the tagline, a few links (How it works, Install, Codex, Log
+ * in, Privacy, Terms) and the fan-project notice line up with the page. On
+ * a phone the links sit in three even columns, so none is left alone on a
+ * line. The page's loud part is its head; the footer is chrome and stays
+ * quiet.
  */
 export const SiteFooter = () => (
   <footer className="border-line border-t">
@@ -33,7 +36,7 @@ export const SiteFooter = () => (
         </p>
         <nav
           aria-label="Footer"
-          className="text-14 text-ink-2 flex flex-wrap gap-x-5 gap-y-1.5 font-bold sm:ml-auto"
+          className="text-14 text-ink-2 grid grid-cols-[repeat(3,max-content)] gap-x-6 gap-y-1.5 font-bold sm:ml-auto sm:flex sm:flex-wrap sm:gap-x-5"
         >
           {footerLinks.map((link) => (
             <TextLink key={link.href} href={link.href} tone="quiet">
