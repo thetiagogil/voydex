@@ -25,12 +25,12 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
   open theirs; it is bold while you are anywhere under `/app/codex`.
 - **Account menu:** Library (`/app/library`, your rules and tags),
-  Settings (`/app/settings`) and, at the foot, Log in (back up your Plays to an
-  account) or, once you've signed in, Log out.
+  Settings (`/app/settings`), Log in (back up your Plays to an
+  account) or, once you've signed in, Log out, and Leave the app.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/app/you` (the
-  trainer card, Statistics, Collection, Library, Settings and Log in, or
+  trainer card, Statistics, Collection, Library, Settings, Leave the app and Log in, or
   Log out once you've signed in) and
   stays current on You, Settings, Library, Statistics and
   Collection. The current
@@ -43,16 +43,21 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
 The website is one page, the front page (`/`), with Privacy, Terms and the
 log-in pages beside it. Everything else is the app.
 
-- **The front page:** the name, the catchphrase, one paragraph and one
-  button on the band, then How it works (`/#how-it-works`: one Play
-  followed over time, the Team Planner and the Codex) and Install
-  (`/#install`: how to add Voydex to a Home Screen on an iPhone or iPad,
-  and on Android or a computer). Its button reads Start a Play and opens
-  the app (`/app`), whose Home asks which game you are playing.
-- **Top bar:** the "V" tile with the Voydex name (the word drops on narrow
-  phones), How it works and Install centred (they scroll to those parts of
-  the front page; phones leave them out), and Log in on the right. The
-  log-in pages show no bar.
+- **The front page:** its head is the Dex, since Voydex is a Pokédex for
+  your playthroughs: a red device with the blue lens, three lights, the
+  Voydex name and Log in along its top (How it works and Install beside
+  Log in from 640px, scrolling to those parts), then the headline, one
+  paragraph and one white button beside the Dex's screen, which shows an
+  example Play as an entry (cover, status, progress, team, badges). Its
+  button reads Start a Play and opens the app (`/app`), whose Home asks
+  which game you are playing. Under the Dex: How it works
+  (`/#how-it-works`: one Play followed over time, the Team Planner and the
+  Codex) and Install (`/#install`: how to add Voydex to a Home Screen on an
+  iPhone or iPad, and on Android or a computer).
+- **Top bar:** the front page draws its own top (the Dex). Privacy and
+  Terms take the site bar: the "V" tile with the Voydex name (the word
+  drops on narrow phones), How it works and Install centred, and Log in on
+  the right. The log-in pages show no bar.
 - The site frame ends on the quiet site footer (name, catchphrase, How it
   works, Codex, Log in, Privacy, Terms and the fan-project notice).
 - **Coming back:** a device that has opened the app (Mainline, Settings or
@@ -60,6 +65,10 @@ log-in pages beside it. Everything else is the app.
   Codex visit alone doesn't count. A link to one of the front page's parts
   still shows it, with Continue in place of Start a Play; Settings' About
   Voydex links there.
+- **Leave the app** (the account menu, and You on phones) goes back to the
+  front page and stops the skip, so `/` shows the front page again, with
+  Continue, until you continue from it. Nothing on the device changes: your
+  Plays stay.
 - **The start screen:** the app's pages (`/app`, `/app/settings`, `/app/you`
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens

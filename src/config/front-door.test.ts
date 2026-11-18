@@ -2,19 +2,21 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   frontDoorScript,
+  leaveApp,
   readAppEntered,
   rememberAppEntered,
   shouldSkipFrontPage,
 } from "@/config/front-door";
 
 /* The browser's storage and address, stood in for by plain objects. */
-const location = { hash: "", replace: vi.fn() };
+const location = { hash: "", pathname: "/", replace: vi.fn() };
 
 describe("front door", () => {
   beforeEach(() => {
     const store = new Map<string, string>();
 
     location.hash = "";
+    location.pathname = "/";
     location.replace.mockClear();
     vi.stubGlobal("window", {
       localStorage: {
@@ -48,11 +50,33 @@ describe("front door", () => {
     expect(shouldSkipFrontPage()).toBe(false);
   });
 
+  it("shows the front page after leaving the app, until you continue", () => {
+    rememberAppEntered();
+    leaveApp();
+
+    /* Still a device that has opened the app: the front page says Continue. */
+    expect(readAppEntered()).toBe(true);
+    expect(shouldSkipFrontPage()).toBe(false);
+
+    rememberAppEntered();
+    expect(shouldSkipFrontPage()).toBe(true);
+  });
+
   it("sends a returning device to the app from the inline script", () => {
     new Function(frontDoorScript)();
     expect(location.replace).not.toHaveBeenCalled();
 
     rememberAppEntered();
+    leaveApp();
+    new Function(frontDoorScript)();
+    expect(location.replace).not.toHaveBeenCalled();
+
+    rememberAppEntered();
+    location.pathname = "/privacy";
+    new Function(frontDoorScript)();
+    expect(location.replace).not.toHaveBeenCalled();
+
+    location.pathname = "/";
     new Function(frontDoorScript)();
     expect(location.replace).toHaveBeenCalledWith("/app");
   });

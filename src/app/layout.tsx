@@ -1,4 +1,5 @@
 import { ServiceWorkerRegistration } from "@/platform/offline/service-worker-registration";
+import { frontDoorScript } from "@/config/front-door";
 import { FirstVisitGuard } from "@/shared/components/first-visit-guard";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
@@ -25,6 +26,8 @@ export default function RootLayout({
     >
       <head>
         <FirstVisitGuard />
+        {/* Sends a device that is in the app from the front page back in. */}
+        <script dangerouslySetInnerHTML={{ __html: frontDoorScript }} />
       </head>
       <body
         className="flex min-h-full flex-col antialiased"

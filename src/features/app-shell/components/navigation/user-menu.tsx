@@ -3,6 +3,7 @@
 import { Link } from "@/shared/components/link";
 import { usePathname } from "next/navigation";
 
+import { leaveApp } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import { useAppAccount } from "@/features/app-shell/components/app-account-provider";
 import { useSignOut } from "@/features/app-shell/client/sign-out";
@@ -23,8 +24,9 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 
 /*
- * You on the top bar: your icon opens Library, Settings and Log in (Log out
- * once you're signed in), nothing more (your profile lives on its page). A floating layer, so it takes the
+ * You on the top bar: your icon opens Library, Settings, Log in (Log out
+ * once you're signed in) and Leave the app, nothing more (your profile lives
+ * on its page). A floating layer, so it takes the
  * float shadow and no edge. Phones reach the same things from the You
  * page instead.
  */
@@ -116,6 +118,18 @@ export const UserMenu = () => {
             </DropdownMenuItem>
           </DropdownMenuGroup>
         )}
+        {/* Out to the front page; nothing on the device changes. */}
+        <DropdownMenuGroup className="mt-1">
+          <DropdownMenuItem
+            render={<Link href={appRoutes.home} onClick={leaveApp} />}
+          >
+            <MenuOptionContent
+              description="Your Plays stay on this device"
+              leading={<AppIcon icon={appIcons.actions.leave} size="lg" />}
+              title="Leave the app"
+            />
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

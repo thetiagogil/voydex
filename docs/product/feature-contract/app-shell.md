@@ -56,7 +56,9 @@ pick or type and Save appears once it has changed), Look and feel, New Play
 defaults, Account, Your data and About Voydex (How it works, Privacy, Terms
 and the fan-project notice). On phones `/app/you` gathers the trainer card,
 Statistics, Collection, Library and Settings, then Log in, or Log out once
-you've signed in.
+you've signed in. Leave the app sits on You and in the account
+menu: it returns to the front page, which then shows until you continue
+from it, and leaves everything on the device as it is.
 
 Signed out, Account is one row, Back up to an account, with Log in (it
 returns to Settings). Signed in, Account shows your email with Change email (confirmed by a link Supabase

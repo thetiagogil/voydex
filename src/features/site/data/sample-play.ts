@@ -32,6 +32,15 @@ export const samplePlay: PublicSamplePlay = {
   trainer: "Bea",
 };
 
+/* How far along the example Play is, as its entry's bars read it. */
+export const samplePlayProgress = [
+  { label: "Story", percent: 88 },
+  { label: "Pokédex", percent: 68 },
+] as const;
+
+/* What the example Play has ahead, with all eight badges earned. */
+export const samplePlayNext = "Champion Cup";
+
 export const samplePlayTeam: readonly PublicPokemon[] = [
   { name: "Rillaboom", slug: "rillaboom", type: "grass" },
   { name: "Corviknight", slug: "corviknight", type: "flying" },

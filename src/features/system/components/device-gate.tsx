@@ -16,13 +16,27 @@ import {
   useOpenLocalDb,
   type PreparePages,
 } from "@/platform/local-db/use-open-local-db";
+import { cn } from "@/shared/utils/cn";
 
 /*
  * The start screen and a device problem stand alone on the page: the app's
- * bars and its `main` come with the app, once the device is ready.
+ * bars and its `main` come with the app, once the device is ready. The
+ * start screen is the Dex booting, so it takes the Dex's red (`boot`); a
+ * problem stays on the plain ground, where its actions read as usual.
  */
-const StartFrame = ({ children }: { children: ReactNode }) => (
-  <div className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
+const StartFrame = ({
+  boot = false,
+  children,
+}: {
+  boot?: boolean;
+  children: ReactNode;
+}) => (
+  <div
+    className={cn(
+      "flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10",
+      boot && "bg-action",
+    )}
+  >
     {children}
   </div>
 );
@@ -64,13 +78,13 @@ export const DeviceGate = ({
   return (
     <Suspense
       fallback={
-        <StartFrame>
+        <StartFrame boot>
           <DeviceStartState step={null} />
         </StartFrame>
       }
     >
       {state.status === "opening" ? (
-        <StartFrame>
+        <StartFrame boot>
           <DeviceStartState step={state.step} />
         </StartFrame>
       ) : state.status === "failed" ? (

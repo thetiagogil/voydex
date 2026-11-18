@@ -9,7 +9,8 @@ import { cva, type VariantProps } from "class-variance-authority";
  * sits on instead of moving. `default` is the page's main action in the one
  * action red; `secondary` is the quiet action; `destructive` is a quiet
  * action that removes something; `tint` sits on a tinted band (a sheet's
- * head, the Play header). `soft` and `ghost` stay flat: `soft` is a control
+ * head, the Play header); `inverse` is the main action on the action colour
+ * itself (the front page's red), white with the action's ink. `soft` and `ghost` stay flat: `soft` is a control
  * inside a field (show or hide a password), `ghost` sits in a row of choices and shows
  * `aria-pressed`. Words that go somewhere are a `TextLink`, not a button.
  * Every size has the same pill shape, so buttons, triggers and their
@@ -27,6 +28,8 @@ const buttonStyles = cva(
           "border-(length:--band) border-white bg-surface-2 font-bold text-ink shadow-button hover:bg-hover active:bg-lip active:shadow-button-pressed aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         destructive:
           "border-(length:--band) border-white bg-danger-soft font-extrabold text-danger-deep shadow-button hover:bg-danger-soft-2 active:shadow-button-pressed disabled:bg-surface-2 disabled:text-ink-3 disabled:opacity-100",
+        inverse:
+          "border-(length:--band) border-white bg-surface font-extrabold text-action-ink shadow-button hover:bg-action-soft active:shadow-button-pressed",
         tint: "border-(length:--band) border-white bg-white/70 font-extrabold text-ink shadow-button hover:bg-white active:shadow-button-pressed aria-expanded:bg-white",
         soft: "bg-surface-2 font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
         ghost:

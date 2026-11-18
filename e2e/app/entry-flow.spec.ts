@@ -17,7 +17,10 @@ test.describe("Entry flow", () => {
     await page.goto("/");
 
     await expect(
-      page.getByRole("heading", { level: 1, name: "Voydex" }),
+      page.getByRole("heading", {
+        level: 1,
+        name: "A Pokédex for your playthroughs.",
+      }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { level: 2, name: "How it works" }),
@@ -52,6 +55,36 @@ test.describe("Entry flow", () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
+  });
+
+  test("Leave the app brings the front page back until you continue @phone", async ({
+    page,
+  }) => {
+    await page.goto("/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+    /* The account menu on a wide screen, the You page on a phone. */
+    if ((page.viewportSize()?.width ?? 0) >= 1024) {
+      await page.getByRole("button", { name: "You" }).click();
+      await page.getByRole("menuitem", { name: /Leave the app/ }).click();
+    } else {
+      await page.goto("/app/you");
+      await page.getByRole("link", { name: /Leave the app/ }).click();
+    }
+
+    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+
+    /* It stays the front page, on a reload too, until you continue. */
+    await page.reload();
+    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+
+    await page.getByRole("link", { name: "Continue" }).click();
+    await page.waitForURL("**/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.goto("/");
+    await page.waitForURL("**/app");
   });
 
   test("a Codex visit alone keeps the front page", async ({ page }) => {

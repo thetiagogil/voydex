@@ -1,7 +1,10 @@
+"use client";
+
 import { Link } from "@/shared/components/link";
 
 import type { TrainerIcon } from "@/features/settings/types";
 import { PageBand } from "@/shared/components/page-band";
+import { leaveApp } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { TrainerCard } from "@/features/settings/components/trainer-card";
@@ -45,13 +48,16 @@ type YouRowProps = {
   description: string;
   href: string;
   icon: AppIconComponent;
+  /* Runs as the row is followed, such as marking that you left the app. */
+  onFollow?: () => void;
   title: string;
 };
 
-/* A page about you (v3 `.you-row`): its icon, its name, one line, and an arrow onward. */
-const YouRow = ({ description, href, icon, title }: YouRowProps) => (
+/* A page about you: its icon, its name, one line, and an arrow onward. */
+const YouRow = ({ description, href, icon, onFollow, title }: YouRowProps) => (
   <Link
     href={href}
+    onClick={onFollow}
     className={cn(
       rowInteractionVariants({ interaction: "action" }),
       "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
@@ -70,8 +76,8 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
 
 /*
  * You, the fifth tab on phones: your trainer card on the band, then the
- * pages about you (Statistics, Collection, Library, Settings), then Log in,
- * or Log out once you're signed in. On a wide screen
+ * pages about you (Statistics, Collection, Library, Settings), Log in while
+ * you're signed out and Leave the app, then Log out once you're signed in. On a wide screen
  * the same things sit in the account menu, but the page still works there.
  */
 export const YouPage = ({
@@ -138,6 +144,13 @@ export const YouPage = ({
               description="Back up your Plays to an account"
             />
           )}
+          <YouRow
+            href={appRoutes.home}
+            icon={appIcons.actions.leave}
+            onFollow={leaveApp}
+            title="Leave the app"
+            description="Your Plays stay on this device"
+          />
         </nav>
       </Card>
       {/* Log out shows once you've signed in. */}

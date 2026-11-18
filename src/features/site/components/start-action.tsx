@@ -11,23 +11,32 @@ import { buttonVariants } from "@/shared/components/ui/button";
 const subscribe = () => () => undefined;
 
 /*
- * The front page's one way in. Start a Play opens the app, whose Home asks
- * which game you are playing; on a device that has opened the app before
- * (it reached the front page through a link to one of its parts) it reads
- * Continue and goes back to where the device was. The page is the same file
- * for everyone, so Start a Play shows until the browser says otherwise.
+ * The front page's one way in, white on the Dex's red. Start a Play opens
+ * the app, whose Home asks which game you are playing; on a device that has
+ * opened the app before (it left the app, or followed a link to a part of
+ * the front page) it reads Continue. The page is the same file for
+ * everyone, so Start a Play shows until the browser says otherwise.
  */
 export const StartAction = () => {
   const entered = useSyncExternalStore(subscribe, readAppEntered, () => false);
 
-  return entered ? (
-    <Link href={appRoutes.mainline} className={buttonVariants({ size: "lg" })}>
-      <AppIcon icon={appIcons.actions.continue} inline="start" />
-      Continue
-    </Link>
-  ) : (
-    <Link href={appRoutes.mainline} className={buttonVariants({ size: "lg" })}>
-      Start a Play
+  return (
+    <Link
+      href={appRoutes.mainline}
+      className={buttonVariants({
+        className: "max-sm:w-full",
+        size: "lg",
+        variant: "inverse",
+      })}
+    >
+      {entered ? (
+        <>
+          <AppIcon icon={appIcons.actions.continue} inline="start" />
+          Continue
+        </>
+      ) : (
+        "Start a Play"
+      )}
     </Link>
   );
 };

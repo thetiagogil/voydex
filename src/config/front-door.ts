@@ -2,50 +2,66 @@ import { appRoutes } from "@/config/routes";
 
 /*
  * The front page is for people who are new here. A device that has opened
- * the app before goes straight back in: `/` opens the app. A link that names
- * a part of the front page (`/#how-it-works`) still shows it, so the app can
- * link to how Voydex works.
+ * the app goes straight back in: `/` opens the app. Leave the app (the
+ * account menu, You) brings the front page back until you continue from it,
+ * and a link that names a part of the front page (`/#how-it-works`) always
+ * shows it. Your Plays stay on the device either way.
  */
-const enteredStorageKey = "voydex-app-entered";
+const storageKey = "voydex-app-entered";
+/* In the app: `/` skips the front page. */
+const inApp = "1";
+/* Left the app: the front page shows, and offers Continue. */
+const leftApp = "left";
 
-/* Marks this device as one that has opened the app. */
-export const rememberAppEntered = () => {
+const write = (value: string) => {
   try {
-    window.localStorage.setItem(enteredStorageKey, "1");
+    window.localStorage.setItem(storageKey, value);
   } catch {
     /* Storage refused (a private window): the front page keeps showing. */
   }
 };
 
+/* Marks this device as in the app; opening any app page does it. */
+export const rememberAppEntered = () => write(inApp);
+
+/* Leaves the app: the front page shows again until you continue from it. */
+export const leaveApp = () => write(leftApp);
+
+/* Whether this device has ever opened the app, in it now or not. */
 export const readAppEntered = () => {
   try {
-    return window.localStorage.getItem(enteredStorageKey) === "1";
+    return window.localStorage.getItem(storageKey) !== null;
   } catch {
     return false;
   }
 };
 
 /*
- * Whether the front page should send this device on to the app: it has
- * opened the app, and the address names no part of the front page.
+ * Whether the front page should send this device on to the app: it is in
+ * the app, and the address names no part of the front page.
  */
 export const shouldSkipFrontPage = (
-  enteredKey: string = enteredStorageKey,
+  key: string = storageKey,
+  value: string = inApp,
 ): boolean => {
   if (window.location.hash) return false;
 
   try {
-    return window.localStorage.getItem(enteredKey) === "1";
+    return window.localStorage.getItem(key) === value;
   } catch {
     return false;
   }
 };
 
 /*
- * Runs inline on the front page, before it paints, so a returning device
+ * Runs inline in the root layout's <head>, on a full load of any page, and
+ * acts only on the front page (`/`): before it paints, so a returning device
  * never sees it flash. It is serialised into the HTML, so it uses nothing
- * from outside itself.
+ * from outside itself. Reaching the front page from inside the site is
+ * `FrontDoorRedirect`'s job.
  */
-export const frontDoorScript = `(function(){if((${shouldSkipFrontPage.toString()})(${JSON.stringify(
-  enteredStorageKey,
+export const frontDoorScript = `(function(){if(window.location.pathname===${JSON.stringify(
+  appRoutes.home,
+)}&&(${shouldSkipFrontPage.toString()})(${JSON.stringify(storageKey)},${JSON.stringify(
+  inApp,
 )}))window.location.replace(${JSON.stringify(appRoutes.mainline)})})()`;
