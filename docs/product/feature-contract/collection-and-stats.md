@@ -18,8 +18,12 @@ name; how many were caught is the sheet's to tell. The list opens on Most used; 
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
-Collection has a second view, Favourites (`?view=favourites`), on a
-Pokémon | Favourites | Games switch under the head: every Pokémon you hearted
+Each view's title names it ("Your Pokémon", "Your favourites", "Your
+games"). On desktop the top bar's Collection menu switches between them and
+the page has no switch of its own; phones and tablets, which have no top
+bar, keep a Pokémon | Favourites | Games switch under the head.
+
+Collection has a second view, Favourites (`?view=favourites`): every Pokémon you hearted
 on its Codex entry, newest heart first, one per form (Arcanine and Hisuian
 Arcanine are separate favourites). One whose species has joined your teams is
 yours, so it wears the sticker with its Play count and opens its sheet; one

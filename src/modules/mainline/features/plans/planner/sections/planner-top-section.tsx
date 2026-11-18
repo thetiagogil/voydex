@@ -238,7 +238,11 @@ export const PlannerTopSection = ({
           {embedded ? null : (
             <Link
               href={appRoutes.mainlinePlans}
-              className={buttonVariants({ variant: "secondary" })}
+              className={cn(
+                buttonVariants({ variant: "secondary" }),
+                /* From `lg` up the bar's Team Planner menu leads there. */
+                "lg:hidden",
+              )}
             >
               <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
               My Plans

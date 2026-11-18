@@ -27,7 +27,10 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
   (`/app/plans`); the Collection's Pokémon, Favourites and Games
   (`/app/collection`, `?view=favourites`, `?view=games`); the Codex's
   Pokémon and Games. A name is bold while you are on any of its pages,
-  and its menu marks the page you are on.
+  and its menu marks the page you are on. The menu is the only way
+  between those pages on desktop: the Planner's My Plans button and the
+  Collection's views switch show only below `lg`, where there is no top
+  bar.
 - **Account menu:** Library (`/app/library`, your rules and tags),
   Settings (`/app/settings`), Log in (back up your Plays to an
   account) or, once you've signed in, Log out, and Leave the app.

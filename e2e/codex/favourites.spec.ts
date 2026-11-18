@@ -90,11 +90,20 @@ test.describe("Codex: favourites", () => {
     await page.goto("/app/collection?view=favourites", {
       waitUntil: "networkidle",
     });
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Your favourites" }),
+    ).toBeVisible();
+
+    /* Phones have no top bar, so the page keeps the views switch; on desktop the bar's menu has it. */
     const views = page.getByRole("navigation", { name: "Collection views" });
 
-    await expect(
-      views.getByRole("link", { name: /^Favourites/ }),
-    ).toHaveAttribute("aria-current", "page");
+    if (testInfo.project.name === "phone") {
+      await expect(
+        views.getByRole("link", { name: /^Favourites/ }),
+      ).toHaveAttribute("aria-current", "page");
+    } else {
+      await expect(views).toBeHidden();
+    }
     const card = page
       .getByRole("region", { name: "Your favourites" })
       .getByRole("link", {

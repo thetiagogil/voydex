@@ -21,12 +21,17 @@ test.describe("Collection", () => {
     });
 
     await page.goto("/app/collection", { waitUntil: "networkidle" });
-    const views = page.getByRole("navigation", { name: "Collection views" });
+    /* On desktop the bar's Collection menu switches views; the title names the one you're in. */
+    const collectionMenu = page
+      .getByRole("navigation", { name: "Main" })
+      .getByRole("button", { name: "Collection" });
 
-    await expect(views.getByRole("link", { name: /^Pokémon/ })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Your Pokémon" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: "Collection views" }),
+    ).toBeHidden();
 
     /* Each sticker's mark counts its Plays; Generation is a filter. */
     const charmander = page.getByRole("button", { name: /Charmander/ });
@@ -48,12 +53,12 @@ test.describe("Collection", () => {
       .click();
     await expect(charmander).toBeVisible();
 
-    await views.getByRole("link", { name: /^Games/ }).click();
+    await collectionMenu.click();
+    await page.getByRole("link", { name: /^Games The games/ }).click();
     await expect(page).toHaveURL(/\/app\/collection\?view=games$/);
-    await expect(views.getByRole("link", { name: /^Games/ })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Your games" }),
+    ).toBeVisible();
 
     /* The header's numbers are the marks' own: one game, one Play. */
     await expect(
@@ -106,7 +111,8 @@ test.describe("Collection", () => {
     await expect(sheet).toBeHidden();
 
     /* The way back keeps the Pokémon view's address clean. */
-    await views.getByRole("link", { name: /^Pokémon/ }).click();
+    await collectionMenu.click();
+    await page.getByRole("link", { name: /^Pokémon Every Pokémon/ }).click();
     await expect(page).toHaveURL(/\/app\/collection$/);
     expect(errors).toEqual([]);
   });
