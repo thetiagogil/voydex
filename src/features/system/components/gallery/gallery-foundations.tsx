@@ -1,0 +1,205 @@
+import type { CSSProperties } from "react";
+
+import { cn } from "@/shared/utils/cn";
+
+import { GalleryGroup, GallerySection, Specimen } from "./gallery-parts";
+
+type Swatch = { name: string; token: string; use: string };
+
+const grounds: Swatch[] = [
+  { name: "Ground", token: "--bg", use: "The page" },
+  { name: "Surface", token: "--surface", use: "Cards, fields, menus" },
+  { name: "Inset", token: "--surface-2", use: "A tile inside a card" },
+  { name: "Hover", token: "--hover", use: "Under the pointer" },
+  { name: "Band", token: "--band-fill", use: "The page band" },
+  { name: "Sky", token: "--sky", use: "Home's band" },
+];
+
+const inks: Swatch[] = [
+  { name: "Ink", token: "--ink", use: "Titles and values" },
+  { name: "Ink 2", token: "--ink-2", use: "Body and labels" },
+  { name: "Ink 3", token: "--ink-3", use: "Quiet notes" },
+  { name: "Mute", token: "--mute", use: "Off states" },
+  { name: "Line", token: "--line", use: "Hairlines" },
+  { name: "Track", token: "--track", use: "Empty bars" },
+];
+
+const actions: Swatch[] = [
+  { name: "Action", token: "--action", use: "The main action" },
+  { name: "Action deep", token: "--action-deep", use: "Hover, the site's bar" },
+  { name: "Action soft", token: "--action-soft", use: "Hover on white" },
+  { name: "Selected", token: "--select-soft", use: "You are here" },
+  { name: "Link", token: "--link", use: "Text links" },
+  { name: "Calm", token: "--calm", use: "Progress, counts" },
+];
+
+const meanings: Swatch[] = [
+  { name: "OK", token: "--ok", use: "Done, strong" },
+  { name: "OK soft", token: "--ok-soft", use: "Its pill" },
+  { name: "Warn", token: "--warn", use: "Paused, careful" },
+  { name: "Warn soft", token: "--warn-soft", use: "Its pill" },
+  { name: "Danger", token: "--danger", use: "Removing, at risk" },
+  { name: "Danger soft", token: "--danger-soft", use: "Its pill" },
+  { name: "Calm soft", token: "--calm-soft", use: "In progress" },
+  { name: "Gold", token: "--gold", use: "Rewards" },
+];
+
+const SwatchRow = ({ swatches }: { swatches: Swatch[] }) => (
+  <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+    {swatches.map((swatch) => (
+      <li key={swatch.token} className="flex min-w-0 flex-col gap-1.5">
+        <span
+          aria-hidden
+          style={{ backgroundColor: `var(${swatch.token})` }}
+          className="border-line h-16 rounded-md border"
+        />
+        <span className="text-14 font-extrabold">{swatch.name}</span>
+        <span className="text-ink-2 text-13 font-semibold">{swatch.use}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+const titles = [
+  { className: "title-display", name: "title-display", sample: "Welcome back" },
+  {
+    className: "title-hero",
+    name: "title-hero",
+    sample: "Sword – Late Journey",
+  },
+  { className: "title-page", name: "title-page", sample: "Your Plays" },
+  {
+    className: "title-section",
+    name: "title-section",
+    sample: "Latest moments",
+  },
+  { className: "title-card", name: "title-card", sample: "Team check" },
+];
+
+const bodies = [
+  { className: "text-17", name: "17" },
+  { className: "text-16", name: "16" },
+  { className: "text-15", name: "15" },
+  { className: "text-14", name: "14" },
+  { className: "text-13", name: "13" },
+  { className: "text-12", name: "12" },
+];
+
+const stickerTypes = ["grass", "fire", "water", "electric"];
+
+const shadows = [
+  { className: "shadow-card", name: "shadow-card", use: "A section card" },
+  { className: "shadow-button", name: "shadow-button", use: "Actions" },
+  {
+    className: "shadow-float",
+    name: "shadow-float",
+    use: "Menus, floating cards",
+  },
+  {
+    className: "shadow-overlay",
+    name: "shadow-overlay",
+    use: "Dialogs and sheets",
+  },
+];
+
+/* Colours, type, edges and shadows: what every component is made of. */
+export const GalleryFoundations = () => (
+  <>
+    <GallerySection
+      id="colours"
+      title="Colours"
+      description="One palette for the whole app. Each colour has one job."
+    >
+      <GalleryGroup title="Grounds and surfaces" columns={1}>
+        <SwatchRow swatches={grounds} />
+      </GalleryGroup>
+      <GalleryGroup title="Ink and lines" columns={1}>
+        <SwatchRow swatches={inks} />
+      </GalleryGroup>
+      <GalleryGroup title="Action and selection" columns={1}>
+        <SwatchRow swatches={actions} />
+      </GalleryGroup>
+      <GalleryGroup title="Meanings" columns={1}>
+        <SwatchRow swatches={meanings} />
+      </GalleryGroup>
+    </GallerySection>
+
+    <GallerySection
+      id="type"
+      title="Type"
+      description="Fredoka for headings and names, Nunito for everything you operate."
+    >
+      <GalleryGroup title="Titles (Fredoka)" columns={1}>
+        <Specimen label="Title steps" className="flex-col items-start gap-4">
+          {titles.map((title) => (
+            <p key={title.name} className="flex flex-wrap items-baseline gap-3">
+              <span className={title.className}>{title.sample}</span>
+              <span className="text-ink-2 text-13 font-semibold">
+                {title.name}
+              </span>
+            </p>
+          ))}
+        </Specimen>
+      </GalleryGroup>
+      <GalleryGroup title="Body (Nunito)" columns={1}>
+        <Specimen label="Body sizes" className="flex-col items-start gap-2">
+          {bodies.map((body) => (
+            <p key={body.name} className={cn(body.className, "font-semibold")}>
+              {body.name} · Every Pokémon that joins your teams gets a place
+              here.
+            </p>
+          ))}
+        </Specimen>
+      </GalleryGroup>
+    </GallerySection>
+
+    <GallerySection
+      id="edges"
+      title="Edges and shadows"
+      description="The sticker edge is for actions and owned Pokémon. Cards lift on soft shadows."
+    >
+      <GalleryGroup title="Stickers">
+        <Specimen
+          label="sticker + type-tint"
+          note="An owned Pokémon, tinted by its type"
+          ground="ground"
+        >
+          {stickerTypes.map((type) => (
+            <span
+              key={type}
+              aria-hidden
+              style={{ "--t": `var(--type-${type})` } as CSSProperties}
+              className="sticker type-tint size-20 rounded-xl"
+            />
+          ))}
+        </Specimen>
+        <Specimen
+          label="empty-slot and bubble"
+          note="A free slot, and the small picked mark"
+          ground="ground"
+        >
+          <span aria-hidden className="empty-slot size-20 rounded-xl" />
+          <span aria-hidden className="bg-action bubble size-7 rounded-full" />
+        </Specimen>
+      </GalleryGroup>
+      <GalleryGroup title="Shadows" columns={1}>
+        <Specimen label="Shadow steps" ground="ground" className="gap-6 p-6">
+          {shadows.map((shadow) => (
+            <span
+              key={shadow.name}
+              className={cn(
+                "bg-surface flex h-20 w-44 flex-col justify-center rounded-xl px-4",
+                shadow.className,
+              )}
+            >
+              <span className="text-14 font-extrabold">{shadow.name}</span>
+              <span className="text-ink-2 text-13 font-semibold">
+                {shadow.use}
+              </span>
+            </span>
+          ))}
+        </Specimen>
+      </GalleryGroup>
+    </GallerySection>
+  </>
+);

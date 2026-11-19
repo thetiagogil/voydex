@@ -22,6 +22,16 @@ the visual study it diffs against is `Voydex Redesign v3` (outside the repo,
 | Type colours             | `src/modules/reference/features/pokemon/styles/pokemon-type-tokens.css` |
 | Primitives               | `src/shared/components/ui` (shadcn-style, Base UI), restyled in place   |
 | Retired-design guard     | `scripts/design/check-design-leftovers.mjs` (`npm run design:check`)    |
+| Component gallery        | `/gallery` while developing (`src/features/system/components/gallery`)  |
+
+The component gallery shows every shared component as it is, family by
+family (colours, type, buttons, switches, chips, labels, cards, fields,
+toolbars, overlays), each on the ground it meets. A change to a shared
+component is reviewed there before it reaches a screen, and a new shared
+component or variant gets its specimen in the same change. It exists only
+while developing: the published app answers `/gallery` with Not found and
+never loads its code. Product pieces (a Pokémon's card, a Play's card, the
+bars) stay on their own pages.
 
 Light mode only for now. Tokens are named by role so dark mode can later be a
 second set of values for the same names (`.dark`), without renaming anything.
