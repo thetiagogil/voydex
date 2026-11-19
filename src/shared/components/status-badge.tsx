@@ -9,7 +9,7 @@ import { cn } from "@/shared/utils/cn";
 export type StatusBadgeTone =
   "danger" | "gold" | "calm" | "neutral" | "ok" | "warn";
 
-export type StatusBadgeSize = "md" | "sm" | "xs";
+export type StatusBadgeSize = "md" | "sm";
 
 /* Each tone's dot: the meaning's own colour, stronger than its pill. */
 const dotClassNames: Record<StatusBadgeTone, string> = {

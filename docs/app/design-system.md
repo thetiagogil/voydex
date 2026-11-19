@@ -58,6 +58,7 @@ new code prefers the role names.
 | Spacing        | Gaps inside a component take one of eight steps: `gap-0.5 1 1.5 2 3 4 6 8` (2, 4, 6, 8, 12, 16, 24, 32px); page layout may also take `gap-10` and up. `design:check` fails on the steps between them                                                                                                                                 |
 | Card padding   | Set by `Card` alone: a section card 20px on phones and 24px from 640px, a card in a list or grid of many `size="sm"` 16px with the smaller corner. A screen only removes it (`p-0`, `px-0`) when its content pads itself. Inset blocks: `tile` 12/16px, `tile-link` 10/12px. `design:check` fails on padding set on a `Card` by hand |
 | Icon sizes     | `AppIcon` `sm 14`, `md 16`, `lg 20`, `xl 24`, matched to the text beside them (13, 15, alone in a control or card, a figure); primitives size their icons with the same four. Emblems above 24 are their own component. `design:check` fails on 12, 18 and 22px icons and on a numeric `AppIcon` size                                |
+| Label heights  | Three: 24px for a mark in a row or on a card (`Badge`/`StatusBadge` `sm`, levels, versions, type badges `sm`, matchup legend), 28px for a status that stands alone (`md`, matchup cells), 36px for a type chip beside controls (type badges `lg` and `xl`). `design:check` fails on a rounded label between them                     |
 | Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                                                                                                                                                                                        |
 
 Every page, the top bar, the footer and the docked Play bar line up in the
@@ -332,9 +333,10 @@ beside it. A block inside a card is a `tile`, a row inside a card that opens
 something is a `tile-link`. `design:check` fails when a screen sets a text
 size and a weight together or draws an inset tile by hand.
 
-Nine rules keep the look clean (2026-11-19): four corner sizes, four reading
+Ten rules keep the look clean (2026-11-19): four corner sizes, four reading
 sizes (12, 13, 15, 17), eight gap steps, two card paddings, four icon sizes,
-two control heights (48 and 36px, the same on phones), three surfaces (the ground, a white
+two control heights (48 and 36px, the same on phones), three label heights
+(24, 28, 36px), three surfaces (the ground, a white
 card on it, a pale inset tile inside a card), one colour per job (red acts,
 blue says where you are and how far), and one look per meaning (a status is
 the same white pill everywhere). A control sets its own size in its shared
@@ -387,7 +389,7 @@ as `sm`), so everything in a row is level; `icon`,
 rule: white with a hairline on the ground, the inset fill inside a card. Words that go
 somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `interactive`), `Badge` (tones `neutral`, `outline`, `ok`, `warn`, `calm`,
-`danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`),
+`danger`, `gold`, `tint`, `select`, `paper`; sizes `sm` 24px and `md` 28px),
 `Alert` (a quiet note in a page, form or sheet, never a filled banner:
 `default` the inset fill, `warning` the soft amber for something that blocks
 nothing, such as a Play's rule broken, `success` the soft green for good

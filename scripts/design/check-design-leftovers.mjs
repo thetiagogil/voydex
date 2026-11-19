@@ -232,6 +232,21 @@ const sourceRules = [
     pattern:
       /(?<![-\w:])(?:min-)?h-10(?![-\w])[^"]*(?<![-\w])(?:sm|md):(?:min-)?h-(?:8|9)!?(?![-\w])/,
   },
+  /*
+   * Three label heights: 24px (a mark in a row or on a card), 28px (a
+   * status that stands alone) and 36px (a type chip beside controls). A
+   * rounded label never sits between them.
+   */
+  {
+    label: "a label height between 24, 28 and 36px",
+    pattern:
+      /"[^"]*(?:(?<![-\w:])h-(?:5|5\.5|7\.5|8|8\.5)(?![-\w.])[^"]*(?<![-\w:])rounded-full(?![-\w])|(?<![-\w:])rounded-full(?![-\w])[^"]*(?<![-\w:])h-(?:5|5\.5|7\.5|8|8\.5)(?![-\w.]))[^"]*"/,
+    only: [
+      path.join("src", "modules"),
+      path.join("src", "features"),
+      path.join("src", "shared", "components"),
+    ],
+  },
   {
     label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",
     pattern:

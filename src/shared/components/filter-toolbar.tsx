@@ -99,7 +99,7 @@ export const FilterToolbar = ({
                     <AppIcon icon={appIcons.actions.filter} inline="start" />
                     Filters
                     {activeCount ? (
-                      <span className="bg-calm copy-mark -mr-1 grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-white tabular-nums">
+                      <span className="bg-calm copy-mark -mr-1 grid h-6 min-w-6 place-items-center rounded-full px-1.5 text-white tabular-nums">
                         {activeCount}
                       </span>
                     ) : null}

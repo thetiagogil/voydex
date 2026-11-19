@@ -58,8 +58,7 @@ export const GalleryMarks = () => (
             </Badge>
           ))}
         </Specimen>
-        <Specimen label="Badge sizes" note="xs, sm and md">
-          <Badge size="xs">xs</Badge>
+        <Specimen label="Badge sizes" note="sm 24px and md 28px">
           <Badge size="sm">sm</Badge>
           <Badge size="md">md</Badge>
           <Badge size="md" variant="ok">
@@ -73,7 +72,7 @@ export const GalleryMarks = () => (
           ground="band"
         >
           <Badge variant="paper">Lv. 48</Badge>
-          <Badge variant="paper" size="xs">
+          <Badge variant="paper" size="sm">
             Shiny
           </Badge>
         </Specimen>
@@ -98,7 +97,7 @@ export const GalleryMarks = () => (
           ))}
         </Specimen>
         <Specimen label="Sizes, and without the dot">
-          <StatusBadge tone="ok" size="xs">
+          <StatusBadge tone="ok" size="sm">
             xs
           </StatusBadge>
           <StatusBadge tone="ok" size="sm">

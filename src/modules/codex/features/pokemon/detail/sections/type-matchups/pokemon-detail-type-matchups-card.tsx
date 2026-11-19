@@ -24,7 +24,7 @@ const MatchupChips = ({
   tone: MatchupTone;
 }) => {
   if (!matchups.length) {
-    return <p className="copy-note text-ink-3 flex h-7.5 items-center">None</p>;
+    return <p className="copy-note text-ink-3 flex h-7 items-center">None</p>;
   }
 
   return (
@@ -115,7 +115,7 @@ export const PokemonDetailTypeMatchupsCard = ({
         </MatchupRow>
         {neutralCount ? (
           <MatchupRow label="Normal">
-            <p className="copy-note text-ink-3 flex h-7.5 items-center">
+            <p className="copy-note text-ink-3 flex h-7 items-center">
               {neutralCount === 1
                 ? "1 other type"
                 : `${neutralCount} other types`}
