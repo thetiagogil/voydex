@@ -47,17 +47,20 @@ describe("pickLatestCatchRows", () => {
     expect(picked.map((item) => item.species_id)).toEqual([2, 3, 1]);
   });
 
-  it("leaves out an entry with no catch time and stops at six", () => {
+  it("leaves out an entry with no catch time and stops at what the card shows", () => {
     const picked = pickLatestCatchRows([
       row(99, null),
-      ...Array.from({ length: 9 }, (_, index) =>
-        row(index + 1, `2026-01-0${index + 1}T10:00:00Z`),
+      ...Array.from({ length: 15 }, (_, index) =>
+        row(
+          index + 1,
+          `2026-01-${String(index + 1).padStart(2, "0")}T10:00:00Z`,
+        ),
       ),
     ]);
 
     expect(picked).toHaveLength(LATEST_CATCH_COUNT);
     expect(picked.map((item) => item.species_id)).not.toContain(99);
-    expect(picked[0]?.species_id).toBe(9);
+    expect(picked[0]?.species_id).toBe(15);
   });
 });
 

@@ -18,7 +18,7 @@ type PokedexSummarySectionProps = {
 
 /*
  * The Pokédex beside Recent moments: how far it is (a ring, caught and seen)
- * and the newest catches as small Pokémon, with the way on to the Pokédex.
+ * and the newest catches as two rows of small Pokémon across the card, with the way on to the Pokédex.
  * Where the game has collectibles they get one row under it, which opens
  * them. Story's count lives in the journey card, so it isn't repeated here.
  * Nothing is drawn for a Play that tracks neither.
@@ -100,7 +100,7 @@ export const PokedexSummarySection = ({
       <div className="grid gap-2">
         <p className="text-ink-2 copy-label">Latest catches</p>
         {latestCatches.length ? (
-          <ul className="grid max-w-84 grid-cols-6 gap-2">
+          <ul className="grid grid-cols-6 gap-2 sm:gap-3">
             {latestCatches.map((caught) => (
               <li key={caught.speciesId}>
                 <PokemonAvatar

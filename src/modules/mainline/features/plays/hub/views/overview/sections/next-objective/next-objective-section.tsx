@@ -60,11 +60,11 @@ const hasDecision = (milestone: OverviewMilestone) =>
   milestone.decision_options.length > 0;
 
 /*
- * The journey card, the page's full width: the next objective's words (a
- * Fredoka title, where it happens), with the page's one main button at their
- * far end from 1024px and under them below that. It records in place (a
- * choice opens Story's record form right here), then "Add a note". Under the
- * words, in the same card, the game's stamp card: recording a gym, trial or
+ * The journey card, the page's full width, read top to bottom: where the
+ * objective stands, its Fredoka title, where it happens, then the page's one
+ * main button, which records it in place (a choice opens Story's record form
+ * right here), and "Add a note". Under them, in the same card, the game's
+ * stamp card: recording a gym, trial or
  * League objective slaps its stamp down there, the page's one badge moment,
  * before the words hand over to the next objective. A stamp opens its
  * milestone in Story.
@@ -129,7 +129,6 @@ export const NextObjectiveSection = ({
   return (
     <ObjectiveCard
       titleId={titleId}
-      actionsPlacement="end"
       below={
         stamps.length ? (
           <section
@@ -144,7 +143,7 @@ export const NextObjectiveSection = ({
             </p>
             {/* Room all round, so a stamp's lift, slap and focus ring are never cut. */}
             <StampGrid
-              className="no-scrollbar auto-cols-14 grid-flow-col justify-between gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-16"
+              className="no-scrollbar auto-cols-14 grid-flow-col justify-center-safe gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-16 sm:gap-x-6"
               earnedMilestoneId={isJustRecorded ? shownId : null}
               onSlapEnd={() =>
                 applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))

@@ -18,8 +18,8 @@ export type OverviewCatch = {
   typeSlug: string | null;
 };
 
-/* How many the Pokédex card shows. */
-export const LATEST_CATCH_COUNT = 6;
+/* How many the Pokédex card shows: two rows of six. */
+export const LATEST_CATCH_COUNT = 12;
 
 /*
  * The newest catches, each species once: a species that sits in several of

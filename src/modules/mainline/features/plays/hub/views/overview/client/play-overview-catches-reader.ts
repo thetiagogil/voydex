@@ -8,7 +8,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
  * More than the card shows, since a species comes back once per Pokédex it
  * sits in and the card keeps each once.
  */
-const LATEST_CATCH_ROWS = 30;
+const LATEST_CATCH_ROWS = 60;
 
 /* The Play's newest caught Pokédex entries, for Overview's Pokédex card. */
 export const readMainlinePlayLatestCatchRows = async (

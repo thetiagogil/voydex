@@ -106,15 +106,15 @@ Current Overview direction:
   placeholder cards just to fill space.
 
 As built (#63): Overview opens on the journey card at the page's full
-width: the next objective's words with Record and Add a note at their far
-end (under them below 1024px), and under the words, in the same card, the
-game's stamp card with its count. Recording a gym, trial or League objective
+width: where the objective stands, its title, where it happens, then Record and
+Add a note under the words, and under those, in the same card, the game's
+stamp card with its count, its stamps close together in the middle of the row. Recording a gym, trial or League objective
 slaps its stamp down there, the page's one badge moment, then the words hand
 over to the next objective; a stamp opens its milestone in Story; a game
 with no stamps draws no row. The milestone count appears once, in the card's
 eyebrow. Then the team, then Recent moments beside the Pokédex card: a ring,
-caught (and seen, where the Play tracks it), the six newest catches as small
-Pokémon (each species once, drawn as the form its Pokédex shows or its
+caught (and seen, where the Play tracks it), the twelve newest catches as two rows of
+small Pokémon (each species once, drawn as the form its Pokédex shows or its
 default form; "Nothing caught yet" until the first), the way on to the
 Pokédex, and one Collectibles row with its bar where the game has them. A
 Play that tracks no Pokédex shows only that row; one with neither draws no
