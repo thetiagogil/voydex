@@ -173,7 +173,7 @@ export const TeamMemberProfile = ({
           <dl
             key={index === 0 ? "details" : "met"}
             className={cn(
-              "grid gap-x-4.5 gap-y-3.5 sm:grid-cols-2",
+              "grid gap-x-4 gap-y-4 sm:grid-cols-2",
               index === 0 ? "mt-5 pt-4.5" : "mt-3.5",
             )}
           >
@@ -184,7 +184,7 @@ export const TeamMemberProfile = ({
                 </dt>
                 <dd
                   className={cn(
-                    "text-16 mt-0.5 flex min-h-6 items-center gap-2 wrap-break-word",
+                    "text-15 mt-0.5 flex min-h-6 items-center gap-2 wrap-break-word",
                     fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
                   )}
                 >

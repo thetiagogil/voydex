@@ -75,7 +75,7 @@ export const SectionHead = ({
       data-slot="section-head"
       className={cn(
         /* Actions too wide to share the title's line drop under it. */
-        "flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2.5",
+        "flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2",
         className,
       )}
     >

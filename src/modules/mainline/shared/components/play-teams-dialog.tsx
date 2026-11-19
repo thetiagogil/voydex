@@ -91,7 +91,7 @@ export const PlayTeamsDialog = ({
     ) : dialog.plays?.length ? (
       <PlayTeamList plays={dialog.plays} />
     ) : (
-      <p className="text-ink-2 text-14">{empty}</p>
+      <p className="text-ink-2 text-13">{empty}</p>
     )}
   </OverlayDialog>
 );

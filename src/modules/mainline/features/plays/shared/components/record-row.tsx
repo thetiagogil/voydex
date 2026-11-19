@@ -79,7 +79,7 @@ export const RecordRow = ({
         {headline}
       </p>
       {description ? (
-        <p className={cn("text-ink-2 text-14", !wrap && "line-clamp-2")}>
+        <p className={cn("text-ink-2 text-13", !wrap && "line-clamp-2")}>
           {description}
         </p>
       ) : null}
@@ -110,7 +110,7 @@ export const RecordRow = ({
         >
           {placement === "grid" ? (
             /* Off the line, the medallion comes inside its card. */
-            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-3.5">
+            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-4">
               <Medallion
                 className="hidden lg:grid"
                 content={medallion}

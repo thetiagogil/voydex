@@ -75,14 +75,14 @@ const sizeClassNames: Record<
     circle: "size-15.5 sm:size-21",
     mark: "size-5.5 sm:size-6.5",
     markIcon: "size-3.5 sm:size-4",
-    name: "text-13 sm:text-14",
+    name: "text-13",
   },
   md: {
     art: "size-19.5",
     circle: "size-21",
     mark: "size-6.5",
     markIcon: "size-4",
-    name: "text-14",
+    name: "text-13",
   },
   sm: {
     art: "size-13",

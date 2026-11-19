@@ -32,7 +32,7 @@ export const PokemonDetailHead = ({
   generationSlug,
 }: PokemonDetailHeadProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3 lg:items-start">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-3 lg:items-start">
       <div className="min-w-0">
         <CodexHead
           trail={[{ href: appRoutes.codexPokemon, label: "Pokémon" }]}

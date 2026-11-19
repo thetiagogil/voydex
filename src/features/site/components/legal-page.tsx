@@ -24,7 +24,7 @@ export const LegalPage = ({ kind }: { kind: LegalPageKind }) => {
         description={page.description}
         note={`Last updated ${legalUpdatedOn}`}
       />
-      <div className="mt-7 flex flex-col gap-5">
+      <div className="mt-7 flex flex-col gap-4">
         <DetailSectionCard title="In short">
           <div className={legalBodyClassName}>{page.summary}</div>
         </DetailSectionCard>

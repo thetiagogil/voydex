@@ -176,7 +176,7 @@ export const OverlayFrame = ({
     <div
       data-slot="overlay-footer"
       className={cn(
-        "border-line bg-surface flex shrink-0 flex-wrap items-center justify-end gap-2.5 border-t py-3",
+        "border-line bg-surface flex shrink-0 flex-wrap items-center justify-end gap-2 border-t py-3",
         padding,
         isBottom &&
           "pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] max-sm:*:flex-1",

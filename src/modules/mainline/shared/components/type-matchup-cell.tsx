@@ -22,7 +22,7 @@ const kindClassNames: Record<MatchupKind, string> = {
 };
 
 const sizeClassNames = {
-  md: "text-14 h-7.5 min-w-11",
+  md: "text-13 h-7.5 min-w-11",
   sm: "text-12 h-5.5 min-w-7.5",
 } as const;
 
@@ -101,7 +101,7 @@ export const TypeMatchupLegend = ({ className }: { className?: string }) => {
     <ul
       aria-label="Matchup key"
       className={cn(
-        "copy-label text-ink-2 flex flex-wrap gap-x-3.5 gap-y-2",
+        "copy-label text-ink-2 flex flex-wrap gap-x-4 gap-y-2",
         className,
       )}
     >

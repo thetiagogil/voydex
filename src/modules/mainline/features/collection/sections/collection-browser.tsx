@@ -115,7 +115,7 @@ export const CollectionBrowser = ({
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
         {shown.length ? (
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4 sm:gap-y-5">
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4">
             {shown.map((entry) => (
               <li key={entry.speciesId} className="min-w-0">
                 <PokemonCollectorCard

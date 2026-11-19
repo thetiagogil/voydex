@@ -17,7 +17,7 @@ export const SettingsAboutSection = () => (
   <DetailSectionCard title="About Voydex">
     <nav
       aria-label="About Voydex"
-      className="copy-strong flex flex-wrap gap-x-5 gap-y-2 py-1.5"
+      className="copy-strong flex flex-wrap gap-x-4 gap-y-2 py-1.5"
     >
       {aboutLinks.map((link) => (
         <TextLink key={link.href} href={link.href}>

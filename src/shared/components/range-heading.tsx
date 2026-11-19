@@ -39,7 +39,7 @@ export const RangeHeading = ({
     <div
       data-slot="range-heading"
       className={cn(
-        "flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5",
+        "flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-1.5",
         className,
       )}
     >

@@ -299,7 +299,7 @@ export const PlannerPoolSection = ({
               title={section.name}
               count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
             />
-            <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+            <ul className="mt-3.5 grid grid-cols-3 gap-2 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
               {section.pokemon.map((pokemon) => {
                 const slot = slotByFormId.get(pokemon.formId);
                 const notes = getPoolTileNotes(pokemon, versionGroup, {

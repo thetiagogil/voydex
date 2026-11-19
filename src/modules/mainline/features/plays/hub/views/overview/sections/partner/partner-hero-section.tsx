@@ -188,7 +188,7 @@ export const PartnerHeroSection = ({
 
       <ul
         aria-label="Partner choices"
-        className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-4"
+        className="mt-5 grid grid-cols-3 gap-2 sm:gap-4"
       >
         {partner.options.map((option) => {
           const isChosen = chosen?.decisionOptionId === option.decisionOptionId;

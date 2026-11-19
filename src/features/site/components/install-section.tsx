@@ -33,7 +33,7 @@ const HomeScreenPicture = () => (
     className="border-ink bg-band mx-auto w-44 shrink-0 rounded-[1.75rem] border-[5px] px-3.5 pt-5 pb-6 sm:w-48"
   >
     <span className="bg-ink mx-auto mb-4 block h-1.5 w-12 rounded-full" />
-    <div className="grid grid-cols-3 gap-x-3 gap-y-2.5">
+    <div className="grid grid-cols-3 gap-x-3 gap-y-2">
       <span className="flex flex-col items-center gap-1">
         <LogoMark className="aspect-square h-auto w-full rounded-[28%]" />
         <span className="text-ink copy-mark leading-none">Voydex</span>
@@ -65,17 +65,17 @@ export const InstallSection = () => (
       title="Install"
       text="Add Voydex to your Home Screen and it opens like any other app, offline too."
     />
-    <Card className="grid items-center gap-x-10 gap-y-7 p-5.5 sm:p-8 md:grid-cols-[auto_minmax(0,1fr)]">
+    <Card className="grid items-center gap-x-10 gap-y-6 p-5.5 sm:p-8 md:grid-cols-[auto_minmax(0,1fr)]">
       <HomeScreenPicture />
       <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
         {installWays.map((way) => (
           <div key={way.title}>
             <h3 className="title-card">{way.title}</h3>
-            <ol className="mt-3.5 flex flex-col gap-2.5">
+            <ol className="mt-3.5 flex flex-col gap-2">
               {way.steps.map((step, index) => (
                 <li
                   key={step}
-                  className="copy-body text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5"
+                  className="copy-body text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2"
                 >
                   <StepNumber number={index + 1} />
                   {step}

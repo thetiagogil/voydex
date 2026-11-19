@@ -67,7 +67,7 @@ export const LibraryTagDetails = ({
         </>
       }
     >
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         <form
           id={`${id}-form`}
           onSubmit={(event) => {

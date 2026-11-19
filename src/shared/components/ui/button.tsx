@@ -55,7 +55,7 @@ const buttonStyles = cva(
          */
         default:
           "h-12 gap-2 px-4.5 text-15 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 before:left-1.5 before:border-y-5 before:border-l-7 before:pointer-events-none before:absolute before:border-y-transparent before:border-l-current before:opacity-0 before:transition-opacity before:duration-120 hover:before:opacity-100 focus-visible:before:opacity-100 has-data-[icon=inline-start]:before:hidden",
-        sm: "h-9 gap-1.5 px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5 before:left-1 before:border-y-4 before:border-l-5 before:pointer-events-none before:absolute before:border-y-transparent before:border-l-current before:opacity-0 before:transition-opacity before:duration-120 hover:before:opacity-100 focus-visible:before:opacity-100 has-data-[icon=inline-start]:before:hidden",
+        sm: "h-9 gap-1.5 px-3 text-13 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5 before:left-1 before:border-y-4 before:border-l-5 before:pointer-events-none before:absolute before:border-y-transparent before:border-l-current before:opacity-0 before:transition-opacity before:duration-120 hover:before:opacity-100 focus-visible:before:opacity-100 has-data-[icon=inline-start]:before:hidden",
         icon: "size-12",
         "icon-sm": "size-9",
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",

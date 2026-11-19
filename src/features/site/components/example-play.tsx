@@ -79,7 +79,7 @@ export const ExamplePlay = ({
         </span>
       ))}
     </div>
-    <div className="mt-4 grid grid-cols-[repeat(8,minmax(0,2.625rem))] gap-1.5 sm:gap-2.5">
+    <div className="mt-4 grid grid-cols-[repeat(8,minmax(0,2.625rem))] gap-1.5 sm:gap-2">
       {samplePlayBadges.map((badge, index) => (
         <Fragment key={badge.name}>
           {playArt.badgeStamp({

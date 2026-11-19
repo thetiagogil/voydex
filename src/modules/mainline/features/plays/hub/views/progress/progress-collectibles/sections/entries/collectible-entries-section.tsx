@@ -313,7 +313,7 @@ export const CollectibleEntriesSection = ({
 
       <div className="mt-2 min-w-0">
         {areas.length ? (
-          <div className="grid min-w-0 gap-7.5">
+          <div className="grid min-w-0 gap-8">
             {areas.map((shownArea) => {
               const summary = summaryByAreaId.get(shownArea.id);
 

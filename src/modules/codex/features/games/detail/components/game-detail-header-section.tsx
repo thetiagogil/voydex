@@ -70,7 +70,7 @@ export const GameDetailHeaderSection = ({
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
         {versions.length > 1 || actions ? (
-          <div className="mb-4 flex flex-wrap items-center gap-2.5">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
             {versions.length > 1 ? (
               <SegmentedControl
                 ariaLabel="Version"

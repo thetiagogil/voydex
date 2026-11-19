@@ -46,7 +46,7 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
 
 /* Who hits this type and with what, or that nothing does. */
 const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
-  <TipStack className="gap-2.5">
+  <TipStack className="gap-2">
     <TipHead tone={row.moveCount ? "ok" : "warn"}>
       {row.moveCount
         ? `${row.moveCount} ${row.moveCount === 1 ? "move hits" : "moves hit"} ${row.defendingType.name} super effectively`

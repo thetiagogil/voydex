@@ -44,18 +44,19 @@ Use the role tokens as Tailwind colours (`bg-surface`, `text-ink-2`,
 `bg-primary`) are aliases of the same values so the primitives keep working;
 new code prefers the role names.
 
-| Group          | Tokens                                                                                                                                                                                                                                                               |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ground and ink | `bg #F5F6F8`, `surface #FFFFFF`, `surface-2 #F2F5F9`, `hover`, `ink #26292F`, `ink-2 #4B5260`, `ink-3 #5B6270`, `on-ink`, `ink-tint` (secondary text on type tints)                                                                                                  |
-| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                                                                                                                             |
-| Action         | `action #CF342B` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                                                                                                                          |
-| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`; `female` (the female symbol; male wears `calm-ink`)                                                                                                |
-| Meadow, band   | `sky`, `hill`, `hill-2`; `band` (the pale blue PageBand)                                                                                                                                                                                                             |
-| Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                                                                                                                      |
-| Corners        | Four sizes and the pill: `rounded-xs 6` (small marks), `sm 12` (inset tiles, rows), `lg 20` (stickers, tiles, cards inside a page card), `2xl 28` (page cards, sheets), `full` (every control and label). `design:check` fails on the two retired steps between them |
-| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                                                                                                                       |
-| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 36 44 48 52 60 64 112`; nothing under 12px; titles take a title step                                                                                                                                                             |
-| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                                                                                                                        |
+| Group          | Tokens                                                                                                                                                                                                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground and ink | `bg #F5F6F8`, `surface #FFFFFF`, `surface-2 #F2F5F9`, `hover`, `ink #26292F`, `ink-2 #4B5260`, `ink-3 #5B6270`, `on-ink`, `ink-tint` (secondary text on type tints)                                                                                                                   |
+| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                                                                                                                                              |
+| Action         | `action #CF342B` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                                                                                                                                           |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`; `female` (the female symbol; male wears `calm-ink`)                                                                                                                 |
+| Meadow, band   | `sky`, `hill`, `hill-2`; `band` (the pale blue PageBand)                                                                                                                                                                                                                              |
+| Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                                                                                                                                       |
+| Corners        | Four sizes and the pill: `rounded-xs 6` (small marks), `sm 12` (inset tiles, rows), `lg 20` (stickers, tiles, cards inside a page card), `2xl 28` (page cards, sheets), `full` (every control and label). `design:check` fails on the two retired steps between them                  |
+| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                                                                                                                                        |
+| Type scale     | Reading sizes `text-12 13 15 17` (12 marks, 13 small text, 15 what you read and press, 17 a lead line); title steps `text-20 24 28 32 36 44 48 52 64`; fields alone take `text-16` on phones, so iOS does not zoom; nothing under 12px. `design:check` fails on the retired 14 and 16 |
+| Spacing        | Gaps inside a component take one of eight steps: `gap-0.5 1 1.5 2 3 4 6 8` (2, 4, 6, 8, 12, 16, 24, 32px); page layout may also take `gap-10` and up. `design:check` fails on the steps between them                                                                                  |
+| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                                                                                                                                         |
 
 Every page, the top bar, the footer and the docked Play bar line up in the
 `page-column`. A page that opens on a band (the meadow on Mainline Home)
@@ -322,17 +323,20 @@ fill.
 **One place for each style (2026-11-19).** A restyle only reaches what draws
 through the shared pieces, so screens never type a style by hand. Text takes
 one of six text styles (`copy-strong` 15/800 a name or value that matters,
-`copy-body` 15/600 running text, `copy-note` 14/600 the line under a title,
+`copy-body` 15/600 running text, `copy-note` 13/600 the line under a title,
 `copy-label` 13/700 a label or small heading, `copy-meta` 13/600 small facts,
 `copy-mark` 12/800 the words on a mark), with its colour as a role token
 beside it. A block inside a card is a `tile`, a row inside a card that opens
 something is a `tile-link`. `design:check` fails when a screen sets a text
 size and a weight together or draws an inset tile by hand.
 
-Four rules keep the look clean (2026-11-19): four corner sizes, three
-surfaces (the ground, a white card on it, a pale inset tile inside a card),
-one colour per job (red acts, blue says where you are and how far), and one
-look per meaning (a status is the same white pill everywhere).
+Six rules keep the look clean (2026-11-19): four corner sizes, four reading
+sizes (12, 13, 15, 17), eight gap steps, three surfaces (the ground, a white
+card on it, a pale inset tile inside a card), one colour per job (red acts,
+blue says where you are and how far), and one look per meaning (a status is
+the same white pill everywhere). A control sets its own size in its shared
+component (bar links, menus and selects 15; pills, chips and switch options
+13), never on the screen that uses it.
 
 One shape language (2026-11-19): everything is round and soft. Controls are
 pills, labels are pills, cards have round corners and lift on soft shadows.

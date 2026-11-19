@@ -39,7 +39,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
 
   if (!plan) {
     return (
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         <PageHeader
           headingLevel="h2"
           title="Plan"
@@ -89,7 +89,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
 
   return (
     <div className="grid min-w-0 gap-8 sm:gap-10">
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         <PageHeader
           headingLevel="h2"
           title={plan.planName}
@@ -113,7 +113,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
             </span>
           }
           action={
-            <div className="flex flex-wrap items-center gap-2.5 sm:justify-end">
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
               <TeamPlanFollowMenu
                 currentPlanId={plan.planId}
                 plans={data.followablePlans}

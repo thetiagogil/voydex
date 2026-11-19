@@ -117,7 +117,7 @@ const PickedFact = ({
   children: ReactNode;
   icon: AppIconComponent;
 }) => (
-  <li className="text-ink-2 copy-note flex items-center gap-2.5">
+  <li className="text-ink-2 copy-note flex items-center gap-2">
     <IconDisc size="sm">
       <AppIcon icon={icon} size="sm" />
     </IconDisc>
@@ -164,7 +164,7 @@ const MostPickedCard = ({
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
-        className="group/picked focus-ring flex flex-col items-center gap-2.5 rounded-lg text-center"
+        className="group/picked focus-ring flex flex-col items-center gap-2 rounded-lg text-center"
       >
         <span className="sticker grid size-28 shrink-0 place-items-center rounded-lg transition-transform group-hover/picked:-translate-y-0.75">
           <FallbackImage
@@ -184,7 +184,7 @@ const MostPickedCard = ({
         />
         <span className="sr-only">, in {playCount} of your Plays. Open</span>
       </button>
-      <ul className="flex flex-col gap-2.5">
+      <ul className="flex flex-col gap-2">
         <PickedFact icon={appIcons.product.game}>
           In <b className="text-ink">{playCount} Plays</b>
           {gameCount > 1 ? (
@@ -321,7 +321,7 @@ export const StatsStyleSection = ({
               titleClassName="text-20"
               aside="Back for more than one run"
             />
-            <ul className="grid flex-1 grid-cols-2 content-start gap-2.5 min-[480px]:grid-cols-3">
+            <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
                   key={friend.speciesSlug}

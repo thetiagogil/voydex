@@ -53,7 +53,7 @@ const GameShelfCover = ({
 
 /* The game's short name, read in full ("Pokémon Sword") by assistive tech. */
 const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
-  <b className="copy-strong sm:text-15 truncate leading-tight">
+  <b className="copy-strong truncate leading-tight">
     {game.name.startsWith("Pokémon ") ? (
       <span className="sr-only">Pokémon </span>
     ) : null}
@@ -145,7 +145,7 @@ export const GameShelfGrid = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-2 gap-2.5 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-3.5",
+        "grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-4",
         className,
       )}
     >

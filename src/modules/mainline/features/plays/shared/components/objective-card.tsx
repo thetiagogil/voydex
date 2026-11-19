@@ -110,7 +110,7 @@ export const ObjectiveCard = ({
       ) : null}
       {footer ? (
         <div className="mt-auto pt-6">
-          <div className="text-ink-2 copy-note flex items-center gap-3.5 pt-4">
+          <div className="text-ink-2 copy-note flex items-center gap-4 pt-4">
             {footer}
           </div>
         </div>

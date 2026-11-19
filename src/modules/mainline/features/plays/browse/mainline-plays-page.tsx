@@ -37,7 +37,7 @@ const emptyLibraryArt = {
  * until restored.
  */
 const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
-  <div className="flex flex-col gap-5 sm:gap-6">
+  <div className="flex flex-col gap-4 sm:gap-6">
     <PageBand>
       <PageHeader
         title="Archived Plays"
@@ -95,7 +95,7 @@ const PlaysPageContent = ({
   }
 
   return (
-    <div className="flex flex-col gap-5 sm:gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6">
       {data.plays.length ? (
         <PlaysBrowser
           head={<PlaysPageHeader plays={data.plays} />}

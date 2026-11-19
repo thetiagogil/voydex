@@ -118,7 +118,7 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
   };
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-col gap-5 px-4 pb-10 sm:px-6">
+    <main className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 pb-10 sm:px-6">
       <PageHeader
         title="Device data check"
         description="Runs Voydex's database on this device with Sword / Shield, and times it."

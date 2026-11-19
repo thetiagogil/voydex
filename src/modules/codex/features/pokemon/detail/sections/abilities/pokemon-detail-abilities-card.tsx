@@ -62,7 +62,7 @@ export const PokemonDetailAbilitiesCard = ({
                 <span className="copy-strong block">
                   {abilitySlot.ability.name}
                 </span>
-                <span className="text-14 text-ink-2 block">
+                <span className="text-13 text-ink-2 block">
                   {abilitySlot.effectSummary ?? "No effect summary recorded."}
                 </span>
               </dd>

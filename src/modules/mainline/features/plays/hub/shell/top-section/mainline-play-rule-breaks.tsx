@@ -50,7 +50,7 @@ const RuleBreakerRow = ({
           ? breaker.typeSlug
           : null,
       )}
-      className="relative flex-row items-center gap-3.5 px-3.5 py-3"
+      className="relative flex-row items-center gap-4 px-3.5 py-3"
     >
       <span className="type-tint grid size-16 shrink-0 place-items-center rounded-full">
         <FallbackImage

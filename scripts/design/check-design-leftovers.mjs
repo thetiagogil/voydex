@@ -193,12 +193,26 @@ const sourceRules = [
       "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta or -mark)",
     pattern:
       /"(?![^"]*(?:font-display|(?:sm|md|lg):text-))[^"]*(?:(?<![-\w:])text-1[2-6](?![-\w])[^"]*(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])|(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])[^"]*(?<![-\w:])text-1[2-6](?![-\w]))[^"]*"/,
-    only: [
-      path.join("src", "modules"),
-      path.join("src", "features"),
-      path.join("src", "shared", "components") + path.sep,
+    only: [path.join("src", "modules"), path.join("src", "features")],
+  },
+  /*
+   * Four text sizes under the titles (12, 13, 15, 17) and eight gap steps
+   * (2, 4, 6, 8, 12, 16, 24, 32px, with 40px and up for page layout). A field
+   * alone keeps 16px on phones, where a smaller size makes iOS zoom in.
+   */
+  {
+    label: "a retired text size (use 12, 13, 15 or 17)",
+    pattern: /(?<![-\w.])text-14(?![-\w])|(?<![-\w.])text-16(?![-\w])/,
+    allow: [
+      path.join("src", "shared", "components", "ui", "input.tsx"),
+      path.join("src", "shared", "components", "ui", "input-group.tsx"),
+      path.join("src", "shared", "components", "ui", "textarea.tsx"),
     ],
-    allow: [path.join("src", "shared", "components", "ui", "input.tsx")],
+  },
+  {
+    label: "a retired gap step (use 0.5, 1, 1.5, 2, 3, 4, 6 or 8)",
+    pattern:
+      /(?<![-\w.\[])gap(?:-[xy])?-(?:0\.75|1\.25|1\.75|2\.25|2\.5|3\.5|4\.5|5|5\.5|6\.5|7|7\.5)(?![-\w.])/,
   },
   {
     label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",

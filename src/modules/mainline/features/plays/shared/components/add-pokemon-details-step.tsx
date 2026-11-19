@@ -71,7 +71,7 @@ export const AddPokemonDetailsStep = ({
   return (
     <form
       id={`${id}-form`}
-      className="grid gap-5"
+      className="grid gap-4"
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();

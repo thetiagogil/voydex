@@ -37,7 +37,7 @@ export const MainlinePlayTeamAnalysis = ({
 
   if (!analysis || analysis.members.length === 0) {
     return (
-      <div className="grid min-w-0 gap-6 sm:gap-7">
+      <div className="grid min-w-0 gap-6">
         <TeamAnalysisPageHead description="How your team holds up" />
         <EmptyState
           art={emptyTeamArt}
@@ -74,7 +74,7 @@ export const MainlinePlayTeamAnalysis = ({
 
   return (
     <div className="grid min-w-0 gap-8 sm:gap-10">
-      <div className="grid min-w-0 gap-6 sm:gap-7">
+      <div className="grid min-w-0 gap-6">
         <TeamAnalysisPageHead
           description={`${analysis.lineupLabel} · ${evidence.activeCount} Pokémon · ${evidence.recordedMoveCount} of ${evidence.possibleMoveCount} moves recorded`}
         />

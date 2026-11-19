@@ -396,7 +396,7 @@ export const PlannerWorkspace = ({
 
   return (
     <div className="flex flex-col gap-6 sm:gap-8">
-      <PageBand className="flex flex-col gap-6 sm:gap-7">
+      <PageBand className="flex flex-col gap-6">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           canEdit={isUnlocked}

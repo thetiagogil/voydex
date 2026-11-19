@@ -64,7 +64,7 @@ export const MainlinePlayOverview = ({
   return (
     <OverviewRecordingProvider playId={playId}>
       <div className="grid min-w-0 gap-8 sm:gap-10">
-        <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr] lg:gap-6">
+        <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-6">
           {partner ? (
             <>
               <PartnerHeroSection

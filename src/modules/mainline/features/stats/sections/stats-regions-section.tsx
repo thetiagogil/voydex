@@ -24,7 +24,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
         aside={`${visited.length} of ${stats.regions.length}`}
       />
       <Card className="px-4 py-4 sm:px-6 sm:py-5">
-        <ul className="grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-5 sm:gap-3 lg:grid-cols-10">
+        <ul className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-4 sm:grid-cols-5 sm:gap-3 lg:grid-cols-10">
           {stats.regions.map((region) => {
             const count = region.playLabels.length;
 
@@ -50,7 +50,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
                           coverImageUrl={region.coverImageUrl}
                           gameName={region.gameName}
                           gameSlug={region.gameSlug ?? undefined}
-                          className="text-16 h-16 w-auto max-w-14 rounded-xs"
+                          className="text-15 h-16 w-auto max-w-14 rounded-xs"
                         />
                       ) : (
                         <span className="empty-slot size-11 rounded-full" />

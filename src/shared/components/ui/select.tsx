@@ -58,7 +58,7 @@ const SelectValue = ({ className, ...props }: SelectPrimitive.Value.Props) => {
  * a white card on a soft shadow holding the caller's own content.
  */
 const selectTriggerVariants = cva(
-  "flex w-fit items-center justify-between gap-1.5 copy-note whitespace-nowrap select-none focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-12 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 focus-ring",
+  "flex w-fit items-center justify-between gap-1.5 text-15 font-bold whitespace-nowrap select-none focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-12 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 focus-ring",
   {
     variants: {
       variant: {

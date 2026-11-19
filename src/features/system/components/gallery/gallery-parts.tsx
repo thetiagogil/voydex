@@ -29,7 +29,7 @@ export const GallerySection = ({
   <section
     id={id}
     aria-labelledby={`${id}-title`}
-    className="flex scroll-mt-6 flex-col gap-5"
+    className="flex scroll-mt-6 flex-col gap-4"
   >
     <SectionHead
       title={title}

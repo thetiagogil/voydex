@@ -39,7 +39,7 @@ export const TrainerCard = ({
   <section
     aria-label="Your trainer card"
     className={cn(
-      "flex flex-wrap items-center gap-x-4 gap-y-4.5 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-5.5 sm:px-6.5 sm:pt-5.5 sm:pb-6",
+      "flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-6 sm:px-6.5 sm:pt-5.5 sm:pb-6",
       icon || initial ? "bg-surface shadow-soft" : "bg-surface-2 shadow-soft",
       className,
     )}

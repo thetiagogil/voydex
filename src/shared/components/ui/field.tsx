@@ -33,7 +33,7 @@ const FieldLegend = ({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
-        "text-ink data-[variant=label]:text-13 data-[variant=label]:text-ink-2 data-[variant=legend]:text-16 mb-1.5 font-extrabold data-[variant=label]:font-bold",
+        "text-ink data-[variant=label]:text-13 data-[variant=label]:text-ink-2 data-[variant=legend]:text-15 mb-1.5 font-extrabold data-[variant=label]:font-bold",
         className,
       )}
       {...props}
@@ -46,7 +46,7 @@ const FieldGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="field-group"
       className={cn(
-        "group/field-group @container/field-group flex w-full flex-col gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
+        "group/field-group @container/field-group flex w-full flex-col gap-4 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
         className,
       )}
       {...props}

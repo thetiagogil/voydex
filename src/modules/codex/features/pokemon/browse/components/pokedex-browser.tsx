@@ -332,7 +332,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       </PageBand>
 
       {filteredPokemon.length ? (
-        <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">
+        <div className="mt-7.5 flex min-w-0 flex-col gap-8">
           {visiblePokemonGroups.map((group, index) => {
             const matchCount =
               filteredPokemonGroups[index]?.pokemon.length ?? 0;

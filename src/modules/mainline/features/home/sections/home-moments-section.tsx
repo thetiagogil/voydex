@@ -134,7 +134,7 @@ export const HomeMomentsSection = ({
         </p>
       </div>
 
-      <ol className="relative grid gap-4 sm:auto-cols-fr sm:grid-flow-col sm:gap-5">
+      <ol className="relative grid gap-4 sm:auto-cols-fr sm:grid-flow-col">
         {beats.map((beat, index) => (
           <li
             key={beat.key}

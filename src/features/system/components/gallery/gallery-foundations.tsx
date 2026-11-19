@@ -77,12 +77,24 @@ const titles = [
 ];
 
 const bodies = [
-  { className: "text-17", name: "17" },
-  { className: "text-16", name: "16" },
-  { className: "text-15", name: "15" },
-  { className: "text-14", name: "14" },
-  { className: "text-13", name: "13" },
-  { className: "text-12", name: "12" },
+  {
+    className: "copy-strong",
+    name: "copy-strong",
+    use: "A name or a value that matters",
+  },
+  { className: "copy-body", name: "copy-body", use: "Running text" },
+  { className: "copy-note", name: "copy-note", use: "The line under a title" },
+  {
+    className: "copy-label",
+    name: "copy-label",
+    use: "A label or a small heading",
+  },
+  {
+    className: "copy-meta",
+    name: "copy-meta",
+    use: "Small facts: a date, a count",
+  },
+  { className: "copy-mark", name: "copy-mark", use: "The words on a mark" },
 ];
 
 const stickerTypes = ["grass", "fire", "water", "electric"];
@@ -139,12 +151,16 @@ export const GalleryFoundations = () => (
           ))}
         </Specimen>
       </GalleryGroup>
-      <GalleryGroup title="Body (Nunito)" columns={1}>
-        <Specimen label="Body sizes" className="flex-col items-start gap-2">
+      <GalleryGroup title="Text (Nunito)" columns={1}>
+        <Specimen
+          label="Text styles"
+          note="Four sizes: 12, 13, 15 and 17"
+          className="flex-col items-start gap-2"
+        >
           {bodies.map((body) => (
-            <p key={body.name} className={cn(body.className, "font-semibold")}>
-              {body.name} · Every Pokémon that joins your teams gets a place
-              here.
+            <p key={body.name} className="flex flex-wrap items-baseline gap-3">
+              <span className={body.className}>{body.use}</span>
+              <span className="text-ink-2 copy-meta">{body.name}</span>
             </p>
           ))}
         </Specimen>

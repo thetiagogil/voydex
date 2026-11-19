@@ -148,7 +148,7 @@ export const PlannerTopSection = ({
   );
 
   return (
-    <div className="flex flex-col gap-5 pt-4 sm:pt-7">
+    <div className="flex flex-col gap-4 pt-4 sm:pt-7">
       <div className="flex min-w-0 flex-col gap-1.5">
         {savedPlan ? (
           <h1 className="min-w-0">

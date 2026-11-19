@@ -23,8 +23,6 @@ export const PlayCardHeading = ({
     <h3 className="title-card descender-room mt-0.5 line-clamp-2 wrap-break-word">
       {title}
     </h3>
-    {children ? (
-      <p className="text-ink-2 copy-meta sm:text-14 mt-1">{children}</p>
-    ) : null}
+    {children ? <p className="text-ink-2 copy-meta mt-1">{children}</p> : null}
   </div>
 );

@@ -62,7 +62,7 @@ export const StoryPokemonRows = ({
 }: {
   groups: StoryPlacePokemonGroup[];
 }) => (
-  <div className="grid gap-5">
+  <div className="grid gap-4">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
         <h4 className="text-ink-2 copy-label">{group.way}</h4>

@@ -181,7 +181,7 @@ export const MoveSlotSelect = ({
         aria-label={`Move ${slot}: ${selected?.label ?? emptyLabel}`}
         aria-description={selected?.info ?? undefined}
         style={getPokemonTypeCssVariables(type)}
-        className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
+        className="text-13 focus-ring flex h-13 w-full min-w-0 items-center gap-2 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
       >
         <span className="text-ink-3 copy-mark w-3 shrink-0 tabular-nums">
           {slot}
@@ -288,7 +288,7 @@ export const MoveSlotGrid = ({
   /* One per slot, in order; null for an empty one. */
   values: readonly (string | null)[];
 }) => (
-  <div className="grid gap-2.5 sm:grid-cols-2">
+  <div className="grid gap-2 sm:grid-cols-2">
     {values.map((value, index) => (
       <MoveSlotSelect
         key={index}

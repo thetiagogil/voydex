@@ -67,8 +67,8 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
         {getPokemonDetailLearnsetMethodDetail(learnset)}
       </TableCell>
       <TableCell className="whitespace-normal max-md:basis-full max-md:p-0">
-        <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-          <span className="inline-flex items-center gap-2.5 font-extrabold">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="inline-flex items-center gap-2 font-extrabold">
             {learnset.type && isPokemonTypeSlug(learnset.type.slug) ? (
               <PokemonTypeBadge
                 type={learnset.type.slug}

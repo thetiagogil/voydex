@@ -493,8 +493,9 @@
 
 /*
  * The text styles (Nunito): every piece of text that isn't a title takes one
- * of them, so no screen sets its own size and weight. They set the size and
- * the weight only; the colour stays a role token beside them (`text-ink-2`).
+ * of them, so no screen sets its own size and weight. Four sizes only: 12
+ * for marks, 13 for small text, 15 for everything you read and press, 17
+ * for a lead line. They set the size and the weight only; the colour stays a role token beside them (`text-ink-2`).
  *   copy-strong  a row's or an item's name, a value that matters
  *   copy-body    running text, the default
  *   copy-note    the line under a title, a description
@@ -513,7 +514,7 @@
 }
 
 @utility copy-note {
-  font-size: var(--text-14);
+  font-size: var(--text-13);
   font-weight: 600;
 }
 

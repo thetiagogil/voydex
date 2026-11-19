@@ -223,7 +223,7 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      <ol className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3 lg:grid-cols-6">
+      <ol className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.formId) : undefined;
           const worst = member ? getWorstIssueFor(member.formId, issues) : null;
@@ -244,7 +244,7 @@ export const PlannerDockSection = ({
                       label={`Put ${replacing.name} in slot ${index + 1}`}
                       text="Put here"
                       variant="compact"
-                      className="text-14 hover:bg-white/50"
+                      className="text-13 hover:bg-white/50"
                     />
                   </button>
                 ) : (
@@ -252,7 +252,7 @@ export const PlannerDockSection = ({
                     label={`Empty slot ${index + 1}`}
                     text="Empty"
                     variant="compact"
-                    className="text-14 h-full"
+                    className="text-13 h-full"
                     target={drag.isOver(index)}
                   />
                 )}
@@ -338,7 +338,7 @@ export const PlannerDockSection = ({
                         <TextLink
                           tone="onInk"
                           onClick={onOpenCheck}
-                          className="text-14 mt-1"
+                          className="text-13 mt-1"
                         >
                           Open Team check
                         </TextLink>
@@ -364,7 +364,7 @@ export const PlannerDockSection = ({
        */}
       <p
         aria-live="polite"
-        className="text-ink-2 copy-note flex items-center gap-2.5"
+        className="text-ink-2 copy-note flex items-center gap-2"
       >
         <TipMark tone={tip.tone} />
         <span className="min-w-0 flex-1">

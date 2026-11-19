@@ -80,7 +80,7 @@ export const PlannerShareDialog = ({
               readOnly
               value={link}
               onFocus={(event) => event.currentTarget.select()}
-              className="text-14 min-w-0 flex-1 font-mono"
+              className="text-13 min-w-0 flex-1 font-mono"
             />
             <Button
               type="button"

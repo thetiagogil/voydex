@@ -182,7 +182,7 @@ export const TrainerSpeciesSheet = ({
     >
       {showsFamily ? null : (
         /* The card's facts, as figures: how far this Pokémon goes back with you. */
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-3 gap-2">
           <StatTile label="Plays" value={entry.playIds.length} />
           <StatTile label="Games" value={entry.gameNames.length} />
           <StatTile
@@ -301,7 +301,7 @@ export const TrainerSpeciesSheet = ({
               : `${relatives.length} more species`
           }
         >
-          <ul className="grid grid-cols-3 gap-2.5">
+          <ul className="grid grid-cols-3 gap-2">
             {relatives.map((relative) => (
               <li key={relative.speciesId} className="min-w-0">
                 <PokemonSticker

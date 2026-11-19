@@ -36,7 +36,7 @@ export const ProgressSummarySection = ({
       {items.length ? (
         <div
           className={cn(
-            "grid h-full gap-2.5 sm:gap-3",
+            "grid h-full gap-2 sm:gap-3",
             items.length === 3
               ? "grid-cols-3"
               : items.length === 1
@@ -48,7 +48,7 @@ export const ProgressSummarySection = ({
             <Link
               key={item.label}
               href={item.href}
-              className="tile-link focus-ring flex min-w-0 flex-col items-center justify-start gap-2.5 text-center"
+              className="tile-link focus-ring flex min-w-0 flex-col items-center justify-start gap-2 text-center"
             >
               <span className="copy-strong">{item.label}</span>
               <ProgressDonut

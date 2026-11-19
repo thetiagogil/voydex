@@ -49,7 +49,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast:
-            "bg-ink text-on-ink shadow-float copy-note flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
+            "bg-ink text-on-ink shadow-float copy-body flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
           content: "flex min-w-0 flex-col gap-0.5",
           title: "text-white",
           description: "copy-meta text-on-ink",
@@ -84,7 +84,7 @@ const twoActionToast = {
     content: "max-md:basis-[calc(100%-1.75rem)]",
     /* Even sides, so the row ends as far in as the icon starts. */
     toast:
-      "max-md:flex-wrap max-md:gap-y-2.5 max-md:pr-4.5 md:w-max md:max-w-104",
+      "max-md:flex-wrap max-md:gap-y-2 max-md:pr-4.5 md:w-max md:max-w-104",
   },
 };
 

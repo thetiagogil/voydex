@@ -153,8 +153,8 @@ export const SegmentedControl = <TValue extends string>({
           // The pick moves at once, never fades.
           "inline-flex items-center gap-2 rounded-full whitespace-nowrap [&_svg]:size-4",
           size === "sm"
-            ? "copy-label h-10 min-w-10 justify-center px-3 sm:h-9"
-            : "copy-note h-10 px-4 sm:h-9",
+            ? "text-13 h-10 min-w-10 justify-center px-3 font-bold sm:h-9"
+            : "text-13 h-10 px-4 font-bold sm:h-9",
           variant === "pills" && !isActive && "bg-surface",
           // With its 4px track, as tall as a form field (48px).
           variant === "segment" && size === "md" && "h-10 px-3.5 sm:h-10",

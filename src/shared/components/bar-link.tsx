@@ -24,7 +24,7 @@ export const SteadyLabel = ({ children }: { children: string }) => (
  */
 export const getBarLinkClassName = (isCurrent: boolean) =>
   cn(
-    "copy-note hover:text-(--bar-ink) inline-flex h-9 shrink-0 items-center rounded-full px-3 whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
+    "text-15 font-semibold hover:text-(--bar-ink) inline-flex h-9 shrink-0 items-center rounded-full px-3 whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
     isCurrent &&
       "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
   );

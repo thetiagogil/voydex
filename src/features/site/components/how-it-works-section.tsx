@@ -57,7 +57,7 @@ const StepCard = ({
       className="absolute -top-13 right-3 z-1 size-26 object-contain sm:-top-15 sm:size-30"
     />
     <Card className="w-full gap-0 p-5 sm:p-6">
-      <p className="copy-label text-ink-2 flex items-center gap-2.5 pr-28 tracking-wider uppercase">
+      <p className="copy-label text-ink-2 flex items-center gap-2 pr-28 tracking-wider uppercase">
         <StepNumber number={number} />
         {when}
       </p>

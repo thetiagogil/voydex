@@ -201,7 +201,7 @@ export const AddPokemonChoiceStep = ({
               title="None of these follow this Play's rules."
             />
           )}
-          <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+          <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
             {shown.map(({ brokenRules, choice }) => (
               <ChoiceButton
                 key={`${choice.speciesId}-${choice.formId}`}

@@ -10,7 +10,7 @@ const twMerge = extendTailwindMerge({
   extend: {
     theme: {
       shadow: ["soft", "cover", "float", "overlay", "card", "action", "game"],
-      text: ["12", "13", "14", "15", "16", "17", "20", "24", "28", "32", "44"],
+      text: ["12", "13", "15", "16", "17", "20", "24", "28", "32", "44"],
     },
   },
 });

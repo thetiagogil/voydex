@@ -52,7 +52,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
             <span key={way.key} className="block">
               <span className="block font-bold">{way.label}</span>
               {way.detail ? (
-                <span className="text-14 text-ink-2 block">{way.detail}</span>
+                <span className="text-13 text-ink-2 block">{way.detail}</span>
               ) : null}
             </span>
           ))
@@ -62,7 +62,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
         {row.places.length ? (
           <ul className="mt-1 flex flex-col gap-1">
             {row.places.map((place) => (
-              <li key={place.key} className="text-14 leading-snug">
+              <li key={place.key} className="text-13 leading-snug">
                 <span className="font-bold">{place.label}</span>
                 <span className="text-ink-2"> — {place.detail}</span>
               </li>

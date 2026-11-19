@@ -88,7 +88,7 @@ export const MainlineCollectionPage = ({
     );
 
     return (
-      <div className="flex flex-col gap-5 sm:gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6">
         {data.favourites.length ? (
           <CollectionFavourites
             entries={data.entries}
@@ -130,7 +130,7 @@ export const MainlineCollectionPage = ({
     );
 
     return (
-      <div className="flex flex-col gap-5 sm:gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6">
         {data.games.games.length ? (
           <CollectionGamesShelf
             games={data.games}
@@ -167,7 +167,7 @@ export const MainlineCollectionPage = ({
   );
 
   return (
-    <div className="flex flex-col gap-5 sm:gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6">
       {data.entries.length ? (
         <CollectionBrowser
           head={head}

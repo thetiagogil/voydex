@@ -38,7 +38,7 @@ type MilestoneMarkerProps = {
 };
 
 const ringSizeClassNames = {
-  lg: "text-16 size-14.5 [&_svg]:size-5",
+  lg: "text-15 size-14.5 [&_svg]:size-5",
   md: "text-13 size-7.5 sm:size-8.5",
   sm: "text-12 size-7",
 };

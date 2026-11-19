@@ -46,7 +46,7 @@ export const GameDetailExclusivesSection = ({
       title="Version exclusives"
       aside="Only catchable in one of the pair"
     >
-      <div className="grid items-start gap-7 md:grid-cols-2">
+      <div className="grid items-start gap-6 md:grid-cols-2">
         {exclusives.map((column, index) => {
           const shortName = getGameShortName(column.version.game.name);
           const titleId = `exclusives-${column.version.game.slug}`;
@@ -64,7 +64,7 @@ export const GameDetailExclusivesSection = ({
                 index > 0 && "step-back",
               )}
             >
-              <div className="mb-3 flex min-h-10 flex-wrap items-center gap-x-2.5 gap-y-1">
+              <div className="mb-3 flex min-h-10 flex-wrap items-center gap-x-2 gap-y-1">
                 <GameCover
                   alt=""
                   coverImageUrl={column.version.coverImageUrl}

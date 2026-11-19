@@ -267,7 +267,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
         </FoldPanel>
       </PageBand>
 
-      <section aria-label="Your Plans" className="flex flex-col gap-5">
+      <section aria-label="Your Plans" className="flex flex-col gap-4">
         {shown.length ? (
           <MyPlansGrid plans={shown} />
         ) : (

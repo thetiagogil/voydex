@@ -94,7 +94,7 @@ export const CollectionGameSheet = ({
               : "px-4.5 py-4.5 sm:px-7 sm:pt-5.5",
           )}
         >
-          <div className="flex items-center gap-4.5">
+          <div className="flex items-center gap-4">
             <GameCover
               alt=""
               coverImageUrl={game.coverImageUrl}

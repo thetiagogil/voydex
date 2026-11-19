@@ -10,7 +10,7 @@ import { cn } from "@/shared/utils/cn";
  * a filled banner.
  */
 const alertVariants = cva(
-  "group/alert copy-note relative grid w-full gap-0.5 rounded-sm px-4 py-3 text-left leading-normal has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg:not([class*='size-'])]:size-4.5",
+  "group/alert copy-note relative grid w-full gap-0.5 rounded-sm px-4 py-3 text-left leading-normal has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg:not([class*='size-'])]:size-4.5",
   {
     variants: {
       variant: {

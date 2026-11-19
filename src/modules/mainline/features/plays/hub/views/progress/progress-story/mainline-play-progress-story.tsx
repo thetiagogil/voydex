@@ -419,7 +419,7 @@ export const MainlinePlayProgressStory = ({
   };
 
   return (
-    <div className="grid min-w-0 grid-cols-1 gap-7">
+    <div className="grid min-w-0 grid-cols-1 gap-6">
       <StoryPageHead
         onScopeChange={selectScope}
         scope={activeScope}
@@ -433,7 +433,7 @@ export const MainlinePlayProgressStory = ({
         />
       ) : null}
 
-      <div className="grid items-start gap-7 lg:grid-cols-[26rem_minmax(0,1fr)] xl:grid-cols-[30rem_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[26rem_minmax(0,1fr)] xl:grid-cols-[30rem_minmax(0,1fr)]">
         <StoryRoadmap
           fadingMilestoneIds={fadingMilestoneIds}
           getPlaceBattleCount={(entry) =>

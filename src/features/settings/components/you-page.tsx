@@ -60,7 +60,7 @@ const YouRow = ({ description, href, icon, onFollow, title }: YouRowProps) => (
     onClick={onFollow}
     className={cn(
       rowInteractionVariants({ interaction: "action" }),
-      "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-sm px-2.5 py-3",
+      "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-4 rounded-sm px-2.5 py-3",
     )}
   >
     <IconDisc size="lg">

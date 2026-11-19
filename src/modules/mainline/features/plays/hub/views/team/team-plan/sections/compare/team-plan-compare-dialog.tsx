@@ -228,7 +228,7 @@ export const TeamPlanCompareDialog = ({
         </>
       }
     >
-      <table className="text-14 sm:text-15 w-full border-collapse">
+      <table className="text-13 sm:text-15 w-full border-collapse">
         <caption className="sr-only">
           What the Plan asks for and what this Play recorded
         </caption>

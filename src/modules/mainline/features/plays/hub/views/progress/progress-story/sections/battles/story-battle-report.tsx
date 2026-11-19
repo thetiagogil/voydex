@@ -457,7 +457,7 @@ const BattleTeam = ({
   return (
     <>
       {party.note ? <p className="text-ink-2 copy-meta">{party.note}</p> : null}
-      <ul className="grid grid-cols-3 gap-2.5">
+      <ul className="grid grid-cols-3 gap-2">
         {party.pokemon.map((pokemon) => (
           <li
             key={pokemon.key}
@@ -543,7 +543,7 @@ const BesideYou = ({
           : `${whose} Pokémon fight beside yours, and the verdict counts them with your team.`}
       </p>
       {allies.map((ally) => (
-        <div key={ally.name} className="grid min-w-0 gap-2.5">
+        <div key={ally.name} className="grid min-w-0 gap-2">
           {allies.length > 1 ? (
             <p className="text-ink-3 copy-label">{ally.name}</p>
           ) : null}
@@ -569,7 +569,7 @@ const TeamRow = ({
   return (
     <tr className="align-middle">
       <th scope="row" className="py-2 pr-2 font-normal">
-        <span className="flex min-w-0 items-center gap-2.5">
+        <span className="flex min-w-0 items-center gap-2">
           <SmallSticker
             imageUrl={getPlayTeamMemberImageUrl(member)}
             name=""
@@ -764,7 +764,7 @@ export const StoryBattleReport = ({
           className="mt-5"
         >
           <AppIcon icon={matchupStates[reading.state].icon} />
-          <AlertTitle className="text-16">
+          <AlertTitle className="text-15">
             {matchupStates[reading.state].label}
           </AlertTitle>
           <AlertDescription className="text-ink-2 copy-note">
@@ -938,7 +938,7 @@ export const StoryBattleReport = ({
                 >
                   {getLevelsSentence(reading.levels, opponentKind)}
                 </MatchupStateLabel>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-2">
                   <StatTile
                     label="Your team"
                     value={formatLevelRange(reading.levels.team)}

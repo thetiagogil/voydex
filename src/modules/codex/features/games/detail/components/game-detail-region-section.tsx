@@ -92,7 +92,7 @@ export const GameDetailRegionSection = ({
             </h3>
             <ul
               aria-labelledby="game-first-partners-title"
-              className="grid grid-cols-3 gap-2.5 md:flex"
+              className="grid grid-cols-3 gap-2 md:flex"
             >
               {firstPartners.pokemon.map((pokemon) => (
                 <li key={pokemon.key} className="min-w-0">
@@ -120,7 +120,7 @@ export const GameDetailRegionSection = ({
           />
           <ul
             aria-labelledby="game-leaders-title"
-            className="mt-4 grid grid-cols-3 gap-x-2.5 gap-y-5 sm:grid-cols-5 lg:grid-cols-9"
+            className="mt-4 grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9"
           >
             {leaders.map((leader) => (
               <LeaderTile key={leader.key} leader={leader} />

@@ -68,7 +68,7 @@ export const PokemonCollectorCard = ({
     <>
       <span className="bg-surface flex min-w-0 flex-1 flex-col rounded-lg p-2.5">
         <span className="flex min-w-0 items-baseline justify-between gap-2">
-          <span className="font-display text-16 descender-room truncate leading-tight font-semibold">
+          <span className="font-display text-17 descender-room truncate leading-tight font-semibold">
             {name}
           </span>
           {count ? (

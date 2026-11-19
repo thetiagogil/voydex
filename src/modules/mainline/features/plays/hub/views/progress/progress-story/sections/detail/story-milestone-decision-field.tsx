@@ -67,7 +67,7 @@ const StoryMilestoneDecisionRadioGroup = ({
                   className="mt-3 size-14 sm:mt-2 sm:size-18"
                   imageClassName="p-1.5"
                 />
-                <span className="copy-strong sm:text-15 max-w-full">
+                <span className="copy-strong max-w-full">
                   {option.speciesName}
                 </span>
               </Field>

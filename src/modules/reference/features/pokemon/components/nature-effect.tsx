@@ -29,7 +29,7 @@ export const NatureEffect = ({
   }
 
   return (
-    <span className="copy-label flex h-5 items-center gap-2.5 tabular-nums">
+    <span className="copy-label flex h-5 items-center gap-2 tabular-nums">
       <span className="sr-only">
         {`Raises ${effect.increased.name}, lowers ${effect.decreased.name}`}
       </span>

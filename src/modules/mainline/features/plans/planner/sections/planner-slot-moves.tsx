@@ -117,7 +117,7 @@ export const PlannerSlotMoves = ({
           />
         </Field>
       ) : null}
-      <fieldset className="grid gap-2.5">
+      <fieldset className="grid gap-2">
         <legend className="copy-strong mb-2">Moves</legend>
         {moveOptions.length || savedOnly.length ? (
           <MoveSlotGrid

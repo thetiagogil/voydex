@@ -84,7 +84,7 @@ export const TeamPlanOffPlanSection = ({
                       variant="compact"
                       label={`Nothing ${column.title.toLowerCase()} outside the Plan`}
                       text="All part of the Plan"
-                      className="text-14 h-full px-3 text-center"
+                      className="text-13 h-full px-3 text-center"
                     />
                   </li>
                 </ul>

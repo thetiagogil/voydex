@@ -32,7 +32,7 @@ export const TeamPlanTargetsSection = ({
       />
 
       {comparisons.length ? (
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {comparisons.map((comparison) => (
             <li key={comparison.planMemberId} className="min-w-0">
               <TeamPlanTargetCard

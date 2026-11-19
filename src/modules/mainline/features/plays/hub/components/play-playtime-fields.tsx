@@ -14,7 +14,7 @@ export const PlayPlaytimeFields = ({
   onHoursChange: (value: string) => void;
   onMinutesChange: (value: string) => void;
 }) => (
-  <div className="grid grid-cols-2 gap-2.5">
+  <div className="grid grid-cols-2 gap-2">
     <label className="relative">
       <span className="sr-only">Hours</span>
       <Input

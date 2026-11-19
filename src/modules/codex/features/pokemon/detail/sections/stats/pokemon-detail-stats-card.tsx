@@ -35,7 +35,7 @@ export const PokemonDetailStatsCard = ({
         {stats.map((stat) => (
           <div
             key={stat.key}
-            className="grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2.5 py-1 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3"
+            className="grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2 py-1 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3"
           >
             <span
               className={cn(
@@ -64,7 +64,7 @@ export const PokemonDetailStatsCard = ({
         ))}
       </div>
       {/* The total in the same columns, its bar in the blue's deep shade. */}
-      <div className="mt-1.5 grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2.5 pt-2 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3">
+      <div className="mt-1.5 grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2 pt-2 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3">
         <span className="copy-strong text-ink">Total</span>
         <span className="text-right font-extrabold tabular-nums">{total}</span>
         <Meter

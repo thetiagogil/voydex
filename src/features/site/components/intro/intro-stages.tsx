@@ -66,7 +66,7 @@ export const StartAPlayStage = ({ art }: { art: PublicArt }) => (
         );
       })}
     </div>
-    <div className="bg-band flex flex-wrap items-center gap-x-2.5 gap-y-1.5 rounded-sm px-3 py-2.5">
+    <div className="bg-band flex flex-wrap items-center gap-x-2 gap-y-1.5 rounded-sm px-3 py-2.5">
       <span className="font-display text-17 font-semibold">
         {samplePlay.name}
       </span>

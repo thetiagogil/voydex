@@ -107,7 +107,7 @@ export const LibraryRuleDetails = ({
         )
       }
     >
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         {rule.isBuiltIn ? (
           /* What it asks and its option note read as one part. */
           <div className="grid gap-1">

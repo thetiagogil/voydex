@@ -28,7 +28,7 @@ export const PlayCardProgress = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-2 gap-y-1.75",
+        "grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-2 gap-y-2",
         className,
       )}
     >

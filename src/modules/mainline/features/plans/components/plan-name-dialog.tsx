@@ -87,7 +87,7 @@ export const PlanNameDialog = ({
         </>
       }
     >
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         <Field>
           <FieldLabel htmlFor={nameId}>Plan name</FieldLabel>
           <Input

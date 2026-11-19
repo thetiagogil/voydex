@@ -21,7 +21,7 @@ export const PaperTag = ({
     <span
       className={cn(
         "paper-tag text-ink inline-flex items-center gap-1.5 font-extrabold",
-        size === "lg" ? "text-14 min-h-10" : "text-13 min-h-8",
+        size === "lg" ? "text-13 min-h-10" : "text-13 min-h-8",
       )}
     >
       {children}

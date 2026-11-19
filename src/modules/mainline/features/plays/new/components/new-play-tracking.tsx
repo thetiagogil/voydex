@@ -44,7 +44,7 @@ export const NewPlayTracking = ({
         aria-labelledby={labelId}
         className="bg-surface-2 rounded-3xl px-5 py-3.5"
       >
-        <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
           <b className="text-ink copy-strong">
             {describePlayTracking(tracking, { hasCollectibles })}
           </b>

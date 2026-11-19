@@ -80,7 +80,7 @@ const TeamOnMeadow = ({
 }) => (
   <ul
     aria-label="Team"
-    className="grid w-[min(880px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-5.5 sm:pb-0"
+    className="grid w-[min(880px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-6 sm:pb-0"
   >
     {play.team.map((member, index) => (
       <li key={member?.id ?? `open-${index}`} className="max-w-full min-w-0">

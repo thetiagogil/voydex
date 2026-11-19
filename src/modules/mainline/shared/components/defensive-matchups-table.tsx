@@ -115,7 +115,7 @@ export const DefensiveMatchupsTable = ({
     <div className={cn("-mx-2 overflow-x-auto px-2", className)}>
       <table
         {...scopeProps}
-        className="text-14 w-full min-w-160 border-separate border-spacing-0"
+        className="text-13 w-full min-w-160 border-separate border-spacing-0"
       >
         <caption className="sr-only">{caption}</caption>
         <thead>

@@ -49,7 +49,7 @@ const PokemonSheetHead = ({
         inset ? "mt-1 rounded-lg p-4" : "px-4.5 py-4.5 sm:px-7 sm:pt-5.5",
       )}
     >
-      <div className={cn("flex items-center", inset ? "gap-4" : "gap-4.5")}>
+      <div className={cn("flex items-center", inset ? "gap-4" : "gap-4")}>
         <span
           aria-hidden
           className={cn(

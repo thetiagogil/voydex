@@ -134,7 +134,7 @@ const TeamHealthTip = ({
   statusLabel: string;
   tip: TeamAnalysisHealthTip;
 }) => (
-  <TipStack className="gap-2.5">
+  <TipStack className="gap-2">
     <div className="grid gap-1">
       <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
       <TipText>{tip.summary}</TipText>
@@ -194,7 +194,7 @@ const TeamAnalysisHealthCard = ({
         {statusLabel}
       </StatusBadge>
 
-      <p className="text-14 text-ink-2 leading-normal font-medium">
+      <p className="text-13 text-ink-2 leading-normal font-medium">
         {metric.line.map((part, index) => (
           <Fragment key={index}>
             {index > 0 ? " " : null}

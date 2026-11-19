@@ -45,7 +45,7 @@ export const TypeTallyStrip = ({
   <span
     aria-hidden
     className={cn(
-      "relative inline-flex h-6.5 shrink-0 items-stretch gap-0.75 px-0.5",
+      "relative inline-flex h-6.5 shrink-0 items-stretch gap-1 px-0.5",
       className,
     )}
   >

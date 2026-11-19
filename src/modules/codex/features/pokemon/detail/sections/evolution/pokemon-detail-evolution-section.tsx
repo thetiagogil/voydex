@@ -91,7 +91,7 @@ const EvolutionBranch = ({
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="flex flex-wrap items-center justify-center gap-x-4.5 gap-y-4">
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4">
         {chain.map((chainNode, index) => (
           <Fragment key={chainNode.key}>
             {index > 0 ? (
@@ -112,7 +112,7 @@ const EvolutionBranch = ({
             aria-hidden
             className="text-ink-2 rotate-90"
           />
-          <ul className="flex flex-wrap items-end justify-center gap-x-4 gap-y-5">
+          <ul className="flex flex-wrap items-end justify-center gap-x-4 gap-y-4">
             {branches.map((branch) => (
               <li key={branch.key} className="flex flex-col items-center gap-2">
                 <EvolutionCondition

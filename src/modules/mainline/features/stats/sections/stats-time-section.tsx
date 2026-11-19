@@ -235,7 +235,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         {stats.time.length ? (
           <div
             {...scopeProps}
-            className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-8"
+            className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-8"
           >
             <TimeDonut
               activeKey={activeKey}

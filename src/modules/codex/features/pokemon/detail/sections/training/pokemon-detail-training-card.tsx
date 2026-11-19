@@ -86,7 +86,7 @@ export const PokemonDetailTrainingCard = ({
 
   return (
     <DetailSectionCard id="training" title="Training">
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
         {training?.evYield ? (
           <Fact label="EV yield">
             {training.evYield.length ? formatEvYield(training.evYield) : "None"}
@@ -204,7 +204,7 @@ export const PokemonDetailBreedingCard = ({
         />
       ) : null}
       {!note || hasGender ? (
-        <dl className="grid grid-cols-1 gap-y-2.5">
+        <dl className="grid grid-cols-1 gap-y-2">
           {note ? null : (
             <>
               <Fact label="Egg groups">

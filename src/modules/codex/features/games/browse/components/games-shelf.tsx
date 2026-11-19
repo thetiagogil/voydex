@@ -19,7 +19,7 @@ type GamesShelfProps = {
  */
 export const GamesShelf = ({ sections }: GamesShelfProps) => {
   return (
-    <div className="mt-6 flex flex-col gap-7.5">
+    <div className="mt-6 flex flex-col gap-8">
       {sections.map((section, sectionIndex) => {
         const titleId = `games-section-${section.key}`;
 

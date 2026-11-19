@@ -79,7 +79,7 @@ const AccordionContent = ({
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      className="data-open:animate-accordion-down data-closed:animate-accordion-up text-14 text-ink-2 overflow-hidden"
+      className="data-open:animate-accordion-down data-closed:animate-accordion-up text-13 text-ink-2 overflow-hidden"
       {...props}
     >
       <div

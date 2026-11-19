@@ -68,7 +68,7 @@ export const FirstStepsSection = ({
         {steps.map((step, index) => (
           <li
             key={step.title}
-            className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-3.5 py-3.5"
+            className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-4 py-3.5"
           >
             <span
               aria-hidden

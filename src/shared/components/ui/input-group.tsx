@@ -100,7 +100,7 @@ const InputGroupInput = ({
     <InputPrimitive
       data-slot="input-group-control"
       className={cn(
-        "copy-body sm:text-15 text-ink placeholder:text-ink-3 h-full w-full min-w-0 flex-1 bg-transparent px-2 outline-none disabled:cursor-not-allowed",
+        "text-16 sm:text-15 text-ink placeholder:text-ink-3 h-full w-full min-w-0 flex-1 bg-transparent px-2 font-semibold outline-none disabled:cursor-not-allowed",
         className,
       )}
       {...props}

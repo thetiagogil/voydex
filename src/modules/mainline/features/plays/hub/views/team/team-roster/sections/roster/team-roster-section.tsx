@@ -119,7 +119,7 @@ const TeamRosterGroupList = ({
           {filledCount} / {playTeamSize}
         </span>
       </h3>
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3">
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
         {slots.map((slot) => {
           const storedSlot =
             slot.position + (group === "active" ? 0 : playTeamSize);
@@ -155,7 +155,7 @@ const TeamRosterGroupList = ({
                 <PokemonEmptySlot
                   label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
                   variant="compact"
-                  className="text-14 h-full"
+                  className="text-13 h-full"
                   target={drag.isOver(storedSlot)}
                 />
               )}
@@ -185,7 +185,7 @@ export const TeamRosterSection = (props: TeamRosterSectionProps) => {
   });
 
   return (
-    <div className="grid min-w-0 content-start gap-6.5">
+    <div className="grid min-w-0 content-start gap-6">
       <TeamRosterGroupList group="active" drag={drag} {...props} />
       <TeamRosterGroupList group="reserve" drag={drag} {...props} />
     </div>
