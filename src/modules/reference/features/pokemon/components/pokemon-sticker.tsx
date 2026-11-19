@@ -298,12 +298,17 @@ export const PokemonEmptySlot = ({
   target?: boolean;
   /* What it says inside; "Open slot" unless the slot means something else. */
   text?: string;
-  /* Matches the stickers it sits among. */
-  variant?: PokemonStickerVariant;
+  /*
+   * Matches what it sits among: a sticker variant, or `card` beside
+   * `PokemonCard`s (`size="fluid"`), so a row stands as tall empty as full.
+   */
+  variant?: PokemonStickerVariant | "card";
 }) => {
   const slotClassName = cn(
     "empty-slot text-ink-3 copy-note flex min-w-0 flex-col items-center justify-center gap-3 rounded-lg",
-    variantClassNames[variant].height,
+    variant === "card"
+      ? "min-h-36 sm:min-h-42"
+      : variantClassNames[variant].height,
     target && dropTargetRingClassName,
     className,
   );

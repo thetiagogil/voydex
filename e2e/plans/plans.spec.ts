@@ -206,6 +206,35 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
   });
 
+  test("keeps the team in a docked bar while you scroll the list @phone", async ({
+    page,
+  }) => {
+    await page.goto("/app/planner?vg=rb");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
+    const search = picker.getByRole("searchbox");
+    await search.fill("Venusaur");
+    await picker.getByRole("button", { name: /^#\d+ Venusaur\b/ }).click();
+    await search.clear();
+
+    /* At the top the band shows the team, so the bar stays away. */
+    const docked = page.getByRole("list", { name: "Your team, 1 of 6" });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(docked).toBeHidden();
+
+    /* Down the list the band is gone: the team and Save dock to the top. */
+    await page.evaluate(() => window.scrollTo(0, 2400));
+    await expect(docked).toBeVisible();
+    await expect(
+      page.getByRole("button", { exact: true, name: "Save" }),
+    ).toBeEnabled();
+
+    await docked
+      .getByRole("button", { name: "Venusaur, slot 1. Edit" })
+      .click();
+    await expect(page.getByRole("dialog", { name: "Venusaur" })).toBeVisible();
+  });
+
   test("drags a Pokémon onto another slot to swap them", async ({ page }) => {
     await page.goto("/app/planner?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });

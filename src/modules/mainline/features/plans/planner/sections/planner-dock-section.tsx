@@ -223,7 +223,8 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      <ol className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
+      {/* Three across on a phone, so the team takes half the screen, not all of it. */}
+      <ol className="grid grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.formId) : undefined;
           const worst = member ? getWorstIssueFor(member.formId, issues) : null;
@@ -243,7 +244,7 @@ export const PlannerDockSection = ({
                     <PokemonEmptySlot
                       label={`Put ${replacing.name} in slot ${index + 1}`}
                       text="Put here"
-                      variant="compact"
+                      variant="card"
                       className="text-13 hover:bg-white/50"
                     />
                   </button>
@@ -251,7 +252,7 @@ export const PlannerDockSection = ({
                   <PokemonEmptySlot
                     label={`Empty slot ${index + 1}`}
                     text="Empty"
-                    variant="compact"
+                    variant="card"
                     className="text-13 h-full"
                     target={drag.isOver(index)}
                   />

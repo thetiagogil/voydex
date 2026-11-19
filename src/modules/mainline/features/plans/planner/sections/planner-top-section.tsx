@@ -244,7 +244,10 @@ export const PlannerTopSection = ({
             >
               <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
               My Plans
-              <span className="text-ink-3 tabular-nums">{planCount}</span>
+              {/* On a phone the row keeps My Plans, the main button and the "⋯". */}
+              <span className="text-ink-3 tabular-nums max-sm:hidden">
+                {planCount}
+              </span>
             </Link>
           )}
           {canEdit ? (
