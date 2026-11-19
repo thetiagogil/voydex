@@ -4,16 +4,19 @@ import { PageBand } from "@/shared/components/page-band";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Home's band: the same neutral band every page opens on, with no scenery.
- * Top to bottom: the greeting and the shelf to pick from, who stands for the
- * pick (a Play's team, a game's first partners) in a row, then the row
- * saying what is picked with the page's one main button.
+ * Home's band: the same neutral band every page opens on, with no scenery,
+ * and Home's whole page: it fills the screen, with what it holds in the
+ * middle. Top to bottom: the greeting and the shelf to pick from, who stands
+ * for the pick (a Play's team, a game's first partners) in a row, then the
+ * row saying what is picked with the page's one main button. A quiet note
+ * about your data, when there is one, sits at its foot.
  */
 export const HomeBand = ({
   cast,
   castClassName,
   children,
   ground,
+  note,
 }: {
   /* Who stands for the pick, bottom-aligned in their row. */
   cast?: ReactNode;
@@ -22,13 +25,17 @@ export const HomeBand = ({
   /* The greeting and the shelf. */
   children: ReactNode;
   ground: ReactNode;
+  note?: ReactNode;
 }) => (
-  <PageBand className="flex flex-col px-0 pb-8 sm:pb-10">
-    {children}
-    <div className={cn("flex items-end justify-center pt-2", castClassName)}>
-      {cast}
+  <PageBand fill className="flex flex-col px-0 pb-8 sm:pb-10">
+    <div className="my-auto">
+      {children}
+      <div className={cn("flex items-end justify-center pt-2", castClassName)}>
+        {cast}
+      </div>
+      <div className="pt-5 sm:pt-6">{ground}</div>
     </div>
-    <div className="pt-5 sm:pt-6">{ground}</div>
+    {note}
   </PageBand>
 );
 

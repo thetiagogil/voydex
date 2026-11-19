@@ -7,6 +7,11 @@ type PageBandProps = {
   children: ReactNode;
   className?: string;
   /*
+   * The band takes all the room its page has left (Home, whose band is the
+   * whole page), instead of only what it holds.
+   */
+  fill?: boolean;
+  /*
    * The large, faint mark at the band's right edge, filling its box: the
    * Poké Ball unless the page has its own (a Specialist's type).
    */
@@ -30,12 +35,14 @@ type PageBandProps = {
 export const PageBand = ({
   children,
   className,
+  fill = false,
   mark,
   tone = "neutral",
 }: PageBandProps) => (
   <div
     className={cn(
       "page-band relative isolate",
+      fill && "flex flex-1 flex-col",
       tone === "action" ? "bg-action text-white" : "bg-band",
     )}
   >
@@ -68,6 +75,7 @@ export const PageBand = ({
     <div
       className={cn(
         "mx-auto w-full max-w-(--page-width) px-(--page-gutter) pb-6 sm:pb-8",
+        fill && "flex-1",
         /* Links set straight on the red take a white focus ring. */
         tone === "action" && "[--focus:var(--surface)]",
         className,

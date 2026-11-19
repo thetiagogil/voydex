@@ -64,7 +64,7 @@ const hasDecision = (milestone: OverviewMilestone) =>
  * title, where it happens, then the page's one main button, which records it
  * in place (a choice opens Story's record form right here), and "Add a
  * note". In the same card, beside the words from 1024px and under them
- * below that, the game's stamp card: recording a gym, trial or
+ * below that, the game's stamp card as a small badge case: recording a gym, trial or
  * League objective slaps its stamp down there, the page's one badge moment,
  * before the words hand over to the next objective. A stamp opens its
  * milestone in Story.
@@ -130,7 +130,7 @@ export const NextObjectiveSection = ({
     <ObjectiveCard
       titleId={titleId}
       /* Two halves from 1024px: the objective, and the stamp card beside it. */
-      className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center"
+      className="lg:grid lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-center"
       aside={
         stamps.length ? (
           <section
@@ -144,13 +144,14 @@ export const NextObjectiveSection = ({
               </span>
             </p>
             {/*
-             * Each stamp in an equal share of the row, so they spread evenly
-             * with the same room at both ends; a long row scrolls instead.
-             * Beside the objective (from 1024px) they wrap, five to a row.
-             * Room all round, so a lift, slap or focus ring is never cut.
+             * A badge case: small stamps in even rows, six across beside
+             * the objective and nine where the card stacks from 640px, so a
+             * game with seventeen stays as short as one with eight. Room all
+             * round, so a lift, slap or focus ring is never cut.
              */}
             <StampGrid
-              className="no-scrollbar auto-cols-[minmax(3.5rem,1fr)] grid-flow-col gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-[minmax(4rem,1fr)] lg:grid-flow-row lg:grid-cols-5 lg:gap-y-4 lg:overflow-visible"
+              compact
+              className="grid-cols-6 gap-x-2 gap-y-3 px-4 pt-3 pb-4 sm:grid-cols-9 lg:grid-cols-6"
               earnedMilestoneId={isJustRecorded ? shownId : null}
               onSlapEnd={() =>
                 applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))
@@ -163,7 +164,7 @@ export const NextObjectiveSection = ({
                   ),
                 )
               }
-              scrollLabel="Stamps"
+              label="Stamps"
               slapMilestoneId={handover === "stamping" ? shownId : null}
               stamps={stamps}
             />

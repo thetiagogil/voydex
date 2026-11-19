@@ -21,10 +21,12 @@ import { cn } from "@/shared/utils/cn";
  */
 const PickableStamp = ({
   children,
+  compact,
   label,
   onSelect,
 }: {
   children: ReactNode;
+  compact: boolean;
   label: string;
   onSelect: () => void;
 }) => {
@@ -41,7 +43,8 @@ const PickableStamp = ({
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
         /* A stamp keeps its size where its column is wider than it. */
-        "focus-ring ease-hop flex w-full max-w-14 flex-col rounded-lg transition-transform duration-200 hover:-translate-y-1 sm:max-w-16",
+        "focus-ring ease-hop flex w-full flex-col transition-transform duration-200 hover:-translate-y-1",
+        compact ? "max-w-11 rounded-full" : "max-w-14 rounded-lg sm:max-w-16",
         isPopping && "animate-pop",
       )}
     >
@@ -86,7 +89,9 @@ export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
  */
 export const StampGrid = ({
   className,
+  compact = false,
   earnedMilestoneId = null,
+  label: listLabel,
   onSlapEnd,
   onStampSelect,
   scrollLabel,
@@ -95,6 +100,14 @@ export const StampGrid = ({
 }: {
   /* The grid's columns and gaps. */
   className?: string;
+  /*
+   * A badge case: small stamps with no words under them (each still says
+   * its name to a pointer, the keyboard and a screen reader), so a game with
+   * seventeen fits where another has eight.
+   */
+  compact?: boolean;
+  /* Names the list where it doesn't scroll. */
+  label?: string;
   /* Recorded a moment ago: shown earned at once, before the save comes back. */
   earnedMilestoneId?: number | null;
   /* Called once the slap has played. */
@@ -114,7 +127,7 @@ export const StampGrid = ({
 
   return (
     <ul
-      aria-label={scrollLabel}
+      aria-label={scrollLabel ?? listLabel}
       tabIndex={scrollLabel ? 0 : undefined}
       className={cn("grid", scrollLabel && "focus-ring-inset", className)}
     >
@@ -131,6 +144,7 @@ export const StampGrid = ({
         return (
           <li key={stamp.milestoneId} className="flex flex-col items-center">
             <PickableStamp
+              compact={compact}
               label={label}
               onSelect={() => onStampSelect(stamp.milestoneId)}
             >
@@ -141,12 +155,14 @@ export const StampGrid = ({
                 state={getBadgeStampState(stamp)}
                 tilt={stampTilts[index % stampTilts.length]}
               />
-              <span
-                aria-hidden
-                className="text-ink-3 copy-mark mt-4 text-center leading-tight"
-              >
-                {stamp.label}
-              </span>
+              {compact ? null : (
+                <span
+                  aria-hidden
+                  className="text-ink-3 copy-mark mt-4 text-center leading-tight"
+                >
+                  {stamp.label}
+                </span>
+              )}
             </PickableStamp>
           </li>
         );

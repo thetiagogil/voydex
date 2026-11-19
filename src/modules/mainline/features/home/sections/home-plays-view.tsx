@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 
-import { HomeDataNote } from "@/modules/mainline/features/home/components/home-data-note";
 import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
 import type { HomeBand } from "@/modules/mainline/features/home/types";
 
@@ -48,7 +47,7 @@ export const HomePlaysView = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       <HomeBandSection
         current={band.play}
         plays={bands.map(({ play }) => play)}
@@ -58,7 +57,6 @@ export const HomePlaysView = ({
         greeting={greeting}
         subtitle={subtitle}
       />
-      <HomeDataNote />
     </div>
   );
 };

@@ -21,7 +21,8 @@ to Statistics), and it owns no mutation of its own.
   none picked it opens the Play. Every shelf Play loads with the page, so picking
   another cover switches the team and the line at once
   and only updates `?play=`; a link to an older Play puts it first on the
-  shelf. Home shows nothing else: no latest moments (removed 2026-11-19), and the
+  shelf. The band is Home's whole page: it fills the screen, with what it holds in
+  the middle. Home shows nothing else: no latest moments (removed 2026-11-19), and the
   line names the Play alone, without its game in front (the cover says it).
 - **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is

@@ -11,6 +11,7 @@ import {
   HomePartnerChoiceCast,
   useHomePartnerChoice,
 } from "@/modules/mainline/features/home/components/home-partner-choice";
+import { HomeDataNote } from "@/modules/mainline/features/home/components/home-data-note";
 import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-play-shelf";
 import {
   getHomeContinue,
@@ -162,8 +163,13 @@ export const HomeBandSection = ({
       : getHomePlayStatusLine(current);
 
   return (
-    <section aria-labelledby="home-greeting">
+    /* The band runs to the foot of the page, over the room the page keeps there. */
+    <section
+      aria-labelledby="home-greeting"
+      className="-mb-12 flex flex-1 flex-col lg:-mb-18"
+    >
       <HomeBand
+        note={<HomeDataNote />}
         castClassName={
           partnerChoice || isFirstPlay
             ? "min-h-56 sm:min-h-64"

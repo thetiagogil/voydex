@@ -61,7 +61,10 @@ export const HomeFirstPlayPicker = ({
   };
 
   return (
-    <section aria-labelledby="home-greeting">
+    <section
+      aria-labelledby="home-greeting"
+      className="-mb-12 flex flex-1 flex-col lg:-mb-18"
+    >
       <HomeBand
         castClassName={game ? "min-h-56 sm:min-h-64" : "min-h-8"}
         cast={

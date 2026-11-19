@@ -108,8 +108,11 @@ Current Overview direction:
 As built (#63): Overview opens on the team, as the Play's stickers. Under
 it, the journey card: where the objective stands, its title, where it
 happens, then Record and Add a note, and in the same card (beside the words
-from 1024px, five stamps to a row; under them below that, in one row that
-scrolls) the game's stamp card with its count, its stamps spread evenly.
+from 1024px, under them below that) the game's stamp card with its count, as
+a small badge case: stamps without words under them, in even rows of six
+(nine where the card stacks from 640px), so a game with seventeen stays as
+short as one with eight. Each still says its name to a pointer, the keyboard
+and a screen reader.
 Recording a gym, trial or League objective slaps its stamp down there, the
 page's one badge moment, then the words hand over to the next objective; a
 stamp opens its milestone in Story; a game with no stamps draws no stamp
