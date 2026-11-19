@@ -56,7 +56,7 @@ const DetailBlock = ({
   label: string;
 }) => (
   <div className="mt-5">
-    <p className="text-ink-2 text-13 mb-2 font-bold">{label}</p>
+    <p className="text-ink-2 copy-label mb-2">{label}</p>
     {children}
   </div>
 );
@@ -118,7 +118,7 @@ export const StoryMilestoneDetail = ({
       ) : null}
 
       {!milestone.isCompleted && blockingNames.length ? (
-        <p className="text-ink-2 text-13 mt-3 flex items-start gap-1.5 font-semibold">
+        <p className="text-ink-2 copy-meta mt-3 flex items-start gap-1.5">
           <AppIcon
             icon={appIcons.status.locked}
             size="sm"
@@ -133,12 +133,12 @@ export const StoryMilestoneDetail = ({
           </span>
         </p>
       ) : milestone.opensAfter ? (
-        <p className="text-ink-2 text-13 mt-2.5 font-semibold">
+        <p className="text-ink-2 copy-meta mt-2.5">
           Opens after{" "}
           <b className="text-ink font-extrabold">{milestone.opensAfter.name}</b>
         </p>
       ) : !milestone.isCompleted && prerequisiteNames.length ? (
-        <p className="text-ink-2 text-13 mt-2.5 font-semibold">
+        <p className="text-ink-2 copy-meta mt-2.5">
           After{" "}
           <b className="text-ink font-extrabold">
             {joinNames(prerequisiteNames)}
@@ -148,7 +148,7 @@ export const StoryMilestoneDetail = ({
 
       {!milestone.isCompleted && milestone.earlierToRecord.length ? (
         /* Record takes them too; the arrow offers "Record only this one". */
-        <p className="text-ink-2 text-13 mt-2.5 font-semibold">
+        <p className="text-ink-2 copy-meta mt-2.5">
           Recording it also records{" "}
           {formatMilestoneRange(milestone.earlierToRecord.length, "before")}.
         </p>
@@ -159,7 +159,7 @@ export const StoryMilestoneDetail = ({
           {milestone.snapshotMembers.length ? (
             <StoryTeamSnapshot members={milestone.snapshotMembers} />
           ) : (
-            <p className="text-ink-2 text-14 font-semibold">
+            <p className="text-ink-2 copy-note">
               The saved team is no longer available.
             </p>
           )}
@@ -174,7 +174,7 @@ export const StoryMilestoneDetail = ({
               name={selectedDecision.speciesName}
             />
           ) : (
-            <p className="text-15 font-extrabold">
+            <p className="copy-strong">
               {milestone.selectedDecisionLabel ?? selectedDecision?.label}
             </p>
           )}

@@ -51,7 +51,7 @@ export const PokemonDetailHead = ({
           value={generationSlug}
         />
         {gameNames.length ? (
-          <p className="text-13 text-ink-3 flex items-start gap-2 leading-5 font-semibold md:justify-end">
+          <p className="copy-meta text-ink-3 flex items-start gap-2 leading-5 md:justify-end">
             {/* The games speak for themselves; "In" stays for screen readers. */}
             <span className="sr-only">In</span>
             {/*

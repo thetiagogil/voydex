@@ -36,7 +36,7 @@ export const LibraryOwnerGroups = <
           {yours.length ? (
             grid(yours)
           ) : (
-            <p className="text-ink-2 text-15 font-semibold">{emptyYours}</p>
+            <p className="text-ink-2 copy-body">{emptyYours}</p>
           )}
         </section>
       ) : null}

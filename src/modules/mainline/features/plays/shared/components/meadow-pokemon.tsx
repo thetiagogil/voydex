@@ -60,7 +60,7 @@ export const MeadowLabel = ({
 }) => (
   <span
     className={cn(
-      "text-14 -mt-0.5 inline-flex max-w-full items-center gap-1 truncate rounded-full px-3 py-1 font-extrabold",
+      "copy-strong -mt-0.5 inline-flex max-w-full items-center gap-1 truncate rounded-full px-3 py-1",
       open
         ? "text-ink-2"
         : selected

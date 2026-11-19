@@ -42,7 +42,7 @@ export const EmailSentActions = ({
       </div>
       <p
         role="status"
-        className="text-13 text-ok-deep mt-2 flex items-center gap-1.5 font-bold empty:hidden"
+        className="copy-label text-ok-deep mt-2 flex items-center gap-1.5 empty:hidden"
       >
         {sentAgain ? (
           <>

@@ -74,15 +74,15 @@ export const GameDetailExclusivesSection = ({
                 />
                 <h3
                   id={titleId}
-                  className="text-16 font-sans font-extrabold tracking-normal"
+                  className="copy-strong font-sans tracking-normal"
                 >
                   Only in {shortName}
                 </h3>
-                <span className="text-13 text-ink-3 font-extrabold tabular-nums">
+                <span className="copy-label text-ink-3 tabular-nums">
                   {column.pokemon.length}
                 </span>
                 {index > 0 ? (
-                  <span className="text-13 text-ink-2 ml-auto font-semibold">
+                  <span className="copy-meta text-ink-2 ml-auto">
                     Trade for these
                   </span>
                 ) : null}
@@ -103,7 +103,7 @@ export const GameDetailExclusivesSection = ({
                   ))}
                 </ul>
               ) : (
-                <p className="text-14 text-ink-2 font-semibold">
+                <p className="copy-note text-ink-2">
                   {shortName} has no exclusives.
                 </p>
               )}

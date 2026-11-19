@@ -49,15 +49,15 @@ const Toaster = ({ ...props }: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast:
-            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
+            "bg-ink text-on-ink shadow-float copy-note flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans max-md:inset-x-0 max-md:min-[601px]:mx-auto md:right-0 md:ml-auto",
           content: "flex min-w-0 flex-col gap-0.5",
           title: "text-white",
-          description: "text-13 text-on-ink font-semibold",
+          description: "copy-meta text-on-ink",
           icon: "flex size-4 shrink-0 items-center justify-center [&_svg]:size-4",
           actionButton:
-            "bg-action text-14 focus-visible:outline-on-ink ml-1 shrink-0 rounded-full px-3 py-1.5 font-extrabold text-white focus-ring",
+            "bg-action copy-strong focus-visible:outline-on-ink ml-1 shrink-0 rounded-full px-3 py-1.5 text-white focus-ring",
           cancelButton:
-            "text-on-ink text-14 hover:text-white shrink-0 rounded-full px-2 py-1.5 font-bold",
+            "text-on-ink copy-note hover:text-white shrink-0 rounded-full px-2 py-1.5",
           closeButton: "hidden",
         },
       }}

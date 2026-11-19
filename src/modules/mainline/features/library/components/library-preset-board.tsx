@@ -46,8 +46,8 @@ const BoardRule = ({
       className="text-ink-3 shrink-0"
     />
     <span className="grid min-w-0 flex-1 gap-0.5 py-1">
-      <span className="text-ink text-15 font-bold">{rule.name}</span>
-      <span className="text-ink-2 text-14 font-semibold">
+      <span className="text-ink copy-strong">{rule.name}</span>
+      <span className="text-ink-2 copy-note">
         {rule.description ?? rule.kind.name}
       </span>
     </span>
@@ -85,13 +85,13 @@ const BoardColumn = ({
       isTarget && "bg-select-soft",
     )}
   >
-    <h4 className="text-ink-2 text-13 px-1 font-bold">
+    <h4 className="text-ink-2 copy-label px-1">
       {label} <span className="text-ink-3 tabular-nums">{count}</span>
     </h4>
     {count ? (
       <ul className="grid gap-2">{children}</ul>
     ) : (
-      <p className="text-ink-3 text-14 border-line rounded-lg border-2 border-dashed px-3 py-4 text-center font-semibold">
+      <p className="empty-slot text-ink-3 copy-note rounded-lg px-3 py-4 text-center">
         {empty}
       </p>
     )}

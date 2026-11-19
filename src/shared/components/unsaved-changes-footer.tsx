@@ -33,7 +33,7 @@ export const UnsavedChangesFooter = ({
   >
     <span
       role="status"
-      className="text-14 text-action-ink mr-auto inline-flex items-center gap-2 font-bold"
+      className="copy-note text-action-ink mr-auto inline-flex items-center gap-2"
     >
       <AppIcon icon={appIcons.actions.edit} />
       Unsaved changes

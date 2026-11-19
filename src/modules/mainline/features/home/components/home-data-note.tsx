@@ -86,7 +86,7 @@ export const HomeDataNote = () => {
   if (!note) return null;
 
   return (
-    <p className="text-ink-2 text-14 mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold">
+    <p className="text-ink-2 copy-note mt-6 flex flex-wrap items-center gap-x-2 gap-y-1">
       <AppIcon icon={note.icon} className="text-ink-3" />
       <span>{note.text}</span>
       {note.link ? (

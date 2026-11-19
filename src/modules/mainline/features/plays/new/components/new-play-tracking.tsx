@@ -45,7 +45,7 @@ export const NewPlayTracking = ({
         className="bg-surface-2 rounded-3xl px-5 py-3.5"
       >
         <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
-          <b className="text-ink text-15 font-extrabold">
+          <b className="text-ink copy-strong">
             {describePlayTracking(tracking, { hasCollectibles })}
           </b>
           <TextLink

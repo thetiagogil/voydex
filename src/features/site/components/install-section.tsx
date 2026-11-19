@@ -36,9 +36,7 @@ const HomeScreenPicture = () => (
     <div className="grid grid-cols-3 gap-x-3 gap-y-2.5">
       <span className="flex flex-col items-center gap-1">
         <LogoMark className="aspect-square h-auto w-full rounded-[28%]" />
-        <span className="text-ink text-12 leading-none font-extrabold">
-          Voydex
-        </span>
+        <span className="text-ink copy-mark leading-none">Voydex</span>
       </span>
       {otherApps.map((app) => (
         <span key={app} className="flex flex-col items-center gap-1">
@@ -77,7 +75,7 @@ export const InstallSection = () => (
               {way.steps.map((step, index) => (
                 <li
                   key={step}
-                  className="text-15 text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5 font-semibold"
+                  className="copy-body text-ink-2 grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-2.5"
                 >
                   <StepNumber number={index + 1} />
                   {step}

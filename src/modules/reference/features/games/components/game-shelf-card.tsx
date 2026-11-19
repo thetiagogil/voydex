@@ -53,7 +53,7 @@ const GameShelfCover = ({
 
 /* The game's short name, read in full ("Pokémon Sword") by assistive tech. */
 const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
-  <b className="text-14 sm:text-15 truncate leading-tight font-extrabold">
+  <b className="copy-strong sm:text-15 truncate leading-tight">
     {game.name.startsWith("Pokémon ") ? (
       <span className="sr-only">Pokémon </span>
     ) : null}
@@ -80,7 +80,7 @@ export const GameShelfCard = ({
   onClick,
 }: GameShelfCardProps) => {
   const facts = (
-    <span className="text-13 text-ink-2 truncate font-semibold">
+    <span className="copy-meta text-ink-2 truncate">
       <span className="tabular-nums">{game.releaseYear}</span>
       {game.regionName ? ` · ${game.regionName}` : null}
     </span>
@@ -93,7 +93,7 @@ export const GameShelfCard = ({
     <span className="bg-surface flex min-w-0 flex-1 flex-col gap-2 rounded-lg p-2.5">
       <span className="flex min-w-0 items-baseline justify-between gap-2">
         <GameShelfName game={game} />
-        <span className="text-ink-2 text-12 shrink-0 font-extrabold tabular-nums">
+        <span className="text-ink-2 copy-mark shrink-0 tabular-nums">
           {count}
         </span>
       </span>

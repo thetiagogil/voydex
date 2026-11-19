@@ -44,7 +44,7 @@ const EvolutionCondition = ({
   const hiddenEdges = distinctEdges.slice(MAX_VISIBLE_CONDITIONS);
 
   return (
-    <div className="text-13 text-ink-2 flex max-w-36 flex-col items-center gap-1 text-center font-bold">
+    <div className="copy-label text-ink-2 flex max-w-36 flex-col items-center gap-1 text-center">
       {showArrow ? (
         <AppIcon icon={appIcons.actions.continue} size="md" aria-hidden />
       ) : null}

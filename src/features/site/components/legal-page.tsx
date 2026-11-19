@@ -8,7 +8,7 @@ import {
 
 /* Paragraphs and lists inside a legal card, at the app's reading size. */
 const legalBodyClassName =
-  "text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold [&_li]:pl-1 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5";
+  "copy-body text-ink-2 flex flex-col gap-3 leading-relaxed [&_li]:pl-1 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5";
 
 /*
  * Privacy and Terms, from the footer: the short

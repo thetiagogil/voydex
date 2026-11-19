@@ -127,7 +127,7 @@ export const GalleryCards = () => {
                 <StatTile label="Weak to" value="3" />
                 <StatTile label="Resists" value="11" />
                 <StatTile label="Average level" value="49">
-                  <span className="text-ink-2 text-13 font-semibold">
+                  <span className="text-ink-2 copy-meta">
                     2 above the next battle
                   </span>
                 </StatTile>

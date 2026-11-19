@@ -90,7 +90,7 @@ export const Specimen = ({
     >
       {children}
     </div>
-    <figcaption className="text-ink-2 text-13 font-semibold">
+    <figcaption className="text-ink-2 copy-meta">
       <span className="text-ink font-extrabold">{label}</span>
       {note ? ` · ${note}` : null}
     </figcaption>

@@ -122,7 +122,7 @@ export const PlannerShareDialog = ({
           {error ? (
             <FieldError id={errorId}>{error}</FieldError>
           ) : (
-            <p className="text-ink-3 text-13 font-semibold">
+            <p className="text-ink-3 copy-meta">
               Importing opens it as a new, unsaved Plan. Nothing you&apos;ve
               saved is replaced.
             </p>

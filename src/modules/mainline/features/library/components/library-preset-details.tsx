@@ -115,9 +115,7 @@ export const LibraryPresetDetails = ({
       {isBuiltIn && preset ? (
         <div className="grid gap-6">
           {preset.description ? (
-            <p className="text-ink text-16 font-semibold">
-              {preset.description}
-            </p>
+            <p className="text-ink copy-body">{preset.description}</p>
           ) : null}
           <SheetSection
             title="Its rules"
@@ -125,15 +123,10 @@ export const LibraryPresetDetails = ({
           >
             <ul className="grid gap-2">
               {orderPresetRules(preset.ruleIds, rules, kinds).map((rule) => (
-                <li
-                  key={rule.id}
-                  className="bg-surface-2 grid gap-0.5 rounded-lg px-4 py-3"
-                >
-                  <span className="text-ink text-15 font-bold">
-                    {rule.name}
-                  </span>
+                <li key={rule.id} className="tile grid gap-0.5">
+                  <span className="text-ink copy-strong">{rule.name}</span>
                   {rule.description ? (
-                    <span className="text-ink-2 text-14 font-semibold">
+                    <span className="text-ink-2 copy-note">
                       {rule.description}
                     </span>
                   ) : null}

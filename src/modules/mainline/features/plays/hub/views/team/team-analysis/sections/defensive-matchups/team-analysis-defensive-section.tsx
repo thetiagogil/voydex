@@ -85,12 +85,12 @@ export const TeamAnalysisDefensiveSection = ({
           />
         </>
       ) : (
-        <p className="text-ink-2 text-14 py-6 text-center font-semibold">
+        <p className="text-ink-2 copy-note py-6 text-center">
           No attacking types to read for this generation.
         </p>
       )}
 
-      <p className="text-ink-2 text-13 mt-2 pt-3.5 font-semibold">{footnote}</p>
+      <p className="text-ink-2 copy-meta mt-2 pt-3.5">{footnote}</p>
     </DetailSectionCard>
   );
 };

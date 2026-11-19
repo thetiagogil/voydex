@@ -74,7 +74,7 @@ const NewPlaySteps = ({
             <button
               type="button"
               onClick={() => onStepChange(number)}
-              className="text-action-lip text-13 hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold"
+              className="text-calm-ink copy-label hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5"
             >
               <AppIcon
                 icon={appIcons.status.active}
@@ -87,13 +87,13 @@ const NewPlaySteps = ({
             <span
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "text-13 inline-flex h-9 items-center gap-1.5 px-2 font-extrabold",
+                "copy-label inline-flex h-9 items-center gap-1.5 px-2",
                 isCurrent ? "text-ink" : "text-ink-2",
               )}
             >
               <span
                 className={cn(
-                  "text-13 grid size-6 place-items-center rounded-full font-extrabold tabular-nums",
+                  "copy-label grid size-6 place-items-center rounded-full tabular-nums",
                   isCurrent ? "bg-ink text-on-ink" : "bg-surface-2 text-ink-2",
                 )}
               >
@@ -313,7 +313,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             {title}
           </h1>
           {subtitle ? (
-            <p className="text-ink-2 text-15 mx-auto mt-1.5 max-w-[32em] font-semibold">
+            <p className="text-ink-2 copy-body mx-auto mt-1.5 max-w-[32em]">
               {subtitle}
             </p>
           ) : null}
@@ -384,7 +384,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
         {download ? (
           <div className="mr-auto flex min-w-0 basis-full flex-col gap-1.5 sm:basis-64">
-            <p aria-live="polite" className="text-ink-2 text-14 font-semibold">
+            <p aria-live="polite" className="text-ink-2 copy-note">
               {download.progress.step === "downloading"
                 ? `Downloading ${download.name}`
                 : `Saving ${download.name} on this device`}
@@ -397,7 +397,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         ) : (
           <p
             aria-live="polite"
-            className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto"
+            className="text-ink-2 copy-note mr-auto min-w-0 basis-full sm:basis-auto"
           >
             {summary}
           </p>
@@ -490,7 +490,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         </div>
         <div
           role="alert"
-          className="text-ink-2 text-15 mt-2 flex min-h-56 flex-col items-center justify-center gap-3 px-6 font-semibold sm:min-h-64"
+          className="text-ink-2 copy-body mt-2 flex min-h-56 flex-col items-center justify-center gap-3 px-6 sm:min-h-64"
         >
           <p>Voydex couldn&apos;t load the games right now.</p>
           <Button
@@ -505,7 +505,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
       </MeadowScene>
 
       <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
-        <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
+        <p className="text-ink-2 copy-note mr-auto min-w-0 basis-full sm:basis-auto">
           Pick a game to continue
         </p>
         <Button type="button" variant="secondary" onClick={onClose}>

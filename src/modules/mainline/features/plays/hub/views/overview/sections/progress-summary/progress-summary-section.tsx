@@ -48,15 +48,15 @@ export const ProgressSummarySection = ({
             <Link
               key={item.label}
               href={item.href}
-              className="bg-surface-2 focus-ring flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-lg px-2 py-4 text-center transition-transform duration-150 hover:-translate-y-0.75"
+              className="tile-link focus-ring flex min-w-0 flex-col items-center justify-start gap-2.5 text-center"
             >
-              <span className="text-15 font-extrabold">{item.label}</span>
+              <span className="copy-strong">{item.label}</span>
               <ProgressDonut
                 label={`${item.label} progress`}
                 value={item.percent}
                 className="w-full max-w-24"
               />
-              <span className="text-ink text-14 font-extrabold whitespace-nowrap tabular-nums">
+              <span className="text-ink copy-strong whitespace-nowrap tabular-nums">
                 {item.detail}
               </span>
             </Link>

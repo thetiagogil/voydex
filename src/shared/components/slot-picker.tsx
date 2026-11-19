@@ -52,7 +52,7 @@ export const SlotPicker = ({
     {groups.map((group, index) => (
       <div key={group.label ?? index} className="grid gap-1.5">
         {group.label ? (
-          <p aria-hidden className="text-ink-3 text-13 font-extrabold">
+          <p aria-hidden className="text-ink-3 copy-label">
             {group.label}
           </p>
         ) : null}
@@ -68,7 +68,7 @@ export const SlotPicker = ({
                 disabled={Boolean(slot.disabledReason)}
                 onClick={() => onPick(slot.value)}
                 className={cn(
-                  "text-13 focus-ring flex h-15 min-w-0 flex-col items-center justify-center gap-0.5 rounded-sm border-[1.5px] font-extrabold tabular-nums disabled:opacity-50",
+                  "copy-label focus-ring flex h-15 min-w-0 flex-col items-center justify-center gap-0.5 rounded-sm border-[1.5px] tabular-nums disabled:opacity-50",
                   isSelected
                     ? "bg-select-soft text-select-ink border-calm"
                     : slot.tone === "from"

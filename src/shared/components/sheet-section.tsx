@@ -25,9 +25,7 @@ export const SheetSection = ({
     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
       <div className="flex min-w-0 items-baseline gap-3">
         <h3 className="title-card">{title}</h3>
-        {aside ? (
-          <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-        ) : null}
+        {aside ? <span className="text-ink-3 copy-meta">{aside}</span> : null}
       </div>
       {action}
     </div>

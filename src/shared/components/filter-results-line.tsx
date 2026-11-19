@@ -45,7 +45,7 @@ export const FilterResultsLine = ({
         className,
       )}
     >
-      <p className="text-ink-2 text-14 font-semibold" aria-live="polite">
+      <p className="text-ink-2 copy-note" aria-live="polite">
         {hasActiveFilters ? (
           <>
             Showing{" "}

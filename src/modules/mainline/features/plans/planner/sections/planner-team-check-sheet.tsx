@@ -129,20 +129,18 @@ export const PlannerTeamCheckSheet = ({
 
                 return list.length ? (
                   <div key={group.severity} className="flex flex-col gap-2">
-                    <p className="text-ink-3 text-13 font-bold">
-                      {group.title}
-                    </p>
+                    <p className="text-ink-3 copy-label">{group.title}</p>
                     <ul className="flex flex-col gap-2">
                       {list.map((issue) => (
                         <li
                           key={`${issue.kind}-${issue.formIds.join("-")}`}
-                          className="bg-surface-2 flex flex-wrap items-start gap-3 rounded-sm px-3.5 py-3"
+                          className="tile flex flex-wrap items-start gap-3"
                         >
                           <div className="min-w-0 flex-1">
-                            <b className="text-ink text-15 block font-extrabold">
+                            <b className="text-ink copy-strong block">
                               {issue.title}
                             </b>
-                            <span className="text-ink-2 text-14 font-semibold">
+                            <span className="text-ink-2 copy-note">
                               {issue.body}
                             </span>
                             {issue.includeExpansionId ? (
@@ -193,7 +191,7 @@ export const PlannerTeamCheckSheet = ({
                 ) : null;
               })
             ) : (
-              <p className="text-ink-2 text-15 font-semibold">
+              <p className="text-ink-2 copy-body">
                 Every Pokémon here can be caught in one save.
               </p>
             )}
@@ -256,7 +254,7 @@ export const PlannerTeamCheckSheet = ({
           </SheetSection>
         </>
       ) : (
-        <p className="text-ink-2 text-15 font-semibold">
+        <p className="text-ink-2 copy-body">
           Add Pokémon to see how they match up.
         </p>
       )}

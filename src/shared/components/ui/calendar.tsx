@@ -99,7 +99,7 @@ const CalendarChevron = ({
 );
 
 const dayButtonClassName =
-  "text-15 mx-auto flex size-11 items-center justify-center rounded-full font-bold transition-colors lg:size-10 hover:bg-hover focus-ring-inset in-data-outside:text-ink-3 in-data-disabled:pointer-events-none in-data-disabled:opacity-40 in-data-today:border-[1.5px] in-data-today:border-line in-data-selected:bubble in-data-selected:border-transparent in-data-selected:bg-select-soft in-data-selected:text-select-ink";
+  "copy-strong mx-auto flex size-11 items-center justify-center rounded-full transition-colors lg:size-10 hover:bg-hover focus-ring-inset in-data-outside:text-ink-3 in-data-disabled:pointer-events-none in-data-disabled:opacity-40 in-data-today:border-[1.5px] in-data-today:border-line in-data-selected:bubble in-data-selected:border-transparent in-data-selected:bg-select-soft in-data-selected:text-select-ink";
 
 /*
  * A day's name for screen readers: "Wednesday, May 7, 2025", the day number
@@ -145,7 +145,7 @@ export const Calendar = ({
       month_grid: "w-full border-collapse",
       weekdays: "grid grid-cols-7 lg:grid-cols-[repeat(7,2.5rem)]",
       weekday:
-        "text-13 text-ink-3 flex h-11 items-center justify-center font-bold lg:h-10",
+        "copy-label text-ink-3 flex h-11 items-center justify-center lg:h-10",
       week: "mt-1 grid grid-cols-7 lg:grid-cols-[repeat(7,2.5rem)]",
       day: "relative flex h-11 items-center justify-center p-0 text-center lg:h-10",
       day_button: dayButtonClassName,

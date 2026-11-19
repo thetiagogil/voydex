@@ -30,7 +30,7 @@ export const ObjectiveEyebrow = ({
 }) => (
   <p
     className={cn(
-      "text-calm-ink text-13 flex items-center gap-2 font-extrabold",
+      "text-calm-ink copy-label flex items-center gap-2",
       className,
     )}
   >
@@ -110,7 +110,7 @@ export const ObjectiveCard = ({
       ) : null}
       {footer ? (
         <div className="mt-auto pt-6">
-          <div className="text-ink-2 text-14 flex items-center gap-3.5 pt-4 font-semibold">
+          <div className="text-ink-2 copy-note flex items-center gap-3.5 pt-4">
             {footer}
           </div>
         </div>

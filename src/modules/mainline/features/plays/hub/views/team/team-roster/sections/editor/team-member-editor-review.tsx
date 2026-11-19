@@ -23,7 +23,7 @@ export const TeamMemberEditorReview = ({
         Review changes{" "}
         <span className="text-ink-3 tabular-nums">{changes.length}</span>
       </h3>
-      <p className="text-ink-2 text-14 font-semibold">
+      <p className="text-ink-2 copy-note">
         Nothing is saved until you press Save. Revert anything you didn&apos;t
         mean to change.
       </p>
@@ -33,7 +33,7 @@ export const TeamMemberEditorReview = ({
         {changes.map((item) => (
           <li key={item.field} className="grid gap-2 py-3.5">
             <div className="flex items-center justify-between gap-3">
-              <b className="text-15 font-extrabold">{item.label}</b>
+              <b className="copy-strong">{item.label}</b>
               <Button
                 type="button"
                 variant="ghost"
@@ -45,17 +45,13 @@ export const TeamMemberEditorReview = ({
               </Button>
             </div>
             <dl className="grid gap-2 sm:grid-cols-2">
-              <div className="bg-surface-2 rounded-sm px-3 py-2">
-                <dt className="text-ink-3 text-12 font-extrabold">Was</dt>
-                <dd className="text-14 font-semibold wrap-break-word">
-                  {item.previous}
-                </dd>
+              <div className="tile">
+                <dt className="text-ink-3 copy-mark">Was</dt>
+                <dd className="copy-note wrap-break-word">{item.previous}</dd>
               </div>
-              <div className="bg-select-soft text-select-ink rounded-sm px-3 py-2">
-                <dt className="text-12 font-extrabold">Will be</dt>
-                <dd className="text-14 font-bold wrap-break-word">
-                  {item.next}
-                </dd>
+              <div className="tile bg-select-soft text-select-ink">
+                <dt className="copy-mark">Will be</dt>
+                <dd className="copy-note wrap-break-word">{item.next}</dd>
               </div>
             </dl>
           </li>

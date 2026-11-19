@@ -472,7 +472,7 @@ export const PlannerWorkspace = ({
         />
 
         {swapIndex !== null ? (
-          <p role="status" className="text-ink text-15 font-semibold">
+          <p role="status" className="text-ink copy-body">
             Pick the Pokémon for slot {swapIndex + 1}.{" "}
             <TextLink onClick={() => setSwapIndex(null)}>Cancel</TextLink>
           </p>

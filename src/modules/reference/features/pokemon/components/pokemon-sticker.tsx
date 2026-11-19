@@ -172,7 +172,7 @@ export const PokemonSticker = ({
         <CornerBubble
           border="sticker"
           corner="inside-top-left"
-          className="text-ink-tint text-12 h-6 font-extrabold tabular-nums"
+          className="text-ink-tint copy-mark h-6 tabular-nums"
         >
           {number}
         </CornerBubble>
@@ -199,13 +199,13 @@ export const PokemonSticker = ({
       </span>
       {/* Passed but empty, the line stays so a grid's names line up. */}
       {subtitle !== undefined ? (
-        <span className="text-ink-tint text-13 w-full truncate font-semibold">
+        <span className="text-ink-tint copy-meta w-full truncate">
           {subtitle || "\u00a0"}
         </span>
       ) : null}
       <span
         className={cn(
-          "text-ink-tint text-13 flex items-center justify-center font-bold",
+          "text-ink-tint copy-label flex items-center justify-center",
           variantClassName.marks,
         )}
       >
@@ -302,7 +302,7 @@ export const PokemonEmptySlot = ({
   variant?: PokemonStickerVariant;
 }) => {
   const slotClassName = cn(
-    "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-lg font-bold",
+    "empty-slot text-ink-3 copy-note flex min-w-0 flex-col items-center justify-center gap-3 rounded-lg",
     variantClassNames[variant].height,
     target && dropTargetRingClassName,
     className,

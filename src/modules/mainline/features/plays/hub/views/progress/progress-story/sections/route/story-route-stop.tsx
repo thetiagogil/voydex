@@ -96,7 +96,7 @@ export const StoryRouteStop = ({
     <span className="flex min-w-0 flex-1 flex-col gap-0.5">
       <span
         className={cn(
-          "text-16 leading-tight font-extrabold",
+          "copy-strong leading-tight",
           state === "next" || selected
             ? "text-select-ink"
             : state === "todo"
@@ -122,7 +122,7 @@ export const StoryRouteStop = ({
         </span>
       ) : null}
       {recordedOn ? (
-        <span className="text-ink-3 text-12 font-semibold">{recordedOn}</span>
+        <span className="text-ink-3 copy-meta">{recordedOn}</span>
       ) : null}
       {status || recordedOn ? null : (
         <span className="sr-only">
@@ -213,7 +213,7 @@ export const StoryRoutePlace = ({
     <span className="flex min-w-0 flex-1 items-baseline gap-3 py-1">
       <span
         className={cn(
-          "text-14 min-w-0 truncate font-bold transition-colors",
+          "copy-note min-w-0 truncate transition-colors",
           selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
         )}
       >
@@ -221,7 +221,7 @@ export const StoryRoutePlace = ({
         {reached ? <span className="sr-only">, passed</span> : null}
       </span>
       {battleCount || giftCount || tradeCount ? (
-        <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-3 font-semibold">
+        <span className="text-ink-3 copy-meta ml-auto inline-flex shrink-0 items-center gap-3">
           {battleCount ? (
             <PlaceMark
               count={battleCount}

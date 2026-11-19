@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  * select trigger's own field heights never win.
  */
 export const codexHeadPickerTriggerClassName =
-  "text-14 text-ink hover:text-ink h-10! max-w-full gap-1 rounded-full px-2.5 font-extrabold md:h-8!";
+  "copy-strong text-ink hover:text-ink h-10! max-w-full gap-1 rounded-full px-2.5 md:h-8!";
 
 export type CodexCrumb = {
   /* Omitted on the last step, the page you're on. */
@@ -30,10 +30,7 @@ type CodexHeadProps = {
  */
 export const CodexHead = ({ trail, trailEnd }: CodexHeadProps) => {
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className="text-14 text-ink-3 pt-2.5 font-bold"
-    >
+    <nav aria-label="Breadcrumb" className="copy-note text-ink-3 pt-2.5">
       <ol className="flex min-w-0 flex-wrap items-center gap-2">
         {trail.map((crumb, index) => (
           <li

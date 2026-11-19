@@ -183,6 +183,44 @@ const sourceRules = [
     ],
   },
   /*
+   * One place for each style (2026-11-19): a screen never sets a text size
+   * and a weight together (it takes one of the `copy-*` text styles), and
+   * never draws an inset tile by hand (it takes `tile`, `tile-link` or an
+   * inset `Card`). Otherwise a restyle reaches only part of the app.
+   */
+  {
+    label:
+      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta or -mark)",
+    pattern:
+      /"(?![^"]*(?:font-display|(?:sm|md|lg):text-))[^"]*(?:(?<![-\w:])text-1[2-6](?![-\w])[^"]*(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])|(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])[^"]*(?<![-\w:])text-1[2-6](?![-\w]))[^"]*"/,
+    only: [
+      path.join("src", "modules"),
+      path.join("src", "features"),
+      path.join("src", "shared", "components") + path.sep,
+    ],
+    allow: [path.join("src", "shared", "components", "ui", "input.tsx")],
+  },
+  {
+    label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",
+    pattern:
+      /"[^"]*(?:(?<![-\w:])bg-surface-2(?![-\w])[^"]*(?<![-\w:])rounded-(?:sm|lg)(?![-\w])|(?<![-\w:])rounded-(?:sm|lg)(?![-\w])[^"]*(?<![-\w:])bg-surface-2(?![-\w]))[^"]*"/,
+    only: [
+      path.join("src", "modules", "mainline"),
+      path.join("src", "modules", "codex"),
+      path.join("src", "features"),
+    ],
+    allow: [
+      path.join(
+        "src",
+        "features",
+        "system",
+        "components",
+        "gallery",
+        "gallery-marks.tsx",
+      ),
+    ],
+  },
+  /*
    * Four corner sizes (Design System, Depth): 6, 12, 20 and 28px, and the
    * pill. The two steps between them were retired on 2026-11-19, so nested
    * corners stop drifting apart.

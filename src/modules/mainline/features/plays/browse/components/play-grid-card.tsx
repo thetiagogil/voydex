@@ -44,9 +44,7 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
 
       <div className="mt-auto">
         {percent === null ? (
-          <p className="text-ink-3 text-13 font-semibold">
-            {getProgressNote(play)}
-          </p>
+          <p className="text-ink-3 copy-meta">{getProgressNote(play)}</p>
         ) : (
           <Progress
             showValue

@@ -15,7 +15,7 @@ const Textarea = ({
       className={cn(
         fieldSurfaceClassName,
         fieldFocusClassName,
-        "text-16 sm:text-15 placeholder:text-ink-3 flex field-sizing-content min-h-24 w-full rounded-lg px-4 py-3 leading-normal font-semibold disabled:cursor-not-allowed disabled:opacity-50",
+        "copy-body sm:text-15 placeholder:text-ink-3 flex field-sizing-content min-h-24 w-full rounded-lg px-4 py-3 leading-normal disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       {...props}

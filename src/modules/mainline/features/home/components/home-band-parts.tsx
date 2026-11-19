@@ -13,7 +13,7 @@ export const HomeBandHeading = ({
     <h1 id={id} className="title-display wrap-anywhere">
       {greeting}
     </h1>
-    <p className="text-ink-2 text-16 sm:text-17 mx-auto mt-3 max-w-[34em] leading-relaxed font-semibold">
+    <p className="text-ink-2 copy-body sm:text-17 mx-auto mt-3 max-w-[34em] leading-relaxed">
       {subtitle}
     </p>
   </div>
@@ -32,7 +32,7 @@ export const HomeBandGround = ({
   <div className="mx-auto flex w-[min(880px,calc(100%-2.5rem))] flex-col items-center gap-x-8 gap-y-4 text-center sm:flex-row sm:justify-between sm:text-left">
     <div aria-live="polite" className="min-w-0">
       <b className="title-card block">{title}</b>
-      <span className="text-ink-tint text-14 font-semibold">{detail}</span>
+      <span className="text-ink-tint copy-note">{detail}</span>
     </div>
     {action ? (
       <div className="w-full shrink-0 *:w-full sm:w-auto sm:*:w-auto">

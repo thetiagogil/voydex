@@ -248,7 +248,7 @@ const ComboboxEmpty = ({
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
       className={cn(
-        "text-14 text-ink-2 mt-2 hidden w-full justify-center py-2 text-center font-semibold group-data-empty/combobox-content:flex",
+        "copy-note text-ink-2 mt-2 hidden w-full justify-center py-2 text-center group-data-empty/combobox-content:flex",
         className,
       )}
       {...props}

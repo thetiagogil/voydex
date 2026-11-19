@@ -58,7 +58,7 @@ export const RecordRow = ({
     <>
       <p
         className={cn(
-          "text-ink-3 text-13 font-bold",
+          "text-ink-3 copy-label",
           variant === "timeline" && "flex items-baseline justify-between gap-3",
         )}
       >
@@ -72,7 +72,7 @@ export const RecordRow = ({
       </p>
       <p
         className={cn(
-          "text-ink text-15 font-semibold [&_b]:font-extrabold",
+          "text-ink copy-body [&_b]:font-extrabold",
           !wrap && "truncate",
         )}
       >

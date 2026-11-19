@@ -121,7 +121,7 @@ export const PartnerHeroSection = ({
           nextMilestone?.milestone_id != null ? (
             <>
               <span className="grid min-w-0 gap-0.5">
-                <span className="text-ink-3 text-13 font-extrabold">
+                <span className="text-ink-3 copy-label">
                   Next
                   {nextPosition
                     ? ` · ${formatJourneyPosition(nextPosition)}`

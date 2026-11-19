@@ -39,7 +39,7 @@ export const PokemonDetailStatsCard = ({
           >
             <span
               className={cn(
-                "text-14 font-bold",
+                "copy-note",
                 stat.value === best ? "text-ink font-extrabold" : "text-ink-2",
               )}
             >
@@ -65,7 +65,7 @@ export const PokemonDetailStatsCard = ({
       </div>
       {/* The total in the same columns, its bar in the blue's deep shade. */}
       <div className="mt-1.5 grid grid-cols-[64px_36px_minmax(0,1fr)] items-center gap-2.5 pt-2 sm:grid-cols-[78px_44px_minmax(0,1fr)] sm:gap-3">
-        <span className="text-14 text-ink font-extrabold">Total</span>
+        <span className="copy-strong text-ink">Total</span>
         <span className="text-right font-extrabold tabular-nums">{total}</span>
         <Meter
           aria-label="Base stat total"

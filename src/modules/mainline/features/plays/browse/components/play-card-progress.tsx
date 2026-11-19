@@ -17,7 +17,7 @@ export const PlayCardProgress = ({
 }: PlayCardProgressProps) => {
   if (progress.state === "unavailable" || !progress.items.length) {
     return (
-      <p className={cn("text-ink-3 text-13 font-semibold", className)}>
+      <p className={cn("text-ink-3 copy-meta", className)}>
         {progress.state === "unavailable"
           ? "Progress unavailable"
           : "Progress not recorded"}
@@ -34,7 +34,7 @@ export const PlayCardProgress = ({
     >
       {progress.items.map((item) => (
         <div key={item.label} className="contents">
-          <span className="text-ink-2 text-13 font-bold">{item.label}</span>
+          <span className="text-ink-2 copy-label">{item.label}</span>
           <Progress
             showValue
             value={item.percent ?? 0}

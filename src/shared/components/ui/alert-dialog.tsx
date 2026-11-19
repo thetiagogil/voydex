@@ -146,7 +146,7 @@ const AlertDialogDescription = ({
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
       className={cn(
-        "text-14 text-ink-2 *:[a]:text-link font-semibold text-balance md:text-pretty *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
+        "copy-note text-ink-2 *:[a]:text-link text-balance md:text-pretty *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       {...props}

@@ -37,7 +37,7 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
         ) : null}
         <span className="text-on-ink">{move.name}</span>
         {move.stab ? (
-          <span className="text-on-ink/75 text-12 font-extrabold">STAB</span>
+          <span className="text-on-ink/75 copy-mark">STAB</span>
         ) : null}
       </span>
     ))}
@@ -149,7 +149,7 @@ export const TeamAnalysisMoveCoverageSection = ({
           </li>
         ))}
       </ul>
-      <p className="text-ink-2 text-13 mt-3 font-semibold">
+      <p className="text-ink-2 copy-meta mt-3">
         Each number counts your recorded damaging moves that hit that type super
         effectively. Hover, focus or tap a type to see which.
       </p>

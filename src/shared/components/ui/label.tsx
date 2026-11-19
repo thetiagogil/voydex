@@ -9,7 +9,7 @@ const Label = ({ className, ...props }: React.ComponentProps<"label">) => {
     <label
       data-slot="label"
       className={cn(
-        "text-13 text-ink-2 flex items-center gap-2 leading-snug font-bold select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        "copy-label text-ink-2 flex items-center gap-2 leading-snug select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
         className,
       )}
       {...props}

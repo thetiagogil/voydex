@@ -43,9 +43,7 @@ export const AuthFrame = ({
       <div className="min-w-0">
         <h1 className="title-page">{title}</h1>
         {lede ? (
-          <p className="text-15 mt-1.5 max-w-3xl font-semibold wrap-anywhere">
-            {lede}
-          </p>
+          <p className="copy-body mt-1.5 max-w-3xl wrap-anywhere">{lede}</p>
         ) : null}
       </div>
       <Link
@@ -64,9 +62,7 @@ export const AuthFrame = ({
       <div className="w-full max-w-110 min-w-0">
         <Card className="gap-0 p-5 sm:p-7.5">{children}</Card>
         {note ? (
-          <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
-            {note}
-          </p>
+          <p className="copy-meta text-ink-2 mt-5.5 text-center">{note}</p>
         ) : null}
       </div>
     </div>

@@ -259,7 +259,7 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
                 ) : null}
               </div>
             ) : (
-              <p className="text-ink-2 text-15 mt-3 font-semibold">
+              <p className="text-ink-2 copy-body mt-3">
                 Sword / Shield was already on this device.
               </p>
             )}

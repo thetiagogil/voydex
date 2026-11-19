@@ -62,7 +62,7 @@ export const StoryChapterCard = ({
       <div className="flex items-center gap-3 pt-4 pb-1 sm:pt-5">
         <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
           <h3 className="title-card">{name}</h3>
-          <span className="text-ink-3 text-13 font-semibold">{count}</span>
+          <span className="text-ink-3 copy-meta">{count}</span>
         </span>
         <Button
           type="button"

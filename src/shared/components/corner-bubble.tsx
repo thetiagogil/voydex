@@ -98,7 +98,7 @@ export const CornerBubble = ({
  */
 /* The number disc the slot and count marks share; each has its colour. */
 const numberMarkClassName =
-  "text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums";
+  "copy-label bubble grid size-6 place-items-center rounded-full text-white tabular-nums";
 
 export const SlotMark = ({ children }: { children: ReactNode }) => (
   <span aria-hidden className={cn(numberMarkClassName, "bg-ink")}>

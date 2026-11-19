@@ -179,7 +179,7 @@ export const TeamMemberProfile = ({
           >
             {group.map((fact) => (
               <div key={fact.label} className="min-w-0">
-                <dt className="text-ink-2 text-13 flex h-5 items-center gap-1.5 font-bold">
+                <dt className="text-ink-2 copy-label flex h-5 items-center gap-1.5">
                   {fact.label}
                 </dt>
                 <dd
@@ -219,7 +219,7 @@ export const TeamMemberProfile = ({
                 ) : null}
                 {/* One line, so a long effect never moves the rows below; the "i" has it all. */}
                 {fact.detail ? (
-                  <dd className="text-ink-2 text-13 h-5 truncate leading-5 font-semibold">
+                  <dd className="text-ink-2 copy-meta h-5 truncate leading-5">
                     {fact.detail}
                   </dd>
                 ) : null}
@@ -245,7 +245,7 @@ export const TeamMemberProfile = ({
       ) : null}
 
       {member.personal_notes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-sm px-4 py-3 leading-relaxed">
+        <p className="tile text-ink-2 copy-body mt-4.5 leading-relaxed">
           “{member.personal_notes}”
         </p>
       ) : null}

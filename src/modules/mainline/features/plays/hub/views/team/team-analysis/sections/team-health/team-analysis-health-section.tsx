@@ -167,7 +167,7 @@ const TeamAnalysisHealthCard = ({
   return (
     <Card className="gap-0 px-5.5 py-5">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
+        <h3 className="copy-strong font-sans leading-snug tracking-normal">
           {metric.title}
         </h3>
         <ExplanatoryTip
@@ -235,9 +235,7 @@ export const TeamAnalysisHealthSection = ({
           />
         ))}
       </div>
-      {roughNote ? (
-        <p className="text-ink-2 text-13 font-semibold">{roughNote}</p>
-      ) : null}
+      {roughNote ? <p className="text-ink-2 copy-meta">{roughNote}</p> : null}
     </div>
   );
 };

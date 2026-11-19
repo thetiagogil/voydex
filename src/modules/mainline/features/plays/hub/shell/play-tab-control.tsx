@@ -35,7 +35,7 @@ export const getNavigationMenuControlClassName = ({
   className?: string;
 }) => {
   return cn(
-    "h-10 rounded-full px-0 text-14 font-bold text-ink-2 hover:text-ink sm:h-9",
+    "h-10 rounded-full px-0 copy-note text-ink-2 hover:text-ink sm:h-9",
     active
       ? "bg-calm bubble text-white hover:bg-calm hover:text-white focus:bg-calm data-popup-open:bg-calm data-popup-open:hover:bg-calm"
       : "bg-white/65 hover:bg-white",

@@ -18,7 +18,7 @@ export const StoryPokemonEvidence = ({
         imageClassName="p-1"
       />
 
-      <span className="text-15 min-w-0 truncate font-extrabold">{name}</span>
+      <span className="copy-strong min-w-0 truncate">{name}</span>
     </span>
   );
 };

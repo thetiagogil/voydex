@@ -250,7 +250,7 @@ export const GalleryChoices = () => {
                   <Field orientation="horizontal" className="min-h-12 gap-3">
                     <RadioGroupItem value={name} />
                     <FieldContent>
-                      <span className="text-15 font-extrabold">{name}</span>
+                      <span className="copy-strong">{name}</span>
                     </FieldContent>
                   </Field>
                 </FieldLabel>

@@ -95,16 +95,14 @@ export const SectionHead = ({
               {title}
             </Heading>
             {aside ? (
-              <span className="text-ink-3 text-14 font-semibold max-[559px]:hidden">
+              <span className="text-ink-3 copy-note max-[559px]:hidden">
                 {aside}
               </span>
             ) : null}
           </div>
 
           {description ? (
-            <div className="text-14 text-ink-2 font-semibold">
-              {description}
-            </div>
+            <div className="copy-note text-ink-2">{description}</div>
           ) : null}
         </div>
       </div>

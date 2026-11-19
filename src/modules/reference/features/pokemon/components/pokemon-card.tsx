@@ -229,7 +229,7 @@ export const PokemonCard = ({
       <span
         aria-hidden={number ? undefined : true}
         className={cn(
-          "text-12 flex w-full items-center justify-between px-1 font-extrabold tabular-nums",
+          "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
           numberHidden && "opacity-0",
         )}
@@ -283,7 +283,7 @@ export const PokemonCard = ({
       {subtitle ? (
         <span
           className={cn(
-            "text-12 w-full truncate font-semibold",
+            "copy-meta w-full truncate",
             state === "caught" ? "text-ink-tint" : "text-ink-3",
           )}
         >

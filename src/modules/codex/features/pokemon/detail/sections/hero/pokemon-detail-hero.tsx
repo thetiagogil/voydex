@@ -99,7 +99,7 @@ export const PokemonDetailHero = ({
       />
 
       <div className="min-w-0">
-        <p className="text-16 text-ink-3 font-extrabold tabular-nums">
+        <p className="copy-strong text-ink-3 tabular-nums">
           {eyebrow.map((part, index) => (
             <span key={index}>
               {index ? " · " : null}

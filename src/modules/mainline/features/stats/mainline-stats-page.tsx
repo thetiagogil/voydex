@@ -53,9 +53,9 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
             {figures.map((figure) => (
               <div
                 key={figure.label}
-                className="bg-surface-2 flex flex-col-reverse gap-1 rounded-lg px-4 py-3"
+                className="tile flex flex-col-reverse gap-1"
               >
-                <dt className="text-ink-2 text-13 font-bold">{figure.label}</dt>
+                <dt className="text-ink-2 copy-label">{figure.label}</dt>
                 <dd className="font-display text-24 leading-none font-semibold tabular-nums">
                   {figure.value}
                 </dd>
@@ -63,7 +63,7 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
             ))}
           </dl>
         ) : null}
-        <p className="text-ink-2 text-15 max-w-2xl font-semibold">
+        <p className="text-ink-2 copy-body max-w-2xl">
           {stats.playCount
             ? "Where your time goes, the regions you've visited and the Pokémon that stay with you fill in as you record more."
             : "Start a Play and this page fills in as you record: time, regions and the Pokémon that stay with you."}

@@ -60,7 +60,7 @@ export const TeamMemberMoments = ({
           })}
         </PlayTimeline>
       ) : (
-        <p className="text-ink-2 text-14 font-semibold">
+        <p className="text-ink-2 copy-note">
           Nothing recorded for {getPlayTeamMemberName(member)} yet.
         </p>
       )}

@@ -119,7 +119,7 @@ export const DefensiveMatchupsTable = ({
       >
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="text-ink-3 text-13 font-bold">
+          <tr className="text-ink-3 copy-label">
             <SortHeader
               className="pl-3 text-left"
               onSortChange={onSortChange}

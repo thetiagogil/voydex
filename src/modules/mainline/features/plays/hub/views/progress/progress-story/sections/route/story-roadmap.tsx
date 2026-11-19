@@ -306,7 +306,7 @@ export const StoryRoadmap = ({
             aria-label="Chapters in any order"
             className="grid gap-3"
           >
-            <p className="text-ink-2 text-13 flex items-center gap-2 px-2 font-extrabold">
+            <p className="text-ink-2 copy-label flex items-center gap-2 px-2">
               <AppIcon icon={appIcons.product.journey} size="sm" />
               In any order
             </p>

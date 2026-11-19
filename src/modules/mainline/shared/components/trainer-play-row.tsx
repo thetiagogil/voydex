@@ -47,7 +47,7 @@ export const TrainerPlayRow = ({
       className={cn(
         rowInteractionVariants({ interaction: "action" }),
         /* Each Play is its own inset tile, so a list of them reads as cards. */
-        "bg-surface-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-lg px-3 py-2",
+        "tile-link grid grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3",
       )}
     >
       <GameCover
@@ -60,10 +60,8 @@ export const TrainerPlayRow = ({
         size="row"
       />
       <span className="min-w-0">
-        <span className="text-ink text-15 block truncate font-extrabold">
-          {play.name}
-        </span>
-        <span className="text-ink-2 text-13 flex min-w-0 items-center gap-1.5 font-semibold">
+        <span className="text-ink copy-strong block truncate">{play.name}</span>
+        <span className="text-ink-2 copy-meta flex min-w-0 items-center gap-1.5">
           {shiny ? (
             <span className="type-ink inline-flex shrink-0 items-center gap-1 font-extrabold">
               <AppIcon icon={appIcons.product.shiny} size="sm" />

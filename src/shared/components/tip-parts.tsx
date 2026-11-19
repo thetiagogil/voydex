@@ -91,7 +91,7 @@ export const TipRow = ({
       <span
         data-slot="tip-chip"
         className={cn(
-          "text-12 shrink-0 rounded-full px-2 leading-5 font-extrabold tabular-nums",
+          "copy-mark shrink-0 rounded-full px-2 leading-5 tabular-nums",
           toneChipClassNames[tone ?? "warn"],
         )}
       >
@@ -163,7 +163,7 @@ export const TipRating = ({
             <span
               data-slot="tip-chip"
               className={cn(
-                "text-12 shrink-0 rounded-full px-2 leading-5 font-extrabold",
+                "copy-mark shrink-0 rounded-full px-2 leading-5",
                 toneChipClassNames[grade.tone],
               )}
             >

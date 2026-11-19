@@ -101,7 +101,7 @@ export const TypeMatchupLegend = ({ className }: { className?: string }) => {
     <ul
       aria-label="Matchup key"
       className={cn(
-        "text-13 text-ink-2 flex flex-wrap gap-x-3.5 gap-y-2 font-bold",
+        "copy-label text-ink-2 flex flex-wrap gap-x-3.5 gap-y-2",
         className,
       )}
     >

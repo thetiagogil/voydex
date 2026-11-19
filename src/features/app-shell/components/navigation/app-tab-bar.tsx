@@ -28,7 +28,7 @@ type TabItemProps = {
 /* The current item sits in one soft pill, its icon and label together; it moves at once, never fades. */
 const getTabItemClassName = (isCurrent: boolean) =>
   cn(
-    "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-lg px-0.5 pt-1.5 pb-1 font-bold",
+    "copy-mark text-ink-2 flex flex-col items-center gap-0.5 rounded-lg px-0.5 pt-1.5 pb-1",
     isCurrent && "bg-select-soft text-select-ink font-extrabold",
   );
 

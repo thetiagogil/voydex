@@ -230,7 +230,7 @@ export const TeamMemberEditorActions = ({
         />
       </div>
       {options && !evolutions.length ? (
-        <p className="text-ink-2 text-13 font-semibold">
+        <p className="text-ink-2 copy-meta">
           {`${species} doesn't evolve further in this game.`}
         </p>
       ) : null}

@@ -45,9 +45,7 @@ export const SystemState = ({
           />
         </span>
       ) : null}
-      {eyebrow ? (
-        <p className="text-13 text-ink-2 font-bold">{eyebrow}</p>
-      ) : null}
+      {eyebrow ? <p className="copy-label text-ink-2">{eyebrow}</p> : null}
       <h1 className="title-page mt-1.5 mb-2.5">{title}</h1>
       <p className="text-16 text-ink-2 mb-6.5 max-w-md leading-relaxed">
         {description}

@@ -44,14 +44,10 @@ export const PageHeader = ({
           {title}
         </Heading>
         {description ? (
-          <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
-            {description}
-          </p>
+          <p className="text-ink-2 copy-body mt-1.5 max-w-3xl">{description}</p>
         ) : null}
         {note ? (
-          <p className="text-ink-2 text-15 mt-1 max-w-3xl font-semibold">
-            {note}
-          </p>
+          <p className="text-ink-2 copy-body mt-1 max-w-3xl">{note}</p>
         ) : null}
       </div>
       <div className="flex min-w-0 flex-wrap items-center gap-3 empty:hidden sm:ml-auto">

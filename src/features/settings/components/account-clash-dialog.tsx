@@ -50,7 +50,7 @@ const ClashChoice = ({
 
   return (
     <fieldset className="flex flex-col gap-2">
-      <legend id={titleId} className="text-15 mb-2 font-extrabold">
+      <legend id={titleId} className="copy-strong mb-2">
         {describeClash(clash)}
       </legend>
       <RadioGroup
@@ -78,10 +78,10 @@ const ClashChoice = ({
                   className="text-ink-2 size-5"
                 />
                 <span className="flex min-w-0 flex-col gap-0.5">
-                  <span className="text-16 font-extrabold wrap-anywhere">
+                  <span className="copy-strong wrap-anywhere">
                     {options[side]}
                   </span>
-                  <span className="text-ink-2 text-13 font-semibold">
+                  <span className="text-ink-2 copy-meta">
                     {changedAt
                       ? `${devices[side].label} · ${describeChangedAt(changedAt)}`
                       : devices[side].label}

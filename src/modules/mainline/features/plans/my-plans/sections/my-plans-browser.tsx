@@ -58,7 +58,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       <div className="flex min-h-9 items-center gap-2 pr-10">
         <Badge variant="select">{plan.versionGroupName}</Badge>
         {plan.updatedAt ? (
-          <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
+          <span className="text-ink-3 copy-meta ml-auto whitespace-nowrap">
             Updated <PlayMomentTime value={plan.updatedAt} />
           </span>
         ) : null}
@@ -79,8 +79,8 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
         className={cn(
           "mt-auto",
           plan.linkedPlayCount
-            ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
-            : "text-ink-3 text-13 font-semibold",
+            ? "text-ink copy-label inline-flex items-center gap-1.5"
+            : "text-ink-3 copy-meta",
         )}
       >
         {plan.linkedPlayCount ? (

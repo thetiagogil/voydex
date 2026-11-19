@@ -65,7 +65,7 @@ export const StoryPokemonRows = ({
   <div className="grid gap-5">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
+        <h4 className="text-ink-2 copy-label">{group.way}</h4>
         <ul className="grid gap-2">
           {group.pokemon.map((pokemon) => {
             const facts = getStoryPokemonFacts(pokemon);
@@ -77,7 +77,7 @@ export const StoryPokemonRows = ({
             return (
               <li
                 key={pokemon.formId}
-                className="bg-surface-2 flex min-h-14 items-center gap-3 rounded-lg px-3 py-2"
+                className="tile flex min-h-14 items-center gap-3 px-3 py-2"
               >
                 {tradeFor ? (
                   <span className="text-ink-3 flex shrink-0 items-center gap-1">
@@ -99,21 +99,17 @@ export const StoryPokemonRows = ({
                   typeSlug={null}
                 />
                 <span className="grid min-w-0">
-                  <b className="text-ink text-15 truncate font-extrabold">
+                  <b className="text-ink copy-strong truncate">
                     {pokemon.name}
                   </b>
                   {facts ? (
-                    <span className="text-ink-3 text-13 font-semibold">
-                      {facts}
-                    </span>
+                    <span className="text-ink-3 copy-meta">{facts}</span>
                   ) : null}
                   {source ? (
-                    <span className="text-ink-2 text-13 font-semibold">
-                      {source}
-                    </span>
+                    <span className="text-ink-2 copy-meta">{source}</span>
                   ) : null}
                   {pokemon.handover?.condition ? (
-                    <span className="text-ink-3 text-13 font-semibold">
+                    <span className="text-ink-3 copy-meta">
                       {pokemon.handover.condition}
                     </span>
                   ) : null}
@@ -136,7 +132,7 @@ export const StoryPokemonSprites = ({
   <div className="grid gap-4">
     {groups.map((group) => (
       <section key={group.way} aria-label={group.way} className="grid gap-2">
-        <h4 className="text-ink-2 text-13 font-bold">{group.way}</h4>
+        <h4 className="text-ink-2 copy-label">{group.way}</h4>
         <ul className="flex flex-wrap gap-2">
           {group.pokemon.map((pokemon) => (
             <li key={pokemon.formId}>

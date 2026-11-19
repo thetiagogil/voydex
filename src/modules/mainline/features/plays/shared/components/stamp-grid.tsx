@@ -125,7 +125,7 @@ export const StampGrid = ({
               />
               <span
                 aria-hidden
-                className="text-ink-3 text-12 mt-4 text-center leading-tight font-bold"
+                className="text-ink-3 copy-mark mt-4 text-center leading-tight"
               >
                 {stamp.label}
               </span>

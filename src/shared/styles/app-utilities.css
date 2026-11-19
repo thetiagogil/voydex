@@ -85,6 +85,30 @@
     drop-shadow(0 2px 2px rgb(var(--shade) / 0.14));
 }
 
+/*
+ * A tile: a block inside a card (a fact, a note, an ability), on the inset
+ * fill with the tiles' corner and padding. `tile-link` is a tile you can
+ * open (a row of a list inside a card), with the row hover. Screens never
+ * draw these by hand, so they always match.
+ */
+@utility tile {
+  background-color: var(--surface-2);
+  border-radius: var(--r-lg);
+  padding: 0.75rem 1rem;
+}
+
+@utility tile-link {
+  background-color: var(--surface-2);
+  border-radius: var(--r-lg);
+  padding: 0.625rem 0.75rem;
+  min-height: 3.5rem;
+  transition: background-color 120ms ease-out;
+
+  &:hover {
+    background-color: var(--hover);
+  }
+}
+
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);
@@ -465,6 +489,47 @@
  */
 @utility type-ink {
   color: oklch(from var(--t) min(l, 0.52) c h);
+}
+
+/*
+ * The text styles (Nunito): every piece of text that isn't a title takes one
+ * of them, so no screen sets its own size and weight. They set the size and
+ * the weight only; the colour stays a role token beside them (`text-ink-2`).
+ *   copy-strong  a row's or an item's name, a value that matters
+ *   copy-body    running text, the default
+ *   copy-note    the line under a title, a description
+ *   copy-label   a field's or a fact's label, a small heading
+ *   copy-meta    small facts: a date, a count, a game and region
+ *   copy-mark    the words on a small mark or count
+ */
+@utility copy-strong {
+  font-size: var(--text-15);
+  font-weight: 800;
+}
+
+@utility copy-body {
+  font-size: var(--text-15);
+  font-weight: 600;
+}
+
+@utility copy-note {
+  font-size: var(--text-14);
+  font-weight: 600;
+}
+
+@utility copy-label {
+  font-size: var(--text-13);
+  font-weight: 700;
+}
+
+@utility copy-meta {
+  font-size: var(--text-13);
+  font-weight: 600;
+}
+
+@utility copy-mark {
+  font-size: var(--text-12);
+  font-weight: 800;
 }
 
 /*

@@ -45,7 +45,7 @@ const RuleCard = ({
         <div className="flex min-h-8 items-center gap-2">
           <Badge>{rule.kind.name}</Badge>
         </div>
-        <h2 className="text-16 text-ink line-clamp-2 font-sans leading-snug font-extrabold tracking-normal">
+        <h2 className="copy-strong text-ink line-clamp-2 font-sans leading-snug tracking-normal">
           {/* The whole card opens the rule. */}
           <button
             type="button"
@@ -58,11 +58,11 @@ const RuleCard = ({
           </button>
         </h2>
         {rule.description ? (
-          <p className="text-ink-2 text-14 line-clamp-2 font-semibold">
+          <p className="text-ink-2 copy-note line-clamp-2">
             {rule.description}
           </p>
         ) : null}
-        <p className="text-ink-3 text-13 mt-auto font-semibold">{usageLabel}</p>
+        <p className="text-ink-3 copy-meta mt-auto">{usageLabel}</p>
       </Card>
     </li>
   );

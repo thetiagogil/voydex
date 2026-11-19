@@ -47,7 +47,7 @@ export const TeamPlanTargetsSection = ({
           ))}
         </ul>
       ) : (
-        <p className="empty-slot text-ink-3 text-14 rounded-lg p-6 text-center font-semibold">
+        <p className="empty-slot text-ink-3 copy-note rounded-lg p-6 text-center">
           This Plan has no planned Pokémon yet.
         </p>
       )}

@@ -237,9 +237,7 @@ export const PlayHeaderStatusEdit = ({
                 <Field orientation="horizontal" className="min-h-12 gap-3">
                   <RadioGroupItem value={String(status.id)} />
                   <FieldContent>
-                    <span className="text-15 font-extrabold">
-                      {status.name}
-                    </span>
+                    <span className="copy-strong">{status.name}</span>
                   </FieldContent>
                 </Field>
               </FieldLabel>

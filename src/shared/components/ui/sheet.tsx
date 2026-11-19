@@ -125,7 +125,7 @@ const SheetDescription = ({
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn("text-14 text-ink-2 font-semibold", className)}
+      className={cn("copy-note text-ink-2", className)}
       {...props}
     />
   );

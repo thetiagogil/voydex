@@ -32,12 +32,10 @@ export const SiteFooter = () => (
           {/* As tall as the mark, so the name centres on it and the row's words share its baseline. */}
           <span className="leading-7.5">Voydex</span>
         </Link>
-        <p className="text-13 text-ink-2 font-semibold">
-          A Pokédex for your playthroughs.
-        </p>
+        <p className="copy-meta text-ink-2">A Pokédex for your playthroughs.</p>
         <nav
           aria-label="Footer"
-          className="text-14 text-ink-2 grid grid-cols-[repeat(3,max-content)] gap-x-6 gap-y-1.5 font-bold sm:ml-auto sm:flex sm:flex-wrap sm:gap-x-5"
+          className="copy-note text-ink-2 grid grid-cols-[repeat(3,max-content)] gap-x-6 gap-y-1.5 sm:ml-auto sm:flex sm:flex-wrap sm:gap-x-5"
         >
           {footerLinks.map((link) => (
             <TextLink key={link.href} href={link.href} tone="quiet">
@@ -46,7 +44,7 @@ export const SiteFooter = () => (
           ))}
         </nav>
       </div>
-      <p className="text-ink-3 text-13 mt-4 max-w-[88ch] leading-relaxed font-semibold">
+      <p className="text-ink-3 copy-meta mt-4 max-w-[88ch] leading-relaxed">
         Voydex is an unofficial fan project. It isn&apos;t affiliated with or
         endorsed by Nintendo, Creatures, GAME FREAK or The Pokémon Company, and
         Pokémon names and artwork belong to them.

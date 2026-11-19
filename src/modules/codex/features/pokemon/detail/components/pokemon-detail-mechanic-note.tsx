@@ -30,7 +30,7 @@ export const PokemonDetailMechanicNoteCard = ({
   const isFill = layout === "fill";
   const href = note.arrivesIn ? arrivesHref : null;
   const panelClassName = cn(
-    "bg-surface-2 text-ink-2 flex gap-3 rounded-lg px-4 py-3.5",
+    "tile text-ink-2 flex gap-3",
     isFill
       ? "flex-1 flex-col items-center justify-center py-8 text-center"
       : "items-center",
@@ -57,13 +57,13 @@ export const PokemonDetailMechanicNoteCard = ({
           isFill && "items-center",
         )}
       >
-        <span className="text-14 font-bold">
+        <span className="copy-note">
           {note.arrivesIn ? `${note.text}:` : note.text}
         </span>
         {note.arrivesIn ? (
           <span
             className={cn(
-              "text-15 text-ink inline-flex items-center gap-1 font-extrabold",
+              "copy-strong text-ink inline-flex items-center gap-1",
               href && "text-link",
             )}
           >

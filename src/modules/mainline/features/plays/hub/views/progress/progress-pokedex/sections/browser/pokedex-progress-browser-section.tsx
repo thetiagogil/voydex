@@ -210,7 +210,7 @@ export const PokedexProgressBrowserSection = ({
 
             return placement === "line" ? (
               <div className="flex items-center gap-2.5">
-                <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                <span className="text-ink-2 copy-label whitespace-nowrap">
                   Tap marks as
                 </span>
                 {mode}

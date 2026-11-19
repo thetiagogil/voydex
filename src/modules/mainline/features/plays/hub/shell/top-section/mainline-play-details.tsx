@@ -146,13 +146,13 @@ const PlayDetailRows = ({ rows }: { rows: PlayDetailRow[] }) => (
     {rows.map((row) =>
       row.stacked ? (
         <div key={row.key} className="grid gap-2 px-0.5 py-2.5">
-          <dt className="text-ink-2 text-13 font-bold">{row.label}</dt>
+          <dt className="text-ink-2 copy-label">{row.label}</dt>
           <dd className="min-w-0">{row.value}</dd>
         </div>
       ) : (
         <div key={row.key} className="flex justify-between gap-4 px-0.5 py-2.5">
-          <dt className="text-ink-2 text-13 shrink-0 font-bold">{row.label}</dt>
-          <dd className="text-ink text-14 min-w-0 text-right font-extrabold">
+          <dt className="text-ink-2 copy-label shrink-0">{row.label}</dt>
+          <dd className="text-ink copy-strong min-w-0 text-right">
             {row.value}
           </dd>
         </div>

@@ -60,7 +60,7 @@ export const TeamPlanTargetCard = ({
       <span className="flex min-h-6 w-full items-center justify-between gap-2">
         <span
           className={cn(
-            "text-13 font-extrabold tabular-nums",
+            "copy-label tabular-nums",
             owned ? "text-ink-tint" : "text-ink-3",
           )}
         >
@@ -81,7 +81,7 @@ export const TeamPlanTargetCard = ({
       {formLabel ? (
         <span
           className={cn(
-            "text-13 w-full truncate font-bold",
+            "copy-label w-full truncate",
             owned ? "text-ink-tint" : "text-ink-3",
           )}
         >
@@ -115,7 +115,7 @@ export const TeamPlanTargetCard = ({
         <TeamPlanStatusPill status={comparison.status} />
         <span
           className={cn(
-            "text-13 inline-flex items-center gap-1 font-extrabold",
+            "copy-label inline-flex items-center gap-1",
             owned ? "text-ink-tint" : "text-ink-2",
           )}
         >

@@ -131,7 +131,7 @@ const FieldDescription = ({
     <p
       data-slot="field-description"
       className={cn(
-        "text-13 text-ink-2 text-left leading-normal font-semibold group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
+        "copy-meta text-ink-2 text-left leading-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
         "last:mt-0 nth-last-2:-mt-1",
         "[&>a]:text-link [&>a]:font-extrabold [&>a]:underline [&>a]:underline-offset-4",
         className,
@@ -183,7 +183,7 @@ const FieldError = ({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-13 text-danger font-bold", className)}
+      className={cn("copy-label text-danger", className)}
       {...props}
     >
       {content}

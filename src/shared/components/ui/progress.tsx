@@ -50,7 +50,7 @@ const Progress = ({
                   : { left: `${percent}%` }
             }
             className={cn(
-              "text-12 pointer-events-none absolute inset-y-0 flex items-center px-2 font-extrabold tabular-nums",
+              "copy-mark pointer-events-none absolute inset-y-0 flex items-center px-2 tabular-nums",
               emptyLabel
                 ? "text-ink-3"
                 : isInside

@@ -53,7 +53,7 @@ const PopoverTitle = ({
   return (
     <PopoverPrimitive.Title
       data-slot="popover-title"
-      className={cn("text-15 text-ink font-extrabold", className)}
+      className={cn("copy-strong text-ink", className)}
       {...props}
     />
   );

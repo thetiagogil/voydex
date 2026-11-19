@@ -39,17 +39,14 @@ const IntroStage = ({
     role="img"
     aria-label={label}
     inert
-    className={cn(
-      "bg-surface-2 flex flex-col gap-3 rounded-lg p-3.5 sm:p-4",
-      className,
-    )}
+    className={cn("tile flex flex-col gap-3", className)}
   >
     {children}
   </div>
 );
 
 const StageLabel = ({ children }: { children: ReactNode }) => (
-  <span className="text-ink-2 text-13 font-bold">{children}</span>
+  <span className="text-ink-2 copy-label">{children}</span>
 );
 
 /* Day one: the game picked on the cover shelf, and the Play it starts. */

@@ -76,7 +76,7 @@ export const TrainerCard = ({
       <p className={cn("title-section wrap-anywhere", !name && "text-ink-3")}>
         {name ?? "Your name"}
       </p>
-      <p className="text-13 text-ink-2 font-semibold">{subtitle}</p>
+      <p className="copy-meta text-ink-2">{subtitle}</p>
     </div>
     {children ? <div className="w-full min-w-0">{children}</div> : null}
   </section>

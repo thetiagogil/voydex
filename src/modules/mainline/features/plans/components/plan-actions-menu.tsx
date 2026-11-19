@@ -243,7 +243,7 @@ export const PlanActionsMenu = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           {error ? (
-            <p role="alert" className="text-danger text-13 font-bold">
+            <p role="alert" className="text-danger copy-label">
               {error}
             </p>
           ) : null}

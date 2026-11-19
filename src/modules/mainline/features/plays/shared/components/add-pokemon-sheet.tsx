@@ -482,7 +482,7 @@ export const AddPokemonSheet = ({
       meta={
         picked ? (
           <div className="grid gap-2">
-            <p className="text-ink-2 text-14 font-semibold tabular-nums">
+            <p className="text-ink-2 copy-note tabular-nums">
               {[formatPokemonChoiceNumber(picked.number), picked.formName]
                 .filter(Boolean)
                 .join(" · ")}
@@ -511,9 +511,7 @@ export const AddPokemonSheet = ({
       footer={
         step === 1 ? (
           <>
-            <span className="text-ink-3 text-13 mr-auto font-bold">
-              Step 1 of 2
-            </span>
+            <span className="text-ink-3 copy-label mr-auto">Step 1 of 2</span>
             <Button
               type="button"
               variant="secondary"

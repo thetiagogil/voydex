@@ -39,7 +39,7 @@ export const PokemonTile = ({
       name={name}
       typeSlug={primaryTypeSlug}
     />
-    <b className="text-13 line-clamp-2 w-full leading-tight font-extrabold text-balance wrap-break-word">
+    <b className="copy-label line-clamp-2 w-full leading-tight text-balance wrap-break-word">
       {name}
     </b>
   </Link>

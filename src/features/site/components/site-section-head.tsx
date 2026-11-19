@@ -11,7 +11,7 @@ export const SiteSectionHead = ({ id, text, title }: SiteSectionHeadProps) => (
     <h2 id={id} className="title-page">
       {title}
     </h2>
-    <p className="text-16 text-ink-2 sm:text-17 mt-2.5 max-w-[38em] leading-relaxed font-semibold">
+    <p className="copy-body text-ink-2 sm:text-17 mt-2.5 max-w-[38em] leading-relaxed">
       {text}
     </p>
   </header>

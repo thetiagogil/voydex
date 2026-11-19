@@ -123,15 +123,13 @@ export const PlannerTopSection = ({
         )}
       </span>
       <span className="min-w-0">
-        <span className="text-ink-2 text-12 block font-bold">
+        <span className="text-ink-2 copy-mark block">
           Gen {versionGroup.generationNumeral}
         </span>
-        <b className="text-ink text-16 block font-extrabold">
-          {versionGroup.name}
-        </b>
+        <b className="text-ink copy-strong block">{versionGroup.name}</b>
         {/* The expansions the Plan includes, so it's clear where they count. */}
         {includedExpansions.length ? (
-          <span className="text-ink-2 text-12 block font-bold">
+          <span className="text-ink-2 copy-mark block">
             + {includedExpansions.join(", ")}
           </span>
         ) : null}

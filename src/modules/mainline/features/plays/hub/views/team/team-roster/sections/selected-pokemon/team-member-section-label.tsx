@@ -8,7 +8,7 @@ export const TeamMemberSectionLabel = ({
   children: ReactNode;
   id: string;
 }) => (
-  <p id={id} className="text-ink-3 text-13 mb-2.5 font-extrabold">
+  <p id={id} className="text-ink-3 copy-label mb-2.5">
     {children}
   </p>
 );

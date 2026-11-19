@@ -67,7 +67,7 @@ const StoryMilestoneDecisionRadioGroup = ({
                   className="mt-3 size-14 sm:mt-2 sm:size-18"
                   imageClassName="p-1.5"
                 />
-                <span className="text-14 sm:text-15 max-w-full font-extrabold">
+                <span className="copy-strong sm:text-15 max-w-full">
                   {option.speciesName}
                 </span>
               </Field>
@@ -95,9 +95,7 @@ const StoryMilestoneDecisionRadioGroup = ({
                       name={option.speciesName}
                     />
                   ) : (
-                    <span className="text-15 font-extrabold">
-                      {option.label}
-                    </span>
+                    <span className="copy-strong">{option.label}</span>
                   )}
                 </FieldContent>
               </Field>
@@ -109,7 +107,7 @@ const StoryMilestoneDecisionRadioGroup = ({
           <Field orientation="horizontal" className="gap-3">
             <RadioGroupItem value="" />
             <FieldContent>
-              <span className="text-15 font-extrabold">Not recorded</span>
+              <span className="copy-strong">Not recorded</span>
               <FieldDescription>
                 Keep the milestone without choosing an option.
               </FieldDescription>

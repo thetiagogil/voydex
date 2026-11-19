@@ -60,7 +60,7 @@ const Tile = ({
       fadeUpClassName,
     )}
   >
-    <dt className="text-ink-2 text-14 col-start-1 row-start-2 self-start font-bold">
+    <dt className="text-ink-2 copy-note col-start-1 row-start-2 self-start">
       {label}
     </dt>
     <dd className="figure col-start-1 row-start-1 self-end">{value}</dd>

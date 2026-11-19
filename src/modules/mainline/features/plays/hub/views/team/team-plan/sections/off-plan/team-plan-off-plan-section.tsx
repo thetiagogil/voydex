@@ -47,7 +47,7 @@ export const TeamPlanOffPlanSection = ({
             <section key={column.key} aria-labelledby={headingId}>
               <h3
                 id={headingId}
-                className="text-ink-3 text-13 mb-2.5 flex items-center gap-2 font-sans font-extrabold tracking-normal"
+                className="text-ink-3 copy-label mb-2.5 flex items-center gap-2 font-sans tracking-normal"
               >
                 <AppIcon icon={column.icon} />
                 {column.title}

@@ -343,7 +343,7 @@ export const CodexInYourPlays = onDevice(
               })}
             </ul>
           ) : (
-            <p className="text-ink-2 text-15 font-semibold">
+            <p className="text-ink-2 copy-body">
               It hasn&apos;t joined one of your teams yet.
             </p>
           )}
@@ -414,7 +414,7 @@ export const CodexGameYourPlays = onDevice(
               ))}
             </ul>
           ) : (
-            <p className="text-ink-2 text-15 font-semibold">
+            <p className="text-ink-2 copy-body">
               You haven&apos;t started a Play of these games yet.
             </p>
           )}

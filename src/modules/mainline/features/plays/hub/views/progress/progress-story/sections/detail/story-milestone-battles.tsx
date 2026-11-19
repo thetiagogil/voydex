@@ -107,7 +107,7 @@ export const StoryMilestoneBattles = ({
                 id={getStoryBattleRowId(battle.id)}
                 type="button"
                 onClick={() => onSelect(battle)}
-                className="focus-ring bg-surface-2 hover:bg-hover flex min-h-14 w-full items-center gap-4 rounded-lg px-3 py-2 text-left transition-colors"
+                className="focus-ring tile-link flex w-full items-center gap-4 text-left"
               >
                 <OpponentAvatar
                   ace={lead}
@@ -124,10 +124,8 @@ export const StoryMilestoneBattles = ({
                   }
                 />
                 <span className="grid min-w-0 flex-1">
-                  <b className="text-ink text-15 truncate font-extrabold">
-                    {battle.name}
-                  </b>
-                  <span className="text-ink-3 text-13 truncate font-semibold">
+                  <b className="text-ink copy-strong truncate">{battle.name}</b>
+                  <span className="text-ink-3 copy-meta truncate">
                     {battle.kind}
                     {battle.partyLevels ? ` · ${battle.partyLevels}` : null}
                   </span>

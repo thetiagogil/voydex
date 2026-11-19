@@ -14,9 +14,9 @@ export const PlayTeamList = ({ plays }: { plays: PlayTeam[] }) => (
       <li key={follower.playId} className="min-w-0">
         <Link
           href={appRoutes.mainlinePlay(follower.playId)}
-          className="bg-surface-2 hover:bg-hover focus-ring grid min-w-0 gap-3 rounded-lg px-4 py-3.5 transition-colors"
+          className="tile-link focus-ring grid min-w-0 gap-3"
         >
-          <span className="text-ink text-15 truncate font-extrabold">
+          <span className="text-ink copy-strong truncate">
             {follower.playName}
           </span>
           <TeamStrip members={follower.members} />

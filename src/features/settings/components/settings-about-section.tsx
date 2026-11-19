@@ -17,7 +17,7 @@ export const SettingsAboutSection = () => (
   <DetailSectionCard title="About Voydex">
     <nav
       aria-label="About Voydex"
-      className="text-15 flex flex-wrap gap-x-5 gap-y-2 py-1.5 font-bold"
+      className="copy-strong flex flex-wrap gap-x-5 gap-y-2 py-1.5"
     >
       {aboutLinks.map((link) => (
         <TextLink key={link.href} href={link.href}>
@@ -25,7 +25,7 @@ export const SettingsAboutSection = () => (
         </TextLink>
       ))}
     </nav>
-    <p className="text-ink-2 text-13 mt-2.5 max-w-[80ch] leading-relaxed font-semibold">
+    <p className="text-ink-2 copy-meta mt-2.5 max-w-[80ch] leading-relaxed">
       Voydex is an unofficial fan project. It isn&apos;t affiliated with or
       endorsed by Nintendo, Creatures, GAME FREAK or The Pokémon Company, and
       Pokémon names and artwork belong to them.

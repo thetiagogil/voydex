@@ -88,7 +88,7 @@ const TypeTile = ({
           ) : null}
           <b
             className={cn(
-              "text-13 w-full truncate font-extrabold",
+              "copy-label w-full truncate",
               type.count ? "text-ink" : "text-ink-3",
             )}
           >
@@ -96,7 +96,7 @@ const TypeTile = ({
           </b>
           <span
             className={cn(
-              "text-14 font-extrabold tabular-nums",
+              "copy-strong tabular-nums",
               type.count ? "text-ink" : "text-ink-3",
             )}
           >
@@ -117,7 +117,7 @@ const PickedFact = ({
   children: ReactNode;
   icon: AppIconComponent;
 }) => (
-  <li className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
+  <li className="text-ink-2 copy-note flex items-center gap-2.5">
     <IconDisc size="sm">
       <AppIcon icon={icon} size="sm" />
     </IconDisc>
@@ -307,7 +307,7 @@ export const StatsStyleSection = ({
               ) : null}
             </>
           ) : (
-            <p className="text-ink-2 text-14 font-semibold">
+            <p className="text-ink-2 copy-note">
               Add Pokémon to your teams and the types you pick show up here.
             </p>
           )}

@@ -319,6 +319,16 @@ each Story row waits as it was, then turns, one beat (`stampStepMs`, through
 Bars are flat (2026-11-19): no pressed-in track and no darker base on the
 fill.
 
+**One place for each style (2026-11-19).** A restyle only reaches what draws
+through the shared pieces, so screens never type a style by hand. Text takes
+one of six text styles (`copy-strong` 15/800 a name or value that matters,
+`copy-body` 15/600 running text, `copy-note` 14/600 the line under a title,
+`copy-label` 13/700 a label or small heading, `copy-meta` 13/600 small facts,
+`copy-mark` 12/800 the words on a mark), with its colour as a role token
+beside it. A block inside a card is a `tile`, a row inside a card that opens
+something is a `tile-link`. `design:check` fails when a screen sets a text
+size and a weight together or draws an inset tile by hand.
+
 Four rules keep the look clean (2026-11-19): four corner sizes, three
 surfaces (the ground, a white card on it, a pale inset tile inside a card),
 one colour per job (red acts, blue says where you are and how far), and one

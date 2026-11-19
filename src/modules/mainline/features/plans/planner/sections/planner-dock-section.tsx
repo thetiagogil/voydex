@@ -137,7 +137,7 @@ export const PlannerDockSection = ({
           <p
             id="planner-team"
             role="status"
-            className="text-ink text-15 mr-auto font-semibold"
+            className="text-ink copy-body mr-auto"
           >
             <b className="font-extrabold">Team is full.</b> Tap the Pokémon{" "}
             {replacing.name} should replace.
@@ -156,7 +156,7 @@ export const PlannerDockSection = ({
           <h2 id="planner-team" className="title-card">
             Your team
           </h2>
-          <span className="text-ink-3 text-14 font-bold tabular-nums">
+          <span className="text-ink-3 copy-note tabular-nums">
             {filled} of 6
           </span>
           {locked ? null : (
@@ -185,7 +185,7 @@ export const PlannerDockSection = ({
                           <span className="block">
                             {randomModeLabels[mode].label}
                           </span>
-                          <span className="text-ink-3 text-12 block font-semibold">
+                          <span className="text-ink-3 copy-meta block">
                             {randomModeLabels[mode].description}
                           </span>
                         </span>
@@ -193,7 +193,7 @@ export const PlannerDockSection = ({
                     ),
                   )}
                   <DropdownMenuSeparator />
-                  <p className="text-ink-3 text-13 flex gap-2 px-2 py-1.5 font-semibold">
+                  <p className="text-ink-3 copy-meta flex gap-2 px-2 py-1.5">
                     <AppIcon
                       icon={appIcons.status.info}
                       size="sm"
@@ -364,7 +364,7 @@ export const PlannerDockSection = ({
        */}
       <p
         aria-live="polite"
-        className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold"
+        className="text-ink-2 copy-note flex items-center gap-2.5"
       >
         <TipMark tone={tip.tone} />
         <span className="min-w-0 flex-1">

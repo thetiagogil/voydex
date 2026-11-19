@@ -42,7 +42,7 @@ export const PokemonDetailAbilitiesCard = ({
           note={note}
         />
       ) : !abilitySlots.length ? (
-        <p className="text-14 text-ink-3 font-semibold">
+        <p className="copy-note text-ink-3">
           Its abilities aren&apos;t recorded yet.
         </p>
       ) : (
@@ -55,13 +55,11 @@ export const PokemonDetailAbilitiesCard = ({
           {abilitySlots.map((abilitySlot) => (
             <div
               key={`${abilitySlot.token}-${abilitySlot.ability.id}`}
-              className="bg-surface-2 flex min-w-0 flex-col rounded-lg px-4 py-3.5"
+              className="tile flex min-w-0 flex-col"
             >
-              <dt className="text-ink-2 text-12 font-bold">
-                {abilitySlot.label}
-              </dt>
+              <dt className="text-ink-2 copy-mark">{abilitySlot.label}</dt>
               <dd>
-                <span className="text-16 block font-extrabold">
+                <span className="copy-strong block">
                   {abilitySlot.ability.name}
                 </span>
                 <span className="text-14 text-ink-2 block">

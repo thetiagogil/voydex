@@ -124,7 +124,7 @@ export const TrainerSpeciesSheet = ({
       headBleed
       meta={
         <div className="grid gap-2">
-          <p className="text-ink-2 text-13 font-bold">
+          <p className="text-ink-2 copy-label">
             {showsFamily
               ? `Old friend · ${species.length} species`
               : [
@@ -135,7 +135,7 @@ export const TrainerSpeciesSheet = ({
                   .join(" · ")}
           </p>
           {showsFamily ? (
-            <p className="text-ink-2 text-14 font-semibold">
+            <p className="text-ink-2 copy-note">
               {species.map((each) => each.name).join(" · ")}
             </p>
           ) : (
@@ -242,7 +242,7 @@ export const TrainerSpeciesSheet = ({
             ))}
           </ul>
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             Not on any team or in reserve right now.
           </p>
         )}

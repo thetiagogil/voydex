@@ -127,7 +127,7 @@ export const HomeMomentsSection = ({
         <h2 id="home-moments" className="title-section">
           Latest moments
         </h2>
-        <p className="text-ink-2 text-15 mt-1 font-semibold">
+        <p className="text-ink-2 copy-body mt-1">
           {recorded.length
             ? "The last things you recorded in this Play."
             : "Where this Play began, and where it stands."}
@@ -156,13 +156,11 @@ export const HomeMomentsSection = ({
               content={beat.medallion}
               className="relative z-1 row-span-3 sm:row-span-1"
             />
-            <span className="text-ink-2 text-13 font-bold">{beat.kicker}</span>
-            <span className="text-ink text-15 line-clamp-2 leading-snug font-semibold [&_b]:font-extrabold">
+            <span className="text-ink-2 copy-label">{beat.kicker}</span>
+            <span className="text-ink copy-body line-clamp-2 leading-snug [&_b]:font-extrabold">
               {beat.headline}
             </span>
-            <span className="text-ink-3 text-13 truncate font-semibold">
-              {beat.body}
-            </span>
+            <span className="text-ink-3 copy-meta truncate">{beat.body}</span>
           </li>
         ))}
       </ol>

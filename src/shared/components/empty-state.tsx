@@ -71,9 +71,7 @@ export const EmptyState = (props: EmptyStateProps) => {
         </span>
       ) : null}
       <Heading className="text-20">{title}</Heading>
-      <p className="text-ink-2 text-15 mt-1.5 max-w-md font-semibold">
-        {description}
-      </p>
+      <p className="text-ink-2 copy-body mt-1.5 max-w-md">{description}</p>
       {action ? (
         <div className="mt-5 flex flex-wrap justify-center gap-3">{action}</div>
       ) : null}

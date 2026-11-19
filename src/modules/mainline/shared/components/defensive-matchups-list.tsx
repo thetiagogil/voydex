@@ -40,7 +40,7 @@ export const DefensiveMatchupsList = ({
           <AccordionItem
             key={row.attackingType.slug}
             value={row.attackingType.slug}
-            className="bg-surface-2 rounded-sm not-last:border-b-0"
+            className="tile p-0 not-last:border-b-0"
           >
             {/*
              * Each row heads one level below the section titles. The chevron

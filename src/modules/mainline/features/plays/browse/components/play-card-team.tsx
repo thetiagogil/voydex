@@ -22,9 +22,7 @@ type PlayCardTeamProps = {
 export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   if (team.state === "unavailable") {
     return (
-      <p className={cn("text-ink-3 text-13 font-semibold", className)}>
-        Team unavailable
-      </p>
+      <p className={cn("text-ink-3 copy-meta", className)}>Team unavailable</p>
     );
   }
 

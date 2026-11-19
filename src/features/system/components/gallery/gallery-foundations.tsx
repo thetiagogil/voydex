@@ -53,8 +53,8 @@ const SwatchRow = ({ swatches }: { swatches: Swatch[] }) => (
           style={{ backgroundColor: `var(${swatch.token})` }}
           className="border-line h-16 rounded-sm border"
         />
-        <span className="text-14 font-extrabold">{swatch.name}</span>
-        <span className="text-ink-2 text-13 font-semibold">{swatch.use}</span>
+        <span className="copy-strong">{swatch.name}</span>
+        <span className="text-ink-2 copy-meta">{swatch.use}</span>
       </li>
     ))}
   </ul>
@@ -134,9 +134,7 @@ export const GalleryFoundations = () => (
           {titles.map((title) => (
             <p key={title.name} className="flex flex-wrap items-baseline gap-3">
               <span className={title.className}>{title.sample}</span>
-              <span className="text-ink-2 text-13 font-semibold">
-                {title.name}
-              </span>
+              <span className="text-ink-2 copy-meta">{title.name}</span>
             </p>
           ))}
         </Specimen>
@@ -192,10 +190,8 @@ export const GalleryFoundations = () => (
                 shadow.className,
               )}
             >
-              <span className="text-14 font-extrabold">{shadow.name}</span>
-              <span className="text-ink-2 text-13 font-semibold">
-                {shadow.use}
-              </span>
+              <span className="copy-strong">{shadow.name}</span>
+              <span className="text-ink-2 copy-meta">{shadow.use}</span>
             </span>
           ))}
         </Specimen>

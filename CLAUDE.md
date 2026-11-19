@@ -188,6 +188,11 @@ Voydex is quiet where you work and loud where you remember. The
   Toolbars and form rows are 48px; below 1024px sheets open from the
   bottom; every overlay, confirms included, has the corner close button and
   closes on Escape or a tap outside.
+- One place for each style: screens never type a style by hand. Text takes
+  a `copy-*` text style (strong, body, note, label, meta, mark), a block
+  inside a card is a `tile`, an openable row inside a card a `tile-link`;
+  `design:check` fails on a hand-set text size and weight or a hand-drawn
+  tile, so a restyle always reaches the whole app.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce a retired look;

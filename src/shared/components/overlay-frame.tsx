@@ -133,7 +133,7 @@ export const OverlayFrame = ({
         {title}
       </Title>
       {meta && !titleHidden ? (
-        <div className="text-ink-2 text-13 font-bold">{meta}</div>
+        <div className="text-ink-2 copy-label">{meta}</div>
       ) : null}
       {description ? (
         <Description

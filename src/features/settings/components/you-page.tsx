@@ -67,8 +67,8 @@ const YouRow = ({ description, href, icon, onFollow, title }: YouRowProps) => (
       <AppIcon icon={icon} size="lg" />
     </IconDisc>
     <span className="flex min-w-0 flex-col gap-0.5">
-      <span className="text-15 font-extrabold">{title}</span>
-      <span className="text-13 text-ink-2 font-semibold">{description}</span>
+      <span className="copy-strong">{title}</span>
+      <span className="copy-meta text-ink-2">{description}</span>
     </span>
     <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
   </Link>

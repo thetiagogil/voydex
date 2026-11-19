@@ -154,7 +154,7 @@ const DialogDescription = ({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-14 text-ink-2 *:[a]:text-link font-semibold *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
+        "copy-note text-ink-2 *:[a]:text-link *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       {...props}

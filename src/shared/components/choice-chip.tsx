@@ -36,7 +36,7 @@ export const ChoiceChip = ({
     type="button"
     aria-pressed={variant === "choice" ? pressed : undefined}
     className={cn(
-      "text-14 inline-flex items-center gap-1.5 rounded-full px-4 font-bold whitespace-nowrap transition-colors",
+      "copy-note inline-flex items-center gap-1.5 rounded-full px-4 whitespace-nowrap transition-colors",
       size === "lg" ? "min-h-12" : "min-h-10 sm:min-h-9",
       "focus-ring",
       "disabled:cursor-not-allowed disabled:opacity-50",

@@ -72,7 +72,7 @@ export const PokemonCollectorCard = ({
             {name}
           </span>
           {count ? (
-            <span className="type-ink text-12 shrink-0 font-extrabold tabular-nums">
+            <span className="type-ink copy-mark shrink-0 tabular-nums">
               {count}
             </span>
           ) : null}
@@ -94,7 +94,7 @@ export const PokemonCollectorCard = ({
             </CornerBubble>
           ) : null}
         </span>
-        <span className="text-ink-2 text-12 mt-2 flex min-w-0 justify-between gap-2 font-extrabold tabular-nums">
+        <span className="text-ink-2 copy-mark mt-2 flex min-w-0 justify-between gap-2 tabular-nums">
           {number ? <span className="shrink-0">{number}</span> : null}
           {note ? <span className="truncate">{note}</span> : null}
         </span>

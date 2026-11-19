@@ -42,8 +42,8 @@ const Fact = ({
 }) => {
   return (
     <div className={cn("min-w-0", className)}>
-      <dt className="text-ink-2 text-12 font-bold">{label}</dt>
-      <dd className="text-16 mt-0.5 font-extrabold">{children}</dd>
+      <dt className="text-ink-2 copy-mark">{label}</dt>
+      <dd className="copy-strong mt-0.5">{children}</dd>
     </div>
   );
 };
@@ -108,7 +108,7 @@ export const PokemonDetailTrainingCard = ({
           {training?.growthRate ? (
             <>
               {training.growthRate.name}
-              <span className="text-ink-2 text-13 block font-semibold">
+              <span className="text-ink-2 copy-meta block">
                 {training.growthRate.levelOneHundredExperience.toLocaleString(
                   "en",
                 )}{" "}

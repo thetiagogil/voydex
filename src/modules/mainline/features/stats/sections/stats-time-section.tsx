@@ -83,7 +83,7 @@ const TimeCard = ({
       href={appRoutes.mainlinePlay(row.playId)}
       {...focusProps}
       className={cn(
-        "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5",
+        "tile-link focus-ring flex w-full min-w-0 items-center gap-3",
         getHoverFocusClassName(isDimmed),
       )}
     >
@@ -95,10 +95,10 @@ const TimeCard = ({
         size="row"
       />
       <span className="min-w-0 flex-1">
-        <span className="text-ink text-14 block truncate font-extrabold">
+        <span className="text-ink copy-strong block truncate">
           {row.playName}
         </span>
-        <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
+        <span className="text-ink-2 copy-label flex items-center gap-1.5 tabular-nums">
           <span
             aria-hidden
             className="size-2.5 shrink-0 rounded-full bg-(--slice)"
@@ -192,7 +192,7 @@ const TimeDonut = ({
       </svg>
       <span className="relative flex flex-col items-center">
         <span className="figure">{Math.round(minutes / 60)}</span>
-        <span className="text-ink-2 text-13 font-bold">hours</span>
+        <span className="text-ink-2 copy-label">hours</span>
       </span>
     </div>
   );
@@ -271,7 +271,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                       }
                     }}
                     className={cn(
-                      "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left",
+                      "tile-link focus-ring flex w-full min-w-0 items-center gap-3 text-left",
                       getHoverFocusClassName(
                         isOutsideKeyFocus(activeKey, "other"),
                       ),
@@ -281,10 +281,10 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                       <AppIcon icon={appIcons.actions.next} size="md" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="text-link text-14 block truncate font-extrabold">
+                      <span className="text-link copy-strong block truncate">
                         See all {stats.time.length} Plays
                       </span>
-                      <span className="text-ink-2 text-13 flex items-center gap-1.5 font-bold tabular-nums">
+                      <span className="text-ink-2 copy-label flex items-center gap-1.5 tabular-nums">
                         <span
                           aria-hidden
                           className="bg-mute size-2.5 shrink-0 rounded-full"
@@ -298,14 +298,14 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
             </ul>
           </div>
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             Add playtime in a Play&apos;s settings and this shows where your
             hours go. It&apos;s optional. Everything else here works without it.
           </p>
         )}
 
         {stats.time.length && untracked.length ? (
-          <p className="text-ink-2 text-13 font-semibold">
+          <p className="text-ink-2 copy-meta">
             {untracked.length > 3
               ? `${untracked.length} Plays have no playtime recorded, so they aren't counted.`
               : `${joinStatsList(untracked, "and")} ${untracked.length === 1 ? "has" : "have"} no playtime recorded, so ${untracked.length === 1 ? "it isn't" : "they aren't"} counted.`}
