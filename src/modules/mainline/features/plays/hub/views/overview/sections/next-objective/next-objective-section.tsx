@@ -141,9 +141,13 @@ export const NextObjectiveSection = ({
                 {earnedCount} of {stamps.length}
               </span>
             </p>
-            {/* Room all round, so a stamp's lift, slap and focus ring are never cut. */}
+            {/*
+             * Each stamp in an equal share of the row, so they spread evenly
+             * with the same room at both ends; a long row scrolls instead.
+             * Room all round, so a lift, slap or focus ring is never cut.
+             */}
             <StampGrid
-              className="no-scrollbar auto-cols-14 grid-flow-col justify-center-safe gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-16 sm:gap-x-6"
+              className="no-scrollbar auto-cols-[minmax(3.5rem,1fr)] grid-flow-col gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-[minmax(4rem,1fr)]"
               earnedMilestoneId={isJustRecorded ? shownId : null}
               onSlapEnd={() =>
                 applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))

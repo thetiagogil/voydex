@@ -40,7 +40,8 @@ const PickableStamp = ({
       }}
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
-        "focus-ring ease-hop flex flex-col rounded-lg transition-transform duration-200 hover:-translate-y-1",
+        /* A stamp keeps its size where its column is wider than it. */
+        "focus-ring ease-hop flex w-full max-w-14 flex-col rounded-lg transition-transform duration-200 hover:-translate-y-1 sm:max-w-16",
         isPopping && "animate-pop",
       )}
     >
@@ -128,7 +129,7 @@ export const StampGrid = ({
         );
 
         return (
-          <li key={stamp.milestoneId} className="flex flex-col">
+          <li key={stamp.milestoneId} className="flex flex-col items-center">
             <PickableStamp
               label={label}
               onSelect={() => onStampSelect(stamp.milestoneId)}

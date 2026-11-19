@@ -108,7 +108,7 @@ Current Overview direction:
 As built (#63): Overview opens on the journey card at the page's full
 width: where the objective stands, its title, where it happens, then Record and
 Add a note under the words, and under those, in the same card, the game's
-stamp card with its count, its stamps close together in the middle of the row. Recording a gym, trial or League objective
+stamp card with its count, its stamps spread evenly along the row. Recording a gym, trial or League objective
 slaps its stamp down there, the page's one badge moment, then the words hand
 over to the next objective; a stamp opens its milestone in Story; a game
 with no stamps draws no row. The milestone count appears once, in the card's
