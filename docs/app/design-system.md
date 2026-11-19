@@ -308,9 +308,10 @@ and takes the focus ring for that button.
 One reward per moment, in one place, and it shows at once: Story's Record,
 like a Pokédex or collectible mark, shows on the page straight away and saves
 in the background. Stamps slap (`animate-stamp-slap`): a Story row's medallion
-as it turns recorded, and Overview's next objective, which then hands over to
-the next one (`animate-objective-out`, `animate-objective-in`). Story's stamp
-card stays still, so a badge never animates twice. Small cards and tokens you
+as it turns recorded, and on Overview the recorded objective's stamp in the
+journey card's stamp card, before its words hand over to the next one
+(`animate-objective-out`, `animate-objective-in`). Story's stamp card stays
+still, so a badge never animates twice on a page. Small cards and tokens you
 mark (Pokédex, Collectibles) pop; a partner you pick hops (`animate-hop`). A
 wide row never moves: a Story row keeps still while its marker changes (a
 number pops back with `animate-marker-in`). A card or token you unmark settles

@@ -78,17 +78,26 @@ export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
  * A Play's stamps, tilted like stamps, each with its label: Story's stamp
  * card. Each stamp opens its milestone: it lifts under the pointer and pops
  * when picked.
- * Recording never moves it: the row you see in the list slaps instead. A
- * client part so the day each was earned reads in the viewer's time zone.
+ * In Story recording never moves it: the row you see in the list slaps
+ * instead. Overview has no such row, so there the stamp recorded a moment
+ * ago slaps down in the grid (`slapMilestoneId`). A client part so the day
+ * each was earned reads in the viewer's time zone.
  */
 export const StampGrid = ({
   className,
+  earnedMilestoneId = null,
+  onSlapEnd,
   onStampSelect,
   scrollLabel,
+  slapMilestoneId = null,
   stamps,
 }: {
   /* The grid's columns and gaps. */
   className?: string;
+  /* Recorded a moment ago: shown earned at once, before the save comes back. */
+  earnedMilestoneId?: number | null;
+  /* Called once the slap has played. */
+  onSlapEnd?: () => void;
   /* Opens a stamp's milestone, such as Story's row and panel. */
   onStampSelect: (milestoneId: number) => void;
   /*
@@ -96,6 +105,8 @@ export const StampGrid = ({
    * so the keyboard can scroll it.
    */
   scrollLabel?: string;
+  /* The stamp that slaps down now. */
+  slapMilestoneId?: number | null;
   stamps: PlayStamp[];
 }) => {
   const clock = useViewerClock();
@@ -106,7 +117,11 @@ export const StampGrid = ({
       tabIndex={scrollLabel ? 0 : undefined}
       className={cn("grid", scrollLabel && "focus-ring-inset", className)}
     >
-      {stamps.map((stamp, index) => {
+      {stamps.map((saved, index) => {
+        const stamp =
+          saved.milestoneId === earnedMilestoneId
+            ? { ...saved, state: "earned" as const }
+            : saved;
         const label = describePlayStamp(
           stamp,
           formatPlayMoment(stamp.completedAt, clock)?.date,
@@ -120,6 +135,8 @@ export const StampGrid = ({
             >
               <BadgeStamp
                 label={label}
+                onSlapEnd={onSlapEnd}
+                slap={stamp.milestoneId === slapMilestoneId}
                 state={getBadgeStampState(stamp)}
                 tilt={stampTilts[index % stampTilts.length]}
               />

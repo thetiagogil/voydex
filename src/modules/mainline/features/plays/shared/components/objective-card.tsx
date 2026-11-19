@@ -58,6 +58,8 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
  */
 export const ObjectiveCard = ({
   actions,
+  actionsPlacement = "below",
+  below,
   bodyClassName,
   bodyProps,
   children,
@@ -69,6 +71,13 @@ export const ObjectiveCard = ({
 }: {
   /* The page's main button and its quiet partners. */
   actions?: ReactNode;
+  /*
+   * `end` sets them at the far end of the words from 1024px, where the card
+   * runs the page's full width; under the words below that, as `below` does.
+   */
+  actionsPlacement?: "below" | "end";
+  /* Stays put under the body while it hands over, such as the stamp card. */
+  below?: ReactNode;
   /* What moves inside the card, such as Overview's hand-over to the next objective. */
   bodyClassName?: string;
   bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "inert" | "onAnimationEnd">;
@@ -100,11 +109,27 @@ export const ObjectiveCard = ({
     ) : null}
     <div
       {...bodyProps}
-      className={cn("flex h-full min-w-0 flex-col", bodyClassName)}
+      className={cn(
+        "flex min-w-0 flex-col",
+        /* With something under it the body takes only the room it needs. */
+        below ? null : "h-full",
+        actionsPlacement === "end" &&
+          "lg:flex-row lg:items-center lg:justify-between lg:gap-8",
+        bodyClassName,
+      )}
     >
-      {children}
+      {actionsPlacement === "end" ? (
+        <div className="min-w-0 lg:flex-1">{children}</div>
+      ) : (
+        children
+      )}
       {actions ? (
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div
+          className={cn(
+            "mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center",
+            actionsPlacement === "end" && "lg:mt-0 lg:shrink-0 lg:flex-nowrap",
+          )}
+        >
           {actions}
         </div>
       ) : null}
@@ -116,5 +141,6 @@ export const ObjectiveCard = ({
         </div>
       ) : null}
     </div>
+    {below}
   </Card>
 );

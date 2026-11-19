@@ -22,6 +22,7 @@ import type { MemberBattle } from "@/modules/reference/features/pokemon/data/bat
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type { OverviewCatch } from "@/modules/mainline/features/plays/hub/views/overview/data/latest-catches-mapper";
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
@@ -216,6 +217,8 @@ export type MainlinePlayOverviewData = {
   badgeCase: BadgeCase | null;
   /* A brand-new Play opens on its partner choice and first steps. */
   freshPlay: OverviewFreshPlay | null;
+  /* The newest catches, each species once, for Overview's Pokédex card. */
+  latestCatches: OverviewCatch[];
   nextMilestone: OverviewMilestone | null;
   /*
    * The next milestone as Story's record form needs it, read only when it
