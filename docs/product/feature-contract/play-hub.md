@@ -105,20 +105,23 @@ Current Overview direction:
 - Overview previews should summarize real workflows and mature tabs. Do not add
   placeholder cards just to fill space.
 
-As built (#63): Overview opens on the journey card at the page's full
-width: where the objective stands, its title, where it happens, then Record and
-Add a note under the words, and under those, in the same card, the game's
-stamp card with its count, its stamps spread evenly along the row. Recording a gym, trial or League objective
-slaps its stamp down there, the page's one badge moment, then the words hand
-over to the next objective; a stamp opens its milestone in Story; a game
-with no stamps draws no row. The milestone count appears once, in the card's
-eyebrow. Then the team, then Recent moments beside the Pokédex card: a ring,
-caught (and seen, where the Play tracks it), the twelve newest catches as two rows of
-small Pokémon (each species once, drawn as the form its Pokédex shows or its
-default form; "Nothing caught yet" until the first), the way on to the
-Pokédex, and one Collectibles row with its bar where the game has them. A
-Play that tracks no Pokédex shows only that row; one with neither draws no
-card and Recent moments take the row. There is no Progress card.
+As built (#63): Overview opens on the team, as the Play's stickers. Under
+it, the journey card: where the objective stands, its title, where it
+happens, then Record and Add a note, and in the same card (beside the words
+from 1024px, five stamps to a row; under them below that, in one row that
+scrolls) the game's stamp card with its count, its stamps spread evenly.
+Recording a gym, trial or League objective slaps its stamp down there, the
+page's one badge moment, then the words hand over to the next objective; a
+stamp opens its milestone in Story; a game with no stamps draws no stamp
+card. The milestone count appears once, in the card's eyebrow. Then Recent
+moments beside the Pokédex card: a ring, caught (and seen, where the Play
+tracks it), the twelve newest catches as two rows of small Pokémon (each
+species once, drawn as the form its Pokédex shows or its default form;
+"Nothing caught yet" until the first), the way on to the Pokédex, and one
+Collectibles row with its bar where the game has them. A Play that tracks no
+Pokédex shows only that row; one with neither draws no card and Recent
+moments take the row. There is no Progress card. A brand-new Play still
+opens on its partner and first steps, with the team under them.
 
 The next objective's main button records it in place (v3's
 Record): one tap, no form, the moment joins History, the current team is saved

@@ -15,7 +15,7 @@ const withName = (greeting: string, name: string | null) =>
 /*
  * Mainline Home (v3 `homeback`, `homefirst`, `homenew`): where a signed-in
  * trainer lands. With Plays: the shelf of the latest ones, the current
- * Play's team on its meadow, Continue and its latest moments. With one brand-new Play: that
+ * Play's team on the band and Continue. With one brand-new Play: that
  * Play, its partner waiting to be tapped. With none: the picker that starts
  * the first one.
  */

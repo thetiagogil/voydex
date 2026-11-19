@@ -36,7 +36,7 @@ export type HomePlay = {
   gameShortName: string;
   gameSlug: string | null;
   id: string;
-  /* "Sword · Late Journey". */
+  /* "Sword · Late Journey": the shelf's name for its cover. */
   label: string;
   lead: HomeTeamMember | null;
   name: string;

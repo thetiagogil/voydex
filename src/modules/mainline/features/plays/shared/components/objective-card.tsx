@@ -58,7 +58,7 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
  */
 export const ObjectiveCard = ({
   actions,
-  below,
+  aside,
   bodyClassName,
   bodyProps,
   children,
@@ -70,8 +70,11 @@ export const ObjectiveCard = ({
 }: {
   /* The page's main button and its quiet partners. */
   actions?: ReactNode;
-  /* Stays put under the body while it hands over, such as the stamp card. */
-  below?: ReactNode;
+  /*
+   * Stays put while the body hands over, such as the stamp card: under the
+   * body, or beside it where `className` lays the card out in columns.
+   */
+  aside?: ReactNode;
   /* What moves inside the card, such as Overview's hand-over to the next objective. */
   bodyClassName?: string;
   bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "inert" | "onAnimationEnd">;
@@ -105,8 +108,8 @@ export const ObjectiveCard = ({
       {...bodyProps}
       className={cn(
         "flex min-w-0 flex-col",
-        /* With something under it the body takes only the room it needs. */
-        below ? null : "h-full",
+        /* With something beside or under it the body takes only the room it needs. */
+        aside ? null : "h-full",
         bodyClassName,
       )}
     >
@@ -124,6 +127,6 @@ export const ObjectiveCard = ({
         </div>
       ) : null}
     </div>
-    {below}
+    {aside}
   </Card>
 );

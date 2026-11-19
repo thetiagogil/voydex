@@ -1,6 +1,4 @@
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
-import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
 import type { GameStarter } from "@/modules/reference/features/games/types";
 
@@ -10,17 +8,8 @@ export type HomePartnerChoice = {
   playId: string;
 };
 
-export type HomeMomentsData = {
-  context: PlayMomentContextEntries;
-  /* Oldest first, at most five. */
-  events: MainlinePlayTimelineEvent[];
-  /* Something was recorded before the first of them. */
-  hasEarlier: boolean;
-};
-
-/* A Play on Home's shelf, with what its band and moments show. */
+/* A Play on Home's shelf, with what its band shows. */
 export type HomeBand = {
-  moments: HomeMomentsData;
   /* Its partner milestone, while a brand-new Play waits for the tap. */
   partnerChoice: HomePartnerChoice | null;
   play: HomePlay;

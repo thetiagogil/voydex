@@ -1,8 +1,4 @@
 import {
-  HOME_MOMENT_COUNT,
-  toHomeMoments,
-} from "@/modules/mainline/features/home/data/home-moments-model";
-import {
   getHomeShelfSource,
   HOME_SHELF_PLAY_COUNT,
   isWaitingForPartner,
@@ -10,13 +6,10 @@ import {
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
   HomeBand,
-  HomeMomentsData,
   HomePageData,
   HomePartnerChoice,
 } from "@/modules/mainline/features/home/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
-import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/client/play-moment-context-reader";
-import { readMainlinePlayTimelinePreview } from "@/modules/mainline/features/plays/shared/client/play-timeline-reader";
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
@@ -153,35 +146,9 @@ const readPartnerChoice = async (
 };
 
 /*
- * The current Play's latest five moments, oldest first, as Home draws them,
- * and whether anything was recorded before them. Hidden types are left out
- * in the read, and one more is read to tell.
- */
-const readHomeMoments = async (
-  supabase: ServerSupabaseClient,
-  play: PlayBrowseItem,
-): Promise<HomeMomentsData> => {
-  const playId = play.play_id ?? "";
-  const { events, hasEarlier } = toHomeMoments(
-    await readMainlinePlayTimelinePreview(
-      supabase,
-      playId,
-      HOME_MOMENT_COUNT + 1,
-    ),
-  );
-  const context = await readMainlinePlayMomentContext(supabase, {
-    events,
-    generationId: play.generation_id,
-    playId,
-  });
-
-  return { context, events, hasEarlier };
-};
-
-/*
  * Mainline Home: with no Plays, the picker that starts one; otherwise the
- * shelf of your latest Plays, each with its team for the meadow and its
- * latest moments. `?play=` picks the current one.
+ * shelf of your latest Plays, each with its team for the band. `?play=`
+ * picks the current one.
  */
 export const getHomePageData = async (
   requestedPlayId: string | null,
@@ -229,32 +196,24 @@ export const getHomePageData = async (
       : latest;
   const current = requested ?? shelfItems[0];
   /*
-   * Every Play on the shelf comes with its band and moments, so picking one
-   * switches at once, without asking the server.
+   * Every Play on the shelf comes with its band, so picking one switches at
+   * once, without another read.
    */
-  const [teamTypes, bandReads] = await Promise.all([
+  const [teamTypes, partnerChoices] = await Promise.all([
     readTeamTypes(supabase, shelfItems),
-    Promise.all(
-      shelfItems.map((item) =>
-        Promise.all([
-          readHomeMoments(supabase, item),
-          readPartnerChoice(supabase, item),
-        ]),
-      ),
-    ),
+    Promise.all(shelfItems.map((item) => readPartnerChoice(supabase, item))),
   ]);
   const coverShapeByGameSlug = new Map(
     catalogue?.games.map((game) => [game.slug, game.coverShape]),
   );
   const bands = shelfItems.flatMap((item, index): HomeBand[] => {
     const play = toHomePlay(item);
-    const [moments, partnerChoice] = bandReads[index];
+    const partnerChoice = partnerChoices[index];
 
     if (!play) return [];
 
     return [
       {
-        moments,
         partnerChoice,
         play: {
           ...play,

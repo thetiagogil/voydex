@@ -51,7 +51,7 @@ const isPlainClick = (event: MouseEvent) =>
 /*
  * v3 `.hb-shelf`: your latest Plays as covers, each with its lead Pokémon as
  * a small sticker; the current one stands up with a check. Picking one
- * switches the meadow, the line under it and the latest moments at once.
+ * switches the team and the line under it at once.
  * The dashed tile starts a new Play; the rest live on the Plays page. Earlier
  * and Later page through it on wider screens when it overflows.
  */

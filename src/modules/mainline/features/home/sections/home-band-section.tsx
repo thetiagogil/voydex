@@ -172,7 +172,7 @@ export const HomeBandSection = ({
         cast={cast}
         ground={
           <HomeBandGround
-            title={current.label}
+            title={current.name}
             detail={detail}
             action={
               partnerChoice && partnerState.pickedName ? (

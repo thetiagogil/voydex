@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react";
 
 import { HomeDataNote } from "@/modules/mainline/features/home/components/home-data-note";
 import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
-import { HomeMomentsSection } from "@/modules/mainline/features/home/sections/home-moments-section";
 import type { HomeBand } from "@/modules/mainline/features/home/types";
 
 type HomePlaysViewProps = {
@@ -17,7 +16,7 @@ type HomePlaysViewProps = {
 };
 
 /*
- * Home with Plays: the band and the latest moments of the current Play.
+ * Home with Plays: the band, to choose a Play and carry on with it.
  * Every shelf Play arrives with the page, so picking one switches at once;
  * the address follows (`?play=`) without a round trip, so a reload or a
  * shared link opens on the same Play.
@@ -59,7 +58,6 @@ export const HomePlaysView = ({
         greeting={greeting}
         subtitle={subtitle}
       />
-      <HomeMomentsSection moments={band.moments} play={band.play} />
       <HomeDataNote />
     </div>
   );

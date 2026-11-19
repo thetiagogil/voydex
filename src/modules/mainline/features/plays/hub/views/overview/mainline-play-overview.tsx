@@ -22,9 +22,9 @@ type MainlinePlayOverviewProps = {
 };
 
 /*
- * Overview: the journey card up top (the next objective with the game's
- * stamp card under it), the team as stickers, then recent moments beside the
- * Pokédex. The stickers and stamps are the loud parts; everything around
+ * Overview: the team as stickers first, then the journey card (the next
+ * objective with the game's stamp card beside it), then recent moments
+ * beside the Pokédex. The stickers and stamps are the loud parts; everything around
  * them stays quiet. A brand-new Play opens instead on its partner choice and
  * first steps (v3 `fresh`).
  */
@@ -65,6 +65,7 @@ export const MainlinePlayOverview = ({
   return (
     <OverviewRecordingProvider playId={playId}>
       <div className="grid min-w-0 gap-8 sm:gap-10">
+        {/* A brand-new Play opens on its partner; any other, on its team. */}
         {partner ? (
           <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-6">
             <PartnerHeroSection
@@ -80,14 +81,6 @@ export const MainlinePlayOverview = ({
               playId={playId}
             />
           </div>
-        ) : storyTracked ? (
-          <NextObjectiveSection
-            decisionRecord={decisionRecord}
-            nextMilestone={data.nextMilestone}
-            nextMilestonePosition={data.nextMilestonePosition}
-            playId={playId}
-            stamps={data.badgeCase?.stamps ?? []}
-          />
         ) : null}
         <TeamSection
           activeCount={data.overview?.active_team_count ?? null}
@@ -97,6 +90,15 @@ export const MainlinePlayOverview = ({
           reserveCount={data.overview?.reserve_team_count ?? null}
           team={data.teamPreview}
         />
+        {!partner && storyTracked ? (
+          <NextObjectiveSection
+            decisionRecord={decisionRecord}
+            nextMilestone={data.nextMilestone}
+            nextMilestonePosition={data.nextMilestonePosition}
+            playId={playId}
+            stamps={data.badgeCase?.stamps ?? []}
+          />
+        ) : null}
         {/*
          * Recent moments beside the Pokédex. A Play that tracks no Pokédex
          * and has no collectibles draws no second card, so moments take the row.

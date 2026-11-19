@@ -19,12 +19,10 @@ to Statistics), and it owns no mutation of its own.
   stands, and Continue. Tapping a team Pokémon picks it (again lets it go):
   Continue becomes "Continue with {name}" and opens it in the Roster; with
   none picked it opens the Play. Every shelf Play loads with the page, so picking
-  another cover switches the team, the line and the latest moments at once
+  another cover switches the team and the line at once
   and only updates `?play=`; a link to an older Play puts it first on the
-  shelf. Latest moments show the picked Play's three newest records, newest
-  first, as History's cards (three across from 1024px, a list below that),
-  with a link on to its History; a Play with nothing recorded shows where
-  it began.
+  shelf. Home shows nothing else: no latest moments (removed 2026-11-19), and the
+  line names the Play alone, without its game in front (the cover says it).
 - **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is
   recorded, the partner stands alone and is picked for Continue like any team

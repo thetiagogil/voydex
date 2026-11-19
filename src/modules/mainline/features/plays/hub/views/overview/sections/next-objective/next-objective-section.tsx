@@ -60,11 +60,11 @@ const hasDecision = (milestone: OverviewMilestone) =>
   milestone.decision_options.length > 0;
 
 /*
- * The journey card, the page's full width, read top to bottom: where the
- * objective stands, its Fredoka title, where it happens, then the page's one
- * main button, which records it in place (a choice opens Story's record form
- * right here), and "Add a note". Under them, in the same card, the game's
- * stamp card: recording a gym, trial or
+ * The journey card, under the team: where the objective stands, its Fredoka
+ * title, where it happens, then the page's one main button, which records it
+ * in place (a choice opens Story's record form right here), and "Add a
+ * note". In the same card, beside the words from 1024px and under them
+ * below that, the game's stamp card: recording a gym, trial or
  * League objective slaps its stamp down there, the page's one badge moment,
  * before the words hand over to the next objective. A stamp opens its
  * milestone in Story.
@@ -129,7 +129,9 @@ export const NextObjectiveSection = ({
   return (
     <ObjectiveCard
       titleId={titleId}
-      below={
+      /* Two halves from 1024px: the objective, and the stamp card beside it. */
+      className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center"
+      aside={
         stamps.length ? (
           <section
             aria-labelledby="overview-stamps"
@@ -144,10 +146,11 @@ export const NextObjectiveSection = ({
             {/*
              * Each stamp in an equal share of the row, so they spread evenly
              * with the same room at both ends; a long row scrolls instead.
+             * Beside the objective (from 1024px) they wrap, five to a row.
              * Room all round, so a lift, slap or focus ring is never cut.
              */}
             <StampGrid
-              className="no-scrollbar auto-cols-[minmax(3.5rem,1fr)] grid-flow-col gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-[minmax(4rem,1fr)]"
+              className="no-scrollbar auto-cols-[minmax(3.5rem,1fr)] grid-flow-col gap-x-3 overflow-x-auto px-4 pt-3 pb-4 sm:auto-cols-[minmax(4rem,1fr)] lg:grid-flow-row lg:grid-cols-5 lg:gap-y-4 lg:overflow-visible"
               earnedMilestoneId={isJustRecorded ? shownId : null}
               onSlapEnd={() =>
                 applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))
