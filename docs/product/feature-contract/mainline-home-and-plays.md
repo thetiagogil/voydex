@@ -104,9 +104,9 @@ page and only starting the Play moves on. From elsewhere outside Mainline
 a link to `/app?new=<game>` (`?new=1` for no game) opens it over Home on
 that game, with `&partner=<species>` already choosing
 its first partner when the game offers it, and the parameters leave the
-address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
+address once it is open. Either way: the game on the cover shelf, the partner in a row on the band (or
 choose later), then, under the game's cover and the partner side by side on
-the meadow, the Play's name (required), trainer name, the expansions you
+the band, the Play's name (required), trainer name, the expansions you
 own (a game with DLC only, its own field), what it tracks (Story, the
 Pokédex mode and Collectibles show where their settings will go) and its
 challenge rules. Start

@@ -12,7 +12,6 @@ const grounds: Swatch[] = [
   { name: "Inset", token: "--surface-2", use: "A tile inside a card" },
   { name: "Hover", token: "--hover", use: "Under the pointer" },
   { name: "Band", token: "--band-fill", use: "The page band" },
-  { name: "Sky", token: "--sky", use: "Home's band" },
 ];
 
 const inks: Swatch[] = [

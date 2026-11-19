@@ -91,8 +91,7 @@
   --avatar: var(--select-soft);
   --avatar-ink: var(--select-ink);
 
-  /* The meadow (front doors and choosing a game) */
-  --sky: #f8fafd;
+  /* The small mound a Pokémon stands on in an empty state and on the 404 page */
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
   /*
@@ -285,7 +284,6 @@
   --color-ball: var(--ball);
   --color-avatar: var(--avatar);
   --color-avatar-ink: var(--avatar-ink);
-  --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
   --color-dex-red: var(--dex-red);
