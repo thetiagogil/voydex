@@ -120,10 +120,9 @@ card. The milestone count appears once, in the card's eyebrow. Then Recent
 moments beside the Pokédex card: a ring, caught (and seen, where the Play
 tracks it), the twelve newest catches as two rows of small Pokémon (each
 species once, drawn as the form its Pokédex shows or its default form;
-"Nothing caught yet" until the first), the way on to the Pokédex, and one
-Collectibles row with its bar where the game has them. A Play that tracks no
-Pokédex shows only that row; one with neither draws no card and Recent
-moments take the row. There is no Progress card. A brand-new Play still
+"Nothing caught yet" until the first), and the way on to the Pokédex. Collectibles are
+not on Overview (they keep their own tab). A Play that tracks no Pokédex
+draws no card and Recent moments take the row. There is no Progress card. A brand-new Play still
 opens on its partner and first steps, with the team under them.
 
 The next objective's main button records it in place (v3's

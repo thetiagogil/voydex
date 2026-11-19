@@ -51,7 +51,7 @@ const PickableTeamPokemon = ({
   member: HomeTeamMember;
   onPick: (member: HomeTeamMember) => void;
   pick: TeamPick | null;
-  size: "md" | "xl";
+  size: "team" | "xl";
 }) => {
   const isPicked = pick?.memberId === member.id;
 
@@ -64,7 +64,7 @@ const PickableTeamPokemon = ({
       selected={isPicked}
       hop={isPicked}
       onClick={() => onPick(member)}
-      compactName={size === "md"}
+      compactName={size === "team"}
       label={`Pick ${member.name}`}
     />
   );
@@ -81,7 +81,7 @@ const TeamRow = ({
 }) => (
   <ul
     aria-label="Team"
-    className="grid w-[min(880px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-6 sm:pb-0"
+    className="grid w-[min(1216px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-6 sm:pb-0"
   >
     {play.team.map((member, index) => (
       <li key={member?.id ?? `open-${index}`} className="max-w-full min-w-0">
@@ -90,7 +90,7 @@ const TeamRow = ({
             member={member}
             onPick={onPick}
             pick={pick}
-            size="md"
+            size="team"
           />
         ) : (
           <MeadowPokemon name="Open slot" imageUrl={null} open compactName />
@@ -173,7 +173,7 @@ export const HomeBandSection = ({
         castClassName={
           partnerChoice || isFirstPlay
             ? "min-h-56 sm:min-h-64"
-            : "min-h-32 sm:min-h-54"
+            : "min-h-32 sm:min-h-54 lg:min-h-60 xl:min-h-64"
         }
         cast={cast}
         ground={

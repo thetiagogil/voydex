@@ -22,7 +22,8 @@ type MeadowPokemonProps = {
   selected?: boolean;
   /* Hops once, at the moment it is picked. */
   hop?: boolean;
-  size?: "lg" | "md" | "sm" | "xl";
+  /* `team` is six in a row that grows with the screen (Home). */
+  size?: "lg" | "md" | "sm" | "team" | "xl";
   /* An open slot: a dashed spot on the grass. */
   open?: boolean;
   /*
@@ -40,6 +41,7 @@ const artSizes = {
   md: "size-24 sm:size-32",
   lg: "size-28 sm:size-37.5",
   xl: "size-32 sm:size-45",
+  team: "size-24 sm:size-32 lg:size-40 xl:size-45",
 } as const;
 
 /*

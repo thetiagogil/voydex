@@ -85,8 +85,11 @@ const carouselCoverSizes = {
   picker: { className: "text-24 h-29.5", height: 118 },
   /* The game picker in New Play, a step larger: 150px. */
   pickerLarge: { className: "text-28 h-37.5", height: 150 },
-  /* Home's Plays: 90px on phones, 124px from `sm`. */
-  playShelf: { className: "text-20 sm:text-24 h-22.5 sm:h-31", height: 124 },
+  /* Home's Plays: 90px on phones, 124px from `sm`, 168px from `lg`. */
+  playShelf: {
+    className: "text-20 sm:text-24 h-22.5 sm:h-31 lg:h-42",
+    height: 168,
+  },
 } as const;
 
 type CarouselCoverSize = keyof typeof carouselCoverSizes;

@@ -122,7 +122,7 @@ export const HomePlayShelf = ({
                       /* The partner as the one small portrait, in a corner mark's white ring. */
                       <span
                         aria-hidden
-                        className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
+                        className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full lg:size-14"
                       >
                         <PokemonAvatar
                           decorative
@@ -145,7 +145,7 @@ export const HomePlayShelf = ({
           tip="Start a new Play"
           className={coverLinkClassName}
         >
-          <span className="empty-slot text-ink-2 group-hover/shelf-item:bg-hover group-hover/shelf-item:text-ink grid h-22.5 w-17 place-items-center rounded-sm transition-colors sm:h-31 sm:w-23">
+          <span className="empty-slot text-ink-2 group-hover/shelf-item:bg-hover group-hover/shelf-item:text-ink grid h-22.5 w-17 place-items-center rounded-sm transition-colors sm:h-31 sm:w-23 lg:h-42 lg:w-31">
             <AppIcon icon={appIcons.actions.create} size="xl" />
           </span>
         </NewPlayTrigger>
