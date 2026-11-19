@@ -61,8 +61,6 @@ type PokemonStickerProps = {
   number?: string;
   /* Its slot on a team, as the red number in the top-right corner. */
   slot?: string;
-  /* A mark in the top-right corner above the slot and shiny marks: the Collection's `CountMark`. */
-  mark?: ReactNode;
   /* Where a dragged Pokémon would land: the accent ring round its band. */
   target?: boolean;
   /*
@@ -143,7 +141,6 @@ export const PokemonSticker = ({
   selected = false,
   shiny = false,
   showTypes = true,
-  mark,
   slot,
   subtitle,
   target = false,
@@ -228,20 +225,19 @@ export const PokemonSticker = ({
       </span>
       {/*
         The corner marks, last so their words follow the name: a warning
-        top-left; top-right the mark, then the slot, then the shiny mark.
+        top-left; top-right the slot, then the shiny mark.
       */}
       {warning ? (
         <CornerBubble border="sticker" corner="inside-top-left">
           <WarningMark label={warning} />
         </CornerBubble>
       ) : null}
-      {mark || slot || shiny ? (
+      {slot || shiny ? (
         <CornerBubble
           border="sticker"
           corner="inside-top-right"
           className="flex-col gap-2"
         >
-          {mark}
           {slot ? <SlotMark>{slot}</SlotMark> : null}
           {shiny ? <ShinyMark /> : null}
         </CornerBubble>

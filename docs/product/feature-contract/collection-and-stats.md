@@ -7,14 +7,15 @@ This is the Collection And Statistics part of the [Feature Contract](../feature-
 Collection is the user's used Pokémon history across plays.
 
 As built (v3, `/app/collection`): every species that has joined one of
-your teams, as stickers, with Search, a Show choice (All, On a team now, In
+your teams, as collector cards (a frame in the type's colour, the art in a
+window, the types and the number), with Search, a Show choice (All, On a team now, In
 several Plays, Shiny), Generation, Sort (Most used by default, Pokédex
 number, Recently recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
-joined you in. Archived Plays count. Each sticker carries the same small
-count mark as a played game, its Plays on a corner, and no line under the
-name; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
+joined you in. Archived Plays count. Each card carries the same small
+count mark as a played game, its Plays in the window's corner, and no line
+under the name; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
@@ -26,7 +27,7 @@ bar, keep a Pokémon | Favourites | Games switch under the head.
 Collection has a second view, Favourites (`?view=favourites`): every Pokémon you hearted
 on its Codex entry, newest heart first, one per form (Arcanine and Hisuian
 Arcanine are separate favourites). One whose species has joined your teams is
-yours, so it wears the sticker with its Play count and opens its sheet; one
+yours, so it is a collector card with its Play count and opens its sheet; one
 that hasn't yet is a plain card ("Not on a team yet") opening its Codex
 entry. The heart saves straight away with Undo in the toast; signed out, it
 asks you to sign in and comes back to the entry. Before any heart the view is

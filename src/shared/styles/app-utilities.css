@@ -30,6 +30,30 @@
   box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
 }
 
+/*
+ * A collector card: an owned Pokémon's card where you look at it as part of
+ * a set. `card-frame` is the frame in its type's colour round the white
+ * card; `card-window` is the tinted window its art stands in, with a thin
+ * edge. Set --t (neutral when it isn't set).
+ */
+@utility card-frame {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 42%,
+    var(--surface)
+  );
+}
+
+@utility card-window {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 26%,
+    var(--surface)
+  );
+  box-shadow: inset 0 0 0 2px
+    color-mix(in oklab, var(--t, var(--mute)) 55%, var(--surface));
+}
+
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);

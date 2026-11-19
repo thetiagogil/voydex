@@ -24,7 +24,7 @@ import {
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { CountMark } from "@/shared/components/corner-bubble";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -124,8 +124,7 @@ export const CollectionFavourites = ({
               return (
                 <li key={favourite.formId} className="min-w-0">
                   {owned ? (
-                    <PokemonSticker
-                      variant="compact"
+                    <PokemonCollectorCard
                       className="w-full"
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}

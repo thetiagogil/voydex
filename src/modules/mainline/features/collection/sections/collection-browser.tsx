@@ -22,7 +22,7 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { CountMark } from "@/shared/components/corner-bubble";
 import { ResetListButton } from "@/shared/components/reset-list-button";
@@ -116,19 +116,18 @@ export const CollectionBrowser = ({
           <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
             {shown.map((entry) => (
               <li key={entry.speciesId} className="min-w-0">
-                <PokemonSticker
-                  variant="compact"
+                <PokemonCollectorCard
                   className="w-full"
                   imageUrl={entry.imageUrl}
                   name={entry.name}
                   number={formatNationalNumber(entry.nationalNumber)}
-                  shiny={entry.shiny}
                   mark={
                     <CountMark
                       count={entry.playIds.length}
                       label={countPlays(entry.playIds.length)}
                     />
                   }
+                  shiny={entry.shiny}
                   types={entry.types}
                   selected={openSpeciesId === entry.speciesId}
                   detail="See its Plays"

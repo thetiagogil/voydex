@@ -33,7 +33,7 @@ test.describe("Collection", () => {
       page.getByRole("navigation", { name: "Collection views" }),
     ).toBeHidden();
 
-    /* Each sticker's mark counts its Plays; Generation is a filter. */
+    /* Each card's mark counts its Plays; Generation is a filter. */
     const charmander = page.getByRole("button", { name: /Charmander/ });
 
     await expect(charmander.getByRole("img", { name: "1 Play" })).toBeVisible();
