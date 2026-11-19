@@ -8,21 +8,24 @@ Mainline Home (`/app`) is where a signed-in trainer lands and what the
 "V" tile opens. It is for resuming an adventure, not for figures (those belong
 to Statistics), and it owns no mutation of its own.
 
-- **With Plays:** a meadow band with the greeting, the shelf of your latest
+- **With Plays:** the neutral band every page opens on (no meadow since
+  2026-11-19), with the greeting, the shelf of your latest
   Plays still underway (playing, paused or not started; completed and
   abandoned ones are left off unless every Play is, so Home is never empty)
   (covers in recent order, each with its lead Pokémon: six on desktop,
   four on tablets, two on phones; the dashed tile starts a new Play, and All
   Plays leads to the Plays list when some are left off), the current Play's
-  team standing on the meadow in its game's colour, one line on where it
+  team standing in a row on the band, one line on where it
   stands, and Continue. Tapping a team Pokémon picks it (again lets it go):
   Continue becomes "Continue with {name}" and opens it in the Roster; with
   none picked it opens the Play. Every shelf Play loads with the page, so picking
-  another cover switches the meadow, the line and the latest moments at once
+  another cover switches the team, the line and the latest moments at once
   and only updates `?play=`; a link to an older Play puts it first on the
-  shelf. Latest moments list the current Play's last five records as History
-  draws them; a Play with nothing recorded shows where it began.
-- **With one brand-new Play:** its first partners wait on the meadow; tapping
+  shelf. Latest moments show the picked Play's three newest records, newest
+  first, as History's cards (three across from 1024px, a list below that),
+  with a link on to its History; a Play with nothing recorded shows where
+  it began.
+- **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is
   recorded, the partner stands alone and is picked for Continue like any team
   Pokémon.

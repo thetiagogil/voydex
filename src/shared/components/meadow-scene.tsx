@@ -14,10 +14,9 @@ type MeadowSceneProps = {
   cast?: ReactNode;
   className?: string;
   /*
-   * `band` opens a page (Mainline Home, the site's Home and Start a Play): it
-   * runs edge to edge under the top bar (`page-band`), rounds only at the
-   * bottom and keeps its copy in the page column. `card` is a rounded card
-   * (New Play, the Intro's closing meadow).
+   * `card` is a rounded card (New Play, the Intro's closing meadow). `band`
+   * opens a page edge to edge under the top bar (`page-band`); Mainline Home
+   * used it until it moved to the plain band, and nothing does now.
    */
   form?: "band" | "card";
   /* The scene's height on phones and from `sm` up. */

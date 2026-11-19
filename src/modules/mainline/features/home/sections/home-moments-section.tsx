@@ -1,21 +1,18 @@
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
+
+import { appRoutes } from "@/config/routes";
 
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type { HomeMomentsData } from "@/modules/mainline/features/home/types";
-import {
-  getPlayMomentRecord,
-  toPlayMomentContext,
-} from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import {
-  Medallion,
-  type MedallionContent,
-} from "@/modules/mainline/features/plays/shared/components/medallion";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/shared/components/play-moment-row";
+import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
+import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
+import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { appIcons } from "@/shared/components/app-icon";
-import { cardVariants } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
+import { SectionHead } from "@/shared/components/section-head";
 
 type HomeMomentsSectionProps = {
   moments: HomeMomentsData;
@@ -78,88 +75,78 @@ const getStartBeats = (play: HomePlay): Beat[] => {
   ];
 };
 
+/* How many the row holds: three cards across from 1024px. */
+const HOME_MOMENTS_SHOWN = 3;
+
 /*
- * Latest moments (v3 `.hb-moments`): the last five things recorded in the
- * current Play, oldest to newest, drawn as the Play draws them; a Play with
- * nothing recorded shows where it began and where it stands.
+ * Latest moments: the newest things recorded in the picked Play, newest
+ * first, as History draws its months (a card each, three across from
+ * 1024px, a list on the line below that), with the way on to its History. A
+ * Play with nothing recorded shows where it began and where it stands.
  */
 export const HomeMomentsSection = ({
   moments,
   play,
 }: HomeMomentsSectionProps) => {
   const context = toPlayMomentContext(moments.context);
-  const recorded: Beat[] = moments.events.map((event, index) => {
-    const record = getPlayMomentRecord(event, context);
-    const happenedAt = getPlayMomentInstant(event);
-
-    return {
-      body: record.label,
-      headline: record.headline.map((part, partIndex) =>
-        part.emphasized ? (
-          <b key={partIndex}>{part.text}</b>
-        ) : (
-          <Fragment key={partIndex}>{part.text}</Fragment>
-        ),
-      ),
-      key: event.event_id ?? `moment-${index}`,
-      kicker: happenedAt ? <PlayMomentTime value={happenedAt} /> : record.label,
-      medallion: record.medallion,
-    };
-  });
-  const beats = recorded.length ? recorded : getStartBeats(play);
-  /*
-   * The line runs in from the left when something came before the first
-   * moment shown, starts at it when it is the Play's first, and always ends
-   * at the last one.
-   */
-  const leadsIn = recorded.length > 0 && moments.hasEarlier;
+  /* The page reads them oldest first. */
+  const recorded = moments.events.toReversed().slice(0, HOME_MOMENTS_SHOWN);
 
   return (
     <section
       aria-labelledby="home-moments"
-      data-slot="card"
-      className={cn(cardVariants(), "mt-8 gap-6 sm:mt-11")}
+      className="mt-8 grid gap-4 sm:mt-10"
     >
-      <div className="min-w-0">
-        <h2 id="home-moments" className="title-section">
-          Latest moments
-        </h2>
-        <p className="text-ink-2 copy-body mt-1">
-          {recorded.length
-            ? "The last things you recorded in this Play."
-            : "Where this Play began, and where it stands."}
-        </p>
-      </div>
+      <SectionHead
+        title="Latest moments"
+        titleId="home-moments"
+        aside={play.label}
+        more={
+          recorded.length
+            ? {
+                href: appRoutes.mainlinePlayHistory(play.id),
+                label: "History",
+              }
+            : undefined
+        }
+      />
+      <ol
+        aria-label="Latest moments"
+        className="grid gap-3 lg:grid-cols-3 lg:gap-4"
+      >
+        {recorded.length
+          ? recorded.map((event, index) => {
+              const happenedAt = getPlayMomentInstant(event);
 
-      <ol className="relative grid gap-4 sm:auto-cols-fr sm:grid-flow-col">
-        {beats.map((beat, index) => (
-          <li
-            key={beat.key}
-            className={cn(
-              "relative grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 sm:grid-cols-1 sm:justify-items-center sm:gap-y-1.5 sm:text-center",
-              /*
-               * The line from the moment before (or from the edge) to this
-               * one's medallion. It runs under every medallion: the line sits
-               * at the list's level, each medallion one above it.
-               */
-              (index > 0 || leadsIn) &&
-                "sm:before:bg-line sm:before:absolute sm:before:top-7 sm:before:right-1/2 sm:before:z-0 sm:before:h-0.5 sm:before:rounded-full",
-              index > 0
-                ? "sm:before:left-[calc(-50%-1.25rem)]"
-                : "sm:before:left-0",
-            )}
-          >
-            <Medallion
-              content={beat.medallion}
-              className="relative z-1 row-span-3 sm:row-span-1"
-            />
-            <span className="text-ink-2 copy-label">{beat.kicker}</span>
-            <span className="text-ink copy-body line-clamp-2 leading-snug [&_b]:font-extrabold">
-              {beat.headline}
-            </span>
-            <span className="text-ink-3 copy-meta truncate">{beat.body}</span>
-          </li>
-        ))}
+              return (
+                <li
+                  key={event.event_id ?? `moment-${index}`}
+                  className="min-w-0"
+                >
+                  <PlayMomentRow
+                    context={context}
+                    event={event}
+                    placement="grid"
+                    variant="timeline"
+                    when={
+                      happenedAt ? <PlayMomentTime value={happenedAt} /> : null
+                    }
+                  />
+                </li>
+              );
+            })
+          : getStartBeats(play).map((beat) => (
+              <li key={beat.key} className="min-w-0">
+                <RecordRow
+                  description={beat.body}
+                  headline={beat.headline}
+                  kicker={beat.kicker}
+                  medallion={beat.medallion}
+                  placement="grid"
+                  variant="timeline"
+                />
+              </li>
+            ))}
       </ol>
     </section>
   );

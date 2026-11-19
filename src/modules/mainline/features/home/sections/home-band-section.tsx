@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link } from "@/shared/components/link";
 
 import {
+  HomeBand,
   HomeBandGround,
   HomeBandHeading,
 } from "@/modules/mainline/features/home/components/home-band-parts";
@@ -20,7 +21,6 @@ import {
 import type { HomePartnerChoice } from "@/modules/mainline/features/home/types";
 import { MeadowPokemon } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { MeadowScene } from "@/shared/components/meadow-scene";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type HomeBandSectionProps = {
@@ -35,13 +35,13 @@ type HomeBandSectionProps = {
 };
 
 /* The team Pokémon picked for Continue, in the Play it was picked in. */
-type MeadowPick = {
+type TeamPick = {
   memberId: string;
   playId: string;
 };
 
-/* A team Pokémon on the meadow: tapping picks it for Continue, again clears it. */
-const PickableMeadowPokemon = ({
+/* A team Pokémon on the band: tapping picks it for Continue, again clears it. */
+const PickableTeamPokemon = ({
   member,
   onPick,
   pick,
@@ -49,7 +49,7 @@ const PickableMeadowPokemon = ({
 }: {
   member: HomeTeamMember;
   onPick: (member: HomeTeamMember) => void;
-  pick: MeadowPick | null;
+  pick: TeamPick | null;
   size: "md" | "xl";
 }) => {
   const isPicked = pick?.memberId === member.id;
@@ -69,13 +69,13 @@ const PickableMeadowPokemon = ({
   );
 };
 
-const TeamOnMeadow = ({
+const TeamRow = ({
   onPick,
   pick,
   play,
 }: {
   onPick: (member: HomeTeamMember) => void;
-  pick: MeadowPick | null;
+  pick: TeamPick | null;
   play: HomePlay;
 }) => (
   <ul
@@ -85,7 +85,7 @@ const TeamOnMeadow = ({
     {play.team.map((member, index) => (
       <li key={member?.id ?? `open-${index}`} className="max-w-full min-w-0">
         {member ? (
-          <PickableMeadowPokemon
+          <PickableTeamPokemon
             member={member}
             onPick={onPick}
             pick={pick}
@@ -100,8 +100,9 @@ const TeamOnMeadow = ({
 );
 
 /*
- * Home's meadow band (v3 `homeback`, `homefirst`): the greeting, the shelf
- * of your Plays, the current Play's team standing on the meadow, and the line saying where it stands with Continue. Tapping a
+ * Home's band: the greeting, the shelf of your Plays to pick from, the
+ * picked Play's team standing in a row, and the line saying where it stands
+ * with Continue. No scenery: the covers and the team are the colour. Tapping a
  * team Pokémon picks it, and Continue becomes "Continue with {name}", which
  * opens it in the Roster. A Play with nothing recorded shows its first
  * partners instead: tap one, then "Choose {name}" (in Continue's place)
@@ -118,7 +119,7 @@ export const HomeBandSection = ({
 }: HomeBandSectionProps) => {
   const partnerState = useHomePartnerChoice(partnerChoice);
   const partner = current.team.find((member) => member !== null) ?? null;
-  const [pick, setPick] = useState<MeadowPick | null>(null);
+  const [pick, setPick] = useState<TeamPick | null>(null);
 
   /* A pick belongs to its Play: another cover on the shelf lets it go. */
   if (pick && pick.playId !== current.id) {
@@ -138,14 +139,14 @@ export const HomeBandSection = ({
   const cast = partnerChoice ? (
     <HomePartnerChoiceCast choice={partnerChoice} state={partnerState} />
   ) : isFirstPlay && partner ? (
-    <PickableMeadowPokemon
+    <PickableTeamPokemon
       member={partner}
       onPick={togglePick}
       pick={pick}
       size="xl"
     />
   ) : (
-    <TeamOnMeadow onPick={togglePick} pick={pick} play={current} />
+    <TeamRow onPick={togglePick} pick={pick} play={current} />
   );
   const detail = partnerChoice
     ? [
@@ -162,10 +163,11 @@ export const HomeBandSection = ({
 
   return (
     <section aria-labelledby="home-greeting">
-      <MeadowScene
-        form="band"
-        sceneClassName={
-          partnerChoice || isFirstPlay ? "h-56 sm:h-64" : "h-32 sm:h-54"
+      <HomeBand
+        castClassName={
+          partnerChoice || isFirstPlay
+            ? "min-h-56 sm:min-h-64"
+            : "min-h-32 sm:min-h-54"
         }
         cast={cast}
         ground={
@@ -197,7 +199,7 @@ export const HomeBandSection = ({
           onSelect={onSelectPlay}
           plays={plays}
         />
-      </MeadowScene>
+      </HomeBand>
     </section>
   );
 };

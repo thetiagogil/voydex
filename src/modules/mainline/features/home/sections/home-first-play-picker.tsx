@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import {
+  HomeBand,
   HomeBandGround,
   HomeBandHeading,
 } from "@/modules/mainline/features/home/components/home-band-parts";
@@ -11,7 +12,6 @@ import { PartnerCast } from "@/modules/mainline/features/plays/shared/components
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
-import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
@@ -62,9 +62,8 @@ export const HomeFirstPlayPicker = ({
 
   return (
     <section aria-labelledby="home-greeting">
-      <MeadowScene
-        form="band"
-        sceneClassName={game ? "h-56 sm:h-64" : "h-24 sm:h-32"}
+      <HomeBand
+        castClassName={game ? "min-h-56 sm:min-h-64" : "min-h-8"}
         cast={
           starters.length ? (
             <PartnerCast
@@ -123,7 +122,7 @@ export const HomeFirstPlayPicker = ({
             setPartnerId(null);
           }}
         />
-      </MeadowScene>
+      </HomeBand>
     </section>
   );
 };

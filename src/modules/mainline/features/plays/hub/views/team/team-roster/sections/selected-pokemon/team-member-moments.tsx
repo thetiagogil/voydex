@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/shared/components/play-moment-row";
 import {
   PlayTimeline,
   PlayTimelineItem,

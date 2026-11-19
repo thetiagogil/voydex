@@ -2,7 +2,7 @@ import {
   PlayTimelineItem,
   PlayTimelineMonth,
 } from "@/modules/mainline/features/plays/hub/components/play-timeline";
-import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/shared/components/play-moment-row";
 import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 
 import {
