@@ -28,11 +28,7 @@ export const ProgressSummarySection = ({
   const items = getProgressSummaryItems(overview, playId);
 
   return (
-    <Card
-      role="region"
-      aria-label="Progress"
-      className={cn("px-4 sm:px-5", className)}
-    >
+    <Card role="region" aria-label="Progress" className={className}>
       {items.length ? (
         <div
           className={cn(
@@ -56,7 +52,7 @@ export const ProgressSummarySection = ({
                 value={item.percent}
                 className="w-full max-w-24"
               />
-              <span className="text-ink copy-strong whitespace-nowrap tabular-nums">
+              <span className="text-ink copy-label whitespace-nowrap tabular-nums">
                 {item.detail}
               </span>
             </Link>

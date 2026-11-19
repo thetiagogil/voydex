@@ -56,7 +56,7 @@ const StepCard = ({
       pokemon={partner}
       className="absolute -top-13 right-3 z-1 size-26 object-contain sm:-top-15 sm:size-30"
     />
-    <Card className="w-full gap-0 p-5 sm:p-6">
+    <Card className="w-full gap-0">
       <p className="copy-label text-ink-2 flex items-center gap-2 pr-28 tracking-wider uppercase">
         <StepNumber number={number} />
         {when}
@@ -77,7 +77,7 @@ const AlsoCard = ({
   text: string;
   title: string;
 }) => (
-  <Card className="flex-row flex-wrap items-center justify-between gap-x-6 gap-y-4 p-5 sm:p-6">
+  <Card className="flex-row flex-wrap items-center justify-between gap-x-6 gap-y-4">
     <div className="min-w-48 flex-1">
       <h3 className="title-card">{title}</h3>
       <p className="copy-body text-ink-2 mt-1.5 leading-relaxed">{text}</p>

@@ -23,7 +23,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
         titleId="stats-regions"
         aside={`${visited.length} of ${stats.regions.length}`}
       />
-      <Card className="px-4 py-4 sm:px-6 sm:py-5">
+      <Card>
         <ul className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-4 sm:grid-cols-5 sm:gap-3 lg:grid-cols-10">
           {stats.regions.map((region) => {
             const count = region.playLabels.length;

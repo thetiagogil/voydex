@@ -26,13 +26,13 @@ export const StoryStampCardSection = ({
     <Card
       role="region"
       aria-labelledby={titleId}
-      className={cn("gap-0 px-0 py-2 sm:py-3", className)}
+      className={cn("gap-0 p-0", className)}
     >
       <h2 id={titleId} className="sr-only">
         Stamp card
       </h2>
       <StampGrid
-        className="no-scrollbar auto-cols-14 grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-16 sm:px-7"
+        className="no-scrollbar auto-cols-14 grid-flow-col justify-between gap-x-3 overflow-x-auto p-(--card-spacing) sm:auto-cols-16"
         onStampSelect={onStampSelect}
         scrollLabel="Stamps"
         stamps={stamps}

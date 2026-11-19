@@ -194,7 +194,9 @@ Voydex is quiet where you work and loud where you remember. The
   `design:check` fails on a hand-set text size and weight or a hand-drawn
   tile, so a restyle always reaches the whole app. Reading text has four
   sizes (12, 13, 15, 17; fields take 16 on phones) and gaps eight steps
-  (0.5, 1, 1.5, 2, 3, 4, 6, 8); the check fails on the ones between.
+  (0.5, 1, 1.5, 2, 3, 4, 6, 8); the check fails on the ones between. A
+  `Card` sets its own padding (`size="sm"` for a card in a list) and icons
+  take `AppIcon` `sm` 14, `md` 16, `lg` 20 or `xl` 24.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce a retired look;

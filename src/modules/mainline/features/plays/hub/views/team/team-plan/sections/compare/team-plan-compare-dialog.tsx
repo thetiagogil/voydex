@@ -40,7 +40,7 @@ const markLabels: Record<TeamPlanCompareState, string | null> = {
 const CompareMark = ({ state }: { state: TeamPlanCompareState }) => (
   <>
     {state === "ok" ? (
-      <AppIcon icon={appIcons.status.active} size={16} className="text-ok" />
+      <AppIcon icon={appIcons.status.active} size="md" className="text-ok" />
     ) : null}
     {state === "differs" ? (
       <span aria-hidden className="text-warn-ink copy-strong">

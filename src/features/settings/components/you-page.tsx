@@ -109,8 +109,8 @@ export const YouPage = ({
           }
         />
       </PageBand>
-      <Card className="mt-5.5 gap-0 px-2.5 py-1.5">
-        <nav aria-label="About you" className="flex flex-col">
+      <Card className="mt-5.5 gap-0 p-0">
+        <nav aria-label="About you" className="flex flex-col px-2.5 py-1.5">
           <YouRow
             href={appRoutes.mainlineStats}
             icon={appIcons.product.stats}

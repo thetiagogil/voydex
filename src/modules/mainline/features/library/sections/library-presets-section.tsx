@@ -39,7 +39,7 @@ const PresetCard = ({
     <Card
       size="sm"
       variant="interactive"
-      className="relative h-full gap-2 px-5 py-4 sm:min-h-32"
+      className="relative h-full gap-2 sm:min-h-32"
     >
       <div className="flex min-h-8 items-center gap-2">
         <Badge>{`${ruleNames.length} rules`}</Badge>

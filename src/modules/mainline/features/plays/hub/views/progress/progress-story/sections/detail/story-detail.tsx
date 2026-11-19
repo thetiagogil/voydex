@@ -233,12 +233,7 @@ export const StoryDetail = ({
 
   if (layout === "panel") {
     return (
-      <Card
-        data-story-panel
-        role="region"
-        aria-label={name}
-        className="gap-0 px-5 py-5 sm:px-6 sm:py-6"
-      >
+      <Card data-story-panel role="region" aria-label={name} className="gap-0">
         <div className="flex items-center gap-4">
           {marker}
           <h2 className="title-card text-ink min-w-0">{name}</h2>

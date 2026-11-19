@@ -118,10 +118,7 @@ export const HomeMomentsSection = ({
     <section
       aria-labelledby="home-moments"
       data-slot="card"
-      className={cn(
-        cardVariants(),
-        "mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
-      )}
+      className={cn(cardVariants(), "mt-8 gap-6 sm:mt-11")}
     >
       <div className="min-w-0">
         <h2 id="home-moments" className="title-section">

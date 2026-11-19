@@ -231,7 +231,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         titleId="stats-time"
         aside={stats.time.length ? undefined : "No playtime recorded yet"}
       />
-      <Card className="gap-4 px-5 py-5 sm:px-6">
+      <Card className="gap-4">
         {stats.time.length ? (
           <div
             {...scopeProps}

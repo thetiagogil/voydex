@@ -152,7 +152,7 @@ const MostPickedCard = ({
   const firstJoined = formatMonthYear(entry.firstUsedAt?.slice(0, 10) ?? null);
 
   return (
-    <Card className="gap-4 px-5 py-5 sm:px-6">
+    <Card className="gap-4">
       <SectionHead
         headingLevel={3}
         title="Most picked"
@@ -263,7 +263,7 @@ export const StatsStyleSection = ({
           />
         ) : null}
 
-        <Card className="gap-4 px-5 py-5 sm:px-6">
+        <Card className="gap-4">
           <SectionHead
             headingLevel={3}
             title="Types you pick"
@@ -314,7 +314,7 @@ export const StatsStyleSection = ({
         </Card>
 
         {showFriends ? (
-          <Card className="gap-4 px-5 py-5 sm:px-6 md:col-span-full xl:col-span-1">
+          <Card className="gap-4 md:col-span-full xl:col-span-1">
             <SectionHead
               headingLevel={3}
               title="Old friends"

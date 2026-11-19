@@ -152,7 +152,7 @@ const PlaceMark = ({
   one: string;
 }) => (
   <span className="inline-flex items-center gap-1">
-    <AppIcon icon={icon} size="xs" />
+    <AppIcon icon={icon} size="sm" />
     {count}
     <span className="max-sm:sr-only">&nbsp;{count === 1 ? one : many}</span>
   </span>

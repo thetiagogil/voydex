@@ -241,7 +241,7 @@ export const StoryRoadmap = ({
           state === "done" ? null : state ===
             "next" /* The ring says it; the stop says it to a screen reader. */ ? null : !milestone.isAvailable ? (
             <span className="inline-flex items-center gap-1">
-              <AppIcon icon={appIcons.status.locked} size="xs" />
+              <AppIcon icon={appIcons.status.locked} size="sm" />
               Locked
             </span>
           ) : milestone.sequence === null ? (

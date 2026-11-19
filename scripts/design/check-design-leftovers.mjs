@@ -214,6 +214,15 @@ const sourceRules = [
     pattern:
       /(?<![-\w.\[])gap(?:-[xy])?-(?:0\.75|1\.25|1\.75|2\.25|2\.5|3\.5|4\.5|5|5\.5|6\.5|7|7\.5)(?![-\w.])/,
   },
+  /*
+   * Four icon sizes (14, 16, 20, 24px; emblems above that). A primitive sizes
+   * the icons inside it with one of them, never 12, 18 or 22px.
+   */
+  {
+    label: "a retired icon size (use 3.5, 4, 5 or 6)",
+    pattern:
+      /(?:\[&_svg[^\]]*\]|\[&>svg\]|\*:\[svg\]):size-(?:2|2\.5|3|4\.5|5\.5)(?![-\w.])/,
+  },
   {
     label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",
     pattern:
@@ -357,6 +366,68 @@ for (const file of files) {
         findings.push(
           `${file}:${line + 1}  a native title hover on <${tag}> (use Tooltip or IconTip)`,
         );
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(source);
+}
+
+/*
+ * A card sets its own padding: 20px on phones and 24px from 640px for a
+ * section, 16px for a card in a list or grid (\`size="sm"\`). A screen may
+ * only take it away (\`p-0\`, \`px-0\`) when the content pads itself. An
+ * \`AppIcon\` takes one of its four named sizes, never a number or a size
+ * class between them.
+ */
+const cardHosts = new Set(["Card", "DetailSectionCard", "OfferCard"]);
+const cardPadding =
+  /(?<![-\w\[(])(?:[a-z0-9]+:)*p[xytblrse]?-(?!0(?![.\d]))[\d.]+(?![-\w.])/;
+const retiredIconClass = /(?<![-\w])size-(?:2|2\.5|3|4\.5|5\.5)(?![-\w.])/;
+
+for (const file of files) {
+  if (!file.startsWith(`src${path.sep}`) || !file.endsWith(".tsx")) {
+    continue;
+  }
+
+  const source = ts.createSourceFile(
+    file,
+    fs.readFileSync(path.join(rootDir, file), "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const report = (node, message) => {
+    const { line } = source.getLineAndCharacterOfPosition(node.getStart());
+
+    findings.push(`${file}:${line + 1}  ${message}`);
+  };
+  const visit = (node) => {
+    if (ts.isJsxAttribute(node) && node.initializer) {
+      const tag = node.parent.parent.tagName.getText(source);
+      const name = node.name.getText(source);
+      const value = node.initializer.getText(source);
+
+      if (
+        cardHosts.has(tag) &&
+        name === "className" &&
+        cardPadding.test(value)
+      ) {
+        report(node, `padding set by hand on <${tag}> (use size="sm" or p-0)`);
+      }
+
+      if (tag === "AppIcon" && name === "size" && /^\{\s*\d/.test(value)) {
+        report(node, "a numeric AppIcon size (use sm, md, lg or xl)");
+      }
+
+      if (
+        tag === "AppIcon" &&
+        name === "className" &&
+        retiredIconClass.test(value)
+      ) {
+        report(node, "a retired icon size (use AppIcon size sm, md, lg or xl)");
       }
     }
 

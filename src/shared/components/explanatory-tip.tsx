@@ -232,10 +232,7 @@ export const ExplanatoryTip = ({
         {children ??
           (trigger ? null : triggerVariant === "icon" ||
             triggerVariant === "subtle" ? (
-            <AppIcon
-              icon={appIcons.status.info}
-              size={triggerVariant === "subtle" ? 14 : "sm"}
-            />
+            <AppIcon icon={appIcons.status.info} size="sm" />
           ) : (
             <span
               aria-hidden

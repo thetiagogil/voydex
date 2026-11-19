@@ -60,7 +60,7 @@ export const GamePokedexTable = ({
     statColumns.length === 5 ? "grid-cols-5" : "grid-cols-6";
 
   return (
-    <Card className="gap-0 py-0">
+    <Card className="gap-0 p-0">
       <Table
         className={cn(
           getGamePokedexTableMinWidthClassName(hasAbilities, statColumns),

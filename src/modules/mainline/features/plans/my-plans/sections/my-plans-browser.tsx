@@ -53,7 +53,7 @@ type MyPlansBrowserProps = {
  */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   const card = (
-    <Card className="h-full gap-3 px-5 py-4">
+    <Card size="sm" className="h-full gap-3">
       {/* Room at the end for the menu, which sits over it. */}
       <div className="flex min-h-9 items-center gap-2 pr-10">
         <Badge variant="select">{plan.versionGroupName}</Badge>
@@ -106,7 +106,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       ) : (
         <Link
           href={appRoutes.mainlinePlan(plan.id)}
-          className="group/card-link focus-ring block h-full rounded-2xl"
+          className="group/card-link focus-ring block h-full rounded-lg"
         >
           {card}
         </Link>

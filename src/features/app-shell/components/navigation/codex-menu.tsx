@@ -55,7 +55,7 @@ export const CodexTabMenu = ({
         }
       >
         <span className="grid h-8 w-12 place-items-center">
-          <AppIcon icon={appIcons.modules.codex} className="size-5.5" />
+          <AppIcon icon={appIcons.modules.codex} size="lg" />
         </span>
         {codexLink.label}
       </DropdownMenuTrigger>

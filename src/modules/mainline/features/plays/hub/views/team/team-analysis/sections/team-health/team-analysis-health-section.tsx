@@ -165,7 +165,7 @@ const TeamAnalysisHealthCard = ({
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    <Card className="gap-0 px-5.5 py-5">
+    <Card size="sm" className="gap-0">
       <div className="flex items-center justify-between gap-2">
         <h3 className="copy-strong font-sans leading-snug tracking-normal">
           {metric.title}

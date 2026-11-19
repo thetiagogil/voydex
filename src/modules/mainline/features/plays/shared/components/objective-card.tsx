@@ -84,7 +84,7 @@ export const ObjectiveCard = ({
   <Card
     role="region"
     aria-labelledby={titleId}
-    className={cn("relative px-5 sm:px-7", className)}
+    className={cn("relative", className)}
   >
     {onClose ? (
       <Button

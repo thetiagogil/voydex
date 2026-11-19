@@ -87,7 +87,7 @@ export const TeamPlanMatchLine = ({
           className,
         )}
       >
-        <AppIcon icon={appIcons.product.uncaught} size={15} />
+        <AppIcon icon={appIcons.product.uncaught} size="sm" />
         Not caught yet
       </span>
     );
@@ -103,7 +103,7 @@ export const TeamPlanMatchLine = ({
         className,
       )}
     >
-      <AppIcon icon={placementIcons[placement.kind]} size={15} />
+      <AppIcon icon={placementIcons[placement.kind]} size="sm" />
       <span className="truncate">
         <b className="text-ink font-extrabold">
           {getPlayTeamMemberName(member)}

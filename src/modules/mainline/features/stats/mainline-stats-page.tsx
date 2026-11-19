@@ -37,7 +37,7 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
       <PageBand>
         <PageHeader title="Statistics" description="Your Plays, added up" />
       </PageBand>
-      <Card className="gap-4 px-5 py-6 sm:px-8">
+      <Card className="gap-4">
         <p className="font-display text-24 leading-tight font-semibold">
           {stats.playCount && firstPlayLabel ? (
             <>

@@ -103,10 +103,7 @@ export const RecordRow = ({
         />
         <Card
           size="sm"
-          className={cn(
-            "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
-            placement === "grid" && "lg:h-full",
-          )}
+          className={cn("min-w-0 gap-0", placement === "grid" && "lg:h-full")}
         >
           {placement === "grid" ? (
             /* Off the line, the medallion comes inside its card. */

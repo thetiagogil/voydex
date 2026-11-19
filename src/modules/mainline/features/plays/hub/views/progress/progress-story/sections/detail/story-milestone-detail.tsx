@@ -106,7 +106,7 @@ export const StoryMilestoneDetail = ({
       {status ? (
         <StatusBadge tone={status.tone} dot={!status.locked} className="mt-2">
           {status.locked ? (
-            <AppIcon icon={appIcons.status.locked} size="xs" />
+            <AppIcon icon={appIcons.status.locked} size="sm" />
           ) : null}
           {status.label}
         </StatusBadge>

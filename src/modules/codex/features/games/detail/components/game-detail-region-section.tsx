@@ -64,10 +64,7 @@ export const GameDetailRegionSection = ({
     <section
       data-slot="card"
       aria-labelledby="game-region-title"
-      className={cn(
-        cardVariants(),
-        "mt-8 gap-0 px-5 py-5 sm:mt-10 sm:px-6 sm:py-6",
-      )}
+      className={cn(cardVariants(), "mt-8 gap-0 sm:mt-10")}
     >
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
         <div className="min-w-0">

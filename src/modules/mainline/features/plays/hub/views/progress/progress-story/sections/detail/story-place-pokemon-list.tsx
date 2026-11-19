@@ -77,7 +77,7 @@ export const StoryPokemonRows = ({
             return (
               <li
                 key={pokemon.formId}
-                className="tile flex min-h-14 items-center gap-3 px-3 py-2"
+                className="tile flex min-h-14 items-center gap-3"
               >
                 {tradeFor ? (
                   <span className="text-ink-3 flex shrink-0 items-center gap-1">

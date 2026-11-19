@@ -65,7 +65,7 @@ export const InstallSection = () => (
       title="Install"
       text="Add Voydex to your Home Screen and it opens like any other app, offline too."
     />
-    <Card className="grid items-center gap-x-10 gap-y-6 p-5.5 sm:p-8 md:grid-cols-[auto_minmax(0,1fr)]">
+    <Card className="grid items-center gap-x-10 gap-y-6 md:grid-cols-[auto_minmax(0,1fr)]">
       <HomeScreenPicture />
       <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
         {installWays.map((way) => (

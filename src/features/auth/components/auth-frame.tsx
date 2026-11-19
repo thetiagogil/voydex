@@ -60,7 +60,7 @@ export const AuthFrame = ({
     </PageBand>
     <div className="flex w-full justify-center pt-8 pb-4 sm:pt-10 sm:pb-8">
       <div className="w-full max-w-110 min-w-0">
-        <Card className="gap-0 p-5 sm:p-7.5">{children}</Card>
+        <Card className="gap-0">{children}</Card>
         {note ? (
           <p className="copy-meta text-ink-2 mt-5.5 text-center">{note}</p>
         ) : null}

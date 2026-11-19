@@ -33,8 +33,9 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
   const percent = getPlayCombinedPercent(play.progress);
   const content = (
     <Card
+      size="sm"
       variant={play.play_id ? "interactive" : "default"}
-      className="h-full gap-3 p-3 sm:gap-4 sm:p-4"
+      className="h-full gap-3 sm:gap-4"
     >
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
@@ -62,7 +63,7 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}
-          className="group/card-link block h-full rounded-2xl outline-none"
+          className="group/card-link block h-full rounded-lg outline-none"
         >
           {content}
         </Link>

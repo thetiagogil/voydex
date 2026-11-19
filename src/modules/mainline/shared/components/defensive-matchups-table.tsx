@@ -76,7 +76,7 @@ const SortHeader = ({
         {children}
         <AppIcon
           icon={appIcons.actions.expand}
-          size="xs"
+          size="sm"
           aria-hidden
           className={cn(!isActive && "opacity-0")}
         />

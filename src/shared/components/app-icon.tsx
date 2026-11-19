@@ -8,15 +8,20 @@ export {
   type AppIconComponent,
 } from "@/shared/domain/icons/app-icons";
 
+/*
+ * Four icon sizes, matched to the text beside them: 14 beside small text
+ * (13), 16 beside text you read and press (15), 20 standing alone in a
+ * control or a card, 24 on a figure. Emblems above 24 are drawn by their
+ * own component.
+ */
 const iconSizeClassNames = {
-  xs: "size-3",
   sm: "size-3.5",
   md: "size-4",
   lg: "size-5",
   xl: "size-6",
 } as const;
 
-export type AppIconSize = keyof typeof iconSizeClassNames | number;
+export type AppIconSize = keyof typeof iconSizeClassNames;
 export type AppIconInline = "start" | "end";
 
 type AppIconProps = Omit<
@@ -37,16 +42,13 @@ export const AppIcon = ({
   size,
   ...props
 }: AppIconProps) => {
-  const numericSize = typeof size === "number" ? size : undefined;
-  const semanticSizeClassName =
-    typeof size === "string" ? iconSizeClassNames[size] : undefined;
+  const semanticSizeClassName = size ? iconSizeClassNames[size] : undefined;
 
   return (
     <IconComponent
       aria-hidden={ariaHidden}
       className={cn(semanticSizeClassName, className)}
       data-icon={inline ? `inline-${inline}` : undefined}
-      size={numericSize}
       {...props}
     />
   );

@@ -64,12 +64,7 @@ export const AppTabBar = () => {
         <TabItem
           key={link.href}
           href={link.href}
-          icon={
-            <AppIcon
-              icon={getMainlineViewIcon(link.href)}
-              className="size-5.5"
-            />
-          }
+          icon={<AppIcon icon={getMainlineViewIcon(link.href)} size="xl" />}
           isCurrent={isCurrentBarItem(pathname, link)}
           label={link.shortLabel}
         />
