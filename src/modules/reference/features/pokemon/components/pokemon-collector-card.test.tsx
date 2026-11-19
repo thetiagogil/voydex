@@ -47,11 +47,12 @@ describe("PokemonCollectorCard", () => {
     expect(html).not.toContain("card-frame");
   });
 
-  it("puts the count top-right and the shiny mark top-left of the window", () => {
-    const html = render({ mark: <span>2 Plays</span>, shiny: true });
+  it("says its count beside the name and the shiny mark in the window", () => {
+    const html = render({ count: "2 Plays", note: "2 games", shiny: true });
 
-    expect(cornerOf(html, "2 Plays")).toBe("inside-top-right");
-    expect(cornerOf(html, ", Shiny")).toBe("inside-top-left");
+    expect(html.indexOf("Dragonite")).toBeLessThan(html.indexOf("2 Plays"));
+    expect(html).toContain("2 games");
+    expect(cornerOf(html, ", Shiny")).toBe("inside-top-right");
   });
 
   it("draws no corner marks when it has none", () => {

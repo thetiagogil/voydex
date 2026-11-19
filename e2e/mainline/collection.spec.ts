@@ -33,10 +33,10 @@ test.describe("Collection", () => {
       page.getByRole("navigation", { name: "Collection views" }),
     ).toBeHidden();
 
-    /* Each card's mark counts its Plays; Generation is a filter. */
+    /* Each card says how many Plays it was in; Generation is a filter. */
     const charmander = page.getByRole("button", { name: /Charmander/ });
 
-    await expect(charmander.getByRole("img", { name: "1 Play" })).toBeVisible();
+    await expect(charmander).toContainText("1 Play");
     const { close, filters } = await openFilters(page);
 
     await filters
@@ -64,10 +64,10 @@ test.describe("Collection", () => {
     await expect(
       page.getByText(/^You've played 1 of \d+ games, across 1 Play$/),
     ).toBeVisible();
-    const stamps = page.getByRole("img", { name: /^\d+ Plays?$/ });
+    const played = page.getByRole("button", { name: /^Pokémon .* \d+ Plays?/ });
 
-    await expect(stamps).toHaveCount(1);
-    await expect(stamps).toHaveAccessibleName("1 Play");
+    await expect(played).toHaveCount(1);
+    await expect(played).toContainText("1 Play");
 
     /* The Pokémon views' toolbar: a generation you haven't played shows none. */
     const gameFilters = await openFilters(page);
@@ -94,7 +94,7 @@ test.describe("Collection", () => {
     );
     const red = page.getByRole("button", { name: /^Pokémon Red/ });
 
-    await expect(red.getByRole("img", { name: "1 Play" })).toBeVisible();
+    await expect(red).toContainText("1 Play");
     await red.click();
     const sheet = page.getByRole("dialog", { name: "Red" });
 

@@ -135,10 +135,10 @@ export const GalleryMarks = () => (
           note="The one picked picture"
           ground="ground"
         >
-          <span className="bg-surface-2 relative h-24 w-20 rounded-md">
+          <span className="bg-surface-2 relative h-24 w-20 rounded-sm">
             <PickedMark />
           </span>
-          <span className="bg-surface-2 relative h-16 w-14 rounded-md">
+          <span className="bg-surface-2 relative h-16 w-14 rounded-sm">
             <PickedMark size="sm" />
           </span>
         </Specimen>

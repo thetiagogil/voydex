@@ -136,7 +136,7 @@ export const PlannerTeamCheckSheet = ({
                       {list.map((issue) => (
                         <li
                           key={`${issue.kind}-${issue.formIds.join("-")}`}
-                          className="bg-surface-2 flex flex-wrap items-start gap-3 rounded-md px-3.5 py-3"
+                          className="bg-surface-2 flex flex-wrap items-start gap-3 rounded-sm px-3.5 py-3"
                         >
                           <div className="min-w-0 flex-1">
                             <b className="text-ink text-15 block font-extrabold">

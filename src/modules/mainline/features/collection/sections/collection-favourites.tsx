@@ -26,7 +26,6 @@ import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-po
 import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
-import { CountMark } from "@/shared/components/corner-bubble";
 import { EmptyState } from "@/shared/components/empty-state";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 
@@ -48,6 +47,9 @@ const sortOrder: FavouriteSort[] = ["recent", "dex", "used"];
 
 const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
+
+const countGames = (count: number) =>
+  `${count} ${count === 1 ? "game" : "games"}`;
 
 /*
  * Collection's Favourites: every Pokémon you hearted in the Codex, newest
@@ -116,7 +118,7 @@ export const CollectionFavourites = ({
 
       <section aria-label="Your favourites" className="flex flex-col gap-4">
         {shown.length ? (
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4 sm:gap-y-5">
             {shown.map((favourite) => {
               const number = formatNationalNumber(favourite.nationalNumber);
               const { owned } = favourite;
@@ -129,12 +131,8 @@ export const CollectionFavourites = ({
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      mark={
-                        <CountMark
-                          count={owned.playIds.length}
-                          label={countPlays(owned.playIds.length)}
-                        />
-                      }
+                      count={countPlays(owned.playIds.length)}
+                      note={countGames(owned.gameNames.length)}
                       types={favourite.types}
                       selected={open?.formId === favourite.formId}
                       detail="See its Plays"

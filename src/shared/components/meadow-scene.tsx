@@ -49,7 +49,7 @@ export const MeadowScene = ({
         "bg-sky relative isolate overflow-hidden",
         form === "band"
           ? "page-band rounded-b-4xl sm:rounded-b-[56px]"
-          : "rounded-xl sm:rounded-2xl",
+          : "rounded-lg sm:rounded-2xl",
         className,
       )}
     >

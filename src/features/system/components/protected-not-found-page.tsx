@@ -29,16 +29,13 @@ export const ProtectedNotFoundPage = ({
       )}
       actions={
         <>
-          <Link
-            href={appRoutes.mainline}
-            className={buttonVariants({ size: "lg" })}
-          >
+          <Link href={appRoutes.mainline} className={buttonVariants()}>
             <AppIcon icon={appIcons.actions.home} inline="start" />
             Back home
           </Link>
           <Link
             href={modules.codex.defaultHref}
-            className={buttonVariants({ variant: "secondary", size: "lg" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
             Browse the Codex

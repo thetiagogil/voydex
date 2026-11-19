@@ -23,7 +23,8 @@ const pages = [
   ["Plans", "/app/plans", false],
   ["Team Planner", "/app/planner?vg=rb", false],
   ["Library", "/app/library", false],
-  ["Collection", "/app/collection", true],
+  /* A collector card says its count in words; only a shiny one has a mark. */
+  ["Collection", "/app/collection", false],
   /* Its corner marks need a family used across Plays, more than this test makes. */
   ["Statistics", "/app/statistics", false],
   ["Codex Pokémon", "/app/codex/pokemon", false],

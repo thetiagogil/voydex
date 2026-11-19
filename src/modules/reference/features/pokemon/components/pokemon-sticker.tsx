@@ -154,7 +154,7 @@ export const PokemonSticker = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const stickerClassName = cn(
-    "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
+    "group/sticker relative flex min-w-0 flex-col items-center rounded-lg px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     "sticker",
     /* The target's ring takes the shadow's place. */
     variant === "default" &&
@@ -302,7 +302,7 @@ export const PokemonEmptySlot = ({
   variant?: PokemonStickerVariant;
 }) => {
   const slotClassName = cn(
-    "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl font-bold",
+    "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-lg font-bold",
     variantClassNames[variant].height,
     target && dropTargetRingClassName,
     className,

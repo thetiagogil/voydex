@@ -51,7 +51,7 @@ const SwatchRow = ({ swatches }: { swatches: Swatch[] }) => (
         <span
           aria-hidden
           style={{ backgroundColor: `var(${swatch.token})` }}
-          className="border-line h-16 rounded-md border"
+          className="border-line h-16 rounded-sm border"
         />
         <span className="text-14 font-extrabold">{swatch.name}</span>
         <span className="text-ink-2 text-13 font-semibold">{swatch.use}</span>
@@ -169,7 +169,7 @@ export const GalleryFoundations = () => (
               key={type}
               aria-hidden
               style={{ "--t": `var(--type-${type})` } as CSSProperties}
-              className="sticker type-tint size-20 rounded-xl"
+              className="sticker type-tint size-20 rounded-lg"
             />
           ))}
         </Specimen>
@@ -178,7 +178,7 @@ export const GalleryFoundations = () => (
           note="A free slot, and the small picked mark"
           ground="ground"
         >
-          <span aria-hidden className="empty-slot size-20 rounded-xl" />
+          <span aria-hidden className="empty-slot size-20 rounded-lg" />
           <span aria-hidden className="bg-action bubble size-7 rounded-full" />
         </Specimen>
       </GalleryGroup>
@@ -188,7 +188,7 @@ export const GalleryFoundations = () => (
             <span
               key={shadow.name}
               className={cn(
-                "bg-surface flex h-20 w-44 flex-col justify-center rounded-xl px-4",
+                "bg-surface flex h-20 w-44 flex-col justify-center rounded-lg px-4",
                 shadow.className,
               )}
             >

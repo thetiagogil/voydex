@@ -19,9 +19,7 @@ export const PlayCardHeading = ({
   title: ReactNode;
 }) => (
   <div className="min-w-0">
-    <p className="text-action-ink text-13 font-bold">
-      {getPlayCardEyebrow(play)}
-    </p>
+    <p className="text-ink-2 text-13 font-bold">{getPlayCardEyebrow(play)}</p>
     <h3 className="title-card descender-room mt-0.5 line-clamp-2 wrap-break-word">
       {title}
     </h3>

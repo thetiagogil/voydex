@@ -1,7 +1,11 @@
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/cn";
 
-/* A meaning, as a small mark: a pill with a dot, never a filled banner. */
+/*
+ * A meaning, as a small mark: a white pill with a dot in the meaning's
+ * colour and its words in the meaning's ink, never a filled banner. It looks
+ * the same on a card and on a band.
+ */
 export type StatusBadgeTone =
   "danger" | "gold" | "calm" | "neutral" | "ok" | "warn";
 
@@ -25,10 +29,7 @@ type StatusBadgeProps = Omit<
   className?: string;
   /* The dot before the words; leave it off where an icon already leads. */
   dot?: boolean;
-  /*
-   * What it sits on. On a page band the soft fills fight the band's tint, so
-   * it turns white and keeps its meaning in the dot and the words.
-   */
+  /* Kept for callers on a band; the mark looks the same everywhere. */
   ground?: "band" | "card";
   size?: StatusBadgeSize;
   tone?: StatusBadgeTone;
@@ -47,7 +48,8 @@ export const StatusBadge = ({
     <Badge
       variant={tone}
       size={size}
-      className={cn(ground === "band" && "bg-surface shadow-card", className)}
+      data-ground={ground}
+      className={cn("border-line bg-surface", className)}
       {...props}
     >
       {dot ? (

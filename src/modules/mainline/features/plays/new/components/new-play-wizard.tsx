@@ -93,8 +93,8 @@ const NewPlaySteps = ({
             >
               <span
                 className={cn(
-                  "text-12 grid size-5.5 place-items-center rounded-full",
-                  isCurrent ? "bg-ink text-on-ink" : "bg-surface text-ink-2",
+                  "text-13 grid size-6 place-items-center rounded-full font-extrabold tabular-nums",
+                  isCurrent ? "bg-ink text-on-ink" : "bg-surface-2 text-ink-2",
                 )}
               >
                 {number}

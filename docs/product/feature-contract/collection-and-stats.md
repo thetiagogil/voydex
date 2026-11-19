@@ -13,9 +13,8 @@ several Plays, Shiny), Generation, Sort (Most used by default, Pokédex
 number, Recently recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
-joined you in. Archived Plays count. Each card carries the same small
-count mark as a played game, its Plays in the window's corner, and no line
-under the name; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
+joined you in. Archived Plays count. Each card says its Plays beside the
+name ("4 Plays") and its games under the art; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 

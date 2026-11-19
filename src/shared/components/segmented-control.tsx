@@ -61,8 +61,8 @@ type SegmentedControlProps<TValue extends string> = {
   phoneScroll?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
-   * `sm` is v3's `.gens` pill: 13px and 30px tall from `sm` up, 40px tall on
-   * phones so it stays easy to tap.
+   * Both sizes are 36px tall from `sm` up and 40px on phones, so pills line
+   * up with small buttons; `sm` has the smaller 13px label, for a tight row.
    */
   size?: "md" | "sm";
   /*
@@ -153,11 +153,11 @@ export const SegmentedControl = <TValue extends string>({
           // The pick moves at once, never fades.
           "inline-flex items-center gap-2 rounded-full whitespace-nowrap [&_svg]:size-4",
           size === "sm"
-            ? "text-13 h-10 min-w-10 justify-center px-2.5 font-extrabold sm:h-7.5"
-            : "text-14 h-10 px-4 font-bold",
+            ? "text-13 h-10 min-w-10 justify-center px-3 font-bold sm:h-9"
+            : "text-14 h-10 px-4 font-bold sm:h-9",
           variant === "pills" && !isActive && "bg-surface",
           // With its 4px track, as tall as a form field (48px).
-          variant === "segment" && size === "md" && "h-10 px-3.5",
+          variant === "segment" && size === "md" && "h-10 px-3.5 sm:h-10",
           iconOnly && "px-3.5 sm:px-3",
           fullWidth && "flex-1 justify-center",
           /*
@@ -166,7 +166,7 @@ export const SegmentedControl = <TValue extends string>({
            */
           isActive
             ? selectedTone === "strong"
-              ? "bg-action bubble text-white"
+              ? "bg-calm bubble text-white"
               : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",

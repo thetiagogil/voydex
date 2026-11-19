@@ -45,13 +45,13 @@ export const TeamMemberEditorReview = ({
               </Button>
             </div>
             <dl className="grid gap-2 sm:grid-cols-2">
-              <div className="bg-surface-2 rounded-md px-3 py-2">
+              <div className="bg-surface-2 rounded-sm px-3 py-2">
                 <dt className="text-ink-3 text-12 font-extrabold">Was</dt>
                 <dd className="text-14 font-semibold wrap-break-word">
                   {item.previous}
                 </dd>
               </div>
-              <div className="bg-select-soft text-select-ink rounded-md px-3 py-2">
+              <div className="bg-select-soft text-select-ink rounded-sm px-3 py-2">
                 <dt className="text-12 font-extrabold">Will be</dt>
                 <dd className="text-14 font-bold wrap-break-word">
                   {item.next}

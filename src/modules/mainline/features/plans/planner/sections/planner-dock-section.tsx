@@ -238,7 +238,7 @@ export const PlannerDockSection = ({
                   <button
                     type="button"
                     onClick={() => onPlace(index)}
-                    className="focus-ring block w-full rounded-xl"
+                    className="focus-ring block w-full rounded-lg"
                   >
                     <PokemonEmptySlot
                       label={`Put ${replacing.name} in slot ${index + 1}`}
@@ -270,7 +270,7 @@ export const PlannerDockSection = ({
                  * The slot lifts as one, with its × and "!"; a drag carries
                  * the card alone (`data-drag-image`).
                  */
-                "group/removable relative min-w-0 rounded-xl transition-transform duration-150",
+                "group/removable relative min-w-0 rounded-lg transition-transform duration-150",
                 slotDragSourceClassName,
                 replacing
                   ? "motion-safe:animate-wiggle hover:animate-none"

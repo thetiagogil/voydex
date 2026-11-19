@@ -16,7 +16,7 @@ const cardVariants = cva(
     variants: {
       size: {
         default: "",
-        sm: "rounded-xl",
+        sm: "rounded-lg",
       },
       variant: {
         default:

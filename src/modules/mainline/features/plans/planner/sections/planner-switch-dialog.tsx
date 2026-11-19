@@ -31,7 +31,7 @@ const SwitchList = ({
 }) => (
   <section aria-label={title} className="grid gap-2">
     <p className="text-ink-2 text-13 font-bold">{title}</p>
-    <ul className="bg-surface-2 grid gap-1 rounded-xl p-2">
+    <ul className="bg-surface-2 grid gap-1 rounded-lg p-2">
       {pokemon.map((entry) => (
         <li
           key={entry.key}

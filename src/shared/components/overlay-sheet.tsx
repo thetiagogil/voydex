@@ -91,7 +91,7 @@ export const OverlaySheet = ({
         className={cn(
           "w-full gap-0 p-0",
           isBottom
-            ? ["max-h-[88dvh] data-[side=bottom]:rounded-t-xl"]
+            ? ["max-h-[88dvh] data-[side=bottom]:rounded-t-lg"]
             : sideSizeClassNames[size],
           className,
         )}

@@ -71,7 +71,7 @@ const ComboboxClear = ({
  * and its focus ring drawn inside so the panel's edge never cuts it.
  */
 const panelSearchClassName =
-  "mb-1.5 h-11 rounded-md border-transparent bg-surface-2 px-1 has-[[data-slot=input-group-control]:focus-visible]:outline-2 has-[[data-slot=input-group-control]:focus-visible]:-outline-offset-2";
+  "mb-1.5 h-11 rounded-sm border-transparent bg-surface-2 px-1 has-[[data-slot=input-group-control]:focus-visible]:outline-2 has-[[data-slot=input-group-control]:focus-visible]:-outline-offset-2";
 
 const ComboboxInput = ({
   className,

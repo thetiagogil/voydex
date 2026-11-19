@@ -66,7 +66,7 @@ const MatchupMark = ({
   return (
     <span
       className={cn(
-        "inline-grid place-items-center rounded-sm px-1.5 font-bold tabular-nums",
+        "inline-grid place-items-center rounded-full px-2 font-bold tabular-nums",
         sizeClassNames[size],
         kindClassNames[kind],
       )}

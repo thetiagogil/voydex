@@ -101,7 +101,7 @@ export const TeamMemberProfile = ({
     <div style={getPokemonTypeCssVariables(primaryType)} className="min-w-0">
       <div
         className={cn(
-          "type-tint relative -mx-2 -mt-1.5 grid h-62.5 place-items-center overflow-hidden rounded-xl",
+          "type-tint relative -mx-2 -mt-1.5 grid h-62.5 place-items-center overflow-hidden rounded-lg",
           toolbar ? "mb-3" : "mb-4.5",
         )}
       >
@@ -245,7 +245,7 @@ export const TeamMemberProfile = ({
       ) : null}
 
       {member.personal_notes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
+        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-sm px-4 py-3 leading-relaxed">
           “{member.personal_notes}”
         </p>
       ) : null}

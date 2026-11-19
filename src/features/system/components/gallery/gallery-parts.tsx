@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 import { SectionHead } from "@/shared/components/section-head";
-import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/cn";
 
 /* What a specimen sits on, so each look is judged on the surface it meets. */
@@ -84,7 +83,7 @@ export const Specimen = ({
   <figure className="flex min-w-0 flex-col gap-2">
     <div
       className={cn(
-        "flex min-h-20 flex-wrap items-center gap-3 rounded-xl p-4",
+        "flex min-h-20 flex-wrap items-center gap-3 rounded-lg p-4",
         groundClassNames[ground],
         className,
       )}
@@ -94,52 +93,6 @@ export const Specimen = ({
     <figcaption className="text-ink-2 text-13 font-semibold">
       <span className="text-ink font-extrabold">{label}</span>
       {note ? ` · ${note}` : null}
-    </figcaption>
-  </figure>
-);
-
-/*
- * A proposed look beside today's, on the same ground, so a change is judged
- * as a pair before the real component takes it.
- */
-export const Compare = ({
-  ground = "card",
-  label,
-  note,
-  proposed,
-  today,
-}: {
-  ground?: "band" | "card" | "ground";
-  /* The change, in a few words. */
-  label: string;
-  /* Why. */
-  note: string;
-  proposed: ReactNode;
-  today: ReactNode;
-}) => (
-  <figure className="flex min-w-0 flex-col gap-2">
-    <div className="grid gap-3 sm:grid-cols-2">
-      {[
-        { name: "Today", node: today, variant: "outline" as const },
-        { name: "Proposed", node: proposed, variant: "calm" as const },
-      ].map((side) => (
-        <div
-          key={side.name}
-          className={cn(
-            "flex min-h-28 flex-col items-start gap-3 rounded-xl p-4",
-            groundClassNames[ground],
-          )}
-        >
-          <Badge variant={side.variant}>{side.name}</Badge>
-          <div className="flex w-full flex-wrap items-center gap-3">
-            {side.node}
-          </div>
-        </div>
-      ))}
-    </div>
-    <figcaption className="text-ink-2 text-13 font-semibold">
-      <span className="text-ink font-extrabold">{label}</span>
-      {` · ${note}`}
     </figcaption>
   </figure>
 );

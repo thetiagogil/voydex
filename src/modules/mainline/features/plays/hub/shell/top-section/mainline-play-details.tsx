@@ -12,8 +12,8 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
+import { PaperTag } from "@/shared/components/paper-tag";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
-import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
   Popover,
@@ -22,7 +22,6 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
-import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
 import { TipNamed } from "@/shared/components/tip-parts";
 
@@ -45,20 +44,13 @@ const PlayDetailChips = ({
   items: { id: string; name: string; tip?: ReactNode; title?: string }[];
   label: string;
 }) => (
-  <ul aria-label={label} className="flex flex-wrap gap-1.5">
+  <ul aria-label={label} className="flex flex-wrap gap-2">
     {items.map((item) => (
       <li key={item.id}>
         <IconTip
           label={item.title}
           trigger={
-            <Badge
-              size="md"
-              className={cn(
-                "whitespace-normal",
-                /* The tip's hit area reaches past the chip's edge. */
-                item.tip && "overflow-visible pr-1.5",
-              )}
-            >
+            <PaperTag>
               {item.name}
               {item.tip ? (
                 <ExplanatoryTip
@@ -67,7 +59,7 @@ const PlayDetailChips = ({
                   triggerVariant="icon"
                 />
               ) : null}
-            </Badge>
+            </PaperTag>
           }
         />
       </li>

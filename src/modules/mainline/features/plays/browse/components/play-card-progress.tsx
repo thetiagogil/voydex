@@ -8,8 +8,8 @@ type PlayCardProgressProps = {
 };
 
 /*
- * Quiet rows: a name, a thin green bar and the figure. A part
- * the Play doesn't track reads "Off" over an empty track.
+ * Quiet rows: a name and a thick bar with its figure inside. A part the
+ * Play doesn't track reads "Off" in an empty track.
  */
 export const PlayCardProgress = ({
   className,
@@ -28,7 +28,7 @@ export const PlayCardProgress = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-[76px_minmax(0,1fr)_38px] items-center gap-x-2 gap-y-1.75",
+        "grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-2 gap-y-1.75",
         className,
       )}
     >
@@ -36,24 +36,16 @@ export const PlayCardProgress = ({
         <div key={item.label} className="contents">
           <span className="text-ink-2 text-13 font-bold">{item.label}</span>
           <Progress
+            showValue
             value={item.percent ?? 0}
             max={100}
+            emptyLabel={item.percent === null ? "Off" : undefined}
             aria-label={
               item.percent === null
                 ? `${item.label} tracking is off`
                 : `${item.label} progress`
             }
-            className="**:data-[slot=progress-track]:h-2.25"
           />
-          {item.percent === null ? (
-            <span className="text-ink-3 text-13 text-right font-semibold">
-              Off
-            </span>
-          ) : (
-            <span className="text-ink text-13 text-right font-bold tabular-nums">
-              {item.percent}%
-            </span>
-          )}
         </div>
       ))}
     </div>

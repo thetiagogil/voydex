@@ -21,10 +21,10 @@
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #f5f6f8;
+  --bg: #f1f4f9;
   --surface: #ffffff;
-  --surface-2: #f2f5f9;
-  --hover: #e9eef5;
+  --surface-2: #eef2f8;
+  --hover: #e3e9f2;
   --ink: #26292f;
   --ink-2: #4b5260;
   --ink-3: #5b6270;
@@ -47,7 +47,8 @@
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
   /* The main button under the pointer: between the action red and its lip. */
   --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
-  --focus: #9e261f;
+  /* The focus ring is blue: it says where you are, as every pick does. */
+  --focus: #1d4f9c;
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
   --gold: #edb443;
@@ -68,8 +69,9 @@
   --ok-line: #9fcdb1;
   /*
    * The third colour, the Poké Mart's blue roof, for a quieter, neutral
-   * meaning: a Play in progress, "evolved or changed form", an info note. Blue never reads
-   * as a pick (red) or a warning (amber), and stays out of actions.
+   * meaning: a Play in progress, "evolved or changed form", an info note, and
+   * every pick and the focus ring (where you are). Blue never reads as an
+   * action (red) or a warning (amber).
    */
   --calm: #2a6fd6;
   --calm-ink: #1d4f9c;
@@ -117,15 +119,17 @@
    * Center's windows, under the top bar and the page's head.
    */
   --band-fill: #e6eef9;
+  /* The deeper strip of the band the bar sits on. */
+  --band-deep: #d3e1f6;
 
   /*
    * The accent by role: its deep shade for small eyebrows and marks, and the
    * selected tint with its ink, for every picked row, chip and pill.
    */
   --action-ink: color-mix(in oklab, var(--action) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--action) 16%, #fff);
-  --select-soft-hover: color-mix(in oklab, var(--action) 22%, #fff);
-  --select-ink: color-mix(in oklab, var(--action) 45%, var(--ink));
+  --select-soft: color-mix(in oklab, var(--calm) 16%, #fff);
+  --select-soft-hover: color-mix(in oklab, var(--calm) 22%, #fff);
+  --select-ink: var(--calm-ink);
 
   /*
    * A game's own colour, only where it tells games apart (a version dot, a
@@ -138,10 +142,8 @@
   /* Corners */
   --r-xs: 6px;
   --r-sm: 12px;
-  --r-md: 16px;
   --r-lg: 20px;
-  --r-xl: 26px;
-  --r-2xl: 32px;
+  --r-2xl: 28px;
 
   /*
    * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
@@ -168,9 +170,6 @@
   --shadow-cover-value: 0 10px 18px -10px rgb(var(--shade) / 0.5);
   --shadow-float-value: 0 14px 28px -16px rgb(var(--shade) / 0.3);
   --shadow-overlay-value: 0 30px 50px -20px rgb(var(--shade) / 0.45);
-  /* Bars: a track pressed in at the top, a fill with a darker base. */
-  --shadow-track-value: inset 0 2px 0 rgb(var(--shade) / 0.08);
-  --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
 
   /*
    * The page frame: the column every page, bar and footer lines up in, its
@@ -181,6 +180,8 @@
   --page-gutter: 1rem;
   --page-top: 0.5rem;
   --bar-h: 3.75rem;
+  /* How far the bar's strip steps down round the logo. */
+  --band-step: 0.75rem;
 
   @variant sm {
     --page-gutter: 1.5rem;
@@ -225,7 +226,7 @@
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
   --bar-hover: color-mix(in oklab, var(--surface) 70%, transparent);
-  --bar-current: var(--select-soft);
+  --bar-current: var(--surface);
   --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
   /* The bar's words under the pointer; white where the bar sits on the red. */
@@ -291,6 +292,7 @@
   --color-dex-yellow: var(--dex-yellow);
   --color-dex-green: var(--dex-green);
   --color-band: var(--band-fill);
+  --color-band-deep: var(--band-deep);
   --color-game: var(--game);
   --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);
@@ -338,9 +340,7 @@
 
   --radius-xs: var(--r-xs);
   --radius-sm: var(--r-sm);
-  --radius-md: var(--r-md);
   --radius-lg: var(--r-lg);
-  --radius-xl: var(--r-xl);
   --radius-2xl: var(--r-2xl);
 
   --shadow-soft: var(--shadow-soft-value);
@@ -349,8 +349,6 @@
   --shadow-overlay: var(--shadow-overlay-value);
   /* A popup panel: a hairline so it parts from a white page, then the float. */
   --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
-  --shadow-track: var(--shadow-track-value);
-  --shadow-fill: var(--shadow-fill-value);
   --shadow-dex-lens: var(--shadow-dex-lens-value);
   --shadow-dex-light: var(--shadow-dex-light-value);
   --shadow-card:

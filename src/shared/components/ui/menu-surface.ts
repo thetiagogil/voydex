@@ -28,7 +28,7 @@ export const menuPanelClassName = `${menuSurfaceClassName} p-1.5`;
 
 /* An option row's shape, shared by items and the bar's menu links. */
 export const menuOptionShapeClassName =
-  "flex min-h-12 items-center gap-3 rounded-md py-1.5 pl-2 text-15 font-bold";
+  "flex min-h-12 items-center gap-3 rounded-sm py-1.5 pl-2 text-15 font-bold";
 
 /* One option's row. Items mark the highlighted and the picked option. */
 export const menuOptionClassName = `${menuOptionShapeClassName} relative w-full scroll-my-1.5 max-md:scroll-my-4 cursor-default pr-10 outline-hidden select-none transition-colors data-highlighted:bg-hover data-highlighted:text-ink data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0`;

@@ -183,6 +183,15 @@ const sourceRules = [
     ],
   },
   /*
+   * Four corner sizes (Design System, Depth): 6, 12, 20 and 28px, and the
+   * pill. The two steps between them were retired on 2026-11-19, so nested
+   * corners stop drifting apart.
+   */
+  {
+    label: "a retired corner size (use rounded-xs, -sm, -lg, -2xl or -full)",
+    pattern: /(?<![-\w])rounded(?:-[tblrse]{1,2})?-(?:md|xl)(?![-\w])/,
+  },
+  /*
    * The card-corner rule (Design System, Card corners): a Pokémon card's
    * marks (slot number, warning, shiny, state, Pokédex number) are drawn by
    * the shared marks in `corner-bubble.tsx` and placed by `CornerBubble`,

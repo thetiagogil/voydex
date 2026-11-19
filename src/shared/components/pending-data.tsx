@@ -45,7 +45,7 @@ export const PendingData = ({
     <div
       data-slot="pending-data"
       className={cn(
-        "empty-slot text-ink-3 flex flex-col items-center gap-1.5 rounded-md px-4 py-5 text-center",
+        "empty-slot text-ink-3 flex flex-col items-center gap-1.5 rounded-sm px-4 py-5 text-center",
         className,
       )}
     >

@@ -421,7 +421,7 @@ export const PlannerSlotSheet = ({
             <button
               type="button"
               onClick={() => setBuildOpenFor(slotIndex)}
-              className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
+              className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-sm px-4 py-3 text-left"
             >
               <AppIcon icon={appIcons.actions.create} size="md" />
               <span>

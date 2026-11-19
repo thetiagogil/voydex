@@ -16,7 +16,7 @@ type RecordMilestoneButtonProps = Omit<
   label: string;
   /* While it saves: a spinner in place of the check. */
   pending?: boolean;
-  size?: "lg" | "sm";
+  size?: "default" | "sm";
 };
 
 /*
@@ -29,12 +29,12 @@ export const RecordMilestoneButton = ({
   href,
   label,
   pending = false,
-  size = "lg",
+  size = "default",
   ...props
 }: RecordMilestoneButtonProps) => {
   const classNames = cn(
-    size === "lg" &&
-      "h-auto min-h-14 py-3 text-left whitespace-normal sm:whitespace-nowrap",
+    size === "default" &&
+      "h-auto min-h-12 py-2.5 text-left whitespace-normal sm:whitespace-nowrap",
     className,
   );
   const content = (

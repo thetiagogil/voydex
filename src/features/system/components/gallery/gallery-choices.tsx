@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CheckboxCard } from "@/shared/components/checkbox-card";
 import { ChoiceChip } from "@/shared/components/choice-chip";
+import { PaperTag } from "@/shared/components/paper-tag";
 import { RemovableChip } from "@/shared/components/removable-chip";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldContent, FieldLabel } from "@/shared/components/ui/field";
@@ -178,6 +179,14 @@ export const GalleryChoices = () => {
             <ChoiceChip size="lg" disabled>
               Only shiny
             </ChoiceChip>
+          </Specimen>
+          <Specimen
+            label="PaperTag"
+            note="A label a thing carries: a Play's tag or rule. Never a control"
+          >
+            <PaperTag>Nuzlocke</PaperTag>
+            <PaperTag>First run</PaperTag>
+            <PaperTag size="lg">With a friend</PaperTag>
           </Specimen>
           <Specimen
             label="RemovableChip"

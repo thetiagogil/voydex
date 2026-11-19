@@ -42,12 +42,12 @@ export const Meter = ({
     >
       <MeterPrimitive.Track
         data-slot="meter-track"
-        className="bg-track shadow-track relative h-3.5 overflow-hidden rounded-full"
+        className="bg-track relative h-3.5 overflow-hidden rounded-full"
       >
         <MeterPrimitive.Indicator
           data-slot="meter-indicator"
           style={{ backgroundColor: fill }}
-          className="shadow-fill rounded-full"
+          className="rounded-full"
         />
       </MeterPrimitive.Track>
     </MeterPrimitive.Root>

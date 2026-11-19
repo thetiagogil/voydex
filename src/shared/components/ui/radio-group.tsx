@@ -14,13 +14,13 @@ const RadioGroup = ({ className, ...props }: RadioGroupPrimitive.Props) => {
   );
 };
 
-/* v3's radio dot: a quiet ring that fills to a thick action-red ring when on. */
+/* v3's radio dot: a quiet ring that fills to a thick blue ring when on. */
 const RadioGroupItem = ({ className, ...props }: RadioPrimitive.Root.Props) => {
   return (
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "group/radio-group-item peer border-mute bg-surface data-checked:border-action aria-invalid:border-danger focus-ring relative flex aspect-square size-4.5 shrink-0 rounded-full border-2 transition-[border-color,border-width] after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50 data-checked:border-[5px]",
+        "group/radio-group-item peer border-mute bg-surface data-checked:border-calm aria-invalid:border-danger focus-ring relative flex aspect-square size-4.5 shrink-0 rounded-full border-2 transition-[border-color,border-width] after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50 data-checked:border-[5px]",
         className,
       )}
       {...props}

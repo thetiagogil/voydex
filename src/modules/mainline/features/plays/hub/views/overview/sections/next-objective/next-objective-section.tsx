@@ -169,18 +169,18 @@ export const NextObjectiveSection = ({
                 milestoneName={nextMilestone.milestone_name ?? "Milestone"}
               />
             )}
-            <AddNoteDialog playId={playId} size="lg" />
+            <AddNoteDialog playId={playId} />
           </>
         ) : (
           <>
             <Link
               href={appRoutes.mainlinePlayProgressStory(playId)}
-              className={buttonVariants({ size: "lg", variant: "secondary" })}
+              className={buttonVariants({ variant: "secondary" })}
             >
               <AppIcon icon={appIcons.milestones.story} />
               See the Story
             </Link>
-            <AddNoteDialog playId={playId} size="lg" />
+            <AddNoteDialog playId={playId} />
           </>
         )
       }

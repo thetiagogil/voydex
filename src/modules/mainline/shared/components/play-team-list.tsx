@@ -14,7 +14,7 @@ export const PlayTeamList = ({ plays }: { plays: PlayTeam[] }) => (
       <li key={follower.playId} className="min-w-0">
         <Link
           href={appRoutes.mainlinePlay(follower.playId)}
-          className="bg-surface-2 hover:bg-hover focus-ring grid min-w-0 gap-3 rounded-xl px-4 py-3.5 transition-colors"
+          className="bg-surface-2 hover:bg-hover focus-ring grid min-w-0 gap-3 rounded-lg px-4 py-3.5 transition-colors"
         >
           <span className="text-ink text-15 truncate font-extrabold">
             {follower.playName}

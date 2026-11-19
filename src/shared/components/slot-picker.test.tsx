@@ -38,7 +38,7 @@ const buttonsOf = (node: ReactNode): ReactElement<ButtonProps>[] => {
 };
 
 describe("SlotPicker", () => {
-  it("tints the place a previewed move leaves in blue, not the picked one", () => {
+  it("dashes the place a previewed move leaves, and fills only the picked one in blue", () => {
     const html = render(
       [
         slot({ tone: "from" }),
@@ -47,8 +47,9 @@ describe("SlotPicker", () => {
       { selected: 2 },
     );
 
-    expect(html.match(/bg-calm-soft/g)).toHaveLength(1);
-    expect(html.match(/border-action/g)).toHaveLength(1);
+    expect(html.match(/border-dashed/g)).toHaveLength(1);
+    expect(html.match(/border-calm/g)).toHaveLength(1);
+    expect(html.match(/bg-select-soft/g)).toHaveLength(1);
   });
 
   it("hands the picked slot's value to onPick, slot 0 included", () => {

@@ -57,7 +57,7 @@ export const MainlinePlayTopInfo = ({
 
   return (
     <div className="min-w-0 flex-1">
-      <p className="text-action-ink text-13 sm:text-14 font-bold">
+      <p className="text-ink-2 text-13 sm:text-14 font-bold">
         {getEyebrow(data)}
       </p>
       <h1 id={titleId} className="title-hero mt-1 mb-2.5">

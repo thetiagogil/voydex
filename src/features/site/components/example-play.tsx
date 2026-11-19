@@ -54,11 +54,10 @@ export const ExamplePlay = ({
           {samplePlayProgress.map((bar) => (
             <div
               key={bar.label}
-              className="text-13 grid grid-cols-[4rem_minmax(0,1fr)_2.5rem] items-center gap-2 font-bold"
+              className="text-13 grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-2 font-bold"
             >
               {bar.label}
-              <Progress value={bar.percent} aria-label={bar.label} />
-              <span className="text-right tabular-nums">{bar.percent}%</span>
+              <Progress showValue value={bar.percent} aria-label={bar.label} />
             </div>
           ))}
         </div>
@@ -69,7 +68,7 @@ export const ExamplePlay = ({
         <span
           key={pokemon.slug}
           style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-md"
+          className="sticker grid aspect-square place-items-center rounded-sm"
         >
           <PokemonRender
             art={art}

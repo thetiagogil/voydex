@@ -181,7 +181,7 @@ export const MoveSlotSelect = ({
         aria-label={`Move ${slot}: ${selected?.label ?? emptyLabel}`}
         aria-description={selected?.info ?? undefined}
         style={getPokemonTypeCssVariables(type)}
-        className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
+        className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
       >
         <span className="text-ink-3 text-12 w-3 shrink-0 font-extrabold tabular-nums">
           {slot}

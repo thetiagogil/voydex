@@ -30,7 +30,7 @@ export const ObjectiveEyebrow = ({
 }) => (
   <p
     className={cn(
-      "text-action-ink text-13 flex items-center gap-2 font-extrabold",
+      "text-calm-ink text-13 flex items-center gap-2 font-extrabold",
       className,
     )}
   >

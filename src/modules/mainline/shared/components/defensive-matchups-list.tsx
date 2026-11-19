@@ -40,7 +40,7 @@ export const DefensiveMatchupsList = ({
           <AccordionItem
             key={row.attackingType.slug}
             value={row.attackingType.slug}
-            className="bg-surface-2 rounded-md not-last:border-b-0"
+            className="bg-surface-2 rounded-sm not-last:border-b-0"
           >
             {/*
              * Each row heads one level below the section titles. The chevron
@@ -48,7 +48,7 @@ export const DefensiveMatchupsList = ({
              */}
             <AccordionTrigger
               headingLevel={4}
-              className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-2.5 gap-y-1 rounded-md px-3"
+              className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-2.5 gap-y-1 rounded-sm px-3"
             >
               <span className="col-start-1 row-start-1 flex min-w-0 flex-wrap items-center gap-1">
                 <TypeName type={row.attackingType} />

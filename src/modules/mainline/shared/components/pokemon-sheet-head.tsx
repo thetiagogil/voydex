@@ -53,7 +53,7 @@ const PokemonSheetHead = ({
         <span
           aria-hidden
           className={cn(
-            "grid shrink-0 place-items-center rounded-xl",
+            "grid shrink-0 place-items-center rounded-lg",
             planned ? "bg-white/70" : "sticker",
             inset ? "size-21" : "size-20 sm:size-27.5",
           )}

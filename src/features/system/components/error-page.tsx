@@ -28,13 +28,13 @@ export const ErrorPage = ({ error, homeHref, reset }: ErrorPageProps) => {
       description="Voydex couldn't load this page. Try again, or go back home."
       actions={
         <>
-          <Button type="button" size="lg" onClick={reset}>
+          <Button type="button" onClick={reset}>
             <AppIcon icon={appIcons.actions.retry} inline="start" />
             Try again
           </Button>
           <Link
             href={homeHref}
-            className={buttonVariants({ variant: "secondary", size: "lg" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.actions.home} inline="start" />
             Back home

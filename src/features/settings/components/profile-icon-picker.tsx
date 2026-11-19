@@ -46,7 +46,7 @@ export const ProfileIconPicker = ({
               style={getProfileIconTintStyle(choice.typeSlug)}
               className={cn(
                 "type-tint focus-ring grid size-12 place-items-center overflow-hidden rounded-full border-2 hover:brightness-95",
-                isPicked ? "border-action" : "border-transparent",
+                isPicked ? "border-calm" : "border-transparent",
               )}
             >
               <FallbackImage

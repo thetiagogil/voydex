@@ -70,7 +70,7 @@ export const StoryMilestoneActions = ({
               render={
                 <Button
                   type="button"
-                  size="icon-lg"
+                  size="icon"
                   disabled={!milestone.isAvailable}
                   aria-label="More ways to record"
                 />

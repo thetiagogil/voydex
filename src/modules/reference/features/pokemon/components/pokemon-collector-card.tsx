@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -20,9 +18,11 @@ type PokemonCollectorCardProps = {
    */
   detail?: string;
   imageUrl: string | null;
-  /* A mark in the window's top-right corner: the Collection's `CountMark`. */
-  mark?: ReactNode;
+  /* What it counts, at the end of the name's line, such as "4 Plays". */
+  count?: string;
   name: string;
+  /* One more fact, at the end of the number's line, such as "3 games". */
+  note?: string;
   /* Its Pokédex number, as the card's own number. */
   number?: string;
   onClick: () => void;
@@ -33,18 +33,21 @@ type PokemonCollectorCardProps = {
 };
 
 /*
- * A collector card is for a Pokémon you own, where you look at it as part
- * of a set (the Collection): a frame in its type's colour round a white
- * card, with its name, its art in a window, its types and its number. Every
- * card in a grid stands as tall as the next. Where a Pokémon of yours is only mentioned in passing, it stays a
+ * A collector card is for a Pokémon you own, in the Collection, where you
+ * look at it as part of a set. It is the sticker's louder sibling, with the
+ * same round corners: a frame in its type's colour round a white
+ * card, with its name and count, its art in a window, its number and one
+ * more fact, then its types on one line, so every card in a grid stands as
+ * tall as the next. Where a Pokémon of yours is only mentioned in passing, it stays a
  * `PokemonSticker`; a Pokémon you don't own is a `PokemonCard`.
  */
 export const PokemonCollectorCard = ({
   className,
+  count,
   detail,
   imageUrl,
-  mark,
   name,
+  note,
   number,
   onClick,
   selected = false,
@@ -56,23 +59,25 @@ export const PokemonCollectorCard = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
 
-  return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onClick}
-      style={style}
-      className={cn(
-        "group/collector focus-ring shadow-soft relative flex h-full min-w-0 flex-col overflow-hidden rounded-md p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
-        selected ? "bg-(--t)" : "card-frame",
-        className,
-      )}
-    >
-      <span className="bg-surface flex min-w-0 flex-1 flex-col rounded-sm p-2">
-        <span className="font-display text-16 descender-room truncate leading-tight font-semibold">
-          {name}
+  const cardClassName = cn(
+    "group/collector focus-ring shadow-soft relative flex h-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
+    selected ? "bg-(--t)" : "card-frame",
+    className,
+  );
+  const content = (
+    <>
+      <span className="bg-surface flex min-w-0 flex-1 flex-col rounded-lg p-2.5">
+        <span className="flex min-w-0 items-baseline justify-between gap-2">
+          <span className="font-display text-16 descender-room truncate leading-tight font-semibold">
+            {name}
+          </span>
+          {count ? (
+            <span className="type-ink text-12 shrink-0 font-extrabold tabular-nums">
+              {count}
+            </span>
+          ) : null}
         </span>
-        <span className="card-window relative mt-1.5 grid aspect-4/3 place-items-center overflow-hidden rounded-xs">
+        <span className="card-window relative mt-1.5 grid aspect-4/3 place-items-center overflow-hidden rounded-sm">
           {/* The window's one flourish: a pale arc behind the art. */}
           <span
             aria-hidden
@@ -83,31 +88,22 @@ export const PokemonCollectorCard = ({
             name={name}
             className="relative size-24"
           />
-          {/* The corner rule, inside the window: shiny top-left, the count top-right. */}
           {shiny ? (
-            <CornerBubble border="line" corner="inside-top-left">
+            <CornerBubble border="line" corner="inside-top-right">
               <ShinyMark />
             </CornerBubble>
           ) : null}
-          {mark ? (
-            <CornerBubble border="line" corner="inside-top-right">
-              {mark}
-            </CornerBubble>
-          ) : null}
         </span>
-        <span className="mt-auto flex min-w-0 items-center justify-between gap-2 pt-2">
-          <PokemonTypeList
-            types={types}
-            badgeDisplay="icon"
-            badgeSize="sm"
-            className="flex gap-1"
-          />
-          {number ? (
-            <span className="text-ink-2 text-12 shrink-0 font-extrabold tabular-nums">
-              {number}
-            </span>
-          ) : null}
+        <span className="text-ink-2 text-12 mt-2 flex min-w-0 justify-between gap-2 font-extrabold tabular-nums">
+          {number ? <span className="shrink-0">{number}</span> : null}
+          {note ? <span className="truncate">{note}</span> : null}
         </span>
+        <PokemonTypeList
+          types={types}
+          badgeDisplay="label"
+          badgeSize="sm"
+          className="mt-auto flex gap-1 pt-1.5"
+        />
       </span>
       {/* A glint crosses the card under the pointer, as light across a real one. */}
       <span
@@ -115,6 +111,18 @@ export const PokemonCollectorCard = ({
         className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] motion-reduce:hidden"
       />
       {detail ? <span className="sr-only">, {detail}</span> : null}
+    </>
+  );
+
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      style={style}
+      className={cardClassName}
+    >
+      {content}
     </button>
   );
 };

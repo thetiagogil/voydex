@@ -9,10 +9,8 @@ import { GalleryFields } from "./gallery-fields";
 import { GalleryFoundations } from "./gallery-foundations";
 import { GalleryMarks } from "./gallery-marks";
 import { GalleryOverlays } from "./gallery-overlays";
-import { GalleryProposals } from "./gallery-proposals";
 
 const families = [
-  { id: "proposals", label: "Proposed changes" },
   { id: "colours", label: "Colours" },
   { id: "type", label: "Type" },
   { id: "edges", label: "Edges and shadows" },
@@ -56,7 +54,6 @@ export const ComponentGallery = () => (
         </ul>
       </nav>
       <div className="flex min-w-0 flex-col gap-14">
-        <GalleryProposals />
         <GalleryFoundations />
         <GalleryActions />
         <GalleryChoices />

@@ -48,17 +48,12 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
             {getProgressNote(play)}
           </p>
         ) : (
-          <div className="grid grid-cols-[minmax(0,1fr)_38px] items-center gap-x-2">
-            <Progress
-              value={percent}
-              max={100}
-              aria-label="Combined progress"
-              className="**:data-[slot=progress-track]:h-2.25"
-            />
-            <span className="text-ink text-13 text-right font-bold tabular-nums">
-              {percent}%
-            </span>
-          </div>
+          <Progress
+            showValue
+            value={percent}
+            max={100}
+            aria-label="Combined progress"
+          />
         )}
       </div>
     </Card>

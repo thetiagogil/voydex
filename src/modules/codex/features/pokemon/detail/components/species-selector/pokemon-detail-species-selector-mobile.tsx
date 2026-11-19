@@ -110,7 +110,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
                     variant="ghost"
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "text-ink text-15 h-auto min-h-14 w-full justify-start gap-3 rounded-md py-1.5 pr-3 pl-2 text-left font-bold whitespace-normal",
+                      "text-ink text-15 h-auto min-h-14 w-full justify-start gap-3 rounded-sm py-1.5 pr-3 pl-2 text-left font-bold whitespace-normal",
                       isActive && pokemonDetailSpeciesSelectorActiveClassName,
                     )}
                     onClick={() => {

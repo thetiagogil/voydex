@@ -166,12 +166,26 @@ Voydex is quiet where you work and loud where you remember. The
   per job, edited in place; product components build on them and add
   meaning; screens use one of the two and never re-type a component's
   classes. If a screen needs more, the component gets the option.
-- No hard lips and no presses that move. Actions and owned Pokémon share the
-  sticker edge (a white band on a soft shadow); cards lift on soft shadows;
-  the one picked is a small sticker (`bubble`) and never changes weight.
-  Selected rows, chips and filter pills take `bg-select-soft
-text-select-ink`; a mode switch and a scope picker take the strong context
-  colour. Toolbars and form rows are 48px; below 1024px sheets open from the
+- Each colour has one job: the red (`action`) is only for actions; the blue
+  (`calm`) says where you are and what is on (picked rows, chips and pills
+  take `bg-select-soft text-select-ink`, a mode switch, a scope picker, a
+  tick and a switch take the solid blue), and it draws progress and counts.
+- One shape language: everything is round and soft, and flat unless it is
+  the page's main action. One Pokémon card everywhere (`PokemonCard`, and
+  `PokemonSticker` on a team): white with a thin line when it isn't yours,
+  tinted in the white band when it is. Only the Collection frames what you
+  own as collector cards (`PokemonCollectorCard`, `GameShelfCard` with
+  `count`). A Play's tags and rules are paper tags (`PaperTag`), never
+  controls. Bars are flat; a row of them is thick with its figure inside.
+- Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
+  too. Only the main action (`default`) wears the white band and shadow;
+  every other button is flat, and a quiet one takes the fields' surface
+  (white with a hairline on the ground, the inset fill inside a card).
+- No hard lips and no presses that move. The main action and stickers share
+  the sticker edge (a white band on a soft shadow); cards lift on soft shadows;
+  the one picked never changes weight. The bar has no surface of its own: it
+  sits on the band's deeper strip, which steps down round the logo.
+  Toolbars and form rows are 48px; below 1024px sheets open from the
   bottom; every overlay, confirms included, has the corner close button and
   closes on Escape or a tap outside.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,

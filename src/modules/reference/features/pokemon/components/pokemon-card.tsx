@@ -205,7 +205,7 @@ export const PokemonCard = ({
         (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
       )}
       className={cn(
-        "relative flex h-full min-w-0 flex-col items-center rounded-xl text-center transition-transform duration-150 hover:-translate-y-0.75",
+        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
         isSticker
           ? cn(
               "sticker",

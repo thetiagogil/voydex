@@ -374,7 +374,7 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
  * Z-Crystal turns into a Z-Move carries the crystal's sprite.
  */
 const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
-  <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-xl px-2 pt-2 pb-2 text-left">
+  <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-lg px-2 pt-2 pb-2 text-left">
     {/* Its level stays on the front; the back names whose moves these are. */}
     <p className="text-ink-3 text-12 truncate px-1 font-extrabold">
       {pokemon.name}
@@ -391,7 +391,7 @@ const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
             <li
               key={move.slug}
               style={getPokemonTypeCssVariables(typeSlug)}
-              className="text-12 flex min-w-0 items-center gap-1.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-1.5 py-0.5 leading-tight font-extrabold"
+              className="text-12 flex min-w-0 items-center gap-1.5 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-1.5 py-0.5 leading-tight font-extrabold"
             >
               {typeSlug ? (
                 /* On phones the tint carries the type; the icon's name stays for screen readers. */

@@ -91,7 +91,7 @@ const foldLabel = (open: boolean) =>
 const FilterDot = () => (
   <span
     aria-hidden
-    className="bg-action bubble pointer-events-none absolute -top-1 -right-1 size-2.5 rounded-full"
+    className="bg-calm bubble pointer-events-none absolute -top-1 -right-1 size-2.5 rounded-full"
   />
 );
 

@@ -71,7 +71,7 @@ const RecordedValue = ({
 };
 
 const artBoxClassName =
-  "grid size-20 place-items-center rounded-xl sm:size-27.5";
+  "grid size-20 place-items-center rounded-lg sm:size-27.5";
 const artClassName = "size-17 sm:size-23";
 
 /* One side of the head: a label, the Pokémon and its name. */
@@ -296,7 +296,7 @@ export const TeamPlanCompareDialog = ({
       </table>
 
       {comparison.memberNotes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
+        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-sm px-4 py-3 leading-relaxed">
           “{comparison.memberNotes}”
         </p>
       ) : null}

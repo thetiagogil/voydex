@@ -164,9 +164,9 @@ const MostPickedCard = ({
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
-        className="group/picked focus-ring flex flex-col items-center gap-2.5 rounded-xl text-center"
+        className="group/picked focus-ring flex flex-col items-center gap-2.5 rounded-lg text-center"
       >
-        <span className="sticker grid size-28 shrink-0 place-items-center rounded-xl transition-transform group-hover/picked:-translate-y-0.75">
+        <span className="sticker grid size-28 shrink-0 place-items-center rounded-lg transition-transform group-hover/picked:-translate-y-0.75">
           <FallbackImage
             src={entry.imageUrl}
             name={entry.name}

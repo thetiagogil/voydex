@@ -38,7 +38,7 @@ const BoardRule = ({
      * Its own layer (`translate3d`), so the browser's drag picture is just
      * the rounded row, not the square of the column behind its corners.
      */
-    className="bg-surface shadow-card flex min-h-12 transform-[translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-xl py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
+    className="bg-surface shadow-card flex min-h-12 transform-[translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-lg py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
   >
     <AppIcon
       icon={appIcons.actions.dragHandle}
@@ -91,7 +91,7 @@ const BoardColumn = ({
     {count ? (
       <ul className="grid gap-2">{children}</ul>
     ) : (
-      <p className="text-ink-3 text-14 border-line rounded-xl border-2 border-dashed px-3 py-4 text-center font-semibold">
+      <p className="text-ink-3 text-14 border-line rounded-lg border-2 border-dashed px-3 py-4 text-center font-semibold">
         {empty}
       </p>
     )}

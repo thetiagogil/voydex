@@ -27,16 +27,13 @@ export const PublicNotFoundPage = ({ pokemon }: PublicNotFoundPageProps) => {
       )}
       actions={
         <>
-          <Link
-            href={appRoutes.home}
-            className={buttonVariants({ size: "lg" })}
-          >
+          <Link href={appRoutes.home} className={buttonVariants()}>
             <AppIcon icon={appIcons.actions.home} inline="start" />
             Back home
           </Link>
           <Link
             href={modules.codex.defaultHref}
-            className={buttonVariants({ variant: "secondary", size: "lg" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
             Browse the Codex

@@ -38,7 +38,7 @@ const getShelfItemClassName = (index: number) =>
       : "max-lg:hidden";
 
 const coverLinkClassName =
-  "group/shelf-item relative flex shrink-0 flex-col items-center rounded-md focus-visible:outline-offset-4 focus-ring";
+  "group/shelf-item relative flex shrink-0 flex-col items-center rounded-sm focus-visible:outline-offset-4 focus-ring";
 
 /* A plain click switches in place; a modified one opens the link as usual. */
 const isPlainClick = (event: MouseEvent) =>

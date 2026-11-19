@@ -44,7 +44,7 @@ const artSizes = {
 
 /*
  * The pill under something standing on the meadow: a partner's name, or the
- * game New Play picked. Picked, it takes the action fill with a check.
+ * game New Play picked. Picked, it takes the blue fill with a check.
  */
 export const MeadowLabel = ({
   compact = false,
@@ -64,7 +64,7 @@ export const MeadowLabel = ({
       open
         ? "text-ink-2"
         : selected
-          ? "bg-action text-white"
+          ? "bg-calm text-white"
           : "bg-surface bubble text-ink",
       compact &&
         (selected

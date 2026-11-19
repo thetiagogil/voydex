@@ -46,7 +46,8 @@ export const TrainerPlayRow = ({
       aria-label={label}
       className={cn(
         rowInteractionVariants({ interaction: "action" }),
-        "-mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2",
+        /* Each Play is its own inset tile, so a list of them reads as cards. */
+        "bg-surface-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-lg px-3 py-2",
       )}
     >
       <GameCover

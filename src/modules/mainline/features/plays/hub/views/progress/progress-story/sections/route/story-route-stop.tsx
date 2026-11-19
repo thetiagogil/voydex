@@ -77,7 +77,7 @@ export const StoryRouteStop = ({
        */
       sticker
         ? "sticker ease-hop my-1 -ml-1.5 w-[calc(100%+0.375rem)] rounded-[2.25rem] p-2 pr-4 transition-transform duration-200 hover:-translate-y-0.5"
-        : "group rounded-xl py-1.5 pr-2 pl-1.5",
+        : "group rounded-lg py-1.5 pr-2 pl-1.5",
     )}
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
@@ -195,7 +195,7 @@ export const StoryRoutePlace = ({
     aria-haspopup={opensSheet ? "dialog" : undefined}
     aria-current={selected ? "true" : undefined}
     onClick={onSelect}
-    className="focus-ring group flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left"
+    className="focus-ring group flex min-h-10 w-full items-center gap-3 rounded-lg pr-2 pl-1.5 text-left"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span

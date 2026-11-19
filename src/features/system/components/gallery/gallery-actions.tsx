@@ -65,15 +65,11 @@ export const GalleryActions = () => {
         </GalleryGroup>
 
         <GalleryGroup title="Sizes">
-          <Specimen label="lg, default, sm" note="56, 48 and 36px">
-            <Button size="lg">Start a Play</Button>
+          <Specimen label="default and sm" note="48 and 36px">
             <Button>Save</Button>
             <Button size="sm">Add</Button>
           </Specimen>
-          <Specimen label="icon sizes" note="56, 48, 36 and 28px">
-            <Button size="icon-lg" variant="secondary" aria-label="Search">
-              <AppIcon icon={appIcons.actions.search} />
-            </Button>
+          <Specimen label="icon sizes" note="48, 36 and 28px">
             <Button size="icon" variant="secondary" aria-label="Search">
               <AppIcon icon={appIcons.actions.search} />
             </Button>

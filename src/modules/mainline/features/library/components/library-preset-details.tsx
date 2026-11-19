@@ -127,7 +127,7 @@ export const LibraryPresetDetails = ({
               {orderPresetRules(preset.ruleIds, rules, kinds).map((rule) => (
                 <li
                   key={rule.id}
-                  className="bg-surface-2 grid gap-0.5 rounded-xl px-4 py-3"
+                  className="bg-surface-2 grid gap-0.5 rounded-lg px-4 py-3"
                 >
                   <span className="text-ink text-15 font-bold">
                     {rule.name}
