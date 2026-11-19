@@ -58,7 +58,11 @@ export const HomeBandHeading = ({
   </div>
 );
 
-/* The ground's row: what is current, and the page's one main button. */
+/*
+ * Under the cast, in the middle: what is current, how it stands, and the
+ * page's one main button right under them, so the eye never crosses the page
+ * from the name to the button.
+ */
 export const HomeBandGround = ({
   action,
   detail,
@@ -68,7 +72,7 @@ export const HomeBandGround = ({
   detail: ReactNode;
   title: ReactNode;
 }) => (
-  <div className="mx-auto flex w-[min(1216px,calc(100%-2.5rem))] flex-col items-center gap-x-8 gap-y-4 text-center sm:flex-row sm:justify-between sm:text-left">
+  <div className="mx-auto flex w-[min(1216px,calc(100%-2.5rem))] flex-col items-center gap-4 text-center">
     <div aria-live="polite" className="min-w-0">
       <b className="title-card lg:title-page block">{title}</b>
       <span className="text-ink-2 copy-note lg:copy-body mt-0.5 block lg:mt-1.5">
