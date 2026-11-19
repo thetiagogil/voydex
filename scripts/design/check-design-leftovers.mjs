@@ -223,6 +223,15 @@ const sourceRules = [
     pattern:
       /(?:\[&_svg[^\]]*\]|\[&>svg\]|\*:\[svg\]):size-(?:2|2\.5|3|4\.5|5\.5)(?![-\w.])/,
   },
+  /*
+   * Two control heights, the same on every screen: 48px and 36px. A small
+   * control no longer grows to 40px on phones.
+   */
+  {
+    label: "a phone-only control height (small controls are 36px everywhere)",
+    pattern:
+      /(?<![-\w:])(?:min-)?h-10(?![-\w])[^"]*(?<![-\w])(?:sm|md):(?:min-)?h-(?:8|9)!?(?![-\w])/,
+  },
   {
     label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",
     pattern:

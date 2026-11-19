@@ -4,11 +4,11 @@ import type { ReactNode } from "react";
 /*
  * A last step that opens a picker (the Pokémon's or the game's name): the
  * page's name in ink, a quiet pill under the pointer, its chevron after it.
- * 40px to tap on phones, 32px from 768px. The heights are forced so a
- * select trigger's own field heights never win.
+ * 36px like every small control. The height is forced so a select
+ * trigger's own field heights never win.
  */
 export const codexHeadPickerTriggerClassName =
-  "copy-strong text-ink hover:text-ink h-10! max-w-full gap-1 rounded-full px-2.5 md:h-8!";
+  "copy-strong text-ink hover:text-ink h-9! max-w-full gap-1 rounded-full px-2.5";
 
 export type CodexCrumb = {
   /* Omitted on the last step, the page you're on. */

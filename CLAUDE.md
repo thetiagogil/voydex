@@ -178,7 +178,7 @@ Voydex is quiet where you work and loud where you remember. The
   `count`). A Play's tags and rules are paper tags (`PaperTag`), never
   controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
-  too. Only the main action (`default`) wears the white band and shadow;
+  too, the same on phones. Only the main action (`default`) wears the white band and shadow;
   every other button is flat, and a quiet one takes the fields' surface
   (white with a hairline on the ground, the inset fill inside a card).
 - No hard lips and no presses that move. The main action and stickers share

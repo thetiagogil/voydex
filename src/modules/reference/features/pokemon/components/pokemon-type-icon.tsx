@@ -70,7 +70,7 @@ const pokemonTypeBadgeSizeClassNames = {
     iconOnly: "size-5.5",
   },
   lg: {
-    badge: "h-8.5 gap-2 py-1.25 pr-3.5 pl-1.25 text-13",
+    badge: "h-9 gap-2 py-1.5 pr-3.5 pl-1.5 text-13",
     icon: "size-3.5",
     iconFrame: "size-6",
     iconOnly: "size-7",
