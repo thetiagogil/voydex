@@ -21,23 +21,26 @@
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #f1f4f9;
+  --bg: #eef3fb;
+  /* The wall's dots: one shade under the ground, so the wall has a quiet grain. */
+  --bg-dot: #e2eaf7;
   --surface: #ffffff;
-  --surface-2: #eef2f8;
-  --hover: #e3e9f2;
-  --ink: #26292f;
-  --ink-2: #4b5260;
-  --ink-3: #5b6270;
+  --surface-2: #edf2fa;
+  --hover: #e0e8f5;
+  /* Ink is a deep navy, not a grey: it sits with the blue ground. */
+  --ink: #1f2c49;
+  --ink-2: #45536e;
+  --ink-3: #5b6986;
   --on-ink: #f3f5f8;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #e1e7ef;
-  --lip: #d6dee9;
-  --track: #e6ebf2;
-  --dash: #cfd8e4;
+  --line: #d9e2f1;
+  --lip: #cbd7ea;
+  --track: #dfe7f5;
+  --dash: #c3d1e8;
   --mute: #b8c2cf;
   /* The colour every shadow and the scrim are made of, as RGB channels. */
-  --shade: 40 50 70;
+  --shade: 40 58 96;
   --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
@@ -117,9 +120,9 @@
    * The band that opens every page but Home: the pale blue of a Pokémon
    * Center's windows, under the top bar and the page's head.
    */
-  --band-fill: #e6eef9;
-  /* The deeper strip of the band the bar sits on. */
-  --band-deep: #d3e1f6;
+  --band-fill: #e2ebf9;
+  /* The strip the bar sits on: the Center's red roof. */
+  --band-deep: var(--action);
 
   /*
    * The accent by role: its deep shade for small eyebrows and marks, and the
@@ -140,9 +143,9 @@
 
   /* Corners */
   --r-xs: 6px;
-  --r-sm: 12px;
-  --r-lg: 20px;
-  --r-2xl: 28px;
+  --r-sm: 14px;
+  --r-lg: 24px;
+  --r-2xl: 32px;
 
   /*
    * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
@@ -192,7 +195,7 @@
   }
 
   /* Type: two families, one scale, nothing under 12px */
-  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
   --font-body: var(--font-nunito), system-ui, sans-serif;
 
   /* Primitive aliases. shadcn-style primitives read these names. */
@@ -218,9 +221,9 @@
   --radius: var(--r-sm);
 
   /*
-   * The top bar has no ground of its own: its words sit straight on the
-   * page's band or meadow. Hover is a wash of white over it, the current
-   * section the selected tint, and the V tile the action colour.
+   * A bar of links on the page's own ground (a detail page's section bar):
+   * dark words, a white tab for the one you are on. The top bar sits on the
+   * red strip and sets its own white values (AppNavbar).
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
@@ -326,6 +329,7 @@
   --text-16: 16px;
   --text-17: 17px;
   --text-20: 20px;
+  --text-22: 22px;
   --text-24: 24px;
   --text-28: 28px;
   --text-32: 32px;

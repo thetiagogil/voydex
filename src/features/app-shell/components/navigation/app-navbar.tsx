@@ -9,21 +9,18 @@ type AppNavbarProps = {
   center?: React.ReactNode;
   end?: React.ReactNode;
   showName?: boolean;
-  /*
-   * On the site's red band: no pill, the words in white straight on the
-   * band's darker top, and the V tile turned round (a red V on white).
-   */
+  /* On the site's red band: the strip is a shade deeper, so it still shows. */
   onAction?: boolean;
 };
 
 /*
  * The bar: the V tile on the left, the sections centred, your utilities on
- * the right, at the top of the page (it scrolls away with it). It has no
- * surface of its own: it sits on a strip a shade deeper than the band
- * (`page-band-strip`), which steps down round the logo, and the page you are on is a white tab. Phones
- * keep the bare tile (their sections live in the bottom bar). Its colours
- * are the `--bar-*` tokens. `onAction` is the same bar on the site's red
- * band: white words, a white V tile.
+ * the right, at the top of the page (it scrolls away with it). It sits on
+ * the red strip (`page-band-strip`, the Center's roof), which steps down
+ * round the logo: white words, a white V tile with a red V, and the page
+ * you are on is a white tab. Phones keep the bare tile (their sections live
+ * in the bottom bar). Its colours are the `--bar-*` tokens, set here for the
+ * red. `onAction` is the same bar on the site's red band.
  */
 export const AppNavbar = ({
   brandHref,
@@ -34,9 +31,9 @@ export const AppNavbar = ({
 }: AppNavbarProps) => (
   <header className="text-ink relative isolate z-40 w-full shrink-0">
     {/*
-     * The strip the bar sits on, a shade deeper than the band under it: it
-     * covers the top of the band's mark and steps down round the logo. The
-     * bar draws it, so a page without a band has the same bar.
+     * The strip the bar sits on: it covers the top of the band's mark and
+     * steps down round the logo. The bar draws it, so a page without a band
+     * has the same bar.
      */}
     <span
       aria-hidden
@@ -46,15 +43,7 @@ export const AppNavbar = ({
       )}
     />
     <div className="page-column flex h-(--bar-h) items-center">
-      <div
-        className={cn(
-          "grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3",
-          onAction
-            ? "[--bar-brand:var(--surface)] [--bar-hover:rgb(255_255_255/0.16)] [--bar-ink-2:#fff] [--bar-ink:#fff] [--focus:var(--surface)]"
-            : /* Its controls are white on the strip; a link's hover is a paler white. */
-              "md:[--bar-control:var(--surface)] md:[--bar-hover:rgb(255_255_255/0.6)]",
-        )}
-      >
+      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 [--bar-brand:var(--surface)] [--bar-current-ink:var(--action-ink)] [--bar-hover:rgb(255_255_255/0.18)] [--bar-ink-2:#fff] [--bar-ink:#fff] [--focus:var(--surface)]">
         <div className="flex min-w-0 items-center">
           <Link
             href={brandHref}
@@ -64,11 +53,8 @@ export const AppNavbar = ({
             {/* The word drops on narrow phones; the tile alone is the brand. */}
             <Logo
               showText={showName}
-              markClassName={cn(
-                "size-9 bg-(--bar-brand)",
-                onAction && "text-action",
-              )}
-              textClassName={cn("max-sm:hidden", onAction && "text-white")}
+              markClassName="size-9 bg-(--bar-brand) text-action"
+              textClassName="text-white max-sm:hidden"
             />
           </Link>
         </div>

@@ -534,7 +534,7 @@
 }
 
 /*
- * The title steps (Fredoka, 600): every heading of 20px and up takes one of
+ * The title steps (Baloo 2, 700 and 800): every heading of 20px and up takes one of
  * them, so no page sizes its own. Each sets its size from the type scale,
  * its line height and tracking, and grows at 640px (and 1024px for display).
  *   title-display  a celebration or a front door: a trainer title, Welcome back
@@ -546,10 +546,10 @@
  */
 @utility title-display {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-36);
   line-height: 1.02;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 
   @media (width >= 40rem) {
     font-size: var(--text-52);
@@ -562,10 +562,10 @@
 
 @utility title-hero {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-36);
   line-height: 1.04;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.005em;
 
   @media (width >= 40rem) {
     font-size: var(--text-48);
@@ -574,10 +574,10 @@
 
 @utility title-page {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-28);
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 
   @media (width >= 40rem) {
     font-size: var(--text-36);
@@ -586,31 +586,27 @@
 
 @utility title-section {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--text-24);
+  font-weight: 800;
+  font-size: var(--text-20);
   line-height: 1.15;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
 
   @media (width >= 40rem) {
-    font-size: var(--text-28);
+    font-size: var(--text-22);
   }
 }
 
 @utility title-card {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--text-20);
   line-height: 1.2;
-  letter-spacing: -0.01em;
-
-  @media (width >= 40rem) {
-    font-size: var(--text-24);
-  }
+  letter-spacing: 0;
 }
 
 @utility figure {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--text-32);
   line-height: 1;
   font-variant-numeric: tabular-nums;
