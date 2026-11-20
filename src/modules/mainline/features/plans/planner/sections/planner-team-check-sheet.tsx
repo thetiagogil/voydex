@@ -96,7 +96,7 @@ const verdictTones: Record<
  * up and its defensive matchups, read from each Pokémon's own types since
  * moves aren't planned yet. Its matchups and coverage are the same pieces as
  * a Play's Team analysis. In the sheet (`placement="sheet"`) its parts stack;
- * on a locked Plan's page they are section cards, one under another.
+ * on a locked Plan's page they are section cards, the first two side by side.
  */
 export const PlannerTeamCheck = ({
   coverage,
@@ -107,6 +107,7 @@ export const PlannerTeamCheck = ({
   team,
 }: PlannerTeamCheckProps & { placement: "page" | "sheet" }) => {
   const Section = placement === "page" ? PageSection : SheetSection;
+  const wide = cn(placement === "page" && "lg:col-span-2");
   const verdict = getPlanVerdict(issues);
   const byId = new Map(team.map((pokemon) => [pokemon.formId, pokemon]));
   const pressure = matchups.filter((row) => row.isPressure);
@@ -236,6 +237,7 @@ export const PlannerTeamCheck = ({
             className={cn(placement === "page" && "hidden lg:flex")}
           />
         }
+        className={wide}
       >
         {placement === "page" ? (
           <TypeMatchupLegend className="lg:hidden" />
@@ -253,7 +255,7 @@ export const PlannerTeamCheck = ({
         />
       </Section>
 
-      <Section title="Coverage from their own types">
+      <Section title="Coverage from their own types" className={wide}>
         <ul aria-label="Coverage by type" className="flex flex-wrap gap-2">
           {coverage.map((entry) => {
             const names = entry.coveredByFormIds

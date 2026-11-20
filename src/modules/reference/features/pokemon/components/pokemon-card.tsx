@@ -20,6 +20,11 @@ type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
   /*
+   * Just the art and the name, for a long list to pick from (the Team
+   * Planner): no number row and no type marks, so many more fit on a line.
+   */
+  compact?: boolean;
+  /*
    * Small marks at the end of the number line, level with it (an opponent's
    * Tera Type, the item it holds), so the card keeps its height.
    */
@@ -178,6 +183,7 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
+  compact = false,
   marks,
   imageAlt,
   imageUrl,
@@ -230,6 +236,7 @@ export const PokemonCard = ({
         aria-hidden={number ? undefined : true}
         className={cn(
           "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
+          compact && "hidden",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
           numberHidden && "opacity-0",
         )}
@@ -290,12 +297,14 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
-      <PokemonTypeList
-        types={types}
-        badgeDisplay="icon"
-        badgeSize="sm"
-        className="mt-auto items-center gap-1 pt-1"
-      />
+      {compact ? null : (
+        <PokemonTypeList
+          types={types}
+          badgeDisplay="icon"
+          badgeSize="sm"
+          className="mt-auto items-center gap-1 pt-1"
+        />
+      )}
       {children}
     </div>
   );

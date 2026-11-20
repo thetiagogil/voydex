@@ -206,7 +206,7 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
   });
 
-  test("keeps the team in view while you scroll the list @phone", async ({
+  test("keeps the team in a docked bar while you scroll the list @phone", async ({
     page,
   }) => {
     await page.goto("/app/planner?vg=rb");
@@ -217,34 +217,21 @@ test.describe("Team Planner", () => {
     await picker.getByRole("button", { name: /^#\d+ Venusaur\b/ }).click();
     await search.clear();
 
+    /* At the top the band shows the team, so the bar stays away. */
     const docked = page.getByRole("list", { name: "Your team, 1 of 6" });
-    const save = page.getByRole("button", { exact: true, name: "Save" });
-
-    /* At the top the page's own head shows, so the bar stays away. */
     await page.evaluate(() => window.scrollTo(0, 0));
-    await expect(save).toBeHidden();
+    await expect(docked).toBeHidden();
 
-    /* Down the list the head is gone: its name and Save dock to the top. */
+    /* Down the list the band is gone: the team and Save dock to the top. */
     await page.evaluate(() => window.scrollTo(0, 2400));
-    await expect(save).toBeEnabled();
+    await expect(docked).toBeVisible();
+    await expect(
+      page.getByRole("button", { exact: true, name: "Save" }),
+    ).toBeEnabled();
 
-    if ((page.viewportSize()?.width ?? 0) >= 1024) {
-      /* Beside the list, the team itself follows the scroll. */
-      const member = page
-        .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: /^Venusaur\b.*slot 1\. Edit$/ });
-
-      await expect(docked).toBeHidden();
-      await expect(member).toBeInViewport();
-      await member.click();
-    } else {
-      /* Above the list, the bar carries the team as small Pokémon. */
-      await expect(docked).toBeVisible();
-      await docked
-        .getByRole("button", { name: "Venusaur, slot 1. Edit" })
-        .click();
-    }
-
+    await docked
+      .getByRole("button", { name: "Venusaur, slot 1. Edit" })
+      .click();
     await expect(page.getByRole("dialog", { name: "Venusaur" })).toBeVisible();
   });
 

@@ -223,8 +223,8 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      {/* Three across, two rows: above the list on a phone, in the rail beside it from 1024px. */}
-      <ol className="grid grid-cols-3 gap-2 sm:gap-3">
+      {/* Three across on a phone, so the team takes half the screen, not all of it. */}
+      <ol className="grid grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.formId) : undefined;
           const worst = member ? getWorstIssueFor(member.formId, issues) : null;

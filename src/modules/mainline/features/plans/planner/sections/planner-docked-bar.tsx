@@ -61,7 +61,6 @@ export const PlannerDockedBar = ({
 
   return (
     <DockedBar
-      offsetProperty="--play-dock-offset"
       picture={
         coverGame ? (
           <GameCover
@@ -79,8 +78,7 @@ export const PlannerDockedBar = ({
         <div className="flex min-w-0 items-center gap-3">
           <ol
             aria-label={`Your team, ${filled} of 6`}
-            /* From 1024px the team stands beside the list, so the bar keeps only the name and Save. */
-            className="grid grid-cols-[repeat(6,36px)] gap-1.5 sm:grid-cols-[repeat(6,40px)] lg:hidden"
+            className="grid grid-cols-[repeat(6,36px)] gap-1.5 sm:grid-cols-[repeat(6,44px)] sm:gap-2 lg:grid-cols-[repeat(6,52px)]"
           >
             {slots.map((member, index) => {
               const pokemon = member ? byId.get(member.formId) : undefined;

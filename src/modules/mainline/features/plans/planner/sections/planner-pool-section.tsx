@@ -299,7 +299,12 @@ export const PlannerPoolSection = ({
               title={section.name}
               count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
             />
-            <ul className="mt-3.5 grid grid-cols-3 gap-2 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
+            {/*
+             * Just the art and the name, so a whole Pokédex reads at a
+             * glance: four across on a phone, as many 104px tiles as fit
+             * from 640px. The number and types are in the tile's name.
+             */}
+            <ul className="mt-3.5 grid grid-cols-4 gap-2 min-[480px]:grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]">
               {section.pokemon.map((pokemon) => {
                 const slot = slotByFormId.get(pokemon.formId);
                 const notes = getPoolTileNotes(pokemon, versionGroup, {
@@ -327,9 +332,14 @@ export const PlannerPoolSection = ({
                           )}
                           className="focus-ring block w-full rounded-lg"
                         >
+                          {/* The number the tile no longer shows, read first as before. */}
+                          <span className="sr-only">
+                            {formatNationalNumber(pokemon.nationalNumber)}{" "}
+                          </span>
                           <PokemonCard
+                            compact
                             state="plain"
-                            size="fluid"
+                            size="sm"
                             imageAlt=""
                             imageUrl={pokemon.imageUrl}
                             name={pokemon.name}
@@ -347,6 +357,15 @@ export const PlannerPoolSection = ({
                                 "outline-action outline-3 outline-offset-2 outline-solid",
                             )}
                           ></PokemonCard>
+                          {/* What the tile no longer shows, for a screen reader. */}
+                          <span className="sr-only">
+                            {[
+                              `, #${formatNationalNumber(pokemon.nationalNumber)}`,
+                              pokemon.types
+                                .map((type) => type.name)
+                                .join(" and "),
+                            ].join(", ")}
+                          </span>
                           {slot || notes.length ? (
                             <span className="sr-only">
                               {[slot ? `, in slot ${slot}` : null, ...notes]

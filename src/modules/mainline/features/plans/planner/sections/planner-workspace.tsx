@@ -73,7 +73,6 @@ import type {
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
 import { PageBand } from "@/shared/components/page-band";
-import { cn } from "@/shared/utils/cn";
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
@@ -455,22 +454,7 @@ export const PlannerWorkspace = ({
           }}
         />
       ) : null}
-    </PageBand>
-  );
 
-  /*
-   * The team, beside the list from 1024px and following the scroll there
-   * (the list on one side, your team always in view on the other); above
-   * the list below that, where the docked bar carries it instead. A page
-   * that hosts the Planner (the Codex) is narrower, so there it stays above.
-   */
-  const teamRail = (
-    <div
-      className={cn(
-        "order-1 flex min-w-0 flex-col gap-3",
-        !embedding && "lg:sticky-panel lg:order-2",
-      )}
-    >
       <PlannerDockSection
         byId={byId}
         issues={issues}
@@ -504,7 +488,7 @@ export const PlannerWorkspace = ({
           <TextLink onClick={() => setSwapIndex(null)}>Cancel</TextLink>
         </p>
       ) : null}
-    </div>
+    </PageBand>
   );
 
   return (
@@ -532,56 +516,45 @@ export const PlannerWorkspace = ({
         </PlannerDockedBar>
       )}
 
-      <div
-        className={cn(
-          "flex flex-col gap-6 sm:gap-8",
-          !embedding &&
-            "lg:grid lg:grid-cols-[minmax(0,1fr)_25rem] lg:items-start",
-        )}
-      >
-        <div className="order-2 min-w-0 lg:order-1">
-          {/*
-           * A locked Plan reads its team, so its Team check is on the page;
-           * picking waits on Unlock.
-           */}
-          {isUnlocked ? (
-            <PlannerPoolSection
-              byId={byId}
-              filters={filters}
-              isFull={isFull}
-              onFiltersChange={setFilters}
-              onPick={whenUnlocked(pick)}
-              replacingId={replacingId}
-              sections={context.sections}
-              slotByFormId={slotByFormId}
-              types={context.types}
-              includedExpansionIds={expansions}
-              versionGame={versionGame}
-              versionGroup={context.versionGroup}
-            />
-          ) : teamPokemon.length ? (
-            <section
-              id="planner-check"
-              aria-label="Team check"
-              className="grid gap-4 sm:gap-6"
-            >
-              <PlannerTeamCheck
-                coverage={coverage}
-                issues={issues}
-                matchups={matchups}
-                onIncludeExpansion={whenUnlocked((versionGroupId: number) =>
-                  setExpansions((current) => [
-                    ...new Set([...current, versionGroupId]),
-                  ]),
-                )}
-                placement="page"
-                team={teamPokemon}
-              />
-            </section>
-          ) : null}
-        </div>
-        {teamRail}
-      </div>
+      {/*
+       * A locked Plan reads its team, so its Team check is on the page;
+       * picking waits on Unlock.
+       */}
+      {isUnlocked ? (
+        <PlannerPoolSection
+          byId={byId}
+          filters={filters}
+          isFull={isFull}
+          onFiltersChange={setFilters}
+          onPick={whenUnlocked(pick)}
+          replacingId={replacingId}
+          sections={context.sections}
+          slotByFormId={slotByFormId}
+          types={context.types}
+          includedExpansionIds={expansions}
+          versionGame={versionGame}
+          versionGroup={context.versionGroup}
+        />
+      ) : teamPokemon.length ? (
+        <section
+          id="planner-check"
+          aria-label="Team check"
+          className="grid gap-4 sm:gap-6 lg:grid-cols-2"
+        >
+          <PlannerTeamCheck
+            coverage={coverage}
+            issues={issues}
+            matchups={matchups}
+            onIncludeExpansion={whenUnlocked((versionGroupId: number) =>
+              setExpansions((current) => [
+                ...new Set([...current, versionGroupId]),
+              ]),
+            )}
+            placement="page"
+            team={teamPokemon}
+          />
+        </section>
+      ) : null}
 
       <PlannerSlotSheet
         buildFields={context.buildFields}
