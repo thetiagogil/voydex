@@ -18,7 +18,7 @@ import { cn } from "@/shared/utils/cn";
 const visibilityByIndex = (index: number) =>
   cn(index >= 1 && "max-sm:hidden", index >= 2 && "max-xl:hidden");
 
-/* One other Play: its cover, name, how it stands and one Overall bar. */
+/* One other Play: its cover, name, how it stands and one bar for how far along. */
 const OtherPlayCard = ({ play }: { play: HomePlay }) => (
   <Link
     href={appRoutes.mainlinePlay(play.id)}
@@ -51,15 +51,12 @@ const OtherPlayCard = ({ play }: { play: HomePlay }) => (
         {play.overallPercent === null ? (
           <p className="text-ink-3 copy-meta">Progress not tracked</p>
         ) : (
-          <>
-            <span className="text-ink-3 copy-meta">Overall</span>
-            <Progress
-              showValue
-              value={play.overallPercent}
-              max={100}
-              aria-label="Overall progress"
-            />
-          </>
+          <Progress
+            showValue
+            value={play.overallPercent}
+            max={100}
+            aria-label="Overall progress"
+          />
         )}
       </div>
     </Card>

@@ -13,8 +13,8 @@ type PlayCardProgressProps = {
 
 /*
  * One ring for how far along the Play is: the average of the parts it
- * tracks (Story, Pokédex, Collectibles), so a long list stays light. The
- * Play's own pages break it down.
+ * tracks (Story, Pokédex, Collectibles), so a long list stays light. No
+ * word beside it: every card has one, and the Play's own pages break it down.
  */
 export const PlayCardProgress = ({
   className,
@@ -31,13 +31,10 @@ export const PlayCardProgress = ({
   }
 
   return (
-    <div className={cn("flex items-center gap-3", className)}>
-      <ProgressDonut
-        label="Overall progress"
-        value={percent}
-        className="w-14 sm:w-16"
-      />
-      <span className="text-ink-2 copy-label hidden sm:inline">Overall</span>
-    </div>
+    <ProgressDonut
+      label="Overall progress"
+      value={percent}
+      className={cn("w-14 sm:w-18", className)}
+    />
   );
 };
