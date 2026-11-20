@@ -5,6 +5,7 @@ import {
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
   getPlayCombinedPercent,
+  getPlayProgressNote,
   getPlayLibraryDescription,
   getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
@@ -92,5 +93,20 @@ describe("play browse display", () => {
       }),
     ).toBeNull();
     expect(getPlayCombinedPercent({ state: "unavailable" })).toBeNull();
+  });
+
+  it("says why there is no overall figure", () => {
+    expect(getPlayProgressNote({ state: "unavailable" })).toBe(
+      "Progress unavailable",
+    );
+    expect(getPlayProgressNote({ items: [], state: "available" })).toBe(
+      "Progress not recorded",
+    );
+    expect(
+      getPlayProgressNote({
+        items: [{ label: "Story", percent: null }],
+        state: "available",
+      }),
+    ).toBe("Progress not tracked");
   });
 });

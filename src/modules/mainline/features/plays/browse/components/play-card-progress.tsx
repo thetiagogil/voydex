@@ -1,5 +1,9 @@
+import {
+  getPlayCombinedPercent,
+  getPlayProgressNote,
+} from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseProgress } from "@/modules/mainline/features/plays/shared/types";
-import { Progress } from "@/shared/components/ui/progress";
+import { ProgressDonut } from "@/shared/components/progress-donut";
 import { cn } from "@/shared/utils/cn";
 
 type PlayCardProgressProps = {
@@ -8,46 +12,32 @@ type PlayCardProgressProps = {
 };
 
 /*
- * Quiet rows: a name and a thick bar with its figure inside. A part the
- * Play doesn't track reads "Off" in an empty track.
+ * One ring for how far along the Play is: the average of the parts it
+ * tracks (Story, Pokédex, Collectibles), so a long list stays light. The
+ * Play's own pages break it down.
  */
 export const PlayCardProgress = ({
   className,
   progress,
 }: PlayCardProgressProps) => {
-  if (progress.state === "unavailable" || !progress.items.length) {
+  const percent = getPlayCombinedPercent(progress);
+
+  if (percent === null) {
     return (
       <p className={cn("text-ink-3 copy-meta", className)}>
-        {progress.state === "unavailable"
-          ? "Progress unavailable"
-          : "Progress not recorded"}
+        {getPlayProgressNote(progress)}
       </p>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-[76px_minmax(0,1fr)] items-center gap-x-2 gap-y-2",
-        className,
-      )}
-    >
-      {progress.items.map((item) => (
-        <div key={item.label} className="contents">
-          <span className="text-ink-2 copy-label">{item.label}</span>
-          <Progress
-            showValue
-            value={item.percent ?? 0}
-            max={100}
-            emptyLabel={item.percent === null ? "Off" : undefined}
-            aria-label={
-              item.percent === null
-                ? `${item.label} tracking is off`
-                : `${item.label} progress`
-            }
-          />
-        </div>
-      ))}
+    <div className={cn("flex items-center gap-3", className)}>
+      <ProgressDonut
+        label="Overall progress"
+        value={percent}
+        className="w-14 sm:w-16"
+      />
+      <span className="text-ink-2 copy-label hidden sm:inline">Overall</span>
     </div>
   );
 };

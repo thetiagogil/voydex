@@ -102,3 +102,14 @@ export const getPlayCombinedPercent = (progress: PlayBrowseProgress) => {
     ? 100
     : Math.min(average, 99);
 };
+
+/* What stands in for the overall figure when there is none to draw. */
+export const getPlayProgressNote = (progress: PlayBrowseProgress) => {
+  if (progress.state === "unavailable") {
+    return "Progress unavailable";
+  }
+
+  return progress.items.length
+    ? "Progress not tracked"
+    : "Progress not recorded";
+};

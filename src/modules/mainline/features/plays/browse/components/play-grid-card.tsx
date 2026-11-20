@@ -4,24 +4,16 @@ import { appRoutes } from "@/config/routes";
 import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
 import { PlayCardStatus } from "@/modules/mainline/features/plays/browse/components/play-card-status";
 import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
-import { getPlayCombinedPercent } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import {
+  getPlayCombinedPercent,
+  getPlayProgressNote,
+} from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
 
 type PlayGridCardProps = {
   play: PlayBrowseItem;
-};
-
-/* What stands in for the bar when there is no figure to draw. */
-const getProgressNote = ({ progress }: PlayBrowseItem) => {
-  if (progress.state === "unavailable") {
-    return "Progress unavailable";
-  }
-
-  return progress.items.length
-    ? "Progress not tracked"
-    : "Progress not recorded";
 };
 
 /*
@@ -45,7 +37,9 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
 
       <div className="mt-auto">
         {percent === null ? (
-          <p className="text-ink-3 copy-meta">{getProgressNote(play)}</p>
+          <p className="text-ink-3 copy-meta">
+            {getPlayProgressNote(play.progress)}
+          </p>
         ) : (
           <Progress
             showValue
