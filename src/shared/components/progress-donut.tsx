@@ -7,6 +7,8 @@ type ProgressDonutProps = {
   className?: string;
   /* What it measures, as the meter's accessible name. */
   label: string;
+  /* `sm` for a ring under 64px (Home's Continue card): its figure a step smaller. */
+  size?: "md" | "sm";
   /* 0 to 100. */
   value: number;
 };
@@ -18,6 +20,7 @@ type ProgressDonutProps = {
 export const ProgressDonut = ({
   className,
   label,
+  size = "md",
   value,
 }: ProgressDonutProps) => {
   const percentage = Math.round(Math.min(Math.max(value, 0), 100));
@@ -62,7 +65,12 @@ export const ProgressDonut = ({
           )}
         />
       </svg>
-      <span className="font-display text-20 relative leading-none font-semibold tracking-tight tabular-nums">
+      <span
+        className={cn(
+          "font-display relative leading-none font-semibold tracking-tight tabular-nums",
+          size === "sm" ? "text-17" : "text-20",
+        )}
+      >
         {percentage}
         <small className="text-ink-3 ml-px text-[0.55em]">%</small>
       </span>

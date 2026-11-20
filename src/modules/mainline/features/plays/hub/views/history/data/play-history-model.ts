@@ -8,7 +8,7 @@ import {
 import {
   formatPlayHistoryDate,
   type PlayHistoryDate,
-} from "@/modules/mainline/features/plays/shared/utils/play-history-date";
+} from "../utils/play-history-date";
 
 /* What a moment is about (v3 `HISTORY_TYPES[...].cat`). */
 export type PlayHistoryCategory = "note" | "play" | "story" | "team";

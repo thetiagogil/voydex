@@ -206,3 +206,65 @@ export const readMainlinePlayMilestoneTimelineSnapshots = async (
 
   return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
 };
+
+/*
+ * The latest moments across several Plays, newest first by when they
+ * happened, at most `limit`: what happened in the game, so status changes
+ * ("Marked as Paused") and notes are left out.
+ */
+export const readMainlineTimelineAcrossPlays = async (
+  supabase: ServerSupabaseClient,
+  playIds: string[],
+  limit: number,
+): Promise<MainlinePlayTimelineEvent[]> => {
+  if (!playIds.length) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("*")
+    .in("play_id", playIds)
+    .neq("event_type_slug", "status_change")
+    .neq("event_type_slug", "journal_note")
+    .order("happened_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw new Error("Unable to load your latest moments.", { cause: error });
+  }
+
+  return hydrateTimelineEventImages(supabase, data ?? []);
+};
+
+/*
+ * When every moment across these Plays happened (the date it was given,
+ * else when it was recorded), for a calendar of the days you played.
+ */
+export const readMainlineMomentInstants = async (
+  supabase: ServerSupabaseClient,
+  playIds: string[],
+): Promise<string[]> => {
+  if (!playIds.length) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("happened_at, created_at")
+    .in("play_id", playIds)
+    .neq("event_type_slug", "status_change");
+
+  if (error) {
+    throw new Error("Unable to load your activity.", { cause: error });
+  }
+
+  return (data ?? []).flatMap((row) => {
+    const instant = row.happened_at ?? row.created_at;
+
+    return instant ? [instant] : [];
+  });
+};

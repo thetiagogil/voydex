@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
+import { PlayCard } from "@/modules/mainline/features/plays/shared/components/play-card";
 import { PlayGridCard } from "@/modules/mainline/features/plays/browse/components/play-grid-card";
 import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
 import {

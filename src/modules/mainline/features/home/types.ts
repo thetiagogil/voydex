@@ -1,7 +1,14 @@
-import type { HomeJournalEntry } from "@/modules/mainline/features/home/data/home-journal-model";
-import type { HomeNextUp } from "@/modules/mainline/features/home/data/home-next-up";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
-import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  MainlinePlayTimelineEvent,
+  NewPlayPickerData,
+  PlayBrowseItem,
+} from "@/modules/mainline/features/plays/shared/types";
+import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
+import type {
+  StatsCover,
+  StatsTypeTally,
+} from "@/modules/mainline/shared/data/stats-model";
 import type { GameStarter } from "@/modules/reference/features/games/types";
 
 /* A brand-new Play's partner milestone, waiting for you to tap your partner. */
@@ -17,10 +24,37 @@ export type HomeBand = {
   play: HomePlay;
 };
 
-/* The Play Home's journey card shows, with what comes next in it. */
-export type HomeJourney = {
-  nextUp: HomeNextUp | null;
-  play: HomePlay;
+/* One of the latest moments, with the Play it was recorded in. */
+export type HomeMoment = {
+  coverImageUrl: string | null;
+  event: MainlinePlayTimelineEvent;
+  gameName: string;
+  gameSlug: string | null;
+  playName: string;
+};
+
+/* Who you are as a trainer, as Home's profile shows it. */
+export type HomeProfile = {
+  /* One cover per game you've played, the latest first. */
+  covers: StatsCover[];
+  /* Newest heart first. */
+  favourites: FavouritePokemon[];
+  figures: {
+    minutes: number;
+    /* Species that have joined your teams, as the Collection counts them. */
+    ownedCount: number;
+    playCount: number;
+    regionCount: number;
+    visitedRegionCount: number;
+  };
+  /* When every moment happened, for the activity history. */
+  momentInstants: string[];
+  /* The latest moments across every Play, newest first. */
+  moments: HomeMoment[];
+  /* Your trainer title, such as "Region Hopper". */
+  title: string;
+  /* The types on your teams, most used first. */
+  types: StatsTypeTally[];
 };
 
 export type HomePageData =
@@ -37,12 +71,8 @@ export type HomePageData =
     }
   | {
       displayName: string | null;
-      /* The latest moments across every Play, newest first. */
-      journal: HomeJournalEntry[];
-      journey: HomeJourney;
+      /* The Play you're on: the one `?play=` names, else the latest underway. */
+      journey: PlayBrowseItem;
       kind: "plays";
-      /* The other Plays still underway, opened (or changed) last first. */
-      others: HomePlay[];
-      /* How many Plays are underway, the journey's included. */
-      underwayCount: number;
+      profile: HomeProfile;
     };

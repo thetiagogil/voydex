@@ -6,7 +6,7 @@ import {
   getPlayCardEyebrow,
   getPlayLibraryDescription,
   getPlayStoryPositionLabel,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 
 describe("play browse display", () => {
   it("counts Plays in the singular and plural", () => {

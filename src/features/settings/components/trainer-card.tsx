@@ -7,9 +7,13 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 type TrainerCardProps = {
+  /* Beside the name from 1024px, under it below: Home puts your figures here. */
+  aside?: ReactNode;
   /* Under the name and date, across the card: Settings puts its edit fields here. */
   children?: ReactNode;
   className?: string;
+  /* A short line over the name, such as your trainer title (Home). */
+  eyebrow?: string | null;
   /* The Pokémon you picked, on your disc; without one the initial stands in. */
   icon?: { name: string; typeSlug: PublicTypeSlug; url: string } | null;
   /*
@@ -19,6 +23,8 @@ type TrainerCardProps = {
   initial: string | null;
   /* Null shows "Your name" as a quiet placeholder. */
   name: string | null;
+  /* `lg` is Home's head: the name in the hero size. */
+  size?: "lg" | "md";
   /* What the line under the name says, such as "Trainer since November 2024". */
   subtitle: ReactNode;
 };
@@ -29,11 +35,14 @@ type TrainerCardProps = {
  * disc alone (the soft red tint, as your icon on the top bar).
  */
 export const TrainerCard = ({
+  aside,
   children,
   className,
+  eyebrow,
   icon,
   initial,
   name,
+  size = "md",
   subtitle,
 }: TrainerCardProps) => (
   <section
@@ -73,11 +82,19 @@ export const TrainerCard = ({
       </span>
     )}
     <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-      <p className={cn("title-section wrap-anywhere", !name && "text-ink-3")}>
+      {eyebrow ? <p className="text-select-ink copy-label">{eyebrow}</p> : null}
+      <p
+        className={cn(
+          size === "lg" ? "title-page sm:title-hero" : "title-section",
+          "wrap-anywhere",
+          !name && "text-ink-3",
+        )}
+      >
         {name ?? "Your name"}
       </p>
       <p className="copy-meta text-ink-2">{subtitle}</p>
     </div>
+    {aside ? <div className="w-full min-w-0 lg:w-auto">{aside}</div> : null}
     {children ? <div className="w-full min-w-0">{children}</div> : null}
   </section>
 );

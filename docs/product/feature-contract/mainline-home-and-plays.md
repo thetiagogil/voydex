@@ -8,26 +8,28 @@ Mainline Home (`/app`) is where a signed-in trainer lands and what the
 "V" tile opens. It is for resuming an adventure, not for figures (those belong
 to Statistics), and it owns no mutation of its own.
 
-- **With Plays** (two columns from 1024px, stacked below; 2026-11-20): the
-  greeting and how many Plays are on the go, then
-  - **the journey card**: the Play you're on (the one `?play=` names, else
-    the one opened or changed last among those still underway), big: its
-    cover, its name, status and hours, then one inset tile with "Next up"
-    (the next milestone with its badge, trophy or flag and one line on it;
-    "Story complete" once every milestone is) and one ring for each part the
-    Play tracks (Story, Pokédex, Collectibles), then its team. The whole card
-    opens the Play; there is no Continue button.
-  - **Your other Plays**: the next ones still underway as cover cards (name,
-    status and hours, one Overall bar: the average of what each tracks), each
-    opening its Play, and New Play as a dashed slot ending the row. Four
-    from 1280px, two from 640px, one on phones; never a sideways scroller.
-    All Plays leads to the Plays list.
-  - **the Journal**: the latest moments across every Play, newest first and
-    by month, each with its Play's cover and name; status changes are left
-    out. From 1024px it is as tall as the left column and scrolls inside
-    itself; stacked, it shows the newest five.
-    Completed and abandoned Plays are left out of the cards unless every Play
-    is, so Home is never empty.
+- **With Plays** (2026-11-20): your trainer profile.
+  - **The trainer card** on the band (the same card as You and Settings):
+    your icon and name, your trainer title and when you started, and four
+    figures: Plays, hours played, Pokémon owned (the species the Collection
+    counts) and regions travelled.
+  - **Continue**: the Play you're on (the one `?play=` names, else the one
+    opened or changed last among those still underway) as the Plays list's
+    own card, a size smaller, with "Continue" over its name: cover, name,
+    status and hours, team beside its overall ring. The card opens the
+    Play.
+  - Then, in two columns from 1024px: **activity history** (a square for
+    each of the last 26 weeks' days, deeper blue for more moments, by when
+    they happened; 13 weeks on phones), **types you pick** (the six most
+    used, with a bar), **your games** (one cover per game, the latest
+    first) and **favourite Pokémon**, each short with a link to Statistics
+    or the Collection; and **latest moments**: the newest eight across
+    every Play, in one column, each with its Play's cover, its kind and
+    Play, what happened and the milestone's own description, and how long
+    ago; each opens the moment in its Play's History. Status changes and
+    notes are left out. On a phone the moments come right after Continue.
+    A row of other Plays and a Journal column were tried and dropped
+    (2026-11-20); the Plays page lists every Play.
 - **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is
   recorded, the partner stands alone; tapping it picks it, and Continue

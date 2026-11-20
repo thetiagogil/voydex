@@ -1,5 +1,5 @@
 import { appRoutes } from "@/config/routes";
-import type { FavouritePokemonRows } from "@/modules/mainline/features/collection/client/favourite-pokemon-reader";
+import type { FavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
 import {
   createTrainerFormTypeResolver,
   type TrainerPokemonEntry,

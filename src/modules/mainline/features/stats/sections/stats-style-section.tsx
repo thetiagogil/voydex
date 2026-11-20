@@ -10,8 +10,8 @@ import {
   type StatsModel,
   type StatsMostPicked,
   type StatsTypeTally,
-} from "@/modules/mainline/features/stats/data/stats-model";
-import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
+} from "@/modules/mainline/shared/data/stats-model";
+import { formatMonthYear } from "@/modules/mainline/shared/utils/stats-format";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";

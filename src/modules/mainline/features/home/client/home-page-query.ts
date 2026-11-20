@@ -1,16 +1,5 @@
 import {
-  HOME_JOURNAL_COUNT,
-  toHomeJournal,
-  type HomeJournalEntry,
-  type HomeJournalPlay,
-} from "@/modules/mainline/features/home/data/home-journal-model";
-import {
-  toHomeNextUp,
-  type HomeNextUp,
-} from "@/modules/mainline/features/home/data/home-next-up";
-import {
   getHomeShelfSource,
-  HOME_OTHER_PLAY_COUNT,
   isWaitingForPartner,
   toHomePlay,
   type HomePlay,
@@ -18,7 +7,17 @@ import {
 import type {
   HomePageData,
   HomePartnerChoice,
+  HomeProfile,
 } from "@/modules/mainline/features/home/types";
+import {
+  readMainlineMomentInstants,
+  readMainlineTimelineAcrossPlays,
+} from "@/modules/mainline/features/plays/shared/client/play-timeline-reader";
+import { readFavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
+import { readTrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
+import { buildFavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
+import { buildStatsModel } from "@/modules/mainline/shared/data/stats-model";
+import { buildTrainerPokemonEntries } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
@@ -180,75 +179,67 @@ const toCardPlay = (
     : null;
 };
 
-/* The journey's next milestone, with its badge or trophy. */
-const readNextUp = async (
-  supabase: ServerSupabaseClient,
-  play: PlayBrowseItem,
-  slugByTypeId: ReadonlyMap<number, string>,
-): Promise<HomeNextUp | null> => {
-  const position = play.storyPosition;
-
-  if (position?.kind !== "next" || !play.play_id) {
-    return toHomeNextUp(position, null, slugByTypeId);
-  }
-
-  const { data, error } = await supabase
-    .schema("views")
-    .from("mainline_play_milestone_detail")
-    .select(
-      "badge_refs, category_name, description, milestone_name, milestone_type_slug",
-    )
-    .eq("play_id", play.play_id)
-    .eq("milestone_id", position.milestoneId)
-    .limit(1)
-    .maybeSingle();
-
-  /* Without its details it still shows by name. */
-  return toHomeNextUp(position, error ? null : data, slugByTypeId);
-};
+/* How many of the latest moments Home lists. */
+const HOME_MOMENT_COUNT = 8;
+/* Home's profile shows one row of covers and one of favourites. */
+const HOME_COVER_COUNT = 5;
+const HOME_FAVOURITE_COUNT = 4;
+const HOME_TYPE_COUNT = 6;
 
 /*
- * The Journal: the latest moments across every Play in the library, newest
- * first, each with its Play's cover and name; status changes are left out.
+ * Home's trainer profile: what Statistics and the Collection read, cut
+ * short, and the latest moments across every Play.
  */
-const readJournal = async (
+const readHomeProfile = async (
   supabase: ServerSupabaseClient,
+  userId: string,
   plays: PlayBrowseItem[],
-): Promise<HomeJournalEntry[]> => {
-  const playsById = new Map(
-    plays.flatMap((play): [string, HomeJournalPlay][] =>
-      play.play_id
-        ? [
-            [
-              play.play_id,
-              {
-                coverImageUrl: play.coverImageUrl,
-                gameName: play.game_name ?? "Unknown game",
-                gameSlug: play.game_slug,
-                id: play.play_id,
-                name: play.play_name ?? "Untitled Play",
-              },
-            ],
-          ]
-        : [],
-    ),
-  );
-  const { data, error } = await supabase
-    .schema("views")
-    .from("mainline_play_timeline_detail")
-    .select("*")
-    .in("play_id", [...playsById.keys()])
-    /* "Marked as Paused" and the like are housekeeping, not something you did. */
-    .neq("event_type_slug", "status_change")
-    .order("happened_at", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false })
-    .limit(HOME_JOURNAL_COUNT);
+): Promise<HomeProfile> => {
+  const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
+  const playById = new Map(plays.map((play) => [play.play_id, play]));
+  const [trainerRows, favouriteRows, events, momentInstants] =
+    await Promise.all([
+      readTrainerPokemonRows(supabase, userId),
+      readFavouritePokemonRows(supabase, userId),
+      readMainlineTimelineAcrossPlays(supabase, playIds, HOME_MOMENT_COUNT),
+      readMainlineMomentInstants(supabase, playIds),
+    ]);
+  const entries = buildTrainerPokemonEntries(trainerRows);
+  const stats = buildStatsModel(trainerRows, entries);
+  return {
+    covers: stats.playCovers.slice(0, HOME_COVER_COUNT),
+    favourites: buildFavouritePokemon(
+      favouriteRows,
+      trainerRows.types,
+      entries,
+    ).slice(0, HOME_FAVOURITE_COUNT),
+    figures: {
+      minutes: stats.minutes,
+      ownedCount: stats.speciesCount,
+      playCount: stats.playCount,
+      regionCount: stats.regions.length,
+      visitedRegionCount: stats.regions.filter(
+        (region) => region.playLabels.length,
+      ).length,
+    },
+    momentInstants,
+    moments: events.map((event) => {
+      const play = playById.get(event.play_id);
 
-  if (error) {
-    throw new Error("Unable to load your Journal.", { cause: error });
-  }
-
-  return toHomeJournal(data ?? [], playsById);
+      return {
+        coverImageUrl: play?.coverImageUrl ?? null,
+        event,
+        gameName: play?.game_name ?? "Unknown game",
+        gameSlug: play?.game_slug ?? null,
+        playName: play?.play_name ?? "Untitled Play",
+      };
+    }),
+    title: stats.title.title,
+    types: stats.types
+      .filter((type) => type.count > 0)
+      .toSorted((first, second) => second.count - first.count)
+      .slice(0, HOME_TYPE_COUNT),
+  };
 };
 
 /*
@@ -288,16 +279,10 @@ export const getHomePageData = async (
     (play) => play.play_id === requestedPlayId,
   );
   /*
-   * The Plays still underway, opened (or changed) last first. The journey is
-   * the one `?play=` asks for (an older or finished one too), else the
-   * latest.
+   * The Play you're on: the one `?play=` asks for (an older or finished one
+   * too), else the one opened (or changed) last among those underway.
    */
-  const underway = getHomeShelfSource(browseItems);
-  const current = requested ?? underway[0];
-  const others = underway
-    .filter((play) => play !== current)
-    .slice(0, HOME_OTHER_PLAY_COUNT);
-  const cardItems = [current, ...others];
+  const current = requested ?? getHomeShelfSource(browseItems)[0];
   const slugByTypeId = await readTypeSlugs(supabase);
 
   if (browseItems.length === 1 && isBrandNewPlay(current)) {
@@ -316,30 +301,11 @@ export const getHomePageData = async (
     }
   }
 
-  const [teamTypes, nextUp, journal] = await Promise.all([
-    readTeamTypes(supabase, cardItems, slugByTypeId),
-    readNextUp(supabase, current, slugByTypeId),
-    readJournal(supabase, browseItems),
-  ]);
-  const [journeyPlay, ...otherPlays] = cardItems.flatMap((item) => {
-    const play = toCardPlay(item, teamTypes);
-
-    return play ? [play] : [];
-  });
-
-  if (!journeyPlay) {
-    throw new Error("Unable to load your latest Play.");
-  }
-
   return {
     displayName: names.displayName,
-    journal,
-    journey: { nextUp, play: journeyPlay },
+    journey: current,
     kind: "plays",
-    others: otherPlays,
-    underwayCount: browseItems.filter(
-      (play) => !["abandoned", "completed"].includes(play.status_slug ?? ""),
-    ).length,
+    profile: await readHomeProfile(supabase, userId, browseItems),
   };
 };
 

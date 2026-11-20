@@ -2,7 +2,6 @@ import { appRoutes } from "@/config/routes";
 import { getPlayCombinedPercent } from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type {
   PlayBrowseItem,
-  PlayBrowseProgressItem,
   PlayBrowseStoryPosition,
 } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -12,24 +11,12 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 
-/*
- * Home's other Plays beside the journey: four on wide screens, fewer where
- * the row is narrower (hidden by breakpoint, so nothing jumps).
- */
-export const HOME_OTHER_PLAY_COUNT = 4;
-
 export type HomeTeamMember = {
   id: string;
   imageUrl: string | null;
   name: string;
   /* The primary type, for a sticker's or a stand-in's tint. */
   typeSlug?: string | null;
-};
-
-/* One part a Play tracks, with how far along it is. */
-export type HomePlayProgress = {
-  label: PlayBrowseProgressItem["label"];
-  percent: number;
 };
 
 /* A Play as Home shows it: its card, its band and its status line. */
@@ -40,11 +27,9 @@ export type HomePlay = {
   gameSlug: string | null;
   id: string;
   name: string;
-  /* The average of the parts it tracks; null when it tracks none. */
+  /* The average of the parts it tracks, as the Plays list rings it; null when it tracks none. */
   overallPercent: number | null;
   playtimeMinutes: number | null;
-  /* Only the parts it tracks, in Story, Pokédex, Collectibles order. */
-  progress: HomePlayProgress[];
   statusName: string | null;
   statusSlug: string | null;
   storyPercent: number | null;
@@ -82,14 +67,6 @@ export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
     name: play.play_name ?? "Untitled Play",
     overallPercent: getPlayCombinedPercent(play.progress),
     playtimeMinutes: play.playtime_minutes,
-    progress:
-      play.progress.state === "available"
-        ? play.progress.items.flatMap((item) =>
-            item.percent === null
-              ? []
-              : [{ label: item.label, percent: item.percent }],
-          )
-        : [],
     statusName: play.status_name,
     statusSlug: play.status_slug,
     storyPercent: storyItem?.percent ?? null,

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { FavouritePokemonButton } from "@/modules/mainline/features/collection/components/favourite-pokemon-button";
-import { readIsFavouritePokemon } from "@/modules/mainline/features/collection/client/favourite-pokemon-reader";
+import { readIsFavouritePokemon } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
 import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/components/codex-add-to-play";
 import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";

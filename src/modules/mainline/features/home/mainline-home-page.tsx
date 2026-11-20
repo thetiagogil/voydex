@@ -1,10 +1,14 @@
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
 import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
-import { HomeDashboard } from "@/modules/mainline/features/home/sections/home-dashboard";
+import {
+  HomeDashboard,
+  type HomeTrainerCardRender,
+} from "@/modules/mainline/features/home/sections/home-dashboard";
 import type { HomePageData } from "@/modules/mainline/features/home/types";
 
 type MainlineHomePageProps = {
   data: HomePageData;
+  renderTrainerCard: HomeTrainerCardRender;
 };
 
 const withName = (greeting: string, name: string | null) =>
@@ -12,11 +16,14 @@ const withName = (greeting: string, name: string | null) =>
 
 /*
  * Mainline Home (v3 `homeback`, `homefirst`, `homenew`): where a trainer
- * lands. With Plays: the Play you're on, your other Plays and the Journal.
+ * lands. With Plays: your trainer profile and a row back into your Play.
  * With one brand-new Play: that Play on the band, its partner waiting to be
  * tapped. With none: the picker that starts the first one.
  */
-export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
+export const MainlineHomePage = ({
+  data,
+  renderTrainerCard,
+}: MainlineHomePageProps) => {
   if (data.kind === "empty") {
     return (
       <HomeFirstPlayPicker
@@ -38,10 +45,5 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
     );
   }
 
-  return (
-    <HomeDashboard
-      data={data}
-      greeting={withName("Welcome back", data.displayName)}
-    />
-  );
+  return <HomeDashboard data={data} renderTrainerCard={renderTrainerCard} />;
 };

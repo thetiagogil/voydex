@@ -3,9 +3,9 @@
 import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
-import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
-import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
-import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { PlayToken } from "@/modules/mainline/features/plays/shared/components/play-token";
+import { PlayCardHeading } from "@/modules/mainline/features/plays/shared/components/play-card-heading";
+import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { RestorePlayButton } from "@/modules/mainline/features/plays/shared/components/restore-play-button";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";

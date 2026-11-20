@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import {
   defaultPlayBrowseFilters,
   type PlayBrowseDisplay,

@@ -6,7 +6,7 @@ import { appRoutes } from "@/config/routes";
 import { ArchivedPlaysList } from "@/modules/mainline/features/plays/browse/components/archived-plays-list";
 import { PlaysBrowser } from "@/modules/mainline/features/plays/browse/components/plays-browser";
 import { PlaysPageHeader } from "@/modules/mainline/features/plays/browse/components/plays-page-header";
-import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import type { PlayBrowseParams } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import { playsPageRead } from "@/modules/mainline/features/plays/browse/client/plays-page-local-query";
 import type {
