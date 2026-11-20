@@ -182,8 +182,9 @@ const toCardPlay = (
 
 /* How many of the latest moments Home lists. */
 const HOME_MOMENT_COUNT = 8;
-/* How many covers and favourites Home's profile shows. */
-const HOME_SHELF_COUNT = 10;
+/* Home's profile shows one row of covers and one of favourites. */
+const HOME_COVER_COUNT = 5;
+const HOME_FAVOURITE_COUNT = 4;
 const HOME_TYPE_COUNT = 6;
 
 /*
@@ -224,12 +225,12 @@ const readHomeProfile = async (
   );
 
   return {
-    covers: stats.playCovers.slice(0, HOME_SHELF_COUNT),
+    covers: stats.playCovers.slice(0, HOME_COVER_COUNT),
     favourites: buildFavouritePokemon(
       favouriteRows,
       trainerRows.types,
       entries,
-    ).slice(0, HOME_SHELF_COUNT),
+    ).slice(0, HOME_FAVOURITE_COUNT),
     figures: {
       minutes: stats.minutes,
       ownedCount: stats.speciesCount,

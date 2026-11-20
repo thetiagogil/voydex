@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 
+import { Link } from "@/shared/components/link";
+
 import { appRoutes } from "@/config/routes";
 import { HomeActivityHistory } from "@/modules/mainline/features/home/components/home-activity-history";
 import { HomeContinueRow } from "@/modules/mainline/features/home/components/home-continue-row";
@@ -82,7 +84,8 @@ const ProfileSection = ({
 
 /*
  * One moment as a small card: its medallion (badge, Pokémon, story flag),
- * what happened, the Play it was in and how long ago.
+ * what happened, the Play it was in and how long ago. The card opens the
+ * moment in its Play's History.
  */
 const MomentCard = ({
   context,
@@ -96,21 +99,30 @@ const MomentCard = ({
   const age = formatHomeMomentAge(getPlayMomentInstant(moment.event), timeZone);
 
   return (
-    <Card
-      size="sm"
-      className="grid h-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3"
+    <Link
+      href={appRoutes.mainlinePlayHistoryMoment(
+        moment.event.play_id ?? "",
+        moment.event.event_id ?? "",
+      )}
+      className="group/card-link block rounded-lg outline-none"
     >
-      <Medallion content={record.medallion} faded={record.faded} size="sm" />
-      <div className="min-w-0">
-        <p className="copy-strong line-clamp-2">
-          {record.headline.map((part) => part.text).join("")}
-        </p>
-        <p className="text-ink-3 copy-meta truncate">
-          <span className="text-select-ink">{moment.playName}</span>
-          {age ? ` · ${age}` : null}
-        </p>
-      </div>
-    </Card>
+      <Card
+        size="sm"
+        variant="interactive"
+        className="grid h-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3"
+      >
+        <Medallion content={record.medallion} faded={record.faded} size="sm" />
+        <div className="min-w-0">
+          <p className="copy-strong line-clamp-2">
+            {record.headline.map((part) => part.text).join("")}
+          </p>
+          <p className="text-ink-3 copy-meta truncate">
+            <span className="text-select-ink">{moment.playName}</span>
+            {age ? ` · ${age}` : null}
+          </p>
+        </div>
+      </Card>
+    </Link>
   );
 };
 
@@ -121,7 +133,7 @@ const LatestMoments = ({ profile }: { profile: HomeProfile }) => {
     <section aria-labelledby="home-moments" className="flex flex-col gap-3">
       <SectionHead title="Latest moments" titleId="home-moments" />
       {profile.moments.length ? (
-        <ul className="grid gap-3 sm:grid-cols-2">
+        <ul className="flex flex-col gap-3">
           {profile.moments.map((moment) => (
             <li key={moment.event.event_id} className="min-w-0">
               <MomentCard context={context} moment={moment} />
@@ -178,11 +190,11 @@ export const HomeDashboard = ({
               title="Types you pick"
               more={{ href: appRoutes.mainlineStats, label: "Statistics" }}
             >
-              <ul className="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-6">
+              <ul className="grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-6">
                 {profile.types.map((type) => (
                   <li
                     key={type.slug}
-                    className="flex flex-col items-center gap-1.5 text-center"
+                    className="flex flex-col items-center gap-1 text-center"
                   >
                     {isPokemonTypeSlug(type.slug) ? (
                       <PokemonTypeBadge
@@ -193,9 +205,8 @@ export const HomeDashboard = ({
                     ) : (
                       <span className="copy-strong">{type.name}</span>
                     )}
-                    <span className="text-ink-3 copy-meta">
-                      <b className="text-ink tabular-nums">{type.count}</b> on
-                      teams
+                    <span className="copy-strong tabular-nums">
+                      {type.count}
                     </span>
                   </li>
                 ))}
@@ -230,10 +241,10 @@ export const HomeDashboard = ({
                 {profile.covers.map((cover, index) => (
                   <li
                     key={cover.gameSlug ?? cover.gameName}
-                    /* Two rows of three on a phone. */
+                    /* One row: three on a phone, five from 640px. */
                     className={cn(
                       "grid place-items-center",
-                      index >= 6 && "max-sm:hidden",
+                      index >= 3 && "max-sm:hidden",
                     )}
                   >
                     <GameCover
@@ -258,9 +269,13 @@ export const HomeDashboard = ({
                 label: "Collection",
               }}
             >
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(112px,1fr))] gap-3">
-                {profile.favourites.map((favourite) => (
-                  <li key={favourite.formId} className="min-w-0">
+              <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                {profile.favourites.map((favourite, index) => (
+                  <li
+                    key={favourite.formId}
+                    /* One row: three on a phone, four from 640px. */
+                    className={cn("min-w-0", index >= 3 && "max-sm:hidden")}
+                  >
                     <PokemonCardLink
                       href={favourite.codexHref}
                       imageUrl={favourite.imageUrl}
