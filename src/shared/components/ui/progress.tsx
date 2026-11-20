@@ -26,7 +26,8 @@ const Progress = ({
     typeof value === "number" && max > 0
       ? Math.round(Math.min(Math.max(value / max, 0), 1) * 100)
       : 0;
-  const isInside = percent >= 24;
+  /* Inside once the fill can hold it in a narrow card's bar too. */
+  const isInside = percent >= 40;
 
   return (
     <ProgressPrimitive.Root

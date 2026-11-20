@@ -1,6 +1,8 @@
 import { appRoutes } from "@/config/routes";
+import { getPlayCombinedPercent } from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type {
   PlayBrowseItem,
+  PlayBrowseProgressItem,
   PlayBrowseStoryPosition,
 } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -9,14 +11,12 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
-import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
-import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 
 /*
- * Home's shelf holds the latest Plays: five on desktop, four on tablets and
- * one on phones (the rest are hidden by breakpoint, so nothing jumps).
+ * Home's other Plays beside the journey: four on wide screens, fewer where
+ * the row is narrower (hidden by breakpoint, so nothing jumps).
  */
-export const HOME_SHELF_PLAY_COUNT = 5;
+export const HOME_OTHER_PLAY_COUNT = 4;
 
 export type HomeTeamMember = {
   id: string;
@@ -26,29 +26,31 @@ export type HomeTeamMember = {
   typeSlug?: string | null;
 };
 
-/* A Play as Home shows it: on the shelf, on the meadow and in the status line. */
+/* One part a Play tracks, with how far along it is. */
+export type HomePlayProgress = {
+  label: PlayBrowseProgressItem["label"];
+  percent: number;
+};
+
+/* A Play as Home shows it: its card, its band and its status line. */
 export type HomePlay = {
   completedOn: string | null;
   coverImageUrl: string | null;
-  /* The box's shape, so the shelf holds each cover's place before it loads. */
-  coverShape: GameCoverShape | null;
   gameName: string;
-  gameShortName: string;
   gameSlug: string | null;
   id: string;
-  /* "Sword · Late Journey": the shelf's name for its cover. */
-  label: string;
-  lead: HomeTeamMember | null;
   name: string;
+  /* The average of the parts it tracks; null when it tracks none. */
+  overallPercent: number | null;
   playtimeMinutes: number | null;
-  startedOn: string | null;
+  /* Only the parts it tracks, in Story, Pokédex, Collectibles order. */
+  progress: HomePlayProgress[];
   statusName: string | null;
   statusSlug: string | null;
   storyPercent: number | null;
   storyPosition: PlayBrowseStoryPosition | null;
   /* Six slots in order; null is an open slot. */
   team: (HomeTeamMember | null)[];
-  trainerName: string | null;
 };
 
 export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
@@ -74,22 +76,25 @@ export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
   return {
     completedOn: play.completed_on,
     coverImageUrl: play.coverImageUrl,
-    coverShape: null,
     gameName,
-    gameShortName: getGameShortName(gameName),
     gameSlug: play.game_slug,
     id: play.play_id,
-    label: `${getGameShortName(gameName)} · ${play.play_name ?? "Untitled Play"}`,
-    lead: team.find((member) => member !== null) ?? null,
     name: play.play_name ?? "Untitled Play",
+    overallPercent: getPlayCombinedPercent(play.progress),
     playtimeMinutes: play.playtime_minutes,
-    startedOn: play.started_on,
+    progress:
+      play.progress.state === "available"
+        ? play.progress.items.flatMap((item) =>
+            item.percent === null
+              ? []
+              : [{ label: item.label, percent: item.percent }],
+          )
+        : [],
     statusName: play.status_name,
     statusSlug: play.status_slug,
     storyPercent: storyItem?.percent ?? null,
     storyPosition: play.storyPosition,
     team,
-    trainerName: play.trainer_name,
   };
 };
 

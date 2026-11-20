@@ -22,16 +22,7 @@ type MeadowPokemonProps = {
   selected?: boolean;
   /* Hops once, at the moment it is picked. */
   hop?: boolean;
-  /* `team` is six in a row that grows with the screen (Home). */
-  size?: "lg" | "md" | "sm" | "team" | "xl";
-  /* An open slot: a dashed spot on the grass. */
-  open?: boolean;
-  /*
-   * In a crowded row (six on a phone): below 640px the name is left to
-   * readers, and a picked one shows only its check, over its feet, so it
-   * stands level with the rest.
-   */
-  compactName?: boolean;
+  size?: "lg" | "md" | "sm" | "xl";
   className?: string;
   style?: CSSProperties;
 };
@@ -41,7 +32,6 @@ const artSizes = {
   md: "size-24 sm:size-32",
   lg: "size-28 sm:size-37.5",
   xl: "size-32 sm:size-45",
-  team: "size-24 sm:size-32 lg:size-40 xl:size-45",
 } as const;
 
 /*
@@ -49,35 +39,22 @@ const artSizes = {
  * game New Play picked. Picked, it takes the blue fill with a check.
  */
 export const MeadowLabel = ({
-  compact = false,
   name,
-  open = false,
   selected = false,
 }: {
-  /* See `MeadowPokemon`'s `compactName`. */
-  compact?: boolean;
   name: string;
-  open?: boolean;
   selected?: boolean;
 }) => (
   <span
     className={cn(
       "copy-strong -mt-0.5 inline-flex max-w-full items-center gap-1 truncate rounded-full px-3 py-1",
-      open
-        ? "text-ink-2"
-        : selected
-          ? "bg-calm text-white"
-          : "bg-surface bubble text-ink",
-      compact &&
-        (selected
-          ? "max-sm:absolute max-sm:bottom-0 max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:px-1.5"
-          : "max-sm:sr-only"),
+      selected ? "bg-calm text-white" : "bg-surface bubble text-ink",
     )}
   >
     {selected ? (
       <AppIcon icon={appIcons.status.active} size="sm" strokeWidth={3} />
     ) : null}
-    <span className={cn("truncate", compact && "max-sm:sr-only")}>{name}</span>
+    <span className="truncate">{name}</span>
   </span>
 );
 
@@ -88,13 +65,11 @@ export const MeadowLabel = ({
  */
 export const MeadowPokemon = ({
   className,
-  compactName = false,
   href,
   imageUrl,
   label,
   name,
   onClick,
-  open = false,
   selected = false,
   size = "md",
   hop = false,
@@ -104,43 +79,31 @@ export const MeadowPokemon = ({
   const interactive = Boolean(href || onClick);
   const content = (
     <>
-      {open ? (
+      <span className="relative isolate grid max-w-full grid-cols-[minmax(0,1fr)] place-items-end justify-items-center">
         <span
           aria-hidden
-          className="empty-slot mt-auto mb-1 h-6 w-16 rounded-full sm:w-22"
+          className="absolute bottom-1 left-1/2 -z-1 h-3.5 w-[70%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)]"
         />
-      ) : (
-        <span className="relative isolate grid max-w-full grid-cols-[minmax(0,1fr)] place-items-end justify-items-center">
-          <span
-            aria-hidden
-            className="absolute bottom-1 left-1/2 -z-1 h-3.5 w-[70%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)]"
-          />
-          <FallbackImage
-            src={imageUrl}
-            name={name}
-            // Without art: a round sticker in its type's tint with its first
-            // letter, shrunk to its slot in a crowded row (six on a phone).
-            style={getPokemonTypeCssVariables(
-              typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
-            )}
-            fallbackClassName="sticker aspect-square max-w-full h-auto! rounded-full"
-            className={cn(
-              // The art may spill past a crowded slot, as it always has.
-              "ease-hop max-w-none object-contain transition-transform duration-300",
-              artSizes[size],
-              interactive &&
-                "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
-              hop && "animate-hop motion-reduce:animate-none",
-            )}
-          />
-        </span>
-      )}
-      <MeadowLabel
-        compact={compactName}
-        name={name}
-        open={open}
-        selected={selected}
-      />
+        <FallbackImage
+          src={imageUrl}
+          name={name}
+          // Without art: a round sticker in its type's tint with its first
+          // letter, shrunk to its slot in a crowded row (six on a phone).
+          style={getPokemonTypeCssVariables(
+            typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
+          )}
+          fallbackClassName="sticker aspect-square max-w-full h-auto! rounded-full"
+          className={cn(
+            // The art may spill past a crowded slot, as it always has.
+            "ease-hop max-w-none object-contain transition-transform duration-300",
+            artSizes[size],
+            interactive &&
+              "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
+            hop && "animate-hop motion-reduce:animate-none",
+          )}
+        />
+      </span>
+      <MeadowLabel name={name} selected={selected} />
     </>
   );
   const baseClassName = cn(

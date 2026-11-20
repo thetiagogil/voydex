@@ -4,8 +4,6 @@ import {
   formatPlayCount,
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
-  getPlayCombinedPercent,
-  getPlayProgressNote,
   getPlayLibraryDescription,
   getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
@@ -65,48 +63,14 @@ describe("play browse display", () => {
 
   it("reads the story position as the card shows it", () => {
     expect(
-      getPlayStoryPositionLabel({ kind: "next", name: "Zephyr Badge" }),
+      getPlayStoryPositionLabel({
+        kind: "next",
+        milestoneId: 1,
+        name: "Zephyr Badge",
+      }),
     ).toBe("Next: Zephyr Badge");
     expect(getPlayStoryPositionLabel({ kind: "complete" })).toBe(
       "Story complete",
     );
-  });
-
-  it("averages the parts a Play tracks into one figure", () => {
-    expect(
-      getPlayCombinedPercent({
-        items: [
-          { label: "Story", percent: 50 },
-          { label: "Pokédex", percent: 25 },
-          { label: "Collectibles", percent: null },
-        ],
-        state: "available",
-      }),
-    ).toBe(38);
-    expect(
-      getPlayCombinedPercent({ items: [], state: "available" }),
-    ).toBeNull();
-    expect(
-      getPlayCombinedPercent({
-        items: [{ label: "Story", percent: null }],
-        state: "available",
-      }),
-    ).toBeNull();
-    expect(getPlayCombinedPercent({ state: "unavailable" })).toBeNull();
-  });
-
-  it("says why there is no overall figure", () => {
-    expect(getPlayProgressNote({ state: "unavailable" })).toBe(
-      "Progress unavailable",
-    );
-    expect(getPlayProgressNote({ items: [], state: "available" })).toBe(
-      "Progress not recorded",
-    );
-    expect(
-      getPlayProgressNote({
-        items: [{ label: "Story", percent: null }],
-        state: "available",
-      }),
-    ).toBe("Progress not tracked");
   });
 });

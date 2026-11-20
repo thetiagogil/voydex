@@ -166,7 +166,11 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
       },
     });
 
-    expect(item?.storyPosition).toEqual({ kind: "next", name: "Zephyr Badge" });
+    expect(item?.storyPosition).toEqual({
+      kind: "next",
+      milestoneId: 2,
+      name: "Zephyr Badge",
+    });
   });
 
   it("says the story is complete, and has no position without milestones", () => {

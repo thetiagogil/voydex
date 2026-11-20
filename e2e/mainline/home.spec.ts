@@ -56,43 +56,59 @@ test.describe("Home", () => {
     ).toBeVisible();
   });
 
-  test("another Play on the shelf lets the pick go", async ({ page }) => {
-    /* Each test has its own device: the shelf needs a second Play. */
-    await startPlay(page, {
+  test("the journey card and your other Plays each open their Play", async ({
+    page,
+  }) => {
+    /* Each test has its own device: two Plays leave the first-Play band. */
+    const otherName = uniquePlayName("Home other");
+    const otherId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
-      name: uniquePlayName("Home shelf other"),
+      name: otherName,
       partner: "Charmander",
     });
-    const playId = await startPlay(page, {
+    const journeyName = uniquePlayName("Home journey");
+    const journeyId = await startPlay(page, {
       game: "Pokémon Red, 1996",
-      name: uniquePlayName("Home shelf"),
+      name: journeyName,
       partner: "Bulbasaur",
     });
 
-    await page.goto(`/app?play=${playId}`, { waitUntil: "networkidle" });
-    const bulbasaur = page.getByRole("button", { name: "Pick Bulbasaur" });
-    const shelf = page.getByRole("navigation", { name: "Your Plays" });
+    await page.goto("/app", { waitUntil: "networkidle" });
+    const journey = page.getByRole("link", { name: /Continue your journey/ });
 
-    await bulbasaur.click();
-    await expect(bulbasaur).toHaveAttribute("aria-pressed", "true");
+    /* The latest Play is the journey; the whole card opens it. */
+    await expect(journey).toContainText(journeyName);
+    await expect(journey).toHaveAttribute(
+      "href",
+      `/app/plays/play?id=${journeyId}`,
+    );
+    await expect(journey.getByRole("list", { name: "Team" })).toContainText(
+      "Bulbasaur",
+    );
 
-    /* Away to another Play and back: nothing is picked any more. */
-    const thisCover = shelf.locator('a[aria-current="true"]');
-    const thisLabel = await thisCover.getAttribute("aria-label");
-    await shelf.locator('a[href*="play="]:not([aria-current])').first().click();
+    /* The other one waits under it, and New Play ends the row. */
+    const others = page.getByRole("region", { name: "Your other Plays" });
     await expect(
-      page.getByRole("link", { name: /^Continue with/ }),
-    ).toHaveCount(0);
-    await shelf
-      .getByRole("link", { exact: true, name: thisLabel ?? "" })
-      .click();
-    await expect(bulbasaur).toHaveAttribute("aria-pressed", "false");
+      others.getByRole("link", { name: new RegExp(otherName) }),
+    ).toHaveAttribute("href", `/app/plays/play?id=${otherId}`);
     await expect(
-      page.getByRole("link", { exact: true, name: "Continue" }),
+      others.getByRole("button", { name: "New Play" }),
     ).toBeVisible();
+
+    /* The Journal has what was recorded in both. */
+    const journal = page.getByRole("region", { name: "Journal" });
+    await expect(journal).toContainText(journeyName);
+    await expect(journal).toContainText(otherName);
+    await expectAccessible(page);
+
+    /* `?play=` puts another Play on the journey card. */
+    await page.goto(`/app?play=${otherId}`, { waitUntil: "networkidle" });
+    await expect(
+      page.getByRole("link", { name: /Continue your journey/ }),
+    ).toContainText(otherName);
   });
 
-  test("opening a Play moves it ahead on the shelf, recording nothing", async ({
+  test("opening a Play makes it the journey, recording nothing", async ({
     page,
   }) => {
     const olderName = uniquePlayName("Opened again");
@@ -108,21 +124,15 @@ test.describe("Home", () => {
       name: newerName,
       partner: "Squirtle",
     });
-    const shelfOrder = async () => {
+    const journeyText = async () => {
       await page.goto("/app", { waitUntil: "networkidle" });
-      /* The shelf draws once the device database has opened. */
-      const shelf = page.getByRole("navigation", { name: "Your Plays" });
-      await expect(shelf).toBeVisible();
-      const labels = await shelf
-        .locator('a[href*="play="]')
-        .evaluateAll((links) =>
-          links.map((link) => link.getAttribute("aria-label") ?? ""),
-        );
+      /* The cards draw once the device database has opened. */
+      const journey = page.getByRole("link", {
+        name: /Continue your journey/,
+      });
+      await expect(journey).toBeVisible();
 
-      return {
-        newer: labels.findIndex((label) => label.endsWith(newerName)),
-        older: labels.findIndex((label) => label.endsWith(olderName)),
-      };
+      return journey.innerText();
     };
     const moments = async () => {
       await page.goto(`/app/plays/play/history?id=${olderId}`, {
@@ -132,16 +142,11 @@ test.describe("Home", () => {
       return page.getByRole("list", { name: "Moments" }).innerText();
     };
 
-    const before = await shelfOrder();
-    expect(before.newer).toBeGreaterThanOrEqual(0);
-    /* Other runs share the trainer, so the older one may have left the shelf. */
-    expect(before.older === -1 || before.newer < before.older).toBe(true);
+    expect(await journeyText()).toContain(newerName);
     /* Opening its History opens the Play. */
     const momentsBefore = await moments();
 
-    const after = await shelfOrder();
-    expect(after.older).toBeGreaterThanOrEqual(0);
-    expect(after.newer === -1 || after.older < after.newer).toBe(true);
+    expect(await journeyText()).toContain(olderName);
     expect(await moments()).toBe(momentsBefore);
   });
 });

@@ -1,3 +1,5 @@
+import type { HomeJournalEntry } from "@/modules/mainline/features/home/data/home-journal-model";
+import type { HomeNextUp } from "@/modules/mainline/features/home/data/home-next-up";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
 import type { GameStarter } from "@/modules/reference/features/games/types";
@@ -8,10 +10,16 @@ export type HomePartnerChoice = {
   playId: string;
 };
 
-/* A Play on Home's shelf, with what its band shows. */
+/* A brand-new first Play on Home's band. */
 export type HomeBand = {
-  /* Its partner milestone, while a brand-new Play waits for the tap. */
+  /* Its partner milestone, while it waits for the tap. */
   partnerChoice: HomePartnerChoice | null;
+  play: HomePlay;
+};
+
+/* The Play Home's journey card shows, with what comes next in it. */
+export type HomeJourney = {
+  nextUp: HomeNextUp | null;
   play: HomePlay;
 };
 
@@ -22,11 +30,19 @@ export type HomePageData =
       picker: NewPlayPickerData;
     }
   | {
-      /* The shelf's Plays, latest first, at most `HOME_SHELF_PLAY_COUNT`. */
-      bands: HomeBand[];
-      currentPlayId: string;
+      /* The trainer's only Play, which has only just started (v3 `homefirst`). */
+      band: HomeBand;
       displayName: string | null;
-      /* The trainer's only Play has only just started (v3 `homefirst`). */
-      isFirstPlay: boolean;
+      kind: "first";
+    }
+  | {
+      displayName: string | null;
+      /* The latest moments across every Play, newest first. */
+      journal: HomeJournalEntry[];
+      journey: HomeJourney;
       kind: "plays";
+      /* The other Plays still underway, opened (or changed) last first. */
+      others: HomePlay[];
+      /* How many Plays are underway, the journey's included. */
+      underwayCount: number;
     };

@@ -7,7 +7,7 @@ import { PlayToken } from "@/modules/mainline/features/plays/browse/components/p
 import {
   getPlayCombinedPercent,
   getPlayProgressNote,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";

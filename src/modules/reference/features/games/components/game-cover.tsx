@@ -85,11 +85,6 @@ const carouselCoverSizes = {
   picker: { className: "text-24 h-29.5", height: 118 },
   /* The game picker in New Play, a step larger: 150px. */
   pickerLarge: { className: "text-28 h-37.5", height: 150 },
-  /* Home's Plays: 90px on phones, 124px from `sm`, 168px from `lg`. */
-  playShelf: {
-    className: "text-20 sm:text-24 h-22.5 sm:h-31 lg:h-42",
-    height: 168,
-  },
 } as const;
 
 type CarouselCoverSize = keyof typeof carouselCoverSizes;
@@ -118,8 +113,7 @@ type GameCoverProps = {
    */
   gameSlug?: string;
   /*
-   * The box's shape, for a carousel size (`picker`, `pickerLarge`,
-   * `playShelf`): the cover then holds its place on a quiet tint from the
+   * The box's shape, for a carousel size (`picker`, `pickerLarge`): the cover then holds its place on a quiet tint from the
    * first paint and loads a copy sized for it.
    */
   shape?: GameCoverShape | null;

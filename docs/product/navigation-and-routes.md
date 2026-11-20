@@ -237,7 +237,7 @@ convenience, not a V1 routing or database requirement.
 ### Continue A Play
 
 ```txt
-Mainline Home (the shelf, Continue) or Plays -> Play Hub
+Mainline Home (the journey card, your other Plays) or Plays -> Play Hub
 ```
 
 ### Create A Play

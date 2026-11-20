@@ -52,22 +52,13 @@ test.describe("Page changes", () => {
     });
 
     await page.goto(`/app?play=${secondId}`, { waitUntil: "networkidle" });
-    const shelf = page.getByRole("navigation", { name: "Your Plays" });
+    const others = page.getByRole("region", { name: "Your other Plays" });
 
-    await expect(shelf).toBeVisible();
+    await expect(others).toBeVisible();
 
-    /* Another Play on Home's shelf. */
+    /* Into the other Play, from its card on Home. */
     await watchFrames(page);
-    await shelf.locator(`a[href="/app?play=${firstId}"]`).click();
-    await expect(shelf.locator('a[aria-current="true"]')).toHaveAttribute(
-      "href",
-      `/app?play=${firstId}`,
-    );
-    expect(await emptyFrames(page)).toEqual([]);
-
-    /* Into that Play. */
-    await watchFrames(page);
-    await page.getByRole("link", { exact: true, name: "Continue" }).click();
+    await others.locator(`a[href="/app/plays/play?id=${firstId}"]`).click();
     await expect(page).toHaveURL(`/app/plays/play?id=${firstId}`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Page change first",
@@ -92,7 +83,7 @@ test.describe("Page changes", () => {
       page.getByRole("heading", { level: 1, name: "Settings" }),
     ).toBeVisible();
     await page.getByRole("link", { exact: true, name: "Home" }).click();
-    await expect(shelf).toBeVisible();
+    await expect(others).toBeVisible();
     expect(await emptyFrames(page)).toEqual([]);
   });
 

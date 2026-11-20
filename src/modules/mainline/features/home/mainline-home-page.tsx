@@ -1,9 +1,7 @@
-import { TextLink } from "@/shared/components/text-link";
-import { appRoutes } from "@/config/routes";
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
-import { HomePlaysView } from "@/modules/mainline/features/home/sections/home-plays-view";
+import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
+import { HomeDashboard } from "@/modules/mainline/features/home/sections/home-dashboard";
 import type { HomePageData } from "@/modules/mainline/features/home/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type MainlineHomePageProps = {
   data: HomePageData;
@@ -13,11 +11,10 @@ const withName = (greeting: string, name: string | null) =>
   name ? `${greeting}, ${name}` : greeting;
 
 /*
- * Mainline Home (v3 `homeback`, `homefirst`, `homenew`): where a signed-in
- * trainer lands. With Plays: the shelf of the latest ones, the current
- * Play's team on the band and Continue. With one brand-new Play: that
- * Play, its partner waiting to be tapped. With none: the picker that starts
- * the first one.
+ * Mainline Home (v3 `homeback`, `homefirst`, `homenew`): where a trainer
+ * lands. With Plays: the Play you're on, your other Plays and the Journal.
+ * With one brand-new Play: that Play on the band, its partner waiting to be
+ * tapped. With none: the picker that starts the first one.
  */
 export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
   if (data.kind === "empty") {
@@ -29,32 +26,22 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
     );
   }
 
+  if (data.kind === "first") {
+    return (
+      <div className="flex flex-1 flex-col">
+        <HomeBandSection
+          band={data.band}
+          greeting={withName("Welcome", data.displayName)}
+          subtitle="Your first Play is right here, whenever you're ready."
+        />
+      </div>
+    );
+  }
+
   return (
-    <HomePlaysView
-      bands={data.bands}
-      currentPlayId={data.currentPlayId}
-      isFirstPlay={data.isFirstPlay}
-      greeting={
-        data.isFirstPlay
-          ? withName("Welcome", data.displayName)
-          : withName("Welcome back", data.displayName)
-      }
-      subtitle={
-        data.isFirstPlay ? (
-          "Your first Play is right here, whenever you're ready."
-        ) : (
-          <>
-            Your latest Plays, right where you left them.{" "}
-            <TextLink
-              href={appRoutes.mainlinePlays}
-              className="inline-flex items-center gap-1 whitespace-nowrap"
-            >
-              See all Plays
-              <AppIcon icon={appIcons.actions.next} />
-            </TextLink>
-          </>
-        )
-      }
+    <HomeDashboard
+      data={data}
+      greeting={withName("Welcome back", data.displayName)}
     />
   );
 };

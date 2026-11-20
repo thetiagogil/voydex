@@ -1,7 +1,7 @@
 import {
   getPlayCombinedPercent,
   getPlayProgressNote,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+} from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type { PlayBrowseProgress } from "@/modules/mainline/features/plays/shared/types";
 import { ProgressDonut } from "@/shared/components/progress-donut";
 import { cn } from "@/shared/utils/cn";

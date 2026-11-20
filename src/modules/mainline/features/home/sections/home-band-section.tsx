@@ -12,155 +12,84 @@ import {
   useHomePartnerChoice,
 } from "@/modules/mainline/features/home/components/home-partner-choice";
 import { HomeDataNote } from "@/modules/mainline/features/home/components/home-data-note";
-import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-play-shelf";
 import {
   getHomeContinue,
   getHomePlayStatusLine,
-  type HomePlay,
   type HomeTeamMember,
 } from "@/modules/mainline/features/home/data/home-play-model";
-import type { HomePartnerChoice } from "@/modules/mainline/features/home/types";
+import type { HomeBand as HomeBandData } from "@/modules/mainline/features/home/types";
 import { MeadowPokemon } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 
 type HomeBandSectionProps = {
-  current: HomePlay;
+  band: HomeBandData;
   greeting: string;
-  /* A brand-new first Play: its partner stands alone, or waits to be tapped. */
-  isFirstPlay: boolean;
-  onSelectPlay: (playId: string) => void;
-  partnerChoice: HomePartnerChoice | null;
-  plays: HomePlay[];
   subtitle: ReactNode;
 };
 
-/* The team Pokémon picked for Continue, in the Play it was picked in. */
-type TeamPick = {
-  memberId: string;
-  playId: string;
-};
-
-/* A team Pokémon on the band: tapping picks it for Continue, again clears it. */
-const PickableTeamPokemon = ({
+/* The partner on the band: tapping picks it for Continue, again clears it. */
+const PickablePartner = ({
   member,
   onPick,
-  pick,
-  size,
+  pickedId,
 }: {
   member: HomeTeamMember;
   onPick: (member: HomeTeamMember) => void;
-  pick: TeamPick | null;
-  size: "team" | "xl";
+  pickedId: string | null;
 }) => {
-  const isPicked = pick?.memberId === member.id;
+  const isPicked = pickedId === member.id;
 
   return (
     <MeadowPokemon
       name={member.name}
       imageUrl={member.imageUrl}
       typeSlug={member.typeSlug}
-      size={size}
+      size="xl"
       selected={isPicked}
       hop={isPicked}
       onClick={() => onPick(member)}
-      compactName={size === "team"}
       label={`Pick ${member.name}`}
     />
   );
 };
 
-const TeamRow = ({
-  onPick,
-  pick,
-  play,
-}: {
-  onPick: (member: HomeTeamMember) => void;
-  pick: TeamPick | null;
-  play: HomePlay;
-}) => (
-  <ul
-    aria-label="Team"
-    className="grid w-[min(1216px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-6 sm:pb-0"
-  >
-    {play.team.map((member, index) => (
-      <li key={member?.id ?? `open-${index}`} className="max-w-full min-w-0">
-        {member ? (
-          <PickableTeamPokemon
-            member={member}
-            onPick={onPick}
-            pick={pick}
-            size="team"
-          />
-        ) : (
-          <MeadowPokemon name="Open slot" imageUrl={null} open compactName />
-        )}
-      </li>
-    ))}
-  </ul>
-);
-
 /*
- * Home's band: the greeting, the shelf of your Plays to pick from, the
- * picked Play's team standing in a row, and the line saying where it stands
- * with Continue. No scenery: the covers and the team are the colour. Tapping a
- * team Pokémon picks it, and Continue becomes "Continue with {name}", which
- * opens it in the Roster. A Play with nothing recorded shows its first
- * partners instead: tap one, then "Choose {name}" (in Continue's place)
- * records it.
+ * Home for a brand-new first Play (v3 `homefirst`): the greeting, the Play's
+ * partner standing on the band, and the line saying where it stands with
+ * Continue. Tapping the partner picks it, and Continue becomes "Continue
+ * with {name}", which opens it in the Roster. A Play with nothing recorded
+ * shows its game's first partners instead: tap one, then "Choose {name}" (in
+ * Continue's place) records it.
  */
 export const HomeBandSection = ({
-  current,
+  band,
   greeting,
-  isFirstPlay,
-  onSelectPlay,
-  partnerChoice,
-  plays,
   subtitle,
 }: HomeBandSectionProps) => {
+  const { partnerChoice, play: current } = band;
   const partnerState = useHomePartnerChoice(partnerChoice);
   const partner = current.team.find((member) => member !== null) ?? null;
-  const [pick, setPick] = useState<TeamPick | null>(null);
-
-  /* A pick belongs to its Play: another cover on the shelf lets it go. */
-  if (pick && pick.playId !== current.id) {
-    setPick(null);
-  }
-
-  const picked = pick
-    ? (current.team.find((member) => member?.id === pick.memberId) ?? null)
-    : null;
+  const [pickedId, setPickedId] = useState<string | null>(null);
+  const picked = partner && partner.id === pickedId ? partner : null;
   const continueTo = getHomeContinue(current, picked);
   const togglePick = (member: HomeTeamMember) =>
-    setPick(
-      pick?.memberId === member.id
-        ? null
-        : { memberId: member.id, playId: current.id },
-    );
+    setPickedId(pickedId === member.id ? null : member.id);
   const cast = partnerChoice ? (
     <HomePartnerChoiceCast choice={partnerChoice} state={partnerState} />
-  ) : isFirstPlay && partner ? (
-    <PickableTeamPokemon
-      member={partner}
-      onPick={togglePick}
-      pick={pick}
-      size="xl"
-    />
-  ) : (
-    <TeamRow onPick={togglePick} pick={pick} play={current} />
-  );
-  const detail = partnerChoice
-    ? [
-        getHomePlayStatusLine(current),
-        "Which Pokémon did you choose? Tap your partner",
-      ]
-        .filter(Boolean)
-        .join(" · ")
-    : isFirstPlay && partner
-      ? [getHomePlayStatusLine(current), `${partner.name} is your partner`]
-          .filter(Boolean)
-          .join(" · ")
-      : getHomePlayStatusLine(current);
+  ) : partner ? (
+    <PickablePartner member={partner} onPick={togglePick} pickedId={pickedId} />
+  ) : null;
+  const detail = [
+    getHomePlayStatusLine(current),
+    partnerChoice
+      ? "Which Pokémon did you choose? Tap your partner"
+      : partner
+        ? `${partner.name} is your partner`
+        : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     /* The band runs to the foot of the page, over the room the page keeps there. */
@@ -170,11 +99,7 @@ export const HomeBandSection = ({
     >
       <HomeBand
         note={<HomeDataNote />}
-        castClassName={
-          partnerChoice || isFirstPlay
-            ? "min-h-56 sm:min-h-64"
-            : "min-h-32 sm:min-h-54 lg:min-h-60 xl:min-h-64"
-        }
+        castClassName="min-h-56 sm:min-h-64"
         cast={cast}
         ground={
           <HomeBandGround
@@ -199,11 +124,6 @@ export const HomeBandSection = ({
           id="home-greeting"
           greeting={greeting}
           subtitle={subtitle}
-        />
-        <HomePlayShelf
-          currentPlayId={current.id}
-          onSelect={onSelectPlay}
-          plays={plays}
         />
       </HomeBand>
     </section>
