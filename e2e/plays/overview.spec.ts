@@ -61,7 +61,7 @@ test.describe("Overview", () => {
     );
   });
 
-  test("shows the Pokédex beside Recent moments, with what was caught last @phone", async ({
+  test("shows the Pokédex beside Latest moments, with what was caught last @phone", async ({
     page,
   }) => {
     const playId = await startPlay(page, {

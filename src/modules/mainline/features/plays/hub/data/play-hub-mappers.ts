@@ -200,7 +200,7 @@ export const buildMainlinePlayOverviewData = (params: {
     play: params.play,
     teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),
     timelinePreview: params.timelinePreview,
-    /* Its trophies (the League, trials), gold in Recent moments as in History. */
+    /* Its trophies (the League, trials), gold in Latest moments as in History. */
     trophyMilestoneIds: orderedMilestones.flatMap((milestone) =>
       milestone.milestone_id !== null &&
       isTrophyMilestone(milestone.milestone_type_slug)

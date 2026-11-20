@@ -16,6 +16,7 @@ import { PlayCard } from "@/modules/mainline/features/plays/shared/components/pl
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { formatHomeMomentAge } from "@/modules/mainline/features/home/data/home-activity-model";
+import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
@@ -77,11 +78,10 @@ const ProfileSection = ({
 );
 
 /*
- * One moment as a small card: its Play's cover in a column of its own (so
- * every line starts in the same place, whatever the box's shape); its kind
- * and Play, what happened and the line that explains it (a milestone's own
- * description); and how long ago at the right. The card opens the
- * moment in its Play's History.
+ * One moment, as the moment card every page draws (`RecordRow`), with two
+ * things only Home needs: the moments come from every Play, so the Play's
+ * cover stands where the medallion would and its name follows the kind; and
+ * the card opens the moment in its Play's History.
  */
 const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
   const { timeZone } = useViewerClock();
@@ -94,15 +94,12 @@ const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
         moment.event.play_id ?? "",
         moment.event.event_id ?? "",
       )}
-      className="group/card-link block rounded-lg outline-none"
+      className="group/card-link block h-full rounded-lg outline-none"
     >
-      <Card
-        size="sm"
-        variant="interactive"
-        className="grid h-full grid-cols-[4rem_minmax(0,1fr)_auto] items-center gap-3"
-      >
-        {/* In a span: a card trims around a picture that is its first child. */}
-        <span className="grid place-items-center">
+      <RecordRow
+        variant="card"
+        opens
+        picture={
           <GameCover
             alt=""
             coverImageUrl={moment.coverImageUrl}
@@ -110,27 +107,18 @@ const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
             gameSlug={moment.gameSlug ?? undefined}
             size="slim"
           />
-        </span>
-        <div className="min-w-0">
-          <p className="text-ink-3 copy-meta truncate">
+        }
+        kicker={
+          <>
             {record.label ? `${record.label} · ` : null}
             <span className="text-select-ink">{moment.playName}</span>
-          </p>
-          <p className="copy-strong line-clamp-2">
-            {record.headline.map((part) => part.text).join("")}
-          </p>
-          {record.description ? (
-            <p className="text-ink-2 copy-note line-clamp-2">
-              {record.description}
-            </p>
-          ) : null}
-        </div>
-        {age ? (
-          <span className="text-ink-3 copy-meta self-start whitespace-nowrap">
-            {age}
-          </span>
-        ) : null}
-      </Card>
+          </>
+        }
+        /* "Today", "A year ago": capitalised like every moment's date. */
+        when={age ? age.charAt(0).toUpperCase() + age.slice(1) : null}
+        headline={record.headline.map((part) => part.text).join("")}
+        description={record.description}
+      />
     </Link>
   );
 };

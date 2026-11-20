@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { PlayMomentRow } from "@/modules/mainline/features/plays/shared/components/play-moment-row";
 import {
   PlayTimeline,
@@ -8,7 +10,7 @@ import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { SectionHead } from "@/shared/components/section-head";
 
 type RecentHistorySectionProps = {
   context: PlayMomentContext;
@@ -20,9 +22,10 @@ type RecentHistorySectionProps = {
 const recentMomentLimit = 3;
 
 /*
- * Recent moments: the Play's newest records on the same line History draws,
- * with the way on to History once there are any. While there are fewer than
- * three, where the Play began closes the line.
+ * Latest moments: the Play's newest records as moment cards, the same ones
+ * History draws, under a heading on the wall (as Home's are), with the way
+ * on to History once there are any. While there are fewer than three, where
+ * the Play began closes the list.
  */
 export const RecentHistorySection = ({
   context,
@@ -30,17 +33,22 @@ export const RecentHistorySection = ({
   historyHref,
   startedOn,
 }: RecentHistorySectionProps) => {
+  const headingId = useId();
   const moments = events.slice(0, recentMomentLimit);
 
   return (
-    <DetailSectionCard
-      title="Recent moments"
-      contentClassName="pt-0"
-      more={
-        moments.length ? { href: historyHref, label: "History" } : undefined
-      }
+    <section
+      aria-labelledby={headingId}
+      className="flex min-w-0 flex-col gap-3"
     >
-      <PlayTimeline className="pt-1" label="Recent moments">
+      <SectionHead
+        title="Latest moments"
+        titleId={headingId}
+        more={
+          moments.length ? { href: historyHref, label: "History" } : undefined
+        }
+      />
+      <PlayTimeline labelledBy={headingId}>
         {moments.map((event, index) => {
           const happenedAt = getPlayMomentInstant(event);
 
@@ -59,6 +67,6 @@ export const RecentHistorySection = ({
           <PlayTimelineStart startedOn={startedOn} />
         ) : null}
       </PlayTimeline>
-    </DetailSectionCard>
+    </section>
   );
 };

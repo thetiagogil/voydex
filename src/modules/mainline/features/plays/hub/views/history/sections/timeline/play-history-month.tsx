@@ -38,7 +38,6 @@ export const PlayHistoryMonthItems = ({
         <PlayMomentRow
           context={context}
           event={event}
-          placement="grid"
           variant="timeline"
           wrap
           when={

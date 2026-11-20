@@ -10,24 +10,29 @@ type RecordRowProps = {
   description?: ReactNode;
   headline: ReactNode;
   kicker: ReactNode;
-  medallion: MedallionContent;
+  medallion?: MedallionContent;
   /* A Pokémon that left the team wears a washed-out medallion. */
   medallionFaded?: boolean;
+  /* The moment card opens something: it takes the edge and the lift. */
+  opens?: boolean;
   /*
-   * On a timeline, `grid` is a moment in History's month grid: from 1024px
-   * it leaves the line and its medallion comes inside the card, which fills
-   * its grid cell. Narrower, it sits on the line like any timeline row.
+   * A picture in the medallion's place, where the moments shown come from
+   * several Plays and each one's cover says which (Home).
    */
-  placement?: "grid" | "line";
+  picture?: ReactNode;
   trailing?: ReactNode;
   /*
-   * `row` sits between rules inside a card; `timeline` puts the medallion on
-   * a timeline's line and the words in a small card of their own.
+   * `card` is the moment card, the one way a moment is drawn: its picture
+   * inside a small card, the kind and when on the top line, what happened
+   * in bold, then the line that explains it. `timeline` is the same card on
+   * a `PlayTimeline`: below 1024px its medallion sits on the line beside
+   * the card; from 1024px it comes inside, as in `card`. `row` sits between
+   * rules inside a card, with no card of its own (the front page's example).
    */
-  variant?: "row" | "timeline";
+  variant?: "card" | "row" | "timeline";
   /*
-   * When it happened; on a timeline it sits at the right edge of the card's
-   * top line, smaller and lighter than the kind.
+   * When it happened, at the right edge of the card's top line, smaller and
+   * lighter than the kind.
    */
   when?: ReactNode;
   /* Let the line and note wrap in full instead of truncating and clamping. */
@@ -35,11 +40,11 @@ type RecordRowProps = {
 };
 
 /*
- * One moment: its medallion, a small kicker (what kind and when), the line and
- * an optional body. Inside a card, rows sit between rules with no card of
- * their own; on a timeline, the words sit in a small card beside the
- * medallion, with when it happened at the card's right edge and the kind at
- * its left. A third column appears only for something trailing.
+ * One moment, drawn one way everywhere (History, a Play's Overview, a
+ * Pokémon's own moments, Home): its picture, a small kicker (what kind),
+ * when, what happened in bold and an optional line that explains it. On the
+ * wall it is a white card; inside another card it takes the inset fill, as
+ * every card does.
  */
 export const RecordRow = ({
   className,
@@ -48,76 +53,83 @@ export const RecordRow = ({
   kicker,
   medallion,
   medallionFaded = false,
-  placement = "line",
+  opens = false,
+  picture,
   trailing,
   variant = "row",
   when,
   wrap = false,
 }: RecordRowProps) => {
+  const isCard = variant !== "row";
   const words = (
     <>
       <p
         className={cn(
           "text-ink-3 copy-label",
-          variant === "timeline" && "flex items-baseline justify-between gap-3",
+          isCard && "flex items-baseline justify-between gap-3",
         )}
       >
-        <span>{kicker}</span>
-        {variant === "timeline" && when ? (
+        <span className={cn(isCard && "min-w-0 truncate")}>{kicker}</span>
+        {isCard && when ? (
           /* Smaller and lighter than the kind, so it stays out of the way. */
           <span className="text-12 shrink-0 font-medium tabular-nums">
             {when}
           </span>
         ) : null}
       </p>
-      <p
-        className={cn(
-          "text-ink copy-body [&_b]:font-extrabold",
-          !wrap && "truncate",
-        )}
-      >
+      <p className={cn("text-ink copy-strong", !wrap && "truncate")}>
         {headline}
       </p>
       {description ? (
-        <p className={cn("text-ink-2 text-13", !wrap && "line-clamp-2")}>
+        <p className={cn("text-ink-2 copy-note", !wrap && "line-clamp-2")}>
           {description}
         </p>
       ) : null}
     </>
   );
+  const mark = (markClassName?: string) =>
+    medallion ? (
+      <Medallion
+        className={markClassName}
+        content={medallion}
+        faded={medallionFaded}
+      />
+    ) : null;
 
-  if (variant === "timeline") {
+  if (variant === "timeline" || variant === "card") {
+    const onLine = variant === "timeline";
+
     return (
       <article
         className={cn(
-          /* The medallion sits level with the middle of its card. */
-          "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
-          placement === "grid" && "lg:block lg:h-full",
+          "min-w-0",
+          /* On a line, the medallion sits level with the middle of its card. */
+          onLine
+            ? "grid grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4 lg:block lg:h-full"
+            : "h-full",
           className,
         )}
       >
-        <Medallion
-          className={cn(placement === "grid" && "lg:hidden")}
-          content={medallion}
-          faded={medallionFaded}
-        />
+        {onLine ? mark("lg:hidden") : null}
         <Card
           size="sm"
-          className={cn("min-w-0 gap-0", placement === "grid" && "lg:h-full")}
+          variant={opens ? "interactive" : "default"}
+          className={cn("min-w-0 gap-0", onLine ? "lg:h-full" : "h-full")}
         >
-          {placement === "grid" ? (
-            /* Off the line, the medallion comes inside its card. */
-            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-4">
-              <Medallion
-                className="hidden lg:grid"
-                content={medallion}
-                faded={medallionFaded}
-              />
-              <div className="min-w-0">{words}</div>
-            </div>
-          ) : (
-            words
-          )}
+          <div
+            className={cn(
+              "min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-4",
+              onLine ? "lg:grid" : "grid",
+            )}
+          >
+            {picture ? (
+              /* A fixed column, so every card's words start in one place. */
+              <span className="grid w-14 place-items-center">{picture}</span>
+            ) : (
+              mark(onLine ? "hidden lg:grid" : undefined)
+            )}
+            <div className="min-w-0">{words}</div>
+          </div>
         </Card>
       </article>
     );
@@ -133,7 +145,7 @@ export const RecordRow = ({
         className,
       )}
     >
-      <Medallion content={medallion} faded={medallionFaded} />
+      {mark()}
       <div className="min-w-0">{words}</div>
       {trailing ? <div className="flex items-center">{trailing}</div> : null}
     </article>

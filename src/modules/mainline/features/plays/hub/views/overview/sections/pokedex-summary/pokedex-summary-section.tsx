@@ -1,7 +1,11 @@
+import { useId } from "react";
+
 import type { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/types";
 import type { OverviewCatch } from "@/modules/mainline/features/plays/hub/views/overview/data/latest-catches-mapper";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { SectionHead } from "@/shared/components/section-head";
+import { Card } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/cn";
 import { ProgressDonut } from "@/shared/components/progress-donut";
 
 import { getProgressSummaryItems } from "./progress-summary-model";
@@ -14,7 +18,8 @@ type PokedexSummarySectionProps = {
 };
 
 /*
- * The Pokédex beside Recent moments: how far it is (a ring, caught and seen)
+ * The Pokédex beside Latest moments, its heading on the wall like theirs:
+ * how far it is (a ring, caught and seen)
  * and the newest catches as two rows of small Pokémon across the card, with
  * the way on to the Pokédex. Story's count lives in the journey card and
  * collectibles in their own tab, so neither is repeated here. Nothing is
@@ -34,54 +39,63 @@ export const PokedexSummarySection = ({
       ? (overview.seen_required_pokedex_species_count ?? null)
       : null;
 
+  const headingId = useId();
+
   if (!pokedex) {
     return null;
   }
 
   return (
-    <DetailSectionCard
-      title="Pokédex"
-      className={className}
-      contentClassName="grid content-start gap-4 pt-0"
-      more={{ href: pokedex.href, label: "Pokédex" }}
+    <section
+      aria-labelledby={headingId}
+      className={cn("flex min-w-0 flex-col gap-3", className)}
     >
-      <div className="flex items-center gap-4">
-        <ProgressDonut
-          label="Pokédex progress"
-          value={pokedex.percent}
-          className="w-20 shrink-0"
-        />
-        <div className="min-w-0">
-          <p className="text-ink copy-strong tabular-nums">{pokedex.detail}</p>
-          {seenCount !== null ? (
-            <p className="text-ink-2 copy-note tabular-nums">
-              {seenCount} seen
+      <SectionHead
+        title="Pokédex"
+        titleId={headingId}
+        more={{ href: pokedex.href, label: "Pokédex" }}
+      />
+      <Card className="grid flex-1 content-start gap-4">
+        <div className="flex items-center gap-4">
+          <ProgressDonut
+            label="Pokédex progress"
+            value={pokedex.percent}
+            className="w-20 shrink-0"
+          />
+          <div className="min-w-0">
+            <p className="text-ink copy-strong tabular-nums">
+              {pokedex.detail}
             </p>
-          ) : null}
+            {seenCount !== null ? (
+              <p className="text-ink-2 copy-note tabular-nums">
+                {seenCount} seen
+              </p>
+            ) : null}
+          </div>
         </div>
-      </div>
 
-      <div className="grid gap-2">
-        <p className="text-ink-2 copy-label">Latest catches</p>
-        {latestCatches.length ? (
-          <ul className="grid grid-cols-6 gap-2 sm:gap-3">
-            {latestCatches.map((caught) => (
-              <li key={caught.speciesId}>
-                <PokemonAvatar
-                  imageUrl={caught.imageUrl}
-                  name={caught.name}
-                  typeSlug={caught.typeSlug}
-                />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-ink-3 copy-note">
-            Nothing caught yet. Mark a Pokémon as caught in the Pokédex and it
-            shows up here.
-          </p>
-        )}
-      </div>
-    </DetailSectionCard>
+        <div className="grid gap-2">
+          <p className="text-ink-2 copy-label">Latest catches</p>
+          {latestCatches.length ? (
+            <ul className="grid grid-cols-6 gap-2 sm:gap-3">
+              {latestCatches.map((caught) => (
+                <li key={caught.speciesId}>
+                  <PokemonAvatar
+                    imageUrl={caught.imageUrl}
+                    name={caught.name}
+                    typeSlug={caught.typeSlug}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-ink-3 copy-note">
+              Nothing caught yet. Mark a Pokémon as caught in the Pokédex and it
+              shows up here.
+            </p>
+          )}
+        </div>
+      </Card>
+    </section>
   );
 };

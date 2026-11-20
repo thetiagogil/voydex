@@ -8,9 +8,11 @@ As built, History (`/app/plays/play/history?id=`) draws every moment the
 Play kept on one continuous dashed line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's
-origin (shown with every kind and no search). From 1024px each month's moments leave the line for a grid of cards beside it, two across and three on wide screens, each card with its medallion inside, so the line runs from month to month. Each card's top line reads the kind on the left and, smaller and lighter, when on the right. Overview's Recent moments draws
-its three newest on the same line, closed by the starting line while there are
-fewer than three. Filters split it into Story (milestones and
+origin (shown with every kind and no search). From 1024px each month's moments leave the line for a grid of cards beside it, two across and three on wide screens, each card with its medallion inside, so the line runs from month to month. Each card's top line reads the kind on the left and, smaller and lighter, when on the right. Overview's Latest moments draws
+its three newest as the same moment cards (on the line below 1024px, as cards
+with their medallions inside from there), closed by the starting line while
+there are fewer than three. Every moment in the app is this one card
+(2026-11-20): History, Overview, a Pokémon's own moments and Home. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
 Notes and Status (status changes and the rest). Each moment's kind reads the same one word: Story, Team, Note or Status. Under its line a moment shows only real words, never filler: a milestone its own description from the game data, a note the rest of what was written, a team change a line only when the player wrote one; a status change reads "Marked as Paused." A search in front of the
 filters matches each moment's kind, line and note, and the filter counts
