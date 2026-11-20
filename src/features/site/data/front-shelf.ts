@@ -1,0 +1,46 @@
+import type { PublicGame } from "@/config/public-art";
+
+/*
+ * The games on the front page's shelf, oldest first: every main game Voydex
+ * knows, so the first screen shows how far it reaches without saying it.
+ */
+export const frontShelfGames: readonly PublicGame[] = [
+  { name: "Pokémon Red", slug: "red" },
+  { name: "Pokémon Blue", slug: "blue" },
+  { name: "Pokémon Yellow", slug: "yellow" },
+  { name: "Pokémon Gold", slug: "gold" },
+  { name: "Pokémon Silver", slug: "silver" },
+  { name: "Pokémon Crystal", slug: "crystal" },
+  { name: "Pokémon Ruby", slug: "ruby" },
+  { name: "Pokémon Sapphire", slug: "sapphire" },
+  { name: "Pokémon FireRed", slug: "firered" },
+  { name: "Pokémon LeafGreen", slug: "leafgreen" },
+  { name: "Pokémon Emerald", slug: "emerald" },
+  { name: "Pokémon Diamond", slug: "diamond" },
+  { name: "Pokémon Pearl", slug: "pearl" },
+  { name: "Pokémon Platinum", slug: "platinum" },
+  { name: "Pokémon HeartGold", slug: "heartgold" },
+  { name: "Pokémon SoulSilver", slug: "soulsilver" },
+  { name: "Pokémon Black", slug: "black" },
+  { name: "Pokémon White", slug: "white" },
+  { name: "Pokémon Black 2", slug: "black-2" },
+  { name: "Pokémon White 2", slug: "white-2" },
+  { name: "Pokémon X", slug: "x" },
+  { name: "Pokémon Y", slug: "y" },
+  { name: "Pokémon Omega Ruby", slug: "omega-ruby" },
+  { name: "Pokémon Alpha Sapphire", slug: "alpha-sapphire" },
+  { name: "Pokémon Sun", slug: "sun" },
+  { name: "Pokémon Moon", slug: "moon" },
+  { name: "Pokémon Ultra Sun", slug: "ultra-sun" },
+  { name: "Pokémon Ultra Moon", slug: "ultra-moon" },
+  { name: "Pokémon: Let's Go, Pikachu!", slug: "lets-go-pikachu" },
+  { name: "Pokémon: Let's Go, Eevee!", slug: "lets-go-eevee" },
+  { name: "Pokémon Sword", slug: "sword" },
+  { name: "Pokémon Shield", slug: "shield" },
+  { name: "Pokémon Brilliant Diamond", slug: "brilliant-diamond" },
+  { name: "Pokémon Shining Pearl", slug: "shining-pearl" },
+  { name: "Pokémon Legends: Arceus", slug: "legends-arceus" },
+  { name: "Pokémon Scarlet", slug: "scarlet" },
+  { name: "Pokémon Violet", slug: "violet" },
+  { name: "Pokémon Legends: Z-A", slug: "legends-za" },
+];
