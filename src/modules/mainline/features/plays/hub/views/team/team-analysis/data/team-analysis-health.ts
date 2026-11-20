@@ -8,6 +8,7 @@ import type {
   TeamAnalysisHealthStatus,
   TeamAnalysisHealthTip,
   TeamAnalysisTipRow,
+  TeamAnalysisVerdict,
 } from "../types";
 import { battleCostLimits } from "@/modules/mainline/features/plays/hub/data/team-battlers";
 import type {
@@ -123,6 +124,22 @@ const teamHealthSummaries: Record<
   weak: "Your team struggles against many types.",
 };
 
+/* How the whole team holds up against the yardstick. */
+const readTeamHealthStatus = (
+  field: TeamFieldReading,
+): Exclude<TeamAnalysisHealthStatus, "limited-data"> =>
+  field.share <= battleCostLimits.strong
+    ? "strong"
+    : field.share >= battleCostLimits.challenging
+      ? "weak"
+      : "moderate";
+
+/* A shared weak spot outclasses two of yours, or your only one. */
+const isSharedWeakness = (
+  reading: TeamFieldTypeReading,
+  evidence: TeamAnalysisEvidence,
+) => reading.beats.length >= Math.min(2, evidence.activeCount);
+
 /*
  * Why a type is slow to knock out: no super-effective move at all, only
  * super-effective moves outside your Pokémon's own types (no STAB), or
@@ -184,13 +201,9 @@ export const buildTeamAnalysisHealth = ({
     (left, right) => right.sharedCost - left.sharedCost,
   );
 
-  const teamHealthStatus: TeamAnalysisHealthStatus = !canRead
-    ? "limited-data"
-    : field.share <= battleCostLimits.strong
-      ? "strong"
-      : field.share >= battleCostLimits.challenging
-        ? "weak"
-        : "moderate";
+  const teamHealthStatus: TeamAnalysisHealthStatus = canRead
+    ? readTeamHealthStatus(field)
+    : "limited-data";
   /*
    * The types to watch: they cost your whole team more than a scratch and
    * clearly more than a type usually does, hardest first. When the field is
@@ -373,8 +386,8 @@ export const buildTeamAnalysisHealth = ({
   const isAlone = evidence.activeCount === 1;
   const sharedWords = isAlone ? "your Pokémon" : "two or more of yours";
   const sharedPronoun = isAlone ? "it" : "them";
-  const pressureReadings = byCost.filter(
-    (reading) => reading.beats.length >= Math.min(2, evidence.activeCount),
+  const pressureReadings = byCost.filter((reading) =>
+    isSharedWeakness(reading, evidence),
   );
   const openPressure = pressureReadings.filter(
     (reading) => !isAnswered(reading),
@@ -431,4 +444,74 @@ export const buildTeamAnalysisHealth = ({
     moveCoverageMetric,
     weaknessControlMetric,
   ];
+};
+
+/*
+ * The verdict above the four cards: how the team holds up, in one plain
+ * sentence, then the one thing to do first, so the reading never opens on
+ * four badges alone. The first thing is the worst of what the cards found:
+ * a shared weakness nothing answers, then a Pokémon far below the rest,
+ * then slow knockouts, then any type left unanswered. Null while the team
+ * can't be read.
+ */
+export const buildTeamAnalysisVerdict = ({
+  evidence,
+  field,
+}: {
+  evidence: TeamAnalysisEvidence;
+  field: TeamFieldReading;
+}): TeamAnalysisVerdict | null => {
+  const typingComplete =
+    evidence.activeCount > 0 &&
+    evidence.typedMemberCount === evidence.activeCount;
+
+  if (!typingComplete || !field.types.length) return null;
+
+  const status = readTeamHealthStatus(field);
+  const open = [...field.types]
+    .sort((left, right) => right.answerCost - left.answerCost)
+    .filter((reading) => !isAnswered(reading));
+  const sharedOpen = open.find((reading) =>
+    isSharedWeakness(reading, evidence),
+  );
+  const slowCount = field.types.filter(
+    (reading) => reading.hitsToKnockOut > COVERAGE_HITS,
+  ).length;
+
+  const next = sharedOpen
+    ? [
+        text("Nothing answers"),
+        typePart(sharedOpen.type),
+        text(
+          evidence.activeCount === 1
+            ? "and it beats your Pokémon: start there."
+            : "and it beats several of yours: start there.",
+        ),
+      ]
+    : field.lagging.length
+      ? [
+          text(
+            `Start by levelling up ${joinTeamAnalysisList(
+              field.lagging.map((pokemon) => pokemon.name),
+              "and",
+            )}, well below your top level.`,
+          ),
+        ]
+      : slowCount > field.types.length / 2
+        ? [
+            text(
+              "Start with stronger moves: most types take more than two hits.",
+            ),
+          ]
+        : open.length
+          ? [
+              text(
+                `Start with the ${open.length} ${
+                  open.length === 1 ? "type" : "types"
+                } nothing in your team answers.`,
+              ),
+            ]
+          : [text("Nothing needs fixing first.")];
+
+  return { next, status, summary: teamHealthSummaries[status] };
 };

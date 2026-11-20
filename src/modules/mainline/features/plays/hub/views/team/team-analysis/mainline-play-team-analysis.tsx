@@ -23,8 +23,8 @@ const emptyTeamArt = {
 };
 
 /*
- * Team analysis is a tool, so it stays quiet: four health cards (Team health
- * first) read with the battle math, then the defensive matrix and the move
+ * Team analysis is a tool, so it stays quiet: a verdict in plain words, four
+ * health cards (Team health first) read with the battle math, then the defensive matrix and the move
  * coverage by type. Only the data keeps
  * its colour: matchup tints, type colours and the Pokémon themselves. How the
  * team reads against each Story battle lives in Story, on its milestone.
@@ -82,6 +82,7 @@ export const MainlinePlayTeamAnalysis = ({
           members={analysis.members}
           metrics={analysis.healthMetrics}
           roughNote={analysis.roughNote}
+          verdict={analysis.verdict}
         />
       </div>
       <TeamAnalysisDefensiveSection

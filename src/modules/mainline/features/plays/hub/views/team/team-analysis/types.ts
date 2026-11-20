@@ -61,6 +61,16 @@ export type TeamAnalysisHealthTip = {
   summary: string;
 };
 
+/*
+ * The reading in one plain sentence, and the one thing to do first, above
+ * the four cards.
+ */
+export type TeamAnalysisVerdict = {
+  next: TeamAnalysisHealthLinePart[];
+  status: Exclude<TeamAnalysisHealthStatus, "limited-data">;
+  summary: string;
+};
+
 export type TeamAnalysisHealthMetric = {
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
   line: TeamAnalysisHealthLinePart[];
@@ -84,6 +94,8 @@ export type TeamAnalysisModel = {
   members: MainlinePlayTeamMember[];
   /* What the team leaves out of the health cards' battle math; null when nothing. */
   roughNote: string | null;
+  /* Null while the team can't be read. */
+  verdict: TeamAnalysisVerdict | null;
 };
 
 export type MainlinePlayTeamAnalysisData = {

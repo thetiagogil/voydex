@@ -10,6 +10,7 @@ import type { Generation, Type } from "@/modules/reference/types";
 import type { TeamAnalysisModel } from "../types";
 import {
   buildTeamAnalysisHealth,
+  buildTeamAnalysisVerdict,
   getTeamFieldRoughNote,
 } from "./team-analysis-health";
 import { buildTeamAnalysisRows } from "./team-analysis-rows";
@@ -80,5 +81,6 @@ export const buildTeamAnalysisModel = ({
     roughNote: healthMetrics.some((metric) => metric.status !== "limited-data")
       ? getTeamFieldRoughNote(field)
       : null,
+    verdict: buildTeamAnalysisVerdict({ evidence, field }),
   };
 };

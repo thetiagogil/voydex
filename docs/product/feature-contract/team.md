@@ -179,7 +179,11 @@ while the move saves.
 Team Analysis is the Team-owned review view. It makes no claim it can't
 explain: every verdict says what it is built from and what to record to
 sharpen it. Its **Overall** reading is a general check of the team, not
-tied to the game's battles. It opens with four health cards read with the
+tied to the game's battles. It opens with a verdict in plain words (how the team holds up in one
+sentence, then the one thing to do first: a shared weakness nothing answers,
+a Pokémon far below the rest, slow knockouts, or a type left unanswered;
+added 2026-11-20 so the page never opens on four badges alone), then four
+health cards read with the
 same battle math as Story's battle readings (below), against a full team of six: a
 Pokémon of each type the generation has, with your active team's average
 base stats, at your top recorded level (Lv. 50 while none is), hitting with
