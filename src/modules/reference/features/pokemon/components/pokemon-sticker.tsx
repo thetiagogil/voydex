@@ -156,10 +156,6 @@ export const PokemonSticker = ({
   const stickerClassName = cn(
     "group/sticker relative flex min-w-0 flex-col items-center rounded-lg px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     "sticker",
-    /* The target's ring takes the shadow's place. */
-    variant === "default" &&
-      !target &&
-      "[--sticker-shadow:var(--shadow-soft-value)]",
     selected && pokemonStickerPickedClassName,
     variantClassName.sticker,
     target && "sticker-picked",
@@ -186,7 +182,7 @@ export const PokemonSticker = ({
         <FallbackImage
           src={imageUrl}
           name={name}
-          className={variantClassName.art}
+          className={cn("sticker-art", variantClassName.art)}
         />
       </span>
       <span

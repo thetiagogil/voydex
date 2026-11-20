@@ -60,13 +60,13 @@ export const PokemonCollectorCard = ({
   );
 
   const cardClassName = cn(
-    "group/collector focus-ring shadow-soft relative flex h-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
+    "group/collector focus-ring relative flex h-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
     selected ? "bg-(--t)" : "card-frame",
     className,
   );
   const content = (
     <>
-      <span className="bg-surface flex min-w-0 flex-1 flex-col rounded-lg p-2.5">
+      <span className="bg-surface flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2.5">
         <span className="flex min-w-0 items-baseline justify-between gap-2">
           <span className="font-display text-17 descender-room truncate leading-tight font-semibold">
             {name}

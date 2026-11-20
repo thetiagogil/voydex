@@ -38,7 +38,7 @@ const BoardRule = ({
      * Its own layer (`translate3d`), so the browser's drag picture is just
      * the rounded row, not the square of the column behind its corners.
      */
-    className="bg-surface shadow-card flex min-h-12 transform-[translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-lg py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
+    className="bg-surface shadow-open flex min-h-12 transform-[translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-lg py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
   >
     <AppIcon
       icon={appIcons.actions.dragHandle}

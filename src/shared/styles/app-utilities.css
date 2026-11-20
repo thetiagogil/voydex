@@ -5,53 +5,69 @@
 
 /*
  * A reference card you don't own (a Codex Pokémon or game card): white with a
- * thin edge and no shadow, the same on the page and inside a section card.
- * The one surface for both; the white band is only for what is yours.
+ * thin line and the small edge of what you can open, the same on the wall
+ * and inside a section. The colour and the white band are only for what is
+ * yours.
  */
 @utility plain-card {
   background-color: var(--surface);
   border: 1px solid var(--line);
+  box-shadow: 0 3px 0 var(--line);
 }
 
 /*
- * An owned Pokémon's sticker surface: the type tint and a 4px white border on
- * a soft shadow. Set --t (neutral when it isn't set). Swap the shadow with
- * --sticker-shadow, or add `sticker-picked` to mark it as the target.
+ * An owned Pokémon's card: the whole card in its type's colour, a 3px white
+ * band, and the small solid edge of what you can open. Set --t (neutral
+ * when it isn't set). Swap the edge with --sticker-shadow, or add
+ * `sticker-picked` to mark it as the target.
  */
 @utility sticker {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 16%,
+    var(--t, var(--mute)) 20%,
     var(--surface)
   );
   /* The tint stops inside the band, so no coloured hairline shows round it. */
   background-clip: padding-box;
-  border: 4px solid var(--sticker-border, #fff);
-  box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
+  border: 3px solid var(--sticker-border, #fff);
+  box-shadow: var(--sticker-shadow, 0 3px 0 var(--lip));
+}
+
+/*
+ * The Pokémon on its card: a little larger than the pale circle behind it,
+ * standing out of its top, with a soft shadow of its own.
+ */
+@utility sticker-art {
+  transform: translateY(-9%) scale(1.14);
+  filter: drop-shadow(0 10px 5px rgb(var(--shade) / 0.32));
 }
 
 /*
  * A collector card: an owned Pokémon's card where you look at it as part of
  * a set. `card-frame` is the frame in its type's colour round the white
- * card; `card-window` is the tinted window its art stands in, with a thin
- * edge. Set --t (neutral when it isn't set).
+ * card, on the small edge of what you can open; `card-window` is the soft
+ * tinted block its art stands in. Set --t (neutral when it isn't set).
  */
 @utility card-frame {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 42%,
+    var(--t, var(--mute)) 30%,
     var(--surface)
   );
+  box-shadow: 0 3px 0
+    color-mix(in oklab, var(--t, var(--mute)) 34%, var(--line));
 }
 
 @utility card-window {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 26%,
+    var(--t, var(--mute)) 22%,
     var(--surface)
   );
-  box-shadow: inset 0 0 0 2px
-    color-mix(in oklab, var(--t, var(--mute)) 55%, var(--surface));
+
+  & > img {
+    filter: drop-shadow(0 8px 4px rgb(var(--shade) / 0.3));
+  }
 }
 
 /*

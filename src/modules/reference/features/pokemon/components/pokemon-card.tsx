@@ -99,7 +99,7 @@ const sizeClassNames: Record<
 };
 
 const stateClassNames: Record<PokemonCardState, string> = {
-  caught: "sticker [--sticker-shadow:var(--shadow-soft-value)]",
+  caught: "sticker",
   missing: "empty-slot",
   /* Plain cards share the Codex's one reference card surface. */
   plain: "plain-card",
@@ -216,10 +216,8 @@ export const PokemonCard = ({
           ? cn(
               "sticker",
               picked && "sticker-type-band",
-              /* A target's ring takes the soft shadow's place. */
-              target
-                ? "sticker-picked"
-                : "[--sticker-shadow:var(--shadow-soft-value)]",
+              /* A target's ring takes the edge's place. */
+              target && "sticker-picked",
             )
           : stateClassNames[state],
         target && !isSticker && dropTargetRingClassName,

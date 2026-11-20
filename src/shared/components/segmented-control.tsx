@@ -155,7 +155,10 @@ export const SegmentedControl = <TValue extends string>({
           size === "sm"
             ? "text-13 h-9 min-w-9 justify-center px-3 font-bold"
             : "text-13 h-9 px-4 font-bold",
-          variant === "pills" && !isActive && "bg-surface",
+          variant === "pills" &&
+            (isActive
+              ? "border-[1.5px] border-transparent"
+              : "border-lip bg-surface border-[1.5px]"),
           /*
            * With its 4px track a segment is one of the two control heights:
            * 48px like a field, or 36px (\`sm\`) like a pill.
@@ -165,13 +168,13 @@ export const SegmentedControl = <TValue extends string>({
           iconOnly && "px-3.5 sm:px-3",
           fullWidth && "flex-1 justify-center",
           /*
-           * The pick is a small sticker: its fill in a white band. The
-           * weight never changes, so picking one doesn't shift its row.
+           * The pick is filled, with no band. The weight never changes, so
+           * picking one doesn't shift its row.
            */
           isActive
             ? selectedTone === "strong"
-              ? "bg-calm bubble text-white"
-              : "bg-select-soft bubble text-select-ink"
+              ? "bg-calm text-white"
+              : "bg-select-soft text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           /*

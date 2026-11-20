@@ -148,17 +148,14 @@
   --r-2xl: 32px;
 
   /*
-   * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
-   * shadow. A button is a small sticker: its colour inside a white band (its
-   * border), a near-white keyline so the band still shows on a white card,
-   * and a soft shadow that shrinks when pressed, so it settles onto what it
-   * sits on.
+   * Depth. Sections are flat. A small solid edge sits under what you can
+   * open (cards, Pokémon). The main button lifts on a soft shadow that
+   * shrinks when pressed, so it settles onto what it sits on.
    */
-  --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
   /*
-   * The white band round every control (buttons, select triggers, tabs, the
-   * top bar's current link, a switch's pick, corner marks): one width, so no
-   * control drifts. Cards keep their own 4px sticker band.
+   * The white band round a small mark on a card (a corner mark, a switch's
+   * pick, your initial): one width. Controls wear no band; a Pokémon card
+   * keeps its own.
    */
   --band: 3px;
   /*
@@ -166,7 +163,7 @@
    * the stickers' way of lifting, never a hard lip.
    */
   --moment-drop: 0 6px 12px -5px rgb(var(--shade) / 0.38);
-  --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
+  --button-lift-value: 0 6px 12px -6px rgb(var(--shade) / 0.5);
   --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
   --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);
   --shadow-cover-value: 0 10px 18px -10px rgb(var(--shade) / 0.5);
@@ -352,14 +349,15 @@
   --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
   --shadow-dex-lens: var(--shadow-dex-lens-value);
   --shadow-dex-light: var(--shadow-dex-light-value);
-  --shadow-card:
-    0 1px 2px rgb(var(--shade) / 0.05),
-    0 10px 24px -18px rgb(var(--shade) / 0.28);
   /*
-   * A button's sticker edge round its white band (the band is its border, so
-   * it never eats the gap beside it): the keyline, then the soft lift.
+   * A section is flat: white on the wall with a thin line, no blur. A small
+   * solid edge under a card means "you can open this" (a Play row, a
+   * Pokémon card, a Collection card). Blur is only for what floats over the
+   * page (menus, sheets, dialogs, toasts).
    */
-  --shadow-button: 0 0 0 1px var(--button-keyline), var(--button-lift-value);
-  --shadow-button-pressed:
-    0 0 0 1px var(--button-keyline), var(--button-settle-value);
+  --shadow-card: inset 0 0 0 1px var(--line);
+  --shadow-open: inset 0 0 0 1px var(--line), 0 3px 0 var(--line);
+  /* The main button's lift, the one soft shadow on a page; it settles when pressed. */
+  --shadow-button: var(--button-lift-value);
+  --shadow-button-pressed: var(--button-settle-value);
 }

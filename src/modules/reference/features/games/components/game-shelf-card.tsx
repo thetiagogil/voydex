@@ -87,7 +87,7 @@ export const GameShelfCard = ({
   );
   const className = cn(
     "group/game relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
-    count ? "card-frame shadow-soft p-1.5" : "plain-card gap-3 p-2 pb-3.5",
+    count ? "card-frame p-1.5" : "plain-card gap-3 p-2 pb-3.5",
   );
   const content = count ? (
     <span className="bg-surface flex min-w-0 flex-1 flex-col gap-2 rounded-lg p-2.5">
