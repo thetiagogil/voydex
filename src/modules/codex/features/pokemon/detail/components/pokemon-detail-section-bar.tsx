@@ -10,7 +10,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-sections";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
+import { getBarLinkClassName } from "@/shared/components/bar-link";
 import { DockedBar } from "@/shared/components/docked-bar";
 
 type PokemonDetailSectionBarProps = {
@@ -150,10 +150,10 @@ export const PokemonDetailSectionBar = ({
       title={name}
       trailing={
         <nav aria-label={`${name}: sections`} className="min-w-0 flex-1">
-          {/* Room inside the scroller for the marked link's band and shadow. */}
+          {/* Room inside the scroller for focus rings. */}
           <div
             ref={linksRef}
-            className="no-scrollbar -mx-1.5 -my-2 flex min-w-0 items-center gap-1 overflow-x-auto px-1.5 py-2 sm:justify-end"
+            className="no-scrollbar -mx-1.5 -my-2 flex min-w-0 items-center gap-2 overflow-x-auto px-1.5 py-2 sm:justify-end"
           >
             {links.map((link) => {
               const isCurrent = current !== null && link.ids.includes(current);
@@ -165,7 +165,7 @@ export const PokemonDetailSectionBar = ({
                   aria-current={isCurrent ? "true" : undefined}
                   className={getBarLinkClassName(isCurrent)}
                 >
-                  <SteadyLabel>{link.label}</SteadyLabel>
+                  {link.label}
                 </a>
               );
             })}

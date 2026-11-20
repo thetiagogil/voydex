@@ -29,7 +29,7 @@ type TabItemProps = {
 const getTabItemClassName = (isCurrent: boolean) =>
   cn(
     "copy-mark text-ink-2 flex flex-col items-center gap-0.5 rounded-lg px-0.5 pt-1.5 pb-1",
-    isCurrent && "bg-select-soft text-select-ink font-extrabold",
+    isCurrent && "bg-select-soft text-select-ink",
   );
 
 const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (

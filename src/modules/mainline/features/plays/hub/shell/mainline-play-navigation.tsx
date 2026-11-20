@@ -180,7 +180,7 @@ export const MainlinePlayNavigation = ({
       aria-label={label}
       /* As wide as its tabs, so the scroller keeps its end padding for the last ring. */
       className="w-max"
-      listClassName="w-max flex-nowrap gap-1.5"
+      listClassName="w-max flex-nowrap gap-2"
     >
       <NavigationMenuItem>
         <NavigationMenuControlLink

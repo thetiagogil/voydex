@@ -12,7 +12,7 @@ import {
   type BarMenuView,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
+import { getBarLinkClassName } from "@/shared/components/bar-link";
 import { Link } from "@/shared/components/link";
 import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
@@ -74,7 +74,7 @@ const BarMenu = ({
           "data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
       )}
     >
-      <SteadyLabel>{item.label}</SteadyLabel>
+      {item.label}
     </NavigationMenuTrigger>
     <NavigationMenuOptionsPanel>
       {/* The address's query isn't known when the page is built. */}
@@ -91,8 +91,8 @@ const BarMenu = ({
  * The app bar's sections (v3 `.links`), inside the top bar's pill: Home,
  * Plays and Statistics are links; Team Planner, Collection and the Codex
  * open a menu of their pages, so each of those is one step away. The current
- * one is a small sticker in the selected tint, as every pick is; it swaps at
- * once, never fades.
+ * one is a plain white pill in the selected ink; it swaps at once, never
+ * fades.
  */
 export const AppBarSections = ({ className }: { className?: string }) => {
   const pathname = usePathname();
@@ -117,7 +117,7 @@ export const AppBarSections = ({ className }: { className?: string }) => {
               aria-current={isCurrent ? "page" : undefined}
               className={getBarLinkClassName(isCurrent)}
             >
-              <SteadyLabel>{item.label}</SteadyLabel>
+              {item.label}
             </Link>
           </NavigationMenuItem>
         );
