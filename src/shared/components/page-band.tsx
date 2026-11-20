@@ -22,8 +22,10 @@ type PageBandProps = {
  * The band that opens every page: the page's head and, on a list, its
  * toolbar, or a subject's hero, on the pale band colour, edge to edge under
  * the red top bar. The site's pages open on the same band as the app's.
- * The band stays neutral so what the page shows (type-coloured cards,
- * covers) brings the colour. What follows the band sits on the wall.
+ * Its bottom corners are round, like everything else: a soft panel hanging
+ * from the bar. The band stays neutral so what the page shows
+ * (type-coloured cards, covers) brings the colour. What follows the band
+ * sits on the wall.
  */
 export const PageBand = ({
   children,
@@ -33,7 +35,7 @@ export const PageBand = ({
 }: PageBandProps) => (
   <div
     className={cn(
-      "page-band bg-band relative isolate",
+      "page-band bg-band relative isolate rounded-b-2xl",
       fill && "flex flex-1 flex-col",
     )}
   >
@@ -46,7 +48,7 @@ export const PageBand = ({
      */}
     <span
       aria-hidden
-      className="pointer-events-none absolute inset-0 -z-1 overflow-hidden"
+      className="pointer-events-none absolute inset-0 -z-1 overflow-hidden rounded-b-2xl"
     >
       <span className="text-calm absolute -top-24 -right-16 flex size-96 -rotate-12 opacity-6 max-sm:-top-16 max-sm:size-64">
         {mark ?? (

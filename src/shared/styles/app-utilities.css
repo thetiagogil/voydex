@@ -355,6 +355,11 @@
   --animate-fade-up: fade-up 0.45s ease-out both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
+  /*
+   * The front page's shelf of games drifting by: two copies of the row slide
+   * one copy's width, so it never ends. Slow enough to read as a picture.
+   */
+  --animate-shelf-drift: shelf-drift 160s linear infinite;
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {
@@ -382,6 +387,12 @@
     from {
       transform: translateY(8px);
       opacity: 0;
+    }
+  }
+
+  @keyframes shelf-drift {
+    to {
+      transform: translateX(-50%);
     }
   }
 

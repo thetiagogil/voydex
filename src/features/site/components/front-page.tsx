@@ -22,20 +22,26 @@ const frontFacts = ["38 games", "1,025 Pokémon", "Works offline"];
 
 /*
  * The shelf along the bottom of the first screen: every game's cover in a
- * row that runs past both edges, so the page shows how far Voydex reaches
- * without saying it. A picture, so it is hidden from a screen reader.
+ * row that drifts slowly past, so the page shows how far Voydex reaches
+ * without saying it. Two copies of the row make the drift endless. It is a
+ * moving picture, not a control: hidden from a screen reader, and still
+ * when motion is turned off.
  */
 const FrontShelf = ({ art }: { art: PublicArt }) => (
   <div
     aria-hidden
     inert
-    className="absolute inset-x-0 bottom-6 flex justify-center overflow-hidden mask-x-from-85% max-sm:hidden"
+    className="absolute inset-x-0 bottom-6 overflow-hidden mask-x-from-85% max-sm:hidden"
   >
-    <div className="flex w-max shrink-0 items-end gap-3">
-      {frontShelfGames.map((game) => (
-        <span key={game.slug} className="shrink-0">
-          {art.gameCover({ className: "h-18 lg:h-21", game })}
-        </span>
+    <div className="animate-shelf-drift flex w-max items-end motion-reduce:animate-none">
+      {[0, 1].map((copy) => (
+        <div key={copy} className="flex shrink-0 items-end gap-3 pr-3">
+          {frontShelfGames.map((game) => (
+            <span key={game.slug} className="shrink-0">
+              {art.gameCover({ className: "h-18 lg:h-21", game })}
+            </span>
+          ))}
+        </div>
       ))}
     </div>
   </div>
