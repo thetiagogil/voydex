@@ -1,4 +1,5 @@
 import { appRoutes } from "@/config/routes";
+import { getPlayCombinedPercent } from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type {
   PlayBrowseItem,
   PlayBrowseStoryPosition,
@@ -26,6 +27,8 @@ export type HomePlay = {
   gameSlug: string | null;
   id: string;
   name: string;
+  /* The average of the parts it tracks, as the Plays list rings it; null when it tracks none. */
+  overallPercent: number | null;
   playtimeMinutes: number | null;
   statusName: string | null;
   statusSlug: string | null;
@@ -62,6 +65,7 @@ export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
     gameSlug: play.game_slug,
     id: play.play_id,
     name: play.play_name ?? "Untitled Play",
+    overallPercent: getPlayCombinedPercent(play.progress),
     playtimeMinutes: play.playtime_minutes,
     statusName: play.status_name,
     statusSlug: play.status_slug,

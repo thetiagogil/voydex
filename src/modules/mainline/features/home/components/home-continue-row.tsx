@@ -8,6 +8,7 @@ import {
   PokemonAvatarSlot,
 } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { ProgressDonut } from "@/shared/components/progress-donut";
 import { Card } from "@/shared/components/ui/card";
 
 /* How the Play stands, in one short line: its status and what comes next. */
@@ -25,7 +26,8 @@ const getContinueLine = (play: HomePlay) =>
 
 /*
  * One slim row back into the Play you're on: its cover, its name, how it
- * stands and, from 640px, its team. The whole row opens the Play.
+ * stands, from 640px its team, and its overall ring, as the Plays list has
+ * it. The whole row opens the Play.
  */
 export const HomeContinueRow = ({ play }: { play: HomePlay }) => (
   <Link
@@ -35,7 +37,7 @@ export const HomeContinueRow = ({ play }: { play: HomePlay }) => (
     <Card
       size="sm"
       variant="interactive"
-      className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 sm:grid-cols-[auto_minmax(0,1fr)_auto_auto] sm:gap-6"
+      className="flex-row items-center gap-4 sm:gap-6"
     >
       {/*
        * In a span: a card trims its padding and rounds the top of a picture
@@ -51,9 +53,9 @@ export const HomeContinueRow = ({ play }: { play: HomePlay }) => (
           size="slim"
         />
       </span>
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="text-select-ink copy-label">Continue</p>
-        <p className="title-card truncate">{play.name}</p>
+        <p className="title-card line-clamp-2 sm:truncate">{play.name}</p>
         <p className="text-ink-3 copy-meta truncate">{getContinueLine(play)}</p>
       </div>
       <ul
@@ -78,9 +80,16 @@ export const HomeContinueRow = ({ play }: { play: HomePlay }) => (
           </li>
         ))}
       </ul>
+      {play.overallPercent === null ? null : (
+        <ProgressDonut
+          label="Overall progress"
+          value={play.overallPercent}
+          className="w-12 shrink-0 sm:w-14"
+        />
+      )}
       <span
         aria-hidden
-        className="bg-surface-2 text-ink-2 group-hover/card-link:text-ink grid size-9 place-items-center rounded-full transition-colors"
+        className="bg-surface-2 text-ink-2 group-hover/card-link:text-ink hidden size-9 shrink-0 place-items-center rounded-full transition-colors sm:grid"
       >
         <AppIcon icon={appIcons.actions.continue} size="md" />
       </span>
