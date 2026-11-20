@@ -95,10 +95,6 @@ test.describe("Home", () => {
       others.getByRole("button", { name: "New Play" }),
     ).toBeVisible();
 
-    /* The Journal has what was recorded in both. */
-    const journal = page.getByRole("region", { name: "Journal" });
-    await expect(journal).toContainText(journeyName);
-    await expect(journal).toContainText(otherName);
     await expectAccessible(page);
 
     /* `?play=` puts another Play on the journey card. */

@@ -92,8 +92,8 @@ const JourneyNextUp = ({ journey }: { journey: HomeJourney }) => {
 
 /*
  * Home's journey card: the Play you're on, big. Its cover, its name, how it
- * stands, then what comes next with a ring for each part it tracks, and its
- * team. The whole card opens the Play, as every Play card does; the arrow
+ * stands and its team, then what comes next with a ring for each part it
+ * tracks. The whole card opens the Play, as every Play card does; the arrow
  * in its corner says so.
  */
 export const HomeJourneyCard = ({ journey }: { journey: HomeJourney }) => {
@@ -105,7 +105,12 @@ export const HomeJourneyCard = ({ journey }: { journey: HomeJourney }) => {
       className="group/card-link block rounded-2xl outline-none"
     >
       <Card variant="interactive">
-        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 sm:gap-6">
+        {/*
+         * One grid: the cover, the name and the arrow on top, what comes
+         * next under them, and the team under that; from 1024px the team
+         * moves up beside the name, where the row has room.
+         */}
+        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-(--card-spacing) sm:gap-x-6 lg:grid-cols-[auto_minmax(0,1fr)_auto_auto]">
           <GameCover
             alt={play.gameName}
             coverImageUrl={play.coverImageUrl}
@@ -123,42 +128,47 @@ export const HomeJourneyCard = ({ journey }: { journey: HomeJourney }) => {
           </div>
           <span
             aria-hidden
-            className="bg-surface-2 text-ink-2 group-hover/card-link:text-ink grid size-9 place-items-center self-start rounded-full transition-colors"
+            className="bg-surface-2 text-ink-2 group-hover/card-link:text-ink grid size-9 place-items-center self-start rounded-full transition-colors lg:col-start-4 lg:row-start-1"
           >
             <AppIcon icon={appIcons.actions.continue} size="md" />
           </span>
-        </div>
 
-        <JourneyNextUp journey={journey} />
+          <div className="col-span-full lg:row-start-2">
+            <JourneyNextUp journey={journey} />
+          </div>
 
-        <ul aria-label="Team" className="grid grid-cols-6 gap-2 sm:gap-4">
-          {play.team.map((member, index) => (
-            <li
-              key={member?.id ?? `open-${index}`}
-              className="flex min-w-0 flex-col items-center gap-2"
-            >
-              {member ? (
-                <>
-                  <PokemonAvatar
-                    decorative
-                    imageUrl={member.imageUrl}
-                    name={member.name}
-                    typeSlug={member.typeSlug ?? null}
-                    className="bubble w-full"
+          <ul
+            aria-label="Team"
+            className="col-span-full grid grid-cols-6 gap-2 sm:gap-4 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:grid-cols-[repeat(6,4.5rem)] lg:gap-3"
+          >
+            {play.team.map((member, index) => (
+              <li
+                key={member?.id ?? `open-${index}`}
+                className="flex min-w-0 flex-col items-center gap-1.5"
+              >
+                {member ? (
+                  <>
+                    <PokemonAvatar
+                      decorative
+                      imageUrl={member.imageUrl}
+                      name={member.name}
+                      typeSlug={member.typeSlug ?? null}
+                      className="bubble w-full"
+                    />
+                    <span className="copy-label max-w-full truncate max-sm:sr-only">
+                      {member.name}
+                    </span>
+                  </>
+                ) : (
+                  <PokemonAvatarSlot
+                    label={`Open slot ${index + 1}`}
+                    className="w-full"
                   />
-                  <span className="copy-strong max-w-full truncate max-sm:sr-only">
-                    {member.name}
-                  </span>
-                </>
-              ) : (
-                <PokemonAvatarSlot
-                  label={`Open slot ${index + 1}`}
-                  className="w-full"
-                />
-              )}
-            </li>
-          ))}
-        </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </Card>
     </Link>
   );

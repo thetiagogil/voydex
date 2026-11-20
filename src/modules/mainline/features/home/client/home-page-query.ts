@@ -1,10 +1,4 @@
 import {
-  HOME_JOURNAL_COUNT,
-  toHomeJournal,
-  type HomeJournalEntry,
-  type HomeJournalPlay,
-} from "@/modules/mainline/features/home/data/home-journal-model";
-import {
   toHomeNextUp,
   type HomeNextUp,
 } from "@/modules/mainline/features/home/data/home-next-up";
@@ -208,50 +202,6 @@ const readNextUp = async (
 };
 
 /*
- * The Journal: the latest moments across every Play in the library, newest
- * first, each with its Play's cover and name; status changes are left out.
- */
-const readJournal = async (
-  supabase: ServerSupabaseClient,
-  plays: PlayBrowseItem[],
-): Promise<HomeJournalEntry[]> => {
-  const playsById = new Map(
-    plays.flatMap((play): [string, HomeJournalPlay][] =>
-      play.play_id
-        ? [
-            [
-              play.play_id,
-              {
-                coverImageUrl: play.coverImageUrl,
-                gameName: play.game_name ?? "Unknown game",
-                gameSlug: play.game_slug,
-                id: play.play_id,
-                name: play.play_name ?? "Untitled Play",
-              },
-            ],
-          ]
-        : [],
-    ),
-  );
-  const { data, error } = await supabase
-    .schema("views")
-    .from("mainline_play_timeline_detail")
-    .select("*")
-    .in("play_id", [...playsById.keys()])
-    /* "Marked as Paused" and the like are housekeeping, not something you did. */
-    .neq("event_type_slug", "status_change")
-    .order("happened_at", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false })
-    .limit(HOME_JOURNAL_COUNT);
-
-  if (error) {
-    throw new Error("Unable to load your Journal.", { cause: error });
-  }
-
-  return toHomeJournal(data ?? [], playsById);
-};
-
-/*
  * Mainline Home: with no Plays, the picker that starts one; otherwise the
  * shelf of your latest Plays, each with its team for the band. `?play=`
  * picks the current one.
@@ -316,10 +266,9 @@ export const getHomePageData = async (
     }
   }
 
-  const [teamTypes, nextUp, journal] = await Promise.all([
+  const [teamTypes, nextUp] = await Promise.all([
     readTeamTypes(supabase, cardItems, slugByTypeId),
     readNextUp(supabase, current, slugByTypeId),
-    readJournal(supabase, browseItems),
   ]);
   const [journeyPlay, ...otherPlays] = cardItems.flatMap((item) => {
     const play = toCardPlay(item, teamTypes);
@@ -333,7 +282,6 @@ export const getHomePageData = async (
 
   return {
     displayName: names.displayName,
-    journal,
     journey: { nextUp, play: journeyPlay },
     kind: "plays",
     others: otherPlays,

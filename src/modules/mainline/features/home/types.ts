@@ -1,4 +1,3 @@
-import type { HomeJournalEntry } from "@/modules/mainline/features/home/data/home-journal-model";
 import type { HomeNextUp } from "@/modules/mainline/features/home/data/home-next-up";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
@@ -37,8 +36,6 @@ export type HomePageData =
     }
   | {
       displayName: string | null;
-      /* The latest moments across every Play, newest first. */
-      journal: HomeJournalEntry[];
       journey: HomeJourney;
       kind: "plays";
       /* The other Plays still underway, opened (or changed) last first. */

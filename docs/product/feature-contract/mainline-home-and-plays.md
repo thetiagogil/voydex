@@ -8,26 +8,24 @@ Mainline Home (`/app`) is where a signed-in trainer lands and what the
 "V" tile opens. It is for resuming an adventure, not for figures (those belong
 to Statistics), and it owns no mutation of its own.
 
-- **With Plays** (two columns from 1024px, stacked below; 2026-11-20): the
-  greeting and how many Plays are on the go, then
+- **With Plays** (2026-11-20): the greeting and how many Plays are on the
+  go, then
   - **the journey card**: the Play you're on (the one `?play=` names, else
     the one opened or changed last among those still underway), big: its
-    cover, its name, status and hours, then one inset tile with "Next up"
-    (the next milestone with its badge, trophy or flag and one line on it;
-    "Story complete" once every milestone is) and one ring for each part the
-    Play tracks (Story, Pokédex, Collectibles), then its team. The whole card
-    opens the Play; there is no Continue button.
+    cover, its name, status and hours and its team (beside the name from
+    1024px, under it below), then one inset tile with "Next up" (the next
+    milestone with its badge, trophy or flag and one line on it; "Story
+    complete" once every milestone is) and one ring for each part the Play
+    tracks (Story, Pokédex, Collectibles). The whole card opens the Play;
+    there is no Continue button.
   - **Your other Plays**: the next ones still underway as cover cards (name,
-    status and hours, one Overall bar: the average of what each tracks), each
+    status and hours, one bar: the average of what each tracks), each
     opening its Play, and New Play as a dashed slot ending the row. Four
-    from 1280px, two from 640px, one on phones; never a sideways scroller.
-    All Plays leads to the Plays list.
-  - **the Journal**: the latest moments across every Play, newest first and
-    by month, each with its Play's cover and name; status changes are left
-    out. From 1024px it is as tall as the left column and scrolls inside
-    itself; stacked, it shows the newest five.
+    from 1280px, three from 1024px, two from 640px, one on phones; never a
+    sideways scroller. All Plays leads to the Plays list.
     Completed and abandoned Plays are left out of the cards unless every Play
-    is, so Home is never empty.
+    is, so Home is never empty. A Journal of moments across every Play was
+    tried and dropped (2026-11-20): too heavy beside the cards.
 - **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is
   recorded, the partner stands alone; tapping it picks it, and Continue

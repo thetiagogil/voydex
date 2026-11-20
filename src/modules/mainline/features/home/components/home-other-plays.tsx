@@ -12,11 +12,15 @@ import { Progress } from "@/shared/components/ui/progress";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Which cards a row has room for: one beside New Play on phones, two up to
- * 1280px, all four from there. Hidden, not left out, so nothing jumps.
+ * Which cards a row has room for: one beside New Play on phones, two from
+ * 640px, three from 1024px and all four from 1280px. Hidden, not left out, so nothing jumps.
  */
 const visibilityByIndex = (index: number) =>
-  cn(index >= 1 && "max-sm:hidden", index >= 2 && "max-xl:hidden");
+  cn(
+    index >= 1 && "max-sm:hidden",
+    index >= 2 && "max-lg:hidden",
+    index >= 3 && "max-xl:hidden",
+  );
 
 /* One other Play: its cover, name, how it stands and one bar for how far along. */
 const OtherPlayCard = ({ play }: { play: HomePlay }) => (
@@ -75,7 +79,7 @@ export const HomeOtherPlays = ({ plays }: { plays: HomePlay[] }) => (
       titleId="home-other-plays"
       more={{ href: appRoutes.mainlinePlays, label: "All Plays" }}
     />
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-5">
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
       {plays.map((play, index) => (
         <li key={play.id} className={visibilityByIndex(index)}>
           <OtherPlayCard play={play} />

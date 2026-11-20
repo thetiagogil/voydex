@@ -601,8 +601,8 @@ There are no site-only stills: a public picture uses the app's own component.
   (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
   number top right where it has one.
 - **Every page opens on a band**: the neutral band in the app (Home excepted: since
-  2026-11-20 it opens straight on its cards, the journey card, your other
-  Plays and the Journal), the Dex's
+  2026-11-20 it opens straight on its cards, the journey card and your other
+  Plays), the Dex's
   red on the front page (the one loud band: the device itself, with the
   start screen in the same red), the
   pale blue `PageBand` everywhere else, a Play included. The top bar has no ground
