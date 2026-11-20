@@ -7,6 +7,7 @@ import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/dat
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
 import { PageHeader } from "@/shared/components/page-header";
+import { StatTile } from "@/shared/components/stat-tile";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
@@ -75,19 +76,15 @@ const StatsStartingOut = ({ stats }: MainlineStatsPageProps) => {
             "One Play so far."
           )}
         </p>
-        <dl className="grid grid-cols-2 gap-3 sm:max-w-2xl sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:max-w-2xl sm:grid-cols-4">
           {figures.map((figure) => (
-            <div
+            <StatTile
               key={figure.label}
-              className="tile flex flex-col-reverse gap-1"
-            >
-              <dt className="text-ink-2 copy-label">{figure.label}</dt>
-              <dd className="font-display text-24 leading-none font-semibold tabular-nums">
-                {figure.value}
-              </dd>
-            </div>
+              label={figure.label}
+              value={figure.value}
+            />
           ))}
-        </dl>
+        </div>
         <p className="text-ink-2 copy-body max-w-2xl">
           Where your time goes, the regions you&apos;ve visited and the Pokémon
           that stay with you fill in as you record more.

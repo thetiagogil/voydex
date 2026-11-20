@@ -22,6 +22,7 @@ import { PokemonCardLink } from "@/modules/reference/features/pokemon/components
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PageBand } from "@/shared/components/page-band";
 import { SectionHead } from "@/shared/components/section-head";
+import { StatTile } from "@/shared/components/stat-tile";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
@@ -41,22 +42,22 @@ const formatHours = (minutes: number) =>
 
 /* The trainer card's figures: Plays, hours, Pokémon owned and regions. */
 const TrainerFigures = ({ figures }: { figures: HomeProfile["figures"] }) => (
-  <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-[repeat(4,auto)]">
+  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-[repeat(4,auto)]">
     {[
       [figures.playCount.toLocaleString("en"), "Plays"],
       [formatHours(figures.minutes), "played"],
       [figures.ownedCount.toLocaleString("en"), "Pokémon owned"],
       [`${figures.visitedRegionCount}/${figures.regionCount}`, "regions"],
     ].map(([value, label]) => (
-      <div
+      <StatTile
         key={label}
-        className="tile flex flex-col-reverse text-center lg:min-w-24"
-      >
-        <dt className="text-ink-3 copy-meta">{label}</dt>
-        <dd className="title-card text-select-ink tabular-nums">{value}</dd>
-      </div>
+        align="center"
+        className="lg:min-w-24"
+        label={label}
+        value={value}
+      />
     ))}
-  </dl>
+  </div>
 );
 
 /* A short section of the profile: its head, a link onward, one card. */
