@@ -1,8 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
-
-import { readInApp } from "@/config/front-door";
+import { Suspense, useEffect, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
@@ -18,64 +16,16 @@ import {
   useOpenLocalDb,
   type PreparePages,
 } from "@/platform/local-db/use-open-local-db";
-import { cn } from "@/shared/utils/cn";
 
 /*
- * The start screen and a device problem stand alone on the page: the app's
- * bars and its `main` come with the app, once the device is ready. The
- * start screen is the Dex booting, so it takes the Dex's red (`boot`); a
- * problem stays on the plain ground, where its actions read as usual.
+ * The start screen and a device problem stand alone on the wall: the app's
+ * bars and its `main` come with the app, once the device is ready.
  */
-const StartFrame = ({
-  boot = false,
-  children,
-}: {
-  boot?: boolean;
-  children: ReactNode;
-}) => (
-  <div
-    className={cn(
-      "flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10",
-      boot && "bg-action",
-    )}
-  >
+const StartFrame = ({ children }: { children: ReactNode }) => (
+  <div className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
     {children}
   </div>
 );
-
-/* How long the Dex boots, at least, when you enter the app. */
-const bootHoldMs = 2000;
-
-/*
- * Entering the app (the first time on a device, or after leaving it) keeps
- * the start screen for two seconds even when the device is ready sooner, so
- * the Dex boots instead of flashing by. A device already in the app (a
- * reload, the installed app opening) gets no hold: it shows the app as soon
- * as it can. Answers whether the app may show.
- */
-const useBootHold = (opened: boolean) => {
-  const [released, setReleased] = useState(false);
-  const boot = useRef<{ entering: boolean; startedAt: number } | null>(null);
-
-  useEffect(() => {
-    boot.current ??= {
-      entering: !readInApp(),
-      startedAt: performance.now(),
-    };
-
-    if (!opened) return;
-
-    const { entering, startedAt } = boot.current;
-    const wait = entering
-      ? Math.max(0, bootHoldMs - (performance.now() - startedAt))
-      : 0;
-    const timer = window.setTimeout(() => setReleased(true), wait);
-
-    return () => window.clearTimeout(timer);
-  }, [opened]);
-
-  return opened && released;
-};
 
 /*
  * Opens the device database once per visit and shows the app under it when
@@ -107,7 +57,6 @@ export const DeviceGate = ({
   const { retry, startFresh, state } = useOpenLocalDb({ prepare });
 
   const opened = state.status === "open";
-  const open = useBootHold(opened);
 
   useEffect(listenForInstallPrompt, []);
   useEffect(() => (opened ? watchBackgroundDownloads() : undefined), [opened]);
@@ -115,16 +64,14 @@ export const DeviceGate = ({
   return (
     <Suspense
       fallback={
-        <StartFrame boot>
+        <StartFrame>
           <DeviceStartState step={null} />
         </StartFrame>
       }
     >
-      {state.status === "opening" || (opened && !open) ? (
-        <StartFrame boot>
-          <DeviceStartState
-            step={state.status === "opening" ? state.step : null}
-          />
+      {state.status === "opening" ? (
+        <StartFrame>
+          <DeviceStartState step={state.step} />
         </StartFrame>
       ) : state.status === "failed" ? (
         <StartFrame>

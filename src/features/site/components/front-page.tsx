@@ -11,27 +11,23 @@ type FrontPageProps = {
 };
 
 /*
- * The front page's band: the same band every page of the app opens on, in
- * the action red, since this is the door. Under the bar, which carries the
- * name, it holds what Voydex is, a paragraph and the one way in, beside an
- * example Play.
+ * The front page's band: the same band every page of the app opens on.
+ * Under the bar, which carries the name, it holds what Voydex is, a
+ * paragraph and the one way in, beside an example Play.
  */
 const FrontBand = ({ art, playArt }: FrontPageProps) => (
-  <PageBand
-    tone="action"
-    className="grid items-center gap-8 pt-6 pb-8 sm:pt-10 sm:pb-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,35rem)] lg:gap-14 lg:pb-14"
-  >
+  <PageBand className="grid items-center gap-8 pt-6 pb-8 sm:pt-10 sm:pb-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,35rem)] lg:gap-14 lg:pb-14">
     <div className="flex flex-col items-start">
       <h1 id="front-title" className="title-display max-w-[12em]">
         A Pokédex for your playthroughs.
       </h1>
-      <p className="copy-body sm:text-18 mt-4 mb-6 max-w-[31em] leading-relaxed sm:mt-5 sm:mb-7.5">
+      <p className="text-ink-2 copy-body sm:text-18 mt-4 mb-6 max-w-[31em] leading-relaxed sm:mt-5 sm:mb-7.5">
         Every run you play becomes an entry: its team, its badges, its Pokédex
         and exactly where you left off. One place for all your Pokémon games,
         from every generation.
       </p>
       <StartAction />
-      <p className="copy-note mt-3.5 max-sm:w-full max-sm:text-center">
+      <p className="text-ink-2 copy-note mt-3.5 max-sm:w-full max-sm:text-center">
         No account needed. Your Plays are saved on this device.
       </p>
     </div>
@@ -40,7 +36,7 @@ const FrontBand = ({ art, playArt }: FrontPageProps) => (
 );
 
 /*
- * The website, which is this one page: the red band with the one way into
+ * The website, which is this one page: the band with the one way into
  * the app, then how Voydex works and how to install it. Everything else is the
  * app.
  */

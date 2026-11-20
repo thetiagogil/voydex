@@ -16,34 +16,25 @@ type PageBandProps = {
    * Poké Ball unless the page has its own (a Specialist's type).
    */
   mark?: ReactNode;
-  /*
-   * `action` is the site's band, on the action red with white words and a
-   * darker stepped top for the bar: the door into the app (the front page,
-   * the log-in pages). The app's own pages keep the neutral band.
-   */
-  tone?: "action" | "neutral";
 };
 
 /*
- * The band that opens every page but Home: the page's head and, on a list,
- * its toolbar, or a subject's hero, on the neutral band colour, edge to edge
- * under the top bar, which sits on it. Outside the app the same band is the
- * action red (`tone="action"`): the door is red, the app is quiet. The band stays neutral so what the
- * page shows (type-coloured stickers, covers) brings the colour. What follows
- * the band sits on the plain page ground.
+ * The band that opens every page: the page's head and, on a list, its
+ * toolbar, or a subject's hero, on the pale band colour, edge to edge under
+ * the red top bar. The site's pages open on the same band as the app's.
+ * The band stays neutral so what the page shows (type-coloured cards,
+ * covers) brings the colour. What follows the band sits on the wall.
  */
 export const PageBand = ({
   children,
   className,
   fill = false,
   mark,
-  tone = "neutral",
 }: PageBandProps) => (
   <div
     className={cn(
-      "page-band relative isolate",
+      "page-band bg-band relative isolate",
       fill && "flex flex-1 flex-col",
-      tone === "action" ? "bg-action text-white" : "bg-band",
     )}
   >
     {/*
@@ -57,12 +48,7 @@ export const PageBand = ({
       aria-hidden
       className="pointer-events-none absolute inset-0 -z-1 overflow-hidden"
     >
-      <span
-        className={cn(
-          "absolute -top-24 -right-16 flex size-96 -rotate-12 max-sm:-top-16 max-sm:size-64",
-          tone === "action" ? "text-white opacity-10" : "text-calm opacity-6",
-        )}
-      >
+      <span className="text-calm absolute -top-24 -right-16 flex size-96 -rotate-12 opacity-6 max-sm:-top-16 max-sm:size-64">
         {mark ?? (
           <AppIcon
             icon={appIcons.product.caught}
@@ -76,8 +62,6 @@ export const PageBand = ({
       className={cn(
         "mx-auto w-full max-w-(--page-width) px-(--page-gutter) pb-6 sm:pb-8",
         fill && "flex-1",
-        /* Links set straight on the red take a white focus ring. */
-        tone === "action" && "[--focus:var(--surface)]",
         className,
       )}
     >

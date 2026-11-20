@@ -71,37 +71,6 @@
 }
 
 /*
- * A paper tag: a label tied to a thing (a Play's tag or rule), never a
- * control. It is pointed at the start, with the hole for its string.
- * `paper-tag-lift` goes on its wrapper: the clip would cut a shadow of its
- * own, so the wrapper casts it.
- */
-@utility paper-tag {
-  position: relative;
-  background-color: var(--surface-2);
-  padding-inline: 1.5rem 0.875rem;
-  clip-path: polygon(0.8125rem 0, 100% 0, 100% 100%, 0.8125rem 100%, 0 50%);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0.5625rem;
-    width: 0.4375rem;
-    height: 0.4375rem;
-    translate: 0 -50%;
-    border-radius: 50%;
-    background-color: var(--bg);
-    box-shadow: inset 0 1px 1px rgb(var(--shade) / 0.3);
-  }
-}
-
-@utility paper-tag-lift {
-  filter: drop-shadow(0 1px 0 rgb(var(--shade) / 0.12))
-    drop-shadow(0 2px 2px rgb(var(--shade) / 0.14));
-}
-
-/*
  * A tile: a block inside a card (a fact, a note, an ability), on the inset
  * fill with the tiles' corner and padding. `tile-link` is a tile you can
  * open (a row of a list inside a card), with the row hover. Screens never
@@ -383,12 +352,6 @@
   --animate-fade-up: fade-up 0.45s ease-out both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
-  /*
-   * The Dex's lights while it boots: each one flashes in its turn, a third of
-   * the cycle apart (`DexLights` sets the delay). `both` keeps a light dim
-   * while it waits for its first turn, so they never start all lit.
-   */
-  --animate-dex-light: dex-light 1.2s ease-in-out infinite both;
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {
@@ -416,18 +379,6 @@
     from {
       transform: translateY(8px);
       opacity: 0;
-    }
-  }
-
-  @keyframes dex-light {
-    0%,
-    40%,
-    100% {
-      opacity: 0.18;
-    }
-    10%,
-    28% {
-      opacity: 1;
     }
   }
 

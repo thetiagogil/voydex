@@ -5,6 +5,7 @@ import {
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { CornerBubble, ShinyMark } from "@/shared/components/corner-bubble";
+import { Link } from "@/shared/components/link";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
@@ -25,7 +26,12 @@ type PokemonCollectorCardProps = {
   note?: string;
   /* Its Pokédex number, as the card's own number. */
   number?: string;
-  onClick: () => void;
+  /*
+   * A Pokémon that isn't yours yet, in a set of yours (a favourite not on a
+   * team): the same card in plain white, as a link to `href`.
+   */
+  href?: string;
+  onClick?: () => void;
   /* The one whose sheet is open: its frame takes the type's full colour. */
   selected?: boolean;
   shiny?: boolean;
@@ -38,13 +44,16 @@ type PokemonCollectorCardProps = {
  * same round corners: a frame in its type's colour round a white
  * card, with its name and count, its art in a window, its number and one
  * more fact, then its types on one line, so every card in a grid stands as
- * tall as the next. Where a Pokémon of yours is only mentioned in passing, it stays a
+ * tall as the next. Given `href` it is the same card for a Pokémon that
+ * isn't yours yet, in plain white, so one grid never mixes two layouts.
+ * Where a Pokémon of yours is only mentioned in passing, it stays a
  * `PokemonSticker`; a Pokémon you don't own is a `PokemonCard`.
  */
 export const PokemonCollectorCard = ({
   className,
   count,
   detail,
+  href,
   imageUrl,
   name,
   note,
@@ -61,7 +70,7 @@ export const PokemonCollectorCard = ({
 
   const cardClassName = cn(
     "group/collector focus-ring relative flex h-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
-    selected ? "bg-(--t)" : "card-frame",
+    href ? "plain-card" : selected ? "bg-(--t)" : "card-frame",
     className,
   );
   const content = (
@@ -77,7 +86,12 @@ export const PokemonCollectorCard = ({
             </span>
           ) : null}
         </span>
-        <span className="card-window relative mt-1.5 grid aspect-4/3 place-items-center overflow-hidden rounded-sm">
+        <span
+          className={cn(
+            "relative mt-1.5 grid aspect-4/3 place-items-center overflow-hidden rounded-sm",
+            href ? "bg-surface-2" : "card-window",
+          )}
+        >
           {/* The window's one flourish: a pale arc behind the art. */}
           <span
             aria-hidden
@@ -113,6 +127,14 @@ export const PokemonCollectorCard = ({
       {detail ? <span className="sr-only">, {detail}</span> : null}
     </>
   );
+
+  if (href) {
+    return (
+      <Link href={href} style={style} className={cardClassName}>
+        {content}
+      </Link>
+    );
+  }
 
   return (
     <button

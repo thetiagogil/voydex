@@ -5,9 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 /*
  * Every button is Nunito and a pill, in two heights, and there are two
  * looks. `default` is the page's main action: solid action red on a soft
- * shadow, the one thing on a page that lifts; under a pointer or keyboard
- * focus it shows the games' menu arrow at its start, in the room its
- * padding already leaves, so nothing moves. Every other button you press is
+ * shadow, the one thing on a page that lifts. Every other button you press is
  * white with a thin outline, the same on the wall, on a band and inside a
  * card: `secondary` is the quiet action and `tint` the same on a tinted
  * band. `destructive` is a quiet action that removes something; `inverse`
@@ -25,15 +23,15 @@ const buttonStyles = cva(
         default:
           "bg-action bg-clip-border font-extrabold text-white shadow-button hover:bg-action-deep active:bg-action-lip active:shadow-button-pressed aria-expanded:bg-action-deep disabled:shadow-none",
         secondary:
-          "before:hidden border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-select-soft aria-pressed:text-select-ink",
+          "border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         destructive:
-          "before:hidden bg-danger-soft font-extrabold text-danger-deep hover:bg-danger-soft-2",
+          "bg-danger-soft font-extrabold text-danger-deep hover:bg-danger-soft-2",
         inverse:
           "bg-surface bg-clip-border font-extrabold text-action-ink shadow-button hover:bg-action-soft active:shadow-button-pressed",
-        tint: "before:hidden border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover",
-        soft: "before:hidden bg-surface-2 font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
+        tint: "border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover",
+        soft: "bg-surface-2 font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
         ghost:
-          "before:hidden font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink aria-pressed:bg-select-soft aria-pressed:text-select-ink",
+          "font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink aria-pressed:bg-select-soft aria-pressed:text-select-ink",
       },
       size: {
         /*
@@ -43,8 +41,8 @@ const buttonStyles = cva(
          * a row are always level; a page's one call to action is the red one.
          */
         default:
-          "h-12 gap-2 px-4.5 text-15 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 before:left-1.5 before:border-y-5 before:border-l-7 before:pointer-events-none before:absolute before:border-y-transparent before:border-l-current before:opacity-0 before:transition-opacity before:duration-120 hover:before:opacity-100 focus-visible:before:opacity-100 has-data-[icon=inline-start]:before:hidden",
-        sm: "h-9 gap-1.5 px-3 text-13 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5 before:left-1 before:border-y-4 before:border-l-5 before:pointer-events-none before:absolute before:border-y-transparent before:border-l-current before:opacity-0 before:transition-opacity before:duration-120 hover:before:opacity-100 focus-visible:before:opacity-100 has-data-[icon=inline-start]:before:hidden",
+          "h-12 gap-2 px-4.5 text-15 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
+        sm: "h-9 gap-1.5 px-3 text-13 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
         icon: "size-12",
         "icon-sm": "size-9",
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",

@@ -35,7 +35,7 @@ export const ExamplePlay = ({
     role="img"
     aria-label={`An example Play: ${samplePlay.name}, ${samplePlay.status.toLowerCase()}, Trainer ${samplePlay.trainer}, ${playtime}. ${samplePlayProgress.map((bar) => `${bar.label} ${bar.percent}%`).join(", ")}. Team: ${samplePlayTeam.map((pokemon) => pokemon.name).join(", ")}. All eight gym badges.`}
     inert
-    className="bg-surface text-ink shadow-float w-full rounded-2xl p-4 text-left sm:p-5.5"
+    className="bg-surface text-ink shadow-card w-full rounded-2xl p-4 text-left sm:p-5.5"
   >
     <p className="copy-mark text-ink-2 tracking-wider uppercase">
       A Play · {samplePlay.game.region}

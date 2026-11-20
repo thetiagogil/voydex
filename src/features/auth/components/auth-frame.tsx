@@ -24,8 +24,7 @@ type AuthFrameProps = {
 /*
  * The sign-in family's page, built as every page of the app is: the band
  * with the page's title at its left and the way back at the end of the row,
- * then the form on one quiet card, centred. Outside the app the band is the
- * action red. Log in, Reset your password and Choose a new password all
+ * then the form on one quiet card, centred. Log in, Reset your password and Choose a new password all
  * stand in it.
  */
 export const AuthFrame = ({
@@ -36,14 +35,13 @@ export const AuthFrame = ({
   title,
 }: AuthFrameProps) => (
   <div className="flex min-w-0 flex-1 flex-col">
-    <PageBand
-      tone="action"
-      className="flex flex-col gap-x-6 gap-y-4 pt-4 sm:flex-row sm:items-end sm:justify-between sm:pt-6"
-    >
+    <PageBand className="flex flex-col gap-x-6 gap-y-4 pt-4 sm:flex-row sm:items-end sm:justify-between sm:pt-6">
       <div className="min-w-0">
         <h1 className="title-page">{title}</h1>
         {lede ? (
-          <p className="copy-body mt-1.5 max-w-3xl wrap-anywhere">{lede}</p>
+          <p className="text-ink-2 copy-body mt-1.5 max-w-3xl wrap-anywhere">
+            {lede}
+          </p>
         ) : null}
       </div>
       <Link
@@ -51,7 +49,7 @@ export const AuthFrame = ({
         className={buttonVariants({
           className: "w-fit shrink-0",
           size: "sm",
-          variant: "inverse",
+          variant: "tint",
         })}
       >
         <AppIcon icon={appIcons.actions.back} inline="start" />

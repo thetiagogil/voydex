@@ -42,12 +42,8 @@ type AppShellProps = {
  * the Codex each open a menu of their pages), and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
- * the front page), and Log in; on phones only the V tile and Log in. On the
- * front page and the log-in pages, which open on the red band, it is part
- * of the red: white words on the band's darker top. The site frame ends on
- * the site footer.
- * The bar is transparent: a page that opens on a band (`page-band`) runs it
- * edge to edge under the bar, which sits on the band's colour.
+ * the front page), and Log in; on phones only the V tile and Log in. Both
+ * sit on the red strip. The site frame ends on the site footer.
  */
 export const AppShell = ({
   bar = "full",
@@ -55,20 +51,11 @@ export const AppShell = ({
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
-  const onAction = bar === "front" || bar === "account";
+  /* On the red bar: white, with the action's ink. */
   const logIn = (
     <Link
       href={appRoutes.login}
-      className={buttonVariants(
-        onAction
-          ? { size: "sm", variant: "inverse" }
-          : {
-              className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-              /* Small, so it sits inside the bar's pill with room round it. */
-              size: "sm",
-              variant: "secondary",
-            },
-      )}
+      className={buttonVariants({ size: "sm", variant: "inverse" })}
     >
       Log in
     </Link>
@@ -101,7 +88,6 @@ export const AppShell = ({
       ) : bar === "none" ? null : (
         <AppNavbar
           brandHref={getBrandHref(false)}
-          onAction={onAction}
           showName
           center={
             <NavigationLinks

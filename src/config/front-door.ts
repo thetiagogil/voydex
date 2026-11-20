@@ -27,18 +27,6 @@ export const rememberAppEntered = () => write(inApp);
 /* Leaves the app: the front page shows again until you continue from it. */
 export const leaveApp = () => write(leftApp);
 
-/*
- * Whether this device is in the app. Entering it (the first time, or after
- * leaving) is a moment of its own: the start screen takes its time then.
- */
-export const readInApp = () => {
-  try {
-    return window.localStorage.getItem(storageKey) === inApp;
-  } catch {
-    return false;
-  }
-};
-
 /* Whether this device has ever opened the app, in it now or not. */
 export const readAppEntered = () => {
   try {
