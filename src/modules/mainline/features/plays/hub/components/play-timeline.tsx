@@ -59,9 +59,8 @@ export const PlayTimelineItem = ({
 
 /*
  * A month on the line: a small mark, then its name and how many moments, and
- * under it the month's moments (History). Narrower than 1024px they keep to
- * the line; from 1024px they leave it for a grid of cards, two across and
- * three on wide screens, so the line runs from month to month.
+ * under it the month's moments (History), one to a row on the line at every
+ * width.
  */
 export const PlayTimelineMonth = ({
   children,
@@ -69,7 +68,7 @@ export const PlayTimelineMonth = ({
   label,
   titleId,
 }: {
-  /* The month's moments, each a `PlayTimelineItem` whose row is `placement="grid"`. */
+  /* The month's moments, each a `PlayTimelineItem`. */
   children?: ReactNode;
   count: number;
   label: string;
@@ -90,10 +89,7 @@ export const PlayTimelineMonth = ({
       />
     </div>
     {children ? (
-      <ol
-        aria-labelledby={titleId}
-        className="grid pt-4 lg:grid-cols-2 lg:gap-4 lg:pl-18 xl:grid-cols-3"
-      >
+      <ol aria-labelledby={titleId} className="grid pt-4">
         {children}
       </ol>
     ) : null}

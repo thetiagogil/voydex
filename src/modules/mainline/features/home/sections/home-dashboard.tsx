@@ -17,8 +17,6 @@ import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/da
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { formatHomeMomentAge } from "@/modules/mainline/features/home/data/home-activity-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PageBand } from "@/shared/components/page-band";
@@ -163,8 +161,8 @@ const LatestMoments = ({ profile }: { profile: HomeProfile }) => {
 /*
  * Home with Plays: your trainer profile. The trainer card on the band, one
  * row back into the Play you're on, then, in two columns from 1024px, your
- * activity history, the types you pick, your games and favourites on the
- * left and the latest moments across every Play on the right. On a phone
+ * activity history, your games and favourites on the left and the latest
+ * moments across every Play on the right. On a phone
  * the moments come first. Each part is short and links to its full page.
  */
 export const HomeDashboard = ({
@@ -172,7 +170,6 @@ export const HomeDashboard = ({
   renderTrainerCard,
 }: HomeDashboardProps) => {
   const { journey, profile } = data;
-  const typeTotal = profile.types.reduce((sum, type) => sum + type.count, 0);
 
   return (
     <div className="flex flex-col gap-6">
@@ -192,52 +189,6 @@ export const HomeDashboard = ({
           <ProfileSection id="home-activity" title="Activity history">
             <HomeActivityHistory instants={profile.momentInstants} />
           </ProfileSection>
-
-          {profile.types.length ? (
-            <ProfileSection
-              id="home-types"
-              title="Types you pick"
-              more={{ href: appRoutes.mainlineStats, label: "Statistics" }}
-            >
-              <div className="flex flex-col gap-3">
-                <ul className="grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-6">
-                  {profile.types.map((type) => (
-                    <li
-                      key={type.slug}
-                      className="flex flex-col items-center gap-1 text-center"
-                    >
-                      {isPokemonTypeSlug(type.slug) ? (
-                        <PokemonTypeBadge
-                          display="label"
-                          label={type.name}
-                          type={type.slug}
-                        />
-                      ) : (
-                        <span className="copy-strong">{type.name}</span>
-                      )}
-                      <span className="copy-strong tabular-nums">
-                        {type.count}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <div
-                  aria-hidden
-                  className="flex h-2.5 overflow-hidden rounded-full"
-                >
-                  {profile.types.map((type) => (
-                    <span
-                      key={type.slug}
-                      style={{
-                        background: `var(--type-${type.slug})`,
-                        flexGrow: type.count / typeTotal,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </ProfileSection>
-          ) : null}
 
           {profile.covers.length ? (
             <ProfileSection

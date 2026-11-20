@@ -8,7 +8,7 @@ As built, History (`/app/plays/play/history?id=`) draws every moment the
 Play kept on one continuous dashed line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's
-origin (shown with every kind and no search). From 1024px each month's moments leave the line for a grid of cards beside it, two across and three on wide screens, each card with its medallion inside, so the line runs from month to month. Each card's top line reads the kind on the left and, smaller and lighter, when on the right. Overview's Recent moments draws
+origin (shown with every kind and no search). Moments sit one to a row at every width (2026-11-20; a grid of cards from 1024px was tried and read as a wall of text), in a column no wider than a comfortable line. Each card's top line reads the kind on the left and, smaller and lighter, when on the right. Overview's Recent moments draws
 its three newest on the same line, closed by the starting line while there are
 fewer than three. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),

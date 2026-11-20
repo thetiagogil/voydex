@@ -5,10 +5,7 @@ import type {
   PlayBrowseItem,
 } from "@/modules/mainline/features/plays/shared/types";
 import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
-import type {
-  StatsCover,
-  StatsTypeTally,
-} from "@/modules/mainline/shared/data/stats-model";
+import type { StatsCover } from "@/modules/mainline/shared/data/stats-model";
 import type { GameStarter } from "@/modules/reference/features/games/types";
 
 /* A brand-new Play's partner milestone, waiting for you to tap your partner. */
@@ -53,8 +50,6 @@ export type HomeProfile = {
   moments: HomeMoment[];
   /* Your trainer title, such as "Region Hopper". */
   title: string;
-  /* The types on your teams, most used first. */
-  types: StatsTypeTally[];
 };
 
 export type HomePageData =

@@ -180,11 +180,10 @@ const toCardPlay = (
 };
 
 /* How many of the latest moments Home lists. */
-const HOME_MOMENT_COUNT = 8;
+const HOME_MOMENT_COUNT = 5;
 /* Home's profile shows one row of covers and one of favourites. */
 const HOME_COVER_COUNT = 5;
 const HOME_FAVOURITE_COUNT = 4;
-const HOME_TYPE_COUNT = 6;
 
 /*
  * Home's trainer profile: what Statistics and the Collection read, cut
@@ -235,10 +234,6 @@ const readHomeProfile = async (
       };
     }),
     title: stats.title.title,
-    types: stats.types
-      .filter((type) => type.count > 0)
-      .toSorted((first, second) => second.count - first.count)
-      .slice(0, HOME_TYPE_COUNT),
   };
 };
 
