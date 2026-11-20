@@ -160,8 +160,8 @@ Voydex is quiet where you work and loud where you remember. The
   which game is which (picker dots, cover placeholders, charts).
 - Baloo 2 for headings 20px and up, the Play and trainer names and owned
   Pokémon names; Nunito for everything you operate. Nothing under 16px is
-  Baloo 2. A section title is plain letters: never a filled pill, never a
-  mark before it, and the same inside a card and outside.
+  Baloo 2. A section title is plain letters on the wall over its
+  card: never a filled pill, never a mark before it, never inside the card.
 - Loud only for identity and reward; chrome stays quiet. Colour follows
   60-30-10: neutral ground, supporting tints, one accent for what matters,
   and every text holds 4.5:1.

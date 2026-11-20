@@ -62,7 +62,6 @@ export const FirstStepsSection = ({
     <DetailSectionCard
       title="First steps"
       aside={`${doneCount} of ${steps.length}`}
-      contentClassName="pt-0"
     >
       <ol className="grid">
         {steps.map((step, index) => (

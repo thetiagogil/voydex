@@ -23,8 +23,8 @@ import {
   type AppIconComponent,
 } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
-import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
-import { Card } from "@/shared/components/ui/card";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { SectionMoreLink } from "@/shared/components/section-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
@@ -152,12 +152,10 @@ const MostPickedCard = ({
   const firstJoined = formatMonthYear(entry.firstUsedAt?.slice(0, 10) ?? null);
 
   return (
-    <Card className="gap-4">
-      <SectionHead
-        headingLevel={3}
-        title="Most picked"
-        titleClassName="text-20"
-      />
+    <DetailSectionCard
+      title="Most picked"
+      contentClassName="flex flex-col gap-4"
+    >
       <button
         type="button"
         onClick={() => onOpenPokemon(mostPicked)}
@@ -214,12 +212,12 @@ const MostPickedCard = ({
           </PickedFact>
         ) : null}
       </ul>
-    </Card>
+    </DetailSectionCard>
   );
 };
 
 /*
- * Your team style, three cards side by side and one height on wide screens
+ * Your team style, three sections side by side and one height on wide screens
  * (Old friends moves under the other two on tablets): the Pokémon you pick
  * most; the types you pick as v3's tile grid (the twelve you lean on, every
  * type in a dialog); and up to six families back for more than one run, each
@@ -244,8 +242,7 @@ export const StatsStyleSection = ({
    */
   const typesTakeRoom = !stats.mostPicked || !showFriends;
   return (
-    <section aria-labelledby="stats-style" className="flex flex-col gap-4">
-      <SectionHead title="Your team style" titleId="stats-style" />
+    <>
       <div
         className={cn(
           "grid gap-4",
@@ -263,13 +260,11 @@ export const StatsStyleSection = ({
           />
         ) : null}
 
-        <Card className="gap-4">
-          <SectionHead
-            headingLevel={3}
-            title="Types you pick"
-            titleClassName="text-20"
-            aside={`${used.length} of ${stats.types.length} used`}
-          />
+        <DetailSectionCard
+          title="Types you pick"
+          aside={`${used.length} of ${stats.types.length} used`}
+          contentClassName="flex flex-col gap-4"
+        >
           {used.length ? (
             <>
               <ol
@@ -311,16 +306,15 @@ export const StatsStyleSection = ({
               Add Pokémon to your teams and the types you pick show up here.
             </p>
           )}
-        </Card>
+        </DetailSectionCard>
 
         {showFriends ? (
-          <Card className="gap-4 md:col-span-full xl:col-span-1">
-            <SectionHead
-              headingLevel={3}
-              title="Old friends"
-              titleClassName="text-20"
-              aside="Back for more than one run"
-            />
+          <DetailSectionCard
+            title="Old friends"
+            aside="Back for more than one run"
+            className="md:col-span-full xl:col-span-1"
+            contentClassName="flex flex-col gap-4"
+          >
             <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
@@ -364,7 +358,7 @@ export const StatsStyleSection = ({
               label="See your whole Collection"
               className="self-start"
             />
-          </Card>
+          </DetailSectionCard>
         ) : null}
       </div>
 
@@ -382,6 +376,6 @@ export const StatsStyleSection = ({
           ))}
         </ol>
       </OverlaySheet>
-    </section>
+    </>
   );
 };

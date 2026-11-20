@@ -6,7 +6,7 @@ import {
   SectionHead,
   type SectionHeadProps,
 } from "@/shared/components/section-head";
-import { CardContent, cardVariants } from "@/shared/components/ui/card";
+import { Card } from "@/shared/components/ui/card";
 
 type DetailSectionCardProps = {
   action?: ReactNode;
@@ -33,8 +33,10 @@ type DetailSectionCardProps = {
 };
 
 /*
- * A section of content as one quiet card with its `SectionHead` inside. It
- * is a `<section>` labelled by that heading.
+ * A section of content: its `SectionHead` on the wall, then one quiet card
+ * under it. The title is never inside the card, on any page. It is a
+ * `<section>` labelled by that heading; `className` places the section,
+ * `contentClassName` lays out the card.
  */
 export const DetailSectionCard = ({
   action,
@@ -58,10 +60,8 @@ export const DetailSectionCard = ({
     <section
       id={id}
       aria-labelledby={headingId}
-      data-slot="card"
-      data-size="default"
       style={style}
-      className={cn(cardVariants(), "w-full min-w-0 gap-0 p-0", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-3", className)}
     >
       <SectionHead
         title={title}
@@ -73,20 +73,12 @@ export const DetailSectionCard = ({
         description={description}
         more={more}
         action={action}
-        className={cn(
-          "px-(--card-spacing) pt-(--card-spacing) pb-3",
-          headerClassName,
-        )}
+        className={headerClassName}
       />
 
-      <CardContent
-        className={cn(
-          "px-(--card-spacing) pt-1 pb-(--card-spacing)",
-          contentClassName,
-        )}
-      >
+      <Card className={cn("block min-w-0 flex-1", contentClassName)}>
         {children}
-      </CardContent>
+      </Card>
     </section>
   );
 };

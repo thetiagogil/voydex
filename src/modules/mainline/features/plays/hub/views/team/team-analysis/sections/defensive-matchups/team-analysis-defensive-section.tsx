@@ -49,7 +49,7 @@ export const TeamAnalysisDefensiveSection = ({
       aside={`How each attacking type lands on your ${lineupLabel.toLowerCase()}`}
       /* Desktop keeps the key beside the title, as v3's section head does. */
       action={<TypeMatchupLegend className="hidden lg:flex" />}
-      contentClassName="grid grid-cols-1 gap-3 pt-2"
+      contentClassName="grid grid-cols-1 gap-3"
     >
       <div className="flex flex-col gap-1.5">
         <TypeMatchupLegend className="lg:hidden" />
