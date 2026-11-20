@@ -15,8 +15,8 @@ type AppNavbarProps = {
  * the right, at the top of the page (it scrolls away with it). It sits on
  * the red strip (`page-band-strip`, the Center's roof), which steps down
  * round the logo: white words, a white V tile with a red V, and the page
- * you are on is a white tab. Phones keep the bare tile (their sections live
- * in the bottom bar). Its colours are the `--bar-*` tokens, set here for the
+ * you are on is a white tab. Phones keep the tile and the name (their
+ * sections live in the bottom bar). Its colours are the `--bar-*` tokens, set here for the
  * red. The site wears the same bar.
  */
 export const AppNavbar = ({
@@ -40,11 +40,11 @@ export const AppNavbar = ({
             aria-label="Voydex home"
             className="inline-flex h-11 min-w-11 shrink-0 items-center rounded-sm"
           >
-            {/* The word drops on narrow phones; the tile alone is the brand. */}
+            {/* The name stays on phones: there the strip holds nothing else. */}
             <Logo
               showText={showName}
               markClassName="size-9 bg-(--bar-brand) text-action"
-              textClassName="text-white max-sm:hidden"
+              textClassName="text-white"
             />
           </Link>
         </div>
