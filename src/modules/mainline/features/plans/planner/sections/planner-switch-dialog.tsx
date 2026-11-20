@@ -30,8 +30,8 @@ const SwitchList = ({
   title: string;
 }) => (
   <section aria-label={title} className="grid gap-2">
-    <p className="text-ink-2 text-13 font-bold">{title}</p>
-    <ul className="bg-surface-2 grid gap-1 rounded-xl p-2">
+    <p className="text-ink-2 copy-label">{title}</p>
+    <ul className="tile grid gap-1 p-2">
       {pokemon.map((entry) => (
         <li
           key={entry.key}
@@ -45,13 +45,11 @@ const SwitchList = ({
             typeSlug={entry.typeSlug}
           />
           <span className="min-w-0">
-            <span className="text-ink text-15 block truncate font-extrabold">
+            <span className="text-ink copy-strong block truncate">
               {entry.name}
             </span>
             {entry.lost ? (
-              <span className="text-ink-2 text-13 block font-semibold">
-                {entry.lost}
-              </span>
+              <span className="text-ink-2 copy-meta block">{entry.lost}</span>
             ) : null}
           </span>
         </li>

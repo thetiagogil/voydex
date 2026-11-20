@@ -51,7 +51,7 @@ export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => {
       />
       <DexLights loading />
       <p className="title-card mt-2">{title}</p>
-      {detail ? <p className="text-15 font-semibold">{detail}</p> : null}
+      {detail ? <p className="copy-body">{detail}</p> : null}
     </div>
   );
 };

@@ -74,7 +74,7 @@ export const CollectionGameSheet = ({
       bodyClassName="grid content-start gap-6"
       headBleed
       meta={
-        <p className="text-ink-2 text-13 font-bold">
+        <p className="text-ink-2 copy-label">
           {[
             game.generation.name,
             game.regionName,
@@ -94,7 +94,7 @@ export const CollectionGameSheet = ({
               : "px-4.5 py-4.5 sm:px-7 sm:pt-5.5",
           )}
         >
-          <div className="flex items-center gap-4.5">
+          <div className="flex items-center gap-4">
             <GameCover
               alt=""
               coverImageUrl={game.coverImageUrl}
@@ -128,9 +128,7 @@ export const CollectionGameSheet = ({
         {current.length ? (
           <PlayRows plays={current} />
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
-            Every Play of it is archived.
-          </p>
+          <p className="text-ink-2 copy-note">Every Play of it is archived.</p>
         )}
       </SheetSection>
 

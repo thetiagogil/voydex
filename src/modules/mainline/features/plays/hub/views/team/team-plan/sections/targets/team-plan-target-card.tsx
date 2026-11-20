@@ -51,7 +51,7 @@ export const TeamPlanTargetCard = ({
       onClick={() => onSelect(comparison)}
       style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
       className={cn(
-        "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-xl px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-0.75",
+        "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-lg px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-0.75",
         owned && "sticker [--sticker-shadow:var(--shadow-soft-value)]",
         !owned && found && "bg-surface border-line border",
         !found && "empty-slot",
@@ -60,7 +60,7 @@ export const TeamPlanTargetCard = ({
       <span className="flex min-h-6 w-full items-center justify-between gap-2">
         <span
           className={cn(
-            "text-13 font-extrabold tabular-nums",
+            "copy-label tabular-nums",
             owned ? "text-ink-tint" : "text-ink-3",
           )}
         >
@@ -81,7 +81,7 @@ export const TeamPlanTargetCard = ({
       {formLabel ? (
         <span
           className={cn(
-            "text-13 w-full truncate font-bold",
+            "copy-label w-full truncate",
             owned ? "text-ink-tint" : "text-ink-3",
           )}
         >
@@ -115,7 +115,7 @@ export const TeamPlanTargetCard = ({
         <TeamPlanStatusPill status={comparison.status} />
         <span
           className={cn(
-            "text-13 inline-flex items-center gap-1 font-extrabold",
+            "copy-label inline-flex items-center gap-1",
             owned ? "text-ink-tint" : "text-ink-2",
           )}
         >

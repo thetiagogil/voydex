@@ -90,7 +90,7 @@ export const ForgotPasswordPage = () => {
         </Field>
         <AuthSubmitButton label="Send the link" pendingLabel="Sending..." />
       </form>
-      <p className="text-13 text-ink-2 mt-4.5 text-center font-semibold">
+      <p className="copy-meta text-ink-2 mt-4.5 text-center">
         <TextLink href={logInHref}>Back to Log in</TextLink>
       </p>
     </AuthFrame>

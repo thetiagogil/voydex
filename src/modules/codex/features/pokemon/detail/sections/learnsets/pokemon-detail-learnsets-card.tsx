@@ -67,8 +67,8 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
         {getPokemonDetailLearnsetMethodDetail(learnset)}
       </TableCell>
       <TableCell className="whitespace-normal max-md:basis-full max-md:p-0">
-        <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-          <span className="inline-flex items-center gap-2.5 font-extrabold">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="inline-flex items-center gap-2 font-extrabold">
             {learnset.type && isPokemonTypeSlug(learnset.type.slug) ? (
               <PokemonTypeBadge
                 type={learnset.type.slug}
@@ -195,10 +195,7 @@ export const PokemonDetailLearnsetsCard = ({
           </div>
 
           {query ? (
-            <p
-              aria-live="polite"
-              className="text-13 text-ink-2 mb-2 font-semibold"
-            >
+            <p aria-live="polite" className="copy-meta text-ink-2 mb-2">
               {filteredLearnsets.length} of {learnsets.length} moves match
             </p>
           ) : null}
@@ -230,13 +227,11 @@ export const PokemonDetailLearnsetsCard = ({
               </TableBody>
             </Table>
           ) : (
-            <p className="text-14 text-ink-2 py-4 font-semibold">
-              No moves match.
-            </p>
+            <p className="copy-note text-ink-2 py-4">No moves match.</p>
           )}
         </>
       ) : (
-        <p className="text-14 text-ink-2 font-semibold">
+        <p className="copy-note text-ink-2">
           {`The moves it learns in ${scopeName} aren't recorded yet.`}
         </p>
       )}

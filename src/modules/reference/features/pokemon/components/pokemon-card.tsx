@@ -20,6 +20,11 @@ type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
   /*
+   * Just the art and the name, for a long list to pick from (the Team
+   * Planner): no number row and no type marks, so many more fit on a line.
+   */
+  compact?: boolean;
+  /*
    * Small marks at the end of the number line, level with it (an opponent's
    * Tera Type, the item it holds), so the card keeps its height.
    */
@@ -75,14 +80,14 @@ const sizeClassNames: Record<
     circle: "size-15.5 sm:size-21",
     mark: "size-5.5 sm:size-6.5",
     markIcon: "size-3.5 sm:size-4",
-    name: "text-13 sm:text-14",
+    name: "text-13",
   },
   md: {
     art: "size-19.5",
     circle: "size-21",
     mark: "size-6.5",
     markIcon: "size-4",
-    name: "text-14",
+    name: "text-13",
   },
   sm: {
     art: "size-13",
@@ -178,6 +183,7 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
+  compact = false,
   marks,
   imageAlt,
   imageUrl,
@@ -205,7 +211,7 @@ export const PokemonCard = ({
         (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
       )}
       className={cn(
-        "relative flex h-full min-w-0 flex-col items-center rounded-xl text-center transition-transform duration-150 hover:-translate-y-0.75",
+        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
         isSticker
           ? cn(
               "sticker",
@@ -229,7 +235,8 @@ export const PokemonCard = ({
       <span
         aria-hidden={number ? undefined : true}
         className={cn(
-          "text-12 flex w-full items-center justify-between px-1 font-extrabold tabular-nums",
+          "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
+          compact && "hidden",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
           numberHidden && "opacity-0",
         )}
@@ -275,6 +282,8 @@ export const PokemonCard = ({
         className={cn(
           "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           sizes.name,
+          /* Room for two lines always, so a row of tiles stands level. */
+          compact && "min-h-[2lh]",
           state === "missing" && "text-ink-3",
         )}
       >
@@ -283,19 +292,21 @@ export const PokemonCard = ({
       {subtitle ? (
         <span
           className={cn(
-            "text-12 w-full truncate font-semibold",
+            "copy-meta w-full truncate",
             state === "caught" ? "text-ink-tint" : "text-ink-3",
           )}
         >
           {subtitle}
         </span>
       ) : null}
-      <PokemonTypeList
-        types={types}
-        badgeDisplay="icon"
-        badgeSize="sm"
-        className="mt-auto items-center gap-1 pt-1"
-      />
+      {compact ? null : (
+        <PokemonTypeList
+          types={types}
+          badgeDisplay="icon"
+          badgeSize="sm"
+          className="mt-auto items-center gap-1 pt-1"
+        />
+      )}
       {children}
     </div>
   );

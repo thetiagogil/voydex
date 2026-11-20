@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
+import { PaperTag } from "@/shared/components/paper-tag";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Something a thing keeps, as a 40px pill (a Play's challenge rule or tag),
- * with the corner × that takes it off. The pill is a label, not a toggle;
+ * Something a thing keeps, as a 40px paper tag (a Play's challenge rule or
+ * tag), with the corner × that takes it off. The tag is a label, not a toggle;
  * the × shows on hover or focus, and always on touch screens.
  */
 export const RemovableChip = ({
@@ -22,13 +23,8 @@ export const RemovableChip = ({
   /* What the × says, such as "Remove Nuzlocke". */
   removeLabel: string;
 }) => (
-  <span
-    className={cn(
-      "group/removable bg-surface-2 text-ink text-14 relative inline-flex min-h-10 items-center rounded-full px-4 font-bold whitespace-nowrap",
-      className,
-    )}
-  >
-    {children}
+  <span className={cn("group/removable relative inline-flex", className)}>
+    <PaperTag size="lg">{children}</PaperTag>
     {disabled ? null : (
       <CornerRemoveButton label={removeLabel} onClick={onRemove} />
     )}

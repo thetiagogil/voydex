@@ -96,7 +96,7 @@ export const PlayPickerMenu = ({
             <span className="min-w-0">
               <span className="block truncate">{item.label}</span>
               {item.detail ? (
-                <span className="text-ink-3 text-12 block truncate font-semibold">
+                <span className="text-ink-3 copy-meta block truncate">
                   {item.detail}
                 </span>
               ) : null}

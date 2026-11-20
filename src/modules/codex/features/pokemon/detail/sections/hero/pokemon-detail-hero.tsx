@@ -86,7 +86,7 @@ export const PokemonDetailHero = ({
   return (
     <section
       aria-label={name}
-      className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(460px,calc((100%-2.5rem)/2))_minmax(0,40rem)] md:justify-center md:gap-10"
+      className="mt-6 grid items-center gap-4 md:grid-cols-[min(460px,calc((100%-2.5rem)/2))_minmax(0,40rem)] md:justify-center md:gap-10"
     >
       <PokemonPortrait
         alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
@@ -99,7 +99,7 @@ export const PokemonDetailHero = ({
       />
 
       <div className="min-w-0">
-        <p className="text-16 text-ink-3 font-extrabold tabular-nums">
+        <p className="copy-strong text-ink-3 tabular-nums">
           {eyebrow.map((part, index) => (
             <span key={index}>
               {index ? " · " : null}
@@ -121,7 +121,7 @@ export const PokemonDetailHero = ({
          * themselves on hover: the route's (Your Plays), Favourite and the
          * shiny toggle.
          */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
           {formOptions.length > 1 ? (
             <PokemonFormMenu
               value={activeFormSlug}
@@ -138,7 +138,7 @@ export const PokemonDetailHero = ({
             />
           ) : null}
           {/* The icons wrap as one group, never one by one. */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             {actions}
             {favourite}
             {shinyImageUrl ? (
@@ -164,11 +164,11 @@ export const PokemonDetailHero = ({
 
         {/* The Pokédex's own words, in this game: one paragraph per text, named by version when two differ. */}
         {entries.length ? (
-          <div className="mt-5 flex flex-col gap-2.5">
+          <div className="mt-5 flex flex-col gap-2">
             {entries.map((entry) => (
               <p
                 key={entry.text}
-                className="text-16 text-ink-2 leading-relaxed"
+                className="text-17 text-ink-2 leading-relaxed"
               >
                 {entries.length > 1 ? (
                   <>
@@ -184,7 +184,7 @@ export const PokemonDetailHero = ({
         ) : null}
 
         {sentence.length ? (
-          <p className="text-16 text-ink-2 mt-4 leading-relaxed">
+          <p className="text-17 text-ink-2 mt-4 leading-relaxed">
             <HeroParts parts={sentence} />
           </p>
         ) : null}

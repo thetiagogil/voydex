@@ -117,8 +117,8 @@ export const PlannerSlotMoves = ({
           />
         </Field>
       ) : null}
-      <fieldset className="grid gap-2.5">
-        <legend className="text-14 mb-2 font-extrabold">Moves</legend>
+      <fieldset className="grid gap-2">
+        <legend className="copy-strong mb-2">Moves</legend>
         {moveOptions.length || savedOnly.length ? (
           <MoveSlotGrid
             emptyLabel="Any move"
@@ -131,7 +131,7 @@ export const PlannerSlotMoves = ({
             options={[...moveOptions, ...savedOnly]}
           />
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             Voydex doesn&apos;t have its moves for this game yet.
           </p>
         )}

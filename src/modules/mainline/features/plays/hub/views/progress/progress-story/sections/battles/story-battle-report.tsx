@@ -162,7 +162,7 @@ const HitMark = ({
       <span
         aria-hidden
         className={cn(
-          "bubble text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums",
+          "bubble copy-mark rounded-full px-1.5 leading-5 text-white tabular-nums",
           tone === "ok" ? "bg-ok-deep" : "bg-danger-deep",
         )}
       >
@@ -374,11 +374,9 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
  * Z-Crystal turns into a Z-Move carries the crystal's sprite.
  */
 const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
-  <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-xl px-2 pt-2 pb-2 text-left">
+  <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-lg px-2 pt-2 pb-2 text-left">
     {/* Its level stays on the front; the back names whose moves these are. */}
-    <p className="text-ink-3 text-12 truncate px-1 font-extrabold">
-      {pokemon.name}
-    </p>
+    <p className="text-ink-3 copy-mark truncate px-1">{pokemon.name}</p>
     {pokemon.moves.length ? (
       <ul className="grid gap-0.5">
         {pokemon.moves.map((move) => {
@@ -391,7 +389,7 @@ const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
             <li
               key={move.slug}
               style={getPokemonTypeCssVariables(typeSlug)}
-              className="text-12 flex min-w-0 items-center gap-1.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-1.5 py-0.5 leading-tight font-extrabold"
+              className="copy-mark flex min-w-0 items-center gap-1.5 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-1.5 py-0.5 leading-tight"
             >
               {typeSlug ? (
                 /* On phones the tint carries the type; the icon's name stays for screen readers. */
@@ -430,7 +428,7 @@ const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
         })}
       </ul>
     ) : (
-      <p className="text-ink-3 text-12 px-1 font-semibold">
+      <p className="text-ink-3 copy-meta px-1">
         Its moves aren&apos;t in Voydex.
       </p>
     )}
@@ -458,10 +456,8 @@ const BattleTeam = ({
 
   return (
     <>
-      {party.note ? (
-        <p className="text-ink-2 text-13 font-semibold">{party.note}</p>
-      ) : null}
-      <ul className="grid grid-cols-3 gap-2.5">
+      {party.note ? <p className="text-ink-2 copy-meta">{party.note}</p> : null}
+      <ul className="grid grid-cols-3 gap-2">
         {party.pokemon.map((pokemon) => (
           <li
             key={pokemon.key}
@@ -510,7 +506,7 @@ const BattleTeam = ({
         ))}
       </ul>
       {powerUps.length ? (
-        <p className="text-ink-2 text-13 font-semibold">{powerUps.join(" ")}</p>
+        <p className="text-ink-2 copy-meta">{powerUps.join(" ")}</p>
       ) : null}
     </>
   );
@@ -541,15 +537,15 @@ const BesideYou = ({
       title="Beside you"
       aside={joinWords(allies.map((ally) => ally.name))}
     >
-      <p className="text-ink-2 text-14 font-semibold">
+      <p className="text-ink-2 copy-note">
         {isWon
           ? `${whose} Pokémon fought beside yours.`
           : `${whose} Pokémon fight beside yours, and the verdict counts them with your team.`}
       </p>
       {allies.map((ally) => (
-        <div key={ally.name} className="grid min-w-0 gap-2.5">
+        <div key={ally.name} className="grid min-w-0 gap-2">
           {allies.length > 1 ? (
-            <p className="text-ink-3 text-13 font-extrabold">{ally.name}</p>
+            <p className="text-ink-3 copy-label">{ally.name}</p>
           ) : null}
           <BattleTeam party={ally} showMoves={false} />
         </div>
@@ -573,16 +569,16 @@ const TeamRow = ({
   return (
     <tr className="align-middle">
       <th scope="row" className="py-2 pr-2 font-normal">
-        <span className="flex min-w-0 items-center gap-2.5">
+        <span className="flex min-w-0 items-center gap-2">
           <SmallSticker
             imageUrl={getPlayTeamMemberImageUrl(member)}
             name=""
             typeSlug={member.primaryType?.slug ?? null}
           />
           <span className="grid min-w-0">
-            <b className="text-14 truncate font-extrabold">{name}</b>
+            <b className="copy-strong truncate">{name}</b>
             {member.level ? (
-              <span className="text-ink-3 text-12 font-semibold tabular-nums">
+              <span className="text-ink-3 copy-meta tabular-nums">
                 Lv. {member.level}
               </span>
             ) : null}
@@ -604,7 +600,7 @@ const TeamRow = ({
         {bestHit ? (
           <BestHit hit={bestHit} lands={lands} />
         ) : hasParty ? (
-          <span className="text-ink-3 text-13 font-bold">None</span>
+          <span className="text-ink-3 copy-label">None</span>
         ) : (
           /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
           <PendingData variant="inline" label="Not yet" />
@@ -614,7 +610,7 @@ const TeamRow = ({
         {takes.length || weakTo.length ? (
           <WeakTo takes={takes} weakTo={weakTo} />
         ) : (
-          <span className="text-ink-3 text-13 font-bold">None</span>
+          <span className="text-ink-3 copy-label">None</span>
         )}
       </td>
     </tr>
@@ -758,7 +754,7 @@ export const StoryBattleReport = ({
       </div>
 
       {isWon ? null : battle.playerSide !== "own-team" ? (
-        <p className="text-ink-2 text-14 mt-5 font-semibold">
+        <p className="text-ink-2 copy-note mt-5">
           {playerSideNotes[battle.playerSide]}
         </p>
       ) : reading?.state ? (
@@ -768,10 +764,10 @@ export const StoryBattleReport = ({
           className="mt-5"
         >
           <AppIcon icon={matchupStates[reading.state].icon} />
-          <AlertTitle className="text-16">
+          <AlertTitle className="text-15">
             {matchupStates[reading.state].label}
           </AlertTitle>
-          <AlertDescription className="text-ink-2 text-14 font-semibold">
+          <AlertDescription className="text-ink-2 copy-note">
             {reading.summary}
             {reading.missing.length
               ? ` A rough read: record your team's ${reading.missing.join(" and ")} for a closer one.`
@@ -804,9 +800,7 @@ export const StoryBattleReport = ({
       >
         {version ? (
           <div className="mb-2 grid gap-2">
-            <p className="text-ink-2 text-14 font-semibold">
-              {source.versionsNote}
-            </p>
+            <p className="text-ink-2 copy-note">{source.versionsNote}</p>
             <SegmentedControl
               ariaLabel="Their team"
               size="sm"
@@ -824,7 +818,7 @@ export const StoryBattleReport = ({
           </div>
         ) : null}
         {battle.specialtyTypes.length ? (
-          <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
+          <div className="text-ink-2 copy-note mb-3 flex flex-wrap items-center gap-2">
             {wording.specialty[battle.specialtyTypes.length > 1 ? 1 : 0]}
             <PokemonTypeList
               types={battle.specialtyTypes}
@@ -843,7 +837,7 @@ export const StoryBattleReport = ({
           />
         )}
         {reading?.uncoveredTypes.length ? (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             {wording.weakness}{" "}
             <TypeNames types={reading.uncoveredTypes.slice(0, 4)} />, and none
             of your moves is one of those types.
@@ -872,22 +866,18 @@ export const StoryBattleReport = ({
               </ul>
             </SheetSection>
           ) : null}
-          <p className="text-ink-3 text-13 mt-5 font-semibold">
-            {wording.doneNote}
-          </p>
+          <p className="text-ink-3 copy-meta mt-5">{wording.doneNote}</p>
         </>
       ) : battle.playerSide !== "own-team" ? null : (
         <>
           <SheetSection className="mt-9 gap-3" title="Your team">
             {limitWords ? (
-              <p className="text-ink-2 text-14 font-semibold">
-                {limitWords.note}
-              </p>
+              <p className="text-ink-2 copy-note">{limitWords.note}</p>
             ) : null}
             {battle.members.length ? (
               <table className="w-full table-fixed border-collapse text-left">
                 <thead>
-                  <tr className="text-ink-3 text-12 font-extrabold">
+                  <tr className="text-ink-3 copy-mark">
                     <th scope="col" className="w-[38%] pb-2 font-extrabold">
                       <span className="sr-only">Pokémon</span>
                     </th>
@@ -917,7 +907,7 @@ export const StoryBattleReport = ({
                         <th
                           scope="colgroup"
                           colSpan={party ? 4 : 3}
-                          className="text-ink-2 text-13 pt-4 pb-1 font-extrabold"
+                          className="text-ink-2 copy-label pt-4 pb-1"
                         >
                           {group.label}
                         </th>
@@ -934,7 +924,7 @@ export const StoryBattleReport = ({
                 ))}
               </table>
             ) : (
-              <p className="text-ink-2 text-14 font-semibold">
+              <p className="text-ink-2 copy-note">
                 Add Pokémon to your active team to read this battle.
               </p>
             )}
@@ -948,7 +938,7 @@ export const StoryBattleReport = ({
                 >
                   {getLevelsSentence(reading.levels, opponentKind)}
                 </MatchupStateLabel>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-2">
                   <StatTile
                     label="Your team"
                     value={formatLevelRange(reading.levels.team)}
@@ -960,7 +950,7 @@ export const StoryBattleReport = ({
                 </div>
               </>
             ) : party ? (
-              <p className="text-ink-2 text-14 font-semibold">
+              <p className="text-ink-2 copy-note">
                 {wording.levels(battle.partyLevels)}
               </p>
             ) : (
@@ -971,7 +961,7 @@ export const StoryBattleReport = ({
             )}
           </SheetSection>
           {footnote ? (
-            <p className="text-ink-3 text-13 mt-5 font-semibold">{footnote}</p>
+            <p className="text-ink-3 copy-meta mt-5">{footnote}</p>
           ) : null}
         </>
       )}

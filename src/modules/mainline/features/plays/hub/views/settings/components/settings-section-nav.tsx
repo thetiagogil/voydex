@@ -104,7 +104,7 @@ export const SettingsSectionNav = ({
                 aria-current={isCurrent ? "location" : undefined}
                 onClick={(event) => glideTo(event, section.href)}
                 className={cn(
-                  "text-15 focus-ring-inset flex min-h-10 items-center rounded-lg px-3.5 py-2.5 font-extrabold transition-colors",
+                  "copy-strong focus-ring-inset flex min-h-10 items-center rounded-lg px-3.5 py-2.5 transition-colors",
                   isCurrent
                     ? "bg-select-soft text-select-ink"
                     : "text-ink-2 hover:bg-hover hover:text-ink",

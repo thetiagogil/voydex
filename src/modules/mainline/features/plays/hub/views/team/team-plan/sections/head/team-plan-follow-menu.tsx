@@ -73,7 +73,7 @@ export const TeamPlanFollowMenu = ({
         <DropdownMenuGroup>
           <DropdownMenuLabel>Your Plans for this game</DropdownMenuLabel>
           {otherPlans.length ? null : (
-            <p className="text-ink-3 text-13 px-2.5 py-2 font-semibold">
+            <p className="text-ink-3 copy-meta px-2.5 py-2">
               No other Plan for this game yet.
             </p>
           )}
@@ -81,7 +81,7 @@ export const TeamPlanFollowMenu = ({
             <DropdownMenuItem key={plan.planId} onClick={() => follow(plan)}>
               <span className="grid min-w-0">
                 <span className="truncate">{plan.name}</span>
-                <span className="text-ink-3 text-12 font-semibold">
+                <span className="text-ink-3 copy-meta">
                   {plan.memberCount}{" "}
                   {plan.memberCount === 1 ? "target" : "targets"}
                 </span>

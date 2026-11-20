@@ -42,7 +42,7 @@ export const CheckboxCard = ({
         data-disabled={disabled || undefined}
         className={cn(
           fieldSurfaceClassName,
-          "text-15 has-data-checked:border-action has-data-checked:bg-select-soft has-data-checked:text-select-ink has-focus-visible:outline-focus flex h-12 min-w-0 cursor-pointer items-center gap-3 rounded-full px-5 font-bold has-focus-visible:outline-3 has-focus-visible:outline-offset-1 has-focus-visible:outline-solid has-disabled:cursor-not-allowed has-disabled:opacity-50",
+          "copy-strong has-data-checked:border-calm has-data-checked:bg-select-soft has-data-checked:text-select-ink has-focus-visible:outline-focus flex h-12 min-w-0 cursor-pointer items-center gap-3 rounded-full px-5 has-focus-visible:outline-3 has-focus-visible:outline-offset-1 has-focus-visible:outline-solid has-disabled:cursor-not-allowed has-disabled:opacity-50",
           className,
         )}
       >
@@ -72,7 +72,7 @@ export const CheckboxCard = ({
           id={id}
         />
         <FieldContent>
-          <span className="text-15 font-extrabold">{title}</span>
+          <span className="copy-strong">{title}</span>
           {description ? (
             <FieldDescription>{description}</FieldDescription>
           ) : null}

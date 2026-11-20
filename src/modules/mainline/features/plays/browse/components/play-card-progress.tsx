@@ -1,5 +1,9 @@
+import {
+  getPlayCombinedPercent,
+  getPlayProgressNote,
+} from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
 import type { PlayBrowseProgress } from "@/modules/mainline/features/plays/shared/types";
-import { Progress } from "@/shared/components/ui/progress";
+import { ProgressDonut } from "@/shared/components/progress-donut";
 import { cn } from "@/shared/utils/cn";
 
 type PlayCardProgressProps = {
@@ -8,54 +12,29 @@ type PlayCardProgressProps = {
 };
 
 /*
- * Quiet rows: a name, a thin green bar and the figure. A part
- * the Play doesn't track reads "Off" over an empty track.
+ * One ring for how far along the Play is: the average of the parts it
+ * tracks (Story, Pokédex, Collectibles), so a long list stays light. No
+ * word beside it: every card has one, and the Play's own pages break it down.
  */
 export const PlayCardProgress = ({
   className,
   progress,
 }: PlayCardProgressProps) => {
-  if (progress.state === "unavailable" || !progress.items.length) {
+  const percent = getPlayCombinedPercent(progress);
+
+  if (percent === null) {
     return (
-      <p className={cn("text-ink-3 text-13 font-semibold", className)}>
-        {progress.state === "unavailable"
-          ? "Progress unavailable"
-          : "Progress not recorded"}
+      <p className={cn("text-ink-3 copy-meta", className)}>
+        {getPlayProgressNote(progress)}
       </p>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-[76px_minmax(0,1fr)_38px] items-center gap-x-2 gap-y-1.75",
-        className,
-      )}
-    >
-      {progress.items.map((item) => (
-        <div key={item.label} className="contents">
-          <span className="text-ink-2 text-13 font-bold">{item.label}</span>
-          <Progress
-            value={item.percent ?? 0}
-            max={100}
-            aria-label={
-              item.percent === null
-                ? `${item.label} tracking is off`
-                : `${item.label} progress`
-            }
-            className="**:data-[slot=progress-track]:h-2.25"
-          />
-          {item.percent === null ? (
-            <span className="text-ink-3 text-13 text-right font-semibold">
-              Off
-            </span>
-          ) : (
-            <span className="text-ink text-13 text-right font-bold tabular-nums">
-              {item.percent}%
-            </span>
-          )}
-        </div>
-      ))}
-    </div>
+    <ProgressDonut
+      label="Overall progress"
+      value={percent}
+      className={cn("w-14 sm:w-18", className)}
+    />
   );
 };

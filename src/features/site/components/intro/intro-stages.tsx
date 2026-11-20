@@ -39,17 +39,14 @@ const IntroStage = ({
     role="img"
     aria-label={label}
     inert
-    className={cn(
-      "bg-surface-2 flex flex-col gap-3 rounded-lg p-3.5 sm:p-4",
-      className,
-    )}
+    className={cn("tile flex flex-col gap-3", className)}
   >
     {children}
   </div>
 );
 
 const StageLabel = ({ children }: { children: ReactNode }) => (
-  <span className="text-ink-2 text-13 font-bold">{children}</span>
+  <span className="text-ink-2 copy-label">{children}</span>
 );
 
 /* Day one: the game picked on the cover shelf, and the Play it starts. */
@@ -69,7 +66,7 @@ export const StartAPlayStage = ({ art }: { art: PublicArt }) => (
         );
       })}
     </div>
-    <div className="bg-band flex flex-wrap items-center gap-x-2.5 gap-y-1.5 rounded-md px-3 py-2.5">
+    <div className="bg-band flex flex-wrap items-center gap-x-2 gap-y-1.5 rounded-sm px-3 py-2.5">
       <span className="font-display text-17 font-semibold">
         {samplePlay.name}
       </span>
@@ -97,7 +94,7 @@ export const RecordAsYouGoStage = ({
         <span
           key={pokemon.slug}
           style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-md"
+          className="sticker grid aspect-square place-items-center rounded-sm"
         >
           <PokemonRender
             art={art}
@@ -151,7 +148,7 @@ export const LookBackStage = ({ playArt }: { playArt: PublicPlayArt }) => (
   </IntroStage>
 );
 
-const tileClassName = "grid size-13 place-items-center rounded-md sm:size-14";
+const tileClassName = "grid size-13 place-items-center rounded-sm sm:size-14";
 
 /* A Plan in the making: its picks, then the slots still open. */
 export const PlanATeamStage = ({ art }: { art: PublicArt }) => (

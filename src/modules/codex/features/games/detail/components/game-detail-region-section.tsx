@@ -34,11 +34,11 @@ const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
       portraitUrl={leader.portraitUrl}
       typeSlug={leader.type?.slug ?? null}
     />
-    <span className="text-14 text-ink block w-full truncate font-extrabold">
+    <span className="copy-strong text-ink block w-full truncate">
       {leader.name}
     </span>
     {leader.place ? (
-      <span className="text-12 text-ink-2 block w-full truncate font-semibold">
+      <span className="copy-meta text-ink-2 block w-full truncate">
         {leader.place}
       </span>
     ) : null}
@@ -64,19 +64,16 @@ export const GameDetailRegionSection = ({
     <section
       data-slot="card"
       aria-labelledby="game-region-title"
-      className={cn(
-        cardVariants(),
-        "mt-8 gap-0 px-5 py-5 sm:mt-10 sm:px-6 sm:py-6",
-      )}
+      className={cn(cardVariants(), "mt-8 gap-0 sm:mt-10")}
     >
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
         <div className="min-w-0">
-          <p className="text-13 text-ink-2 font-bold">The region</p>
+          <p className="copy-label text-ink-2">The region</p>
           <h2 id="game-region-title" className="title-page mt-0.5 mb-3">
             {version.region?.name ?? "Region"}
           </h2>
           {version.region ? (
-            <p className="text-15 text-ink-2 max-w-[60ch] font-semibold">
+            <p className="copy-body text-ink-2 max-w-[60ch]">
               {version.region.description}
             </p>
           ) : null}
@@ -86,13 +83,13 @@ export const GameDetailRegionSection = ({
           <div className="min-w-0">
             <h3
               id="game-first-partners-title"
-              className="text-13 text-ink-2 mb-2.5 font-sans font-bold tracking-normal"
+              className="copy-label text-ink-2 mb-2.5 font-sans tracking-normal"
             >
               {firstPartners.isSolo ? "First partner" : "First partners"}
             </h3>
             <ul
               aria-labelledby="game-first-partners-title"
-              className="grid grid-cols-3 gap-2.5 md:flex"
+              className="grid grid-cols-3 gap-2 md:flex"
             >
               {firstPartners.pokemon.map((pokemon) => (
                 <li key={pokemon.key} className="min-w-0">
@@ -120,7 +117,7 @@ export const GameDetailRegionSection = ({
           />
           <ul
             aria-labelledby="game-leaders-title"
-            className="mt-4 grid grid-cols-3 gap-x-2.5 gap-y-5 sm:grid-cols-5 lg:grid-cols-9"
+            className="mt-4 grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9"
           >
             {leaders.map((leader) => (
               <LeaderTile key={leader.key} leader={leader} />

@@ -22,14 +22,14 @@ export const NatureEffect = ({
 
   if (effect.kind === "neutral") {
     return (
-      <span className="text-ink-3 text-13 flex h-5 items-center font-bold">
+      <span className="text-ink-3 copy-label flex h-5 items-center">
         Neutral
       </span>
     );
   }
 
   return (
-    <span className="text-13 flex h-5 items-center gap-2.5 font-extrabold tabular-nums">
+    <span className="copy-label flex h-5 items-center gap-2 tabular-nums">
       <span className="sr-only">
         {`Raises ${effect.increased.name}, lowers ${effect.decreased.name}`}
       </span>

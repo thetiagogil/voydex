@@ -40,10 +40,10 @@ const markLabels: Record<TeamPlanCompareState, string | null> = {
 const CompareMark = ({ state }: { state: TeamPlanCompareState }) => (
   <>
     {state === "ok" ? (
-      <AppIcon icon={appIcons.status.active} size={16} className="text-ok" />
+      <AppIcon icon={appIcons.status.active} size="md" className="text-ok" />
     ) : null}
     {state === "differs" ? (
-      <span aria-hidden className="text-warn-ink text-16 font-extrabold">
+      <span aria-hidden className="text-warn-ink copy-strong">
         ≠
       </span>
     ) : null}
@@ -71,7 +71,7 @@ const RecordedValue = ({
 };
 
 const artBoxClassName =
-  "grid size-20 place-items-center rounded-xl sm:size-27.5";
+  "grid size-20 place-items-center rounded-lg sm:size-27.5";
 const artClassName = "size-17 sm:size-23";
 
 /* One side of the head: a label, the Pokémon and its name. */
@@ -89,7 +89,7 @@ const CompareSide = ({
   placement?: string;
 }) => (
   <div className="flex min-w-0 flex-col items-center gap-1.5 text-center">
-    <span className="text-13 text-ink-tint font-bold">{label}</span>
+    <span className="copy-label text-ink-tint">{label}</span>
     {art}
     <b
       className={cn(
@@ -100,7 +100,7 @@ const CompareSide = ({
       {name}
     </b>
     {placement ? (
-      <span className="text-13 text-ink-tint font-semibold">{placement}</span>
+      <span className="copy-meta text-ink-tint">{placement}</span>
     ) : null}
   </div>
 );
@@ -219,7 +219,7 @@ export const TeamPlanCompareDialog = ({
       )}
       footer={
         <>
-          <span className="text-13 text-ink-2 mr-auto font-semibold">
+          <span className="copy-meta text-ink-2 mr-auto">
             Plans are read only inside a Play
           </span>
           <DialogClose render={<Button variant="secondary" size="sm" />}>
@@ -228,12 +228,12 @@ export const TeamPlanCompareDialog = ({
         </>
       }
     >
-      <table className="text-14 sm:text-15 w-full border-collapse">
+      <table className="text-13 sm:text-15 w-full border-collapse">
         <caption className="sr-only">
           What the Plan asks for and what this Play recorded
         </caption>
         <thead>
-          <tr className="border-line text-13 text-ink-3 border-b text-left font-bold">
+          <tr className="border-line copy-label text-ink-3 border-b text-left">
             <th scope="col" className="w-22 px-2 py-2.5 sm:w-27.5">
               <span className="sr-only">Field</span>
             </th>
@@ -262,7 +262,7 @@ export const TeamPlanCompareDialog = ({
             >
               <th
                 scope="row"
-                className="text-13 text-ink-2 px-2 py-2.5 text-left font-bold"
+                className="copy-label text-ink-2 px-2 py-2.5 text-left"
               >
                 {row.label}
               </th>
@@ -296,7 +296,7 @@ export const TeamPlanCompareDialog = ({
       </table>
 
       {comparison.memberNotes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
+        <p className="tile text-ink-2 copy-body mt-4.5 leading-relaxed">
           “{comparison.memberNotes}”
         </p>
       ) : null}

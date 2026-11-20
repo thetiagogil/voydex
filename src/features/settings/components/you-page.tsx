@@ -60,15 +60,15 @@ const YouRow = ({ description, href, icon, onFollow, title }: YouRowProps) => (
     onClick={onFollow}
     className={cn(
       rowInteractionVariants({ interaction: "action" }),
-      "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
+      "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-4 rounded-sm px-2.5 py-3",
     )}
   >
     <IconDisc size="lg">
       <AppIcon icon={icon} size="lg" />
     </IconDisc>
     <span className="flex min-w-0 flex-col gap-0.5">
-      <span className="text-15 font-extrabold">{title}</span>
-      <span className="text-13 text-ink-2 font-semibold">{description}</span>
+      <span className="copy-strong">{title}</span>
+      <span className="copy-meta text-ink-2">{description}</span>
     </span>
     <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
   </Link>
@@ -109,8 +109,8 @@ export const YouPage = ({
           }
         />
       </PageBand>
-      <Card className="mt-5.5 gap-0 px-2.5 py-1.5">
-        <nav aria-label="About you" className="flex flex-col">
+      <Card className="mt-5.5 gap-0 p-0">
+        <nav aria-label="About you" className="flex flex-col px-2.5 py-1.5">
           <YouRow
             href={appRoutes.mainlineStats}
             icon={appIcons.product.stats}

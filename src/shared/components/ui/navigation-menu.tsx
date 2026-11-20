@@ -56,7 +56,7 @@ const NavigationMenuItem = ({
 };
 
 const navigationMenuTriggerStyle = cva(
-  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-14 font-bold transition-colors hover:bg-hover disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover focus-ring",
+  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-15 font-semibold transition-colors hover:bg-hover disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover focus-ring",
 );
 
 const NavigationMenuTrigger = ({
@@ -72,7 +72,7 @@ const NavigationMenuTrigger = ({
     >
       {children}{" "}
       <ChevronDownIcon
-        className="relative top-px ml-1 size-3 transition duration-300 group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180"
+        className="relative top-px ml-1 size-3.5 transition duration-300 group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180"
         aria-hidden="true"
       />
     </NavigationMenuPrimitive.Trigger>
@@ -137,7 +137,7 @@ const NavigationMenuLink = ({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 in-data-[slot=navigation-menu-content]:text-15 focus-ring flex items-center gap-2 rounded-full p-2 font-bold transition-colors in-data-[slot=navigation-menu-content]:rounded-md in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
+        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-15 in-data-[slot=navigation-menu-content]:text-15 focus-ring flex items-center gap-2 rounded-full p-2 font-semibold transition-colors in-data-[slot=navigation-menu-content]:rounded-sm in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}

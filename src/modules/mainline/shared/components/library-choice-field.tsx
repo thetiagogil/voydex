@@ -83,13 +83,13 @@ const ChoiceOptionLabel = ({
       <span className="truncate">
         {name}
         {meta ? (
-          <span className="text-ink-3 text-13 ml-2 font-semibold">{meta}</span>
+          <span className="text-ink-3 copy-meta ml-2">{meta}</span>
         ) : null}
       </span>
       {description ? (
         <span
           aria-hidden
-          className="text-ink-2 text-13 hidden font-semibold whitespace-normal pointer-coarse:block"
+          className="text-ink-2 copy-meta hidden whitespace-normal pointer-coarse:block"
         >
           {description}
         </span>

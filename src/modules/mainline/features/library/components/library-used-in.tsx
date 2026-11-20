@@ -19,7 +19,7 @@ export const LibraryUsedIn = ({ plays }: { plays: LibraryPlay[] }) => (
     {plays.length ? (
       <PlayTeamList plays={plays} />
     ) : (
-      <p className="text-ink-3 text-14 font-semibold">No Play uses it yet.</p>
+      <p className="text-ink-3 copy-note">No Play uses it yet.</p>
     )}
   </SheetSection>
 );

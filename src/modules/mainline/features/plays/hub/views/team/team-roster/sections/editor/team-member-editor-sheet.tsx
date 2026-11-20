@@ -298,7 +298,7 @@ export const TeamMemberEditorSheet = ({
       title={name}
       meta={
         <div className="grid gap-2">
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             {getTeamMemberEditorHeadLine(member)}
           </p>
           <PokemonTypeList

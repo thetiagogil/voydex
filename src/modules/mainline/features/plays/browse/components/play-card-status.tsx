@@ -12,7 +12,7 @@ export const PlayCardStatus = ({
 }) =>
   play.status_name ? (
     <StatusBadge
-      size="xs"
+      size="sm"
       tone={getPlayStatusTone(play.status_slug)}
       className={className}
     >

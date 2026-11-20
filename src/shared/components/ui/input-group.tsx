@@ -28,7 +28,7 @@ const InputGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
 };
 
 const inputGroupAddonVariants = cva(
-  "text-14 text-ink-3 flex h-auto cursor-text items-center justify-center gap-2 py-1.5 font-bold select-none group-data-[disabled=true]/input-group:opacity-50 [&>svg:not([class*='size-'])]:size-4",
+  "copy-note text-ink-3 flex h-auto cursor-text items-center justify-center gap-2 py-1.5 select-none group-data-[disabled=true]/input-group:opacity-50 [&>svg:not([class*='size-'])]:size-4",
   {
     variants: {
       align: {

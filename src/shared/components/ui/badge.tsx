@@ -28,10 +28,9 @@ const badgeVariants = cva(
         paper: "bg-white text-ink-2",
       },
       size: {
-        xs: "h-5 px-2 text-12 [&>svg]:size-3",
-        sm: "h-6 px-2.5 text-12 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3",
-        // v3 `.pstate`: 13px extrabold with a 14px mark; wraps when it must.
-        md: "min-h-7 gap-1.5 px-2.75 py-1 text-13 font-extrabold [&>svg]:size-3.5",
+        sm: "h-6 px-2.5 text-12 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3.5",
+        // 13px with a 14px mark, 28px tall; wraps when it must.
+        md: "min-h-7 gap-1.5 px-2.75 py-0.5 copy-label [&>svg]:size-3.5",
       },
     },
     defaultVariants: {

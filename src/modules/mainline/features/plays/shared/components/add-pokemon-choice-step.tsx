@@ -141,7 +141,7 @@ export const AddPokemonChoiceStep = ({
   return (
     <div className="grid gap-4">
       {presetMissing ? (
-        <p role="status" className="text-ink-2 text-14 font-semibold">
+        <p role="status" className="text-ink-2 copy-note">
           That Pokémon isn&apos;t in this Play&apos;s Pokédex. Search for
           another.
         </p>
@@ -187,14 +187,12 @@ export const AddPokemonChoiceStep = ({
           ) : null}
           {query.trim() ? null : (
             <>
-              <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
+              <p className="text-ink-3 copy-label flex flex-wrap items-center gap-2">
                 Around the first routes
                 {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
                 <PendingData variant="inline" label="Not in Voydex yet" />
               </p>
-              <p className="text-ink-3 text-13 font-extrabold">
-                The whole {pokedexName}
-              </p>
+              <p className="text-ink-3 copy-label">The whole {pokedexName}</p>
             </>
           )}
           {listed.length ? null : (
@@ -203,7 +201,7 @@ export const AddPokemonChoiceStep = ({
               title="None of these follow this Play's rules."
             />
           )}
-          <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+          <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
             {shown.map(({ brokenRules, choice }) => (
               <ChoiceButton
                 key={`${choice.speciesId}-${choice.formId}`}

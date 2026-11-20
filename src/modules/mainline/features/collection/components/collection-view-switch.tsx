@@ -14,7 +14,10 @@ type CollectionViewSwitchProps = {
 
 /*
  * The Collection's Pokémon | Favourites | Games switch, under the page's
- * head. Each view is its own address (`?view=games`), as Library's tabs.
+ * head on phones and tablets, where the You page leads here and no bar
+ * holds the views. From `lg` up the top bar's Collection menu does this, so
+ * the switch stays off the page. Each view is its own address
+ * (`?view=games`), as Library's tabs.
  */
 export const CollectionViewSwitch = ({
   favouriteCount,
@@ -24,7 +27,7 @@ export const CollectionViewSwitch = ({
 }: CollectionViewSwitchProps) => (
   <SegmentedControl
     ariaLabel="Collection views"
-    className="mt-5"
+    className="mt-5 lg:hidden"
     phoneScroll
     selectedTone="strong"
     value={value}

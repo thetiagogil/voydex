@@ -123,15 +123,13 @@ export const PlannerTopSection = ({
         )}
       </span>
       <span className="min-w-0">
-        <span className="text-ink-2 text-12 block font-bold">
+        <span className="text-ink-2 copy-mark block">
           Gen {versionGroup.generationNumeral}
         </span>
-        <b className="text-ink text-16 block font-extrabold">
-          {versionGroup.name}
-        </b>
+        <b className="text-ink copy-strong block">{versionGroup.name}</b>
         {/* The expansions the Plan includes, so it's clear where they count. */}
         {includedExpansions.length ? (
-          <span className="text-ink-2 text-12 block font-bold">
+          <span className="text-ink-2 copy-mark block">
             + {includedExpansions.join(", ")}
           </span>
         ) : null}
@@ -150,7 +148,7 @@ export const PlannerTopSection = ({
   );
 
   return (
-    <div className="flex flex-col gap-5 pt-4 sm:pt-7">
+    <div className="flex flex-col gap-4 pt-4 sm:pt-7">
       <div className="flex min-w-0 flex-col gap-1.5">
         {savedPlan ? (
           <h1 className="min-w-0">
@@ -238,11 +236,18 @@ export const PlannerTopSection = ({
           {embedded ? null : (
             <Link
               href={appRoutes.mainlinePlans}
-              className={buttonVariants({ variant: "secondary" })}
+              className={cn(
+                buttonVariants({ variant: "secondary" }),
+                /* From `lg` up the bar's Team Planner menu leads there. */
+                "lg:hidden",
+              )}
             >
               <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
               My Plans
-              <span className="text-ink-3 tabular-nums">{planCount}</span>
+              {/* On a phone the row keeps My Plans, the main button and the "⋯". */}
+              <span className="text-ink-3 tabular-nums max-sm:hidden">
+                {planCount}
+              </span>
             </Link>
           )}
           {canEdit ? (

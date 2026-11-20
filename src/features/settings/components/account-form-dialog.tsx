@@ -89,7 +89,7 @@ export const AccountFormDialog = ({
         </>
       }
     >
-      <div className="flex flex-col gap-5">{field(error)}</div>
+      <div className="flex flex-col gap-4">{field(error)}</div>
     </OverlayDialog>
   );
 };

@@ -61,7 +61,7 @@ export const DetailSectionCard = ({
       data-slot="card"
       data-size="default"
       style={style}
-      className={cn(cardVariants(), "w-full min-w-0 gap-0 py-0", className)}
+      className={cn(cardVariants(), "w-full min-w-0 gap-0 p-0", className)}
     >
       <SectionHead
         title={title}
@@ -73,11 +73,17 @@ export const DetailSectionCard = ({
         description={description}
         more={more}
         action={action}
-        className={cn("px-5 pt-5 pb-3 sm:px-6 sm:pt-6", headerClassName)}
+        className={cn(
+          "px-(--card-spacing) pt-(--card-spacing) pb-3",
+          headerClassName,
+        )}
       />
 
       <CardContent
-        className={cn("px-5 pt-1 pb-5 sm:px-6 sm:pb-6", contentClassName)}
+        className={cn(
+          "px-(--card-spacing) pt-1 pb-(--card-spacing)",
+          contentClassName,
+        )}
       >
         {children}
       </CardContent>

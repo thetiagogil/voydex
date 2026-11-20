@@ -105,7 +105,27 @@ Current Overview direction:
 - Overview previews should summarize real workflows and mature tabs. Do not add
   placeholder cards just to fill space.
 
-As built (v3): the next objective's main button records it in place (v3's
+As built (#63): Overview opens on the team, as the Play's stickers. Under
+it, the journey card: where the objective stands, its title, where it
+happens, then Record and Add a note, and in the same card (beside the words
+from 1024px, under them below that) the game's stamp card with its count, as
+a small badge case: stamps without words under them, in even rows of six
+(nine where the card stacks from 640px), so a game with seventeen stays as
+short as one with eight. Each still says its name to a pointer, the keyboard
+and a screen reader.
+Recording a gym, trial or League objective slaps its stamp down there, the
+page's one badge moment, then the words hand over to the next objective; a
+stamp opens its milestone in Story; a game with no stamps draws no stamp
+card. The milestone count appears once, in the card's eyebrow. Then Recent
+moments beside the Pokédex card: a ring, caught (and seen, where the Play
+tracks it), the twelve newest catches as two rows of small Pokémon (each
+species once, drawn as the form its Pokédex shows or its default form;
+"Nothing caught yet" until the first), and the way on to the Pokédex. Collectibles are
+not on Overview (they keep their own tab). A Play that tracks no Pokédex
+draws no card and Recent moments take the row. There is no Progress card. A brand-new Play still
+opens on its partner and first steps, with the team under them.
+
+The next objective's main button records it in place (v3's
 Record): one tap, no form, the moment joins History, the current team is saved
 with it where the milestone keeps snapshots, the stamp slaps once and the
 toast offers Undo, which marks it incomplete again (the database refuses if

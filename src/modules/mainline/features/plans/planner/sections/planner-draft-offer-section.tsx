@@ -35,13 +35,11 @@ export const PlannerDraftOfferSection = ({
       </>
     }
   >
-    <p className="text-ink-3 text-13 font-extrabold">
-      Continue your unsaved Plan?
-    </p>
-    <p className="text-ink text-16 font-extrabold">
+    <p className="text-ink-3 copy-label">Continue your unsaved Plan?</p>
+    <p className="text-ink copy-strong">
       {draft.name.trim() || untitledPlanName}
     </p>
-    <p className="text-ink-2 text-13 font-semibold">
+    <p className="text-ink-2 copy-meta">
       {[draft.versionGroupName, `${draft.members.length} Pokémon`]
         .filter(Boolean)
         .join(" · ")}

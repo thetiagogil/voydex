@@ -11,12 +11,19 @@ import { cn } from "@/shared/utils/cn";
  * something: it rises a little under the pointer, with everything on it.
  */
 const cardVariants = cva(
-  "group/card text-card-foreground flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl py-(--card-spacing) text-15 [--card-spacing:--spacing(5)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] sm:[--card-spacing:--spacing(6)] *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+  "group/card text-card-foreground flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl p-(--card-spacing) text-15 has-[>img:first-child]:pt-0 *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
   {
     variants: {
+      /*
+       * Two paddings, set here and never on a screen: a section card is
+       * 20px on phones and 24px from 640px; a card in a list or a grid of
+       * many is 16px. Content that pads itself (a table, a list of rows)
+       * takes \`p-0\`.
+       */
       size: {
-        default: "",
-        sm: "rounded-xl",
+        default:
+          "[--card-spacing:--spacing(5)] sm:[--card-spacing:--spacing(6)]",
+        sm: "rounded-lg [--card-spacing:--spacing(4)]",
       },
       variant: {
         default:

@@ -25,7 +25,7 @@ export const OfferCard = ({
     data-slot="card"
     className={cn(
       cardVariants(),
-      "flex-row flex-wrap items-center gap-x-6 gap-y-3 px-5 py-4 sm:px-6",
+      "flex-row flex-wrap items-center gap-x-6 gap-y-3",
       className,
     )}
     {...props}

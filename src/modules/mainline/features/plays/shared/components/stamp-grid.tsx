@@ -21,10 +21,12 @@ import { cn } from "@/shared/utils/cn";
  */
 const PickableStamp = ({
   children,
+  compact,
   label,
   onSelect,
 }: {
   children: ReactNode;
+  compact: boolean;
   label: string;
   onSelect: () => void;
 }) => {
@@ -40,7 +42,9 @@ const PickableStamp = ({
       }}
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
-        "focus-ring ease-hop flex flex-col rounded-lg transition-transform duration-200 hover:-translate-y-1",
+        /* A stamp keeps its size where its column is wider than it. */
+        "focus-ring ease-hop flex w-full flex-col transition-transform duration-200 hover:-translate-y-1",
+        compact ? "max-w-11 rounded-full" : "max-w-14 rounded-lg sm:max-w-16",
         isPopping && "animate-pop",
       )}
     >
@@ -78,17 +82,36 @@ export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
  * A Play's stamps, tilted like stamps, each with its label: Story's stamp
  * card. Each stamp opens its milestone: it lifts under the pointer and pops
  * when picked.
- * Recording never moves it: the row you see in the list slaps instead. A
- * client part so the day each was earned reads in the viewer's time zone.
+ * In Story recording never moves it: the row you see in the list slaps
+ * instead. Overview has no such row, so there the stamp recorded a moment
+ * ago slaps down in the grid (`slapMilestoneId`). A client part so the day
+ * each was earned reads in the viewer's time zone.
  */
 export const StampGrid = ({
   className,
+  compact = false,
+  earnedMilestoneId = null,
+  label: listLabel,
+  onSlapEnd,
   onStampSelect,
   scrollLabel,
+  slapMilestoneId = null,
   stamps,
 }: {
   /* The grid's columns and gaps. */
   className?: string;
+  /*
+   * A badge case: small stamps with no words under them (each still says
+   * its name to a pointer, the keyboard and a screen reader), so a game with
+   * seventeen fits where another has eight.
+   */
+  compact?: boolean;
+  /* Names the list where it doesn't scroll. */
+  label?: string;
+  /* Recorded a moment ago: shown earned at once, before the save comes back. */
+  earnedMilestoneId?: number | null;
+  /* Called once the slap has played. */
+  onSlapEnd?: () => void;
   /* Opens a stamp's milestone, such as Story's row and panel. */
   onStampSelect: (milestoneId: number) => void;
   /*
@@ -96,39 +119,50 @@ export const StampGrid = ({
    * so the keyboard can scroll it.
    */
   scrollLabel?: string;
+  /* The stamp that slaps down now. */
+  slapMilestoneId?: number | null;
   stamps: PlayStamp[];
 }) => {
   const clock = useViewerClock();
 
   return (
     <ul
-      aria-label={scrollLabel}
+      aria-label={scrollLabel ?? listLabel}
       tabIndex={scrollLabel ? 0 : undefined}
       className={cn("grid", scrollLabel && "focus-ring-inset", className)}
     >
-      {stamps.map((stamp, index) => {
+      {stamps.map((saved, index) => {
+        const stamp =
+          saved.milestoneId === earnedMilestoneId
+            ? { ...saved, state: "earned" as const }
+            : saved;
         const label = describePlayStamp(
           stamp,
           formatPlayMoment(stamp.completedAt, clock)?.date,
         );
 
         return (
-          <li key={stamp.milestoneId} className="flex flex-col">
+          <li key={stamp.milestoneId} className="flex flex-col items-center">
             <PickableStamp
+              compact={compact}
               label={label}
               onSelect={() => onStampSelect(stamp.milestoneId)}
             >
               <BadgeStamp
                 label={label}
+                onSlapEnd={onSlapEnd}
+                slap={stamp.milestoneId === slapMilestoneId}
                 state={getBadgeStampState(stamp)}
                 tilt={stampTilts[index % stampTilts.length]}
               />
-              <span
-                aria-hidden
-                className="text-ink-3 text-12 mt-4 text-center leading-tight font-bold"
-              >
-                {stamp.label}
-              </span>
+              {compact ? null : (
+                <span
+                  aria-hidden
+                  className="text-ink-3 copy-mark mt-4 text-center leading-tight"
+                >
+                  {stamp.label}
+                </span>
+              )}
             </PickableStamp>
           </li>
         );

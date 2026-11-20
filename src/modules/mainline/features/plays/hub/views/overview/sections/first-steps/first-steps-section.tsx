@@ -68,12 +68,12 @@ export const FirstStepsSection = ({
         {steps.map((step, index) => (
           <li
             key={step.title}
-            className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-3.5 py-3.5"
+            className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-center gap-4 py-3.5"
           >
             <span
               aria-hidden
               className={cn(
-                "text-14 grid size-9 place-items-center rounded-full font-extrabold tabular-nums",
+                "copy-strong grid size-9 place-items-center rounded-full tabular-nums",
                 step.done
                   ? "bg-ok-soft text-ok-deep"
                   : "bg-surface-2 text-ink-2",
@@ -86,20 +86,13 @@ export const FirstStepsSection = ({
               )}
             </span>
             <span className="grid min-w-0 gap-0.5">
-              <b
-                className={cn(
-                  "text-15 font-extrabold",
-                  step.done && "text-ink-2",
-                )}
-              >
+              <b className={cn("copy-strong", step.done && "text-ink-2")}>
                 <span className="sr-only">
                   {step.done ? "Done: " : `Step ${index + 1}: `}
                 </span>
                 {step.title}
               </b>
-              <span className="text-ink-2 text-13 font-semibold">
-                {step.description}
-              </span>
+              <span className="text-ink-2 copy-meta">{step.description}</span>
             </span>
             {step.href && !step.done ? (
               <TextLink href={step.href} arrow="forward">

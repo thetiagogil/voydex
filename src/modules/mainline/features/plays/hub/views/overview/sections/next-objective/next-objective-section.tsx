@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/shared/components/link";
+import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { preload } from "react-dom";
 
@@ -10,8 +11,7 @@ import {
   OverviewRecordButton,
   useOverviewJustRecorded,
 } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
-import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
-import { getBadgeStampState } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
+import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
 import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   formatJourneyPosition,
@@ -43,7 +43,7 @@ type NextObjectiveSectionProps = {
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: JourneyPosition | null;
   playId: string;
-  /* The Play's stamps: a gym, trial or League objective shows its own, waiting. */
+  /* The Play's stamps, under the objective: recording one slaps it down there. */
   stamps: PlayStamp[];
 };
 
@@ -60,10 +60,14 @@ const hasDecision = (milestone: OverviewMilestone) =>
   milestone.decision_options.length > 0;
 
 /*
- * The next objective is quiet: a Fredoka title and the page's one main
- * button, which records it in place (a choice opens Story's record form
- * right here), then "Add a note". A gym, trial or League objective shows its stamp
- * waiting at the end of its words.
+ * The journey card, under the team: where the objective stands, its Fredoka
+ * title, where it happens, then the page's one main button, which records it
+ * in place (a choice opens Story's record form right here), and "Add a
+ * note". In the same card, beside the words from 1024px and under them
+ * below that, the game's stamp card as a small badge case: recording a gym, trial or
+ * League objective slaps its stamp down there, the page's one badge moment,
+ * before the words hand over to the next objective. A stamp opens its
+ * milestone in Story.
  */
 export const NextObjectiveSection = ({
   decisionRecord,
@@ -72,6 +76,7 @@ export const NextObjectiveSection = ({
   playId,
   stamps,
 }: NextObjectiveSectionProps) => {
+  const router = useRouter();
   const justRecordedId = useOverviewJustRecorded();
   const [shown, setShown] = useState<ShownObjective>({
     milestone: latestMilestone,
@@ -83,11 +88,11 @@ export const NextObjectiveSection = ({
   const isJustRecorded = justRecordedId !== null && justRecordedId === shownId;
   const savedStamp =
     stamps.find((stamp) => stamp.milestoneId === shownId) ?? null;
-  /* Recorded here a moment ago: earned at once, before the save comes back. */
-  const shownStamp =
-    savedStamp && isJustRecorded
-      ? { ...savedStamp, state: "earned" as const }
-      : savedStamp;
+  const earnedCount = stamps.filter(
+    (stamp) =>
+      stamp.state === "earned" ||
+      (isJustRecorded && stamp.milestoneId === shownId),
+  ).length;
 
   /* The badge it will slap down, fetched ahead so the slap lands with it. */
   if (savedStamp?.badge?.imageUrl) {
@@ -107,7 +112,7 @@ export const NextObjectiveSection = ({
   applyStep(
     getObjectiveHandoverStep({
       handover,
-      hasStamp: shownStamp !== null,
+      hasStamp: savedStamp !== null,
       isJustRecorded,
       isLatestShown: latestId === shownId,
       isShownCurrent: shown.milestone === latestMilestone,
@@ -124,6 +129,48 @@ export const NextObjectiveSection = ({
   return (
     <ObjectiveCard
       titleId={titleId}
+      /* Two halves from 1024px: the objective, and the stamp card beside it. */
+      className="lg:grid lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-center"
+      aside={
+        stamps.length ? (
+          <section
+            aria-labelledby="overview-stamps"
+            className="tile flex flex-col gap-1 p-0"
+          >
+            <p id="overview-stamps" className="text-ink-2 copy-label px-4 pt-3">
+              Stamp card{" "}
+              <span className="text-ink-3 font-semibold tabular-nums">
+                {earnedCount} of {stamps.length}
+              </span>
+            </p>
+            {/*
+             * A badge case: small stamps in even rows, six across beside
+             * the objective and nine where the card stacks from 640px, so a
+             * game with seventeen stays as short as one with eight. Room all
+             * round, so a lift, slap or focus ring is never cut.
+             */}
+            <StampGrid
+              compact
+              className="grid-cols-6 gap-x-2 gap-y-3 px-4 pt-3 pb-4 sm:grid-cols-9 lg:grid-cols-6"
+              earnedMilestoneId={isJustRecorded ? shownId : null}
+              onSlapEnd={() =>
+                applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))
+              }
+              onStampSelect={(milestoneId) =>
+                router.push(
+                  appRoutes.mainlinePlayProgressStoryRecord(
+                    playId,
+                    milestoneId,
+                  ),
+                )
+              }
+              label="Stamps"
+              slapMilestoneId={handover === "stamping" ? shownId : null}
+              stamps={stamps}
+            />
+          </section>
+        ) : null
+      }
       bodyClassName={cn(
         handover === "leaving" && "animate-objective-out",
         handover === "entering" && "animate-objective-in",
@@ -169,52 +216,35 @@ export const NextObjectiveSection = ({
                 milestoneName={nextMilestone.milestone_name ?? "Milestone"}
               />
             )}
-            <AddNoteDialog playId={playId} size="lg" />
+            <AddNoteDialog playId={playId} />
           </>
         ) : (
           <>
             <Link
               href={appRoutes.mainlinePlayProgressStory(playId)}
-              className={buttonVariants({ size: "lg", variant: "secondary" })}
+              className={buttonVariants({ variant: "secondary" })}
             >
               <AppIcon icon={appIcons.milestones.story} />
               See the Story
             </Link>
-            <AddNoteDialog playId={playId} size="lg" />
+            <AddNoteDialog playId={playId} />
           </>
         )
       }
     >
-      {/* The stamp waits at the end of the objective's words, on their last line. */}
-      <div className="flex items-end gap-4">
-        <div className="min-w-0 flex-1">
-          <ObjectiveEyebrow
-            icon={
-              nextMilestone ? appIcons.milestones.story : appIcons.status.active
-            }
-          >
-            {nextMilestone
-              ? ["Next objective", position].filter(Boolean).join(" · ")
-              : "Main story complete"}
-          </ObjectiveEyebrow>
-          <h2 id={titleId} className={objectiveTitleClassNames.lg}>
-            {nextMilestone?.milestone_name ?? "Every milestone recorded"}
-          </h2>
-          {where ? <ObjectiveWhere>{where}</ObjectiveWhere> : null}
-        </div>
-        {shownStamp ? (
-          <BadgeStamp
-            className="mb-0.5 w-11 shrink-0 sm:w-13"
-            label={shownStamp.name}
-            onSlapEnd={() =>
-              applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))
-            }
-            slap={handover === "stamping"}
-            state={getBadgeStampState(shownStamp)}
-            tilt={-6}
-          />
-        ) : null}
-      </div>
+      <ObjectiveEyebrow
+        icon={
+          nextMilestone ? appIcons.milestones.story : appIcons.status.active
+        }
+      >
+        {nextMilestone
+          ? ["Next objective", position].filter(Boolean).join(" · ")
+          : "Main story complete"}
+      </ObjectiveEyebrow>
+      <h2 id={titleId} className={objectiveTitleClassNames.lg}>
+        {nextMilestone?.milestone_name ?? "Every milestone recorded"}
+      </h2>
+      {where ? <ObjectiveWhere>{where}</ObjectiveWhere> : null}
     </ObjectiveCard>
   );
 };

@@ -104,14 +104,14 @@ export const Toolbar = ({
   const ownProps: ComponentProps<"div"> & { "data-slot": string } = {
     "data-slot": "card",
     className: cn(
-      "bg-surface text-ink shadow-card grid min-w-0 gap-y-2.5 overflow-hidden rounded-[34px] p-2.5",
+      "bg-surface text-ink shadow-card grid min-w-0 gap-y-2 overflow-hidden rounded-[34px] p-2.5",
       className,
     ),
     children: (
       <>
         <div
           className={cn(
-            "-ml-2 flex min-w-0 items-center gap-y-2.5 sm:-ml-7",
+            "-ml-2 flex min-w-0 items-center gap-y-2 sm:-ml-7",
             oneLine ? "flex-nowrap" : "flex-wrap",
           )}
         >

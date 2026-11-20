@@ -53,12 +53,12 @@ type MyPlansBrowserProps = {
  */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   const card = (
-    <Card className="h-full gap-3 px-5 py-4">
+    <Card size="sm" className="h-full gap-3">
       {/* Room at the end for the menu, which sits over it. */}
       <div className="flex min-h-9 items-center gap-2 pr-10">
         <Badge variant="select">{plan.versionGroupName}</Badge>
         {plan.updatedAt ? (
-          <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
+          <span className="text-ink-3 copy-meta ml-auto whitespace-nowrap">
             Updated <PlayMomentTime value={plan.updatedAt} />
           </span>
         ) : null}
@@ -79,8 +79,8 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
         className={cn(
           "mt-auto",
           plan.linkedPlayCount
-            ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
-            : "text-ink-3 text-13 font-semibold",
+            ? "text-ink copy-label inline-flex items-center gap-1.5"
+            : "text-ink-3 copy-meta",
         )}
       >
         {plan.linkedPlayCount ? (
@@ -106,7 +106,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       ) : (
         <Link
           href={appRoutes.mainlinePlan(plan.id)}
-          className="group/card-link focus-ring block h-full rounded-2xl"
+          className="group/card-link focus-ring block h-full rounded-lg"
         >
           {card}
         </Link>
@@ -267,7 +267,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
         </FoldPanel>
       </PageBand>
 
-      <section aria-label="Your Plans" className="flex flex-col gap-5">
+      <section aria-label="Your Plans" className="flex flex-col gap-4">
         {shown.length ? (
           <MyPlansGrid plans={shown} />
         ) : (

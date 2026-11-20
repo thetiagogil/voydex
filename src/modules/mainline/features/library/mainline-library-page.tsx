@@ -20,7 +20,7 @@ export const MainlineLibraryPage = ({
   data: LibraryPageData;
   tab: LibraryTab;
 }) => (
-  <div className="flex flex-col gap-5 sm:gap-6">
+  <div className="flex flex-col gap-4 sm:gap-6">
     <LibraryBrowser
       key={tab}
       data={data}

@@ -25,7 +25,6 @@ export const StartAction = () => {
       href={appRoutes.mainline}
       className={buttonVariants({
         className: "max-sm:w-full",
-        size: "lg",
         variant: "inverse",
       })}
     >

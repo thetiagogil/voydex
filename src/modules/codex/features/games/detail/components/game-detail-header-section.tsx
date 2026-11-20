@@ -65,12 +65,12 @@ export const GameDetailHeaderSection = ({
       </div>
 
       <div className="flex min-w-0 flex-col justify-center">
-        <p className="text-13 text-ink-2 font-bold">{getGameEyebrow(data)}</p>
+        <p className="copy-label text-ink-2">{getGameEyebrow(data)}</p>
         <h1 id="game-detail-title" className="title-hero mt-1.5 mb-4">
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
         {versions.length > 1 || actions ? (
-          <div className="mb-4 flex flex-wrap items-center gap-2.5">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
             {versions.length > 1 ? (
               <SegmentedControl
                 ariaLabel="Version"
@@ -90,12 +90,12 @@ export const GameDetailHeaderSection = ({
             {actions}
           </div>
         ) : null}
-        <p className="text-15 text-ink-2 max-w-[60ch] font-semibold">
+        <p className="copy-body text-ink-2 max-w-[60ch]">
           {versionGroup.description}
         </p>
         {data.pokedexes.length ? (
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="text-13 text-ink-2 font-bold">
+            <span className="copy-label text-ink-2">
               {data.pokedexes.length === 1 ? "Pokédex" : "Pokédexes"}
             </span>
             {/* The same pills as the Pokédex page's switch, each opening its Pokédex. */}

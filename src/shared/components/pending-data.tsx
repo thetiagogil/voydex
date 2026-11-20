@@ -32,7 +32,7 @@ export const PendingData = ({
       <span
         data-slot="pending-data"
         className={cn(
-          "empty-slot text-12 text-ink-3 inline-flex h-7 items-center rounded-full px-2.5 font-bold whitespace-nowrap",
+          "empty-slot copy-mark text-ink-3 inline-flex h-7 items-center rounded-full px-2.5 whitespace-nowrap",
           className,
         )}
       >
@@ -45,7 +45,7 @@ export const PendingData = ({
     <div
       data-slot="pending-data"
       className={cn(
-        "empty-slot text-ink-3 flex flex-col items-center gap-1.5 rounded-md px-4 py-5 text-center",
+        "empty-slot text-ink-3 flex flex-col items-center gap-1.5 rounded-sm px-4 py-5 text-center",
         className,
       )}
     >
@@ -54,10 +54,8 @@ export const PendingData = ({
           {children}
         </div>
       ) : null}
-      <p className="text-14 font-extrabold">{label}</p>
-      {note ? (
-        <p className="text-13 max-w-[60ch] font-semibold">{note}</p>
-      ) : null}
+      <p className="copy-strong">{label}</p>
+      {note ? <p className="copy-meta max-w-[60ch]">{note}</p> : null}
     </div>
   );
 };

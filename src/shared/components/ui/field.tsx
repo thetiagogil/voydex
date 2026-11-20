@@ -33,7 +33,7 @@ const FieldLegend = ({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
-        "text-ink data-[variant=label]:text-13 data-[variant=label]:text-ink-2 data-[variant=legend]:text-16 mb-1.5 font-extrabold data-[variant=label]:font-bold",
+        "text-ink data-[variant=label]:text-13 data-[variant=label]:text-ink-2 data-[variant=legend]:text-15 mb-1.5 font-extrabold data-[variant=label]:font-bold",
         className,
       )}
       {...props}
@@ -46,7 +46,7 @@ const FieldGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="field-group"
       className={cn(
-        "group/field-group @container/field-group flex w-full flex-col gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
+        "group/field-group @container/field-group flex w-full flex-col gap-4 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
         className,
       )}
       {...props}
@@ -115,7 +115,7 @@ const FieldLabel = ({
          * selected tint with an accent border once chosen (scoped like the
          * card's own look, so the chosen look wins over it).
          */
-        "has-[>[data-slot=field]]:border-line has-[>[data-slot=field]]:bg-surface has-[>[data-slot=field]]:text-15 has-[>[data-slot=field]]:text-ink has-[>[data-slot=field]]:has-focus-visible:outline-focus has-[>[data-slot=field]]:hover:bg-surface-2 has-[>[data-slot=field]]:has-data-checked:border-action has-[>[data-slot=field]]:has-data-checked:bg-select-soft has-[>[data-slot=field]]:has-data-checked:text-select-ink has-[>[data-slot=field]]:has-data-checked:hover:bg-select-soft has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border-[1.5px] has-[>[data-slot=field]]:font-semibold has-[>[data-slot=field]]:transition-colors has-[>[data-slot=field]]:has-focus-visible:outline-3 has-[>[data-slot=field]]:has-focus-visible:outline-offset-2 has-[>[data-slot=field]]:has-focus-visible:outline-solid *:data-[slot=field]:p-3",
+        "has-[>[data-slot=field]]:border-line has-[>[data-slot=field]]:bg-surface has-[>[data-slot=field]]:text-15 has-[>[data-slot=field]]:text-ink has-[>[data-slot=field]]:has-focus-visible:outline-focus has-[>[data-slot=field]]:hover:bg-surface-2 has-[>[data-slot=field]]:has-data-checked:border-calm has-[>[data-slot=field]]:has-data-checked:bg-select-soft has-[>[data-slot=field]]:has-data-checked:text-select-ink has-[>[data-slot=field]]:has-data-checked:hover:bg-select-soft has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border-[1.5px] has-[>[data-slot=field]]:font-semibold has-[>[data-slot=field]]:transition-colors has-[>[data-slot=field]]:has-focus-visible:outline-3 has-[>[data-slot=field]]:has-focus-visible:outline-offset-2 has-[>[data-slot=field]]:has-focus-visible:outline-solid *:data-[slot=field]:p-3",
         className,
       )}
       {...props}
@@ -131,7 +131,7 @@ const FieldDescription = ({
     <p
       data-slot="field-description"
       className={cn(
-        "text-13 text-ink-2 text-left leading-normal font-semibold group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
+        "copy-meta text-ink-2 text-left leading-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
         "last:mt-0 nth-last-2:-mt-1",
         "[&>a]:text-link [&>a]:font-extrabold [&>a]:underline [&>a]:underline-offset-4",
         className,
@@ -183,7 +183,7 @@ const FieldError = ({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-13 text-danger font-bold", className)}
+      className={cn("copy-label text-danger", className)}
       {...props}
     >
       {content}

@@ -37,7 +37,7 @@ export const MoveCategoryIcon = ({
 
   if (!src || failed) {
     return (
-      <span className={cn("text-ink-3 text-12 shrink-0 font-bold", className)}>
+      <span className={cn("text-ink-3 copy-mark shrink-0", className)}>
         {category.label}
       </span>
     );

@@ -42,7 +42,7 @@ const sameProfile = (left: ProfileValues, right: ProfileValues) =>
 
 const initialState: ProfileFormState = { message: null, status: "idle" };
 
-const fieldLabelClassName = "text-13 text-ink-2 font-bold";
+const fieldLabelClassName = "copy-label text-ink-2";
 
 /*
  * Settings' profile (v3 `.set-me`): the trainer card is the form. Pick an icon
@@ -186,10 +186,7 @@ export const SettingsProfileSection = ({
                   }))
                 }
               />
-              <p
-                id={trainerNameHintId}
-                className="text-13 text-ink-2 font-semibold"
-              >
+              <p id={trainerNameHintId} className="copy-meta text-ink-2">
                 New Plays start with it. Left empty, they use your display name.
               </p>
             </Field>

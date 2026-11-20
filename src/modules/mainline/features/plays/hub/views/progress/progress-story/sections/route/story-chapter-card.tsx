@@ -55,14 +55,14 @@ export const StoryChapterCard = ({
       aria-label={name}
       className={cn(
         /* Visible overflow, so a sticker's lift and shadow are never cut. */
-        "gap-0 overflow-visible px-3 pt-0 pb-3 sm:px-5 sm:pb-4",
+        "gap-0 overflow-visible",
         current && "ring-select-ink/25 ring-2",
       )}
     >
-      <div className="flex items-center gap-3 pt-4 pb-1 sm:pt-5">
+      <div className="flex items-center gap-3 pb-1">
         <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
           <h3 className="title-card">{name}</h3>
-          <span className="text-ink-3 text-13 font-semibold">{count}</span>
+          <span className="text-ink-3 copy-meta">{count}</span>
         </span>
         <Button
           type="button"

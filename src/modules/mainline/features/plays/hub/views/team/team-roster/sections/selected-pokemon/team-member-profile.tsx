@@ -101,7 +101,7 @@ export const TeamMemberProfile = ({
     <div style={getPokemonTypeCssVariables(primaryType)} className="min-w-0">
       <div
         className={cn(
-          "type-tint relative -mx-2 -mt-1.5 grid h-62.5 place-items-center overflow-hidden rounded-xl",
+          "type-tint relative -mx-2 -mt-1.5 grid h-62.5 place-items-center overflow-hidden rounded-lg",
           toolbar ? "mb-3" : "mb-4.5",
         )}
       >
@@ -173,18 +173,18 @@ export const TeamMemberProfile = ({
           <dl
             key={index === 0 ? "details" : "met"}
             className={cn(
-              "grid gap-x-4.5 gap-y-3.5 sm:grid-cols-2",
+              "grid gap-x-4 gap-y-4 sm:grid-cols-2",
               index === 0 ? "mt-5 pt-4.5" : "mt-3.5",
             )}
           >
             {group.map((fact) => (
               <div key={fact.label} className="min-w-0">
-                <dt className="text-ink-2 text-13 flex h-5 items-center gap-1.5 font-bold">
+                <dt className="text-ink-2 copy-label flex h-5 items-center gap-1.5">
                   {fact.label}
                 </dt>
                 <dd
                   className={cn(
-                    "text-16 mt-0.5 flex min-h-6 items-center gap-2 wrap-break-word",
+                    "text-15 mt-0.5 flex min-h-6 items-center gap-2 wrap-break-word",
                     fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
                   )}
                 >
@@ -219,7 +219,7 @@ export const TeamMemberProfile = ({
                 ) : null}
                 {/* One line, so a long effect never moves the rows below; the "i" has it all. */}
                 {fact.detail ? (
-                  <dd className="text-ink-2 text-13 h-5 truncate leading-5 font-semibold">
+                  <dd className="text-ink-2 copy-meta h-5 truncate leading-5">
                     {fact.detail}
                   </dd>
                 ) : null}
@@ -245,7 +245,7 @@ export const TeamMemberProfile = ({
       ) : null}
 
       {member.personal_notes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
+        <p className="tile text-ink-2 copy-body mt-4.5 leading-relaxed">
           “{member.personal_notes}”
         </p>
       ) : null}

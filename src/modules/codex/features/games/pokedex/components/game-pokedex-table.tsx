@@ -60,7 +60,7 @@ export const GamePokedexTable = ({
     statColumns.length === 5 ? "grid-cols-5" : "grid-cols-6";
 
   return (
-    <Card className="gap-0 py-0">
+    <Card className="gap-0 p-0">
       <Table
         className={cn(
           getGamePokedexTableMinWidthClassName(hasAbilities, statColumns),
@@ -120,7 +120,7 @@ export const GamePokedexTable = ({
               <TableCell
                 className={cn(
                   gamePokedexDexColumnClassName,
-                  "text-12 text-ink-3 col-start-1 row-span-2 row-start-1 block p-0 font-extrabold tabular-nums xl:table-cell xl:py-2.5 xl:pr-2.5 xl:pl-5",
+                  "copy-mark text-ink-3 col-start-1 row-span-2 row-start-1 block p-0 tabular-nums xl:table-cell xl:py-2.5 xl:pr-2.5 xl:pl-5",
                 )}
               >
                 #{formatLocalPokedexNumber(entry.entry.pokedex_number)}
@@ -137,11 +137,11 @@ export const GamePokedexTable = ({
                     entry.species.slug,
                   )}
                   aria-label={`Open ${entry.species.name} in ${getVersionGroupShortName(data.versionGroup.name)}`}
-                  className="text-15 group-hover:text-link hover:text-link rounded-xs font-extrabold transition-colors after:absolute after:inset-0 after:content-[''] xl:after:hidden"
+                  className="copy-strong group-hover:text-link hover:text-link rounded-xs transition-colors after:absolute after:inset-0 after:content-[''] xl:after:hidden"
                 >
                   {entry.species.name}
                 </Link>
-                <div className="text-12 text-ink-3 font-semibold tabular-nums">
+                <div className="copy-meta text-ink-3 tabular-nums">
                   {formatPokemonNationalNumber(entry.species.national_number)}
                 </div>
                 <AppIcon
@@ -172,10 +172,8 @@ export const GamePokedexTable = ({
                 <dl className={cn("grid min-w-0 gap-2", statGridClassName)}>
                   {statColumns.map((stat) => (
                     <div key={stat.key} className="min-w-0 text-center">
-                      <dt className="text-12 text-ink-3 font-bold">
-                        {stat.label}
-                      </dt>
-                      <dd className="text-14 font-bold">
+                      <dt className="copy-mark text-ink-3">{stat.label}</dt>
+                      <dd className="copy-note">
                         <GamePokedexPokemonStatCell
                           pokemon={entry}
                           stat={stat.key}

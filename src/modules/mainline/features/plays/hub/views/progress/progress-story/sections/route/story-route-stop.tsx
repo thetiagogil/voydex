@@ -77,7 +77,7 @@ export const StoryRouteStop = ({
        */
       sticker
         ? "sticker ease-hop my-1 -ml-1.5 w-[calc(100%+0.375rem)] rounded-[2.25rem] p-2 pr-4 transition-transform duration-200 hover:-translate-y-0.5"
-        : "group rounded-xl py-1.5 pr-2 pl-1.5",
+        : "group rounded-lg py-1.5 pr-2 pl-1.5",
     )}
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
@@ -96,7 +96,7 @@ export const StoryRouteStop = ({
     <span className="flex min-w-0 flex-1 flex-col gap-0.5">
       <span
         className={cn(
-          "text-16 leading-tight font-extrabold",
+          "copy-strong leading-tight",
           state === "next" || selected
             ? "text-select-ink"
             : state === "todo"
@@ -122,7 +122,7 @@ export const StoryRouteStop = ({
         </span>
       ) : null}
       {recordedOn ? (
-        <span className="text-ink-3 text-12 font-semibold">{recordedOn}</span>
+        <span className="text-ink-3 copy-meta">{recordedOn}</span>
       ) : null}
       {status || recordedOn ? null : (
         <span className="sr-only">
@@ -152,7 +152,7 @@ const PlaceMark = ({
   one: string;
 }) => (
   <span className="inline-flex items-center gap-1">
-    <AppIcon icon={icon} size="xs" />
+    <AppIcon icon={icon} size="sm" />
     {count}
     <span className="max-sm:sr-only">&nbsp;{count === 1 ? one : many}</span>
   </span>
@@ -195,7 +195,7 @@ export const StoryRoutePlace = ({
     aria-haspopup={opensSheet ? "dialog" : undefined}
     aria-current={selected ? "true" : undefined}
     onClick={onSelect}
-    className="focus-ring group flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left"
+    className="focus-ring group flex min-h-10 w-full items-center gap-3 rounded-lg pr-2 pl-1.5 text-left"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span
@@ -213,7 +213,7 @@ export const StoryRoutePlace = ({
     <span className="flex min-w-0 flex-1 items-baseline gap-3 py-1">
       <span
         className={cn(
-          "text-14 min-w-0 truncate font-bold transition-colors",
+          "copy-note min-w-0 truncate transition-colors",
           selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
         )}
       >
@@ -221,7 +221,7 @@ export const StoryRoutePlace = ({
         {reached ? <span className="sr-only">, passed</span> : null}
       </span>
       {battleCount || giftCount || tradeCount ? (
-        <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-3 font-semibold">
+        <span className="text-ink-3 copy-meta ml-auto inline-flex shrink-0 items-center gap-3">
           {battleCount ? (
             <PlaceMark
               count={battleCount}

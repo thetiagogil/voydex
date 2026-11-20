@@ -58,7 +58,7 @@ export const CodexGenerationPills = <TValue extends string>({
         className,
       )}
     >
-      <span aria-hidden className="text-13 text-ink-3 shrink-0 font-bold">
+      <span aria-hidden className="copy-label text-ink-3 shrink-0">
         Generation
       </span>
       <SegmentedControl

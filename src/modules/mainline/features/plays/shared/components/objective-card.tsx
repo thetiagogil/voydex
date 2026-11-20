@@ -30,7 +30,7 @@ export const ObjectiveEyebrow = ({
 }) => (
   <p
     className={cn(
-      "text-action-ink text-13 flex items-center gap-2 font-extrabold",
+      "text-calm-ink copy-label flex items-center gap-2",
       className,
     )}
   >
@@ -58,6 +58,7 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
  */
 export const ObjectiveCard = ({
   actions,
+  aside,
   bodyClassName,
   bodyProps,
   children,
@@ -69,6 +70,11 @@ export const ObjectiveCard = ({
 }: {
   /* The page's main button and its quiet partners. */
   actions?: ReactNode;
+  /*
+   * Stays put while the body hands over, such as the stamp card: under the
+   * body, or beside it where `className` lays the card out in columns.
+   */
+  aside?: ReactNode;
   /* What moves inside the card, such as Overview's hand-over to the next objective. */
   bodyClassName?: string;
   bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "inert" | "onAnimationEnd">;
@@ -84,7 +90,7 @@ export const ObjectiveCard = ({
   <Card
     role="region"
     aria-labelledby={titleId}
-    className={cn("relative px-5 sm:px-7", className)}
+    className={cn("relative", className)}
   >
     {onClose ? (
       <Button
@@ -100,7 +106,12 @@ export const ObjectiveCard = ({
     ) : null}
     <div
       {...bodyProps}
-      className={cn("flex h-full min-w-0 flex-col", bodyClassName)}
+      className={cn(
+        "flex min-w-0 flex-col",
+        /* With something beside or under it the body takes only the room it needs. */
+        aside ? null : "h-full",
+        bodyClassName,
+      )}
     >
       {children}
       {actions ? (
@@ -110,11 +121,12 @@ export const ObjectiveCard = ({
       ) : null}
       {footer ? (
         <div className="mt-auto pt-6">
-          <div className="text-ink-2 text-14 flex items-center gap-3.5 pt-4 font-semibold">
+          <div className="text-ink-2 copy-note flex items-center gap-4 pt-4">
             {footer}
           </div>
         </div>
       ) : null}
     </div>
+    {aside}
   </Card>
 );

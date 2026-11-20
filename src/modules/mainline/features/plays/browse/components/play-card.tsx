@@ -67,8 +67,9 @@ export const PlayCard = ({ play }: PlayCardProps) => {
   const playName = play.play_name ?? "Untitled Play";
   const content = (
     <Card
+      size="sm"
       variant={play.play_id ? "interactive" : "default"}
-      className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[100px_minmax(0,1fr)_170px] sm:gap-6 sm:py-3.5 sm:pr-5.5 sm:pl-3.5 xl:grid-cols-[100px_minmax(0,1.2fr)_minmax(0,1.1fr)_190px_24px]"
+      className="grid grid-cols-[80px_minmax(0,1fr)_auto] items-center gap-3 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:gap-6 xl:grid-cols-[100px_minmax(0,1.2fr)_minmax(0,1.1fr)_auto_24px]"
     >
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
@@ -78,10 +79,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
 
       <PlayCardTeam team={play.activeTeam} className="hidden xl:grid" />
 
-      <PlayCardProgress
-        progress={play.progress}
-        className="col-span-2 sm:col-span-1"
-      />
+      <PlayCardProgress progress={play.progress} />
 
       {play.play_id ? (
         <AppIcon
@@ -98,7 +96,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}
-          className="group/card-link block rounded-2xl outline-none"
+          className="group/card-link block rounded-lg outline-none"
         >
           {content}
         </Link>

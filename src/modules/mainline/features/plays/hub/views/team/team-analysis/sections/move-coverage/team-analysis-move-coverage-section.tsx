@@ -37,7 +37,7 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
         ) : null}
         <span className="text-on-ink">{move.name}</span>
         {move.stab ? (
-          <span className="text-on-ink/75 text-12 font-extrabold">STAB</span>
+          <span className="text-on-ink/75 copy-mark">STAB</span>
         ) : null}
       </span>
     ))}
@@ -46,7 +46,7 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
 
 /* Who hits this type and with what, or that nothing does. */
 const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
-  <TipStack className="gap-2.5">
+  <TipStack className="gap-2">
     <TipHead tone={row.moveCount ? "ok" : "warn"}>
       {row.moveCount
         ? `${row.moveCount} ${row.moveCount === 1 ? "move hits" : "moves hit"} ${row.defendingType.name} super effectively`
@@ -149,7 +149,7 @@ export const TeamAnalysisMoveCoverageSection = ({
           </li>
         ))}
       </ul>
-      <p className="text-ink-2 text-13 mt-3 font-semibold">
+      <p className="text-ink-2 copy-meta mt-3">
         Each number counts your recorded damaging moves that hit that type super
         effectively. Hover, focus or tap a type to see which.
       </p>

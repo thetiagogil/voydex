@@ -88,7 +88,7 @@ const TypeTile = ({
           ) : null}
           <b
             className={cn(
-              "text-13 w-full truncate font-extrabold",
+              "copy-label w-full truncate",
               type.count ? "text-ink" : "text-ink-3",
             )}
           >
@@ -96,7 +96,7 @@ const TypeTile = ({
           </b>
           <span
             className={cn(
-              "text-14 font-extrabold tabular-nums",
+              "copy-strong tabular-nums",
               type.count ? "text-ink" : "text-ink-3",
             )}
           >
@@ -117,7 +117,7 @@ const PickedFact = ({
   children: ReactNode;
   icon: AppIconComponent;
 }) => (
-  <li className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
+  <li className="text-ink-2 copy-note flex items-center gap-2">
     <IconDisc size="sm">
       <AppIcon icon={icon} size="sm" />
     </IconDisc>
@@ -152,7 +152,7 @@ const MostPickedCard = ({
   const firstJoined = formatMonthYear(entry.firstUsedAt?.slice(0, 10) ?? null);
 
   return (
-    <Card className="gap-4 px-5 py-5 sm:px-6">
+    <Card className="gap-4">
       <SectionHead
         headingLevel={3}
         title="Most picked"
@@ -164,9 +164,9 @@ const MostPickedCard = ({
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
-        className="group/picked focus-ring flex flex-col items-center gap-2.5 rounded-xl text-center"
+        className="group/picked focus-ring flex flex-col items-center gap-2 rounded-lg text-center"
       >
-        <span className="sticker grid size-28 shrink-0 place-items-center rounded-xl transition-transform group-hover/picked:-translate-y-0.75">
+        <span className="sticker grid size-28 shrink-0 place-items-center rounded-lg transition-transform group-hover/picked:-translate-y-0.75">
           <FallbackImage
             src={entry.imageUrl}
             name={entry.name}
@@ -184,7 +184,7 @@ const MostPickedCard = ({
         />
         <span className="sr-only">, in {playCount} of your Plays. Open</span>
       </button>
-      <ul className="flex flex-col gap-2.5">
+      <ul className="flex flex-col gap-2">
         <PickedFact icon={appIcons.product.game}>
           In <b className="text-ink">{playCount} Plays</b>
           {gameCount > 1 ? (
@@ -263,7 +263,7 @@ export const StatsStyleSection = ({
           />
         ) : null}
 
-        <Card className="gap-4 px-5 py-5 sm:px-6">
+        <Card className="gap-4">
           <SectionHead
             headingLevel={3}
             title="Types you pick"
@@ -307,21 +307,21 @@ export const StatsStyleSection = ({
               ) : null}
             </>
           ) : (
-            <p className="text-ink-2 text-14 font-semibold">
+            <p className="text-ink-2 copy-note">
               Add Pokémon to your teams and the types you pick show up here.
             </p>
           )}
         </Card>
 
         {showFriends ? (
-          <Card className="gap-4 px-5 py-5 sm:px-6 md:col-span-full xl:col-span-1">
+          <Card className="gap-4 md:col-span-full xl:col-span-1">
             <SectionHead
               headingLevel={3}
               title="Old friends"
               titleClassName="text-20"
               aside="Back for more than one run"
             />
-            <ul className="grid flex-1 grid-cols-2 content-start gap-2.5 min-[480px]:grid-cols-3">
+            <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
               {stats.friends.slice(0, 6).map((friend) => (
                 <li
                   key={friend.speciesSlug}

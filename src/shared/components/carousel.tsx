@@ -37,7 +37,7 @@ const FOCUSABLE_SELECTOR = "a[href], button:not(:disabled), [tabindex]";
 
 const densityClassNames = {
   compact: "gap-3 px-4.5 sm:gap-4 sm:px-16",
-  roomy: "gap-5 px-6 sm:gap-6.5 sm:px-16",
+  roomy: "gap-4 px-6 sm:gap-6 sm:px-16",
 } as const;
 
 // v3 .hh-arr: a round quiet button floating over the row's ends.

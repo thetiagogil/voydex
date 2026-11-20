@@ -12,6 +12,15 @@ import {
   readMainlinePlayOverviewMilestoneRows,
   readMainlinePlayOverview,
 } from "@/modules/mainline/features/plays/hub/views/overview/client/play-overview-reader";
+import {
+  readMainlinePlayCatchForms,
+  readMainlinePlayLatestCatchRows,
+} from "@/modules/mainline/features/plays/hub/views/overview/client/play-overview-catches-reader";
+import {
+  buildOverviewLatestCatches,
+  getLatestCatchForms,
+  pickLatestCatchRows,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/latest-catches-mapper";
 import { readMainlinePlayOverviewPartnerRows } from "@/modules/mainline/features/plays/hub/views/overview/client/play-overview-partner-reader";
 import { readMainlinePlayOverviewTeamRows } from "@/modules/mainline/features/plays/hub/views/overview/client/play-overview-team-reader";
 import { defaultPlayTracking } from "@/config/play-tracking";
@@ -202,7 +211,7 @@ export const getMainlinePlayOverviewData = async (
     return null;
   }
 
-  const [overview, teamPreviewRows, milestoneRows, timelinePreview] =
+  const [overview, teamPreviewRows, milestoneRows, timelinePreview, catchRows] =
     await Promise.all([
       readMainlinePlayOverview(context.supabase, context.userId, playId),
       readMainlinePlayOverviewTeamRows(
@@ -212,21 +221,50 @@ export const getMainlinePlayOverviewData = async (
       ),
       readMainlinePlayOverviewMilestoneRows(context.supabase, playId),
       readMainlinePlayTimelinePreview(context.supabase, playId),
+      readMainlinePlayLatestCatchRows(context.supabase, playId),
     ]);
 
+  const latestCatchRows = pickLatestCatchRows(catchRows);
+  const catchFormBySpeciesId = getLatestCatchForms(
+    latestCatchRows,
+    await readMainlinePlayCatchForms(
+      context.supabase,
+      latestCatchRows.flatMap((row) =>
+        row.species_id === null ? [] : [row.species_id],
+      ),
+    ),
+  );
+  const catchFormIds = [...catchFormBySpeciesId.values()].map(
+    (form) => form.id,
+  );
   const partnerFormIds = getMainlinePlayOverviewPartnerFormIds({
     milestoneRows,
     overview,
     play: context.play,
   });
-  const partnerRows = partnerFormIds.length
-    ? await readMainlinePlayOverviewPartnerRows(
-        context.supabase,
-        partnerFormIds,
-        context.play.generation_id,
-      )
-    : null;
+  /* The same read gives a caught Pokémon its type, for the tint behind it. */
+  const [partnerRows, catchFormRows] = await Promise.all([
+    partnerFormIds.length
+      ? readMainlinePlayOverviewPartnerRows(
+          context.supabase,
+          partnerFormIds,
+          context.play.generation_id,
+        )
+      : null,
+    catchFormIds.length
+      ? readMainlinePlayOverviewPartnerRows(
+          context.supabase,
+          catchFormIds,
+          context.play.generation_id,
+        )
+      : null,
+  ]);
   const data = buildMainlinePlayOverviewData({
+    latestCatches: buildOverviewLatestCatches(
+      latestCatchRows,
+      catchFormBySpeciesId,
+      catchFormRows,
+    ),
     milestoneRows,
     overview,
     partnerRows,

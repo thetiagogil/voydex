@@ -114,7 +114,7 @@ const AlertDialogFooter = ({
     <div
       data-slot="alert-dialog-footer"
       className={cn(
-        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2.5 rounded-b-2xl border-t px-6 py-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
+        "border-line bg-surface-2 -mx-6 -mb-6 flex flex-col-reverse gap-2 rounded-b-2xl border-t px-6 py-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
         className,
       )}
       {...props}
@@ -146,7 +146,7 @@ const AlertDialogDescription = ({
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
       className={cn(
-        "text-14 text-ink-2 *:[a]:text-link font-semibold text-balance md:text-pretty *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
+        "copy-body text-ink-2 *:[a]:text-link text-balance md:text-pretty *:[a]:font-extrabold *:[a]:underline *:[a]:underline-offset-3",
         className,
       )}
       {...props}

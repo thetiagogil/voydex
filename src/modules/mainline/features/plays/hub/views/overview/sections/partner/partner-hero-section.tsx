@@ -121,7 +121,7 @@ export const PartnerHeroSection = ({
           nextMilestone?.milestone_id != null ? (
             <>
               <span className="grid min-w-0 gap-0.5">
-                <span className="text-ink-3 text-13 font-extrabold">
+                <span className="text-ink-3 copy-label">
                   Next
                   {nextPosition
                     ? ` · ${formatJourneyPosition(nextPosition)}`
@@ -188,7 +188,7 @@ export const PartnerHeroSection = ({
 
       <ul
         aria-label="Partner choices"
-        className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-4"
+        className="mt-5 grid grid-cols-3 gap-2 sm:gap-4"
       >
         {partner.options.map((option) => {
           const isChosen = chosen?.decisionOptionId === option.decisionOptionId;

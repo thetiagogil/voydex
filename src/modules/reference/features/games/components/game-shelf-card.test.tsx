@@ -30,20 +30,15 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("empty-slot");
   });
 
-  it("is a button wearing the owned band and the mark for a game you've played", () => {
+  it("is a framed collector card saying its Plays for a game you've played", () => {
     const markup = renderToStaticMarkup(
-      <GameShelfCard
-        game={game}
-        onClick={() => {}}
-        mark={<span data-testid="mark">2</span>}
-      />,
+      <GameShelfCard game={game} onClick={() => {}} count="2 Plays" />,
     );
 
     expect(markup).toContain('<button type="button"');
     expect(markup).not.toContain("<a ");
-    expect(markup).toContain("sticker");
+    expect(markup).toContain("card-frame");
     expect(markup).not.toContain("plain-card");
-    expect(markup).toContain('data-corner="inside-top-right"');
-    expect(markup).toContain('data-testid="mark"');
+    expect(getWords(markup)).toContain("Pokémon Sword2 Plays2019 · Galar");
   });
 });

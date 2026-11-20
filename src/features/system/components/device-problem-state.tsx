@@ -53,12 +53,7 @@ const StartFreshButton = ({ onConfirm }: { onConfirm: () => void }) => {
 
   return (
     <>
-      <Button
-        type="button"
-        size="lg"
-        variant="destructive"
-        onClick={() => setOpen(true)}
-      >
+      <Button type="button" variant="destructive" onClick={() => setOpen(true)}>
         Start fresh
       </Button>
       <AlertDialog open={open} onOpenChange={setOpen}>
@@ -105,7 +100,6 @@ export const DeviceProblemState = ({
   const retry = (
     <Button
       type="button"
-      size="lg"
       variant={problem === "needs-fresh-start" ? "secondary" : "default"}
       onClick={onRetry}
     >

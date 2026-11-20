@@ -12,7 +12,7 @@ describe("GameCover", () => {
         gameName="Pokémon Red"
         gameSlug="red"
         shape="portrait"
-        size="playShelf"
+        size="picker"
       />,
     );
 
@@ -27,7 +27,7 @@ describe("GameCover", () => {
         coverImageUrl={null}
         gameName="Pokémon Brilliant Diamond"
         gameSlug="brilliant-diamond"
-        size="playShelf"
+        size="picker"
       />,
     );
 

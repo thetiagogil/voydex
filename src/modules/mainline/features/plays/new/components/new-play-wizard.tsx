@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
@@ -25,7 +25,6 @@ import { GameCover } from "@/modules/reference/features/games/components/game-co
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
 import { hasGameCollectibles } from "@/modules/reference/features/games/data/game-collectibles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { FieldLabel } from "@/shared/components/ui/field";
@@ -43,6 +42,29 @@ type Step = 1 | 2 | 3;
 
 /* The overlays' one close button, in the same corner, over the meadow. */
 const closeClassName = "absolute top-4 right-4 z-8";
+
+/*
+ * The head of New Play, on the band's colour with no scenery: the steps,
+ * the title and (on step 1) the game shelf, then who stands for the pick in
+ * a row at its foot: a game's first partners, or the game and the partner.
+ */
+const NewPlayStage = ({
+  cast,
+  castClassName,
+  children,
+}: {
+  cast?: ReactNode;
+  /* The row's least height, so the window doesn't jump between steps. */
+  castClassName?: string;
+  children: ReactNode;
+}) => (
+  <div className="bg-band relative isolate">
+    {children}
+    <div className={cn("flex items-end justify-center pb-4", castClassName)}>
+      {cast}
+    </div>
+  </div>
+);
 
 const stepLabels: Record<Step, string> = { 1: "Game", 2: "Partner", 3: "Name" };
 
@@ -74,7 +96,7 @@ const NewPlaySteps = ({
             <button
               type="button"
               onClick={() => onStepChange(number)}
-              className="text-action-lip text-13 hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold"
+              className="text-calm-ink copy-label hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5"
             >
               <AppIcon
                 icon={appIcons.status.active}
@@ -87,14 +109,14 @@ const NewPlaySteps = ({
             <span
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "text-13 inline-flex h-9 items-center gap-1.5 px-2 font-extrabold",
+                "copy-label inline-flex h-9 items-center gap-1.5 px-2",
                 isCurrent ? "text-ink" : "text-ink-2",
               )}
             >
               <span
                 className={cn(
-                  "text-12 grid size-5.5 place-items-center rounded-full",
-                  isCurrent ? "bg-ink text-on-ink" : "bg-surface text-ink-2",
+                  "copy-label grid size-6 place-items-center rounded-full tabular-nums",
+                  isCurrent ? "bg-ink text-on-ink" : "bg-surface-2 text-ink-2",
                 )}
               >
                 {number}
@@ -250,13 +272,11 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       data-slot="card"
       className="bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
-      <MeadowScene
-        form="card"
-        className="rounded-none sm:rounded-none"
-        sceneClassName={cn(
-          step === 1 && "h-12 sm:h-14",
-          step === 2 && "h-56 sm:h-72",
-          step === 3 && "h-44 sm:h-52",
+      <NewPlayStage
+        castClassName={cn(
+          step === 1 && "min-h-6",
+          step === 2 && "min-h-56 sm:min-h-72",
+          step === 3 && "min-h-44 sm:min-h-52",
         )}
         cast={
           step === 2 && starters.length ? (
@@ -313,7 +333,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             {title}
           </h1>
           {subtitle ? (
-            <p className="text-ink-2 text-15 mx-auto mt-1.5 max-w-[32em] font-semibold">
+            <p className="text-ink-2 copy-body mx-auto mt-1.5 max-w-[32em]">
               {subtitle}
             </p>
           ) : null}
@@ -328,7 +348,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             className="mt-2"
           />
         ) : null}
-      </MeadowScene>
+      </NewPlayStage>
 
       {step === 3 && game ? (
         <div className="flex flex-col gap-4 px-5 pt-6 pb-2 sm:px-8">
@@ -384,7 +404,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
         {download ? (
           <div className="mr-auto flex min-w-0 basis-full flex-col gap-1.5 sm:basis-64">
-            <p aria-live="polite" className="text-ink-2 text-14 font-semibold">
+            <p aria-live="polite" className="text-ink-2 copy-note">
               {download.progress.step === "downloading"
                 ? `Downloading ${download.name}`
                 : `Saving ${download.name} on this device`}
@@ -397,7 +417,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         ) : (
           <p
             aria-live="polite"
-            className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto"
+            className="text-ink-2 copy-note mr-auto min-w-0 basis-full sm:basis-auto"
           >
             {summary}
           </p>
@@ -467,11 +487,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
       data-slot="card"
       className="bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
-      <MeadowScene
-        form="card"
-        className="rounded-none sm:rounded-none"
-        sceneClassName="h-12 sm:h-14"
-      >
+      <NewPlayStage castClassName="min-h-6">
         <NewPlaySteps step={1} onStepChange={() => undefined} />
         <Button
           type="button"
@@ -490,7 +506,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         </div>
         <div
           role="alert"
-          className="text-ink-2 text-15 mt-2 flex min-h-56 flex-col items-center justify-center gap-3 px-6 font-semibold sm:min-h-64"
+          className="text-ink-2 copy-body mt-2 flex min-h-56 flex-col items-center justify-center gap-3 px-6 sm:min-h-64"
         >
           <p>Voydex couldn&apos;t load the games right now.</p>
           <Button
@@ -502,10 +518,10 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
             Try again
           </Button>
         </div>
-      </MeadowScene>
+      </NewPlayStage>
 
       <div className="border-line mt-auto flex flex-wrap items-center gap-3 border-t px-5 py-4 sm:px-8">
-        <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
+        <p className="text-ink-2 copy-note mr-auto min-w-0 basis-full sm:basis-auto">
           Pick a game to continue
         </p>
         <Button type="button" variant="secondary" onClick={onClose}>

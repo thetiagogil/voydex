@@ -83,11 +83,11 @@ export const TeamPlanMatchLine = ({
     return (
       <span
         className={cn(
-          "text-13 text-ink-3 inline-flex items-center gap-1.5 font-semibold",
+          "copy-meta text-ink-3 inline-flex items-center gap-1.5",
           className,
         )}
       >
-        <AppIcon icon={appIcons.product.uncaught} size={15} />
+        <AppIcon icon={appIcons.product.uncaught} size="sm" />
         Not caught yet
       </span>
     );
@@ -98,12 +98,12 @@ export const TeamPlanMatchLine = ({
   return (
     <span
       className={cn(
-        "text-13 flex max-w-full min-w-0 items-center justify-center gap-1.5 font-semibold",
+        "copy-meta flex max-w-full min-w-0 items-center justify-center gap-1.5",
         onTint ? "text-ink-tint" : "text-ink-2",
         className,
       )}
     >
-      <AppIcon icon={placementIcons[placement.kind]} size={15} />
+      <AppIcon icon={placementIcons[placement.kind]} size="sm" />
       <span className="truncate">
         <b className="text-ink font-extrabold">
           {getPlayTeamMemberName(member)}

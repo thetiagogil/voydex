@@ -147,7 +147,7 @@ export const PlaySettingsDangerSection = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           {deleteError ? (
-            <p role="alert" className="text-danger text-13 font-bold">
+            <p role="alert" className="text-danger copy-label">
               {deleteError}
             </p>
           ) : null}

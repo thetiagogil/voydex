@@ -35,7 +35,7 @@ export const MainlinePlaySettings = ({
   data: MainlinePlaySettingsData;
   playId: string;
 }) => (
-  <div className="grid min-w-0 gap-6 sm:gap-7">
+  <div className="grid min-w-0 gap-6">
     <PageHeader
       headingLevel="h2"
       title="Play settings"

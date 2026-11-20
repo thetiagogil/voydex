@@ -56,11 +56,11 @@ const Tile = ({
   <div
     style={{ "--i": index } as CSSProperties}
     className={cn(
-      "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-xl bg-white/60 py-3.5 pr-3.5 pl-4 [animation-delay:calc(900ms+var(--i)*60ms)] sm:pl-5",
+      "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-lg bg-white/60 py-3.5 pr-3.5 pl-4 [animation-delay:calc(900ms+var(--i)*60ms)] sm:pl-5",
       fadeUpClassName,
     )}
   >
-    <dt className="text-ink-2 text-14 col-start-1 row-start-2 self-start font-bold">
+    <dt className="text-ink-2 copy-note col-start-1 row-start-2 self-start">
       {label}
     </dt>
     <dd className="figure col-start-1 row-start-1 self-end">{value}</dd>
@@ -199,7 +199,7 @@ export const StatsHeroSection = ({
     >
       <div
         data-first-visit={firstVisit}
-        className="group/title flex flex-col gap-5 sm:gap-6"
+        className="group/title flex flex-col gap-4 sm:gap-6"
       >
         <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
           <div className="flex min-w-0 flex-col gap-1.5">
@@ -230,7 +230,7 @@ export const StatsHeroSection = ({
             </h1>
             <p
               className={cn(
-                "text-ink-2 sm:text-17 text-16 lg:text-20 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms]",
+                "text-ink-2 sm:text-17 text-15 lg:text-20 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms]",
                 fadeUpClassName,
               )}
             >
@@ -254,7 +254,7 @@ export const StatsHeroSection = ({
             />
           </div>
         </div>
-        <dl className="grid grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
           <Tile
             icon={appIcons.product.playtime}
             index={0}

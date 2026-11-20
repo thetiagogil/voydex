@@ -134,7 +134,7 @@ const TeamHealthTip = ({
   statusLabel: string;
   tip: TeamAnalysisHealthTip;
 }) => (
-  <TipStack className="gap-2.5">
+  <TipStack className="gap-2">
     <div className="grid gap-1">
       <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
       <TipText>{tip.summary}</TipText>
@@ -165,9 +165,9 @@ const TeamAnalysisHealthCard = ({
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
 
   return (
-    <Card className="gap-0 px-5.5 py-5">
+    <Card size="sm" className="gap-0">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-15 font-sans leading-snug font-extrabold tracking-normal">
+        <h3 className="copy-strong font-sans leading-snug tracking-normal">
           {metric.title}
         </h3>
         <ExplanatoryTip
@@ -194,7 +194,7 @@ const TeamAnalysisHealthCard = ({
         {statusLabel}
       </StatusBadge>
 
-      <p className="text-14 text-ink-2 leading-normal font-medium">
+      <p className="text-13 text-ink-2 leading-normal font-medium">
         {metric.line.map((part, index) => (
           <Fragment key={index}>
             {index > 0 ? " " : null}
@@ -235,9 +235,7 @@ export const TeamAnalysisHealthSection = ({
           />
         ))}
       </div>
-      {roughNote ? (
-        <p className="text-ink-2 text-13 font-semibold">{roughNote}</p>
-      ) : null}
+      {roughNote ? <p className="text-ink-2 copy-meta">{roughNote}</p> : null}
     </div>
   );
 };

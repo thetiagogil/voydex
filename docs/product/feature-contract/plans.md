@@ -26,7 +26,7 @@ As built (v3):
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
-  reads its defensive matchups from its types. Among what it checks: two
+  reads its defensive matchups from its types. While you pick, the team follows you: once the band scrolls away, the game's cover, the Plan's name, the six slots as small Pokémon (one opens its slot; in the middle of the bar from 1280px) and Save dock to the top edge. On a phone the team stands three across. The list to pick from shows each Pokémon's art and name only (its number and types are read out, not drawn), so a whole Pokédex reads at a glance: four across on a phone, as many 104px tiles as fit from 640px. A locked Plan has no list to pick from, so its Team check is on the page under the team, as section cards. Among what it checks: two
   Pokémon a save hands out only one of block the team, whether a one-per-save
   gift and what it becomes (Kubfu and either Urshifu, one Calyrex, each
   legendary bird of The Crown Tundra) or an either-or pick (Glastrier or

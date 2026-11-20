@@ -37,7 +37,7 @@ export const ExamplePlay = ({
     inert
     className="bg-surface text-ink shadow-float w-full rounded-2xl p-4 text-left sm:p-5.5"
   >
-    <p className="text-12 text-ink-2 font-extrabold tracking-wider uppercase">
+    <p className="copy-mark text-ink-2 tracking-wider uppercase">
       A Play · {samplePlay.game.region}
     </p>
     <div className="mt-2.5 flex gap-4">
@@ -47,18 +47,17 @@ export const ExamplePlay = ({
         <StatusBadge tone="calm" className="mt-1.5">
           {samplePlay.status}
         </StatusBadge>
-        <p className="text-14 text-ink-2 mt-2 font-semibold">
+        <p className="copy-note text-ink-2 mt-2">
           Trainer {samplePlay.trainer} · {playtime}
         </p>
         <div className="mt-2 flex w-full flex-col gap-1.5">
           {samplePlayProgress.map((bar) => (
             <div
               key={bar.label}
-              className="text-13 grid grid-cols-[4rem_minmax(0,1fr)_2.5rem] items-center gap-2 font-bold"
+              className="copy-label grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-2"
             >
               {bar.label}
-              <Progress value={bar.percent} aria-label={bar.label} />
-              <span className="text-right tabular-nums">{bar.percent}%</span>
+              <Progress showValue value={bar.percent} aria-label={bar.label} />
             </div>
           ))}
         </div>
@@ -69,7 +68,7 @@ export const ExamplePlay = ({
         <span
           key={pokemon.slug}
           style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-md"
+          className="sticker grid aspect-square place-items-center rounded-sm"
         >
           <PokemonRender
             art={art}
@@ -80,7 +79,7 @@ export const ExamplePlay = ({
         </span>
       ))}
     </div>
-    <div className="mt-4 grid grid-cols-[repeat(8,minmax(0,2.625rem))] gap-1.5 sm:gap-2.5">
+    <div className="mt-4 grid grid-cols-[repeat(8,minmax(0,2.625rem))] gap-1.5 sm:gap-2">
       {samplePlayBadges.map((badge, index) => (
         <Fragment key={badge.name}>
           {playArt.badgeStamp({

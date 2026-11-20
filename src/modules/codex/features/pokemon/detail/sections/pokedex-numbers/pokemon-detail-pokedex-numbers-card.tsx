@@ -28,10 +28,10 @@ export const PokemonDetailPokedexNumbersCard = ({
               )}
               className="hover:bg-surface-2 focus-ring -mx-2 flex min-w-0 items-baseline justify-between gap-3 rounded-sm px-2 py-1.5 transition-colors"
             >
-              <span className="text-ink-2 text-14 truncate font-bold">
+              <span className="text-ink-2 copy-note truncate">
                 {pokedexNumber.pokedexName}
               </span>
-              <span className="text-16 shrink-0 font-extrabold tabular-nums">
+              <span className="copy-strong shrink-0 tabular-nums">
                 {pokedexNumber.numberLabel}
               </span>
             </Link>

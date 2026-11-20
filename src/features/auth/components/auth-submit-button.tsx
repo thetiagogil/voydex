@@ -13,7 +13,7 @@ type AuthSubmitButtonProps = {
   icon?: ReactNode;
   label: string;
   pendingLabel: string;
-  size?: "default" | "lg" | "sm";
+  size?: "default" | "sm";
   variant?: "default" | "secondary";
 };
 
@@ -23,7 +23,7 @@ export const AuthSubmitButton = ({
   icon,
   label,
   pendingLabel,
-  size = "lg",
+  size = "default",
   variant = "default",
 }: AuthSubmitButtonProps) => {
   const { pending } = useFormStatus();

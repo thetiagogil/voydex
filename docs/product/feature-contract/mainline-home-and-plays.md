@@ -8,31 +8,37 @@ Mainline Home (`/app`) is where a signed-in trainer lands and what the
 "V" tile opens. It is for resuming an adventure, not for figures (those belong
 to Statistics), and it owns no mutation of its own.
 
-- **With Plays:** a meadow band with the greeting, the shelf of your latest
-  Plays still underway (playing, paused or not started; completed and
-  abandoned ones are left off unless every Play is, so Home is never empty)
-  (covers in recent order, each with its lead Pokémon: six on desktop,
-  four on tablets, two on phones; the dashed tile starts a new Play, and All
-  Plays leads to the Plays list when some are left off), the current Play's
-  team standing on the meadow in its game's colour, one line on where it
-  stands, and Continue. Tapping a team Pokémon picks it (again lets it go):
-  Continue becomes "Continue with {name}" and opens it in the Roster; with
-  none picked it opens the Play. Every shelf Play loads with the page, so picking
-  another cover switches the meadow, the line and the latest moments at once
-  and only updates `?play=`; a link to an older Play puts it first on the
-  shelf. Latest moments list the current Play's last five records as History
-  draws them; a Play with nothing recorded shows where it began.
-- **With one brand-new Play:** its first partners wait on the meadow; tapping
+- **With Plays** (two columns from 1024px, stacked below; 2026-11-20): the
+  greeting and how many Plays are on the go, then
+  - **the journey card**: the Play you're on (the one `?play=` names, else
+    the one opened or changed last among those still underway), big: its
+    cover, its name, status and hours, then one inset tile with "Next up"
+    (the next milestone with its badge, trophy or flag and one line on it;
+    "Story complete" once every milestone is) and one ring for each part the
+    Play tracks (Story, Pokédex, Collectibles), then its team. The whole card
+    opens the Play; there is no Continue button.
+  - **Your other Plays**: the next ones still underway as cover cards (name,
+    status and hours, one Overall bar: the average of what each tracks), each
+    opening its Play, and New Play as a dashed slot ending the row. Four
+    from 1280px, two from 640px, one on phones; never a sideways scroller.
+    All Plays leads to the Plays list.
+  - **the Journal**: the latest moments across every Play, newest first and
+    by month, each with its Play's cover and name; status changes are left
+    out. From 1024px it is as tall as the left column and scrolls inside
+    itself; stacked, it shows the newest five.
+    Completed and abandoned Plays are left out of the cards unless every Play
+    is, so Home is never empty.
+- **With one brand-new Play:** its first partners wait on the band; tapping
   one is the Play's own partner choice, with Undo in the toast. Once it is
-  recorded, the partner stands alone and is picked for Continue like any team
-  Pokémon.
+  recorded, the partner stands alone; tapping it picks it, and Continue
+  becomes "Continue with {name}", opening it in the Roster.
 - **With no Plays:** the game picker is the page. Pick a game, tap a partner
   and Start creates the Play at once (named "New Journey" with your trainer
   name; Play Settings change the rest).
 
-The shelf reads "last opened first": opening a Play (any of its pages)
+Home reads "last opened first": opening a Play (any of its pages)
 stamps `last_opened_at`, which is not a change to the Play (`updated_at`
-stays) and adds no History moment. The shelf orders by the later of when a
+stays) and adds no History moment. Home orders Plays by the later of when a
 Play was last opened and last changed.
 
 ## Plays
@@ -101,9 +107,9 @@ page and only starting the Play moves on. From elsewhere outside Mainline
 a link to `/app?new=<game>` (`?new=1` for no game) opens it over Home on
 that game, with `&partner=<species>` already choosing
 its first partner when the game offers it, and the parameters leave the
-address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
+address once it is open. Either way: the game on the cover shelf, the partner in a row on the band (or
 choose later), then, under the game's cover and the partner side by side on
-the meadow, the Play's name (required), trainer name, the expansions you
+the band, the Play's name (required), trainer name, the expansions you
 own (a game with DLC only, its own field), what it tracks (Story, the
 Pokédex mode and Collectibles show where their settings will go) and its
 challenge rules. Start

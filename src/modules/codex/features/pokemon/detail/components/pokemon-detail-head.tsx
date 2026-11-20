@@ -32,7 +32,7 @@ export const PokemonDetailHead = ({
   generationSlug,
 }: PokemonDetailHeadProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3 lg:items-start">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-3 lg:items-start">
       <div className="min-w-0">
         <CodexHead
           trail={[{ href: appRoutes.codexPokemon, label: "Pokémon" }]}
@@ -51,7 +51,7 @@ export const PokemonDetailHead = ({
           value={generationSlug}
         />
         {gameNames.length ? (
-          <p className="text-13 text-ink-3 flex items-start gap-2 leading-5 font-semibold md:justify-end">
+          <p className="copy-meta text-ink-3 flex items-start gap-2 leading-5 md:justify-end">
             {/* The games speak for themselves; "In" stays for screen readers. */}
             <span className="sr-only">In</span>
             {/*

@@ -80,21 +80,18 @@ export const PlayTeamsDialog = ({
     description={description}
   >
     {dialog.isLoading ? (
-      <p
-        role="status"
-        className="text-ink-2 text-14 flex items-center gap-2 font-semibold"
-      >
+      <p role="status" className="text-ink-2 copy-note flex items-center gap-2">
         <Spinner />
         Loading the Plays
       </p>
     ) : dialog.error ? (
-      <p role="alert" className="text-danger text-13 font-bold">
+      <p role="alert" className="text-danger copy-label">
         {dialog.error}
       </p>
     ) : dialog.plays?.length ? (
       <PlayTeamList plays={dialog.plays} />
     ) : (
-      <p className="text-ink-2 text-14">{empty}</p>
+      <p className="text-ink-2 text-13">{empty}</p>
     )}
   </OverlayDialog>
 );

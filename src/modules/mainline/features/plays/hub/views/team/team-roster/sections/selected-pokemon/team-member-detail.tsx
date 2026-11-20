@@ -87,11 +87,7 @@ export const TeamMemberDetail = ({
   }
 
   return (
-    <Card
-      role="region"
-      aria-labelledby={titleId}
-      className="gap-0 px-5 py-5 sm:px-7 sm:py-6.5"
-    >
+    <Card role="region" aria-labelledby={titleId} className="gap-0">
       <TeamMemberProfile
         actions={
           <TeamMemberActions

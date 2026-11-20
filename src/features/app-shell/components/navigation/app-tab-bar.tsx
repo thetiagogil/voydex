@@ -9,6 +9,7 @@ import { useAppAccount } from "@/features/app-shell/components/app-account-provi
 import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import { CodexTabMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import {
+  isCurrentBarItem,
   isCurrentLink,
   tabBarLinks,
   youLinks,
@@ -27,8 +28,8 @@ type TabItemProps = {
 /* The current item sits in one soft pill, its icon and label together; it moves at once, never fades. */
 const getTabItemClassName = (isCurrent: boolean) =>
   cn(
-    "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-xl px-0.5 pt-1.5 pb-1 font-bold",
-    isCurrent && "bg-select-soft text-select-ink font-extrabold",
+    "copy-mark text-ink-2 flex flex-col items-center gap-0.5 rounded-lg px-0.5 pt-1.5 pb-1",
+    isCurrent && "bg-select-soft text-select-ink",
   );
 
 const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (
@@ -63,13 +64,8 @@ export const AppTabBar = () => {
         <TabItem
           key={link.href}
           href={link.href}
-          icon={
-            <AppIcon
-              icon={getMainlineViewIcon(link.href)}
-              className="size-5.5"
-            />
-          }
-          isCurrent={isCurrentLink(pathname, link)}
+          icon={<AppIcon icon={getMainlineViewIcon(link.href)} size="xl" />}
+          isCurrent={isCurrentBarItem(pathname, link)}
           label={link.shortLabel}
         />
       ))}

@@ -1,22 +1,25 @@
 import {
-  HOME_MOMENT_COUNT,
-  toHomeMoments,
-} from "@/modules/mainline/features/home/data/home-moments-model";
+  HOME_JOURNAL_COUNT,
+  toHomeJournal,
+  type HomeJournalEntry,
+  type HomeJournalPlay,
+} from "@/modules/mainline/features/home/data/home-journal-model";
+import {
+  toHomeNextUp,
+  type HomeNextUp,
+} from "@/modules/mainline/features/home/data/home-next-up";
 import {
   getHomeShelfSource,
-  HOME_SHELF_PLAY_COUNT,
+  HOME_OTHER_PLAY_COUNT,
   isWaitingForPartner,
   toHomePlay,
+  type HomePlay,
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
-  HomeBand,
-  HomeMomentsData,
   HomePageData,
   HomePartnerChoice,
 } from "@/modules/mainline/features/home/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
-import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/client/play-moment-context-reader";
-import { readMainlinePlayTimelinePreview } from "@/modules/mainline/features/plays/shared/client/play-timeline-reader";
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
@@ -32,11 +35,24 @@ import { fetchGameCatalogue } from "@/modules/reference/features/games/client/ga
 
 /*
  * Each active team member's primary type at its Play's generation, for the
- * tint of the lead's sticker and of a meadow Pokémon's stand-in.
+ * tint of its picture on Home's cards.
  */
+const readTypeSlugs = async (
+  supabase: ServerSupabaseClient,
+): Promise<Map<number, string>> => {
+  const { data, error } = await supabase
+    .schema("reference")
+    .from("types")
+    .select("id, slug");
+
+  /* A missing tint or badge type falls back to the neutral one. */
+  return error ? new Map() : new Map(data.map((type) => [type.id, type.slug]));
+};
+
 const readTeamTypes = async (
   supabase: ServerSupabaseClient,
   plays: PlayBrowseItem[],
+  slugByTypeId: ReadonlyMap<number, string>,
 ): Promise<Map<string, string>> => {
   const leads = plays.flatMap((play) =>
     play.activeTeam.members.flatMap((member) =>
@@ -56,24 +72,17 @@ const readTeamTypes = async (
     return new Map();
   }
 
-  const [attributesResult, typesResult] = await Promise.all([
-    supabase
-      .schema("reference")
-      .from("pokemon_attributes")
-      .select("form_id, generation_start_id, primary_type_id")
-      .in("form_id", uniqueNumberIds(leads.map((lead) => lead.formId)))
-      .order("generation_start_id", { ascending: false }),
-    supabase.schema("reference").from("types").select("id, slug"),
-  ]);
+  const attributesResult = await supabase
+    .schema("reference")
+    .from("pokemon_attributes")
+    .select("form_id, generation_start_id, primary_type_id")
+    .in("form_id", uniqueNumberIds(leads.map((lead) => lead.formId)))
+    .order("generation_start_id", { ascending: false });
 
   /* A missing tint falls back to the neutral one; it never hides a Play. */
-  if (attributesResult.error || typesResult.error) {
+  if (attributesResult.error) {
     return new Map();
   }
-
-  const slugByTypeId = new Map(
-    typesResult.data.map((type) => [type.id, type.slug]),
-  );
 
   return new Map(
     leads.flatMap((lead) => {
@@ -152,36 +161,100 @@ const readPartnerChoice = async (
     : null;
 };
 
-/*
- * The current Play's latest five moments, oldest first, as Home draws them,
- * and whether anything was recorded before them. Hidden types are left out
- * in the read, and one more is read to tell.
- */
-const readHomeMoments = async (
+/* A Play as Home's cards show it, its team tinted by type. */
+const toCardPlay = (
+  item: PlayBrowseItem,
+  teamTypes: ReadonlyMap<string, string>,
+): HomePlay | null => {
+  const play = toHomePlay(item);
+
+  return play
+    ? {
+        ...play,
+        team: play.team.map((member) =>
+          member
+            ? { ...member, typeSlug: teamTypes.get(member.id) ?? null }
+            : null,
+        ),
+      }
+    : null;
+};
+
+/* The journey's next milestone, with its badge or trophy. */
+const readNextUp = async (
   supabase: ServerSupabaseClient,
   play: PlayBrowseItem,
-): Promise<HomeMomentsData> => {
-  const playId = play.play_id ?? "";
-  const { events, hasEarlier } = toHomeMoments(
-    await readMainlinePlayTimelinePreview(
-      supabase,
-      playId,
-      HOME_MOMENT_COUNT + 1,
+  slugByTypeId: ReadonlyMap<number, string>,
+): Promise<HomeNextUp | null> => {
+  const position = play.storyPosition;
+
+  if (position?.kind !== "next" || !play.play_id) {
+    return toHomeNextUp(position, null, slugByTypeId);
+  }
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("mainline_play_milestone_detail")
+    .select(
+      "badge_refs, category_name, description, milestone_name, milestone_type_slug",
+    )
+    .eq("play_id", play.play_id)
+    .eq("milestone_id", position.milestoneId)
+    .limit(1)
+    .maybeSingle();
+
+  /* Without its details it still shows by name. */
+  return toHomeNextUp(position, error ? null : data, slugByTypeId);
+};
+
+/*
+ * The Journal: the latest moments across every Play in the library, newest
+ * first, each with its Play's cover and name; status changes are left out.
+ */
+const readJournal = async (
+  supabase: ServerSupabaseClient,
+  plays: PlayBrowseItem[],
+): Promise<HomeJournalEntry[]> => {
+  const playsById = new Map(
+    plays.flatMap((play): [string, HomeJournalPlay][] =>
+      play.play_id
+        ? [
+            [
+              play.play_id,
+              {
+                coverImageUrl: play.coverImageUrl,
+                gameName: play.game_name ?? "Unknown game",
+                gameSlug: play.game_slug,
+                id: play.play_id,
+                name: play.play_name ?? "Untitled Play",
+              },
+            ],
+          ]
+        : [],
     ),
   );
-  const context = await readMainlinePlayMomentContext(supabase, {
-    events,
-    generationId: play.generation_id,
-    playId,
-  });
+  const { data, error } = await supabase
+    .schema("views")
+    .from("mainline_play_timeline_detail")
+    .select("*")
+    .in("play_id", [...playsById.keys()])
+    /* "Marked as Paused" and the like are housekeeping, not something you did. */
+    .neq("event_type_slug", "status_change")
+    .order("happened_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
+    .limit(HOME_JOURNAL_COUNT);
 
-  return { context, events, hasEarlier };
+  if (error) {
+    throw new Error("Unable to load your Journal.", { cause: error });
+  }
+
+  return toHomeJournal(data ?? [], playsById);
 };
 
 /*
  * Mainline Home: with no Plays, the picker that starts one; otherwise the
- * shelf of your latest Plays, each with its team for the meadow and its
- * latest moments. `?play=` picks the current one.
+ * shelf of your latest Plays, each with its team for the band. `?play=`
+ * picks the current one.
  */
 export const getHomePageData = async (
   requestedPlayId: string | null,
@@ -214,72 +287,59 @@ export const getHomePageData = async (
   const requested = browseItems.find(
     (play) => play.play_id === requestedPlayId,
   );
-  const latest = getHomeShelfSource(browseItems).slice(
-    0,
-    HOME_SHELF_PLAY_COUNT,
-  );
   /*
-   * The shelf holds the Plays still underway, opened (or changed) last first. Any other asked for by
-   * `?play=` (an older or finished one) leads it, so a link to any Play
-   * still opens on that Play.
+   * The Plays still underway, opened (or changed) last first. The journey is
+   * the one `?play=` asks for (an older or finished one too), else the
+   * latest.
    */
-  const shelfItems =
-    requested && !latest.includes(requested)
-      ? [requested, ...latest.slice(0, HOME_SHELF_PLAY_COUNT - 1)]
-      : latest;
-  const current = requested ?? shelfItems[0];
-  /*
-   * Every Play on the shelf comes with its band and moments, so picking one
-   * switches at once, without asking the server.
-   */
-  const [teamTypes, bandReads] = await Promise.all([
-    readTeamTypes(supabase, shelfItems),
-    Promise.all(
-      shelfItems.map((item) =>
-        Promise.all([
-          readHomeMoments(supabase, item),
-          readPartnerChoice(supabase, item),
-        ]),
-      ),
-    ),
+  const underway = getHomeShelfSource(browseItems);
+  const current = requested ?? underway[0];
+  const others = underway
+    .filter((play) => play !== current)
+    .slice(0, HOME_OTHER_PLAY_COUNT);
+  const cardItems = [current, ...others];
+  const slugByTypeId = await readTypeSlugs(supabase);
+
+  if (browseItems.length === 1 && isBrandNewPlay(current)) {
+    const [teamTypes, partnerChoice] = await Promise.all([
+      readTeamTypes(supabase, [current], slugByTypeId),
+      readPartnerChoice(supabase, current),
+    ]);
+    const play = toCardPlay(current, teamTypes);
+
+    if (play) {
+      return {
+        band: { partnerChoice, play },
+        displayName: names.displayName,
+        kind: "first",
+      };
+    }
+  }
+
+  const [teamTypes, nextUp, journal] = await Promise.all([
+    readTeamTypes(supabase, cardItems, slugByTypeId),
+    readNextUp(supabase, current, slugByTypeId),
+    readJournal(supabase, browseItems),
   ]);
-  const coverShapeByGameSlug = new Map(
-    catalogue?.games.map((game) => [game.slug, game.coverShape]),
-  );
-  const bands = shelfItems.flatMap((item, index): HomeBand[] => {
-    const play = toHomePlay(item);
-    const [moments, partnerChoice] = bandReads[index];
+  const [journeyPlay, ...otherPlays] = cardItems.flatMap((item) => {
+    const play = toCardPlay(item, teamTypes);
 
-    if (!play) return [];
-
-    return [
-      {
-        moments,
-        partnerChoice,
-        play: {
-          ...play,
-          coverShape: play.gameSlug
-            ? (coverShapeByGameSlug.get(play.gameSlug) ?? null)
-            : null,
-          lead: play.lead
-            ? { ...play.lead, typeSlug: teamTypes.get(play.lead.id) ?? null }
-            : null,
-          team: play.team.map((member) =>
-            member
-              ? { ...member, typeSlug: teamTypes.get(member.id) ?? null }
-              : null,
-          ),
-        },
-      },
-    ];
+    return play ? [play] : [];
   });
 
+  if (!journeyPlay) {
+    throw new Error("Unable to load your latest Play.");
+  }
+
   return {
-    bands,
-    currentPlayId: current.play_id ?? bands[0].play.id,
     displayName: names.displayName,
-    isFirstPlay: browseItems.length === 1 && isBrandNewPlay(current),
+    journal,
+    journey: { nextUp, play: journeyPlay },
     kind: "plays",
+    others: otherPlays,
+    underwayCount: browseItems.filter(
+      (play) => !["abandoned", "completed"].includes(play.status_slug ?? ""),
+    ).length,
   };
 };
 

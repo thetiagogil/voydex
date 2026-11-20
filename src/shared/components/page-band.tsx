@@ -7,6 +7,11 @@ type PageBandProps = {
   children: ReactNode;
   className?: string;
   /*
+   * The band takes all the room its page has left (Home, whose band is the
+   * whole page), instead of only what it holds.
+   */
+  fill?: boolean;
+  /*
    * The large, faint mark at the band's right edge, filling its box: the
    * Poké Ball unless the page has its own (a Specialist's type).
    */
@@ -30,12 +35,14 @@ type PageBandProps = {
 export const PageBand = ({
   children,
   className,
+  fill = false,
   mark,
   tone = "neutral",
 }: PageBandProps) => (
   <div
     className={cn(
-      "page-band relative isolate rounded-b-[28px] sm:rounded-b-[44px]",
+      "page-band relative isolate",
+      fill && "flex flex-1 flex-col",
       tone === "action" ? "bg-action text-white" : "bg-band",
     )}
   >
@@ -48,7 +55,7 @@ export const PageBand = ({
      */}
     <span
       aria-hidden
-      className="pointer-events-none absolute inset-0 -z-1 overflow-hidden rounded-b-[28px] sm:rounded-b-[44px]"
+      className="pointer-events-none absolute inset-0 -z-1 overflow-hidden"
     >
       <span
         className={cn(
@@ -65,19 +72,10 @@ export const PageBand = ({
         )}
       </span>
     </span>
-    {tone === "action" ? (
-      /*
-       * The darker top the bar sits on: it parts the bar from the page, and
-       * steps down a little on the left.
-       */
-      <span
-        aria-hidden
-        className="bg-action-deep absolute inset-x-0 top-0 -z-1 h-[calc(var(--bar-h)+0.875rem)] [clip-path:polygon(0_0,100%_0,100%_calc(100%-0.875rem),46%_calc(100%-0.875rem),42%_100%,0_100%)]"
-      />
-    ) : null}
     <div
       className={cn(
         "mx-auto w-full max-w-(--page-width) px-(--page-gutter) pb-6 sm:pb-8",
+        fill && "flex-1",
         /* Links set straight on the red take a white focus ring. */
         tone === "action" && "[--focus:var(--surface)]",
         className,

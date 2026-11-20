@@ -71,7 +71,7 @@ export const AddPokemonDetailsStep = ({
   return (
     <form
       id={`${id}-form`}
-      className="grid gap-5"
+      className="grid gap-4"
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();
@@ -133,17 +133,17 @@ export const AddPokemonDetailsStep = ({
         </Field>
       </div>
       {replacesName !== null ? (
-        <p className="text-ink-2 text-14 font-semibold">
+        <p className="text-ink-2 copy-note">
           It takes {replacesName}&apos;s place, and {replacesName} is kept in
           History. Its nature, ability and moves can be added from Edit.
         </p>
       ) : (
         <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="grid gap-0.5">
-            <p id={`${id}-where`} className="text-15 font-extrabold">
+            <p id={`${id}-where`} className="copy-strong">
               Where it goes
             </p>
-            <p className="text-ink-2 text-13 font-semibold">
+            <p className="text-ink-2 copy-meta">
               {teamIsFull && reserveIsFull
                 ? "Your team and reserve are both full"
                 : teamIsFull

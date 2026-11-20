@@ -11,7 +11,7 @@ export const StepNumber = ({
   <span
     aria-hidden
     className={cn(
-      "bg-surface-2 text-ink text-13 grid size-7 shrink-0 place-items-center rounded-full font-extrabold",
+      "bg-ink text-on-ink copy-label grid size-6 shrink-0 place-items-center rounded-full tabular-nums",
       className,
     )}
   >

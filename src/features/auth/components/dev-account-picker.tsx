@@ -101,17 +101,17 @@ export const DevAccountPicker = ({
                 value={account}
                 className="min-h-14 items-start gap-3"
               >
-                <IconDisc size="lg" className="text-14 font-extrabold">
+                <IconDisc size="lg" className="copy-strong">
                   {account.label.slice(0, 1)}
                 </IconDisc>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-extrabold">
                     {account.label}
                   </span>
-                  <span className="text-12 text-ink-3 block truncate font-bold">
+                  <span className="copy-mark text-ink-3 block truncate">
                     {account.email}
                   </span>
-                  <span className="text-12 text-ink-2 mt-0.5 block font-semibold">
+                  <span className="copy-meta text-ink-2 mt-0.5 block">
                     {account.description}
                   </span>
                 </span>

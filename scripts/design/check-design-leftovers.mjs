@@ -183,6 +183,100 @@ const sourceRules = [
     ],
   },
   /*
+   * One place for each style (2026-11-19): a screen never sets a text size
+   * and a weight together (it takes one of the `copy-*` text styles), and
+   * never draws an inset tile by hand (it takes `tile`, `tile-link` or an
+   * inset `Card`). Otherwise a restyle reaches only part of the app.
+   */
+  {
+    label:
+      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta or -mark)",
+    pattern:
+      /"(?![^"]*(?:font-display|(?:sm|md|lg):text-))[^"]*(?:(?<![-\w:])text-1[2-6](?![-\w])[^"]*(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])|(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])[^"]*(?<![-\w:])text-1[2-6](?![-\w]))[^"]*"/,
+    only: [path.join("src", "modules"), path.join("src", "features")],
+  },
+  /*
+   * Four text sizes under the titles (12, 13, 15, 17) and eight gap steps
+   * (2, 4, 6, 8, 12, 16, 24, 32px, with 40px and up for page layout). A field
+   * alone keeps 16px on phones, where a smaller size makes iOS zoom in.
+   */
+  {
+    label: "a retired text size (use 12, 13, 15 or 17)",
+    pattern: /(?<![-\w.])text-14(?![-\w])|(?<![-\w.])text-16(?![-\w])/,
+    allow: [
+      path.join("src", "shared", "components", "ui", "input.tsx"),
+      path.join("src", "shared", "components", "ui", "input-group.tsx"),
+      path.join("src", "shared", "components", "ui", "textarea.tsx"),
+    ],
+  },
+  {
+    label: "a retired gap step (use 0.5, 1, 1.5, 2, 3, 4, 6 or 8)",
+    pattern:
+      /(?<![-\w.\[])gap(?:-[xy])?-(?:0\.75|1\.25|1\.75|2\.25|2\.5|3\.5|4\.5|5|5\.5|6\.5|7|7\.5)(?![-\w.])/,
+  },
+  /*
+   * Four icon sizes (14, 16, 20, 24px; emblems above that). A primitive sizes
+   * the icons inside it with one of them, never 12, 18 or 22px.
+   */
+  {
+    label: "a retired icon size (use 3.5, 4, 5 or 6)",
+    pattern:
+      /(?:\[&_svg[^\]]*\]|\[&>svg\]|\*:\[svg\]):size-(?:2|2\.5|3|4\.5|5\.5)(?![-\w.])/,
+  },
+  /*
+   * Two control heights, the same on every screen: 48px and 36px. A small
+   * control no longer grows to 40px on phones.
+   */
+  {
+    label: "a phone-only control height (small controls are 36px everywhere)",
+    pattern:
+      /(?<![-\w:])(?:min-)?h-10(?![-\w])[^"]*(?<![-\w])(?:sm|md):(?:min-)?h-(?:8|9)!?(?![-\w])/,
+  },
+  /*
+   * Three label heights: 24px (a mark in a row or on a card), 28px (a
+   * status that stands alone) and 36px (a type chip beside controls). A
+   * rounded label never sits between them.
+   */
+  {
+    label: "a label height between 24, 28 and 36px",
+    pattern:
+      /"[^"]*(?:(?<![-\w:])h-(?:5|5\.5|7\.5|8|8\.5)(?![-\w.])[^"]*(?<![-\w:])rounded-full(?![-\w])|(?<![-\w:])rounded-full(?![-\w])[^"]*(?<![-\w:])h-(?:5|5\.5|7\.5|8|8\.5)(?![-\w.]))[^"]*"/,
+    only: [
+      path.join("src", "modules"),
+      path.join("src", "features"),
+      path.join("src", "shared", "components"),
+    ],
+  },
+  {
+    label: "an inset tile drawn by hand (use tile, tile-link or an inset Card)",
+    pattern:
+      /"[^"]*(?:(?<![-\w:])bg-surface-2(?![-\w])[^"]*(?<![-\w:])rounded-(?:sm|lg)(?![-\w])|(?<![-\w:])rounded-(?:sm|lg)(?![-\w])[^"]*(?<![-\w:])bg-surface-2(?![-\w]))[^"]*"/,
+    only: [
+      path.join("src", "modules", "mainline"),
+      path.join("src", "modules", "codex"),
+      path.join("src", "features"),
+    ],
+    allow: [
+      path.join(
+        "src",
+        "features",
+        "system",
+        "components",
+        "gallery",
+        "gallery-marks.tsx",
+      ),
+    ],
+  },
+  /*
+   * Four corner sizes (Design System, Depth): 6, 12, 20 and 28px, and the
+   * pill. The two steps between them were retired on 2026-11-19, so nested
+   * corners stop drifting apart.
+   */
+  {
+    label: "a retired corner size (use rounded-xs, -sm, -lg, -2xl or -full)",
+    pattern: /(?<![-\w])rounded(?:-[tblrse]{1,2})?-(?:md|xl)(?![-\w])/,
+  },
+  /*
    * The card-corner rule (Design System, Card corners): a Pokémon card's
    * marks (slot number, warning, shiny, state, Pokédex number) are drawn by
    * the shared marks in `corner-bubble.tsx` and placed by `CornerBubble`,
@@ -296,6 +390,68 @@ for (const file of files) {
         findings.push(
           `${file}:${line + 1}  a native title hover on <${tag}> (use Tooltip or IconTip)`,
         );
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(source);
+}
+
+/*
+ * A card sets its own padding: 20px on phones and 24px from 640px for a
+ * section, 16px for a card in a list or grid (\`size="sm"\`). A screen may
+ * only take it away (\`p-0\`, \`px-0\`) when the content pads itself. An
+ * \`AppIcon\` takes one of its four named sizes, never a number or a size
+ * class between them.
+ */
+const cardHosts = new Set(["Card", "DetailSectionCard", "OfferCard"]);
+const cardPadding =
+  /(?<![-\w\[(])(?:[a-z0-9]+:)*p[xytblrse]?-(?!0(?![.\d]))[\d.]+(?![-\w.])/;
+const retiredIconClass = /(?<![-\w])size-(?:2|2\.5|3|4\.5|5\.5)(?![-\w.])/;
+
+for (const file of files) {
+  if (!file.startsWith(`src${path.sep}`) || !file.endsWith(".tsx")) {
+    continue;
+  }
+
+  const source = ts.createSourceFile(
+    file,
+    fs.readFileSync(path.join(rootDir, file), "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const report = (node, message) => {
+    const { line } = source.getLineAndCharacterOfPosition(node.getStart());
+
+    findings.push(`${file}:${line + 1}  ${message}`);
+  };
+  const visit = (node) => {
+    if (ts.isJsxAttribute(node) && node.initializer) {
+      const tag = node.parent.parent.tagName.getText(source);
+      const name = node.name.getText(source);
+      const value = node.initializer.getText(source);
+
+      if (
+        cardHosts.has(tag) &&
+        name === "className" &&
+        cardPadding.test(value)
+      ) {
+        report(node, `padding set by hand on <${tag}> (use size="sm" or p-0)`);
+      }
+
+      if (tag === "AppIcon" && name === "size" && /^\{\s*\d/.test(value)) {
+        report(node, "a numeric AppIcon size (use sm, md, lg or xl)");
+      }
+
+      if (
+        tag === "AppIcon" &&
+        name === "className" &&
+        retiredIconClass.test(value)
+      ) {
+        report(node, "a retired icon size (use AppIcon size sm, md, lg or xl)");
       }
     }
 

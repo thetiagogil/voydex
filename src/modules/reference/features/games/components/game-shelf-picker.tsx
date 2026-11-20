@@ -421,7 +421,7 @@ export const GameShelfPicker = ({
       >
         <span
           aria-hidden
-          className="text-13 text-ink-2 shrink-0 font-bold max-sm:hidden"
+          className="copy-label text-ink-2 shrink-0 max-sm:hidden"
         >
           Generation
         </span>

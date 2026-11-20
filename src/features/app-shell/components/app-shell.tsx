@@ -1,15 +1,14 @@
 import { appRoutes } from "@/config/routes";
+import { AppBarSections } from "@/features/app-shell/components/navigation/app-bar-sections";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
-import { CodexMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
 import {
   getBrandHref,
-  mainlineLinks,
   publicLinks,
 } from "@/features/app-shell/utils/app-navigation";
 import { AccountFoldsProvider } from "@/features/app-shell/components/account-folds-provider";
@@ -39,7 +38,8 @@ type AppShellProps = {
 
 /*
  * The two bars. The app's: the V tile and the name (to Mainline Home),
- * Mainline's views in the middle, the Codex menu and your icon on the right;
+ * Mainline's views and the Codex in the middle (Team Planner, Collection and
+ * the Codex each open a menu of their pages), and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
  * the front page), and Log in; on phones only the V tile and Log in. On the
@@ -90,14 +90,7 @@ export const AppShell = ({
           showName
           center={
             /* Every place you go together: the sections, then the Codex. */
-            <div className="hidden items-center gap-1 lg:flex">
-              <NavigationLinks
-                ariaLabel="Main"
-                links={mainlineLinks}
-                className="flex"
-              />
-              <CodexMenu />
-            </div>
+            <AppBarSections className="hidden lg:flex" />
           }
           end={
             <div className="hidden items-center lg:flex">

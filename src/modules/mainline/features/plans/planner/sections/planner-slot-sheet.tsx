@@ -392,7 +392,7 @@ export const PlannerSlotSheet = ({
                 onChange={change}
               />
               {unsupported.length ? (
-                <p className="text-ink-3 text-13 font-semibold first-letter:uppercase">
+                <p className="text-ink-3 copy-meta first-letter:uppercase">
                   {unsupported.join(", ").replace(/, ([^,]*)$/, " and $1")}{" "}
                   don&apos;t exist in {versionGroup.name}, so they aren&apos;t
                   offered.
@@ -421,14 +421,12 @@ export const PlannerSlotSheet = ({
             <button
               type="button"
               onClick={() => setBuildOpenFor(slotIndex)}
-              className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
+              className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-sm px-4 py-3 text-left"
             >
               <AppIcon icon={appIcons.actions.create} size="md" />
               <span>
-                <b className="text-ink text-15 block font-extrabold">
-                  Add build details
-                </b>
-                <span className="text-ink-2 text-13 font-semibold">
+                <b className="text-ink copy-strong block">Add build details</b>
+                <span className="text-ink-2 copy-meta">
                   Optional: {offered.join(", ")}
                 </span>
               </span>

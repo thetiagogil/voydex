@@ -53,7 +53,7 @@ const useBrowserRisk = () => {
 };
 
 /*
- * One quiet line under Home's moments when your data needs a hand: open
+ * One quiet line at the foot of Home's band when your data needs a hand: open
  * Voydex in a real browser, add it to the Home Screen, or save a backup
  * after 30 days without one. Nothing when all is well.
  */
@@ -86,7 +86,7 @@ export const HomeDataNote = () => {
   if (!note) return null;
 
   return (
-    <p className="text-ink-2 text-14 mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold">
+    <p className="text-ink-2 copy-note mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-(--page-gutter) text-center">
       <AppIcon icon={note.icon} className="text-ink-3" />
       <span>{note.text}</span>
       {note.link ? (

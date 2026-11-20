@@ -20,7 +20,7 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   return (
     <li
       style={getPokemonTypeCssVariables(typeSlug)}
-      className="flex min-h-13 min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
+      className="flex min-h-13 min-w-0 items-center gap-2 rounded-sm bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
     >
       {typeSlug ? (
         <PokemonTypeBadge
@@ -35,13 +35,9 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
           className="empty-slot size-5.5 shrink-0 rounded-full"
         />
       )}
-      <span className="text-15 min-w-0 flex-1 truncate font-extrabold">
-        {move.name}
-      </span>
+      <span className="copy-strong min-w-0 flex-1 truncate">{move.name}</span>
       {move.detail ? (
-        <span className="text-ink-tint text-12 shrink-0 font-bold">
-          {move.detail}
-        </span>
+        <span className="text-ink-tint copy-mark shrink-0">{move.detail}</span>
       ) : (
         <MoveCategoryIcon damageClass={move.category} />
       )}
@@ -94,7 +90,7 @@ export const TeamMemberMoves = ({
     <div className="mt-5">
       <TeamMemberSectionLabel id={labelId}>{title}</TeamMemberSectionLabel>
       {!moves.length && empty ? (
-        <p className="text-ink-2 text-14 font-semibold">{empty}</p>
+        <p className="text-ink-2 copy-note">{empty}</p>
       ) : null}
       <ol aria-labelledby={labelId} className="grid gap-2 sm:grid-cols-2">
         {moves.map((move) => (

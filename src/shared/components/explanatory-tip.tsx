@@ -232,10 +232,7 @@ export const ExplanatoryTip = ({
         {children ??
           (trigger ? null : triggerVariant === "icon" ||
             triggerVariant === "subtle" ? (
-            <AppIcon
-              icon={appIcons.status.info}
-              size={triggerVariant === "subtle" ? 14 : "sm"}
-            />
+            <AppIcon icon={appIcons.status.info} size="sm" />
           ) : (
             <span
               aria-hidden
@@ -255,7 +252,7 @@ export const ExplanatoryTip = ({
         sideOffset={sideOffset}
         className={cn(
           /* The tip is ink, so quiet ink text inside it turns light. */
-          "bg-ink text-on-ink shadow-float text-13 [&_.text-ink-2]:text-on-ink [&_.text-ink-3]:text-on-ink [&_.text-muted-foreground]:text-on-ink w-fit max-w-[min(18.75rem,calc(100vw-2rem))] gap-1.5 rounded-md px-3.5 py-3 leading-normal font-medium [&_.text-ink:not([data-slot=tip-chip])]:text-white [&_b]:text-white [&_strong]:text-white",
+          "bg-ink text-on-ink shadow-float text-13 [&_.text-ink-2]:text-on-ink [&_.text-ink-3]:text-on-ink [&_.text-muted-foreground]:text-on-ink w-fit max-w-[min(18.75rem,calc(100vw-2rem))] gap-1.5 rounded-sm px-3.5 py-3 leading-normal font-medium [&_.text-ink:not([data-slot=tip-chip])]:text-white [&_b]:text-white [&_strong]:text-white",
           contentClassName,
         )}
       >

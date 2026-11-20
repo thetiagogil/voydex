@@ -15,7 +15,7 @@ export const PlannerFollowersSection = ({
   const plays = `${count} ${count === 1 ? "Play" : "Plays"}`;
 
   return (
-    <p className="text-ink-tint text-14 flex items-center gap-1.5 font-semibold">
+    <p className="text-ink-tint copy-note flex items-center gap-1.5">
       <AppIcon
         icon={locked ? appIcons.status.locked : appIcons.milestones.story}
         size="sm"

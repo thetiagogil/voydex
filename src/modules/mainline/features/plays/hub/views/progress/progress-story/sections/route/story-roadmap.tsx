@@ -241,7 +241,7 @@ export const StoryRoadmap = ({
           state === "done" ? null : state ===
             "next" /* The ring says it; the stop says it to a screen reader. */ ? null : !milestone.isAvailable ? (
             <span className="inline-flex items-center gap-1">
-              <AppIcon icon={appIcons.status.locked} size="xs" />
+              <AppIcon icon={appIcons.status.locked} size="sm" />
               Locked
             </span>
           ) : milestone.sequence === null ? (
@@ -306,7 +306,7 @@ export const StoryRoadmap = ({
             aria-label="Chapters in any order"
             className="grid gap-3"
           >
-            <p className="text-ink-2 text-13 flex items-center gap-2 px-2 font-extrabold">
+            <p className="text-ink-2 copy-label flex items-center gap-2 px-2">
               <AppIcon icon={appIcons.product.journey} size="sm" />
               In any order
             </p>

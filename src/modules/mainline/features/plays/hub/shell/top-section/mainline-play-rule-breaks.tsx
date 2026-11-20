@@ -44,13 +44,14 @@ const RuleBreakerRow = ({
 }) => (
   <li>
     <Card
+      size="sm"
       variant="interactive"
       style={getPokemonTypeCssVariables(
         breaker.typeSlug && isPokemonTypeSlug(breaker.typeSlug)
           ? breaker.typeSlug
           : null,
       )}
-      className="relative flex-row items-center gap-3.5 px-3.5 py-3"
+      className="relative flex-row items-center gap-4"
     >
       <span className="type-tint grid size-16 shrink-0 place-items-center rounded-full">
         <FallbackImage
@@ -71,7 +72,7 @@ const RuleBreakerRow = ({
         >
           {breaker.name}
         </Link>
-        <ul className="text-warn-ink text-14 grid gap-1 font-semibold">
+        <ul className="text-warn-ink copy-note grid gap-1">
           {breaker.warnings.map((warning) => (
             <li key={warning.key} className="flex gap-1.5">
               <span className="flex h-lh shrink-0 items-center">

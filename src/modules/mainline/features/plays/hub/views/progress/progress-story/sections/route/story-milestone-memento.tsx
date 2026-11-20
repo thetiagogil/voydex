@@ -33,7 +33,7 @@ export const StoryMilestoneMemento = ({
           typeSlug={null}
         />
       ) : milestone.selectedDecisionLabel ? (
-        <span className="text-ink-2 text-13 font-bold">
+        <span className="text-ink-2 copy-label">
           {milestone.selectedDecisionLabel}
         </span>
       ) : null}

@@ -38,6 +38,7 @@ import {
   type PlannerSwitchPokemon,
 } from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
+import { PlannerDockedBar } from "@/modules/mainline/features/plans/planner/sections/planner-docked-bar";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
 import {
   matchesPoolFilters,
@@ -49,7 +50,10 @@ import { renamePlanAction } from "@/modules/mainline/features/plans/client/plan-
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
-import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
+import {
+  PlannerTeamCheck,
+  PlannerTeamCheckSheet,
+} from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
 import { PlannerTopSection } from "@/modules/mainline/features/plans/planner/sections/planner-top-section";
 import { PlannerUnlockDialog } from "@/modules/mainline/features/plans/planner/sections/planner-unlock-dialog";
 import {
@@ -394,92 +398,128 @@ export const PlannerWorkspace = ({
     toPlanShare(team.slots, byId, context.versionGroup.slug),
   )}`;
 
+  const band = (
+    <PageBand className="flex flex-col gap-6">
+      <PlannerTopSection
+        canSave={members.length > 0 && isDirty}
+        canEdit={isUnlocked}
+        includedExpansions={context.versionGroup.expansions
+          .filter((expansion) => expansions.includes(expansion.versionGroupId))
+          .map((expansion) => expansion.name)}
+        onLockedEdit={askToUnlock}
+        gameFixedReason={
+          followerCount
+            ? "Plays follow this Plan, so its game stays the same"
+            : undefined
+        }
+        /* Archive keeps the saved Plan, so unsaved changes come first. */
+        canArchive={!isDirty}
+        savedPlan={
+          plan
+            ? {
+                id: plan.id,
+                isArchived: false,
+                linkedPlayCount: plan.linkedPlayCount,
+                name: name.trim() || plan.name,
+              }
+            : null
+        }
+        onRename={() => setIsDetailsOpen(true)}
+        isSaved={Boolean(plan)}
+        isSaving={isSaving}
+        embedded={Boolean(embedding)}
+        isSwitching={isSwitching}
+        name={name}
+        onSave={save}
+        onShare={() => setIsShareOpen(true)}
+        onVersionGroupChange={changeVersionGroup}
+        onVersionGameChange={whenUnlocked(setVersionGameSlug)}
+        versionGame={versionGame}
+        planCount={data.planCount}
+        versionGroup={context.versionGroup}
+        versionGroups={data.versionGroups}
+      />
+
+      {followerCount ? (
+        <PlannerFollowersSection count={followerCount} locked={!isUnlocked} />
+      ) : null}
+
+      {offered ? (
+        <PlannerDraftOfferSection
+          draft={offered}
+          onContinue={() => continueDraft(offered)}
+          onStartFresh={() => {
+            clearPlanDraft(data.trainerId);
+            dismissOffer();
+          }}
+        />
+      ) : null}
+
+      <PlannerDockSection
+        byId={byId}
+        issues={issues}
+        locked={!isUnlocked}
+        onCancelReplace={cancelReplace}
+        onClear={whenUnlocked(team.clearSlots)}
+        onMove={whenUnlocked(team.moveSlot)}
+        onOpenCheck={() => {
+          /* Locked, the check is already on the page. */
+          if (isUnlocked) {
+            setIsCheckOpen(true);
+            return;
+          }
+
+          document.getElementById("planner-check")?.scrollIntoView({
+            behavior: getScrollBehavior(),
+          });
+        }}
+        onOpenSlot={setOpenSlot}
+        onPlace={place}
+        onRandom={(mode) => whenUnlocked(() => random(mode))()}
+        onRemove={whenUnlocked(requestRemove)}
+        replacing={replacing}
+        slots={team.slots}
+        tip={tip}
+      />
+
+      {swapIndex !== null ? (
+        <p role="status" className="text-ink copy-body">
+          Pick the Pokémon for slot {swapIndex + 1}.{" "}
+          <TextLink onClick={() => setSwapIndex(null)}>Cancel</TextLink>
+        </p>
+      ) : null}
+    </PageBand>
+  );
+
   return (
     <div className="flex flex-col gap-6 sm:gap-8">
-      <PageBand className="flex flex-col gap-6 sm:gap-7">
-        <PlannerTopSection
-          canSave={members.length > 0 && isDirty}
-          canEdit={isUnlocked}
-          includedExpansions={context.versionGroup.expansions
-            .filter((expansion) =>
-              expansions.includes(expansion.versionGroupId),
-            )
-            .map((expansion) => expansion.name)}
-          onLockedEdit={askToUnlock}
-          gameFixedReason={
-            followerCount
-              ? "Plays follow this Plan, so its game stays the same"
-              : undefined
-          }
-          /* Archive keeps the saved Plan, so unsaved changes come first. */
-          canArchive={!isDirty}
-          savedPlan={
-            plan
-              ? {
-                  id: plan.id,
-                  isArchived: false,
-                  linkedPlayCount: plan.linkedPlayCount,
-                  name: name.trim() || plan.name,
-                }
-              : null
-          }
-          onRename={() => setIsDetailsOpen(true)}
-          isSaved={Boolean(plan)}
-          isSaving={isSaving}
-          embedded={Boolean(embedding)}
-          isSwitching={isSwitching}
-          name={name}
-          onSave={save}
-          onShare={() => setIsShareOpen(true)}
-          onVersionGroupChange={changeVersionGroup}
-          onVersionGameChange={whenUnlocked(setVersionGameSlug)}
-          versionGame={versionGame}
-          planCount={data.planCount}
-          versionGroup={context.versionGroup}
-          versionGroups={data.versionGroups}
-        />
-
-        {followerCount ? (
-          <PlannerFollowersSection count={followerCount} locked={!isUnlocked} />
-        ) : null}
-
-        {offered ? (
-          <PlannerDraftOfferSection
-            draft={offered}
-            onContinue={() => continueDraft(offered)}
-            onStartFresh={() => {
-              clearPlanDraft(data.trainerId);
-              dismissOffer();
-            }}
-          />
-        ) : null}
-
-        <PlannerDockSection
+      {/*
+       * The team follows you down the list. A page that hosts the Planner
+       * (the Codex) has its own top edge, so there the band stays put.
+       */}
+      {embedding ? (
+        band
+      ) : (
+        <PlannerDockedBar
           byId={byId}
-          issues={issues}
-          locked={!isUnlocked}
-          onCancelReplace={cancelReplace}
-          onClear={whenUnlocked(team.clearSlots)}
-          onMove={whenUnlocked(team.moveSlot)}
-          onOpenCheck={() => setIsCheckOpen(true)}
+          canEdit={isUnlocked}
+          canSave={members.length > 0 && isDirty}
+          isSaving={isSaving}
           onOpenSlot={setOpenSlot}
-          onPlace={place}
-          onRandom={(mode) => whenUnlocked(() => random(mode))()}
-          onRemove={whenUnlocked(requestRemove)}
-          replacing={replacing}
+          onSave={save}
           slots={team.slots}
-          tip={tip}
-        />
+          title={plan ? name.trim() || plan.name : "New Plan"}
+          versionGame={versionGame}
+          versionGroup={context.versionGroup}
+        >
+          {band}
+        </PlannerDockedBar>
+      )}
 
-        {swapIndex !== null ? (
-          <p role="status" className="text-ink text-15 font-semibold">
-            Pick the Pokémon for slot {swapIndex + 1}.{" "}
-            <TextLink onClick={() => setSwapIndex(null)}>Cancel</TextLink>
-          </p>
-        ) : null}
-      </PageBand>
-
-      {/* A locked Plan reads its team; picking waits on Unlock. */}
+      {/*
+       * A locked Plan reads its team, so its Team check is on the page;
+       * picking waits on Unlock.
+       */}
       {isUnlocked ? (
         <PlannerPoolSection
           byId={byId}
@@ -495,6 +535,25 @@ export const PlannerWorkspace = ({
           versionGame={versionGame}
           versionGroup={context.versionGroup}
         />
+      ) : teamPokemon.length ? (
+        <section
+          id="planner-check"
+          aria-label="Team check"
+          className="grid gap-4 sm:gap-6 lg:grid-cols-2"
+        >
+          <PlannerTeamCheck
+            coverage={coverage}
+            issues={issues}
+            matchups={matchups}
+            onIncludeExpansion={whenUnlocked((versionGroupId: number) =>
+              setExpansions((current) => [
+                ...new Set([...current, versionGroupId]),
+              ]),
+            )}
+            placement="page"
+            team={teamPokemon}
+          />
+        </section>
       ) : null}
 
       <PlannerSlotSheet

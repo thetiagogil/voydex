@@ -11,6 +11,8 @@ export type AppNavigationLink = {
 };
 
 export type MainlineNavigationLink = AppNavigationLink & {
+  /* Every path the view stays current under, when its pages don't share one. */
+  sections?: readonly string[];
   /* The bottom bar's shorter name, such as "Planner" for Team Planner. */
   shortLabel: string;
   slug: string;
@@ -24,10 +26,8 @@ const youSectionHrefs = new Set<string>([
   appRoutes.mainlineStats,
 ]);
 
-const isPlannerHref = (href: string) =>
-  href === appRoutes.mainlinePlans ||
-  href.startsWith(`${appRoutes.mainlinePlans}/`) ||
-  href.startsWith(`${appRoutes.mainlinePlans}?`);
+/* The Team Planner's two pages: the planner itself and My Plans. */
+const plannerSections = [appRoutes.mainlinePlanNew(), appRoutes.mainlinePlans];
 
 /*
  * The app's bar: Mainline's views sit in the middle in the order the module
@@ -37,13 +37,13 @@ const isPlannerHref = (href: string) =>
 export const mainlineLinks: readonly MainlineNavigationLink[] = (
   modules.mainline.views as readonly MainlineView[]
 ).map((view) => {
-  const isPlanner = isPlannerHref(view.href);
+  const isPlanner = view.slug === "planner";
 
   return {
     exact: view.href === appRoutes.mainline,
     href: view.href,
     label: view.label,
-    section: isPlanner ? appRoutes.mainlinePlans : undefined,
+    sections: isPlanner ? plannerSections : undefined,
     shortLabel: isPlanner ? "Planner" : view.label,
     slug: view.slug,
   };
@@ -76,6 +76,102 @@ export const codexViewLinks: readonly CodexViewLink[] = modules.codex.views.map(
     slug: view.slug,
   }),
 );
+
+/* One page in a bar item's menu. */
+export type BarMenuView = AppNavigationLink & {
+  description: string;
+  icon: "favourites" | "games" | "planner" | "plans" | "pokemon";
+};
+
+/* One item of the app's bars: a link, or a name that opens its pages. */
+export type AppBarItem = AppNavigationLink & {
+  /* Every path the item stays current under, when its pages don't share one. */
+  sections?: readonly string[];
+  views?: readonly BarMenuView[];
+};
+
+const codexViewIcons = { games: "games", pokemon: "pokemon" } as const;
+
+const barMenuViews: Partial<Record<string, readonly BarMenuView[]>> = {
+  collection: [
+    {
+      description: "Every Pokémon you've had on a team",
+      href: appRoutes.mainlineCollection,
+      icon: "pokemon",
+      label: "Pokémon",
+    },
+    {
+      description: "The Pokémon you hearted in the Codex",
+      href: appRoutes.mainlineCollectionFavourites,
+      icon: "favourites",
+      label: "Favourites",
+    },
+    {
+      description: "The games you've played",
+      href: appRoutes.mainlineCollectionGames,
+      icon: "games",
+      label: "Games",
+    },
+  ],
+  planner: [
+    {
+      description: "Build a team for any game",
+      href: appRoutes.mainlinePlanNew(),
+      icon: "planner",
+      label: "Team Planner",
+    },
+    {
+      description: "The teams you saved",
+      href: appRoutes.mainlinePlans,
+      icon: "plans",
+      label: "My Plans",
+    },
+  ],
+};
+
+/*
+ * The app's top bar, in order: Mainline's views, then the Codex. Team
+ * Planner, Collection and the Codex open a menu of their pages, so each is
+ * one step away; the rest are plain links.
+ */
+export const appBarItems: readonly AppBarItem[] = [
+  ...mainlineLinks.map((link): AppBarItem => ({
+    ...link,
+    views: barMenuViews[link.slug],
+  })),
+  {
+    ...codexLink,
+    views: codexViewLinks.map((view) => ({
+      ...view,
+      icon: codexViewIcons[view.slug],
+    })),
+  },
+];
+
+/* Whether the bar item is the one you are in. */
+export const isCurrentBarItem = (pathname: string, item: AppBarItem) =>
+  item.sections
+    ? item.sections.some((section) =>
+        isCurrentLink(pathname, { href: section, label: item.label }),
+      )
+    : isCurrentLink(pathname, item);
+
+/*
+ * Whether a menu's page is the one you are on. Pages that share a path are
+ * told apart by their `view` (`/app/collection?view=games`).
+ */
+export const isCurrentBarView = (
+  pathname: string,
+  view: string | null,
+  link: AppNavigationLink,
+) => {
+  const [path, query = ""] = link.href.split("?");
+
+  return (
+    isCurrentLink(pathname, { ...link, href: path }) &&
+    (new URLSearchParams(query).get("view") ?? "") === (view ?? "")
+  );
+};
 
 /* Your rules and tags, from the You menu (and the You page on phones). */
 export const libraryLink: AppNavigationLink = {

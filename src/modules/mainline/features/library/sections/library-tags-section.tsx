@@ -11,7 +11,7 @@ import {
   renameLibraryTagAction,
 } from "@/modules/mainline/features/library/client/library-actions";
 import type { LibraryTag } from "@/modules/mainline/features/library/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PaperTag } from "@/shared/components/paper-tag";
 import { EmptyState } from "@/shared/components/empty-state";
 
 type TagDialog =
@@ -44,15 +44,14 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
                 type="button"
                 aria-label={`${tag.name}, ${usageLabel}`}
                 onClick={() => setDialog({ mode: "view", tag })}
-                className="bg-surface shadow-card hover:bg-hover focus-ring text-15 text-ink inline-flex min-h-12 items-center gap-2 rounded-full px-4 font-bold transition-colors"
+                className="focus-ring rounded-xs transition-[filter] hover:brightness-95"
               >
-                <AppIcon
-                  icon={appIcons.product.tag}
-                  size="sm"
-                  className="text-ink-3"
-                />
-                {tag.name}
-                <span className="text-ink-3 text-13 tabular-nums">{uses}</span>
+                <PaperTag size="lg">
+                  {tag.name}
+                  <span className="text-ink-3 copy-meta tabular-nums">
+                    {uses}
+                  </span>
+                </PaperTag>
               </button>
             </li>
           );

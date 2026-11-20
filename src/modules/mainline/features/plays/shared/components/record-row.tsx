@@ -58,7 +58,7 @@ export const RecordRow = ({
     <>
       <p
         className={cn(
-          "text-ink-3 text-13 font-bold",
+          "text-ink-3 copy-label",
           variant === "timeline" && "flex items-baseline justify-between gap-3",
         )}
       >
@@ -72,14 +72,14 @@ export const RecordRow = ({
       </p>
       <p
         className={cn(
-          "text-ink text-15 font-semibold [&_b]:font-extrabold",
+          "text-ink copy-body [&_b]:font-extrabold",
           !wrap && "truncate",
         )}
       >
         {headline}
       </p>
       {description ? (
-        <p className={cn("text-ink-2 text-14", !wrap && "line-clamp-2")}>
+        <p className={cn("text-ink-2 text-13", !wrap && "line-clamp-2")}>
           {description}
         </p>
       ) : null}
@@ -103,14 +103,11 @@ export const RecordRow = ({
         />
         <Card
           size="sm"
-          className={cn(
-            "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
-            placement === "grid" && "lg:h-full",
-          )}
+          className={cn("min-w-0 gap-0", placement === "grid" && "lg:h-full")}
         >
           {placement === "grid" ? (
             /* Off the line, the medallion comes inside its card. */
-            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-3.5">
+            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-4">
               <Medallion
                 className="hidden lg:grid"
                 content={medallion}

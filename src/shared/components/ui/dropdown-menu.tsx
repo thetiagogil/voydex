@@ -110,7 +110,7 @@ const DropdownMenuItem = ({
       data-variant={variant}
       className={cn(
         menuOptionClassName,
-        "group/dropdown-menu-item aria-[current=page]:bg-select-soft aria-[current=page]:text-select-ink data-[variant=destructive]:text-danger-deep data-[variant=destructive]:data-highlighted:bg-danger-soft data-[variant=destructive]:data-highlighted:text-danger-deep data-[variant=destructive]:*:[svg]:text-danger pr-3 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4.5",
+        "group/dropdown-menu-item aria-[current=page]:bg-select-soft aria-[current=page]:text-select-ink data-[variant=destructive]:text-danger-deep data-[variant=destructive]:data-highlighted:bg-danger-soft data-[variant=destructive]:data-highlighted:text-danger-deep data-[variant=destructive]:*:[svg]:text-danger pr-3 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}

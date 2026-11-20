@@ -24,11 +24,7 @@ const MatchupChips = ({
   tone: MatchupTone;
 }) => {
   if (!matchups.length) {
-    return (
-      <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
-        None
-      </p>
-    );
+    return <p className="copy-note text-ink-3 flex h-7 items-center">None</p>;
   }
 
   return (
@@ -44,7 +40,7 @@ const MatchupChips = ({
               <li
                 aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
                 className={cn(
-                  "text-13 inline-flex items-center gap-1 rounded-full py-0.75 pr-2 pl-0.75 font-extrabold",
+                  "copy-label inline-flex items-center gap-1 rounded-full py-0.75 pr-2 pl-0.75",
                   isQuadruple ? "bg-danger-soft" : "bg-surface-2",
                 )}
               >
@@ -81,7 +77,7 @@ const MatchupRow = ({
 }) => {
   return (
     <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-3">
-      <dt className="text-ink-2 text-12 font-bold sm:pt-1.5">{label}</dt>
+      <dt className="text-ink-2 copy-mark sm:pt-1.5">{label}</dt>
       <dd>{children}</dd>
     </div>
   );
@@ -119,7 +115,7 @@ export const PokemonDetailTypeMatchupsCard = ({
         </MatchupRow>
         {neutralCount ? (
           <MatchupRow label="Normal">
-            <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
+            <p className="copy-note text-ink-3 flex h-7 items-center">
               {neutralCount === 1
                 ? "1 other type"
                 : `${neutralCount} other types`}

@@ -90,7 +90,7 @@ export const AccountOtherPlaysDialog = () => {
           shows only this account&apos;s Plays.
         </p>
         {message ? (
-          <p role="alert" className="text-danger text-15 font-semibold">
+          <p role="alert" className="text-danger copy-body">
             {message}
           </p>
         ) : null}

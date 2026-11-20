@@ -9,7 +9,7 @@ import {
   isCurrentLink,
   type AppNavigationLink,
 } from "@/features/app-shell/utils/app-navigation";
-import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
+import { getBarLinkClassName } from "@/shared/components/bar-link";
 import { cn } from "@/shared/utils/cn";
 
 type NavigationLinksProps = {
@@ -47,7 +47,7 @@ const glideToPart = (
 };
 
 /*
- * The bar's sections (v3 `.links`), inside the top bar's pill. The current one is a small sticker in the selected tint, as every pick is.
+ * The bar's sections (v3 `.links`), inside the top bar's pill. The current one is a plain white pill in the selected ink.
  * It swaps at once, never fades, so a change of section doesn't flicker
  * between the two links.
  */
@@ -59,7 +59,7 @@ export const NavigationLinks = ({
   const pathname = usePathname();
 
   return (
-    <nav aria-label={ariaLabel} className={cn("items-center gap-1", className)}>
+    <nav aria-label={ariaLabel} className={cn("items-center gap-2", className)}>
       {links.map((link) => {
         const isCurrent = isCurrentLink(pathname, link);
 
@@ -71,7 +71,7 @@ export const NavigationLinks = ({
             onClick={(event) => glideToPart(event, pathname, link.href)}
             className={getBarLinkClassName(isCurrent)}
           >
-            <SteadyLabel>{link.label}</SteadyLabel>
+            {link.label}
           </Link>
         );
       })}

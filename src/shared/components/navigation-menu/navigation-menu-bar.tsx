@@ -26,7 +26,7 @@ export const NavigationMenuBar = ({
       {...props}
       className={cn("max-w-full justify-start", className)}
     >
-      <NavigationMenuList className={cn("justify-start gap-1", listClassName)}>
+      <NavigationMenuList className={cn("justify-start gap-2", listClassName)}>
         {children}
       </NavigationMenuList>
     </NavigationMenu>

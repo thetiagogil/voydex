@@ -27,13 +27,13 @@ export const UnsavedChangesFooter = ({
   <div
     data-slot="unsaved-changes-footer"
     className={cn(
-      "bg-surface-2 -mx-5 mt-5 -mb-5 flex flex-wrap items-center gap-2.5 px-5 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-3.5",
+      "bg-surface-2 -mx-5 mt-5 -mb-5 flex flex-wrap items-center gap-2 px-5 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-3.5",
       className,
     )}
   >
     <span
       role="status"
-      className="text-14 text-action-ink mr-auto inline-flex items-center gap-2 font-bold"
+      className="copy-note text-action-ink mr-auto inline-flex items-center gap-2"
     >
       <AppIcon icon={appIcons.actions.edit} />
       Unsaved changes

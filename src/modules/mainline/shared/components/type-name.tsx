@@ -6,7 +6,7 @@ const sizeClassNames = {
   /* v3 `.tw`: a type named inside a sentence. */
   sm: { dot: "size-4.5", gap: "gap-1", icon: "size-3" },
   /* v3 `.tname`: a type heading a matchup row. */
-  md: { dot: "size-6", gap: "gap-2.25", icon: "size-3.5" },
+  md: { dot: "size-6", gap: "gap-2", icon: "size-3.5" },
 } as const;
 
 /* A type as its dot and its name, in a sentence or heading a matchup row. */

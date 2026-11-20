@@ -195,7 +195,7 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
     }
     trailing={
       option.trailing || option.info ? (
-        <span className="flex items-center gap-2.5">
+        <span className="flex items-center gap-2">
           {option.trailing}
           {option.info ? (
             <ExplanatoryTip

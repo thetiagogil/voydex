@@ -26,18 +26,16 @@ export const SettingsRow = ({
 }: SettingsRowProps) => (
   <div
     className={cn(
-      "flex flex-col items-start gap-3 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-5",
+      "flex flex-col items-start gap-3 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
       className,
     )}
   >
     <div className="flex min-w-0 flex-col gap-0.5 sm:flex-1">
-      <p id={titleId} className="text-15 font-extrabold">
+      <p id={titleId} className="copy-strong">
         {title}
       </p>
       {description ? (
-        <div className="text-ink-2 text-13 font-semibold wrap-anywhere">
-          {description}
-        </div>
+        <div className="text-ink-2 copy-meta wrap-anywhere">{description}</div>
       ) : null}
     </div>
     <div className="flex max-w-full min-w-0 shrink-0 flex-wrap items-center gap-2">

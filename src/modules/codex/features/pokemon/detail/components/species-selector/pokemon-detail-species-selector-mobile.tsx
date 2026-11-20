@@ -110,7 +110,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
                     variant="ghost"
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "text-ink text-15 h-auto min-h-14 w-full justify-start gap-3 rounded-md py-1.5 pr-3 pl-2 text-left font-bold whitespace-normal",
+                      "text-ink copy-strong h-auto min-h-14 w-full justify-start gap-3 rounded-sm py-1.5 pr-3 pl-2 text-left whitespace-normal",
                       isActive && pokemonDetailSpeciesSelectorActiveClassName,
                     )}
                     onClick={() => {
@@ -127,7 +127,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
             })}
           </div>
         ) : (
-          <p className="text-14 text-ink-2 px-2 py-8 text-center font-semibold">
+          <p className="copy-note text-ink-2 px-2 py-8 text-center">
             {getPokemonMenuEmptyLabel(loadState, activeVersionGroupSlug)}
           </p>
         )}

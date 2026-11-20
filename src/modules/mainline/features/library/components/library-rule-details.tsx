@@ -107,13 +107,13 @@ export const LibraryRuleDetails = ({
         )
       }
     >
-      <div className="grid gap-5">
+      <div className="grid gap-4">
         {rule.isBuiltIn ? (
           /* What it asks and its option note read as one part. */
           <div className="grid gap-1">
-            <p className="text-ink text-16 font-semibold">{rule.description}</p>
+            <p className="text-ink copy-body">{rule.description}</p>
             {optionKeys.map((key) => (
-              <p key={key} className="text-ink-2 text-14 font-semibold">
+              <p key={key} className="text-ink-2 copy-note">
                 {ruleOptionNotes[key]}
               </p>
             ))}

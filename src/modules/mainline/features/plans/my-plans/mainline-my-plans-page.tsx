@@ -30,7 +30,7 @@ const formatPlanCount = (count: number) =>
  * Plans until restored, as archived Plays are from your Plays.
  */
 const ArchivedPlansView = ({ plans }: { plans: MyPlan[] }) => (
-  <div className="flex flex-col gap-5 sm:gap-6">
+  <div className="flex flex-col gap-4 sm:gap-6">
     <PageBand>
       <PageHeader
         title="Archived Plans"
@@ -123,7 +123,7 @@ export const MainlineMyPlansPage = ({
   );
 
   return (
-    <div className="flex flex-col gap-5 sm:gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6">
       {plans.length ? (
         <MyPlansBrowser head={head} plans={plans} />
       ) : (

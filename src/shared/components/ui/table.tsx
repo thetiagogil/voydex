@@ -17,7 +17,7 @@ const Table = ({ className, ...props }: React.ComponentProps<"table">) => {
     >
       <table
         data-slot="table"
-        className={cn("text-14 w-full caption-bottom", className)}
+        className={cn("text-13 w-full caption-bottom", className)}
         {...props}
       />
     </div>
@@ -69,7 +69,7 @@ const TableHead = ({ className, ...props }: React.ComponentProps<"th">) => {
     <th
       data-slot="table-head"
       className={cn(
-        "text-12 text-ink-3 h-9 px-2.5 pb-2 text-left align-bottom font-bold whitespace-nowrap has-[[role=checkbox]]:pr-0",
+        "copy-mark text-ink-3 h-9 px-2.5 pb-2 text-left align-bottom whitespace-nowrap has-[[role=checkbox]]:pr-0",
         className,
       )}
       {...props}
@@ -97,7 +97,7 @@ const TableCaption = ({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-13 text-ink-2 mt-4 font-semibold", className)}
+      className={cn("copy-meta text-ink-2 mt-4", className)}
       {...props}
     />
   );

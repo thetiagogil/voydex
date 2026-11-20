@@ -39,7 +39,7 @@ export const RangeHeading = ({
     <div
       data-slot="range-heading"
       className={cn(
-        "flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-1.5",
+        "flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-1.5",
         className,
       )}
     >
@@ -51,9 +51,7 @@ export const RangeHeading = ({
         {title}
       </Heading>
       {count !== undefined && count !== null ? (
-        <span className="text-14 text-ink-2 font-semibold tabular-nums">
-          {count}
-        </span>
+        <span className="copy-note text-ink-2 tabular-nums">{count}</span>
       ) : null}
       {actions ? (
         <div className="ml-auto flex items-center gap-1">{actions}</div>

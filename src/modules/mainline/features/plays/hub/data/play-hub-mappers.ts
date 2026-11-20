@@ -1,3 +1,4 @@
+import type { OverviewCatch } from "@/modules/mainline/features/plays/hub/views/overview/data/latest-catches-mapper";
 import type { PlayTracking } from "@/config/play-tracking";
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
@@ -159,6 +160,8 @@ export const getMainlinePlayOverviewPartnerFormIds = (params: {
 };
 
 export const buildMainlinePlayOverviewData = (params: {
+  /* Left out where nothing reads the Pokédex card (none caught yet). */
+  latestCatches?: OverviewCatch[];
   milestoneRows: MainlinePlayOverviewMilestoneRows;
   overview: MainlinePlayOverview | null;
   /* Read only for a brand-new Play (see getMainlinePlayOverviewPartnerFormIds). */
@@ -190,6 +193,7 @@ export const buildMainlinePlayOverviewData = (params: {
   return {
     badgeCase: buildMainlinePlayBadgeCase(badgeRows),
     freshPlay: partner ? { partner } : null,
+    latestCatches: params.latestCatches ?? [],
     nextDecisionMilestone: null,
     ...getOverviewMilestoneSummary(orderedMilestones),
     overview: params.overview,

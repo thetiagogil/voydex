@@ -104,7 +104,7 @@ export const AddPokemonMoreStep = ({
             options={toMoveSlotOptions(state.options.moves)}
           />
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             Voydex doesn&apos;t have its moves for this game yet.
           </p>
         )}

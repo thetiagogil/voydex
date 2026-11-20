@@ -213,7 +213,7 @@ export const MainlinePlayTeamRoster = ({
         summary={formatTeamRosterSummary(summary)}
       />
 
-      <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <TeamRosterSection
           brokenRulesById={brokenRulesById}
           isMoving={isMoving}

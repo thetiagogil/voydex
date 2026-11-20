@@ -46,7 +46,7 @@ export const GameDetailExclusivesSection = ({
       title="Version exclusives"
       aside="Only catchable in one of the pair"
     >
-      <div className="grid items-start gap-7 md:grid-cols-2">
+      <div className="grid items-start gap-6 md:grid-cols-2">
         {exclusives.map((column, index) => {
           const shortName = getGameShortName(column.version.game.name);
           const titleId = `exclusives-${column.version.game.slug}`;
@@ -64,7 +64,7 @@ export const GameDetailExclusivesSection = ({
                 index > 0 && "step-back",
               )}
             >
-              <div className="mb-3 flex min-h-10 flex-wrap items-center gap-x-2.5 gap-y-1">
+              <div className="mb-3 flex min-h-10 flex-wrap items-center gap-x-2 gap-y-1">
                 <GameCover
                   alt=""
                   coverImageUrl={column.version.coverImageUrl}
@@ -74,15 +74,15 @@ export const GameDetailExclusivesSection = ({
                 />
                 <h3
                   id={titleId}
-                  className="text-16 font-sans font-extrabold tracking-normal"
+                  className="copy-strong font-sans tracking-normal"
                 >
                   Only in {shortName}
                 </h3>
-                <span className="text-13 text-ink-3 font-extrabold tabular-nums">
+                <span className="copy-label text-ink-3 tabular-nums">
                   {column.pokemon.length}
                 </span>
                 {index > 0 ? (
-                  <span className="text-13 text-ink-2 ml-auto font-semibold">
+                  <span className="copy-meta text-ink-2 ml-auto">
                     Trade for these
                   </span>
                 ) : null}
@@ -103,7 +103,7 @@ export const GameDetailExclusivesSection = ({
                   ))}
                 </ul>
               ) : (
-                <p className="text-14 text-ink-2 font-semibold">
+                <p className="copy-note text-ink-2">
                   {shortName} has no exclusives.
                 </p>
               )}

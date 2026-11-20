@@ -131,7 +131,7 @@ export const CollectibleAreaSection = ({
        * in its name; a collectible with a requirement wears an "i" that
        * opens it, so notes never break the grid.
        */}
-      <div className="mt-4 grid grid-cols-5 gap-x-2.5 gap-y-4 pb-3 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))] sm:gap-x-3 sm:gap-y-4.5">
+      <div className="mt-4 grid grid-cols-5 gap-x-2 gap-y-4 pb-3 sm:grid-cols-[repeat(auto-fill,minmax(64px,1fr))] sm:gap-x-3">
         {area.entries.map((entry) => {
           const place =
             areaLevel === "place" ? null : entry.subLocationLabel || null;

@@ -28,7 +28,10 @@ const ArchivedPlayCard = ({ play }: { play: PlayBrowseItem }) => {
 
   return (
     <li>
-      <Card className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:gap-5 sm:py-3.5 sm:pr-5 sm:pl-3.5">
+      <Card
+        size="sm"
+        className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:gap-4"
+      >
         <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
         <PlayCardHeading

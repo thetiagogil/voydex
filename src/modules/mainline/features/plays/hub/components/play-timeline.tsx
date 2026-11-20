@@ -119,7 +119,7 @@ export const PlayTimelineStart = ({
           content={{ icon: appIcons.milestones.story, kind: "start" }}
         />
         <div className="grid min-w-0 gap-0.5 pl-4 sm:pl-5">
-          <p className="text-action-ink text-13 font-bold">
+          <p className="text-ink-2 copy-label">
             {startedOnLabel ? `Started ${startedOnLabel}` : "Started"}
           </p>
           <p className="title-card">Your Play starts here</p>

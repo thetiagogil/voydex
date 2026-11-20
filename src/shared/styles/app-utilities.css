@@ -30,6 +30,85 @@
   box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
 }
 
+/*
+ * A collector card: an owned Pokémon's card where you look at it as part of
+ * a set. `card-frame` is the frame in its type's colour round the white
+ * card; `card-window` is the tinted window its art stands in, with a thin
+ * edge. Set --t (neutral when it isn't set).
+ */
+@utility card-frame {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 42%,
+    var(--surface)
+  );
+}
+
+@utility card-window {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 26%,
+    var(--surface)
+  );
+  box-shadow: inset 0 0 0 2px
+    color-mix(in oklab, var(--t, var(--mute)) 55%, var(--surface));
+}
+
+/*
+ * A paper tag: a label tied to a thing (a Play's tag or rule), never a
+ * control. It is pointed at the start, with the hole for its string.
+ * `paper-tag-lift` goes on its wrapper: the clip would cut a shadow of its
+ * own, so the wrapper casts it.
+ */
+@utility paper-tag {
+  position: relative;
+  background-color: var(--surface-2);
+  padding-inline: 1.5rem 0.875rem;
+  clip-path: polygon(0.8125rem 0, 100% 0, 100% 100%, 0.8125rem 100%, 0 50%);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0.5625rem;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    translate: 0 -50%;
+    border-radius: 50%;
+    background-color: var(--bg);
+    box-shadow: inset 0 1px 1px rgb(var(--shade) / 0.3);
+  }
+}
+
+@utility paper-tag-lift {
+  filter: drop-shadow(0 1px 0 rgb(var(--shade) / 0.12))
+    drop-shadow(0 2px 2px rgb(var(--shade) / 0.14));
+}
+
+/*
+ * A tile: a block inside a card (a fact, a note, an ability), on the inset
+ * fill with the tiles' corner and padding. `tile-link` is a tile you can
+ * open (a row of a list inside a card), with the row hover. Screens never
+ * draw these by hand, so they always match.
+ */
+@utility tile {
+  background-color: var(--surface-2);
+  border-radius: var(--r-lg);
+  padding: 0.75rem 1rem;
+}
+
+@utility tile-link {
+  background-color: var(--surface-2);
+  border-radius: var(--r-lg);
+  padding: 0.625rem 0.75rem;
+  min-height: 3.5rem;
+  transition: background-color 120ms ease-out;
+
+  &:hover {
+    background-color: var(--hover);
+  }
+}
+
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);
@@ -100,7 +179,44 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   margin-top: calc(-1 * (var(--bar-h) + var(--page-top)));
-  padding-top: var(--bar-h);
+  padding-top: calc(var(--bar-h) + var(--band-step) + 0.25rem);
+}
+
+/*
+ * The strip of the band the bar sits on, a shade deeper than the band. It
+ * steps down only round the logo, like a tab, so the brand has its own
+ * place and the rest of the bar stays thin. `--band-tab` is where the step
+ * ends: past the page gutter and the V tile, and from 640px past the name.
+ */
+@utility page-band-strip {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--bar-h) + var(--band-step));
+  --band-tab: calc(
+    max(
+        var(--page-gutter),
+        (100vw - var(--page-width)) / 2 + var(--page-gutter)
+      ) +
+      3.25rem
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--band-step)),
+    calc(var(--band-tab) + 1.25rem) calc(100% - var(--band-step)),
+    var(--band-tab) 100%,
+    0 100%
+  );
+
+  @media (width >= 40rem) {
+    --band-tab: calc(
+      max(
+          var(--page-gutter),
+          (100vw - var(--page-width)) / 2 + var(--page-gutter)
+        ) +
+        8.5rem
+    );
+  }
 }
 
 /*
@@ -373,6 +489,48 @@
  */
 @utility type-ink {
   color: oklch(from var(--t) min(l, 0.52) c h);
+}
+
+/*
+ * The text styles (Nunito): every piece of text that isn't a title takes one
+ * of them, so no screen sets its own size and weight. Four sizes only: 12
+ * for marks, 13 for small text, 15 for everything you read and press, 17
+ * for a lead line. They set the size and the weight only; the colour stays a role token beside them (`text-ink-2`).
+ *   copy-strong  a row's or an item's name, a value that matters
+ *   copy-body    running text, the default
+ *   copy-note    the line under a title, a description
+ *   copy-label   a field's or a fact's label, a small heading
+ *   copy-meta    small facts: a date, a count, a game and region
+ *   copy-mark    the words on a small mark or count
+ */
+@utility copy-strong {
+  font-size: var(--text-15);
+  font-weight: 800;
+}
+
+@utility copy-body {
+  font-size: var(--text-15);
+  font-weight: 600;
+}
+
+@utility copy-note {
+  font-size: var(--text-13);
+  font-weight: 600;
+}
+
+@utility copy-label {
+  font-size: var(--text-13);
+  font-weight: 700;
+}
+
+@utility copy-meta {
+  font-size: var(--text-13);
+  font-weight: 600;
+}
+
+@utility copy-mark {
+  font-size: var(--text-12);
+  font-weight: 800;
 }
 
 /*

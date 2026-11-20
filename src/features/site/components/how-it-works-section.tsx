@@ -56,15 +56,13 @@ const StepCard = ({
       pokemon={partner}
       className="absolute -top-13 right-3 z-1 size-26 object-contain sm:-top-15 sm:size-30"
     />
-    <Card className="w-full gap-0 p-5 sm:p-6">
-      <p className="text-13 text-ink-2 flex items-center gap-2.5 pr-28 font-extrabold tracking-wider uppercase">
+    <Card className="w-full gap-0">
+      <p className="copy-label text-ink-2 flex items-center gap-2 pr-28 tracking-wider uppercase">
         <StepNumber number={number} />
         {when}
       </p>
       <h3 className="title-card mt-4">{title}</h3>
-      <p className="text-15 text-ink-2 mt-2 mb-4.5 leading-relaxed font-semibold">
-        {text}
-      </p>
+      <p className="copy-body text-ink-2 mt-2 mb-4.5 leading-relaxed">{text}</p>
       <div className="mt-auto">{children}</div>
     </Card>
   </article>
@@ -79,12 +77,10 @@ const AlsoCard = ({
   text: string;
   title: string;
 }) => (
-  <Card className="flex-row flex-wrap items-center justify-between gap-x-6 gap-y-4 p-5 sm:p-6">
+  <Card className="flex-row flex-wrap items-center justify-between gap-x-6 gap-y-4">
     <div className="min-w-48 flex-1">
       <h3 className="title-card">{title}</h3>
-      <p className="text-15 text-ink-2 mt-1.5 leading-relaxed font-semibold">
-        {text}
-      </p>
+      <p className="copy-body text-ink-2 mt-1.5 leading-relaxed">{text}</p>
     </div>
     {children}
   </Card>

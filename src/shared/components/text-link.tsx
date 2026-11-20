@@ -58,7 +58,7 @@ export const TextLink = ({
   const classNames = cn(
     "rounded-xs underline-offset-3 hover:underline focus-ring",
     toneClassNames[tone],
-    standalone && "text-14 inline-flex min-h-9 items-center gap-1.5",
+    standalone && "text-15 inline-flex min-h-9 items-center gap-1.5",
     className,
   );
   const content = (

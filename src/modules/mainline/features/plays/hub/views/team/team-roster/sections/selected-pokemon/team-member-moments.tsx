@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
+import { PlayMomentRow } from "@/modules/mainline/features/plays/shared/components/play-moment-row";
 import {
   PlayTimeline,
   PlayTimelineItem,
@@ -60,7 +60,7 @@ export const TeamMemberMoments = ({
           })}
         </PlayTimeline>
       ) : (
-        <p className="text-ink-2 text-14 font-semibold">
+        <p className="text-ink-2 copy-note">
           Nothing recorded for {getPlayTeamMemberName(member)} yet.
         </p>
       )}

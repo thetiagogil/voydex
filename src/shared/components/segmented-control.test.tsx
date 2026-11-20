@@ -164,7 +164,9 @@ describe("SegmentedControl selected tone", () => {
       />,
     );
 
-    expect(markup).toContain("bg-action");
+    /* The strong pick is the solid blue: red is for actions only. */
+    expect(markup).toContain("bg-calm");
+    expect(markup).not.toContain("bg-action");
     expect(markup).not.toContain("bg-select-soft");
   });
 

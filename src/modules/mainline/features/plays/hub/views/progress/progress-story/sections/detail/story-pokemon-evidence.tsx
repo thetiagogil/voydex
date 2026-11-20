@@ -9,7 +9,7 @@ export const StoryPokemonEvidence = ({
   name: string;
 }) => {
   return (
-    <span className="flex min-w-0 items-center gap-2.5">
+    <span className="flex min-w-0 items-center gap-2">
       <PokemonPortrait
         alt=""
         imageUrl={imageUrl}
@@ -18,7 +18,7 @@ export const StoryPokemonEvidence = ({
         imageClassName="p-1"
       />
 
-      <span className="text-15 min-w-0 truncate font-extrabold">{name}</span>
+      <span className="copy-strong min-w-0 truncate">{name}</span>
     </span>
   );
 };

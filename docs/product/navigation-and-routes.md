@@ -18,12 +18,19 @@ The app opens for everyone: your data lives on this device
 only for backups. Mainline, Settings, You and the Codex take this frame.
 
 - **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
-  Mainline Home (`/app`). Mainline's views sit centred in module order:
-  Home, Plays, Team Planner (`/app/planner`, current anywhere under
-  `/app/plans`), Statistics and Collection. The Codex menu and your
-  account icon sit on the right. The Codex menu (its name, no icon) opens
-  the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
-  open theirs; it is bold while you are anywhere under `/app/codex`.
+  Mainline Home (`/app`). The sections sit centred as one row: Home,
+  Plays, Team Planner, Statistics, Collection and the Codex, and your
+  account icon sits on the right. Home, Plays and Statistics are links.
+  Team Planner, Collection and the Codex (a name, no icon) each open a
+  menu of their pages, as a Play's Team and Progress tabs open theirs, so
+  every page is one step away: Team Planner (`/app/planner`) and My Plans
+  (`/app/plans`); the Collection's Pokémon, Favourites and Games
+  (`/app/collection`, `?view=favourites`, `?view=games`); the Codex's
+  Pokémon and Games. A name is bold while you are on any of its pages,
+  and its menu marks the page you are on. The menu is the only way
+  between those pages on desktop: the Planner's My Plans button and the
+  Collection's views switch show only below `lg`, where there is no top
+  bar.
 - **Account menu:** Library (`/app/library`, your rules and tags),
   Settings (`/app/settings`), Log in (back up your Plays to an
   account) or, once you've signed in, Log out, and Leave the app.
@@ -230,7 +237,7 @@ convenience, not a V1 routing or database requirement.
 ### Continue A Play
 
 ```txt
-Mainline Home (the shelf, Continue) or Plays -> Play Hub
+Mainline Home (the journey card, your other Plays) or Plays -> Play Hub
 ```
 
 ### Create A Play

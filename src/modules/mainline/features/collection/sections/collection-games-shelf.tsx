@@ -22,7 +22,6 @@ import {
   GameShelfGrid,
 } from "@/modules/reference/features/games/components/game-shelf-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
-import { CountMark } from "@/shared/components/corner-bubble";
 import { EmptyState } from "@/shared/components/empty-state";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 
@@ -110,12 +109,7 @@ export const CollectionGamesShelf = ({
                 game={game}
                 eager={index < EAGER_COVER_COUNT}
                 onClick={() => setOpenGameId(game.id)}
-                mark={
-                  <CountMark
-                    count={plays.length}
-                    label={countPlays(plays.length)}
-                  />
-                }
+                count={countPlays(plays.length)}
               />
             ))}
           </GameShelfGrid>

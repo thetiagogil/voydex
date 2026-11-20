@@ -71,7 +71,7 @@ const ComboboxClear = ({
  * and its focus ring drawn inside so the panel's edge never cuts it.
  */
 const panelSearchClassName =
-  "mb-1.5 h-11 rounded-md border-transparent bg-surface-2 px-1 has-[[data-slot=input-group-control]:focus-visible]:outline-2 has-[[data-slot=input-group-control]:focus-visible]:-outline-offset-2";
+  "mb-1.5 h-11 rounded-sm border-transparent bg-surface-2 px-1 has-[[data-slot=input-group-control]:focus-visible]:outline-2 has-[[data-slot=input-group-control]:focus-visible]:-outline-offset-2";
 
 const ComboboxInput = ({
   className,
@@ -248,7 +248,7 @@ const ComboboxEmpty = ({
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
       className={cn(
-        "text-14 text-ink-2 mt-2 hidden w-full justify-center py-2 text-center font-semibold group-data-empty/combobox-content:flex",
+        "copy-note text-ink-2 mt-2 hidden w-full justify-center py-2 text-center group-data-empty/combobox-content:flex",
         className,
       )}
       {...props}

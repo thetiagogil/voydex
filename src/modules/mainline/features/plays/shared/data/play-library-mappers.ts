@@ -172,8 +172,12 @@ const buildStoryPosition = (
     return { kind: "complete" };
   }
 
-  return next.milestone_name
-    ? { kind: "next", name: next.milestone_name }
+  return next.milestone_name && next.milestone_id !== null
+    ? {
+        kind: "next",
+        milestoneId: next.milestone_id,
+        name: next.milestone_name,
+      }
     : null;
 };
 

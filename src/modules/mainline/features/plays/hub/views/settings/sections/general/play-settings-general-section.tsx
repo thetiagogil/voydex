@@ -44,7 +44,7 @@ const SettingsFieldLabel = ({
   edited: boolean;
   htmlFor?: string;
 }) => (
-  <FieldLabel htmlFor={htmlFor} className="text-13 text-ink-2 font-extrabold">
+  <FieldLabel htmlFor={htmlFor} className="copy-label text-ink-2">
     <EditedMark edited={edited}>{children}</EditedMark>
   </FieldLabel>
 );

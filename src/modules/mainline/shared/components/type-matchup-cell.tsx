@@ -22,8 +22,8 @@ const kindClassNames: Record<MatchupKind, string> = {
 };
 
 const sizeClassNames = {
-  md: "text-14 h-7.5 min-w-11",
-  sm: "text-12 h-5.5 min-w-7.5",
+  md: "text-13 h-7 min-w-11",
+  sm: "text-12 h-6 min-w-7.5",
 } as const;
 
 const getMatchupKind = (cell: TypeMatchupCellValue): MatchupKind => {
@@ -66,7 +66,7 @@ const MatchupMark = ({
   return (
     <span
       className={cn(
-        "inline-grid place-items-center rounded-sm px-1.5 font-bold tabular-nums",
+        "inline-grid place-items-center rounded-full px-2 font-bold tabular-nums",
         sizeClassNames[size],
         kindClassNames[kind],
       )}
@@ -101,7 +101,7 @@ export const TypeMatchupLegend = ({ className }: { className?: string }) => {
     <ul
       aria-label="Matchup key"
       className={cn(
-        "text-13 text-ink-2 flex flex-wrap gap-x-3.5 gap-y-2 font-bold",
+        "copy-label text-ink-2 flex flex-wrap gap-x-4 gap-y-2",
         className,
       )}
     >
@@ -120,7 +120,7 @@ export const TypeMatchupLegend = ({ className }: { className?: string }) => {
 /* A type that hits two of the team super effectively, or one of them 4×. */
 export const TypeMatchupPressureTag = () => {
   return (
-    <StatusBadge tone="danger" size="xs">
+    <StatusBadge tone="danger" size="sm">
       Pressure
     </StatusBadge>
   );

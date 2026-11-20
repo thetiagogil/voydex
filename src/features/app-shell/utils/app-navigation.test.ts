@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import {
   accountLink,
+  appBarItems,
   codexLink,
   codexViewLinks,
   getBrandHref,
+  isCurrentBarItem,
+  isCurrentBarView,
   isCurrentLink,
   mainlineLinks,
   publicLinks,
@@ -62,6 +65,15 @@ describe("app navigation", () => {
     expect(tabBarLinks.length).toBeGreaterThan(0);
   });
 
+  it("calls the planner Planner on the bottom bar and keeps it current on My Plans", () => {
+    const planner = tabBarLinks.find((link) => link.slug === "planner")!;
+
+    expect(planner.shortLabel).toBe("Planner");
+    expect(isCurrentBarItem("/app/planner", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plans", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plays", planner)).toBe(false);
+  });
+
   it("keeps You current on the pages about you", () => {
     const isYouCurrent = (pathname: string) =>
       youLinks.some((link) => isCurrentLink(pathname, link));
@@ -81,5 +93,59 @@ describe("app navigation", () => {
       { href: "/#how-it-works", label: "How it works" },
       { href: "/#install", label: "Install" },
     ]);
+  });
+
+  it("gives Team Planner, Collection and the Codex a menu of their pages", () => {
+    const withMenus = appBarItems.filter((item) => item.views);
+
+    expect(appBarItems.map((item) => item.label)).toEqual([
+      "Home",
+      "Plays",
+      "Team Planner",
+      "Statistics",
+      "Collection",
+      "Codex",
+    ]);
+    expect(withMenus.map((item) => item.label)).toEqual([
+      "Team Planner",
+      "Collection",
+      "Codex",
+    ]);
+    expect(
+      withMenus.map((item) => item.views?.map((view) => view.label)),
+    ).toEqual([
+      ["Team Planner", "My Plans"],
+      ["Pokémon", "Favourites", "Games"],
+      ["Pokémon", "Games"],
+    ]);
+  });
+
+  it("keeps Team Planner current on the planner and on My Plans", () => {
+    const planner = appBarItems.find((item) => item.label === "Team Planner")!;
+
+    expect(isCurrentBarItem("/app/planner", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plans", planner)).toBe(true);
+    expect(isCurrentBarItem("/app/plays", planner)).toBe(false);
+  });
+
+  it("tells a menu's pages apart by their view when they share a path", () => {
+    const [pokemon, , games] = appBarItems.find(
+      (item) => item.label === "Collection",
+    )!.views!;
+
+    expect(isCurrentBarView("/app/collection", null, pokemon)).toBe(true);
+    expect(isCurrentBarView("/app/collection", "games", pokemon)).toBe(false);
+    expect(isCurrentBarView("/app/collection", "games", games)).toBe(true);
+    expect(isCurrentBarView("/app/plays", "games", games)).toBe(false);
+  });
+
+  it("keeps a Codex page current on its entries", () => {
+    const [pokemon] = appBarItems.find(
+      (item) => item.label === "Codex",
+    )!.views!;
+
+    expect(isCurrentBarView("/app/codex/pokemon/pikachu", null, pokemon)).toBe(
+      true,
+    );
   });
 });

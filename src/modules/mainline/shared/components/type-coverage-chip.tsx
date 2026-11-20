@@ -43,7 +43,7 @@ export const TypeCoverageChip = ({
   }
 
   return (
-    <span className="empty-slot text-ink-2 text-14 inline-flex h-8.5 items-center gap-1.75 rounded-full pr-3.25 pl-1 leading-none font-extrabold whitespace-nowrap">
+    <span className="empty-slot text-ink-2 copy-strong inline-flex h-9 items-center gap-2 rounded-full pr-3.5 pl-1.5 leading-none whitespace-nowrap">
       <IconDisc size="xs">
         {typeSlug ? (
           <PokemonTypeIcon type={typeSlug} className="size-3.5 opacity-60" />

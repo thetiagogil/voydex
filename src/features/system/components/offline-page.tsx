@@ -17,17 +17,13 @@ export const OfflinePage = () => (
     description="This page hasn't been opened on this device yet, so it isn't saved for offline use. Pages you've opened before still work."
     actions={
       <>
-        <Button
-          type="button"
-          size="lg"
-          onClick={() => window.location.reload()}
-        >
+        <Button type="button" onClick={() => window.location.reload()}>
           <AppIcon icon={appIcons.actions.retry} inline="start" />
           Try again
         </Button>
         <Link
           href={appRoutes.mainline}
-          className={buttonVariants({ variant: "secondary", size: "lg" })}
+          className={buttonVariants({ variant: "secondary" })}
         >
           <AppIcon icon={appIcons.actions.home} inline="start" />
           Back home

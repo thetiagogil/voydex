@@ -21,6 +21,7 @@ import {
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { SheetSection } from "@/shared/components/sheet-section";
+import { StatTile } from "@/shared/components/stat-tile";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -64,6 +65,12 @@ const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
  * It stays mounted so it slides in and out, showing the last species while
  * it closes.
  */
+/* When a Pokémon first joined you, as a month and a year. */
+const firstJoinedFormat = new Intl.DateTimeFormat("en", {
+  month: "short",
+  year: "numeric",
+});
+
 export const TrainerSpeciesSheet = ({
   collectionHref,
   entry: openEntry,
@@ -117,7 +124,7 @@ export const TrainerSpeciesSheet = ({
       headBleed
       meta={
         <div className="grid gap-2">
-          <p className="text-ink-2 text-13 font-bold">
+          <p className="text-ink-2 copy-label">
             {showsFamily
               ? `Old friend · ${species.length} species`
               : [
@@ -128,7 +135,7 @@ export const TrainerSpeciesSheet = ({
                   .join(" · ")}
           </p>
           {showsFamily ? (
-            <p className="text-ink-2 text-14 font-semibold">
+            <p className="text-ink-2 copy-note">
               {species.map((each) => each.name).join(" · ")}
             </p>
           ) : (
@@ -173,13 +180,32 @@ export const TrainerSpeciesSheet = ({
         ),
       })}
     >
+      {showsFamily ? null : (
+        /* The card's facts, as figures: how far this Pokémon goes back with you. */
+        <div className="grid grid-cols-3 gap-2">
+          <StatTile label="Plays" value={entry.playIds.length} />
+          <StatTile label="Games" value={entry.gameNames.length} />
+          <StatTile
+            label="First joined"
+            value={
+              entry.firstUsedAt
+                ? firstJoinedFormat.format(new Date(entry.firstUsedAt))
+                : "-"
+            }
+          />
+        </div>
+      )}
+
       <SheetSection
         className="gap-3"
         title="With you now"
         aside={nowPlayCount ? countPlays(nowPlayCount) : undefined}
       >
         {now.length ? (
-          <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
+          <ul
+            className="grid gap-2"
+            style={getPokemonTypeCssVariables(primaryType)}
+          >
             {now.map((member) => (
               <TrainerPlayRow
                 key={member.id}
@@ -216,7 +242,7 @@ export const TrainerSpeciesSheet = ({
             ))}
           </ul>
         ) : (
-          <p className="text-ink-2 text-14 font-semibold">
+          <p className="text-ink-2 copy-note">
             Not on any team or in reserve right now.
           </p>
         )}
@@ -228,7 +254,10 @@ export const TrainerSpeciesSheet = ({
           title="Before"
           aside={countPlays(before.length)}
         >
-          <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
+          <ul
+            className="grid gap-2"
+            style={getPokemonTypeCssVariables(primaryType)}
+          >
             {before.map((past) => (
               <TrainerPlayRow
                 key={past.play.id}
@@ -272,7 +301,7 @@ export const TrainerSpeciesSheet = ({
               : `${relatives.length} more species`
           }
         >
-          <ul className="grid grid-cols-3 gap-2.5">
+          <ul className="grid grid-cols-3 gap-2">
             {relatives.map((relative) => (
               <li key={relative.speciesId} className="min-w-0">
                 <PokemonSticker

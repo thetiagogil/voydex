@@ -18,11 +18,9 @@ export const StatTile = ({
   label: ReactNode;
   value: ReactNode;
 }) => (
-  <div className={cn("bg-surface-2 rounded-md px-4 py-3", className)}>
-    <p className="text-ink-2 text-13 font-bold">{label}</p>
+  <div className={cn("tile", className)}>
+    <p className="text-ink-2 copy-label">{label}</p>
     <p className="font-display text-24 font-semibold tabular-nums">{value}</p>
-    {children ? (
-      <p className="text-ink-2 text-14 font-semibold">{children}</p>
-    ) : null}
+    {children ? <p className="text-ink-2 copy-note">{children}</p> : null}
   </div>
 );

@@ -33,7 +33,7 @@ export type MedallionSize = "md" | "sm" | "xs";
 const sizeClassNames: Record<MedallionSize, string> = {
   md: "moment-ring m-1.25 size-11.5 [&_svg]:size-5",
   sm: "moment-ring m-px size-8 [&_svg]:size-4",
-  xs: "moment-ring-small m-0.5 size-6 [&_svg]:size-3",
+  xs: "moment-ring-small m-0.5 size-6 [&_svg]:size-3.5",
 };
 
 const imageSizeClassNames: Record<MedallionSize, string> = {

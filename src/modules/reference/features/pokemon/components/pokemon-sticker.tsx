@@ -61,8 +61,6 @@ type PokemonStickerProps = {
   number?: string;
   /* Its slot on a team, as the red number in the top-right corner. */
   slot?: string;
-  /* A mark in the top-right corner above the slot and shiny marks: the Collection's `CountMark`. */
-  mark?: ReactNode;
   /* Where a dragged Pokémon would land: the accent ring round its band. */
   target?: boolean;
   /*
@@ -98,7 +96,7 @@ const variantClassNames: Record<
     circle: "size-24",
     height: "min-h-48.5",
     marks: "mt-1.5 gap-1",
-    name: "text-16 mt-0.5",
+    name: "text-15 mt-0.5",
     sticker: "pb-3.5",
     typeSize: "sm",
   },
@@ -108,7 +106,7 @@ const variantClassNames: Record<
     circle: "size-17",
     height: "min-h-33",
     marks: "mt-1 gap-1",
-    name: "text-16 mt-0.5",
+    name: "text-15 mt-0.5",
     sticker: "pb-3",
     typeSize: "sm",
   },
@@ -143,7 +141,6 @@ export const PokemonSticker = ({
   selected = false,
   shiny = false,
   showTypes = true,
-  mark,
   slot,
   subtitle,
   target = false,
@@ -157,7 +154,7 @@ export const PokemonSticker = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const stickerClassName = cn(
-    "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
+    "group/sticker relative flex min-w-0 flex-col items-center rounded-lg px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     "sticker",
     /* The target's ring takes the shadow's place. */
     variant === "default" &&
@@ -175,7 +172,7 @@ export const PokemonSticker = ({
         <CornerBubble
           border="sticker"
           corner="inside-top-left"
-          className="text-ink-tint text-12 h-6 font-extrabold tabular-nums"
+          className="text-ink-tint copy-mark h-6 tabular-nums"
         >
           {number}
         </CornerBubble>
@@ -202,13 +199,13 @@ export const PokemonSticker = ({
       </span>
       {/* Passed but empty, the line stays so a grid's names line up. */}
       {subtitle !== undefined ? (
-        <span className="text-ink-tint text-13 w-full truncate font-semibold">
+        <span className="text-ink-tint copy-meta w-full truncate">
           {subtitle || "\u00a0"}
         </span>
       ) : null}
       <span
         className={cn(
-          "text-ink-tint text-13 flex items-center justify-center font-bold",
+          "text-ink-tint copy-label flex items-center justify-center",
           variantClassName.marks,
         )}
       >
@@ -228,20 +225,19 @@ export const PokemonSticker = ({
       </span>
       {/*
         The corner marks, last so their words follow the name: a warning
-        top-left; top-right the mark, then the slot, then the shiny mark.
+        top-left; top-right the slot, then the shiny mark.
       */}
       {warning ? (
         <CornerBubble border="sticker" corner="inside-top-left">
           <WarningMark label={warning} />
         </CornerBubble>
       ) : null}
-      {mark || slot || shiny ? (
+      {slot || shiny ? (
         <CornerBubble
           border="sticker"
           corner="inside-top-right"
           className="flex-col gap-2"
         >
-          {mark}
           {slot ? <SlotMark>{slot}</SlotMark> : null}
           {shiny ? <ShinyMark /> : null}
         </CornerBubble>
@@ -302,12 +298,17 @@ export const PokemonEmptySlot = ({
   target?: boolean;
   /* What it says inside; "Open slot" unless the slot means something else. */
   text?: string;
-  /* Matches the stickers it sits among. */
-  variant?: PokemonStickerVariant;
+  /*
+   * Matches what it sits among: a sticker variant, or `card` beside
+   * `PokemonCard`s (`size="fluid"`), so a row stands as tall empty as full.
+   */
+  variant?: PokemonStickerVariant | "card";
 }) => {
   const slotClassName = cn(
-    "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl font-bold",
-    variantClassNames[variant].height,
+    "empty-slot text-ink-3 copy-note flex min-w-0 flex-col items-center justify-center gap-3 rounded-lg",
+    variant === "card"
+      ? "min-h-36 sm:min-h-42"
+      : variantClassNames[variant].height,
     target && dropTargetRingClassName,
     className,
   );

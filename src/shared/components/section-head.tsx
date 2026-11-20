@@ -75,7 +75,7 @@ export const SectionHead = ({
       data-slot="section-head"
       className={cn(
         /* Actions too wide to share the title's line drop under it. */
-        "flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2.5",
+        "flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2",
         className,
       )}
     >
@@ -95,16 +95,14 @@ export const SectionHead = ({
               {title}
             </Heading>
             {aside ? (
-              <span className="text-ink-3 text-14 font-semibold max-[559px]:hidden">
+              <span className="text-ink-3 copy-note max-[559px]:hidden">
                 {aside}
               </span>
             ) : null}
           </div>
 
           {description ? (
-            <div className="text-14 text-ink-2 font-semibold">
-              {description}
-            </div>
+            <div className="copy-note text-ink-2">{description}</div>
           ) : null}
         </div>
       </div>

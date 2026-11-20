@@ -29,7 +29,7 @@ const DOCKED_BAR_HEIGHT = "76px";
  * A page's band, condensed: once the band scrolls away, a slim bar slides
  * down and docks to the top edge, full width on the band's colour, with the
  * picture, the page's name and its own controls in the page column. A
- * Play's head and a Pokémon's entry use it.
+ * Play's head, a Pokémon's entry and the Team Planner use it.
  */
 export const DockedBar = ({
   children,

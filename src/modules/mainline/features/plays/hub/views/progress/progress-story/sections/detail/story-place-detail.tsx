@@ -51,7 +51,7 @@ export const StoryPlaceDetail = ({
 
   return (
     <>
-      {note ? <p className="text-ink text-15 font-semibold">{note}</p> : null}
+      {note ? <p className="text-ink copy-body">{note}</p> : null}
       <StoryMilestoneBattles battles={battles} onSelect={onBattleSelect} />
       <SheetSection
         title="Pokémon found here"
@@ -69,9 +69,7 @@ export const StoryPlaceDetail = ({
         }
       >
         {!pokemon.length ? (
-          <p className="text-ink-3 text-14 font-semibold">
-            No wild Pokémon here.
-          </p>
+          <p className="text-ink-3 copy-note">No wild Pokémon here.</p>
         ) : compact ? (
           /* In the ways' order: a gift or a trade a line, the rest sprites. */
           <div className="grid gap-4">

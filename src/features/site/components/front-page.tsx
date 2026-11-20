@@ -25,13 +25,13 @@ const FrontBand = ({ art, playArt }: FrontPageProps) => (
       <h1 id="front-title" className="title-display max-w-[12em]">
         A Pokédex for your playthroughs.
       </h1>
-      <p className="text-16 sm:text-18 mt-4 mb-6 max-w-[31em] leading-relaxed font-semibold sm:mt-5 sm:mb-7.5">
+      <p className="copy-body sm:text-18 mt-4 mb-6 max-w-[31em] leading-relaxed sm:mt-5 sm:mb-7.5">
         Every run you play becomes an entry: its team, its badges, its Pokédex
         and exactly where you left off. One place for all your Pokémon games,
         from every generation.
       </p>
       <StartAction />
-      <p className="text-14 mt-3.5 font-semibold max-sm:w-full max-sm:text-center">
+      <p className="copy-note mt-3.5 max-sm:w-full max-sm:text-center">
         No account needed. Your Plays are saved on this device.
       </p>
     </div>
