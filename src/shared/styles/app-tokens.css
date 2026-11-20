@@ -30,7 +30,7 @@
   /* Ink is a deep navy, not a grey: it sits with the blue ground. */
   --ink: #1f2c49;
   --ink-2: #45536e;
-  --ink-3: #5b6986;
+  --ink-3: #566481;
   --on-ink: #f3f5f8;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
