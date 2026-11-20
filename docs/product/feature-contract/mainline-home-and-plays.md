@@ -13,18 +13,21 @@ to Statistics), and it owns no mutation of its own.
     your icon and name, your trainer title and when you started, and four
     figures: Plays, hours played, Pokémon owned (the species the Collection
     counts) and regions travelled.
-  - **Continue**: one slim row back into the Play you're on (the one
-    `?play=` names, else the one opened or changed last among those still
-    underway): its cover, name, status and next milestone, and from 640px
-    its team. The whole row opens the Play.
+  - **Continue**: the Play you're on (the one `?play=` names, else the one
+    opened or changed last among those still underway) as the Plays list's
+    own card, a size smaller, with "Continue" over its name: cover, name,
+    status and hours, team beside its overall ring. The card opens the
+    Play.
   - Then, in two columns from 1024px: **activity history** (a square for
     each of the last 26 weeks' days, deeper blue for more moments, by when
     they happened; 13 weeks on phones), **types you pick** (the six most
     used, with a bar), **your games** (one cover per game, the latest
     first) and **favourite Pokémon**, each short with a link to Statistics
     or the Collection; and **latest moments**: the newest eight across
-    every Play with History's medallions, status changes left out. On a
-    phone the moments come right after Continue.
+    every Play, in one column, each with its Play's cover, its kind and
+    Play, what happened and the milestone's own description, and how long
+    ago; each opens the moment in its Play's History. Status changes and
+    notes are left out. On a phone the moments come right after Continue.
     A row of other Plays and a Journal column were tried and dropped
     (2026-11-20); the Plays page lists every Play.
 - **With one brand-new Play:** its first partners wait on the band; tapping
