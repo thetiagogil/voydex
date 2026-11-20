@@ -4,7 +4,7 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * One figure inside a card or sheet (the Planner's Team check, a Story
- * battle's levels): a quiet label over a Fredoka value, and an optional line
+ * battle's levels): a quiet label over a Baloo 2 value, and an optional line
  * saying what it means, on the inset fill.
  */
 export const StatTile = ({

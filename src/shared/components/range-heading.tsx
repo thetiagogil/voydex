@@ -21,7 +21,7 @@ type RangeHeadingProps = {
 };
 
 /*
- * The head of a range inside a long list (v3 `.range`): a Fredoka 20 heading,
+ * The head of a range inside a long list (v3 `.range`): a Baloo 2 20 heading,
  * a count line and trailing actions. It wraps on phones.
  */
 export const RangeHeading = ({

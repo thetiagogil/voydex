@@ -17,7 +17,7 @@ type PageHeaderProps = {
 };
 
 /*
- * A page head: the Fredoka title, one line under it (and an optional note
+ * A page head: the Baloo 2 title, one line under it (and an optional note
  * below that), and an optional action that sits at the end of the row from
  * `sm` up. A tool handed down by the
  * page (`PageHeadToolProvider`) sits just before the action, so the main

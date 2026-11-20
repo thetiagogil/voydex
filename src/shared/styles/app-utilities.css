@@ -691,7 +691,7 @@
 
 /*
  * Room for descenders under clipped display text (a truncated or clamped
- * Fredoka title, whose tight line height cuts a g or y): a little padding
+ * Baloo 2 title, whose tight line height cuts a g or y): a little padding
  * below, taken back by the margin so the layout doesn't move.
  */
 @utility descender-room {

@@ -47,7 +47,7 @@ area before judging it. Rules come from `CLAUDE.md`,
 **UI and accessibility**
 
 - Soft Clay breaks: raw colours, game colour as a theme or on controls,
-  Fredoka under 16px or on controls, coloured lips on chrome, a second
+  Baloo 2 under 16px or on controls, coloured lips on chrome, a second
   selected style, motion on load or looping, tilt outside stamps, any retired
   design reference.
 - Icons not from `appIcons`; duplicated components where an existing

@@ -152,13 +152,16 @@ task; use more only when the user asks for parallel work on independent scopes.
 Voydex is quiet where you work and loud where you remember. The
 [Design System](./docs/app/design-system.md) is canonical; in short:
 
-- Use role tokens from `src/shared/styles/app-tokens.css` (`bg-surface`,
-  `text-ink-2`, `border-line`, `bg-action`). One palette for the whole app,
-  a Play included: a game's own colour (`getGameColourStyle`) only marks
+- The look is the Center design (2026-11-20): a red top bar, a dotted
+  pale-blue wall, white sections, navy ink. Use role tokens from
+  `src/shared/styles/app-tokens.css` (`bg-surface`, `text-ink-2`,
+  `border-line`, `bg-action`). One palette for the whole app, a Play
+  included: a game's own colour (`getGameColourStyle`) only marks
   which game is which (picker dots, cover placeholders, charts).
-- Fredoka for headings 20px and up, the Play and trainer names and owned
-  sticker names; Nunito for everything you operate. Nothing under 16px is
-  Fredoka.
+- Baloo 2 for headings 20px and up, the Play and trainer names and owned
+  Pokémon names; Nunito for everything you operate. Nothing under 16px is
+  Baloo 2. A section title is plain letters: never a filled pill, never a
+  mark before it, and the same inside a card and outside.
 - Loud only for identity and reward; chrome stays quiet. Colour follows
   60-30-10: neutral ground, supporting tints, one accent for what matters,
   and every text holds 4.5:1.
@@ -166,25 +169,33 @@ Voydex is quiet where you work and loud where you remember. The
   per job, edited in place; product components build on them and add
   meaning; screens use one of the two and never re-type a component's
   classes. If a screen needs more, the component gets the option.
-- Each colour has one job: the red (`action`) is only for actions; the blue
-  (`calm`) says where you are and what is on (picked rows, chips and pills
+- Each colour has its jobs: the red (`action`) is the top bar and actions,
+  nothing else; the blue (`calm`) says where you are and what is on (picked rows, chips and pills
   take `bg-select-soft text-select-ink`, a mode switch, a scope picker, a
   tick and a switch take the solid blue), and it draws progress and counts.
-- One shape language: everything is round and soft, and flat unless it is
-  the page's main action. One Pokémon card everywhere (`PokemonCard`, and
-  `PokemonSticker` on a team): white with a thin line when it isn't yours,
-  tinted in the white band when it is. Only the Collection frames what you
+- One shape language: everything is round and soft. Depth has three levels,
+  each with one meaning: a section is flat (white, a thin line, no blur); a
+  small solid edge means "you can open this" (a Play row, a Pokémon card, a
+  Collection card), and those rise a little under the pointer; only the
+  page's main action lifts on a soft shadow. Blur is otherwise for what
+  floats (menus, sheets, dialogs, toasts). One Pokémon card everywhere
+  (`PokemonCard`, and `PokemonSticker` on a team): white with a thin line
+  when it isn't yours; in its type's colour inside a white band, the
+  Pokémon standing a little out of a pale circle, when it is. Only the Collection frames what you
   own as collector cards (`PokemonCollectorCard`, `GameShelfCard` with
   `count`). A Play's tags and rules are paper tags (`PaperTag`), never
   controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
-  too, the same on phones. Only the main action (`default`) wears the white band and shadow;
-  every other button is flat, and a quiet one takes the fields' surface
-  (white with a hairline on the ground, the inset fill inside a card).
-- No hard lips and no presses that move. The main action and stickers share
-  the sticker edge (a white band on a soft shadow); cards lift on soft shadows;
-  the one picked never changes weight. The bar has no surface of its own: it
-  sits on the band's deeper strip, which steps down round the logo.
+  too, the same on phones. Controls have two looks: the main action
+  (`default`) is solid red on a soft shadow; every other button, field,
+  select, tab and chip is white with a thin outline, the same on the wall
+  and inside a card, and a pick is filled. Controls wear no white band. A
+  dropdown in a breadcrumb reads as the link beside it with a chevron.
+- No presses that move, and no edge or band drawn by hand: the edge comes
+  from `Card` `interactive`, `sticker`, `plain-card` or `card-frame`. The
+  one picked never changes weight. The bar sits on the red strip, which
+  steps down round the logo: white words, a white tab for the page you are
+  on.
   Toolbars and form rows are 48px; below 1024px sheets open from the
   bottom; every overlay, confirms included, has the corner close button and
   closes on Escape or a tap outside.
@@ -200,8 +211,9 @@ Voydex is quiet where you work and loud where you remember. The
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce a retired look;
-  `npm run design:check` (part of `verify`) fails on the journal design, hard
-  lips, presses that move, gradient fills and glass.
+  `npm run design:check` (part of `verify`) fails on the journal design, an
+  edge or a band drawn by hand, presses that move, gradient fills and
+  glass.
 
 ## Verification
 

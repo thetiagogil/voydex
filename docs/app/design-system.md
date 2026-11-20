@@ -12,17 +12,17 @@ the visual study it diffs against is `Voydex Redesign v3` (outside the repo,
 
 ## Where It Lives
 
-| Concern                  | Source                                                                  |
-| ------------------------ | ----------------------------------------------------------------------- |
-| Tokens, Tailwind theme   | `src/shared/styles/app-tokens.css`                                      |
-| Base type, focus, motion | `src/shared/styles/app-base.css`                                        |
-| Utilities                | `src/shared/styles/app-utilities.css`                                   |
-| Fonts                    | `src/app/fonts.ts` (Fredoka and Nunito through `next/font`)             |
-| Game colour table        | `src/modules/reference/features/games/utils/game-color-styles.ts`       |
-| Type colours             | `src/modules/reference/features/pokemon/styles/pokemon-type-tokens.css` |
-| Primitives               | `src/shared/components/ui` (shadcn-style, Base UI), restyled in place   |
-| Retired-design guard     | `scripts/design/check-design-leftovers.mjs` (`npm run design:check`)    |
-| Component gallery        | `/gallery` while developing (`src/features/system/components/gallery`)  |
+| Concern                  | Source                                                                    |
+| ------------------------ | ------------------------------------------------------------------------- |
+| Tokens, Tailwind theme   | `src/shared/styles/app-tokens.css`                                        |
+| Base type, focus, motion | `src/shared/styles/app-base.css`                                          |
+| Utilities                | `src/shared/styles/app-utilities.css`                                     |
+| Fonts                    | `src/app/fonts.ts` (Nunito through `next/font`; Baloo 2 in `globals.css`) |
+| Game colour table        | `src/modules/reference/features/games/utils/game-color-styles.ts`         |
+| Type colours             | `src/modules/reference/features/pokemon/styles/pokemon-type-tokens.css`   |
+| Primitives               | `src/shared/components/ui` (shadcn-style, Base UI), restyled in place     |
+| Retired-design guard     | `scripts/design/check-design-leftovers.mjs` (`npm run design:check`)      |
+| Component gallery        | `/gallery` while developing (`src/features/system/components/gallery`)    |
 
 The component gallery shows every shared component as it is, family by
 family (colours, type, buttons, switches, chips, labels, cards, fields,
@@ -53,7 +53,7 @@ new code prefers the role names.
 | Band, mound    | `band` (the pale blue PageBand); `hill`, `hill-2` (the small mound under a Pokémon in an empty state and on the 404 page; the meadow itself is gone since 2026-11-19)                                                                                                                                                                |
 | Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                                                                                                                                                                                      |
 | Corners        | Four sizes and the pill: `rounded-xs 6` (small marks), `sm 12` (inset tiles, rows), `lg 20` (stickers, tiles, cards inside a page card), `2xl 28` (page cards, sheets), `full` (every control and label). `design:check` fails on the two retired steps between them                                                                 |
-| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                                                                                                                                                                                       |
+| Shadows        | `shadow-card` (a section's thin line), `shadow-open` (the line and the small edge of a card you can open), `shadow-button` and `shadow-button-pressed` (the main button's lift), `shadow-cover`, `shadow-soft`, and `shadow-float`, `shadow-menu`, `shadow-overlay` for what floats                                                  |
 | Type scale     | Reading sizes `text-12 13 15 17` (12 marks, 13 small text, 15 what you read and press, 17 a lead line); title steps `text-20 24 28 32 36 44 48 52 64`; fields alone take `text-16` on phones, so iOS does not zoom; nothing under 12px. `design:check` fails on the retired 14 and 16                                                |
 | Spacing        | Gaps inside a component take one of eight steps: `gap-0.5 1 1.5 2 3 4 6 8` (2, 4, 6, 8, 12, 16, 24, 32px); page layout may also take `gap-10` and up. `design:check` fails on the steps between them                                                                                                                                 |
 | Card padding   | Set by `Card` alone: a section card 20px on phones and 24px from 640px, a card in a list or grid of many `size="sm"` 16px with the smaller corner. A screen only removes it (`p-0`, `px-0`) when its content pads itself. Inset blocks: `tile` 12/16px, `tile-link` 10/12px. `design:check` fails on padding set on a `Card` by hand |
@@ -66,8 +66,9 @@ Every page, the top bar, the footer and the docked Play bar line up in the
 transparent bar, which sits on its colour, while its copy stays in the page
 column. Every page opens on the
 `PageBand`, on the pale blue `band` (a Pokémon Center's windows), flat colour only. The band holds
-what the page is and how you shape it; the plain ground below holds what it
-shows (settled 2026-10-17):
+what the page is and how you shape it; the wall below (the ground with a
+quiet grain of dots, so a white section never sits on plain white) holds
+what it shows (settled 2026-10-17, the wall 2026-11-20):
 
 - **Lists** (Plays, My Plans, Collection, the Codex's games and Pokémon, a
   game's Pokédex): the title, its one line, the main button, the toolbar and
@@ -83,8 +84,8 @@ covers) brings the colour; a game shows through its covers. Nothing else
 breaks out of the column: the docked Play bar spans the window with its
 content in the column.
 
-The action red holds 4.5:1 with white. Focus is always the deeper action red
-outline, inside a Play too. Every text colour holds 4.5:1 on the ground it
+The action red holds 4.5:1 with white. Focus is always the focus-blue
+outline (white on the red bar), inside a Play too. Every text colour holds 4.5:1 on the ground it
 sits on (the muted inks on the band and the hover fill included), and
 the browser tests run axe's contrast rule on every page they visit.
 
@@ -98,15 +99,17 @@ and calm meanings (settled 2026-10-19).
 
 ## Type
 
-- **Fredoka (600)** is the app's voice: page, section, card, sheet and dialog
-  titles at 20px and up, list group headings, the Play name, the trainer name,
-  the names of Pokémon you own on stickers, and figures of 24px and up.
-  `h1`–`h3` default to it; card and section titles use it through `SectionHead`.
-- **Nunito (600–800)** is everything you operate (settled 2026-10-13 after a
-  side-by-side with v3's Fredoka button): every button including the
+- **Baloo 2 (700 and 800)** is the app's voice (2026-11-20, replacing
+  Fredoka): page, section, card, sheet and dialog titles at 20px and up,
+  list group headings, the Play name, the trainer name, the names of
+  Pokémon you own, and figures of 24px and up. `h1`–`h3` default to it;
+  card and section titles use it through `SectionHead`. A section title is
+  plain letters: never a filled pill, never a mark before it.
+- **Nunito (600–800)** is everything you operate (settled 2026-10-13):
+  every button including the
   main one, tabs, pills, chips, labels, table headers and reference-card
   titles.
-- Nothing under 16px is Fredoka.
+- Nothing under 16px is Baloo 2.
 - **Title steps (2026-10-19)**: every title of 20px and up takes one of the
   shared steps in `app-utilities.css`, never its own size, line height or
   tracking: `title-display` (a celebration or a front door: a trainer
@@ -115,19 +118,19 @@ and calm meanings (settled 2026-10-19).
   `title-hero` (a subject's head: a Pokémon, a Play, a game, the next
   objective; 36, then 48), `title-page` (a page's head: the lists, a Plan, an
   error page, a sheet's subject; 28, then 36), `title-section` (a section, a
-  wizard step, a form's head; 24, then 28), `title-card` (a card, a sheet or
-  dialog title, a range heading; 20, then 24) and `figure` (a big number on
+  wizard step, a form's head; 20, then 22), `title-card` (a card, a sheet or
+  dialog title, a range heading; 20) and `figure` (a big number on
   a tile). Prose takes
   `leading-relaxed`. `npm run design:check` fails on a hand-sized text,
   tracking or line height.
 
 ## Loudness Budget
 
-| Level  | For                                                    | May use                                                                                                        |
-| ------ | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| Loud   | Identity and reward: the Play, what you own and earned | Game fill, stickers, tilt (stamps only), gold, slap and pop, dotted texture (Play header only), the meadow     |
-| Lively | Pokémon themselves                                     | Type colours, art on its type-tint circle, type dots and chips                                                 |
-| Quiet  | Everything you operate and the chrome around content   | Warm white surfaces, soft shadows, ink, Nunito, the one action red, the soft selected tint, space between rows |
+| Level  | For                                                    | May use                                                                                                           |
+| ------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Loud   | Identity and reward: the Play, what you own and earned | Game fill, stickers, tilt (stamps only), gold, slap and pop, dotted texture (Play header only), the meadow        |
+| Lively | Pokémon themselves                                     | Type colours, art on its type-tint circle, type dots and chips                                                    |
+| Quiet  | Everything you operate and the chrome around content   | White surfaces with a thin line, navy ink, Nunito, the one action red, the soft selected tint, space between rows |
 
 - One loud kind per section, plus the page's main button. Chrome is never the
   loud thing.
@@ -137,25 +140,28 @@ and calm meanings (settled 2026-10-19).
 
 - **One palette for the whole app (2026-10-17).** Every page, a Play
   included, wears the same colours; a Play no longer takes its game's colour,
-  and no band or meadow tints toward a game. Each colour has one job
-  (2026-11-19): the red (`action`) is only for actions; the blue (`calm`)
+  and no band or meadow tints toward a game. Each colour has its jobs
+  (2026-11-20): the red (`action`) is the top bar (the Center's roof) and
+  actions, nothing else; the blue (`calm`)
   says where you are and what is on (`select-soft`/`select-ink` for picks,
   the solid blue for a strong pick, a tick, a radio, a switch) as well as
   progress and counts; a slot's number is ink. A game's own colour (`getGameColourStyle`, setting `--game` and
   `--game-strong`) is kept only for marks that tell games apart: the dots in
   version pickers, a cover's stand-in when there is no art, and Statistics'
   time chart.
-- **Fill** in the accent only on the main button, the active Play tab, a
-  mode switch or scope picker's pick and the start medallion. Never the
+- **Fill** in the red only on the top bar's strip, the main button and the
+  start medallion; in the blue on the active Play tab and a mode switch or
+  scope picker's pick. Never the
   background of a card, row, section or input, and never an outline round a
   row (an accent outline reads as an error). Progress (bars, rings, figures of how far you
   are) is the Poké Mart blue (`progress`), like the games' EXP bar; green
   stays for status.
 - **One look per size of Pokémon (2026-10-17)**: a Pokémon at card size is
   the one `PokemonCard` family with three looks by meaning: a plain white
-  card with a thin line for one you don't own (the Codex), the sticker with a white band for
-  one you own (`PokemonSticker`, its art on the same circle), and the sticker
-  with its band in its type's colour for one you picked. Anything smaller is
+  card with a thin line for one you don't own (the Codex), the card in its
+  type's colour inside a white band for one you own (`PokemonSticker`, the
+  Pokémon standing a little out of a pale circle), and the same card with
+  its band in its type's colour for one you picked. Anything smaller is
   the round portrait (`PokemonAvatar`), owned or planned alike. A moment's
   Pokémon is its `Medallion`, as every moment is.
 - **Buttons are one family (2026-10-17)**: every size is the same pill, a link
@@ -188,8 +194,8 @@ and calm meanings (settled 2026-10-19).
   takes the hover tint under the pointer, and given `resetValue` (what Reset
   puts back) it sits in the selected tint while it holds anything else, so
   a list shows which controls moved off its default.
-- **Selected controls**: the one picked is a small sticker, its fill in a
-  white band (`bubble`), and its weight never changes. Rows, chips and filter
+- **Selected controls**: the one picked is filled, with no band
+  (2026-11-20), and its weight never changes. Rows, chips and filter
   pills take `bg-select-soft text-select-ink` (the soft tint of the context
   colour with deep ink); menu rows take the tint with a check, select rows the tint alone. A mode
   switch (`SegmentedControl` `segment`, v3's `.mode-seg`) takes the solid
@@ -202,12 +208,13 @@ and calm meanings (settled 2026-10-19).
 - **The top bar** reads the `--bar-*` tokens and looks the same on every
   page. Its current mark swaps at once (no fade) and each link keeps its bold
   width, so changing section never flickers or nudges the other links. The
-  bar has no surface of its own (2026-11-19): it sits on the band's deeper
-  strip (`page-band-strip`, `band-deep`; `action-deep` on the site), which
-  covers the top of the Poké Ball mark and steps down only round the logo,
-  like a tab. The band leaves room under the strip before its title and
-  ends on a straight edge. Inside it the current section is a white tab
-  with blue words, the Codex sits with the other sections, and your
+  bar sits on the red strip (2026-11-20, `page-band-strip` in `band-deep`,
+  the Center's roof; `action-deep` on the site's red band), which covers
+  the top of the Poké Ball mark and steps down only round the logo, like a
+  tab. The band leaves room under the strip before its title and ends on a
+  straight edge. Its words are white, the V tile is white with a red V, the
+  current section is a white tab with red words, the Codex sits with the
+  other sections, and your
   initial sits on the soft red tint (as on your trainer card and the You tab) in a white band at the right; its menu holds only Settings and Log out, as far from the edge as the V on the left.
 - **Pickers on phones**: below 768px every select, searchable select and
   dropdown menu opens as a sheet from the bottom over the scrim
@@ -229,21 +236,30 @@ and calm meanings (settled 2026-10-19).
 
 ## Depth
 
-Nothing has a hard bottom edge, and nothing moves down when pressed (settled
-2026-10-17, replacing the raised "clicky" look). `npm run design:check` fails
-on a hard lip, a press that moves, a gradient fill or glass.
+Three levels, each with one meaning (settled 2026-11-20 with the Center
+design), and nothing moves down when pressed. `npm run design:check` fails
+on an edge or a band drawn by hand, a press that moves, a gradient fill or
+glass.
 
-- **Sticker edge (the one language)**: what you own and what you press share
-  it. An owned Pokémon is a `sticker`: its type tint in a 4px white border on
-  a soft shadow. The page's main action (`default`, and `inverse` on the
-  red) is a small sticker: its colour, a white band (the `--band` token, 3px,
-  the same at every size) and a soft shadow that shrinks when pressed
-  (`shadow-button`, `shadow-button-pressed`). Every other button is flat
-  (2026-11-19): a white band round a grey button on a white card showed
-  nothing but a double edge, so the band now means one thing. A pick (a segment, a Play tab, the top bar's current link, a chip) and
-  a small corner mark take the same band (`bubble`, also `--band`), so every
-  control's band is one width; `npm run design:check` fails on a band sized by
-  hand in a control. A disabled red or wine button turns neutral grey.
+- **Flat (a section)**: a section card is white on the dotted wall with a
+  thin line (`shadow-card`). It has no blur and no edge, and never reacts
+  to the pointer.
+- **The small edge ("you can open this")**: a card you press has a small
+  solid edge under it and rises a little under the pointer: a Play row and
+  a Home moment (`Card` `interactive`, `shadow-open`), a Pokémon card
+  (`sticker`, `plain-card`) and a Collection card (`card-frame`). An owned
+  Pokémon's card is in its type's colour inside a 3px white band; one you
+  don't own is white with a thin line.
+- **The lift (the main action)**: the page's main button (`default`, and
+  `inverse` on the red) is solid red on a soft shadow that shrinks when
+  pressed (`shadow-button`, `shadow-button-pressed`); it is the one thing
+  on a page that lifts. Blur is otherwise only for what floats over the
+  page: menus, sheets, dialogs, toasts and the docked bars.
+- **Controls wear no band.** Every other control you press is white with a
+  1.5px outline (`lip`), the same on the wall, on a band and inside a card;
+  a pick is filled. The white band (`bubble`, the `--band` token) is only
+  for a small mark on a card and your initial. A disabled red or wine
+  button turns neutral grey.
 - **Card corners (one rule)**: every Pokémon card (a sticker, a Planner
   slot, a pool tile, a Pokédex card) carries its marks in the same corners,
   drawn by the shared marks in `corner-bubble.tsx` and placed by
@@ -264,17 +280,15 @@ on a hard lip, a press that moves, a gradient fill or glass.
   scroller. `e2e/app/focus-rings.spec.ts` focuses every control on the main
   pages, desktop and phone, and fails on a ring or a corner mark a parent
   cuts off.
-- **Soft shadow (quiet material)**: a section card and the docked bars lift on a soft shadow (`shadow-card`, `shadow-float`), never a
-  lip. A card goes flat inside another card, a sheet or a dialog (`Card`
-  handles this); the Codex's reference cards (a Pokémon or a
-  game you don't own) share one surface, `plain-card`: white with a thin
-  `line` edge and no shadow, so they read on the page and inside a section
-  card alike (2026-10-19). The white band is only for what is yours or picked. A Pokémon card shows one name (the nickname,
+- **Cards inside cards**: a card loses its line inside another card, a
+  sheet or a dialog (`Card` handles this); the Codex's reference cards (a
+  Pokémon or a game you don't own) share one surface, `plain-card`: white
+  with a thin `line` and the small edge, so they read on the wall and inside
+  a section alike. The white band is only for what is yours or picked. A Pokémon card shows one name (the nickname,
   or the species without one); its level is the white `Lv.` chip beside the
   type dots, and the line under the name carries other facts (a role, Plays).
 - **Moments**: the medallions and the badge stamps wear a white band and a
-  soft rim and lift on a soft drop (`--moment-drop`), like the stickers. No
-  surface keeps a hard lip.
+  soft rim and lift on a soft drop (`--moment-drop`).
 - **Flat**: `ghost` and `soft` buttons, links, dialogs, sheets and menus
   (overlay or float shadow only), unpicked pills and chips.
 
@@ -342,16 +356,17 @@ the same white pill everywhere). A control sets its own size in its shared
 component (bar links, menus and selects 15; pills, chips and switch options
 13), never on the screen that uses it.
 
-One shape language (2026-11-19): everything is round and soft. Controls are
-pills, labels are pills, cards have round corners and lift on soft shadows.
+One shape language (2026-11-20): everything is round and soft. Controls are
+pills, labels are pills, and cards have generous round corners (14, 24 and
+32px).
 A few pieces carry more character, and only on things you own or remember,
 so they never fight the chrome:
 
 - **One Pokémon card everywhere** (`PokemonCard`, and `PokemonSticker` on a
   team): the number, the art on a round patch of the type's tint, the name,
   the types. White with a thin line when it isn't yours (the Codex, the
-  Team Planner's list, a Play's Pokédex); tinted inside the white band when
-  it is (caught, on a team). The Codex and the Planner must always draw the
+  Team Planner's list, a Play's Pokédex); in its type's colour inside the
+  white band when it is (caught, on a team). The Codex and the Planner must always draw the
   same card.
 - **The Collection frames what you own.** Its Pokémon
   (`PokemonCollectorCard`) and its games (`GameShelfCard` with `count`) are
@@ -375,8 +390,8 @@ status stays a pill with its dot, a section's title stays inside its card.
 ## Components
 
 Restyled primitives under `src/shared/components/ui` keep their names:
-`Button` (actions are stickers: `default` is the page's main action in the
-one red, `secondary` the quiet action, `destructive` a quiet action that
+`Button` (two looks: `default` is the page's main action, solid in the
+one red on a soft shadow; every other button is white with a thin outline: `secondary` the quiet action, `destructive` a quiet action that
 removes something, `inverse` the main action on the action colour itself (the front page's
 Dex: white, with the action's ink), `tint` an action on a tinted band such as the Play header
 or a sheet's head; `soft` is the flat close and minor action, `ghost` a flat
@@ -384,8 +399,8 @@ choice that shows `aria-pressed`. Two heights only: `default` 48px, as tall
 as a field, and `sm` 36px inside cards and rows; tabs, pills and chips are
 36px too on every screen (a segment switch is 48px with its track, or 36px
 as `sm`), so everything in a row is level; `icon`,
-`icon-sm` and `icon-xs` are round. A quiet button takes the fields' surface
-rule: white with a hairline on the ground, the inset fill inside a card. Words that go
+`icon-sm` and `icon-xs` are round. A quiet button and a field share one surface: white with a thin outline,
+the same on the wall and inside a card. Words that go
 somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `interactive`), `Badge` (tones `neutral`, `outline`, `ok`, `warn`, `calm`,
 `danger`, `gold`, `tint`, `select`, `paper`; sizes `sm` 24px and `md` 28px),
@@ -411,10 +426,9 @@ additions:
 
 **Fields** share one look from `ui/field-surface.ts`
 (`fieldSurfaceClassName`, `fieldFocusClassName`), used by `Input`,
-`Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. On the page ground a field
-is white with a 1.5px line; inside a card, dialog, alert dialog, sheet or
-popover it takes the inset fill (`surface-2`) without the line. An invalid
-field takes the danger line; focus is the action-red outline. A single-line
+`Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. A field is white with a 1.5px outline (`lip`), the same on the wall and
+inside a card, dialog, alert dialog, sheet or popover. An invalid
+field takes the danger line; focus is the focus-blue outline. A single-line
 field (input, search, select trigger) is a pill like the buttons beside it; a
 text area takes a soft `rounded-2xl` corner. Every form
 control is 48px tall (inputs, the search field, select triggers and the
@@ -518,19 +532,20 @@ page (`SectionHead`); a section of content (text, rows, stamps) is one card
 with the heading inside (`DetailSectionCard`).
 
 The utilities in `app-utilities.css` carry the recipes features may need
-without the component: `sticker` (an owned thing's surface: type tint from
-`--t`, a 4px white border on a soft shadow; override `--sticker-border` and
+without the component: `sticker` (an owned thing's surface: the card in its type's colour from
+`--t`, a 3px white band and the small edge; `sticker-art` stands the
+Pokémon out of its circle; override `--sticker-border` and
 `--sticker-shadow`; `sticker-picked` rings a drop target in the accent.
 Stickers, cards and open slots take it through their `target` option, and
-`useSlotDrag` is the one drag and drop between slots), `bubble` (a small mark's white band and soft shadow: corner marks,
-picked pills and tabs), `focus-ring` and `focus-ring-inset` (the one
+`useSlotDrag` is the one drag and drop between slots), `bubble` (a small mark's white band and soft shadow: corner marks and
+your initial), `focus-ring` and `focus-ring-inset` (the one
 keyboard ring, 3px of `focus`, lifting the focused element above its
 siblings; inset for segments, joined buttons and an index in a scrolling
 column), `moment-ring` and `moment-ring-small` (a
 medallion's or badge stamp's white band, its ring in `--mr` and the soft
 drop), `sticker-type-band` (a picked sticker's band in its type's colour),
 `plain-card` (a reference card you don't own: white,
-a thin `line` edge, no shadow) and `empty-slot` (the one open slot: 2.5px dashed
+a thin `line` and the small edge) and `empty-slot` (the one open slot: 2.5px dashed
 `dash`, no fill). Don't hand-roll any of them. `step-back` fades and greys
 the art of what belongs to another game than the one picked (the other
 version's exclusives, a game a Pokémon isn't in) while its words stay
@@ -702,11 +717,13 @@ History's Team filter); `npm run design:check` fails on any reference to the
 retired journal design. Where v3 needs data Voydex doesn't have, the screen
 shows `PendingData` (see above).
 
-Phase 4 (2026-10-17) rebuilt every component family on shared pieces and
-replaced the raised "clicky" look: actions and owned Pokémon share the
-sticker edge, cards lift on soft shadows, picks are small stickers, sheets
+Phase 4 (2026-10-17) rebuilt every component family on shared pieces;
+the Center design (2026-11-20, chosen in the Design Lab on copies of the
+real pages) set today's look: a red bar, a dotted wall, flat sections, a
+small edge on what you can open, one outlined look for controls and
+Pokémon cards in their type's colour. Sheets
 open from the bottom below 1024px, toolbars and form rows line up at 48px,
 every page opens on a band, and the browser tests run every axe rule.
-`npm run design:check` also fails on the retired raised look.
+`npm run design:check` also fails on an edge or a band drawn by hand.
 
 Dark mode, Skeletons and the real logo are deliberately not scheduled.

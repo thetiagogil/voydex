@@ -60,7 +60,7 @@ const hasDecision = (milestone: OverviewMilestone) =>
   milestone.decision_options.length > 0;
 
 /*
- * The journey card, under the team: where the objective stands, its Fredoka
+ * The journey card, under the team: where the objective stands, its Baloo 2
  * title, where it happens, then the page's one main button, which records it
  * in place (a choice opens Story's record form right here), and "Add a
  * note". In the same card, beside the words from 1024px and under them

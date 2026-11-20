@@ -138,9 +138,9 @@ export const GalleryFoundations = () => (
     <GallerySection
       id="type"
       title="Type"
-      description="Fredoka for headings and names, Nunito for everything you operate."
+      description="Baloo 2 for headings and names, Nunito for everything you operate."
     >
-      <GalleryGroup title="Titles (Fredoka)" columns={1}>
+      <GalleryGroup title="Titles (Baloo 2)" columns={1}>
         <Specimen label="Title steps" className="flex-col items-start gap-4">
           {titles.map((title) => (
             <p key={title.name} className="flex flex-wrap items-baseline gap-3">
