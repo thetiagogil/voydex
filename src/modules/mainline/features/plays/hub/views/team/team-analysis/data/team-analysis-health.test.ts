@@ -478,6 +478,20 @@ describe("buildTeamAnalysisVerdict", () => {
     expect(words(field())).toBe("Nothing needs fixing first.");
   });
 
+  it("says it is early for a team of one or two, whatever the cards read", () => {
+    const early = verdict(field({ share: 1 }), 1, 1);
+
+    expect(early?.summary).toBe(
+      "It's early: one Pokémon can't cover much yet.",
+    );
+    expect(early?.next).toEqual([
+      { text: "Add the Pokémon you catch and this reading fills in." },
+    ]);
+    expect(verdict(field({ share: 1 }), 2, 2)?.summary).toBe(
+      "It's early: 2 Pokémon can't cover much yet.",
+    );
+  });
+
   it("gives no verdict while the team can't be read", () => {
     expect(verdict(field(), 4)).toBeNull();
   });

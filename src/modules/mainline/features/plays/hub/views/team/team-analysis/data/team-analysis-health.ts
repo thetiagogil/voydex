@@ -446,13 +446,16 @@ export const buildTeamAnalysisHealth = ({
   ];
 };
 
+/* Below this many Pokémon the verdict says it is early. */
+const SMALL_TEAM = 3;
+
 /*
  * The verdict above the four cards: how the team holds up, in one plain
  * sentence, then the one thing to do first, so the reading never opens on
  * four badges alone. The first thing is the worst of what the cards found:
  * a shared weakness nothing answers, then a Pokémon far below the rest,
- * then slow knockouts, then any type left unanswered. Null while the team
- * can't be read.
+ * then slow knockouts, then any type left unanswered. A team of one or two
+ * is only told it is early. Null while the team can't be read.
  */
 export const buildTeamAnalysisVerdict = ({
   evidence,
@@ -468,6 +471,19 @@ export const buildTeamAnalysisVerdict = ({
   if (!typingComplete || !field.types.length) return null;
 
   const status = readTeamHealthStatus(field);
+
+  /* A Play that has just begun: say it is early, not that the team fails. */
+  if (evidence.activeCount < SMALL_TEAM) {
+    return {
+      next: [text("Add the Pokémon you catch and this reading fills in.")],
+      status,
+      summary:
+        evidence.activeCount === 1
+          ? "It's early: one Pokémon can't cover much yet."
+          : `It's early: ${evidence.activeCount} Pokémon can't cover much yet.`,
+    };
+  }
+
   const open = [...field.types]
     .sort((left, right) => right.answerCost - left.answerCost)
     .filter((reading) => !isAnswered(reading));
