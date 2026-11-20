@@ -37,14 +37,20 @@ export const HomeContinueRow = ({ play }: { play: HomePlay }) => (
       variant="interactive"
       className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 sm:grid-cols-[auto_minmax(0,1fr)_auto_auto] sm:gap-6"
     >
-      <GameCover
-        alt=""
-        coverImageUrl={play.coverImageUrl}
-        eager
-        gameName={play.gameName}
-        gameSlug={play.gameSlug ?? undefined}
-        size="slim"
-      />
+      {/*
+       * In a span: a card trims its padding and rounds the top of a picture
+       * that is its first child (a hero image), which a cover isn't.
+       */}
+      <span className="flex shrink-0">
+        <GameCover
+          alt=""
+          coverImageUrl={play.coverImageUrl}
+          eager
+          gameName={play.gameName}
+          gameSlug={play.gameSlug ?? undefined}
+          size="slim"
+        />
+      </span>
       <div className="min-w-0">
         <p className="text-select-ink copy-label">Continue</p>
         <p className="title-card truncate">{play.name}</p>

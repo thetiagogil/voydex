@@ -234,7 +234,7 @@ export const HomeDashboard = ({
               title="Your games"
               more={{
                 href: appRoutes.mainlineCollectionGames,
-                label: "Collection",
+                label: "Game collection",
               }}
             >
               <ul className="grid grid-cols-3 gap-3 sm:grid-cols-5">
@@ -266,7 +266,7 @@ export const HomeDashboard = ({
               title="Favourite Pokémon"
               more={{
                 href: appRoutes.mainlineCollectionFavourites,
-                label: "Collection",
+                label: "Favourite collection",
               }}
             >
               <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4">
