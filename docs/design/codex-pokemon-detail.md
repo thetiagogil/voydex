@@ -71,7 +71,7 @@ Important rules:
   toggle), a description (pending data), and the one sentence read from
   the data. Signed in, the Your Plays icon ("Your Plays (N)", or "Add to a
   Play" with none) jumps to In your Plays at the page's end, which shows
-  where the Pokémon already is before its Add to a Play menu. The game page
+  where the Pokémon already is before its Add to a Play picker. The game page
   head works the same way: the version switch with the Your Plays icon
   beside it. The Pokédex's entries live per game in Pokédex numbers, not in
   the hero.

@@ -76,8 +76,11 @@ const CodexNewPlayHost = ({ children }: { children: ReactNode }) => (
 const getAddItems = (plays: CodexPlay[]) =>
   plays.map((play) => ({
     detail: play.statusName,
+    gameName: getGameShortName(play.gameName),
+    gameSlug: play.gameSlug,
     id: play.id,
     label: play.label,
+    name: play.name,
   }));
 
 /*

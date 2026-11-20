@@ -78,7 +78,7 @@ export const CodexAddToPlay = ({
   return (
     <>
       <PlayPickerMenu
-        heading="Add to"
+        heading="Add to which Play?"
         triggerLabel="Add to a Play"
         items={plays}
         newPlay={{ label: "Start a new Play" }}

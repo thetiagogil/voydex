@@ -7,8 +7,9 @@ import { cva, type VariantProps } from "class-variance-authority";
  * looks. `default` is the page's main action: solid action red on a soft
  * shadow, the one thing on a page that lifts. Every other button you press is
  * white with a thin outline, the same on the wall, on a band and inside a
- * card: `secondary` is the quiet action and `tint` the same on a tinted
- * band. `destructive` is a quiet action that removes something; `inverse`
+ * card: `secondary` is the quiet action (pressed, as a switch such as the
+ * favourite heart, it fills with the blue like every pick) and `tint` the
+ * same on a tinted band. `destructive` is a quiet action that removes something; `inverse`
  * is the main action on the action colour itself (the front page's red),
  * white with the action's ink; `soft` is a control inside a field (show or
  * hide a password); `ghost` is bare words in a row of choices and shows
@@ -23,7 +24,7 @@ const buttonStyles = cva(
         default:
           "bg-action bg-clip-border font-extrabold text-white shadow-button hover:bg-action-deep active:bg-action-lip active:shadow-button-pressed aria-expanded:bg-action-deep disabled:shadow-none",
         secondary:
-          "border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-select-soft aria-pressed:text-select-ink",
+          "border-lip bg-surface font-bold text-ink hover:bg-hover aria-expanded:bg-hover aria-pressed:border-transparent aria-pressed:bg-calm aria-pressed:text-white aria-pressed:hover:bg-calm-ink",
         destructive:
           "bg-danger-soft font-extrabold text-danger-deep hover:bg-danger-soft-2",
         inverse:
