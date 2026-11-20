@@ -315,7 +315,7 @@ export const PlannerPoolSection = ({
                 return (
                   <li
                     key={pokemon.formId}
-                    className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
+                    className="relative h-full min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                   >
                     <IconTip
                       label={notes.join(" ") || undefined}
@@ -330,7 +330,7 @@ export const PlannerPoolSection = ({
                               ? pokemon.types[0].slug
                               : null,
                           )}
-                          className="focus-ring block w-full rounded-lg"
+                          className="focus-ring block h-full w-full rounded-lg"
                         >
                           {/* The number the tile no longer shows, read first as before. */}
                           <span className="sr-only">

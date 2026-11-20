@@ -282,6 +282,8 @@ export const PokemonCard = ({
         className={cn(
           "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           sizes.name,
+          /* Room for two lines always, so a row of tiles stands level. */
+          compact && "min-h-[2lh]",
           state === "missing" && "text-ink-3",
         )}
       >
