@@ -76,9 +76,14 @@ export const PlannerDockedBar = ({
       title={title}
       trailing={
         <div className="flex min-w-0 items-center gap-3">
+          {/*
+           * From 1280px the team sits in the middle of the bar, the name left
+           * and Save right; narrower, it sits beside Save so a long name never
+           * runs under it.
+           */}
           <ol
             aria-label={`Your team, ${filled} of 6`}
-            className="grid grid-cols-[repeat(6,36px)] gap-1.5 sm:grid-cols-[repeat(6,44px)] sm:gap-2 lg:grid-cols-[repeat(6,52px)]"
+            className="grid grid-cols-[repeat(6,36px)] gap-1.5 sm:grid-cols-[repeat(6,44px)] sm:gap-2 lg:grid-cols-[repeat(6,52px)] xl:absolute xl:left-1/2 xl:-translate-x-1/2"
           >
             {slots.map((member, index) => {
               const pokemon = member ? byId.get(member.formId) : undefined;
