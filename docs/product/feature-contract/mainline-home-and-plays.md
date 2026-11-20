@@ -22,7 +22,7 @@ to Statistics), and it owns no mutation of its own.
     each of the last 26 weeks' days, deeper blue for more moments, by when
     they happened; 13 weeks on phones), **your games** (one cover per game,
     the latest first) and **favourite Pokémon**, each short with a link to
-    the Collection; and **latest moments**: the newest five across
+    the Collection; and **latest moments**: the newest six across
     every Play, in one column, each with its Play's cover, its kind and
     Play, what happened and the milestone's own description, and how long
     ago; each opens the moment in its Play's History. Status changes and

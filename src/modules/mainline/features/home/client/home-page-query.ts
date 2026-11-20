@@ -180,7 +180,7 @@ const toCardPlay = (
 };
 
 /* How many of the latest moments Home lists. */
-const HOME_MOMENT_COUNT = 5;
+const HOME_MOMENT_COUNT = 6;
 /* Home's profile shows one row of covers and one of favourites. */
 const HOME_COVER_COUNT = 5;
 const HOME_FAVOURITE_COUNT = 4;
