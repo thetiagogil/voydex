@@ -614,7 +614,8 @@ There are no site-only stills: a public picture uses the app's own component.
   number top right where it has one.
 - **Every page opens on a band**: the pale blue `PageBand`, in the app
   (Home included: its band holds your trainer card, and a Play too) and on
-  the site (the front page, Log in), under the red top bar: the V tile and
+  the site (the front page, Log in), with round bottom corners (2026-11-20),
+  under the red top bar: the V tile and
   the name, the sections as white words (the current one a white pill, the
   same size and weight as a hovered link), and your utilities. The start
   screen stands alone on the wall: the V in a ring that fills or turns.
