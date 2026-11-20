@@ -428,6 +428,7 @@ export const GameShelfPicker = ({
         <SegmentedControl
           ariaLabel="Jump to a generation"
           className="max-w-none shrink-0 flex-nowrap gap-1"
+          evenWidth
           onValueChange={jumpToGeneration}
           options={generationOptions}
           selectedTone="strong"

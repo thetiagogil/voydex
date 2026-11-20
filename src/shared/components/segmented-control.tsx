@@ -59,6 +59,11 @@ type SegmentedControlProps<TValue extends string> = {
    * (a scope picker in a page head); from `sm` up it wraps in place.
    */
   phoneScroll?: boolean;
+  /*
+   * Every pill the same width, for a row of short marks that reads as a
+   * scale (the generations I to IX), so the row doesn't step in and out.
+   */
+  evenWidth?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
    * Both sizes are 36px tall from `sm` up and 40px on phones, so pills line
@@ -112,6 +117,7 @@ export const getSegmentedOptionState = <TValue extends string>(
 export const SegmentedControl = <TValue extends string>({
   ariaLabel,
   className,
+  evenWidth = false,
   fullWidth = false,
   iconOnly = false,
   onValueChange,
@@ -166,6 +172,7 @@ export const SegmentedControl = <TValue extends string>({
           variant === "segment" && size === "md" && "h-10 px-3.5",
           variant === "segment" && size === "sm" && "h-7",
           iconOnly && "px-3.5 sm:px-3",
+          evenWidth && "w-12 justify-center px-0",
           fullWidth && "flex-1 justify-center",
           /*
            * The pick is filled, with no band. The weight never changes, so

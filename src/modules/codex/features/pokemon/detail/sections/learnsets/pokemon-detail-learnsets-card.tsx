@@ -201,15 +201,19 @@ export const PokemonDetailLearnsetsCard = ({
           ) : null}
 
           {filteredLearnsets.length ? (
-            <Table className="max-md:block md:min-w-155">
+            /*
+             * Fixed columns from 768px: only the move's name varies, so it
+             * takes the room left and every game's table lines up the same.
+             */
+            <Table className="max-md:block md:min-w-155 md:table-fixed">
               <TableHeader className="max-md:hidden">
                 <TableRow>
-                  <TableHead>How</TableHead>
+                  <TableHead className="md:w-24">How</TableHead>
                   <TableHead>Move</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead className="text-right">Power</TableHead>
-                  <TableHead className="text-right">Accuracy</TableHead>
-                  <TableHead className="text-right">PP</TableHead>
+                  <TableHead className="md:w-28">Category</TableHead>
+                  <TableHead className="text-right md:w-24">Power</TableHead>
+                  <TableHead className="text-right md:w-28">Accuracy</TableHead>
+                  <TableHead className="text-right md:w-20">PP</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="max-md:block">

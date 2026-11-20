@@ -64,6 +64,7 @@ export const CodexGenerationPills = <TValue extends string>({
       <SegmentedControl
         ariaLabel="Generation"
         className="max-w-none shrink-0 flex-nowrap"
+        evenWidth
         size="sm"
         onValueChange={onValueChange}
         options={options}
