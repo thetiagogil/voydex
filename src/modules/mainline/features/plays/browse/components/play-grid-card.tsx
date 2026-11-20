@@ -1,9 +1,9 @@
 import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
-import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
-import { PlayCardStatus } from "@/modules/mainline/features/plays/browse/components/play-card-status";
-import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
+import { PlayCardHeading } from "@/modules/mainline/features/plays/shared/components/play-card-heading";
+import { PlayCardStatus } from "@/modules/mainline/features/plays/shared/components/play-card-status";
+import { PlayToken } from "@/modules/mainline/features/plays/shared/components/play-token";
 import {
   getPlayCombinedPercent,
   getPlayProgressNote,

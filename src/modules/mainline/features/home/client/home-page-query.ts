@@ -13,7 +13,6 @@ import {
   readMainlineMomentInstants,
   readMainlineTimelineAcrossPlays,
 } from "@/modules/mainline/features/plays/shared/client/play-timeline-reader";
-import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/client/play-moment-context-reader";
 import { readFavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
 import { readTrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
 import { buildFavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
@@ -189,7 +188,7 @@ const HOME_TYPE_COUNT = 6;
 
 /*
  * Home's trainer profile: what Statistics and the Collection read, cut
- * short, and the moments across every Play with what their medallions need.
+ * short, and the latest moments across every Play.
  */
 const readHomeProfile = async (
   supabase: ServerSupabaseClient,
@@ -197,12 +196,7 @@ const readHomeProfile = async (
   plays: PlayBrowseItem[],
 ): Promise<HomeProfile> => {
   const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
-  const nameById = new Map(
-    plays.map((play) => [play.play_id, play.play_name ?? "Untitled Play"]),
-  );
-  const generationById = new Map(
-    plays.map((play) => [play.play_id, play.generation_id]),
-  );
+  const playById = new Map(plays.map((play) => [play.play_id, play]));
   const [trainerRows, favouriteRows, events, momentInstants] =
     await Promise.all([
       readTrainerPokemonRows(supabase, userId),
@@ -212,18 +206,6 @@ const readHomeProfile = async (
     ]);
   const entries = buildTrainerPokemonEntries(trainerRows);
   const stats = buildStatsModel(trainerRows, entries);
-  /* Each Play's moments read their medallions at that Play's generation. */
-  const eventsByPlay = Map.groupBy(events, (event) => event.play_id ?? "");
-  const contexts = await Promise.all(
-    [...eventsByPlay].map(([playId, playEvents]) =>
-      readMainlinePlayMomentContext(supabase, {
-        events: playEvents,
-        generationId: generationById.get(playId) ?? null,
-        playId,
-      }),
-    ),
-  );
-
   return {
     covers: stats.playCovers.slice(0, HOME_COVER_COUNT),
     favourites: buildFavouritePokemon(
@@ -240,20 +222,18 @@ const readHomeProfile = async (
         (region) => region.playLabels.length,
       ).length,
     },
-    momentContext: {
-      badgeByMilestoneId: contexts.flatMap(
-        (context) => context.badgeByMilestoneId,
-      ),
-      trophyMilestoneIds: contexts.flatMap(
-        (context) => context.trophyMilestoneIds,
-      ),
-      typeByFormId: contexts.flatMap((context) => context.typeByFormId),
-    },
     momentInstants,
-    moments: events.map((event) => ({
-      event,
-      playName: nameById.get(event.play_id) ?? "Untitled Play",
-    })),
+    moments: events.map((event) => {
+      const play = playById.get(event.play_id);
+
+      return {
+        coverImageUrl: play?.coverImageUrl ?? null,
+        event,
+        gameName: play?.game_name ?? "Unknown game",
+        gameSlug: play?.game_slug ?? null,
+        playName: play?.play_name ?? "Untitled Play",
+      };
+    }),
     title: stats.title.title,
     types: stats.types
       .filter((type) => type.count > 0)
@@ -321,21 +301,11 @@ export const getHomePageData = async (
     }
   }
 
-  const [teamTypes, profile] = await Promise.all([
-    readTeamTypes(supabase, [current], slugByTypeId),
-    readHomeProfile(supabase, userId, browseItems),
-  ]);
-  const journey = toCardPlay(current, teamTypes);
-
-  if (!journey) {
-    throw new Error("Unable to load your latest Play.");
-  }
-
   return {
     displayName: names.displayName,
-    journey,
+    journey: current,
     kind: "plays",
-    profile,
+    profile: await readHomeProfile(supabase, userId, browseItems),
   };
 };
 

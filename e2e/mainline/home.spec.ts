@@ -79,7 +79,7 @@ test.describe("Home", () => {
     ).toContainText("Pokémon owned");
 
     /* The latest Play is the one Continue opens. */
-    const continueRow = page.getByRole("link", { name: /^Continue/ });
+    const continueRow = page.getByRole("link", { name: /Continue/ });
     await expect(continueRow).toContainText(journeyName);
     await expect(continueRow).toHaveAttribute(
       "href",
@@ -94,7 +94,7 @@ test.describe("Home", () => {
 
     /* `?play=` puts another Play on the Continue row. */
     await page.goto(`/app?play=${otherId}`, { waitUntil: "networkidle" });
-    await expect(page.getByRole("link", { name: /^Continue/ })).toContainText(
+    await expect(page.getByRole("link", { name: /Continue/ })).toContainText(
       otherName,
     );
   });
@@ -118,7 +118,7 @@ test.describe("Home", () => {
     const continueText = async () => {
       await page.goto("/app", { waitUntil: "networkidle" });
       /* Home draws once the device database has opened. */
-      const continueRow = page.getByRole("link", { name: /^Continue/ });
+      const continueRow = page.getByRole("link", { name: /Continue/ });
       await expect(continueRow).toBeVisible();
 
       return continueRow.innerText();

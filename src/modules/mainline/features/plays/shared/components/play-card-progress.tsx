@@ -9,6 +9,7 @@ import { cn } from "@/shared/utils/cn";
 type PlayCardProgressProps = {
   className?: string;
   progress: PlayBrowseProgress;
+  size?: "md" | "sm";
 };
 
 /*
@@ -19,6 +20,7 @@ type PlayCardProgressProps = {
 export const PlayCardProgress = ({
   className,
   progress,
+  size = "md",
 }: PlayCardProgressProps) => {
   const percent = getPlayCombinedPercent(progress);
 
@@ -33,6 +35,7 @@ export const PlayCardProgress = ({
   return (
     <ProgressDonut
       label="Overall progress"
+      size={size}
       value={percent}
       className={cn("w-14 sm:w-18", className)}
     />

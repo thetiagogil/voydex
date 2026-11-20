@@ -53,7 +53,7 @@ test.describe("Page changes", () => {
     });
 
     await page.goto(`/app?play=${firstId}`, { waitUntil: "networkidle" });
-    const continueRow = page.getByRole("link", { name: /^Continue/ });
+    const continueRow = page.getByRole("link", { name: /Continue/ });
 
     await expect(continueRow).toBeVisible();
 

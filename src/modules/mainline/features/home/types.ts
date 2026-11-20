@@ -1,8 +1,8 @@
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
-import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type {
   MainlinePlayTimelineEvent,
   NewPlayPickerData,
+  PlayBrowseItem,
 } from "@/modules/mainline/features/plays/shared/types";
 import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
 import type {
@@ -24,9 +24,12 @@ export type HomeBand = {
   play: HomePlay;
 };
 
-/* One of the latest moments, with the name of the Play it was recorded in. */
+/* One of the latest moments, with the Play it was recorded in. */
 export type HomeMoment = {
+  coverImageUrl: string | null;
   event: MainlinePlayTimelineEvent;
+  gameName: string;
+  gameSlug: string | null;
   playName: string;
 };
 
@@ -44,8 +47,6 @@ export type HomeProfile = {
     regionCount: number;
     visitedRegionCount: number;
   };
-  /* What the moments' medallions need: badges, trophies, Pokémon types. */
-  momentContext: PlayMomentContextEntries;
   /* When every moment happened, for the activity history. */
   momentInstants: string[];
   /* The latest moments across every Play, newest first. */
@@ -71,7 +72,7 @@ export type HomePageData =
   | {
       displayName: string | null;
       /* The Play you're on: the one `?play=` names, else the latest underway. */
-      journey: HomePlay;
+      journey: PlayBrowseItem;
       kind: "plays";
       profile: HomeProfile;
     };

@@ -1,4 +1,4 @@
-import { getPlayLibraryDescription } from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { getPlayLibraryDescription } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

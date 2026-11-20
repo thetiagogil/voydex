@@ -12,6 +12,8 @@ import { cn } from "@/shared/utils/cn";
 
 type PlayCardTeamProps = {
   className?: string;
+  /* `md` on the Plays list, as tall as the ring beside it; `sm` on Home's Continue card. */
+  size?: "md" | "sm";
   team: PlayBrowseTeam;
 };
 
@@ -19,7 +21,11 @@ type PlayCardTeamProps = {
  * The active team as small Pokémon (`PokemonAvatar`, the same as a Plan's
  * strip), each on its type's tint; open slots are dashed rings.
  */
-export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
+export const PlayCardTeam = ({
+  className,
+  size = "md",
+  team,
+}: PlayCardTeamProps) => {
   if (team.state === "unavailable") {
     return (
       <p className={cn("text-ink-3 copy-meta", className)}>Team unavailable</p>
@@ -29,7 +35,12 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   return (
     <ul
       aria-label="Active team"
-      className={cn("grid grid-cols-[repeat(6,48px)] gap-1.5", className)}
+      className={cn(
+        size === "sm"
+          ? "grid grid-cols-[repeat(6,48px)] gap-1.5"
+          : "grid grid-cols-[repeat(6,64px)] gap-2",
+        className,
+      )}
     >
       {getPlayTeamSlots(team.members).map(({ member, position }) => (
         <li key={member?.play_pokemon_id ?? `open-${position}`}>
