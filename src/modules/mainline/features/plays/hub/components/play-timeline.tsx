@@ -63,18 +63,24 @@ export const PlayTimelineItem = ({
  * width.
  */
 export const PlayTimelineMonth = ({
+  anchorId,
   children,
   count,
   label,
   titleId,
 }: {
+  /* The month's own anchor, so an index can jump to it. */
+  anchorId?: string;
   /* The month's moments, each a `PlayTimelineItem`. */
   children?: ReactNode;
   count: number;
   label: string;
   titleId: string;
 }) => (
-  <PlayTimelineItem className="pt-5 first:pt-0">
+  <PlayTimelineItem
+    id={anchorId}
+    className="scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)] pt-5 first:pt-0"
+  >
     <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
       <span
         aria-hidden

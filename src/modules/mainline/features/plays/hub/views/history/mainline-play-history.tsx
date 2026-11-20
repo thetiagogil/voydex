@@ -31,6 +31,7 @@ import {
   type PlayHistoryFilter,
   type PlayHistorySort,
 } from "./data/play-history-model";
+import { PlayHistoryIndex } from "./sections/timeline/play-history-index";
 import { PlayHistoryMonthItems } from "./sections/timeline/play-history-month";
 import { PlayHistoryToolbar } from "./sections/timeline/play-history-toolbar";
 
@@ -167,17 +168,28 @@ export const MainlinePlayHistory = ({
 
       <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
-          <PlayTimeline label="Moments">
-            {sort === "oldest" ? start : null}
-            {months.map((month) => (
-              <PlayHistoryMonthItems
-                key={month.key}
-                context={context}
-                month={month}
+          /* From 1024px the line shares the row with its index. */
+          <div className="grid min-w-0 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_17rem]">
+            <PlayTimeline label="Moments">
+              {sort === "oldest" ? start : null}
+              {months.map((month) => (
+                <PlayHistoryMonthItems
+                  key={month.key}
+                  context={context}
+                  month={month}
+                />
+              ))}
+              {sort === "newest" ? start : null}
+            </PlayTimeline>
+            <aside className="sticky-panel max-lg:hidden">
+              <PlayHistoryIndex
+                kinds={filterOptions.filter(
+                  (option) => option.value !== "all" && option.count > 0,
+                )}
+                months={months}
               />
-            ))}
-            {sort === "newest" ? start : null}
-          </PlayTimeline>
+            </aside>
+          </div>
         ) : isSearching ? (
           <EmptyState
             title="No moments match"
