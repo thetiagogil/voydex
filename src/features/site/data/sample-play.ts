@@ -12,7 +12,7 @@ import type {
  */
 export const samplePlay: PublicSamplePlay = {
   game: { name: "Pokémon Red", region: "Kanto", slug: "red" },
-  name: "Red · Back to Kanto",
+  name: "Kanto playthrough",
   playtimeMinutes: 28 * 60 + 12,
   status: "Playing",
   trainer: "Sam",

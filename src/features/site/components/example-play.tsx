@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { PokemonRender } from "@/features/site/components/pokemon-render";
 import {
@@ -37,10 +35,7 @@ export const ExamplePlay = ({
     inert
     className="bg-surface text-ink shadow-card w-full rounded-2xl p-4 text-left sm:p-5.5"
   >
-    <p className="copy-mark text-ink-2 tracking-wider uppercase">
-      A Play · {samplePlay.game.region}
-    </p>
-    <div className="mt-2.5 flex gap-4">
+    <div className="flex gap-4">
       {art.gameCover({ className: "h-28 sm:h-33", game: samplePlay.game })}
       <div className="flex min-w-0 flex-1 flex-col items-start">
         <p className="title-card">{samplePlay.name}</p>
@@ -79,15 +74,16 @@ export const ExamplePlay = ({
         </span>
       ))}
     </div>
-    <div className="mt-4 grid grid-cols-[repeat(8,minmax(0,2.625rem))] gap-1.5 sm:gap-2">
+    {/* The eight badges share the card's width, with room between them. */}
+    <div className="mt-4 flex justify-between gap-1.5">
       {samplePlayBadges.map((badge, index) => (
-        <Fragment key={badge.name}>
+        <span key={badge.name} className="max-w-10.5 min-w-0 flex-1">
           {playArt.badgeStamp({
             spriteSlug: badge.spriteSlug,
             tilt: stampTilts[index] ?? 0,
             type: badge.type,
           })}
-        </Fragment>
+        </span>
       ))}
     </div>
   </div>
