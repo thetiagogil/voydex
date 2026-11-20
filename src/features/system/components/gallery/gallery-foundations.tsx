@@ -99,8 +99,9 @@ const bodies = [
 const stickerTypes = ["grass", "fire", "water", "electric"];
 
 const shadows = [
-  { className: "shadow-card", name: "shadow-card", use: "A section card" },
-  { className: "shadow-button", name: "shadow-button", use: "Actions" },
+  { className: "shadow-card", name: "shadow-card", use: "A section: flat" },
+  { className: "shadow-open", name: "shadow-open", use: "You can open it" },
+  { className: "shadow-button", name: "shadow-button", use: "The main action" },
   {
     className: "shadow-float",
     name: "shadow-float",
@@ -169,7 +170,7 @@ export const GalleryFoundations = () => (
     <GallerySection
       id="edges"
       title="Edges and shadows"
-      description="The sticker edge is for actions and owned Pokémon. Cards lift on soft shadows."
+      description="Sections are flat. A small edge means you can open it. Only the main action lifts."
     >
       <GalleryGroup title="Stickers">
         <Specimen

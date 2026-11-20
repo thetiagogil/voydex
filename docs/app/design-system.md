@@ -209,7 +209,7 @@ and calm meanings (settled 2026-10-19).
   page. Its current mark swaps at once (no fade) and each link keeps its bold
   width, so changing section never flickers or nudges the other links. The
   bar sits on the red strip (2026-11-20, `page-band-strip` in `band-deep`,
-  the Center's roof; `action-deep` on the site's red band), which covers
+  the Center's roof, on the site as in the app), which covers
   the top of the Poké Ball mark and steps down only round the logo, like a
   tab. The band leaves room under the strip before its title and ends on a
   straight edge. Its words are white, the V tile is white with a red V, the
@@ -372,15 +372,14 @@ so they never fight the chrome:
   (`PokemonCollectorCard`) and its games (`GameShelfCard` with `count`) are
   collector cards: a frame in the type's or the game's colour, the name and
   the count in words, the picture in a window. Only the Collection does.
-- **A paper tag** (`PaperTag`, `RemovableChip`) is something a Play carries:
-  its tags and challenge rules. Never a control: anything you operate in a
-  toolbar stays a pill (`ChoiceChip`, `SegmentedControl`).
+- **A tag** (`TagLabel`, `RemovableChip`) is something a Play carries: its
+  tags and challenge rules. It is a label like a status, a white pill with a
+  thin line (the paper tags were retired 2026-11-20). Never a control:
+  anything you operate in a toolbar is a `ChoiceChip` or a
+  `SegmentedControl`.
 - **Bars are thick where a row lists several** (`Progress` `showValue`):
   the figure is written inside the fill, so no column of numbers runs
   beside them; "Off" sits in an empty bar.
-- **An action shows the games' menu arrow** under a pointer or keyboard
-  focus (`Button`), in the room its padding already leaves, so nothing
-  moves. Buttons that lead with an icon, icon-only and flat ones don't.
 
 Tried and taken out the same day, because they brought a second, angular
 shape language next to the round one: pointed type ribbons, square status
@@ -392,8 +391,7 @@ status stays a pill with its dot, a section's title stays inside its card.
 Restyled primitives under `src/shared/components/ui` keep their names:
 `Button` (two looks: `default` is the page's main action, solid in the
 one red on a soft shadow; every other button is white with a thin outline: `secondary` the quiet action, `destructive` a quiet action that
-removes something, `inverse` the main action on the action colour itself (the front page's
-Dex: white, with the action's ink), `tint` an action on a tinted band such as the Play header
+removes something, `inverse` an action on the red top bar (Log in: white, with the action's ink), `tint` an action on a tinted band such as the Play header
 or a sheet's head; `soft` is the flat close and minor action, `ghost` a flat
 choice that shows `aria-pressed`. Two heights only: `default` 48px, as tall
 as a field, and `sm` 36px inside cards and rows; tabs, pills and chips are
@@ -518,7 +516,6 @@ Voydex components:
 | `EditedMark`                                                                 | `src/shared/components/edited-mark.tsx`                                        | The dot beside a changed field's label in a form that saves on demand; the footer lists the changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `getBarLinkClassName`                                                        | `src/shared/components/bar-link.tsx`                                           | One link in a bar of sections (the top bar, the Codex trigger, a docked index): quiet words with a `gap-2` between them, the current one a plain white pill in the selected ink, the same size and weight as a hovered link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `LogoMark`, `Logo`                                                           | `src/shared/components/brand/logo-mark.tsx`, `logo.tsx`                        | The "V" mark on a round red disc (round like the top bar and the avatar), a placeholder until the logo is designed. `Logo` adds the Fredoka "Voydex" word (`showText`, `markClassName`, `textClassName`); the top bar hides the word on narrow phones (`max-sm:hidden`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `DexLens`, `DexLights`, `DexLight`                                           | `src/shared/components/brand/dex-lens.tsx`, `dex-lights.tsx`                   | The Dex's own marks, where Voydex shows as the device (the start screen; a single light marks a step of How it works): the round blue lens in a white rim, domed by shadows inside it (`shadow-dex-lens`: shaded lower right, lit upper left, in a dark socket; no gradient fills) with two glints, and an optional ring round it (`progress`: a number fills it, `"busy"` turns a short arc), and the three small lights, a red, a yellow and a green (`--dex-red`, `--dex-yellow`, `--dex-green`), each domed the same way (`shadow-dex-light`) in a dark socket. `loading` flashes them one at a time (the start screen); one `DexLight` on its own marks a step of How it works. They sit on the action red                                                                                                                                                                                                                                                                                                                               |
 
 **Pending data.** v3 draws some things Voydex has no data or backend for yet.
 Every such piece is built and shows `PendingData` (or `CodexPendingValue`) in
@@ -535,7 +532,7 @@ The utilities in `app-utilities.css` carry the recipes features may need
 without the component: `sticker` (an owned thing's surface: the card in its type's colour from
 `--t`, a 3px white band and the small edge; `sticker-art` stands the
 Pokémon out of its circle; override `--sticker-border` and
-`--sticker-shadow`; `sticker-picked` rings a drop target in the accent.
+`--sticker-shadow`; `sticker-picked` rings a drop target in the blue.
 Stickers, cards and open slots take it through their `target` option, and
 `useSlotDrag` is the one drag and drop between slots), `bubble` (a small mark's white band and soft shadow: corner marks and
 your initial), `focus-ring` and `focus-ring-inset` (the one
@@ -615,20 +612,17 @@ There are no site-only stills: a public picture uses the app's own component.
   everywhere: its type's tint with a border in its type's colour
   (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
   number top right where it has one.
-- **Every page opens on a band**: the neutral band in the app, Home included
-  (its band holds your trainer card), the Dex's
-  red on the front page (the one loud band: the device itself, with the
-  start screen in the same red), the
-  pale blue `PageBand` everywhere else, a Play included. The top bar has no ground
-  of its own: the V tile and the name, the sections as quiet words straight
-  on the band (the current one a plain white pill, the same size and weight
-  as a hovered link), and
-  your utilities.
+- **Every page opens on a band**: the pale blue `PageBand`, in the app
+  (Home included: its band holds your trainer card, and a Play too) and on
+  the site (the front page, Log in), under the red top bar: the V tile and
+  the name, the sections as white words (the current one a white pill, the
+  same size and weight as a hovered link), and your utilities. The start
+  screen stands alone on the wall: the V in a ring that fills or turns.
 - Before adding or materially styling a recurring pattern, inventory the
   primitives and the components above and reuse the closest one. Add a variant
   only for a materially different contract.
 - Fields take the shared field surface; selected options take `bg-select-soft
-text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that explain a figure use `ExplanatoryTip`, built from the tip parts; feedback
+text-select-ink` (a mode switch or scope picker takes `bg-calm`); tips that explain a figure use `ExplanatoryTip`, built from the tip parts; feedback
   after an action is a toast, not an inline banner.
 - Use the shared row-interaction variants for repeated data rows. Static
   timelines and prose lists don't get hover styling.

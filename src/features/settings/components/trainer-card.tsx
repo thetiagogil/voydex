@@ -30,8 +30,8 @@ type TrainerCardProps = {
 };
 
 /*
- * The trainer card: who you are in Voydex (You, Settings): a white card on
- * a soft shadow, its colour in your
+ * The trainer card: who you are in Voydex (You, Settings): a white section,
+ * flat like every other, its colour in your
  * disc alone (the soft red tint, as your icon on the top bar).
  */
 export const TrainerCard = ({
@@ -48,8 +48,8 @@ export const TrainerCard = ({
   <section
     aria-label="Your trainer card"
     className={cn(
-      "flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-6 sm:px-6.5 sm:pt-5.5 sm:pb-6",
-      icon || initial ? "bg-surface shadow-soft" : "bg-surface-2 shadow-soft",
+      "shadow-card flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl px-5.5 pt-5 pb-6 sm:gap-x-6 sm:px-7.5 sm:pt-6.5 sm:pb-7",
+      icon || initial ? "bg-surface" : "bg-surface-2",
       className,
     )}
   >

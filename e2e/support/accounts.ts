@@ -21,7 +21,7 @@ export const testPassword = "123456";
 export const newTestEmail = (label: string) =>
   `e2e-${label}-${randomUUID().slice(0, 8)}@voydex.test`;
 
-/* A device that has never opened Voydex: the front page shows, the Dex boots. */
+/* A device that has never opened Voydex: the front page shows first. */
 export const newDevice = { cookies: [], origins: [] };
 
 /*

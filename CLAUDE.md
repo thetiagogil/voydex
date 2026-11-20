@@ -183,8 +183,8 @@ Voydex is quiet where you work and loud where you remember. The
   when it isn't yours; in its type's colour inside a white band, the
   Pokémon standing a little out of a pale circle, when it is. Only the Collection frames what you
   own as collector cards (`PokemonCollectorCard`, `GameShelfCard` with
-  `count`). A Play's tags and rules are paper tags (`PaperTag`), never
-  controls. Bars are flat; a row of them is thick with its figure inside.
+  `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
+  status, never controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
   too, the same on phones. Controls have two looks: the main action
   (`default`) is solid red on a soft shadow; every other button, field,

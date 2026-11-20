@@ -104,7 +104,7 @@
  * own border, and a thin ring in the accent wraps it.
  */
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--action);
+  --sticker-shadow: 0 0 0 2.5px var(--calm);
 }
 
 /*

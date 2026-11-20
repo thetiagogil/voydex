@@ -12,7 +12,7 @@ import { useRememberedAuthEmail } from "@/features/auth/client/auth-email";
 import { readDevTestAccounts } from "@/features/auth/dev-test-accounts";
 
 /*
- * Log in: a quiet form on the Dex's screen, its state in the address. An
+ * Log in: a quiet form on the site's band, its state in the address. An
  * account is only for backups: the line under the screen says what you have
  * without one (your Plays, on this device only).
  * Voydex makes no new accounts for now, so there is no Sign up.
