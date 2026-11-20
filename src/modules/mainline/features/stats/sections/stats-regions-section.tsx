@@ -1,4 +1,4 @@
-import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
+import type { StatsModel } from "@/modules/mainline/shared/data/stats-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";

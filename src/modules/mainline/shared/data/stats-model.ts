@@ -6,7 +6,7 @@ import {
   type TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
-import { joinStatsList } from "@/modules/mainline/features/stats/utils/stats-format";
+import { joinStatsList } from "@/modules/mainline/shared/utils/stats-format";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 export type StatsTypeTally = {

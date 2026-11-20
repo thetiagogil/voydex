@@ -1,5 +1,5 @@
 import type { CollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
-import type { FavouritePokemon } from "@/modules/mainline/features/collection/data/favourite-pokemon-model";
+import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import type {
   TrainerPokemonEntry,

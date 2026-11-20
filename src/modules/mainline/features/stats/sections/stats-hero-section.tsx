@@ -7,8 +7,8 @@ import {
   type StatsModel,
   type StatsMostPicked,
   type TrainerTitle,
-} from "@/modules/mainline/features/stats/data/stats-model";
-import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
+} from "@/modules/mainline/shared/data/stats-model";
+import { formatMonthYear } from "@/modules/mainline/shared/utils/stats-format";
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import type { StatsCover } from "@/modules/mainline/features/stats/data/stats-model";
+import type { StatsCover } from "@/modules/mainline/shared/data/stats-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 
 /*

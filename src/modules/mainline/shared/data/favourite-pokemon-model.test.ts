@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { FavouritePokemonRows } from "@/modules/mainline/features/collection/client/favourite-pokemon-reader";
+import type { FavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
 

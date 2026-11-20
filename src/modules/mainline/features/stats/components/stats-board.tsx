@@ -7,7 +7,7 @@ import type {
   StatsFriend,
   StatsModel,
   StatsMostPicked,
-} from "@/modules/mainline/features/stats/data/stats-model";
+} from "@/modules/mainline/shared/data/stats-model";
 import { StatsHeroSection } from "@/modules/mainline/features/stats/sections/stats-hero-section";
 import { StatsRegionsSection } from "@/modules/mainline/features/stats/sections/stats-regions-section";
 import { StatsStyleSection } from "@/modules/mainline/features/stats/sections/stats-style-section";

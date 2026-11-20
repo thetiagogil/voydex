@@ -4,11 +4,11 @@ import { Link } from "@/shared/components/link";
 import { useRef, useState, type CSSProperties } from "react";
 
 import { appRoutes } from "@/config/routes";
-import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
+import type { StatsModel } from "@/modules/mainline/shared/data/stats-model";
 import {
   formatWholeHours,
   joinStatsList,
-} from "@/modules/mainline/features/stats/utils/stats-format";
+} from "@/modules/mainline/shared/utils/stats-format";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";

@@ -56,7 +56,7 @@ test.describe("Home", () => {
     ).toBeVisible();
   });
 
-  test("the journey card and your other Plays each open their Play", async ({
+  test("Continue opens the Play you're on, under your trainer card", async ({
     page,
   }) => {
     /* Each test has its own device: two Plays leave the first-Play band. */
@@ -74,37 +74,32 @@ test.describe("Home", () => {
     });
 
     await page.goto("/app", { waitUntil: "networkidle" });
-    const journey = page.getByRole("link", { name: /Continue your journey/ });
+    await expect(
+      page.getByRole("region", { name: "Your trainer card" }),
+    ).toContainText("Pokémon owned");
 
-    /* The latest Play is the journey; the whole card opens it. */
-    await expect(journey).toContainText(journeyName);
-    await expect(journey).toHaveAttribute(
+    /* The latest Play is the one Continue opens. */
+    const continueRow = page.getByRole("link", { name: /^Continue/ });
+    await expect(continueRow).toContainText(journeyName);
+    await expect(continueRow).toHaveAttribute(
       "href",
       `/app/plays/play?id=${journeyId}`,
     );
-    await expect(journey.getByRole("list", { name: "Team" })).toContainText(
-      "Bulbasaur",
-    );
 
-    /* The other one waits under it, and New Play ends the row. */
-    const others = page.getByRole("region", { name: "Your other Plays" });
-    await expect(
-      others.getByRole("link", { name: new RegExp(otherName) }),
-    ).toHaveAttribute("href", `/app/plays/play?id=${otherId}`);
-    await expect(
-      others.getByRole("button", { name: "New Play" }),
-    ).toBeVisible();
-
+    /* The latest moments come from every Play. */
+    const moments = page.getByRole("region", { name: "Latest moments" });
+    await expect(moments).toContainText(journeyName);
+    await expect(moments).toContainText(otherName);
     await expectAccessible(page);
 
-    /* `?play=` puts another Play on the journey card. */
+    /* `?play=` puts another Play on the Continue row. */
     await page.goto(`/app?play=${otherId}`, { waitUntil: "networkidle" });
-    await expect(
-      page.getByRole("link", { name: /Continue your journey/ }),
-    ).toContainText(otherName);
+    await expect(page.getByRole("link", { name: /^Continue/ })).toContainText(
+      otherName,
+    );
   });
 
-  test("opening a Play makes it the journey, recording nothing", async ({
+  test("opening a Play puts it on the Continue row, recording nothing", async ({
     page,
   }) => {
     const olderName = uniquePlayName("Opened again");
@@ -120,15 +115,13 @@ test.describe("Home", () => {
       name: newerName,
       partner: "Squirtle",
     });
-    const journeyText = async () => {
+    const continueText = async () => {
       await page.goto("/app", { waitUntil: "networkidle" });
-      /* The cards draw once the device database has opened. */
-      const journey = page.getByRole("link", {
-        name: /Continue your journey/,
-      });
-      await expect(journey).toBeVisible();
+      /* Home draws once the device database has opened. */
+      const continueRow = page.getByRole("link", { name: /^Continue/ });
+      await expect(continueRow).toBeVisible();
 
-      return journey.innerText();
+      return continueRow.innerText();
     };
     const moments = async () => {
       await page.goto(`/app/plays/play/history?id=${olderId}`, {
@@ -138,11 +131,11 @@ test.describe("Home", () => {
       return page.getByRole("list", { name: "Moments" }).innerText();
     };
 
-    expect(await journeyText()).toContain(newerName);
+    expect(await continueText()).toContain(newerName);
     /* Opening its History opens the Play. */
     const momentsBefore = await moments();
 
-    expect(await journeyText()).toContain(olderName);
+    expect(await continueText()).toContain(olderName);
     expect(await moments()).toBe(momentsBefore);
   });
 });

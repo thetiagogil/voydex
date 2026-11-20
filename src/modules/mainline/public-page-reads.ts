@@ -28,13 +28,10 @@ const otherTabReads: readonly PageReadPlan<unknown>[] = [
   collectionPageRead,
 ];
 
-/* The latest Plays on Home's cards, the ones most likely opened next. */
-const shelfPlaysReady = 3;
-
 /*
  * Gets Home and the other tabs ready, then, without holding up the start
- * screen, the latest Plays on Home's cards (their head and Overview), so
- * opening one from Home or the Plays list doesn't wait either.
+ * screen, the Play Home's Continue row opens (its head and Overview), so
+ * opening it doesn't wait either.
  */
 export const prepareMainlineTabs = async (db: LocalDb) => {
   const home = await preparePageRead(
@@ -48,13 +45,7 @@ export const prepareMainlineTabs = async (db: LocalDb) => {
 
   if (home?.data.kind !== "plays") return;
 
-  const shelf = [home.data.journey.play, ...home.data.others]
-    .slice(0, shelfPlaysReady)
-    .flatMap((play) => {
-      const reads = playPageReads(play.id);
+  const reads = playPageReads(home.data.journey.id);
 
-      return [reads.shell, reads.overview];
-    });
-
-  void preparePageReads(db, shelf);
+  void preparePageReads(db, [reads.shell, reads.overview]);
 };

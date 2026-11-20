@@ -4,7 +4,7 @@ import { readTrainerPokemonRows } from "@/modules/mainline/shared/client/trainer
 import {
   buildStatsModel,
   type StatsModel,
-} from "@/modules/mainline/features/stats/data/stats-model";
+} from "@/modules/mainline/shared/data/stats-model";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
 

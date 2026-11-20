@@ -1,6 +1,6 @@
 import { buildCollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
-import { buildFavouritePokemon } from "@/modules/mainline/features/collection/data/favourite-pokemon-model";
-import { readFavouritePokemonRows } from "@/modules/mainline/features/collection/client/favourite-pokemon-reader";
+import { buildFavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
+import { readFavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
 import { buildTrainerPokemonEntries } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
 import { readTrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";

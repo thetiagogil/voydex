@@ -64,6 +64,14 @@ const coverSizeClassNames = {
     image: "max-h-22.5 max-w-22.5 sm:max-h-31 sm:max-w-31",
   },
   /*
+   * A Play's cover in a slim row (Home's Continue): every platform's box
+   * stands 64px tall in the white frame, its width from its shape.
+   */
+  slim: {
+    fallback: "text-15 h-16 w-auto border-4 border-white",
+    image: "h-16 w-auto max-w-none border-4 border-white",
+  },
+  /*
    * A Play's cover on the Plays list, framed like the Play header's: every
    * platform's box stands 80px tall, 96px from `sm`, its width from its shape.
    */

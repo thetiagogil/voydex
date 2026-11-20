@@ -1,10 +1,5 @@
 import {
-  toHomeNextUp,
-  type HomeNextUp,
-} from "@/modules/mainline/features/home/data/home-next-up";
-import {
   getHomeShelfSource,
-  HOME_OTHER_PLAY_COUNT,
   isWaitingForPartner,
   toHomePlay,
   type HomePlay,
@@ -12,7 +7,18 @@ import {
 import type {
   HomePageData,
   HomePartnerChoice,
+  HomeProfile,
 } from "@/modules/mainline/features/home/types";
+import {
+  readMainlineMomentInstants,
+  readMainlineTimelineAcrossPlays,
+} from "@/modules/mainline/features/plays/shared/client/play-timeline-reader";
+import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/client/play-moment-context-reader";
+import { readFavouritePokemonRows } from "@/modules/mainline/shared/client/favourite-pokemon-reader";
+import { readTrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
+import { buildFavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
+import { buildStatsModel } from "@/modules/mainline/shared/data/stats-model";
+import { buildTrainerPokemonEntries } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/client/signed-in-trainer";
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/client/play-library-reader";
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
@@ -174,31 +180,85 @@ const toCardPlay = (
     : null;
 };
 
-/* The journey's next milestone, with its badge or trophy. */
-const readNextUp = async (
+/* How many of the latest moments Home lists. */
+const HOME_MOMENT_COUNT = 8;
+/* How many covers and favourites Home's profile shows. */
+const HOME_SHELF_COUNT = 10;
+const HOME_TYPE_COUNT = 6;
+
+/*
+ * Home's trainer profile: what Statistics and the Collection read, cut
+ * short, and the moments across every Play with what their medallions need.
+ */
+const readHomeProfile = async (
   supabase: ServerSupabaseClient,
-  play: PlayBrowseItem,
-  slugByTypeId: ReadonlyMap<number, string>,
-): Promise<HomeNextUp | null> => {
-  const position = play.storyPosition;
+  userId: string,
+  plays: PlayBrowseItem[],
+): Promise<HomeProfile> => {
+  const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
+  const nameById = new Map(
+    plays.map((play) => [play.play_id, play.play_name ?? "Untitled Play"]),
+  );
+  const generationById = new Map(
+    plays.map((play) => [play.play_id, play.generation_id]),
+  );
+  const [trainerRows, favouriteRows, events, momentInstants] =
+    await Promise.all([
+      readTrainerPokemonRows(supabase, userId),
+      readFavouritePokemonRows(supabase, userId),
+      readMainlineTimelineAcrossPlays(supabase, playIds, HOME_MOMENT_COUNT),
+      readMainlineMomentInstants(supabase, playIds),
+    ]);
+  const entries = buildTrainerPokemonEntries(trainerRows);
+  const stats = buildStatsModel(trainerRows, entries);
+  /* Each Play's moments read their medallions at that Play's generation. */
+  const eventsByPlay = Map.groupBy(events, (event) => event.play_id ?? "");
+  const contexts = await Promise.all(
+    [...eventsByPlay].map(([playId, playEvents]) =>
+      readMainlinePlayMomentContext(supabase, {
+        events: playEvents,
+        generationId: generationById.get(playId) ?? null,
+        playId,
+      }),
+    ),
+  );
 
-  if (position?.kind !== "next" || !play.play_id) {
-    return toHomeNextUp(position, null, slugByTypeId);
-  }
-
-  const { data, error } = await supabase
-    .schema("views")
-    .from("mainline_play_milestone_detail")
-    .select(
-      "badge_refs, category_name, description, milestone_name, milestone_type_slug",
-    )
-    .eq("play_id", play.play_id)
-    .eq("milestone_id", position.milestoneId)
-    .limit(1)
-    .maybeSingle();
-
-  /* Without its details it still shows by name. */
-  return toHomeNextUp(position, error ? null : data, slugByTypeId);
+  return {
+    covers: stats.playCovers.slice(0, HOME_SHELF_COUNT),
+    favourites: buildFavouritePokemon(
+      favouriteRows,
+      trainerRows.types,
+      entries,
+    ).slice(0, HOME_SHELF_COUNT),
+    figures: {
+      minutes: stats.minutes,
+      ownedCount: stats.speciesCount,
+      playCount: stats.playCount,
+      regionCount: stats.regions.length,
+      visitedRegionCount: stats.regions.filter(
+        (region) => region.playLabels.length,
+      ).length,
+    },
+    momentContext: {
+      badgeByMilestoneId: contexts.flatMap(
+        (context) => context.badgeByMilestoneId,
+      ),
+      trophyMilestoneIds: contexts.flatMap(
+        (context) => context.trophyMilestoneIds,
+      ),
+      typeByFormId: contexts.flatMap((context) => context.typeByFormId),
+    },
+    momentInstants,
+    moments: events.map((event) => ({
+      event,
+      playName: nameById.get(event.play_id) ?? "Untitled Play",
+    })),
+    title: stats.title.title,
+    types: stats.types
+      .filter((type) => type.count > 0)
+      .toSorted((first, second) => second.count - first.count)
+      .slice(0, HOME_TYPE_COUNT),
+  };
 };
 
 /*
@@ -238,16 +298,10 @@ export const getHomePageData = async (
     (play) => play.play_id === requestedPlayId,
   );
   /*
-   * The Plays still underway, opened (or changed) last first. The journey is
-   * the one `?play=` asks for (an older or finished one too), else the
-   * latest.
+   * The Play you're on: the one `?play=` asks for (an older or finished one
+   * too), else the one opened (or changed) last among those underway.
    */
-  const underway = getHomeShelfSource(browseItems);
-  const current = requested ?? underway[0];
-  const others = underway
-    .filter((play) => play !== current)
-    .slice(0, HOME_OTHER_PLAY_COUNT);
-  const cardItems = [current, ...others];
+  const current = requested ?? getHomeShelfSource(browseItems)[0];
   const slugByTypeId = await readTypeSlugs(supabase);
 
   if (browseItems.length === 1 && isBrandNewPlay(current)) {
@@ -266,28 +320,21 @@ export const getHomePageData = async (
     }
   }
 
-  const [teamTypes, nextUp] = await Promise.all([
-    readTeamTypes(supabase, cardItems, slugByTypeId),
-    readNextUp(supabase, current, slugByTypeId),
+  const [teamTypes, profile] = await Promise.all([
+    readTeamTypes(supabase, [current], slugByTypeId),
+    readHomeProfile(supabase, userId, browseItems),
   ]);
-  const [journeyPlay, ...otherPlays] = cardItems.flatMap((item) => {
-    const play = toCardPlay(item, teamTypes);
+  const journey = toCardPlay(current, teamTypes);
 
-    return play ? [play] : [];
-  });
-
-  if (!journeyPlay) {
+  if (!journey) {
     throw new Error("Unable to load your latest Play.");
   }
 
   return {
     displayName: names.displayName,
-    journey: { nextUp, play: journeyPlay },
+    journey,
     kind: "plays",
-    others: otherPlays,
-    underwayCount: browseItems.filter(
-      (play) => !["abandoned", "completed"].includes(play.status_slug ?? ""),
-    ).length,
+    profile,
   };
 };
 

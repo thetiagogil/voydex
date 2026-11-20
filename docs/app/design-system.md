@@ -64,7 +64,7 @@ new code prefers the role names.
 Every page, the top bar, the footer and the docked Play bar line up in the
 `page-column`. A page's band wears `page-band`: the band runs the full width of the window and tucks under the
 transparent bar, which sits on its colour, while its copy stays in the page
-column. Every page but Home opens on the
+column. Every page opens on the
 `PageBand`, on the pale blue `band` (a Pokémon Center's windows), flat colour only. The band holds
 what the page is and how you shape it; the plain ground below holds what it
 shows (settled 2026-10-17):
@@ -600,9 +600,8 @@ There are no site-only stills: a public picture uses the app's own component.
   everywhere: its type's tint with a border in its type's colour
   (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
   number top right where it has one.
-- **Every page opens on a band**: the neutral band in the app (Home excepted: since
-  2026-11-20 it opens straight on its cards, the journey card and your other
-  Plays), the Dex's
+- **Every page opens on a band**: the neutral band in the app, Home included
+  (its band holds your trainer card), the Dex's
   red on the front page (the one loud band: the device itself, with the
   start screen in the same red), the
   pale blue `PageBand` everywhere else, a Play included. The top bar has no ground

@@ -1,6 +1,6 @@
 import { StatsBoard } from "@/modules/mainline/features/stats/components/stats-board";
-import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
-import { formatWholeHours } from "@/modules/mainline/features/stats/utils/stats-format";
+import type { StatsModel } from "@/modules/mainline/shared/data/stats-model";
+import { formatWholeHours } from "@/modules/mainline/shared/utils/stats-format";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageBand } from "@/shared/components/page-band";

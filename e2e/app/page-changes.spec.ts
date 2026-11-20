@@ -45,20 +45,21 @@ test.describe("Page changes", () => {
       name: uniquePlayName("Page change first"),
       partner: "Charmander",
     });
-    const secondId = await startPlay(page, {
+    /* A second Play, so Home is past its first-Play welcome. */
+    await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: uniquePlayName("Page change second"),
       partner: "Bulbasaur",
     });
 
-    await page.goto(`/app?play=${secondId}`, { waitUntil: "networkidle" });
-    const others = page.getByRole("region", { name: "Your other Plays" });
+    await page.goto(`/app?play=${firstId}`, { waitUntil: "networkidle" });
+    const continueRow = page.getByRole("link", { name: /^Continue/ });
 
-    await expect(others).toBeVisible();
+    await expect(continueRow).toBeVisible();
 
-    /* Into the other Play, from its card on Home. */
+    /* Into the Play, from Home's Continue row. */
     await watchFrames(page);
-    await others.locator(`a[href="/app/plays/play?id=${firstId}"]`).click();
+    await continueRow.click();
     await expect(page).toHaveURL(`/app/plays/play?id=${firstId}`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Page change first",
@@ -83,7 +84,7 @@ test.describe("Page changes", () => {
       page.getByRole("heading", { level: 1, name: "Settings" }),
     ).toBeVisible();
     await page.getByRole("link", { exact: true, name: "Home" }).click();
-    await expect(others).toBeVisible();
+    await expect(continueRow).toBeVisible();
     expect(await emptyFrames(page)).toEqual([]);
   });
 

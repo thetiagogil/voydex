@@ -15,7 +15,7 @@ import {
   type FavouriteKind,
   type FavouriteSort,
 } from "@/modules/mainline/features/collection/data/favourite-pokemon-browse-model";
-import type { FavouritePokemon } from "@/modules/mainline/features/collection/data/favourite-pokemon-model";
+import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
 import {
   getTrainerFamilyEntries,
   type TrainerPokemonEntry,
