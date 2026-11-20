@@ -72,8 +72,9 @@
 
 /*
  * A tile: a block inside a card (a fact, a note, an ability), on the inset
- * fill with the tiles' corner and padding. `tile-link` is a tile you can
- * open (a row of a list inside a card), with the row hover. Screens never
+ * fill with the tiles' corner and padding. `tile-link` is a row you can
+ * open (a row of a list inside a card): white with the thin outline of
+ * every quiet control, so it never looks like a plain tile. Screens never
  * draw these by hand, so they always match.
  */
 @utility tile {
@@ -83,7 +84,9 @@
 }
 
 @utility tile-link {
-  background-color: var(--surface-2);
+  /* A row you can open: white with the thin outline of every quiet control. */
+  background-color: var(--surface);
+  box-shadow: inset 0 0 0 1.5px var(--lip);
   border-radius: var(--r-lg);
   padding: 0.625rem 0.75rem;
   min-height: 3.5rem;

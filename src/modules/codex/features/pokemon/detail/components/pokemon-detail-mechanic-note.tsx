@@ -18,8 +18,9 @@ type PokemonDetailMechanicNoteCardProps = {
  * In place of something the game doesn't have: an hourglass, the fact
  * ("Abilities arrive in") and, on its own line, the generation it arrives
  * in. When the Pokémon is in that generation the whole panel is the link
- * there, its arrow saying so. On the card's own inset fill, like the rest of
- * the Codex, and never the dashed marker, which means data Voydex is missing.
+ * there, outlined like every row you can open, its arrow saying so;
+ * otherwise it sits on the card's inset fill. Never the dashed marker, which
+ * means data Voydex is missing.
  */
 export const PokemonDetailMechanicNoteCard = ({
   arrivesHref,
@@ -30,18 +31,20 @@ export const PokemonDetailMechanicNoteCard = ({
   const isFill = layout === "fill";
   const href = note.arrivesIn ? arrivesHref : null;
   const panelClassName = cn(
-    "tile text-ink-2 flex gap-3",
+    /* A panel that leads somewhere is a row you can open, outlined. */
+    href ? "tile-link focus-ring" : "tile",
+    "text-ink-2 flex gap-3",
     isFill
       ? "flex-1 flex-col items-center justify-center py-8 text-center"
       : "items-center",
-    href && "hover:bg-hover transition-colors focus-ring",
     className,
   );
   const content = (
     <>
       <span
         className={cn(
-          "bg-surface text-ink-2 grid shrink-0 place-items-center rounded-full",
+          "text-ink-2 grid shrink-0 place-items-center rounded-full",
+          href ? "bg-surface-2" : "bg-surface",
           isFill ? "size-12" : "size-9",
         )}
       >
