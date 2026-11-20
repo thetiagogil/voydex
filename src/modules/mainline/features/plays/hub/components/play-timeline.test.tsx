@@ -48,7 +48,7 @@ describe("PlayTimeline", () => {
     expect(markup).toContain("before:inset-y-7");
   });
 
-  it("lists a month's moments under it, one to a row at every width", () => {
+  it("lists a month's moments under it, in a grid from 1024px", () => {
     const markup = renderToStaticMarkup(
       <PlayTimelineMonth count={2} label="July 2026" titleId="m-2026-07">
         <PlayTimelineItem>a</PlayTimelineItem>
@@ -57,8 +57,8 @@ describe("PlayTimeline", () => {
     );
 
     expect(markup).toContain('aria-labelledby="m-2026-07"');
-    expect(markup).not.toContain("grid-cols-2");
-    expect(markup).not.toContain("grid-cols-3");
+    expect(markup).toContain("lg:grid-cols-2");
+    expect(markup).toContain("xl:grid-cols-3");
     expect(
       renderToStaticMarkup(
         <PlayTimelineMonth count={0} label="July 2026" titleId="m-2026-07" />,

@@ -25,4 +25,13 @@ describe("RecordRow on a timeline", () => {
       markup.indexOf("Feb 14 · 12:00 PM"),
     );
   });
+
+  it("keeps its medallion on the line unless it sits in a grid", () => {
+    const onLine = row();
+    const inGrid = row({ placement: "grid" });
+
+    expect(onLine).not.toContain("hidden lg:grid");
+    expect(inGrid).toContain("lg:hidden");
+    expect(inGrid).toContain("hidden lg:grid");
+  });
 });
