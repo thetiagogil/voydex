@@ -19,7 +19,7 @@ import {
   readCodexSpeciesRoster,
 } from "@/modules/mainline/features/plays/browse/client/codex-plays-reader";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
+import { PlayRow } from "@/modules/mainline/shared/components/play-row";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
@@ -310,7 +310,7 @@ export const CodexInYourPlays = onDevice(
           action={addAction}
         >
           {members.length ? (
-            <ul className="grid">
+            <ul className="grid gap-2">
               {members.map((member) => {
                 const play = member.play_id
                   ? playById.get(member.play_id)
@@ -321,7 +321,7 @@ export const CodexInYourPlays = onDevice(
                 const name = getPlayTeamMemberName(member);
 
                 return (
-                  <TrainerPlayRow
+                  <PlayRow
                     key={member.play_pokemon_id}
                     detail={[
                       name,
@@ -404,15 +404,14 @@ export const CodexGameYourPlays = onDevice(
           }
         >
           {plays.length ? (
-            <ul className="grid">
+            <ul className="grid gap-2">
               {plays.map((play) => (
-                <TrainerPlayRow
+                <PlayRow
                   key={play.id}
                   detail={getGameShortName(play.gameName)}
                   href={appRoutes.mainlinePlay(play.id)}
                   label={`Open ${play.label}`}
                   play={play}
-                  shiny={false}
                 />
               ))}
             </ul>

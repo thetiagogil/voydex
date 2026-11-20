@@ -8,7 +8,7 @@ import type {
   CollectionGame,
   CollectionGamePlay,
 } from "@/modules/mainline/features/collection/data/collection-games-model";
-import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
+import { PlayRow } from "@/modules/mainline/shared/components/play-row";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
@@ -26,14 +26,13 @@ const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 const PlayRows = ({ plays }: { plays: CollectionGamePlay[] }) => (
-  <ul className="grid">
+  <ul className="grid gap-2">
     {plays.map(({ detail, play }) => (
-      <TrainerPlayRow
+      <PlayRow
         key={play.id}
         detail={detail}
         href={appRoutes.mainlinePlay(play.id)}
         play={play}
-        shiny={false}
       />
     ))}
   </ul>
