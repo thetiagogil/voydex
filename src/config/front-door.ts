@@ -14,6 +14,16 @@ const inApp = "1";
 /* Left the app: the front page shows, and offers Continue. */
 const leftApp = "left";
 
+/*
+ * Two more things the front page says to a device it knows, noted by the
+ * app because the front page opens neither the device's data nor the
+ * account: whether there is a Play here (its button reads Continue, not
+ * Start a Play) and whether this browser is logged in (its bar offers the
+ * app, not Log in).
+ */
+const hasPlaysKey = "voydex-has-plays";
+const signedInKey = "voydex-signed-in";
+
 const write = (value: string) => {
   try {
     window.localStorage.setItem(storageKey, value);
@@ -21,6 +31,37 @@ const write = (value: string) => {
     /* Storage refused (a private window): the front page keeps showing. */
   }
 };
+
+const writeNote = (key: string, on: boolean) => {
+  try {
+    if (on) window.localStorage.setItem(key, "1");
+    else window.localStorage.removeItem(key);
+  } catch {
+    /* Storage refused: the front page speaks as to a new device. */
+  }
+};
+
+const readNote = (key: string) => {
+  try {
+    return window.localStorage.getItem(key) !== null;
+  } catch {
+    return false;
+  }
+};
+
+/* Notes whether this device holds a Play; the app does, after every save. */
+export const rememberHasPlays = (hasPlays: boolean) =>
+  writeNote(hasPlaysKey, hasPlays);
+
+/* Whether this device held a Play when the app last looked. */
+export const readHasPlays = () => readNote(hasPlaysKey);
+
+/* Notes whether this browser is logged in: on Log in, Log out and in the app. */
+export const rememberSignedIn = (signedIn: boolean) =>
+  writeNote(signedInKey, signedIn);
+
+/* Whether this browser was logged in when the app last looked. */
+export const readSignedIn = () => readNote(signedInKey);
 
 /* Marks this device as in the app; opening any app page does it. */
 export const rememberAppEntered = () => write(inApp);

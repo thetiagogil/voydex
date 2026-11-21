@@ -3,7 +3,10 @@ import { ExamplePlay } from "@/features/site/components/example-play";
 import { HowItWorksSection } from "@/features/site/components/how-it-works-section";
 import { InstallSection } from "@/features/site/components/install-section";
 import { PokemonRender } from "@/features/site/components/pokemon-render";
-import { StartAction } from "@/features/site/components/start-action";
+import {
+  StartAction,
+  StartNote,
+} from "@/features/site/components/start-action";
 import { frontShelfGames } from "@/features/site/data/front-shelf";
 import { samplePlayTeam } from "@/features/site/data/sample-play";
 import { PageBand } from "@/shared/components/page-band";
@@ -66,7 +69,7 @@ const FrontBand = ({ art, playArt }: FrontPageProps) => (
       </p>
       <StartAction />
       <p className="text-ink-2 copy-note mt-3.5 max-sm:w-full max-sm:text-center">
-        No account needed. Your Plays are saved on this device.
+        <StartNote />
       </p>
       <ul className="mt-5 flex flex-wrap gap-2 max-sm:w-full max-sm:justify-center">
         {frontFacts.map((fact) => (

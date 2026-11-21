@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { newDevice } from "../support/accounts";
+import { startPlay, uniquePlayName } from "../support/plays";
 
 test.use({ storageState: newDevice });
 
@@ -53,11 +54,14 @@ test.describe("Entry flow", () => {
     await expect(
       page.getByRole("heading", { level: 2, name: "How it works" }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    /* No Play on this device yet, so there is still one to start. */
+    await expect(
+      page.getByRole("link", { name: "Start a Play" }),
+    ).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
   });
 
-  test("Leave the app brings the front page back until you continue @phone", async ({
+  test("Leave the app brings the front page back until you go in again @phone", async ({
     page,
   }) => {
     await page.goto("/app");
@@ -72,15 +76,17 @@ test.describe("Entry flow", () => {
       await page.getByRole("link", { name: /Leave the app/ }).click();
     }
 
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    const start = page.getByRole("link", { name: "Start a Play" });
+
+    await expect(start).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
 
-    /* It stays the front page, on a reload too, until you continue. */
+    /* It stays the front page, on a reload too, until you go in again. */
     await page.reload();
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    await expect(start).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
 
-    await page.getByRole("link", { name: "Continue" }).click();
+    await start.click();
     await page.waitForURL("**/app");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await page.goto("/");
@@ -132,14 +138,62 @@ test.describe("Entry flow", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
     await page.getByRole("link", { name: "Voydex home" }).click();
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+
+    const start = page.getByRole("link", { name: "Start a Play" });
+
+    await expect(start).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
 
-    /* It stays the front page until you continue. */
+    /* It stays the front page until you go in again. */
     await page.reload();
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
-    await page.getByRole("link", { name: "Continue" }).click();
+    await expect(start).toBeVisible();
+    await start.click();
     await page.waitForURL("**/app");
+  });
+
+  test("the front page says Continue once this device holds a Play", async ({
+    page,
+  }) => {
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Front door"),
+      partner: null,
+    });
+    await page.getByRole("link", { name: "Voydex home" }).click();
+
+    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Start a Play" })).toHaveCount(
+      0,
+    );
+    /* Not logged in: the bar still offers Log in. */
+    await expect(
+      page.getByRole("banner").getByRole("link", { name: "Log in" }),
+    ).toBeVisible();
+  });
+
+  test("Log in has a way in without an account, and a way back home @phone", async ({
+    page,
+  }) => {
+    await page.goto("/login");
+
+    await expect(page.getByRole("link", { name: "Back home" })).toHaveAttribute(
+      "href",
+      "/",
+    );
+    await expect(
+      page.getByText("Your Plays are saved on this device only."),
+    ).toBeVisible();
+    await expectAccessible(page);
+
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await expect(
+      page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
+        name: "Games",
+      }),
+    ).toBeVisible();
   });
 
   test("the V on a Codex page keeps Start a Play for a new device", async ({
@@ -220,7 +274,7 @@ test.describe("Entry flow", () => {
     await expect(
       page.getByRole("heading", { name: "Welcome back" }),
     ).toBeVisible();
-    await page.getByRole("link", { name: "Go back" }).click();
+    await page.getByRole("link", { name: "Back to the app" }).click();
     await page.waitForURL("**/app/settings");
   });
 });

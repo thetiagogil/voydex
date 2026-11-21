@@ -1,4 +1,5 @@
 import { appRoutes } from "@/config/routes";
+import { FooterLogInLink } from "@/features/app-shell/components/navigation/site-account-action";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 import { Link } from "@/shared/components/link";
 import { TextLink } from "@/shared/components/text-link";
@@ -37,11 +38,16 @@ export const SiteFooter = () => (
           aria-label="Footer"
           className="copy-note text-ink-2 grid grid-cols-[repeat(3,max-content)] gap-x-6 gap-y-1.5 sm:ml-auto sm:flex sm:flex-wrap sm:gap-x-4"
         >
-          {footerLinks.map((link) => (
-            <TextLink key={link.href} href={link.href} tone="quiet">
-              {link.label}
-            </TextLink>
-          ))}
+          {footerLinks.map((link) =>
+            /* Log in goes on a browser that is already logged in. */
+            link.href === appRoutes.login ? (
+              <FooterLogInLink key={link.href} />
+            ) : (
+              <TextLink key={link.href} href={link.href} tone="quiet">
+                {link.label}
+              </TextLink>
+            ),
+          )}
         </nav>
       </div>
       <p className="text-ink-3 copy-meta mt-4 max-w-[88ch] leading-relaxed">

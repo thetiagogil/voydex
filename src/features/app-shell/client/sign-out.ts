@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
+import { rememberSignedIn } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import {
   type BrowserSupabaseClient,
@@ -30,6 +31,8 @@ export const useSignOut = () => {
 
   return async () => {
     await signOutOfAccount(getBrowserSupabaseClient().auth);
+    /* The front page's bar offers Log in again. */
+    rememberSignedIn(false);
     router.push(appRoutes.login);
   };
 };

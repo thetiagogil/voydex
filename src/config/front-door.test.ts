@@ -4,7 +4,11 @@ import {
   frontDoorScript,
   leaveApp,
   readAppEntered,
+  readHasPlays,
+  readSignedIn,
   rememberAppEntered,
+  rememberHasPlays,
+  rememberSignedIn,
   shouldSkipFrontPage,
 } from "@/config/front-door";
 
@@ -21,6 +25,7 @@ describe("front door", () => {
     vi.stubGlobal("window", {
       localStorage: {
         getItem: (key: string) => store.get(key) ?? null,
+        removeItem: (key: string) => store.delete(key),
         setItem: (key: string, value: string) => store.set(key, value),
       },
       location,
@@ -68,6 +73,30 @@ describe("front door", () => {
 
     expect(readAppEntered()).toBe(false);
     expect(shouldSkipFrontPage()).toBe(false);
+  });
+
+  it("says Start a Play until the device holds a Play, opened or not", () => {
+    rememberAppEntered();
+    expect(readHasPlays()).toBe(false);
+
+    rememberHasPlays(true);
+    expect(readHasPlays()).toBe(true);
+
+    /* The last Play deleted: there is one to start again. */
+    rememberHasPlays(false);
+    expect(readHasPlays()).toBe(false);
+  });
+
+  it("keeps a logged-in browser logged in after it leaves the app", () => {
+    expect(readSignedIn()).toBe(false);
+
+    rememberAppEntered();
+    rememberSignedIn(true);
+    leaveApp();
+    expect(readSignedIn()).toBe(true);
+
+    rememberSignedIn(false);
+    expect(readSignedIn()).toBe(false);
   });
 
   it("sends a returning device to the app from the inline script", () => {

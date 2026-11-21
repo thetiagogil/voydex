@@ -51,6 +51,25 @@ test.describe("Log in", () => {
     await expect(page.getByRole("button", { name: "Log out" })).toBeHidden();
   });
 
+  test("logged in, the front page offers the app instead of Log in", async ({
+    page,
+  }) => {
+    await logIn(page, seededAccounts.trainer);
+    await page.waitForURL("**/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+    /* Leaving the app isn't logging out. */
+    await page.getByRole("link", { name: "Voydex home" }).click();
+    await expect(
+      page.getByRole("link", { name: "Open the app" }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Log in" })).toHaveCount(0);
+
+    /* Log in itself has nothing to ask: it goes on to the app. */
+    await page.goto("/login");
+    await page.waitForURL("**/app");
+  });
+
   test("says when the password is wrong", async ({ page }) => {
     await logIn(page, seededAccounts.trainer, "not-the-password");
 

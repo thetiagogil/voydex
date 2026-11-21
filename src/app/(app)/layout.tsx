@@ -1,4 +1,4 @@
-import { AppEnteredMark } from "@/features/app-shell/components/app-entered-mark";
+import { FrontDoorMark } from "@/features/app-shell/components/front-door-mark";
 import { AppShell } from "@/features/app-shell/components/app-shell";
 import { AccountSyncRunner } from "@/features/settings/components/account-sync-runner";
 
@@ -21,7 +21,7 @@ export default function AppLayout({
         {children}
         <AccountSyncRunner />
       </AppShell>
-      <AppEnteredMark />
+      <FrontDoorMark />
     </AppDeviceGate>
   );
 }

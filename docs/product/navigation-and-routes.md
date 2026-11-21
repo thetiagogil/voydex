@@ -69,29 +69,44 @@ log-in pages beside it. Everything else is the app.
   their parts.
 - **Top bar:** the site takes the app's own bar: the "V" tile with the
   Voydex name, How it works and Install centred, and Log in on the right.
+  On a browser that is already logged in (leaving the app isn't logging
+  out) that button reads Open the app and leads to `/app`, and the
+  footer drops its Log in.
   On Privacy and Terms it is the quiet pill on the page's ground (the word
   drops on narrow phones). On the red band it is part of the red: no pill,
   white words and a white V tile on the band's darker top, which is as
   thin as the bar and steps down a little on the left. The name is in the
   bar on every page, so no page's title repeats it; the log-in pages drop
   Log in. The V always leads to the start page.
-- **The log-in pages** follow the same pattern: the red band with the
+- **The log-in pages** follow the same pattern: the band with the
   page's title and one line at its left, where every page puts its title,
-  and Go back at the end of that row; below the band the form sits on one
-  quiet card, centred.
+  and the way back at its top right, level with the title, saying where it
+  leads: Back home, or Back to the app when a page of the app sent you
+  here. Below the band the form sits on one quiet card, centred.
+- **Log in offers both ways into the app** on that card: the account's
+  form, then, after an "or", Continue without an account (your Plays are
+  saved on this device only), which opens the app, or the page of it that
+  sent you here. A browser that is already logged in goes straight on to
+  the app.
 - The site frame ends on the quiet site footer: a rule across the full
   width, then the "V" mark and the name, the tagline, How it works,
   Install, Codex, Log in, Privacy, Terms and the fan-project notice.
 - **Coming back:** a device that has opened the app (Mainline, Settings or
   You) skips the front page: `/` sends it to Home (`/app`). A
   Codex visit alone doesn't count. A link to one of the front page's parts
-  still shows it, with Continue in place of Start a Play; Settings' About
-  Voydex links there.
+  still shows it; Settings' About Voydex links there.
+- **The front page's button** goes by what is on the device: Start a Play
+  until it holds a Play (archived ones count), Continue from then on. A
+  device that opened the app but never started a Play still reads Start a
+  Play. The line under it says what you have without an account, or that
+  you're logged in. The front page opens neither the device's data nor the
+  account: the app notes both for it (`src/config/front-door.ts`), after
+  every save and on Log in and Log out.
 - **Leave the app** (the account menu, You on phones, and the V in the
   app's bar) goes back to the
-  front page and stops the skip, so `/` shows the front page again, with
-  Continue, until you continue from it. Nothing on the device changes: your
-  Plays stay.
+  front page and stops the skip, so `/` shows the front page again until
+  you go back in from it. Nothing on the device changes: your Plays stay,
+  and you stay logged in.
 - **The start screen:** the app's pages (`/app`, `/app/settings`, `/app/you`
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens

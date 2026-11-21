@@ -2,6 +2,7 @@
 
 import { isAuthSessionMissingError } from "@supabase/supabase-js";
 
+import { rememberSignedIn } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import { getAuthErrorCode } from "@/features/auth/auth-errors";
 import {
@@ -60,6 +61,8 @@ export const logInWithPassword = async (formData: FormData) => {
   }
 
   forgetAuthEmail();
+  /* The front page's bar offers the app from now on, not Log in. */
+  rememberSignedIn(true);
 
   return getLogInLandingPath(next);
 };

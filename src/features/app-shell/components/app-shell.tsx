@@ -1,18 +1,16 @@
-import { appRoutes } from "@/config/routes";
 import { AppBarSections } from "@/features/app-shell/components/navigation/app-bar-sections";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
+import { SiteAccountAction } from "@/features/app-shell/components/navigation/site-account-action";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
 import { publicLinks } from "@/features/app-shell/utils/app-navigation";
 import { AccountFoldsProvider } from "@/features/app-shell/components/account-folds-provider";
-import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { cn } from "@/shared/utils/cn";
-import { Link } from "@/shared/components/link";
 
 type AppShellProps = {
   /*
@@ -40,7 +38,8 @@ type AppShellProps = {
  * the Codex each open a menu of their pages), and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
- * the front page), and Log in; on phones only the V tile and Log in. Both
+ * the front page), and Log in (Open the app on a browser that is already
+ * logged in); on phones only the V tile and that button. Both
  * sit on the red strip. The site frame ends on the site footer.
  */
 export const AppShell = ({
@@ -49,16 +48,6 @@ export const AppShell = ({
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
-  /* On the red bar: white, with the action's ink. */
-  const logIn = (
-    <Link
-      href={appRoutes.login}
-      className={buttonVariants({ size: "sm", variant: "inverse" })}
-    >
-      Log in
-    </Link>
-  );
-
   const frameTree = (
     <div
       className={cn(
@@ -91,7 +80,7 @@ export const AppShell = ({
               className="hidden sm:flex"
             />
           }
-          end={bar === "account" ? null : logIn}
+          end={bar === "account" ? null : <SiteAccountAction />}
         />
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">
