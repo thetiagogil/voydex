@@ -192,10 +192,6 @@ export const youLinks: readonly AppNavigationLink[] = [
   ...mainlineLinks.filter((link) => youSectionHrefs.has(link.href)),
 ];
 
-/* Where the V tile leads: Mainline Home in the app, the front page on the site. */
-export const getBrandHref = (isApp: boolean): string =>
-  isApp ? appRoutes.mainline : appRoutes.home;
-
 /* The site's bar: the front page's parts, which scroll to them. */
 export const publicLinks: readonly AppNavigationLink[] = [
   { href: appRoutes.howItWorks, label: "How it works" },

@@ -17,8 +17,10 @@ The app opens for everyone: your data lives on this device
 ([ADR 0008](../decisions/0008-user-data-on-the-device.md)), and signing in is
 only for backups. Mainline, Settings, You and the Codex take this frame.
 
-- **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
-  Mainline Home (`/app`). The sections sit centred as one row: Home,
+- **Top bar (desktop, `lg` and up):** the "V" tile and the name on the left
+  lead out to the front page (`/`), exactly as Leave the app does, on
+  phones too; Home in the row is the way to Mainline Home (`/app`). The
+  sections sit centred as one row: Home,
   Plays, Team Planner, Statistics, Collection and the Codex, and your
   account icon sits on the right. Home, Plays and Statistics are links.
   Team Planner, Collection and the Codex (a name, no icon) each open a
@@ -85,7 +87,8 @@ log-in pages beside it. Everything else is the app.
   Codex visit alone doesn't count. A link to one of the front page's parts
   still shows it, with Continue in place of Start a Play; Settings' About
   Voydex links there.
-- **Leave the app** (the account menu, and You on phones) goes back to the
+- **Leave the app** (the account menu, You on phones, and the V in the
+  app's bar) goes back to the
   front page and stops the skip, so `/` shows the front page again, with
   Continue, until you continue from it. Nothing on the device changes: your
   Plays stay.

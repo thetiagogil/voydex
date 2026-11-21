@@ -3,7 +3,8 @@ import { appRoutes } from "@/config/routes";
 /*
  * The front page is for people who are new here. A device that has opened
  * the app goes straight back in: `/` opens the app. Leave the app (the
- * account menu, You) brings the front page back until you continue from it,
+ * account menu, You, and the V in the app's bar) brings the front page back
+ * until you continue from it,
  * and a link that names a part of the front page (`/#how-it-works`) always
  * shows it. Your Plays stay on the device either way.
  */
@@ -24,9 +25,6 @@ const write = (value: string) => {
 /* Marks this device as in the app; opening any app page does it. */
 export const rememberAppEntered = () => write(inApp);
 
-/* Leaves the app: the front page shows again until you continue from it. */
-export const leaveApp = () => write(leftApp);
-
 /* Whether this device has ever opened the app, in it now or not. */
 export const readAppEntered = () => {
   try {
@@ -34,6 +32,15 @@ export const readAppEntered = () => {
   } catch {
     return false;
   }
+};
+
+/*
+ * Leaves the app: the front page shows again until you continue from it. A
+ * device that has only browsed the Codex has nothing to leave, so its front
+ * page still says Start a Play.
+ */
+export const leaveApp = () => {
+  if (readAppEntered()) write(leftApp);
 };
 
 /*

@@ -62,6 +62,14 @@ describe("front door", () => {
     expect(shouldSkipFrontPage()).toBe(true);
   });
 
+  it("leaves nothing behind on a device that never opened the app", () => {
+    /* The V from a Codex page: the front page still says Start a Play. */
+    leaveApp();
+
+    expect(readAppEntered()).toBe(false);
+    expect(shouldSkipFrontPage()).toBe(false);
+  });
+
   it("sends a returning device to the app from the inline script", () => {
     new Function(frontDoorScript)();
     expect(location.replace).not.toHaveBeenCalled();

@@ -125,6 +125,36 @@ test.describe("Entry flow", () => {
     await expect(page.getByRole("navigation").first()).toBeVisible();
   });
 
+  test("the V in the app's bar leaves for the front page, like Leave the app @phone", async ({
+    page,
+  }) => {
+    await page.goto("/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+    await page.getByRole("link", { name: "Voydex home" }).click();
+    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+
+    /* It stays the front page until you continue. */
+    await page.reload();
+    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
+    await page.getByRole("link", { name: "Continue" }).click();
+    await page.waitForURL("**/app");
+  });
+
+  test("the V on a Codex page keeps Start a Play for a new device", async ({
+    page,
+  }) => {
+    await page.goto("/app/codex/pokemon");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+    await page.getByRole("link", { name: "Voydex home" }).click();
+    await expect(
+      page.getByRole("link", { name: "Start a Play" }),
+    ).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+  });
+
   test("the V leads to the start page, from Log in too", async ({ page }) => {
     await page.goto("/");
     await expect(

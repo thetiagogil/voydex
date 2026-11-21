@@ -7,10 +7,7 @@ import { NavigationLinks } from "@/features/app-shell/components/navigation/navi
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
-import {
-  getBrandHref,
-  publicLinks,
-} from "@/features/app-shell/utils/app-navigation";
+import { publicLinks } from "@/features/app-shell/utils/app-navigation";
 import { AccountFoldsProvider } from "@/features/app-shell/components/account-folds-provider";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
@@ -37,7 +34,8 @@ type AppShellProps = {
 };
 
 /*
- * The two bars. The app's: the V tile and the name (to Mainline Home),
+ * The two bars. The app's: the V tile and the name (out to the front page,
+ * as Leave the app goes),
  * Mainline's views and the Codex in the middle (Team Planner, Collection and
  * the Codex each open a menu of their pages), and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
@@ -73,8 +71,7 @@ export const AppShell = ({
       {isApp ? <MotionPreferenceMark /> : null}
       {isApp ? (
         <AppNavbar
-          brandHref={getBrandHref(true)}
-          showName
+          leavesApp
           center={
             /* Every place you go together: the sections, then the Codex. */
             <AppBarSections className="hidden lg:flex" />
@@ -87,8 +84,6 @@ export const AppShell = ({
         />
       ) : bar === "none" ? null : (
         <AppNavbar
-          brandHref={getBrandHref(false)}
-          showName
           center={
             <NavigationLinks
               ariaLabel="Main"
