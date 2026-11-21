@@ -42,6 +42,11 @@ test.describe("Log in", () => {
 
     await page.goto("/app/settings");
     await page.getByRole("button", { name: "Log out" }).click();
+    /* Log out asks first: the account's Plays leave this device. */
+    await page
+      .getByRole("dialog", { name: "Log out?" })
+      .getByRole("button", { name: "Log out" })
+      .click();
     await page.waitForURL((url) => !url.pathname.startsWith("/app/settings"));
 
     /* Signed out, the app still opens: signing in is only for backups. */

@@ -480,7 +480,11 @@ the device:
   clash only when both sides changed the same thing since the last sync),
   puts the result in place (`sync-snapshot.ts`) and uploads it
   (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog;
-  Plays from another account wait in `AccountOtherPlaysDialog`.
+  Plays from another account wait in `AccountOtherPlaysDialog`. Log out
+  (`LogOutDialog`, asked through `askLogOut`) runs `logOutClean`: one last
+  sync, the sign-out, then `clearAccountData` empties the device's own
+  tables; no other sync runs meanwhile, and a last sync that doesn't go
+  through removes nothing.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.

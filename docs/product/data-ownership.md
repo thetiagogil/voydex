@@ -60,6 +60,17 @@ above as the source of truth but moves where they live:
   any sync. A device that last synced with another account asks first:
   add its Plays to this account, or leave them out (saved to a backup file
   first, then the device takes this account's data).
+- **Log out** takes the account's data off the device. It asks first, saves
+  to the account one last time, signs the browser out and then empties the
+  device's own tables (Plays, Plans, tags, rules, favourites, the profile
+  and settings), leaving it as a new device with its downloaded game data.
+  Nothing is recorded as deleted and the device forgets the account, so
+  logging in again simply takes the account's data. If the last save can't
+  finish (offline, or a sync question still waits), nothing is removed and
+  you choose: stay logged in, or log out and keep the data on the device.
+  Kept data syncs the next time that account logs in; another account is
+  asked what to do with it. Plays made on the device before logging in
+  joined the account at Log in, so they leave with it too.
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup

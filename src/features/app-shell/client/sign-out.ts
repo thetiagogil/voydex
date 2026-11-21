@@ -1,9 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useSyncExternalStore } from "react";
 
-import { rememberSignedIn } from "@/config/front-door";
-import { appRoutes } from "@/config/routes";
+import {
+  logOutClean,
+  type LogOutResult,
+} from "@/platform/local-db/account-sync";
 import {
   type BrowserSupabaseClient,
   getBrowserSupabaseClient,
@@ -23,16 +25,50 @@ export const signOutOfAccount = async (
 };
 
 /*
- * Log out: signs this browser out of the account, then opens Log in. The
- * app keeps working with the data on this device.
+ * Log out asks first, wherever it is tapped (the account menu, Settings,
+ * You): the one dialog that answers (`LogOutDialog`, in the app's frame)
+ * opens when asked here.
  */
-export const useSignOut = () => {
-  const router = useRouter();
+let asked = false;
+const listeners = new Set<() => void>();
 
-  return async () => {
-    await signOutOfAccount(getBrowserSupabaseClient().auth);
-    /* The front page's bar offers Log in again. */
-    rememberSignedIn(false);
-    router.push(appRoutes.login);
-  };
+const setAsked = (next: boolean) => {
+  asked = next;
+
+  for (const listener of listeners) listener();
 };
+
+/* Opens the Log out question. */
+export const askLogOut = () => setAsked(true);
+
+/* Closes it: answered, or left alone. */
+export const closeLogOut = () => setAsked(false);
+
+/* Whether Log out is being asked, for the dialog. */
+export const useLogOutAsked = () =>
+  useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+    () => asked,
+    () => false,
+  );
+
+/* A Log out button's action: it asks, and the dialog does the rest. */
+export const useAskLogOut = () => async () => askLogOut();
+
+const signOutHere = () => signOutOfAccount(getBrowserSupabaseClient().auth);
+
+/*
+ * Log out, clean: the account gets everything one last time, this browser
+ * signs out and the account's data leaves the device (`logOutClean`).
+ */
+export const logOutAndClear = (userId: string): Promise<LogOutResult> =>
+  logOutClean(userId, signOutHere);
+
+/* Log out and keep the device's data, when the last save couldn't go up. */
+export const logOutAndKeep = () => signOutHere();

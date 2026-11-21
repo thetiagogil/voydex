@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { leaveApp } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import { useAppAccount } from "@/features/app-shell/components/app-account-provider";
-import { useSignOut } from "@/features/app-shell/client/sign-out";
+import { useAskLogOut } from "@/features/app-shell/client/sign-out";
 import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import {
   accountLink,
@@ -32,7 +32,7 @@ import {
  */
 export const UserMenu = () => {
   const account = useAppAccount();
-  const signOut = useSignOut();
+  const signOut = useAskLogOut();
   const pathname = usePathname();
   const isSettingsCurrent = isCurrentLink(pathname, accountLink);
   const isLibraryCurrent = isCurrentLink(pathname, libraryLink);

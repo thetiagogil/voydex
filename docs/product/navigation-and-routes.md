@@ -35,7 +35,10 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
   bar.
 - **Account menu:** Library (`/app/library`, your rules and tags),
   Settings (`/app/settings`), Log in (back up your Plays to an
-  account) or, once you've signed in, Log out, and Leave the app.
+  account) or, once you've signed in, Log out, and Leave the app. Log
+  out asks first, wherever it is tapped: your Plays stay in your account
+  and leave this device (see [Data Ownership](./data-ownership.md)); then
+  Log in opens. Leave the app changes nothing.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/app/you` (the

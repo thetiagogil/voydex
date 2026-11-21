@@ -7,6 +7,7 @@ import {
   IdChangeError,
   type VersionedSnapshot,
 } from "@/platform/local-db/id-changes";
+import { localUserId } from "@/platform/local-db/device-schema";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import {
   mergeSnapshots,
@@ -24,7 +25,10 @@ import {
   SyncMovedOnError,
   type DeviceSnapshot,
 } from "@/platform/local-db/sync-snapshot";
-import { readNeededVersionGroups } from "@/platform/local-db/user-data";
+import {
+  readNeededVersionGroups,
+  replaceUserData,
+} from "@/platform/local-db/user-data";
 
 /*
  * One sync between this device and its account, whatever holds the
@@ -417,6 +421,34 @@ export const takeAccountData = async (
        backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
        restored = FALSE`,
     [accountId, remoteId],
+  );
+};
+
+/*
+ * Log out: the account's data leaves this device, which is as a new one
+ * again (an empty profile and the starting settings; the game data it
+ * downloaded stays). Sync once more first: this doesn't. Nothing is
+ * recorded as deleted and the device forgets the account, so logging in
+ * again simply takes the account's data, and another account's finds
+ * nothing here to ask about. All in one go: a failure leaves the device as
+ * it was.
+ */
+export const clearAccountData = async (db: LocalDb) => {
+  await replaceUserData(
+    db,
+    {},
+    {
+      after: async (tx) => {
+        /* The profile and settings a device starts with, as at install. */
+        await tx.query("DELETE FROM auth.users WHERE id = $1", [localUserId]);
+        await tx.query("INSERT INTO auth.users (id) VALUES ($1)", [
+          localUserId,
+        ]);
+        await tx.exec("DELETE FROM device.changes");
+        await tx.exec("DELETE FROM device.sync");
+        await tx.exec("DELETE FROM device.backups");
+      },
+    },
   );
 };
 

@@ -1,6 +1,7 @@
 import { AppBarSections } from "@/features/app-shell/components/navigation/app-bar-sections";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
+import { LogOutDialog } from "@/features/app-shell/components/log-out-dialog";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
 import { SiteAccountAction } from "@/features/app-shell/components/navigation/site-account-action";
@@ -58,6 +59,7 @@ export const AppShell = ({
       )}
     >
       {isApp ? <MotionPreferenceMark /> : null}
+      {isApp ? <LogOutDialog /> : null}
       {isApp ? (
         <AppNavbar
           leavesApp

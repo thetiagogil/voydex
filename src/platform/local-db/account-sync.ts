@@ -6,6 +6,7 @@ import { createAccountBackups } from "@/platform/local-db/account-backups";
 import { recordBackup } from "@/platform/local-db/backups";
 import {
   type BackupDevice,
+  clearAccountData,
   hasPlaysOrPlans,
   joinAccount,
   readDeviceSyncState,
@@ -100,10 +101,17 @@ let answers: MergeChoices = {};
 /* After losing an upload race, try again soon to merge the winner's. */
 const raceDelayMs = 2000;
 
-const run = async () => {
+/*
+ * How one sync ended: everything of the device's is in the account
+ * (`done`), it should run again at once (`again`: another device uploaded
+ * first, or you saved meanwhile), it waits for your answer, or it failed.
+ */
+type RunResult = "again" | "done" | "failed" | "waiting";
+
+const run = async (): Promise<RunResult> => {
   const userId = accountId;
 
-  if (!userId) return;
+  if (!userId) return "failed";
 
   setStatus({ status: "syncing" });
 
@@ -116,7 +124,7 @@ const run = async () => {
       if (await hasPlaysOrPlans(db)) {
         setStatus({ status: "other-account" });
 
-        return;
+        return "waiting";
       }
 
       await joinAccount(db, userId);
@@ -137,14 +145,14 @@ const run = async () => {
         status: "clashes",
       });
 
-      return;
+      return "waiting";
     }
 
     if (outcome.status === "raced") {
       setStatus({ status: "idle" });
       schedule(raceDelayMs);
 
-      return;
+      return "again";
     }
 
     if (outcome.status === "synced") {
@@ -161,12 +169,14 @@ const run = async () => {
     }
 
     setStatus({ status: "idle" });
+
+    return "done";
   } catch (error) {
     if (error instanceof SyncMovedOnError) {
       runAgain = true;
       setStatus({ status: "idle" });
 
-      return;
+      return "again";
     }
 
     setStatus({
@@ -177,6 +187,8 @@ const run = async () => {
       status: "failed",
     });
     schedule(retryDelayMs);
+
+    return "failed";
   }
 };
 
@@ -193,14 +205,16 @@ export const syncNow = (): Promise<void> => {
     return running ?? Promise.resolve();
   }
 
-  running = run().finally(() => {
-    running = null;
+  running = run()
+    .then(() => undefined)
+    .finally(() => {
+      running = null;
 
-    if (runAgain && !paused) {
-      runAgain = false;
-      void syncNow();
-    }
-  });
+      if (runAgain && !paused) {
+        runAgain = false;
+        void syncNow();
+      }
+    });
 
   return running;
 };
@@ -295,6 +309,82 @@ export const withSyncPaused = async <Result>(
     paused = false;
     runAgain = false;
     void syncNow();
+  }
+};
+
+/* A few tries for Log out's last sync: a race or a late save runs it again. */
+const logOutSyncTries = 3;
+
+/*
+ * How Log out went: the device's data reached the account and left the
+ * device (`cleared`); or nothing was removed, because a sync question
+ * waits for your answer (`waiting`) or the last sync couldn't finish
+ * (`failed`, offline for one). `kept`: logged out, but the device's data
+ * couldn't be removed and stays.
+ */
+export type LogOutResult = "cleared" | "failed" | "kept" | "waiting";
+
+/*
+ * Log out, clean: syncs one last time so the account has everything, signs
+ * out (`signOut`), then takes `userId`'s data off this device
+ * (`clearAccountData`). In that order and never further than it got: if the
+ * last sync doesn't go through, nothing is signed out or removed and the
+ * answer says why. No other sync runs meanwhile: an emptied device must
+ * never reach the account as if you had deleted everything.
+ */
+export const logOutClean = async (
+  userId: string,
+  signOut: () => Promise<void>,
+): Promise<LogOutResult> => {
+  if (isWaiting(current)) return "waiting";
+
+  /* On a page that doesn't keep sync running (the Codex), this sync is its own. */
+  const ownAccount = accountId === null;
+
+  if (ownAccount) accountId = userId;
+
+  paused = true;
+
+  try {
+    if (timer !== null) window.clearTimeout(timer);
+
+    timer = null;
+    await running;
+
+    let result: RunResult = "again";
+
+    for (
+      let tries = 0;
+      result === "again" && tries < logOutSyncTries;
+      tries++
+    ) {
+      result = await run();
+    }
+
+    if (result !== "done") return result === "waiting" ? "waiting" : "failed";
+
+    const { db } = await openLocalDb();
+
+    await signOut();
+    accountId = null;
+
+    try {
+      await clearAccountData(db);
+    } catch {
+      return "kept";
+    }
+
+    /* Every screen reads again: the Plays are gone from this device. */
+    ownSave = true;
+    notifyLocalSave({ background: true });
+    ownSave = false;
+
+    return "cleared";
+  } finally {
+    if (ownAccount) accountId = null;
+
+    paused = false;
+    runAgain = false;
   }
 };
 
