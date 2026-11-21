@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { rememberHasPlays, rememberSignedIn } from "@/config/front-door";
+import {
+  leaveApp,
+  rememberHasPlays,
+  rememberSignedIn,
+} from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import {
   closeLogOut,
@@ -28,7 +32,8 @@ type Pending = "clean" | "keep" | null;
  * device: they are the account's, and come back when you log in again.
  * If that last save can't finish (offline, or a sync question still
  * waits), nothing is removed and you choose: stay logged in, or log out
- * and keep your Plays on this device. Then Log in opens.
+ * and keep your Plays on this device. Then Log in opens, and the device
+ * has left the app: Back home shows the front page, not the app.
  */
 export const LogOutDialog = () => {
   const router = useRouter();
@@ -44,6 +49,8 @@ export const LogOutDialog = () => {
 
   const leave = () => {
     rememberSignedIn(false);
+    /* Logged out is out of the app too: Back home shows the front page. */
+    leaveApp();
     close();
     router.push(appRoutes.login);
   };

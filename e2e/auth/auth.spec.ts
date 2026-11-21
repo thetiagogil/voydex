@@ -62,7 +62,8 @@ test.describe("Log in", () => {
   }) => {
     await logIn(page, seededAccounts.trainer);
     await page.waitForURL("**/app");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    /* Home has synced Plays or none: the bar is there either way. */
+    await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
 
     /* Leaving the app isn't logging out. */
     await page.getByRole("link", { name: "Voydex home" }).click();
@@ -76,7 +77,7 @@ test.describe("Log in", () => {
 
     await page.getByRole("link", { name: "Open the app" }).click();
     await page.waitForURL("**/app");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible();
     expect(await sawStartScreen()).toBe(false);
 
     /* Log in itself has nothing to ask: it goes on to the app. */

@@ -120,6 +120,17 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await question.getByRole("button", { name: "Log out" }).click();
     await page.waitForURL("**/login**");
 
+    /* Logged out is out of the app: Back home is the front page, as new. */
+    await page.getByRole("link", { name: "Back home" }).click();
+    await expect(
+      page.getByRole("link", { name: "Start a Play" }),
+    ).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+    await page
+      .getByRole("banner")
+      .getByRole("link", { name: "Log in" })
+      .click();
+
     /* Without the account, the device is as new: no Play, no name. */
     await page
       .getByRole("link", { name: "Continue without an account" })
