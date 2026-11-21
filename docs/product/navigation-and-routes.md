@@ -111,7 +111,12 @@ log-in pages beside it. Everything else is the app.
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens
   and every tab gets ready, so the bars appear with a working app and
-  changing tabs afterwards never waits. Nothing sends you to log in.
+  changing tabs afterwards never waits. It shows once per visit and never
+  for less than a second, so it doesn't flash by on a quick device: going
+  out to the front page or Log in and back in again shows the app at
+  once, with no start screen (`useOpenLocalDb`). Every move between the
+  site and the app is a link, never a page load. Nothing sends you to log
+  in.
 
 ### Inside A Module
 

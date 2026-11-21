@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { newTestEmail, seededAccounts, signedOut } from "../support/accounts";
+import { watchForStartScreen } from "../support/actions";
 import { logIn, logInToNewAccount } from "../support/auth";
 
 test.use({ storageState: signedOut });
@@ -64,6 +65,14 @@ test.describe("Log in", () => {
       page.getByRole("link", { name: "Open the app" }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Log in" })).toHaveCount(0);
+
+    /* Back in, in the same visit: the app shows at once, no start screen. */
+    const sawStartScreen = await watchForStartScreen(page);
+
+    await page.getByRole("link", { name: "Open the app" }).click();
+    await page.waitForURL("**/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(await sawStartScreen()).toBe(false);
 
     /* Log in itself has nothing to ask: it goes on to the app. */
     await page.goto("/login");

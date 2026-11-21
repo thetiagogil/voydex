@@ -6,6 +6,7 @@ import type { GameDataVersions } from "@/platform/local-db/game-data";
 import type { LocalDb } from "@/platform/local-db/local-db";
 import {
   openLocalDb,
+  readOpenedLocalDb,
   startFreshLocalDb,
 } from "@/platform/local-db/open-local-db";
 import {
@@ -62,18 +63,63 @@ const getReady = async (db: LocalDb, prepare: PreparePages | undefined) => {
 };
 
 /*
+ * The least the start screen shows once it shows, so it never flashes by on
+ * a device that opens quickly.
+ */
+export const startScreenMinMs = 1000;
+
+/* How much longer the start screen stays, having shown for `shownForMs`. */
+export const getStartScreenWaitMs = (shownForMs: number) =>
+  Math.max(0, startScreenMinMs - shownForMs);
+
+const wait = (ms: number) =>
+  ms > 0
+    ? new Promise<void>((resolve) => {
+        setTimeout(resolve, ms);
+      })
+    : Promise.resolve();
+
+/* The pages each open database already has ready, by what got them ready. */
+const readyPages = new WeakMap<LocalDb, Set<PreparePages>>();
+
+const markPagesReady = (db: LocalDb, prepare: PreparePages | undefined) => {
+  if (!prepare) return;
+
+  const ready = readyPages.get(db) ?? new Set<PreparePages>();
+
+  ready.add(prepare);
+  readyPages.set(db, ready);
+};
+
+/*
+ * The open state when this visit already opened the database and got these
+ * pages ready: a gate mounting again (back from the front page, or from Log
+ * in) starts on the app, with no start screen in between. Null otherwise.
+ */
+const readOpenNow = (
+  prepare: PreparePages | undefined,
+): LocalDbOpenState | null => {
+  const opened = readOpenedLocalDb();
+
+  return opened && (!prepare || readyPages.get(opened.db)?.has(prepare))
+    ? { db: opened.db, status: "open", versions: opened.versions }
+    : null;
+};
+
+/*
  * Opens the device database (once per visit) for the screens under a gate,
  * with the step it is on for the start screen, then gets the pages
- * `prepare` names ready before it says the database is open. `retry` tries
+ * `prepare` names ready before it says the database is open. A start
+ * screen that shows stays at least `startScreenMinMs`; a gate that mounts
+ * again in the same visit shows no start screen at all. `retry` tries
  * again; `startFresh` deletes the device's data first (the caller confirms).
  */
 export const useOpenLocalDb = ({
   prepare,
 }: { prepare?: PreparePages } = {}) => {
-  const [state, setState] = useState<LocalDbOpenState>({
-    status: "opening",
-    step: null,
-  });
+  const [state, setState] = useState<LocalDbOpenState>(
+    () => readOpenNow(prepare) ?? { status: "opening", step: null },
+  );
 
   const run = useCallback(
     (open: typeof openLocalDb) => {
@@ -82,6 +128,7 @@ export const useOpenLocalDb = ({
       return open((step) => setState({ status: "opening", step })).then(
         async ({ db, versions }) => {
           await getReady(db, prepare);
+          markPagesReady(db, prepare);
           showOpen(setState, { db, status: "open", versions });
         },
         (error: unknown) => setState(toFailedState(error)),
@@ -91,13 +138,19 @@ export const useOpenLocalDb = ({
   );
 
   useEffect(() => {
+    /* Already open and ready in this visit: the app is showing. */
+    if (readOpenNow(prepare)) return;
+
     let current = true;
+    const shownAt = performance.now();
 
     openLocalDb((step) => {
       if (current) setState({ status: "opening", step });
     }).then(
       async ({ db, versions }) => {
         await getReady(db, prepare);
+        markPagesReady(db, prepare);
+        await wait(getStartScreenWaitMs(performance.now() - shownAt));
 
         if (current) showOpen(setState, { db, status: "open", versions });
       },

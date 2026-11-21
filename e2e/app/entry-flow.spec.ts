@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { newDevice } from "../support/accounts";
+import { watchForStartScreen } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.use({ storageState: newDevice });
@@ -144,7 +145,17 @@ test.describe("Entry flow", () => {
     await expect(start).toBeVisible();
     expect(new URL(page.url()).pathname).toBe("/");
 
-    /* It stays the front page until you go in again. */
+    /* Back in, in the same visit: the app shows at once, no start screen. */
+    const sawStartScreen = await watchForStartScreen(page);
+
+    await start.click();
+    await page.waitForURL("**/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(await sawStartScreen()).toBe(false);
+
+    /* It stays the front page, on a reload too, until you go in again. */
+    await page.getByRole("link", { name: "Voydex home" }).click();
+    await expect(start).toBeVisible();
     await page.reload();
     await expect(start).toBeVisible();
     await start.click();

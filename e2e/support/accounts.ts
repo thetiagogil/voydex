@@ -25,9 +25,8 @@ export const newTestEmail = (label: string) =>
 export const newDevice = { cookies: [], origins: [] };
 
 /*
- * For tests that start signed out, on a device already in the app: entering
- * the app holds the start screen for two seconds, which a test about
- * anything else shouldn't wait for.
+ * For tests that start signed out, on a device already in the app, where
+ * `/` opens the app instead of the front page.
  */
 export const signedOut = {
   cookies: [],

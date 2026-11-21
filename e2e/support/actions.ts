@@ -28,3 +28,29 @@ export const waitForAction = async (page: Page, count = 1) => {
  * as the test may rather than an expect's usual ten seconds.
  */
 export const forTheAnswer = { timeout: 0 };
+
+/*
+ * Watches the page from now on and answers, when asked, whether the start
+ * screen ("Opening your Plays") ever showed: going back into the app in the
+ * same visit must not flash it.
+ */
+export const watchForStartScreen = async (page: Page) => {
+  await page.evaluate(() => {
+    const seen = { start: false };
+
+    new MutationObserver(() => {
+      if (document.body.innerText.includes("Opening your Plays")) {
+        seen.start = true;
+      }
+    }).observe(document.body, { childList: true, subtree: true });
+    (window as unknown as { startScreenSeen: typeof seen }).startScreenSeen =
+      seen;
+  });
+
+  return () =>
+    page.evaluate(
+      () =>
+        (window as unknown as { startScreenSeen: { start: boolean } })
+          .startScreenSeen.start,
+    );
+};
