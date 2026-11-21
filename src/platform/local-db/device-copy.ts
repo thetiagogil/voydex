@@ -1,12 +1,15 @@
 /*
- * The copy of the whole device database kept before a device update, in its
- * own IndexedDB database so deleting the device data never takes it along.
- * One copy is kept: the one from before the latest update, for putting a
- * device back by hand if an update ever goes wrong after it finished.
+ * Copies kept beside the device database, in their own IndexedDB database
+ * so deleting the device data never takes them along. Two, one of each:
+ * the whole database from before the latest device update, for putting a
+ * device back by hand if an update ever goes wrong after it finished; and
+ * the device's own data, set aside while an account it wasn't added to is
+ * logged in (`own-data-aside.ts`), as a backup file's bytes.
  */
 const copyDbName = "voydex-copies";
 const storeName = "copies";
 const copyKey = "before-update";
+const ownDataKey = "own-data";
 
 const openCopies = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
@@ -37,4 +40,27 @@ const inStore = async <Result>(
 
 export const saveDeviceCopy = async (copy: Blob) => {
   await inStore("readwrite", (store) => store.put(copy, copyKey));
+};
+
+/* Where the device's own data waits while an account is logged in. */
+export type OwnDataStore = {
+  forget: () => Promise<void>;
+  read: () => Promise<Uint8Array | null>;
+  save: (bytes: Uint8Array) => Promise<void>;
+};
+
+export const ownDataStore: OwnDataStore = {
+  forget: async () => {
+    await inStore("readwrite", (store) => store.delete(ownDataKey));
+  },
+  read: async () => {
+    const kept = await inStore<unknown>("readonly", (store) =>
+      store.get(ownDataKey),
+    );
+
+    return kept instanceof Uint8Array ? kept : null;
+  },
+  save: async (bytes) => {
+    await inStore("readwrite", (store) => store.put(bytes, ownDataKey));
+  },
 };

@@ -298,6 +298,12 @@ export type DeviceSyncState = SyncState & {
    * `takeAccountData`).
    */
   otherAccount: boolean;
+  /*
+   * The device has never synced with any account: data of its own was
+   * made without one, and waits for you to add it to this account or keep
+   * it separate (`joinAccount`, `setOwnDataAside`).
+   */
+  unjoined: boolean;
 };
 
 /*
@@ -321,6 +327,7 @@ export const readDeviceSyncState = async (
       backupId: row.backup_id,
       otherAccount: false,
       restored: row.restored,
+      unjoined: false,
     };
   }
 
@@ -328,7 +335,33 @@ export const readDeviceSyncState = async (
     backupId: null,
     otherAccount: Boolean(row?.account_id),
     restored: false,
+    unjoined: !row?.account_id,
   };
+};
+
+/*
+ * Whether this device holds anything of its own worth asking about before
+ * it joins an account: a Play, a Plan, a favourite, a tag, a rule or a rule
+ * set of yours, a game on your shelf, or a name or icon you chose. Settings
+ * alone aren't.
+ */
+export const hasOwnData = async (db: LocalDb) => {
+  const [row] = await runQuery<{ found: boolean }>(
+    db,
+    `SELECT EXISTS (SELECT 1 FROM gameplay.mainline_plays)
+       OR EXISTS (SELECT 1 FROM planning.mainline_team_plans)
+       OR EXISTS (SELECT 1 FROM gameplay.user_favourite_pokemon)
+       OR EXISTS (SELECT 1 FROM gameplay.user_game_library_entries)
+       OR EXISTS (SELECT 1 FROM public.tags)
+       OR EXISTS (SELECT 1 FROM gameplay.mainline_challenge_rules
+         WHERE user_id IS NOT NULL)
+       OR EXISTS (SELECT 1 FROM gameplay.mainline_challenge_rule_sets
+         WHERE user_id IS NOT NULL)
+       OR EXISTS (SELECT 1 FROM public.profiles
+         WHERE display_name IS NOT NULL OR icon_form_id IS NOT NULL) AS found`,
+  );
+
+  return row?.found ?? false;
 };
 
 /* Whether this device holds any Plays or Plans: what is worth asking about. */

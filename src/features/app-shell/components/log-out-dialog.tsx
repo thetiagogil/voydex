@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   leaveApp,
@@ -16,6 +16,7 @@ import {
   useLogOutAsked,
 } from "@/features/app-shell/client/sign-out";
 import { useAuthSession } from "@/platform/local-db/account-session";
+import { hasOwnDataAside } from "@/platform/local-db/account-sync";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -32,7 +33,8 @@ type Pending = "clean" | "keep" | null;
  * device: they are the account's, and come back when you log in again.
  * If that last save can't finish (offline, or a sync question still
  * waits), nothing is removed and you choose: stay logged in, or log out
- * and keep your Plays on this device. Then Log in opens, and the device
+ * and keep your Plays on this device. What the device had of its own,
+ * kept separate when you logged in, comes back. Then Log in opens, and the device
  * has left the app: Back home shows the front page, not the app.
  */
 export const LogOutDialog = () => {
@@ -41,6 +43,22 @@ export const LogOutDialog = () => {
   const userId = useAuthSession()?.userId ?? null;
   const [pending, setPending] = useState<Pending>(null);
   const [stuck, setStuck] = useState<Stuck>(null);
+  /* The device's own data waits, kept separate from this account. */
+  const [ownDataAside, setOwnDataAside] = useState(false);
+
+  useEffect(() => {
+    if (!asked) return;
+
+    let current = true;
+
+    void hasOwnDataAside().then((aside) => {
+      if (current) setOwnDataAside(aside);
+    });
+
+    return () => {
+      current = false;
+    };
+  }, [asked]);
 
   const close = () => {
     closeLogOut();
@@ -153,7 +171,9 @@ export const LogOutDialog = () => {
       <p className="text-ink-2 copy-body">
         {stuck
           ? "Stay logged in and try again later, or log out now and keep your Plays on this device. Kept here, they sync the next time you log in to this account."
-          : "Voydex saves to your account one last time first. Your Plays, Plans, tags, rules, favourites, name and settings come back when you log in again."}
+          : ownDataAside
+            ? "Voydex saves to your account one last time first. What this device had before you logged in was kept separate, and comes back now."
+            : "Voydex saves to your account one last time first. Your Plays, Plans, tags, rules, favourites, name and settings come back when you log in again."}
       </p>
     </OverlayDialog>
   );

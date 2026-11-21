@@ -164,6 +164,107 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(page.getByText(name)).toBeVisible(forTheAnswer);
   });
 
+  test("on a friend's device: their Plays stay out of your account and come back when you log out", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const theirs = uniquePlayName("Friend");
+    const mine = uniquePlayName("Mine");
+
+    /* The friend plays without an account. */
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: theirs,
+      partner: null,
+    });
+
+    /* You log in on their device, and keep their Plays separate. */
+    const email = newTestEmail("guest");
+
+    await createAccount(email);
+    await logIn(page, email);
+    await page.waitForURL("**/app**");
+
+    const question = page.getByRole("dialog", {
+      name: "Add this device's Plays to your account?",
+    });
+
+    await expect(question).toBeVisible(forTheAnswer);
+    await expectAccessible(page);
+
+    const setAside = waitForAction(page);
+
+    await question.getByRole("button", { name: "Keep them separate" }).click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await setAside;
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeHidden();
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: mine,
+      partner: null,
+    });
+
+    /* You log out: yours leave, theirs are back as they were. */
+    const logOut = await askToLogOut(page);
+
+    await expect(logOut).toContainText("comes back now");
+    await logOut.getByRole("button", { name: "Log out" }).click();
+    await page.waitForURL("**/login**");
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+    await expect(page.getByText(mine)).toBeHidden();
+
+    /* And it survives a reload. */
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+  });
+
+  test("your own Plays made before logging in join your account when you add them", async ({
+    browser,
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const name = uniquePlayName("Before");
+    const email = newTestEmail("owner");
+
+    await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
+    await createAccount(email);
+    await logIn(page, email);
+    await page.waitForURL("**/app**");
+
+    const question = page.getByRole("dialog", {
+      name: "Add this device's Plays to your account?",
+    });
+    const joined = waitForAction(page);
+
+    await question
+      .getByRole("button", { name: "Add them to my account" })
+      .click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await joined;
+    await waitForSync(page);
+
+    const other = await browser.newContext({ storageState: signedOut });
+    const laptop = await other.newPage();
+
+    try {
+      await logIn(laptop, email);
+      await laptop.waitForURL("**/app**");
+      await waitForSync(laptop);
+      await laptop.goto("/app/plays");
+      await expect(laptop.getByText(name)).toBeVisible(forTheAnswer);
+    } finally {
+      await other.close();
+    }
+  });
+
   test("asks which version to keep when both devices changed the same thing", async ({
     browser,
     page,

@@ -4,9 +4,11 @@ import { useSyncExternalStore } from "react";
 
 import { createAccountBackups } from "@/platform/local-db/account-backups";
 import { recordBackup } from "@/platform/local-db/backups";
+import { ownDataStore } from "@/platform/local-db/device-copy";
 import {
   type BackupDevice,
   clearAccountData,
+  hasOwnData,
   hasPlaysOrPlans,
   joinAccount,
   readDeviceSyncState,
@@ -21,6 +23,10 @@ import {
   subscribeLocalSaves,
 } from "@/platform/local-db/local-db-context";
 import { openLocalDb } from "@/platform/local-db/open-local-db";
+import {
+  bringOwnDataBack,
+  setOwnDataAside,
+} from "@/platform/local-db/own-data-aside";
 import type { Clash, MergeChoices } from "@/platform/local-db/sync-merge";
 import { SyncMovedOnError } from "@/platform/local-db/sync-snapshot";
 import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
@@ -30,8 +36,9 @@ import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
  * device's data goes up as the account's backup, and whenever the app
  * opens or comes back to the front it checks for a newer one and merges
  * it. A clash waits for your answer; nothing syncs until then. So do Plays
- * from another account this device last synced with: you add them to this
- * account or leave them out.
+ * from another account this device last synced with (you add them to this
+ * account or leave them out), and data the device made without any account
+ * (you add it, or keep it separate: set aside until you log out).
  */
 
 /* When this device last synced with its account; null if never. */
@@ -51,11 +58,15 @@ export type AccountSyncStatus =
   | { clashes: Clash[]; otherDevice: BackupDevice; status: "clashes" }
   /* This device's Plays came from another account: add them, or leave them out. */
   | { status: "other-account" }
+  /* This device has data made without an account: add it, or keep it separate. */
+  | { status: "own-data" }
   | { message: string; status: "failed" };
 
 /* Waiting for your answer: nothing syncs until you give it. */
 const isWaiting = (status: AccountSyncStatus) =>
-  status.status === "clashes" || status.status === "other-account";
+  status.status === "clashes" ||
+  status.status === "other-account" ||
+  status.status === "own-data";
 
 /* After a save, wait this long for more before uploading. */
 const saveDelayMs = 5000;
@@ -127,6 +138,26 @@ const run = async (): Promise<RunResult> => {
         return "waiting";
       }
 
+      await joinAccount(db, userId);
+      state = await readDeviceSyncState(db, userId);
+    }
+
+    /*
+     * A device that never had an account, with data of its own: yours to
+     * add, or someone else's to keep out of your account (a friend's
+     * computer). Nothing merges until you say.
+     */
+    if (state.unjoined) {
+      if (await hasOwnData(db)) {
+        setStatus({ status: "own-data" });
+
+        return "waiting";
+      }
+
+      /*
+       * With nothing of its own it joins at once, so what you make from now
+       * on is this account's and is never asked about.
+       */
       await joinAccount(db, userId);
       state = await readDeviceSyncState(db, userId);
     }
@@ -232,8 +263,11 @@ const schedule = (delayMs: number) => {
 export const askAgain = () => {
   if (current.status === "clashes") {
     setStatus({ ...current, clashes: [...current.clashes] });
-  } else if (current.status === "other-account") {
-    setStatus({ status: "other-account" });
+  } else if (
+    current.status === "other-account" ||
+    current.status === "own-data"
+  ) {
+    setStatus({ status: current.status });
   }
 };
 
@@ -245,11 +279,19 @@ export const resolveAccountClashes = (choices: MergeChoices) => {
   return syncNow();
 };
 
-/* "Add them": this device's Plays from another account join this one. */
+/*
+ * "Add them": this device's Plays, from another account or made without
+ * one, join this account.
+ */
 export const addPlaysToAccount = async () => {
   const userId = accountId;
 
-  if (!userId || current.status !== "other-account") return;
+  if (
+    !userId ||
+    (current.status !== "other-account" && current.status !== "own-data")
+  ) {
+    return;
+  }
 
   const { db } = await openLocalDb();
 
@@ -293,6 +335,49 @@ export const leavePlaysOut = async () => {
 };
 
 /*
+ * "Keep them separate": this device's own data is set aside, whole, and the
+ * device shows this account alone; logging out brings it back
+ * (`own-data-aside.ts`). If it can't be set aside, the question stays and
+ * nothing changed.
+ */
+export const keepOwnDataSeparate = async () => {
+  const userId = accountId;
+
+  if (!userId || current.status !== "own-data") return;
+
+  const { db } = await openLocalDb();
+
+  await setOwnDataAside(db, ownDataStore, userId);
+  setStatus({ status: "idle" });
+  ownSave = true;
+  /* Counted like any save you make: it follows your tap. */
+  notifyLocalSave();
+  ownSave = false;
+
+  return syncNow();
+};
+
+/* Whether this device keeps data of its own aside while you're logged in. */
+export const hasOwnDataAside = async () =>
+  (await ownDataStore.read().catch(() => null)) !== null;
+
+/*
+ * Logged out, with the device's own data still set aside (a log out cut
+ * short after the account's data left): brings it back. It does nothing
+ * unless the device belongs to no account and is empty.
+ */
+export const bringOwnDataBackIfLeft = async () => {
+  if (accountId || paused) return;
+
+  const { db } = await openLocalDb();
+  const back = await bringOwnDataBack(db, ownDataStore, {
+    ensureGame: ensureVersionGroupData,
+  }).catch(() => false);
+
+  if (back) notifyLocalSave({ background: true });
+};
+
+/*
  * Runs `change` (a restore) with sync held: it waits for a sync under way
  * and starts none until `change` is done, then syncs.
  */
@@ -327,7 +412,8 @@ export type LogOutResult = "cleared" | "failed" | "kept" | "waiting";
 /*
  * Log out, clean: syncs one last time so the account has everything, signs
  * out (`signOut`), then takes `userId`'s data off this device
- * (`clearAccountData`). In that order and never further than it got: if the
+ * (`clearAccountData`) and brings back what the device had of its own, if
+ * it was kept separate. In that order and never further than it got: if the
  * last sync doesn't go through, nothing is signed out or removed and the
  * answer says why. No other sync runs meanwhile: an emptied device must
  * never reach the account as if you had deleted everything.
@@ -373,6 +459,14 @@ export const logOutClean = async (
     } catch {
       return "kept";
     }
+
+    /*
+     * What the device had before this account logged in, kept separate,
+     * comes back. If it can't now, it does the next time the app opens.
+     */
+    await bringOwnDataBack(db, ownDataStore, {
+      ensureGame: ensureVersionGroupData,
+    }).catch(() => false);
 
     /* Every screen reads again: the Plays are gone from this device. */
     ownSave = true;

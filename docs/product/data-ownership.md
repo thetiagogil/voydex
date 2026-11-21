@@ -60,6 +60,15 @@ above as the source of truth but moves where they live:
   any sync. A device that last synced with another account asks first:
   add its Plays to this account, or leave them out (saved to a backup file
   first, then the device takes this account's data).
+- **Log in on a device that already has data** asks first. A device that
+  never had an account and holds something of its own (a Play, a Plan, a
+  favourite, a tag, a rule, a game on the shelf, a name or an icon) waits
+  for an answer before anything merges: **Add them to my account** (they
+  are yours: they join the account) or **Keep them separate** (someone
+  else's device: its data is set aside, whole, as a backup file kept beside
+  the database, and the device shows the account alone). A device with
+  nothing of its own joins at once, so what you make after logging in is
+  the account's and is never asked about.
 - **Log out** takes the account's data off the device. It asks first, saves
   to the account one last time, signs the browser out and then empties the
   device's own tables (Plays, Plans, tags, rules, favourites, the profile
@@ -69,8 +78,10 @@ above as the source of truth but moves where they live:
   finish (offline, or a sync question still waits), nothing is removed and
   you choose: stay logged in, or log out and keep the data on the device.
   Kept data syncs the next time that account logs in; another account is
-  asked what to do with it. Plays made on the device before logging in
-  joined the account at Log in, so they leave with it too.
+  asked what to do with it. What the device had before logging in comes
+  back, untouched, if it was kept separate; if it was added to the account
+  it is the account's, and leaves with it. Nothing of the account's ever
+  mixes into the kept data, and none of the kept data reaches the account.
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup
