@@ -111,8 +111,11 @@ type, else the Play with the most time); then your team style (the types you
 pick as a ranked chart, old friends), the regions you've travelled and, last,
 where your time went (the top five, every Play in a dialog), since most Plays
 record no playtime. A Pokémon opens the shared species sheet in place, with
-"See in Collection". All of it is read from what you recorded; a new account
-says what fills in as it records more.
+"See in Collection". All of it is read from what you recorded. The whole
+page shows from the first Play on, however small its numbers (a one-Play
+summary card once stood in its place and was dropped, 2026-11-22: it read as
+unfinished); only a device with no Play at all gets the empty state, with
+Start a Play.
 
 The band opens on a trainer title, read from your Plays' rosters (every
 Pokémon on a roster counts, a dual type for both types). The first rule that
