@@ -62,8 +62,8 @@ log-in pages beside it. Everything else is the app.
   its title ("A Pokédex for your playthroughs."), one paragraph and one
   white button beside an example Play, drawn as
   one of Voydex's own cards (cover, status, progress, team, badges). Its
-  button reads Start a Play and opens the app (`/app`), whose Home asks
-  which game you are playing. Under the band: How it works
+  button reads Start a Play and opens the app (`/app`), whose empty Home
+  offers Start a Play. Under the band: How it works
   (`/#how-it-works`): three numbered steps, with one Play followed through
   them and its partner growing along the way, then the Team Planner and the Codex in two small cards.
   Then Install (`/#install`): one quiet card with a drawn phone's Home
@@ -270,11 +270,11 @@ Mainline Home (the journey card, your other Plays) or Plays -> Play Hub
 ### Create A Play
 
 ```txt
-Mainline Home (no Plays: the game picker) -> Start -> Play Hub
+Mainline Home (no Plays: the empty profile) -> Start a Play -> New Play dialog -> Play Hub
 Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play dialog over the page, game picked
 The front page -> Start a Play -> the start screen -> Mainline Home (no Plays:
-  the game picker)
+  the empty profile, with Start a Play)
 ```
 
 Codex is an optional contextual entry, never a required funnel.

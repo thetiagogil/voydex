@@ -34,9 +34,14 @@ to Statistics), and it owns no mutation of its own.
   one is the Play's own partner choice, with Undo in the toast. Once it is
   recorded, the partner stands alone; tapping it picks it, and Continue
   becomes "Continue with {name}", opening it in the Roster.
-- **With no Plays:** the game picker is the page. Pick a game, tap a partner
-  and Start creates the Play at once (named "New Journey" with your trainer
-  name; Play Settings change the rest).
+- **With no Plays:** the same Home, empty: your trainer card with its
+  figures at zero, then, in the Continue row's place, the card that starts
+  your first Play (`FirstPlayStart`, the same card the empty Plays list
+  shows: Start a Play opens New Play over the page; Browse the Codex beside
+  it), then an empty Activity history and Latest moments. The old Welcome
+  page, a game shelf with the partners appearing under it once a game was
+  picked, was dropped (2026-11-22): the partners arriving below read as
+  odd, and New Play already asks for the game and the partner.
 
 Home reads "last opened first": opening a Play (any of its pages)
 stamps `last_opened_at`, which is not a change to the Play (`updated_at`

@@ -12,6 +12,7 @@ import type {
   HomeProfile,
 } from "@/modules/mainline/features/home/types";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
+import { FirstPlayStart } from "@/modules/mainline/features/plays/shared/components/first-play-start";
 import { PlayCard } from "@/modules/mainline/features/plays/shared/components/play-card";
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
@@ -148,8 +149,9 @@ const LatestMoments = ({ profile }: { profile: HomeProfile }) => {
 };
 
 /*
- * Home with Plays: your trainer profile. The trainer card on the band, one
- * row back into the Play you're on, then, in two columns from 1024px, your
+ * Home: your trainer profile. The trainer card on the band, one row back
+ * into the Play you're on (with no Play yet, the card that starts your
+ * first one), then, in two columns from 1024px, your
  * activity history, your games and favourites on the left and the latest
  * moments across every Play on the right. On a phone
  * the moments come first. Each part is short and links to its full page.
@@ -171,7 +173,11 @@ export const HomeDashboard = ({
         </div>
       </PageBand>
 
-      <PlayCard eyebrow="Continue" play={journey} size="sm" />
+      {journey ? (
+        <PlayCard eyebrow="Continue" play={journey} size="sm" />
+      ) : (
+        <FirstPlayStart />
+      )}
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-8">
         <div className="order-2 flex min-w-0 flex-col gap-6 lg:order-1">

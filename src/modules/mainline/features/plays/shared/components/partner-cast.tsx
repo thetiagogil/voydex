@@ -10,7 +10,7 @@ type PartnerCastProps = {
   className?: string;
   /* Picking the picked partner again clears the pick (`null`). */
   onValueChange?: (speciesId: number | null) => void;
-  /* `xl` on New Play's partner step, `lg` on Home's meadow. */
+  /* `xl` on New Play's partner step, `lg` on Home's band. One size for every game. */
   size?: "lg" | "md" | "xl";
   starters: GameStarter[];
   /* The picked partner's species id, or null. */
@@ -52,7 +52,7 @@ export const PartnerCast = ({
             name={starter.name}
             imageUrl={starter.imageUrl}
             typeSlug={starter.typePair.primaryType?.slug ?? null}
-            size={isSolo && size === "lg" ? "xl" : size}
+            size={size}
             selected={isPicked}
             hop={isPicked && hoppingId === starter.speciesId}
             label={

@@ -13,9 +13,7 @@ test.describe("Log in", () => {
   }) => {
     await logInToNewAccount(page, newTestEmail("new"));
     await expect(
-      page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
-        name: "Games",
-      }),
+      page.getByRole("heading", { name: "Your first Play starts here" }),
     ).toBeVisible();
   });
 

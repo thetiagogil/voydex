@@ -1,7 +1,6 @@
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
   MainlinePlayTimelineEvent,
-  NewPlayPickerData,
   PlayBrowseItem,
 } from "@/modules/mainline/features/plays/shared/types";
 import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
@@ -54,11 +53,6 @@ export type HomeProfile = {
 
 export type HomePageData =
   | {
-      displayName: string | null;
-      kind: "empty";
-      picker: NewPlayPickerData;
-    }
-  | {
       /* The trainer's only Play, which has only just started (v3 `homefirst`). */
       band: HomeBand;
       displayName: string | null;
@@ -66,8 +60,11 @@ export type HomePageData =
     }
   | {
       displayName: string | null;
-      /* The Play you're on: the one `?play=` names, else the latest underway. */
-      journey: PlayBrowseItem;
+      /*
+       * The Play you're on: the one `?play=` names, else the latest underway.
+       * Null with no Play yet: the same Home, empty, with the way to start one.
+       */
+      journey: PlayBrowseItem | null;
       kind: "plays";
       profile: HomeProfile;
     };

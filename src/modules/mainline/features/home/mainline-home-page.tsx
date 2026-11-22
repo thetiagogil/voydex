@@ -1,4 +1,3 @@
-import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
 import { HomeBandSection } from "@/modules/mainline/features/home/sections/home-band-section";
 import {
   HomeDashboard,
@@ -16,23 +15,15 @@ const withName = (greeting: string, name: string | null) =>
 
 /*
  * Mainline Home (v3 `homeback`, `homefirst`, `homenew`): where a trainer
- * lands. With Plays: your trainer profile and a row back into your Play.
- * With one brand-new Play: that Play on the band, its partner waiting to be
- * tapped. With none: the picker that starts the first one.
+ * lands. Your trainer profile and a row back into your Play; with no Play
+ * yet the same profile, empty, with the way to start one in that row's
+ * place. With one brand-new Play: that Play on the band, its partner
+ * waiting to be tapped.
  */
 export const MainlineHomePage = ({
   data,
   renderTrainerCard,
 }: MainlineHomePageProps) => {
-  if (data.kind === "empty") {
-    return (
-      <HomeFirstPlayPicker
-        greeting={withName("Welcome", data.displayName)}
-        picker={data.picker}
-      />
-    );
-  }
-
   if (data.kind === "first") {
     return (
       <div className="flex flex-1 flex-col">

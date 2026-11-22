@@ -34,16 +34,11 @@ const otherTabReads: readonly PageReadPlan<unknown>[] = [
  * opening it doesn't wait either.
  */
 export const prepareMainlineTabs = async (db: LocalDb) => {
-  const home = await preparePageRead(
-    db,
-    homeRead.key,
-    homeRead.read,
-    homeRead.keep,
-  );
+  const home = await preparePageRead(db, homeRead.key, homeRead.read);
 
   await preparePageReads(db, otherTabReads);
 
-  if (home?.data.kind !== "plays") return;
+  if (home?.data.kind !== "plays" || !home.data.journey) return;
 
   const reads = playPageReads(home.data.journey.play_id ?? "");
 

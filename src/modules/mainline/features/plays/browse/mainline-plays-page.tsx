@@ -13,9 +13,8 @@ import type {
   PlaysPageData,
   PlaysPageView,
 } from "@/modules/mainline/features/plays/browse/types";
-import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
+import { FirstPlayStart } from "@/modules/mainline/features/plays/shared/components/first-play-start";
 import { useLocalPageRead } from "@/platform/local-db/local-db-context";
-import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
@@ -25,11 +24,6 @@ import { buttonVariants } from "@/shared/components/ui/button";
 type MainlinePlaysPageProps = {
   params?: PlayBrowseParams;
   view: PlaysPageView;
-};
-
-const emptyLibraryArt = {
-  name: "Pikachu",
-  url: getPokemonFormImageUrl({ name: "Pikachu", slug: "pikachu" }),
 };
 
 /*
@@ -107,27 +101,7 @@ const PlaysPageContent = ({
           <PageBand>
             <PlaysPageHeader plays={data.plays} />
           </PageBand>
-          <EmptyState
-            headingLevel="h2"
-            art={emptyLibraryArt}
-            title="Your first Play starts here"
-            description="Pick the game you're playing and meet your partner. Voydex keeps the rest as you go."
-            action={
-              <>
-                <NewPlayTrigger className={buttonVariants()}>
-                  <AppIcon icon={appIcons.actions.create} inline="start" />
-                  Start a Play
-                </NewPlayTrigger>
-                <Link
-                  href={appRoutes.codexPokemon}
-                  className={buttonVariants({ variant: "secondary" })}
-                >
-                  <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
-                  Browse the Codex
-                </Link>
-              </>
-            }
-          />
+          <FirstPlayStart />
         </>
       )}
 

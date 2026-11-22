@@ -35,9 +35,7 @@ test.describe("Entry flow", () => {
     await page.getByRole("link", { name: "Start a Play" }).click();
     await page.waitForURL("**/app");
     await expect(
-      page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
-        name: "Games",
-      }),
+      page.getByRole("heading", { name: "Your first Play starts here" }),
     ).toBeVisible();
   });
 
@@ -201,9 +199,7 @@ test.describe("Entry flow", () => {
       .click();
     await page.waitForURL("**/app");
     await expect(
-      page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
-        name: "Games",
-      }),
+      page.getByRole("heading", { name: "Your first Play starts here" }),
     ).toBeVisible();
   });
 

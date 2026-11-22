@@ -104,9 +104,17 @@ export const formatHomeActivityDay = (day: string) =>
     year: "numeric",
   }).format(new Date(`${day}T00:00:00Z`));
 
-/* The month each week column starts, shown once where the month changes. */
-export const getHomeActivityMonthLabels = (weeks: HomeActivityDay[][]) =>
-  weeks.map((week, index) => {
+/* A month's name is about three columns wide. */
+const monthLabelWeeks = 3;
+
+/*
+ * The month each week column starts, shown once where the month changes.
+ * The first column's month gives way when the next one starts within its
+ * label's width (the grid opened on a month's last week or two), so two
+ * names never run into each other.
+ */
+export const getHomeActivityMonthLabels = (weeks: HomeActivityDay[][]) => {
+  const labels = weeks.map((week, index) => {
     const month = week[0].day.slice(0, 7);
     const previous = index ? weeks[index - 1][0].day.slice(0, 7) : null;
 
@@ -117,3 +125,8 @@ export const getHomeActivityMonthLabels = (weeks: HomeActivityDay[][]) =>
         }).format(new Date(`${week[0].day}T00:00:00Z`))
       : null;
   });
+
+  if (labels.slice(1, monthLabelWeeks).some(Boolean)) labels[0] = null;
+
+  return labels;
+};

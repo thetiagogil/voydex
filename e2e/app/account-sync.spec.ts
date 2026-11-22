@@ -137,9 +137,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
       .click();
     await page.waitForURL("**/app");
     await expect(
-      page.getByRole("region", { name: "Welcome" }).getByRole("listbox", {
-        name: "Games",
-      }),
+      page.getByRole("heading", { name: "Your first Play starts here" }),
     ).toBeVisible(forTheAnswer);
     await page.goto("/app/settings", { waitUntil: "networkidle" });
     await expect(

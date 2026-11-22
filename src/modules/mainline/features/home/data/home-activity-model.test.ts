@@ -46,10 +46,19 @@ describe("buildHomeActivityWeeks", () => {
 
   it("labels a week column where its month starts", () => {
     const labels = getHomeActivityMonthLabels(
+      buildHomeActivityWeeks([], "UTC", now, 6),
+    );
+
+    expect(labels).toEqual(["Oct", null, null, "Nov", null, null]);
+  });
+
+  it("drops the first column's month when the next one starts right beside it", () => {
+    /* The grid opens on October's last week: "Oct" would run into "Nov". */
+    const labels = getHomeActivityMonthLabels(
       buildHomeActivityWeeks([], "UTC", now, 4),
     );
 
-    expect(labels).toEqual(["Oct", "Nov", null, null]);
+    expect(labels).toEqual([null, "Nov", null, null]);
   });
 });
 

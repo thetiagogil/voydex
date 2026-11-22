@@ -23,14 +23,12 @@ import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/share
 import { readTrainerNames } from "@/modules/mainline/features/plays/shared/client/trainer-profile-reader";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
-import type { GameCatalogue } from "@/modules/reference/features/games/types";
 import { readGameStarters } from "@/modules/reference/features/games/server/game-shelf-reader";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import { type ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 import type { MainlinePageRead } from "@/modules/mainline/shared/client/use-local-page-data";
-import { fetchGameCatalogue } from "@/modules/reference/features/games/client/game-catalogue";
 
 /*
  * Each active team member's primary type at its Play's generation, for the
@@ -238,18 +236,12 @@ const readHomeProfile = async (
 };
 
 /*
- * Mainline Home: with no Plays, the picker that starts one; otherwise the
- * shelf of your latest Plays, each with its team for the band. `?play=`
- * picks the current one.
+ * Mainline Home: your trainer profile and the Play you're on (`?play=`
+ * picks it). With no Plays the profile is the same, empty; with one
+ * brand-new Play, that Play for the band.
  */
 export const getHomePageData = async (
   requestedPlayId: string | null,
-  {
-    catalogue,
-  }: {
-    /* Game data, from the pre-built game catalogue. */
-    catalogue: GameCatalogue | null;
-  },
 ): Promise<HomePageData> => {
   const supabase = await getLocalQueryClient();
   const userId = await getSignedInTrainerId(supabase);
@@ -259,14 +251,11 @@ export const getHomePageData = async (
   ]);
 
   if (!browseItems.length) {
-    if (!catalogue) {
-      throw new Error("Unable to load the games.");
-    }
-
     return {
       displayName: names.displayName,
-      kind: "empty",
-      picker: { ...catalogue, trainerName: names.trainerName },
+      journey: null,
+      kind: "plays",
+      profile: await readHomeProfile(supabase, userId, []),
     };
   }
 
@@ -304,20 +293,10 @@ export const getHomePageData = async (
   };
 };
 
-/*
- * Home's read (`?play=` picks the current Play), with the games from the
- * pre-built catalogue. Without them Home still shows your Plays, and the
- * next visit asks for them again.
- */
+/* Home's read (`?play=` picks the current Play). */
 export const homePageRead = (
   requestedPlayId: string | null,
-): MainlinePageRead<{ data: HomePageData; hasGames: boolean }> => ({
+): MainlinePageRead<{ data: HomePageData }> => ({
   key: `home:${requestedPlayId ?? ""}`,
-  keep: (result) => result?.hasGames ?? false,
-  read: async () => {
-    const catalogue = await fetchGameCatalogue().catch(() => null);
-    const data = await getHomePageData(requestedPlayId, { catalogue });
-
-    return data && { data, hasGames: catalogue !== null };
-  },
+  read: async () => ({ data: await getHomePageData(requestedPlayId) }),
 });
