@@ -30,10 +30,12 @@ to Statistics), and it owns no mutation of its own.
     A row of other Plays, a Journal column and "Types you pick" (it
     repeated Statistics) were tried and dropped (2026-11-20); the Plays
     page lists every Play.
-- **With one brand-new Play:** its first partners wait on the band; tapping
-  one is the Play's own partner choice, with Undo in the toast. Once it is
-  recorded, the partner stands alone; tapping it picks it, and Continue
-  becomes "Continue with {name}", opening it in the Roster.
+- **One Home for everyone.** A brand-new first Play gets the same Home as
+  any other, with its Continue row. The page it once had (Welcome, the
+  Play's partner standing on the band, tap it for "Continue with {name}",
+  or tap your partner to record the choice) was removed with the old
+  Welcome (2026-11-22). The partner is still chosen in New Play, or in the
+  Play's Story as its first milestone.
 - **With no Plays:** the same Home, empty: your trainer card with its
   figures at zero, then, in the Continue row's place, the card that starts
   your first Play (`FirstPlayStart`, the same card the empty Plays list

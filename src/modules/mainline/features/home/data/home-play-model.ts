@@ -1,164 +1,9 @@
-import { appRoutes } from "@/config/routes";
-import { getPlayCombinedPercent } from "@/modules/mainline/features/plays/shared/utils/play-overall-progress";
-import type {
-  PlayBrowseItem,
-  PlayBrowseStoryPosition,
-} from "@/modules/mainline/features/plays/shared/types";
-import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import {
-  getPlayTeamMemberImageUrl,
-  getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
-
-export type HomeTeamMember = {
-  id: string;
-  imageUrl: string | null;
-  name: string;
-  /* The primary type, for a sticker's or a stand-in's tint. */
-  typeSlug?: string | null;
-};
-
-/* A Play as Home shows it: its card, its band and its status line. */
-export type HomePlay = {
-  completedOn: string | null;
-  coverImageUrl: string | null;
-  gameName: string;
-  gameSlug: string | null;
-  id: string;
-  name: string;
-  /* The average of the parts it tracks, as the Plays list rings it; null when it tracks none. */
-  overallPercent: number | null;
-  playtimeMinutes: number | null;
-  statusName: string | null;
-  statusSlug: string | null;
-  storyPercent: number | null;
-  storyPosition: PlayBrowseStoryPosition | null;
-  /* Six slots in order; null is an open slot. */
-  team: (HomeTeamMember | null)[];
-};
-
-export const toHomePlay = (play: PlayBrowseItem): HomePlay | null => {
-  if (!play.play_id) {
-    return null;
-  }
-
-  const gameName = play.game_name ?? "Unknown game";
-  const team = getPlayTeamSlots(play.activeTeam.members).map(({ member }) =>
-    member?.play_pokemon_id
-      ? {
-          id: member.play_pokemon_id,
-          imageUrl: getPlayTeamMemberImageUrl(member),
-          name: getPlayTeamMemberName(member),
-        }
-      : null,
-  );
-  const storyItem =
-    play.progress.state === "available"
-      ? play.progress.items.find((item) => item.label === "Story")
-      : undefined;
-
-  return {
-    completedOn: play.completed_on,
-    coverImageUrl: play.coverImageUrl,
-    gameName,
-    gameSlug: play.game_slug,
-    id: play.play_id,
-    name: play.play_name ?? "Untitled Play",
-    overallPercent: getPlayCombinedPercent(play.progress),
-    playtimeMinutes: play.playtime_minutes,
-    statusName: play.status_name,
-    statusSlug: play.status_slug,
-    storyPercent: storyItem?.percent ?? null,
-    storyPosition: play.storyPosition,
-    team,
-  };
-};
-
-/*
- * The one line under the meadow: how the Play stands (status and the next
- * objective, or when it was completed), how far through the story and the
- * hours recorded. Parts the Play doesn't track are left out.
- */
-export const getHomePlayStatusLine = (play: HomePlay) => {
-  if (play.statusSlug === "completed") {
-    return [
-      play.completedOn
-        ? `Completed ${formatPlayDate(play.completedOn)}`
-        : "Completed",
-      typeof play.playtimeMinutes === "number"
-        ? `${Math.round(play.playtimeMinutes / 60)}h`
-        : null,
-    ]
-      .filter(Boolean)
-      .join(" · ");
-  }
-
-  const position = play.storyPosition
-    ? play.storyPosition.kind === "complete"
-      ? "Hall of Fame reached"
-      : `Next: ${play.storyPosition.name}`
-    : null;
-
-  return [
-    play.statusName,
-    position,
-    play.storyPercent === null ? null : `${play.storyPercent}% of the story`,
-    typeof play.playtimeMinutes === "number"
-      ? `${Math.round(play.playtimeMinutes / 60)}h`
-      : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-};
-
-/*
- * Whether Home asks which partner you chose: only while the Play tracks Story
- * (the partner is its first milestone) and has nothing recorded at all, no
- * milestone and no Pokémon. A Play you track only for its team never shows
- * the partner pick over that team.
- */
-export const isWaitingForPartner = (
-  play: Pick<
-    PlayBrowseItem,
-    | "active_team_count"
-    | "completed_milestone_count"
-    | "reserve_team_count"
-    | "storyTracked"
-  >,
-) =>
-  play.storyTracked &&
-  (play.completed_milestone_count ?? 0) === 0 &&
-  (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0) === 0;
-
-/*
- * Where the band's main button goes: the Play, or the team Pokémon picked on
- * the meadow, in its Roster ("Continue with {name}"; "Open" for a completed
- * Play).
- */
-export const getHomeContinue = (
-  play: Pick<HomePlay, "id" | "statusSlug">,
-  picked: Pick<HomeTeamMember, "id" | "name"> | null,
-) => {
-  const verb = play.statusSlug === "completed" ? "Open" : "Continue with";
-
-  return picked
-    ? {
-        href: appRoutes.mainlinePlayTeamPokemon(play.id, picked.id),
-        label: `${verb} ${picked.name}`,
-      }
-    : {
-        href: appRoutes.mainlinePlay(play.id),
-        label: play.statusSlug === "completed" ? "Open" : "Continue",
-      };
-};
-
-/* Statuses that close a journey: Home's shelf leaves them off. */
+/* Statuses that close a journey: Home's Continue row leaves them out. */
 const finishedPlayStatuses = new Set(["abandoned", "completed"]);
 
 /*
- * The later of when a Play was last opened and last changed: the shelf's
- * order. A Play never opened goes by its latest change.
+ * The later of when a Play was last opened and last changed: the order
+ * Home picks by. A Play never opened goes by its latest change.
  */
 const getLastSeenAt = (play: {
   last_opened_at: string | null;
@@ -171,9 +16,10 @@ const getLastSeenAt = (play: {
 };
 
 /*
- * The Plays Home's shelf picks from, the one you opened (or changed) last
- * first: those still underway (playing, paused, not started). When every
- * Play is finished or dropped, all of them, so Home never stands empty.
+ * The Plays Home's Continue row picks from, the one you opened (or changed)
+ * last first: those still underway (playing, paused, not started). When
+ * every Play is finished or dropped, all of them, so the row never stands
+ * empty while there is a Play.
  */
 export const getHomeShelfSource = <
   Play extends {

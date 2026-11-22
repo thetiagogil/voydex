@@ -38,7 +38,7 @@ export const prepareMainlineTabs = async (db: LocalDb) => {
 
   await preparePageReads(db, otherTabReads);
 
-  if (home?.data.kind !== "plays" || !home.data.journey) return;
+  if (!home?.data.journey) return;
 
   const reads = playPageReads(home.data.journey.play_id ?? "");
 

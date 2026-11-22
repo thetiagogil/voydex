@@ -34,7 +34,7 @@ export type HomeTrainerCardRender = (parts: {
 }) => ReactNode;
 
 type HomeDashboardProps = {
-  data: Extract<HomePageData, { kind: "plays" }>;
+  data: HomePageData;
   renderTrainerCard: HomeTrainerCardRender;
 };
 

@@ -182,7 +182,7 @@ reference/filter context; they are not currently a required top-level view.
 /reset-password         where the reset link lands
 /auth/callback          every email link
 
-/app                    Home: ?play= puts one of your Plays on the meadow,
+/app                    Home: ?play= puts one of your Plays on the Continue row,
                         ?new= opens New Play over it (a game slug, or 1),
                         with ?partner= its first partner already picked
   /plays                ?view=archived lists archived Plays, each with Restore

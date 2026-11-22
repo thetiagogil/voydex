@@ -4,62 +4,38 @@ import { expectAccessible } from "../support/accessibility";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Home", () => {
-  test("a tapped team Pokémon is what Continue opens @phone", async ({
+  test("one brand-new Play is the same Home as any other, with Continue @phone", async ({
     page,
   }) => {
+    const name = uniquePlayName("Home first");
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
-      name: uniquePlayName("Home pick"),
+      name,
       partner: "Squirtle",
     });
 
-    await page.goto(`/app?play=${playId}`, { waitUntil: "networkidle" });
-    const squirtle = page.getByRole("button", { name: "Pick Squirtle" });
-    const continueToPlay = page.getByRole("link", {
-      exact: true,
-      name: "Continue",
-    });
-    const continueWithSquirtle = page.getByRole("link", {
-      name: "Continue with Squirtle",
-    });
+    await page.goto("/app", { waitUntil: "networkidle" });
+    await expect(
+      page.getByRole("region", { name: "Your trainer card" }),
+    ).toContainText("Pokémon owned");
 
-    /* Nothing picked: Continue opens the Play. */
-    await expect(continueToPlay).toHaveAttribute(
+    const continueRow = page.getByRole("link", { name: /Continue/ });
+
+    await expect(continueRow).toContainText(name);
+    await expect(continueRow).toHaveAttribute(
       "href",
       `/app/plays/play?id=${playId}`,
     );
-
-    /* A tap picks it and stays on Home; Continue now opens it. */
-    await squirtle.click();
-    await expect(squirtle).toHaveAttribute("aria-pressed", "true");
-    await expect(page).toHaveURL(/\/app\?play=/);
-    await expect(continueWithSquirtle).toHaveAttribute(
-      "href",
-      new RegExp(`/app/plays/play/team\\?id=${playId}&pokemon=`),
-    );
-    await expectAccessible(page);
-
-    /* Tapping it again lets it go. */
-    await squirtle.click();
-    await expect(squirtle).toHaveAttribute("aria-pressed", "false");
-    await expect(continueToPlay).toBeVisible();
-
-    await squirtle.click();
-    await continueWithSquirtle.click();
-    await expect(page).toHaveURL(
-      new RegExp(`/app/plays/play/team\\?id=${playId}&pokemon=`),
-    );
     await expect(
-      page
-        .getByText("Nothing recorded for Squirtle yet.")
-        .filter({ visible: true }),
+      page.getByRole("region", { name: "Latest moments" }),
     ).toBeVisible();
+    await expectAccessible(page);
   });
 
   test("Continue opens the Play you're on, under your trainer card", async ({
     page,
   }) => {
-    /* Each test has its own device: two Plays leave the first-Play band. */
+    /* Each test has its own device. */
     const otherName = uniquePlayName("Home other");
     const otherId = await startPlay(page, {
       game: "Pokémon Blue, 1996",
