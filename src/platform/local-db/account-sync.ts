@@ -29,6 +29,7 @@ import {
   addAsideDataToAccount,
   addOwnDataToAccount,
   bringOwnDataBack,
+  joinAgainIfAdded,
   setOwnDataAside,
 } from "@/platform/local-db/own-data-aside";
 import type { Clash, MergeChoices } from "@/platform/local-db/sync-merge";
@@ -53,6 +54,25 @@ export const readLastSync = async (db: LocalDb) => {
   );
 
   return row?.synced_at ?? null;
+};
+
+/*
+ * Whether this device holds `userId`'s account, as saved on it: synced with
+ * it at least once. A device that doesn't (it never finished its first
+ * sync, or a reload came before the browser had saved it) waits for the
+ * account again, behind the loading bar, instead of opening on an app that
+ * looks empty while it syncs.
+ */
+export const hasSyncedAccount = async (userId: string) => {
+  const { db } = await openLocalDb();
+  const [row] = await runQuery<{ synced: boolean }>(
+    db,
+    `SELECT account_id = $1 AND synced_at IS NOT NULL AS synced
+     FROM device.sync`,
+    [userId],
+  );
+
+  return row?.synced ?? false;
 };
 
 export type AccountSyncStatus =
@@ -109,7 +129,31 @@ export const useAccountSync = () =>
 /* What the step shows: the sync's progress, then the app's pages. */
 export type FirstSyncProgress = SyncProgress | { step: "pages" } | null;
 
-let firstSyncPending = false;
+/*
+ * Kept in the browser while the wait lasts, so a reload in the middle of
+ * it (the data may not be saved yet) comes back to the same wait, not to
+ * an app that looks empty while the sync starts over.
+ */
+const firstSyncNoteKey = "voydex-first-sync";
+
+const readFirstSyncNote = () => {
+  try {
+    return window.localStorage.getItem(firstSyncNoteKey) !== null;
+  } catch {
+    return false;
+  }
+};
+
+const writeFirstSyncNote = (pending: boolean) => {
+  try {
+    if (pending) window.localStorage.setItem(firstSyncNoteKey, "1");
+    else window.localStorage.removeItem(firstSyncNoteKey);
+  } catch {
+    /* Storage refused: a reload mid-wait opens the app and syncs behind it. */
+  }
+};
+
+let firstSyncPending = typeof window !== "undefined" && readFirstSyncNote();
 let firstSyncSince = 0;
 let firstSyncProgress: FirstSyncProgress = null;
 let firstSyncTimer: ReturnType<typeof setTimeout> | null = null;
@@ -206,6 +250,7 @@ const setFirstSyncPending = (next: boolean) => {
 
     if (!firstSyncPending) firstSyncSince = Date.now();
 
+    writeFirstSyncNote(true);
     showFirstSync(true);
     watchFirstSyncStall();
 
@@ -226,22 +271,42 @@ const setFirstSyncPending = (next: boolean) => {
     return;
   }
 
-  /* The account is in: read the app's pages again, then show the app. */
+  /*
+   * The account is in: once it is saved on the device (a reload must find
+   * it there), read the app's pages again, then show the app.
+   */
   const round = firstSyncRound;
   const open = () => {
-    if (round === firstSyncRound) showFirstSync(false);
+    if (round !== firstSyncRound) return;
+
+    writeFirstSyncNote(false);
+    showFirstSync(false);
   };
 
-  if (!prepareApp) {
-    open();
+  void waitForWrites()
+    .catch(() => undefined)
+    .then(async () => {
+      if (!prepareApp) return;
 
-    return;
-  }
-
-  setFirstSyncProgress({ step: "pages" });
-  void prepareApp()
+      setFirstSyncProgress({ step: "pages" });
+      await prepareApp();
+    })
     .catch(() => undefined)
     .finally(open);
+};
+
+/*
+ * Ends the wait with no sync to wait for: logged out, or the session went.
+ * The app opens as it is.
+ */
+export const endFirstSync = () => {
+  firstSyncRound += 1;
+
+  if (firstSyncTimer !== null) clearTimeout(firstSyncTimer);
+
+  firstSyncTimer = null;
+  writeFirstSyncNote(false);
+  showFirstSync(false);
 };
 
 /* Whether a first sync is on its way (read once, by the device's start screen). */
@@ -332,16 +397,21 @@ const run = async (): Promise<RunResult> => {
      */
     if (state.unjoined) {
       if (await hasOwnData(db)) {
-        setStatus({ status: "own-data" });
+        if (
+          !(await joinAgainIfAdded(db, ownDataStore, userId).catch(() => false))
+        ) {
+          setStatus({ status: "own-data" });
 
-        return "waiting";
+          return "waiting";
+        }
+      } else {
+        /*
+         * With nothing of its own it joins at once, so what you make from now
+         * on is this account's and is never asked about.
+         */
+        await joinAccount(db, userId);
       }
 
-      /*
-       * With nothing of its own it joins at once, so what you make from now
-       * on is this account's and is never asked about.
-       */
-      await joinAccount(db, userId);
       state = await readDeviceSyncState(db, userId);
     }
 
@@ -368,6 +438,15 @@ const run = async (): Promise<RunResult> => {
       schedule(raceDelayMs);
 
       return "again";
+    }
+
+    if (outcome.status === "unchanged") {
+      /* Nothing to bring or send (an empty account): it counts as synced. */
+      await db.query(
+        `UPDATE device.sync SET synced_at = COALESCE(synced_at, NOW())
+         WHERE account_id = $1`,
+        [userId],
+      );
     }
 
     if (outcome.status === "synced") {
@@ -737,6 +816,8 @@ export const logOutClean = async (
     notifyLocalSave({ background: true });
     ownSave = false;
 
+    endFirstSync();
+
     return "cleared";
   } finally {
     if (ownAccount) accountId = null;
@@ -751,6 +832,12 @@ export const logOutClean = async (
  * (signing out, leaving the app).
  */
 export const startAccountSync = (userId: string) => {
+  /* A wait carried over a reload: it gets its guard and its least time again. */
+  if (firstSyncPending && firstSyncStall === null) {
+    firstSyncSince = Date.now();
+    watchFirstSyncStall();
+  }
+
   accountId = userId;
   setStatus({ status: "idle" });
 

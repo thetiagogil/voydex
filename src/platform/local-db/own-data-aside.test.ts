@@ -19,6 +19,7 @@ import {
   addAsideDataToAccount,
   addOwnDataToAccount,
   bringOwnDataBack,
+  joinAgainIfAdded,
   setOwnDataAside,
 } from "@/platform/local-db/own-data-aside";
 
@@ -230,6 +231,40 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     );
     await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
     await expect(readName(friend)).resolves.toBe("Alex");
+  });
+
+  it("added, then a reload before the join was saved: joins again, no second question", async () => {
+    const { account } = createAccount();
+    const { store } = createStore();
+
+    await addPlay(mine, myPlayId, "My run");
+    await syncAs(mine, account);
+    await addOwnDataToAccount(friend, store, accountId);
+
+    /* The reload: the answer was kept, the device's join was not. */
+    await friend.query("DELETE FROM device.sync");
+    await expect(readDeviceSyncState(friend, accountId)).resolves.toMatchObject(
+      { unjoined: true },
+    );
+
+    await expect(joinAgainIfAdded(friend, store, accountId)).resolves.toBe(
+      true,
+    );
+    await expect(readDeviceSyncState(friend, accountId)).resolves.toMatchObject(
+      { unjoined: false },
+    );
+    await expect(syncAs(friend, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(readPlayNames(friend)).resolves.toEqual([
+      "Friend's run",
+      "My run",
+    ]);
+
+    /* Kept separate, or added to another account: still asked. */
+    await expect(
+      joinAgainIfAdded(friend, store, "a0000000-0000-4000-8000-000000000002"),
+    ).resolves.toBe(false);
   });
 
   it("added, changed in the account, then added again: the account's change comes down, no question", async () => {

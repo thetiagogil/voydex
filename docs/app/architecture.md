@@ -522,7 +522,7 @@ The app's layout wraps the app's frame and every app page in the device gate
 (`src/features/system/components/device-gate.tsx`): one short start screen,
 alone on the page with no bars,
 while the database opens and the tabs get ready (`AppDeviceGate` passes
-Mainline's tab reads; at most four seconds, the rest carry on in the
+Mainline's tab reads; the app shows once they are read, with a 30-second guard, the rest carry on in the
 background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. A game data
 update that doesn't go in (a dropped download, a refused release) doesn't

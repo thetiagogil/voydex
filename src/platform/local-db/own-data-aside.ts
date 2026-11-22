@@ -106,6 +106,27 @@ export const addOwnDataToAccount = async (
 };
 
 /*
+ * "Add them" was already answered for `accountId` on this device, but a
+ * reload came before the browser had saved the join (the device's database
+ * saves a moment after each change; the answer, beside it, at once). Joins
+ * again, the same way, rather than asking twice. Answers whether it did.
+ */
+export const joinAgainIfAdded = async (
+  db: LocalDb,
+  store: OwnDataStore,
+  accountId: string,
+) => {
+  if ((await store.readAddedTo()) !== accountId) return false;
+
+  await joinAccount(db, accountId, {
+    alreadyIn: (await store.readSyncedWith()) === accountId,
+    profileFromAccount: true,
+  });
+
+  return true;
+};
+
+/*
  * Later, from Settings: adds the data kept separate to `accountId` after
  * all. Call it only once the account has everything on this device (a sync
  * just went through): the kept data takes the device's place and joins the

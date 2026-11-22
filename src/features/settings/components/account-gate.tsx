@@ -6,6 +6,9 @@ import { AccountSyncRunner } from "@/features/settings/components/account-sync-r
 import { useAuthSession } from "@/platform/local-db/account-session";
 import {
   addPlaysToAccount,
+  endFirstSync,
+  expectFirstSync,
+  hasSyncedAccount,
   keepOwnDataSeparate,
   prepareAppAfterFirstSync,
   useAccountSync,
@@ -310,6 +313,12 @@ const OwnDataChoice = ({
  * first. It also keeps account sync running under the app
  * (`AccountSyncRunner`).
  */
+/*
+ * The account this visit already checked: the gate mounting again (back
+ * from the front page) shows the app at once, with no check in between.
+ */
+let checkedThisVisit: string | null = null;
+
 export const AccountGate = ({
   children,
   deviceData,
@@ -322,6 +331,43 @@ export const AccountGate = ({
   );
 
   const session = useAuthSession();
+  const userId = session?.userId ?? null;
+  /* The account this device was checked for: saved on it, or synced again. */
+  const [checked, setChecked] = useState<string | null>(() => checkedThisVisit);
+
+  /* Logged out (here or elsewhere): a wait left from before has nothing to wait for. */
+  useEffect(() => {
+    if (session !== null) return;
+
+    checkedThisVisit = null;
+    endFirstSync();
+  }, [session]);
+
+  /*
+   * Logged in: is the account saved on this device? If not (its first sync
+   * never finished, or a reload came before the browser had saved it), the
+   * loading bar runs again before the app shows.
+   */
+  useEffect(() => {
+    if (!userId) return;
+
+    let current = true;
+
+    void hasSyncedAccount(userId)
+      .catch(() => true)
+      .then((synced) => {
+        if (!current) return;
+
+        if (!synced) expectFirstSync();
+
+        checkedThisVisit = userId;
+        setChecked(userId);
+      });
+
+    return () => {
+      current = false;
+    };
+  }, [userId]);
   const sync = useAccountSync();
   const firstSyncPending = useFirstSyncPending();
   /*
@@ -336,7 +382,14 @@ export const AccountGate = ({
         ? "choice"
         : firstSyncPending
           ? "sync"
-          : null;
+          : /*
+             * Not known yet whether you're logged in, or not yet checked:
+             * the app waits a blink rather than showing and then hiding
+             * again (which would lose what it was opening, such as New Play).
+             */
+            session === undefined || checked !== session.userId
+            ? "check"
+            : null;
 
   return (
     <>
@@ -352,6 +405,17 @@ export const AccountGate = ({
       ) : step === "sync" ? (
         <GateFrame>
           <SyncStep />
+        </GateFrame>
+      ) : step === "check" ? (
+        /* A blink while it checks: the start screen's last step, unchanged. */
+        <GateFrame>
+          <LoadingSteps
+            title={getStartupTitle(false)}
+            steps={getStartupSteps(false).map(
+              (stepKey) => startupStepLabels[stepKey],
+            )}
+            current={getStartupSteps(false).indexOf("pages")}
+          />
         </GateFrame>
       ) : (
         children

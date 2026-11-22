@@ -43,10 +43,11 @@ const showOpen = (
 export type PreparePages = (db: LocalDb) => Promise<void>;
 
 /*
- * The longest the start screen waits for the pages getting ready; on a slow
- * device the rest carry on in the background.
+ * The longest the start screen waits for the pages getting ready. It is
+ * the last step of the loading bar, and the app shows only once they are
+ * read, so this is only a guard for a read that never ends.
  */
-export const preparePagesLimitMs = 4000;
+export const preparePagesLimitMs = 30_000;
 
 /* Gets the pages ready, for at most the limit; never fails. */
 const getReady = async (db: LocalDb, prepare: PreparePages | undefined) => {
