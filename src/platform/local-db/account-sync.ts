@@ -7,6 +7,7 @@ import { recordBackup } from "@/platform/local-db/backups";
 import { ownDataStore } from "@/platform/local-db/device-copy";
 import {
   type BackupDevice,
+  type SyncProgress,
   clearAccountData,
   hasOwnData,
   hasPlaysOrPlans,
@@ -100,25 +101,31 @@ export const useAccountSync = () =>
 
 /*
  * The first sync after logging in, or after answering what to do with the
- * device's own data: the app waits behind it (`AccountGate`), so your
- * account is here before anything shows.
+ * device's own data: the app waits behind it (`AccountGate`) until your
+ * account is on the device and its pages are read, so it opens finished,
+ * never on its loading states. The step says how far it has got.
  */
+
+/* What the step shows: the sync's progress, then the app's pages. */
+export type FirstSyncProgress = SyncProgress | { step: "pages" } | null;
+
 let firstSyncPending = false;
 let firstSyncSince = 0;
+let firstSyncProgress: FirstSyncProgress = null;
 let firstSyncTimer: ReturnType<typeof setTimeout> | null = null;
+let firstSyncStall: ReturnType<typeof setTimeout> | null = null;
 /* Counts each wait, so a slow finish of an earlier one can't end a later one. */
 let firstSyncRound = 0;
 const firstSyncListeners = new Set<() => void>();
 
 /*
- * The longest the app waits for it: on a slow or missing connection the
- * app opens with what the device has, and sync carries on behind it.
+ * The app opens anyway only when the wait stops moving for this long (a
+ * connection that hangs); a long account that keeps downloading games
+ * keeps the step up. A sync that fails or goes offline ends it at once.
  */
-export const firstSyncLimitMs = 10_000;
+export const firstSyncStallMs = 60_000;
 /* The least its step shows once it shows, so it never flashes by. */
 export const firstSyncMinMs = 1000;
-/* The longest it then waits for the app's pages to be read again. */
-export const firstSyncPagesLimitMs = 4000;
 
 /* Gets the app's pages ready once the account is in; the app's route names them. */
 let prepareApp: (() => Promise<void>) | null = null;
@@ -136,12 +143,57 @@ export const prepareAppAfterFirstSync = (prepare: () => Promise<void>) => {
   };
 };
 
+const tellFirstSync = () => {
+  for (const listener of firstSyncListeners) listener();
+};
+
 const showFirstSync = (pending: boolean) => {
   if (firstSyncPending === pending) return;
 
   firstSyncPending = pending;
 
-  for (const listener of firstSyncListeners) listener();
+  if (!pending) {
+    firstSyncProgress = null;
+
+    if (firstSyncStall !== null) clearTimeout(firstSyncStall);
+
+    firstSyncStall = null;
+  }
+
+  tellFirstSync();
+};
+
+/* Something moved: the stall guard starts again. */
+const watchFirstSyncStall = () => {
+  if (firstSyncStall !== null) clearTimeout(firstSyncStall);
+
+  const round = firstSyncRound;
+
+  firstSyncStall = setTimeout(() => {
+    if (round === firstSyncRound) showFirstSync(false);
+  }, firstSyncStallMs);
+};
+
+/* The steps in the order the wait goes through them. */
+const firstSyncSteps = ["reading", "games", "applying", "pages"] as const;
+
+const stepIndex = (progress: FirstSyncProgress) =>
+  progress ? firstSyncSteps.indexOf(progress.step) : -1;
+
+const setFirstSyncProgress = (progress: FirstSyncProgress) => {
+  if (!firstSyncPending) return;
+
+  /* Still moving, whatever it says. */
+  watchFirstSyncStall();
+
+  /*
+   * A second pass (a sync that runs again because something changed while
+   * it merged) starts from reading again: the step never goes back.
+   */
+  if (stepIndex(progress) < stepIndex(firstSyncProgress)) return;
+
+  firstSyncProgress = progress;
+  tellFirstSync();
 };
 
 const setFirstSyncPending = (next: boolean) => {
@@ -152,16 +204,10 @@ const setFirstSyncPending = (next: boolean) => {
   if (next) {
     firstSyncRound += 1;
 
-    const round = firstSyncRound;
-
-    /* Whatever happens, the app opens after the limit. */
-    firstSyncTimer = setTimeout(() => {
-      if (round === firstSyncRound) showFirstSync(false);
-    }, firstSyncLimitMs);
-
     if (!firstSyncPending) firstSyncSince = Date.now();
 
     showFirstSync(true);
+    watchFirstSyncStall();
 
     return;
   }
@@ -192,17 +238,10 @@ const setFirstSyncPending = (next: boolean) => {
     return;
   }
 
-  let limit: ReturnType<typeof setTimeout> | undefined;
-
-  void Promise.race([
-    prepareApp().catch(() => undefined),
-    new Promise<void>((resolve) => {
-      limit = setTimeout(resolve, firstSyncPagesLimitMs);
-    }),
-  ]).finally(() => {
-    clearTimeout(limit);
-    open();
-  });
+  setFirstSyncProgress({ step: "pages" });
+  void prepareApp()
+    .catch(() => undefined)
+    .finally(open);
 };
 
 /* Log in calls this: the next sync is one the app waits for. */
@@ -220,6 +259,20 @@ export const useFirstSyncPending = () =>
     },
     () => firstSyncPending,
     () => false,
+  );
+
+/* How far the first sync has got, for its step. */
+export const useFirstSyncProgress = () =>
+  useSyncExternalStore(
+    (listener) => {
+      firstSyncListeners.add(listener);
+
+      return () => {
+        firstSyncListeners.delete(listener);
+      };
+    },
+    () => firstSyncProgress,
+    () => null,
   );
 
 let accountId: string | null = null;
@@ -293,6 +346,7 @@ const run = async (): Promise<RunResult> => {
       account: createAccountBackups(getBrowserSupabaseClient(), { userId }),
       choices: answers,
       ensureGame: ensureVersionGroupData,
+      onProgress: setFirstSyncProgress,
       state,
     });
 

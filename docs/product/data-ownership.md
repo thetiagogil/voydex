@@ -63,9 +63,14 @@ above as the source of truth but moves where they live:
 - **The account step.** Right after logging in the app waits behind one
   step, alone on the page with no bars, until the account has synced with
   the device and Home and the other tabs have been read again, so the app
-  opens finished, never on its loading states (at least a second so the
-  step never flashes, ten at most for the sync, then the app opens and
-  sync carries on). The same wait follows the answer below.
+  opens finished, never on its loading states, however many games the
+  account's Plays need. The step says how far it has got (reading your
+  account; downloading game data, so many of so many games, with the ring
+  filling; putting your Plays on this device; getting your pages ready)
+  and its steps only move forward. It shows at least a second so it never
+  flashes; only a wait that stops moving for a minute opens the app anyway,
+  and a sync that fails or goes offline ends it at once. The same wait
+  follows the answer below.
 - **A device's own data is never deleted by logging in or out.** A device
   that never had an account and holds something of its own (a Play, a
   Plan, a favourite, a tag, a rule, a game on the shelf, a name or an

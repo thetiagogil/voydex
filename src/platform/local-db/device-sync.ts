@@ -70,6 +70,16 @@ export type SyncState = {
   restored: boolean;
 };
 
+/*
+ * How far a sync has got, for a screen that waits on it: reading the
+ * account's backup, getting the games its Plays need (how many of how
+ * many), then putting the data in place.
+ */
+export type SyncProgress =
+  | { step: "reading" }
+  | { done: number; step: "games"; total: number }
+  | { step: "applying" };
+
 export type SyncOutcome =
   /* Nothing new on either side. */
   | { status: "unchanged" }
@@ -116,16 +126,41 @@ export const syncDevice = async (
   {
     account,
     choices = {},
-    ensureGame,
+    ensureGame: ensureGameData,
+    onProgress,
     state,
   }: {
     account: AccountBackups;
     choices?: MergeChoices;
     /* Downloads a game the merged Plays or Plans need. */
     ensureGame: (versionGroupId: number) => Promise<void>;
+    onProgress?: (progress: SyncProgress) => void;
     state: SyncState;
   },
 ): Promise<SyncOutcome> => {
+  /* Each game counted once, however many rounds ask for it. */
+  const games = new Set<number>();
+  const gamesDone = new Set<number>();
+  const reportGames = () =>
+    onProgress?.({
+      done: gamesDone.size,
+      step: "games",
+      total: games.size,
+    });
+  const onNeeded = (versionGroupIds: number[]) => {
+    for (const id of versionGroupIds) games.add(id);
+
+    if (games.size) reportGames();
+  };
+  const ensureGame = async (versionGroupId: number) => {
+    games.add(versionGroupId);
+    await ensureGameData(versionGroupId);
+    gamesDone.add(versionGroupId);
+    reportGames();
+  };
+
+  onProgress?.({ step: "reading" });
+
   const remoteId = await account.latestId();
 
   if (state.restored) {
@@ -153,6 +188,7 @@ export const syncDevice = async (
       db,
       remote.snapshot,
       ensureGame,
+      onNeeded,
     );
 
     if (remoteSnapshot.idChanges !== local.idChanges) {
@@ -174,12 +210,15 @@ export const syncDevice = async (
       };
     }
 
-    for (const versionGroupId of readNeededVersionGroups(
-      result.snapshot.tables,
-    )) {
+    const needed = readNeededVersionGroups(result.snapshot.tables);
+
+    onNeeded(needed);
+
+    for (const versionGroupId of needed) {
       await ensureGame(versionGroupId);
     }
 
+    onProgress?.({ step: "applying" });
     await applySyncSnapshot(
       db,
       {

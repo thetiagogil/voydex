@@ -10,6 +10,8 @@ import {
   prepareAppAfterFirstSync,
   useAccountSync,
   useFirstSyncPending,
+  useFirstSyncProgress,
+  type FirstSyncProgress,
 } from "@/platform/local-db/account-sync";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import {
@@ -45,23 +47,51 @@ const GateFrame = ({ children }: { children: ReactNode }) => (
   </div>
 );
 
+/* What the step says it is doing, and how far along when it can tell. */
+const describeProgress = (progress: FirstSyncProgress) => {
+  switch (progress?.step) {
+    case "games":
+      return {
+        detail: `Downloading game data: ${progress.done} of ${progress.total} ${progress.total === 1 ? "game" : "games"}`,
+        percent: progress.total
+          ? Math.round((progress.done / progress.total) * 100)
+          : null,
+      };
+    case "applying":
+      return { detail: "Putting your Plays on this device", percent: null };
+    case "pages":
+      return { detail: "Getting your pages ready", percent: null };
+    default:
+      return { detail: "Reading your account", percent: null };
+  }
+};
+
 /*
  * The wait after logging in: your account's Plays are on their way. It is
  * laid out as the start screen it follows, so the mark stays where it was,
  * and its words come a moment late: a wait that ends at once (straight on
- * to the question below) never flashes them.
+ * to the question below) never flashes them. The ring fills while game
+ * data downloads, and a line says what it is doing.
  */
-const SyncStep = () => (
-  <div
-    role="status"
-    className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center"
-  >
-    <StartMark progress="busy" progressLabel="Syncing with your account" />
-    <p className="title-card appear-late mt-2">
-      Bringing your account to this device
-    </p>
-  </div>
-);
+const SyncStep = () => {
+  const { detail, percent } = describeProgress(useFirstSyncProgress());
+
+  return (
+    <div
+      role="status"
+      className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center"
+    >
+      <StartMark
+        progress={percent ?? "busy"}
+        progressLabel="Bringing your account to this device"
+      />
+      <p className="title-card appear-late mt-2">
+        Bringing your account to this device
+      </p>
+      <p className="text-ink-2 copy-body appear-late">{detail}</p>
+    </div>
+  );
+};
 
 /* The device and the account, drawn apart or joined by an arrow. */
 const Diagram = ({ joined }: { joined: boolean }) => (
@@ -275,9 +305,10 @@ const OwnDataChoice = ({
 /*
  * The step between logging in and the app, standing where the app would:
  * nothing of the app shows until your account is in sync with this device.
- * Right after Log in it waits for the first sync and for the app's pages
- * to be read again (`prepare`), so the app opens finished; after a few
- * seconds at most it opens anyway and sync carries on. When this device holds
+ * Right after Log in it waits for the first sync (every game the account's
+ * Plays need, however many) and for the app's pages to be read again
+ * (`prepare`), so the app opens finished, saying how far it has got; only
+ * a wait that stops moving for a minute opens the app anyway. When this device holds
  * data of its own, made without an account, it asks what to do with it
  * first. It also keeps account sync running under the app
  * (`AccountSyncRunner`).
@@ -296,13 +327,19 @@ export const AccountGate = ({
   const session = useAuthSession();
   const sync = useAccountSync();
   const firstSyncPending = useFirstSyncPending();
-  const step = !session
-    ? null
-    : sync.status === "own-data"
-      ? "choice"
-      : firstSyncPending
-        ? "sync"
-        : null;
+  /*
+   * While the browser's session is still being read right after Log in
+   * (`undefined`), the wait already stands, so nothing of the app flashes
+   * before it; only a session read as logged out lets the app through.
+   */
+  const step =
+    session === null
+      ? null
+      : session && sync.status === "own-data"
+        ? "choice"
+        : firstSyncPending
+          ? "sync"
+          : null;
 
   return (
     <>

@@ -83,6 +83,31 @@ test.describe("Log in", () => {
     await page.waitForURL("**/app");
   });
 
+  test("a big account opens on a finished Home, after its games download", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await logIn(page, seededAccounts.fixture);
+
+    /* The step says how far it has got while the games come down. */
+    await expect(
+      page.getByText(/^Downloading game data: \d+ of \d+ games$/),
+    ).toBeVisible({
+      timeout: 60_000,
+    });
+
+    /* The moment the app shows, Home is already filled: no empty state first. */
+    await expect(page.getByRole("navigation").first()).toBeVisible({
+      timeout: 120_000,
+    });
+    await expect(page.getByRole("link", { name: /Continue/ })).toBeVisible({
+      timeout: 1_000,
+    });
+    await expect(
+      page.getByRole("heading", { name: "Your first Play starts here" }),
+    ).toHaveCount(0);
+  });
+
   test("says when the password is wrong", async ({ page }) => {
     await logIn(page, seededAccounts.trainer, "not-the-password");
 
