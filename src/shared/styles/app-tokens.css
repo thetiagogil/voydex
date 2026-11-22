@@ -21,23 +21,26 @@
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #f1f4f9;
+  --bg: #eef3fb;
+  /* The wall's dots: one shade under the ground, so the wall has a quiet grain. */
+  --bg-dot: #e2eaf7;
   --surface: #ffffff;
-  --surface-2: #eef2f8;
-  --hover: #e3e9f2;
-  --ink: #26292f;
-  --ink-2: #4b5260;
-  --ink-3: #5b6270;
+  --surface-2: #edf2fa;
+  --hover: #e0e8f5;
+  /* Ink is a deep navy, not a grey: it sits with the blue ground. */
+  --ink: #1f2c49;
+  --ink-2: #45536e;
+  --ink-3: #566481;
   --on-ink: #f3f5f8;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #e1e7ef;
-  --lip: #d6dee9;
-  --track: #e6ebf2;
-  --dash: #cfd8e4;
+  --line: #d9e2f1;
+  --lip: #cbd7ea;
+  --track: #dfe7f5;
+  --dash: #c3d1e8;
   --mute: #b8c2cf;
   /* The colour every shadow and the scrim are made of, as RGB channels. */
-  --shade: 40 50 70;
+  --shade: 40 58 96;
   --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
@@ -95,31 +98,12 @@
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
   /*
-   * The Dex's three lights (the front page's head, the start screen): a red,
-   * a yellow and a green bright enough to read as lit on the action red.
-   */
-  --dex-red: #ff7a6c;
-  --dex-yellow: #f8d24c;
-  --dex-green: #63d281;
-  /*
-   * The Dex's glass, domed and lit from the top left: a shade inside its
-   * lower right, a light inside its upper left. The lens also sits in a dark
-   * socket and lifts off the device. Sizes follow the lens (`em`).
-   */
-  --shadow-dex-lens-value:
-    inset -0.16em -0.2em 0.36em rgb(0 0 0 / 0.36),
-    inset 0.1em 0.12em 0.28em rgb(255 255 255 / 0.32),
-    0 0 0 0.09em var(--action-lip), 0 0.22em 0.4em rgb(0 0 0 / 0.3);
-  --shadow-dex-light-value:
-    inset -1px -1.5px 2px rgb(0 0 0 / 0.28),
-    inset 1px 1px 1.5px rgb(255 255 255 / 0.5);
-  /*
    * The band that opens every page but Home: the pale blue of a Pokémon
    * Center's windows, under the top bar and the page's head.
    */
-  --band-fill: #e6eef9;
-  /* The deeper strip of the band the bar sits on. */
-  --band-deep: #d3e1f6;
+  --band-fill: #e2ebf9;
+  /* The strip the bar sits on: the Center's red roof. */
+  --band-deep: var(--action);
 
   /*
    * The accent by role: its deep shade for small eyebrows and marks, and the
@@ -140,22 +124,19 @@
 
   /* Corners */
   --r-xs: 6px;
-  --r-sm: 12px;
-  --r-lg: 20px;
-  --r-2xl: 28px;
+  --r-sm: 14px;
+  --r-lg: 24px;
+  --r-2xl: 32px;
 
   /*
-   * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
-   * shadow. A button is a small sticker: its colour inside a white band (its
-   * border), a near-white keyline so the band still shows on a white card,
-   * and a soft shadow that shrinks when pressed, so it settles onto what it
-   * sits on.
+   * Depth. Sections are flat. A small solid edge sits under what you can
+   * open (cards, Pokémon). The main button lifts on a soft shadow that
+   * shrinks when pressed, so it settles onto what it sits on.
    */
-  --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
   /*
-   * The white band round every control (buttons, select triggers, tabs, the
-   * top bar's current link, a switch's pick, corner marks): one width, so no
-   * control drifts. Cards keep their own 4px sticker band.
+   * The white band round a small mark on a card (a corner mark, a switch's
+   * pick, your initial): one width. Controls wear no band; a Pokémon card
+   * keeps its own.
    */
   --band: 3px;
   /*
@@ -163,7 +144,7 @@
    * the stickers' way of lifting, never a hard lip.
    */
   --moment-drop: 0 6px 12px -5px rgb(var(--shade) / 0.38);
-  --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
+  --button-lift-value: 0 6px 12px -6px rgb(var(--shade) / 0.5);
   --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
   --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);
   --shadow-cover-value: 0 10px 18px -10px rgb(var(--shade) / 0.5);
@@ -192,7 +173,7 @@
   }
 
   /* Type: two families, one scale, nothing under 12px */
-  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
   --font-body: var(--font-nunito), system-ui, sans-serif;
 
   /* Primitive aliases. shadcn-style primitives read these names. */
@@ -218,9 +199,9 @@
   --radius: var(--r-sm);
 
   /*
-   * The top bar has no ground of its own: its words sit straight on the
-   * page's band or meadow. Hover is a wash of white over it, the current
-   * section the selected tint, and the V tile the action colour.
+   * A bar of links on the page's own ground (a detail page's section bar):
+   * dark words, a white tab for the one you are on. The top bar sits on the
+   * red strip and sets its own white values (AppNavbar).
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
@@ -286,9 +267,6 @@
   --color-avatar-ink: var(--avatar-ink);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
-  --color-dex-red: var(--dex-red);
-  --color-dex-yellow: var(--dex-yellow);
-  --color-dex-green: var(--dex-green);
   --color-band: var(--band-fill);
   --color-band-deep: var(--band-deep);
   --color-game: var(--game);
@@ -326,6 +304,7 @@
   --text-16: 16px;
   --text-17: 17px;
   --text-20: 20px;
+  --text-22: 22px;
   --text-24: 24px;
   --text-28: 28px;
   --text-32: 32px;
@@ -346,16 +325,15 @@
   --shadow-overlay: var(--shadow-overlay-value);
   /* A popup panel: a hairline so it parts from a white page, then the float. */
   --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
-  --shadow-dex-lens: var(--shadow-dex-lens-value);
-  --shadow-dex-light: var(--shadow-dex-light-value);
-  --shadow-card:
-    0 1px 2px rgb(var(--shade) / 0.05),
-    0 10px 24px -18px rgb(var(--shade) / 0.28);
   /*
-   * A button's sticker edge round its white band (the band is its border, so
-   * it never eats the gap beside it): the keyline, then the soft lift.
+   * A section is flat: white on the wall with a thin line, no blur. A small
+   * solid edge under a card means "you can open this" (a Play row, a
+   * Pokémon card, a Collection card). Blur is only for what floats over the
+   * page (menus, sheets, dialogs, toasts).
    */
-  --shadow-button: 0 0 0 1px var(--button-keyline), var(--button-lift-value);
-  --shadow-button-pressed:
-    0 0 0 1px var(--button-keyline), var(--button-settle-value);
+  --shadow-card: inset 0 0 0 1px var(--line);
+  --shadow-open: inset 0 0 0 1px var(--line), 0 3px 0 var(--line);
+  /* The main button's lift, the one soft shadow on a page; it settles when pressed. */
+  --shadow-button: var(--button-lift-value);
+  --shadow-button-pressed: var(--button-settle-value);
 }

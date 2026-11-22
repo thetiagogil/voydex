@@ -33,10 +33,10 @@ files in your brief; when asked for an audit, do not edit.
   on the Play header, docked bar, active Play tab and places where one Play or
   game is the subject; accent elsewhere; never the background of a card, row,
   section or input. The Codex has no game-colour surfaces.
-- **Type**: Fredoka (`font-display`) for headings 20px and up, the Play name,
+- **Type**: Baloo 2 (`font-display`) for headings 20px and up, the Play name,
   trainer name, owned-sticker names and figures 24px and up. Nunito for
   everything you operate: every button including the main one, tabs, pills,
-  chips, labels, table headers. Nothing under 16px is Fredoka.
+  chips, labels, table headers. Nothing under 16px is Baloo 2.
 - **Loudness budget**: loud only for identity and reward (Play header,
   stickers on owned Pokémon, badge stamps, medallions, the meadow). One loud
   kind per section plus the page's main button. Chrome is never loud.

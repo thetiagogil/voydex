@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-import { readAppEntered } from "@/config/front-door";
+import { readHasPlays, readSignedIn } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Link } from "@/shared/components/link";
@@ -11,24 +11,21 @@ import { buttonVariants } from "@/shared/components/ui/button";
 const subscribe = () => () => undefined;
 
 /*
- * The front page's one way in, white on the Dex's red. Start a Play opens
- * the app, whose Home asks which game you are playing; on a device that has
- * opened the app before (it left the app, or followed a link to a part of
- * the front page) it reads Continue. The page is the same file for
- * everyone, so Start a Play shows until the browser says otherwise.
+ * The front page's one way in, the page's main action. Start a Play opens
+ * the app, whose Home asks which game you are playing; on a device that
+ * already holds a Play it reads Continue. A device that opened the app but
+ * never started a Play still has one to start. The page is the same file
+ * for everyone, so Start a Play shows until the browser says otherwise.
  */
 export const StartAction = () => {
-  const entered = useSyncExternalStore(subscribe, readAppEntered, () => false);
+  const hasPlays = useSyncExternalStore(subscribe, readHasPlays, () => false);
 
   return (
     <Link
       href={appRoutes.mainline}
-      className={buttonVariants({
-        className: "max-sm:w-full",
-        variant: "inverse",
-      })}
+      className={buttonVariants({ className: "max-sm:w-full" })}
     >
-      {entered ? (
+      {hasPlays ? (
         <>
           <AppIcon icon={appIcons.actions.continue} inline="start" />
           Continue
@@ -39,3 +36,12 @@ export const StartAction = () => {
     </Link>
   );
 };
+
+/*
+ * The line under the button: what you have without an account, or, on a
+ * browser that is already logged in, that the account is still there.
+ */
+export const StartNote = () =>
+  useSyncExternalStore(subscribe, readSignedIn, () => false)
+    ? "You're logged in. Your Plays are saved on this device and backed up to your account."
+    : "No account needed. Your Plays are saved on this device.";

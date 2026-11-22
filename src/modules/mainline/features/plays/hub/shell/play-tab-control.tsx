@@ -35,10 +35,10 @@ export const getNavigationMenuControlClassName = ({
   className?: string;
 }) => {
   return cn(
-    "h-9 rounded-full px-0 copy-strong text-ink-2 hover:text-ink",
+    "h-9 rounded-full border-[1.5px] px-0 copy-strong text-ink-2 hover:text-ink",
     active
-      ? "bg-calm bubble text-white hover:bg-calm hover:text-white focus:bg-calm data-popup-open:bg-calm data-popup-open:hover:bg-calm"
-      : "bg-white/65 hover:bg-white",
+      ? "border-transparent bg-calm text-white hover:bg-calm hover:text-white focus:bg-calm data-popup-open:bg-calm data-popup-open:hover:bg-calm"
+      : "border-lip bg-surface hover:bg-hover",
     className,
   );
 };

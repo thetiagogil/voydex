@@ -12,7 +12,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
-import { PaperTag } from "@/shared/components/paper-tag";
+import { TagLabel } from "@/shared/components/tag-label";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -50,7 +50,7 @@ const PlayDetailChips = ({
         <IconTip
           label={item.title}
           trigger={
-            <PaperTag>
+            <TagLabel>
               {item.name}
               {item.tip ? (
                 <ExplanatoryTip
@@ -59,7 +59,7 @@ const PlayDetailChips = ({
                   triggerVariant="icon"
                 />
               ) : null}
-            </PaperTag>
+            </TagLabel>
           }
         />
       </li>

@@ -3,6 +3,7 @@ import {
   ChangePasswordDialog,
 } from "@/features/settings/components/account-change-dialogs";
 import { SettingsSyncRow } from "@/features/settings/components/settings-sync-row";
+import { SettingsOwnDataRow } from "@/features/settings/components/settings-own-data-row";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { appRoutes } from "@/config/routes";
@@ -19,7 +20,7 @@ type SettingsAccountSectionProps = {
 
 /*
  * The Account section. Signed in: your email, your password, account sync,
- * and Log out on this device. Signed out: what an account is for and the
+ * and Log out (it asks first: your Plays leave this device). Signed out: what an account is for and the
  * way to log in, since nothing else in the app asks you to. There is no way
  * to make an account for now, and the row says so.
  */
@@ -63,7 +64,11 @@ const SignedInAccount = ({
       <ChangePasswordDialog />
     </SettingsRow>
     <SettingsSyncRow />
-    <SettingsRow title="Log out" description="On this device">
+    <SettingsOwnDataRow />
+    <SettingsRow
+      title="Log out"
+      description="Your Plays stay in your account and leave this device"
+    >
       <form action={signOutAction}>
         <SettingsLogOutButton className={SETTINGS_ACTION_CLASS_NAME} />
       </form>

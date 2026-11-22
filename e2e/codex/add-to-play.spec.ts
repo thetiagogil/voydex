@@ -25,8 +25,8 @@ test.describe("Codex: Add to a Play", () => {
     page.getByRole("link", { name: new RegExp(`Open Pikachu in ${playName}`) });
 
   const openAddSheet = async (page: Page) => {
-    await page.getByRole("button", { name: "Add to a Play" }).click();
-    await page.getByRole("menuitem", { name: new RegExp(playName) }).click();
+    await page.getByRole("combobox", { name: "Add to a Play" }).click();
+    await page.getByRole("option", { name: new RegExp(playName) }).click();
 
     return page.getByRole("dialog", { name: "Pikachu" });
   };
@@ -68,7 +68,7 @@ test.describe("Codex: Add to a Play", () => {
     await expect(sheet).toBeHidden();
     await expect(page).toHaveURL(entry);
     await expect(
-      page.getByRole("button", { name: "Add to a Play" }),
+      page.getByRole("combobox", { name: "Add to a Play" }),
     ).toBeFocused();
     await expect(onThisPlay(page)).toHaveCount(0);
 
@@ -101,8 +101,8 @@ test.describe("Codex: Add to a Play", () => {
     await expect(sheet).toBeHidden(forTheAnswer);
 
     /* The second pick of the same Play opens afresh, with Pikachu already counted. */
-    await page.getByRole("button", { name: "Add to a Play" }).click();
-    await page.getByRole("menuitem", { name: new RegExp(playName) }).click();
+    await page.getByRole("combobox", { name: "Add to a Play" }).click();
+    await page.getByRole("option", { name: new RegExp(playName) }).click();
     await expect(
       page.getByRole("dialog", { name: "Pikachu" }).getByText(/open slots/),
     ).toContainText("4 open slots");

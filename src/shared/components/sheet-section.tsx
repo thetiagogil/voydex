@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * One part of a sheet or panel (v3 `.step`): its Fredoka heading with a
+ * One part of a sheet or panel (v3 `.step`): its Baloo 2 heading with a
  * quiet word beside it (`aside`, such as "Optional") or a control at the end
  * of the row (`action`), then its content. Used by the roster's editor, the
  * Team Planner's slot sheet and Team check, and a species sheet.

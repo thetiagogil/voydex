@@ -108,7 +108,7 @@ test.describe("Codex: favourites", () => {
       .getByRole("region", { name: "Your favourites" })
       .getByRole("link", {
         name: new RegExp(
-          `^${subject.number} ${subject.name} Not on a team yet`,
+          `^${subject.name} ${subject.number} Not on a team yet`,
         ),
       });
 

@@ -60,6 +60,12 @@ test.describe("Background game downloads", () => {
     await expect
       .poll(() => asked.filter((item) => item.ok).length, { timeout: 20_000 })
       .toBe(1);
+    /* Kept on the device before the next reload, not only fetched. */
+    await page.waitForFunction(
+      () => Number(document.documentElement.dataset.downloadsWritten ?? 0) > 0,
+      undefined,
+      { timeout: 20_000 },
+    );
 
     asked.length = 0;
     await page.reload();

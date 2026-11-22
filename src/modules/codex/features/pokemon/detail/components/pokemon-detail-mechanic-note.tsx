@@ -9,54 +9,41 @@ type PokemonDetailMechanicNoteCardProps = {
   /* The entry in the generation it arrives in, when the Pokémon is there. */
   arrivesHref?: string | null;
   className?: string;
-  /* `fill` takes the whole of its card, centred; `row` sits among facts. */
-  layout?: "fill" | "row";
   note: PokemonDetailMechanicNote;
 };
 
 /*
- * In place of something the game doesn't have: an hourglass, the fact
+ * In place of something the game doesn't have, as one compact row: an
+ * hourglass, the fact
  * ("Abilities arrive in") and, on its own line, the generation it arrives
  * in. When the Pokémon is in that generation the whole panel is the link
- * there, its arrow saying so. On the card's own inset fill, like the rest of
- * the Codex, and never the dashed marker, which means data Voydex is missing.
+ * there, outlined like every row you can open, its arrow saying so;
+ * otherwise it sits on the card's inset fill. Never the dashed marker, which
+ * means data Voydex is missing.
  */
 export const PokemonDetailMechanicNoteCard = ({
   arrivesHref,
   className,
-  layout = "row",
   note,
 }: PokemonDetailMechanicNoteCardProps) => {
-  const isFill = layout === "fill";
   const href = note.arrivesIn ? arrivesHref : null;
   const panelClassName = cn(
-    "tile text-ink-2 flex gap-3",
-    isFill
-      ? "flex-1 flex-col items-center justify-center py-8 text-center"
-      : "items-center",
-    href && "hover:bg-hover transition-colors focus-ring",
+    /* A panel that leads somewhere is a row you can open, outlined. */
+    href ? "tile-link focus-ring" : "tile",
+    "text-ink-2 flex items-center gap-3",
     className,
   );
   const content = (
     <>
       <span
         className={cn(
-          "bg-surface text-ink-2 grid shrink-0 place-items-center rounded-full",
-          isFill ? "size-12" : "size-9",
+          "text-ink-2 grid size-9 shrink-0 place-items-center rounded-full",
+          href ? "bg-surface-2" : "bg-surface",
         )}
       >
-        <AppIcon
-          icon={appIcons.status.later}
-          size={isFill ? "lg" : "sm"}
-          aria-hidden
-        />
+        <AppIcon icon={appIcons.status.later} size="sm" aria-hidden />
       </span>
-      <span
-        className={cn(
-          "flex min-w-0 flex-col gap-0.5",
-          isFill && "items-center",
-        )}
-      >
+      <span className="flex min-w-0 flex-col gap-0.5">
         <span className="copy-note">
           {note.arrivesIn ? `${note.text}:` : note.text}
         </span>

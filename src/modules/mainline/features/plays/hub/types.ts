@@ -229,7 +229,7 @@ export type MainlinePlayOverviewData = {
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];
-  /* Milestones that are trophies, gold in Recent moments as in History. */
+  /* Milestones that are trophies, gold in Latest moments as in History. */
   trophyMilestoneIds: number[];
   timelinePreview: MainlinePlayTimelineEvent[];
 };

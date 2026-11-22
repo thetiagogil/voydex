@@ -2,7 +2,6 @@ import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/
 import { PokemonDetailMechanicNoteCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-mechanic-note";
 import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailAbilitiesCardProps = {
   abilitySlots: PokemonDetailAbilitySlot[];
@@ -12,57 +11,37 @@ type PokemonDetailAbilitiesCardProps = {
 };
 
 /*
- * The abilities the Pokémon has as mini cards side by side (its slot, name
- * and effect), each as tall as the card. The row of Abilities, Training and
- * Breeding gives this card more room the more abilities there are. In a game
- * without abilities the note fills it.
+ * The abilities the Pokémon has, one tile each under the other (its slot,
+ * name and effect), the same tiles Training and Breeding use for their
+ * facts, so the three cards of the row read as one family. In a game
+ * without abilities a quiet note takes their place.
  */
-const abilityColumnClassNames: Record<number, string> = {
-  1: "sm:grid-cols-1",
-  2: "sm:grid-cols-2",
-  3: "sm:grid-cols-3",
-};
-
 export const PokemonDetailAbilitiesCard = ({
   abilitySlots,
   note,
   noteHref,
 }: PokemonDetailAbilitiesCardProps) => {
   return (
-    <DetailSectionCard
-      id="abilities"
-      title="Abilities"
-      className="h-full"
-      contentClassName="flex flex-1 flex-col gap-3"
-    >
+    <DetailSectionCard id="abilities" title="Abilities" className="h-full">
       {note ? (
-        <PokemonDetailMechanicNoteCard
-          arrivesHref={noteHref}
-          layout="fill"
-          note={note}
-        />
+        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
       ) : !abilitySlots.length ? (
         <p className="copy-note text-ink-3">
           Its abilities aren&apos;t recorded yet.
         </p>
       ) : (
-        <dl
-          className={cn(
-            "grid flex-1 gap-3",
-            abilityColumnClassNames[abilitySlots.length],
-          )}
-        >
+        <dl className="grid gap-2">
           {abilitySlots.map((abilitySlot) => (
             <div
               key={`${abilitySlot.token}-${abilitySlot.ability.id}`}
-              className="tile flex min-w-0 flex-col"
+              className="tile min-w-0"
             >
               <dt className="text-ink-2 copy-mark">{abilitySlot.label}</dt>
               <dd>
                 <span className="copy-strong block">
                   {abilitySlot.ability.name}
                 </span>
-                <span className="text-13 text-ink-2 block">
+                <span className="text-ink-2 copy-note block">
                   {abilitySlot.effectSummary ?? "No effect summary recorded."}
                 </span>
               </dd>

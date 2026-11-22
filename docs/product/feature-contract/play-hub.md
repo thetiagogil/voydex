@@ -122,7 +122,7 @@ tracks it), the twelve newest catches as two rows of small Pokémon (each
 species once, drawn as the form its Pokédex shows or its default form;
 "Nothing caught yet" until the first), and the way on to the Pokédex. Collectibles are
 not on Overview (they keep their own tab). A Play that tracks no Pokédex
-draws no card and Recent moments take the row. There is no Progress card. A brand-new Play still
+draws no card and Latest moments take the row. There is no Progress card. A brand-new Play still
 opens on its partner and first steps, with the team under them.
 
 The next objective's main button records it in place (v3's

@@ -21,9 +21,16 @@ export const PlayTimeline = ({
   className,
   label,
   labelledBy,
+  months = false,
 }: {
   children: ReactNode;
   className?: string;
+  /*
+   * The line carries months (History), so it stays from 1024px, where the
+   * moments leave it for a grid. A short list without months (a Play's
+   * latest moments) drops the line there: its cards carry their medallions.
+   */
+  months?: boolean;
   /* Names the list when no heading does. */
   label?: string;
   /* Or the id of the visible label that names it. */
@@ -34,6 +41,7 @@ export const PlayTimeline = ({
     aria-labelledby={labelledBy}
     className={cn(
       "before:timeline-line relative grid min-w-0 before:absolute before:inset-y-7 before:left-6.5 before:w-1",
+      !months && "lg:before:hidden",
       className,
     )}
   >
@@ -69,7 +77,7 @@ export const PlayTimelineMonth = ({
   label,
   titleId,
 }: {
-  /* The month's moments, each a `PlayTimelineItem` whose row is `placement="grid"`. */
+  /* The month's moments, each a `PlayTimelineItem`. */
   children?: ReactNode;
   count: number;
   label: string;

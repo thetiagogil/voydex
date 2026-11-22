@@ -28,6 +28,7 @@ import {
   ClipboardList,
   ClipboardPen,
   Clock3,
+  Cloud,
   Compass,
   Crown,
   Dices,
@@ -143,6 +144,8 @@ export const appIcons = {
   /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
   /* Which device a change came from: a phone or tablet, or a computer. */
   devices: {
+    /* Your account, where its backups live. */
+    account: Cloud,
     computer: Laptop,
     phone: Smartphone,
   },

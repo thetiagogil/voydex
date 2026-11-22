@@ -12,17 +12,18 @@ import type {
   HomeProfile,
 } from "@/modules/mainline/features/home/types";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
+import { FirstPlayStart } from "@/modules/mainline/features/plays/shared/components/first-play-start";
 import { PlayCard } from "@/modules/mainline/features/plays/shared/components/play-card";
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { formatHomeMomentAge } from "@/modules/mainline/features/home/data/home-activity-model";
+import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PageBand } from "@/shared/components/page-band";
 import { SectionHead } from "@/shared/components/section-head";
+import { StatTile } from "@/shared/components/stat-tile";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
@@ -33,7 +34,7 @@ export type HomeTrainerCardRender = (parts: {
 }) => ReactNode;
 
 type HomeDashboardProps = {
-  data: Extract<HomePageData, { kind: "plays" }>;
+  data: HomePageData;
   renderTrainerCard: HomeTrainerCardRender;
 };
 
@@ -42,22 +43,22 @@ const formatHours = (minutes: number) =>
 
 /* The trainer card's figures: Plays, hours, Pokémon owned and regions. */
 const TrainerFigures = ({ figures }: { figures: HomeProfile["figures"] }) => (
-  <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-[repeat(4,auto)]">
+  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3 lg:grid-cols-[repeat(4,auto)]">
     {[
       [figures.playCount.toLocaleString("en"), "Plays"],
       [formatHours(figures.minutes), "played"],
       [figures.ownedCount.toLocaleString("en"), "Pokémon owned"],
       [`${figures.visitedRegionCount}/${figures.regionCount}`, "regions"],
     ].map(([value, label]) => (
-      <div
+      <StatTile
         key={label}
-        className="tile flex flex-col-reverse text-center lg:min-w-24"
-      >
-        <dt className="text-ink-3 copy-meta">{label}</dt>
-        <dd className="title-card text-select-ink tabular-nums">{value}</dd>
-      </div>
+        align="center"
+        className="lg:min-w-24"
+        label={label}
+        value={value}
+      />
     ))}
-  </dl>
+  </div>
 );
 
 /* A short section of the profile: its head, a link onward, one card. */
@@ -79,11 +80,10 @@ const ProfileSection = ({
 );
 
 /*
- * One moment as a small card: its Play's cover in a column of its own (so
- * every line starts in the same place, whatever the box's shape); its kind
- * and Play, what happened and the line that explains it (a milestone's own
- * description); and how long ago at the right. The card opens the
- * moment in its Play's History.
+ * One moment, as the moment card every page draws (`RecordRow`), with two
+ * things only Home needs: the moments come from every Play, so the Play's
+ * cover stands where the medallion would and its name follows the kind; and
+ * the card opens the moment in its Play's History.
  */
 const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
   const { timeZone } = useViewerClock();
@@ -96,15 +96,12 @@ const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
         moment.event.play_id ?? "",
         moment.event.event_id ?? "",
       )}
-      className="group/card-link block rounded-lg outline-none"
+      className="group/card-link block h-full rounded-lg outline-none"
     >
-      <Card
-        size="sm"
-        variant="interactive"
-        className="grid h-full grid-cols-[4rem_minmax(0,1fr)_auto] items-center gap-3"
-      >
-        {/* In a span: a card trims around a picture that is its first child. */}
-        <span className="grid place-items-center">
+      <RecordRow
+        variant="card"
+        opens
+        picture={
           <GameCover
             alt=""
             coverImageUrl={moment.coverImageUrl}
@@ -112,27 +109,18 @@ const MomentCard = ({ moment }: { moment: HomeProfile["moments"][number] }) => {
             gameSlug={moment.gameSlug ?? undefined}
             size="slim"
           />
-        </span>
-        <div className="min-w-0">
-          <p className="text-ink-3 copy-meta truncate">
+        }
+        kicker={
+          <>
             {record.label ? `${record.label} · ` : null}
             <span className="text-select-ink">{moment.playName}</span>
-          </p>
-          <p className="copy-strong line-clamp-2">
-            {record.headline.map((part) => part.text).join("")}
-          </p>
-          {record.description ? (
-            <p className="text-ink-2 copy-note line-clamp-2">
-              {record.description}
-            </p>
-          ) : null}
-        </div>
-        {age ? (
-          <span className="text-ink-3 copy-meta self-start whitespace-nowrap">
-            {age}
-          </span>
-        ) : null}
-      </Card>
+          </>
+        }
+        /* "Today", "A year ago": capitalised like every moment's date. */
+        when={age ? age.charAt(0).toUpperCase() + age.slice(1) : null}
+        headline={record.headline.map((part) => part.text).join("")}
+        description={record.description}
+      />
     </Link>
   );
 };
@@ -161,10 +149,11 @@ const LatestMoments = ({ profile }: { profile: HomeProfile }) => {
 };
 
 /*
- * Home with Plays: your trainer profile. The trainer card on the band, one
- * row back into the Play you're on, then, in two columns from 1024px, your
- * activity history, the types you pick, your games and favourites on the
- * left and the latest moments across every Play on the right. On a phone
+ * Home: your trainer profile. The trainer card on the band, one row back
+ * into the Play you're on (with no Play yet, the card that starts your
+ * first one), then, in two columns from 1024px, your
+ * activity history, your games and favourites on the left and the latest
+ * moments across every Play on the right. On a phone
  * the moments come first. Each part is short and links to its full page.
  */
 export const HomeDashboard = ({
@@ -172,7 +161,6 @@ export const HomeDashboard = ({
   renderTrainerCard,
 }: HomeDashboardProps) => {
   const { journey, profile } = data;
-  const typeTotal = profile.types.reduce((sum, type) => sum + type.count, 0);
 
   return (
     <div className="flex flex-col gap-6">
@@ -185,59 +173,17 @@ export const HomeDashboard = ({
         </div>
       </PageBand>
 
-      <PlayCard eyebrow="Continue" play={journey} size="sm" />
+      {journey ? (
+        <PlayCard eyebrow="Continue" play={journey} size="sm" />
+      ) : (
+        <FirstPlayStart />
+      )}
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-8">
         <div className="order-2 flex min-w-0 flex-col gap-6 lg:order-1">
           <ProfileSection id="home-activity" title="Activity history">
             <HomeActivityHistory instants={profile.momentInstants} />
           </ProfileSection>
-
-          {profile.types.length ? (
-            <ProfileSection
-              id="home-types"
-              title="Types you pick"
-              more={{ href: appRoutes.mainlineStats, label: "Statistics" }}
-            >
-              <div className="flex flex-col gap-3">
-                <ul className="grid grid-cols-3 gap-x-2 gap-y-3 sm:grid-cols-6">
-                  {profile.types.map((type) => (
-                    <li
-                      key={type.slug}
-                      className="flex flex-col items-center gap-1 text-center"
-                    >
-                      {isPokemonTypeSlug(type.slug) ? (
-                        <PokemonTypeBadge
-                          display="label"
-                          label={type.name}
-                          type={type.slug}
-                        />
-                      ) : (
-                        <span className="copy-strong">{type.name}</span>
-                      )}
-                      <span className="copy-strong tabular-nums">
-                        {type.count}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <div
-                  aria-hidden
-                  className="flex h-2.5 overflow-hidden rounded-full"
-                >
-                  {profile.types.map((type) => (
-                    <span
-                      key={type.slug}
-                      style={{
-                        background: `var(--type-${type.slug})`,
-                        flexGrow: type.count / typeTotal,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </ProfileSection>
-          ) : null}
 
           {profile.covers.length ? (
             <ProfileSection

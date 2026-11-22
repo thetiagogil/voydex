@@ -17,8 +17,10 @@ The app opens for everyone: your data lives on this device
 ([ADR 0008](../decisions/0008-user-data-on-the-device.md)), and signing in is
 only for backups. Mainline, Settings, You and the Codex take this frame.
 
-- **Top bar (desktop, `lg` and up):** the "V" tile on the left links to
-  Mainline Home (`/app`). The sections sit centred as one row: Home,
+- **Top bar (desktop, `lg` and up):** the "V" tile and the name on the left
+  lead out to the front page (`/`), exactly as Leave the app does, on
+  phones too; Home in the row is the way to Mainline Home (`/app`). The
+  sections sit centred as one row: Home,
   Plays, Team Planner, Statistics, Collection and the Codex, and your
   account icon sits on the right. Home, Plays and Statistics are links.
   Team Planner, Collection and the Codex (a name, no icon) each open a
@@ -33,7 +35,11 @@ only for backups. Mainline, Settings, You and the Codex take this frame.
   bar.
 - **Account menu:** Library (`/app/library`, your rules and tags),
   Settings (`/app/settings`), Log in (back up your Plays to an
-  account) or, once you've signed in, Log out, and Leave the app.
+  account) or, once you've signed in, Log out, and Leave the app. Log
+  out asks first, wherever it is tapped: your Plays stay in your account
+  and leave this device (see [Data Ownership](./data-ownership.md)); then
+  Log in opens, and the device has left the app, so Back home shows the
+  front page. Leave the app changes nothing.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/app/you` (the
@@ -56,8 +62,8 @@ log-in pages beside it. Everything else is the app.
   its title ("A Pokédex for your playthroughs."), one paragraph and one
   white button beside an example Play, drawn as
   one of Voydex's own cards (cover, status, progress, team, badges). Its
-  button reads Start a Play and opens the app (`/app`), whose Home asks
-  which game you are playing. Under the band: How it works
+  button reads Start a Play and opens the app (`/app`), whose empty Home
+  offers Start a Play. Under the band: How it works
   (`/#how-it-works`): three numbered steps, with one Play followed through
   them and its partner growing along the way, then the Team Planner and the Codex in two small cards.
   Then Install (`/#install`): one quiet card with a drawn phone's Home
@@ -67,33 +73,63 @@ log-in pages beside it. Everything else is the app.
   their parts.
 - **Top bar:** the site takes the app's own bar: the "V" tile with the
   Voydex name, How it works and Install centred, and Log in on the right.
+  On a browser that is already logged in (leaving the app isn't logging
+  out) that button reads Open the app and leads to `/app`, and the
+  footer drops its Log in.
   On Privacy and Terms it is the quiet pill on the page's ground (the word
   drops on narrow phones). On the red band it is part of the red: no pill,
   white words and a white V tile on the band's darker top, which is as
   thin as the bar and steps down a little on the left. The name is in the
   bar on every page, so no page's title repeats it; the log-in pages drop
   Log in. The V always leads to the start page.
-- **The log-in pages** follow the same pattern: the red band with the
+- **The log-in pages** follow the same pattern: the band with the
   page's title and one line at its left, where every page puts its title,
-  and Go back at the end of that row; below the band the form sits on one
-  quiet card, centred.
+  and the way back at its top right, level with the title, saying where it
+  leads: Back home, or Back to the app when a page of the app sent you
+  here. Below the band the form sits on one quiet card, centred.
+- **After logging in** the app opens behind the account step (see
+  [Data Ownership](./data-ownership.md)): a short wait while the account
+  syncs, and, on a device that already has Plays, the question of what to
+  do with them. It is a step, not a page: no address, no bars.
+- **Log in offers both ways into the app** on that card: the account's
+  form, then, after an "or", Continue without an account (your Plays are
+  saved on this device only), which opens the app, or the page of it that
+  sent you here. A browser that is already logged in goes straight on to
+  the app.
 - The site frame ends on the quiet site footer: a rule across the full
   width, then the "V" mark and the name, the tagline, How it works,
   Install, Codex, Log in, Privacy, Terms and the fan-project notice.
 - **Coming back:** a device that has opened the app (Mainline, Settings or
   You) skips the front page: `/` sends it to Home (`/app`). A
   Codex visit alone doesn't count. A link to one of the front page's parts
-  still shows it, with Continue in place of Start a Play; Settings' About
-  Voydex links there.
-- **Leave the app** (the account menu, and You on phones) goes back to the
-  front page and stops the skip, so `/` shows the front page again, with
-  Continue, until you continue from it. Nothing on the device changes: your
-  Plays stay.
+  still shows it; Settings' About Voydex links there.
+- **The front page's button** goes by what is on the device: Start a Play
+  until it holds a Play (archived ones count), Continue from then on. A
+  device that opened the app but never started a Play still reads Start a
+  Play. The line under it says what you have without an account, or that
+  you're logged in. The front page opens neither the device's data nor the
+  account: the app notes both for it (`src/config/front-door.ts`), after
+  every save and on Log in and Log out.
+- **Leave the app** (the account menu, You on phones, and the V in the
+  app's bar) goes back to the
+  front page and stops the skip, so `/` shows the front page again until
+  you go back in from it. Nothing on the device changes: your Plays stay,
+  and you stay logged in.
 - **The start screen:** the app's pages (`/app`, `/app/settings`, `/app/you`
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens
   and every tab gets ready, so the bars appear with a working app and
-  changing tabs afterwards never waits. Nothing sends you to log in.
+  changing tabs afterwards never waits. It is the app's one loading
+  screen: a progress bar with a part for every step, from opening the
+  device to the pages being ready, and right after Log in the account's
+  sync steps in between (reading your account, downloading game data with
+  a count, putting your Plays on this device), as one bar from start to
+  end on the same screen (`startup-steps.ts`). It shows once per visit and never
+  for less than a second, so it doesn't flash by on a quick device: going
+  out to the front page or Log in and back in again shows the app at
+  once, with no start screen (`useOpenLocalDb`). Every move between the
+  site and the app is a link, never a page load. Nothing sends you to log
+  in.
 
 ### Inside A Module
 
@@ -151,7 +187,7 @@ reference/filter context; they are not currently a required top-level view.
 /reset-password         where the reset link lands
 /auth/callback          every email link
 
-/app                    Home: ?play= puts one of your Plays on the meadow,
+/app                    Home: ?play= puts one of your Plays on the Continue row,
                         ?new= opens New Play over it (a game slug, or 1),
                         with ?partner= its first partner already picked
   /plays                ?view=archived lists archived Plays, each with Restore
@@ -243,11 +279,11 @@ Mainline Home (the journey card, your other Plays) or Plays -> Play Hub
 ### Create A Play
 
 ```txt
-Mainline Home (no Plays: the game picker) -> Start -> Play Hub
+Mainline Home (no Plays: the empty profile) -> Start a Play -> New Play dialog -> Play Hub
 Plays or Home -> New Play dialog (game, partner, details) -> Play Hub
 Codex game page -> Start a {Version} Play -> New Play dialog over the page, game picked
 The front page -> Start a Play -> the start screen -> Mainline Home (no Plays:
-  the game picker)
+  the empty profile, with Start a Play)
 ```
 
 Codex is an optional contextual entry, never a required funnel.

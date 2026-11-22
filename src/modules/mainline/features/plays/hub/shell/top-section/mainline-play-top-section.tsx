@@ -21,7 +21,7 @@ type MainlinePlayTopSectionProps = {
 
 /*
  * The Play's head, on the band that opens every page: the cover, the
- * Fredoka name, its facts and the section tabs, with the dotted texture
+ * Baloo 2 name, its facts and the section tabs, with the dotted texture
  * that only a Play wears. What it has no room for sits behind Play details.
  */
 export const MainlinePlayTopSection = ({

@@ -274,6 +274,20 @@ describe("getTrainerTitle", () => {
     );
   });
 
+  it("tells a trainer with no Play yet where it starts, not a count of nothing", () => {
+    const none = getTrainerTitle({
+      mostPicked: null,
+      playCount: 0,
+      regions: [region("kanto", 0), region("johto", 0)],
+      types: [type("Fire", 0)],
+    });
+
+    expect(none.title).toBe("Pokémon Trainer");
+    expect(read(getTrainerTitleReason(none))).toBe(
+      "Start your first Play and this page fills in as you **record**.",
+    );
+  });
+
   it("calls everyone else a trainer, with how far they are from Region Hopper", () => {
     const types = [type("Fire", 5), type("Water", 5)];
     const one = getTrainerTitle({

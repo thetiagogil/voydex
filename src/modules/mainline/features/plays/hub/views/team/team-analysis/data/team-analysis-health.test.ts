@@ -9,7 +9,10 @@ import type {
   TeamAnalysisHealthStatus,
   TeamAnalysisTipRow,
 } from "../types";
-import { buildTeamAnalysisHealth } from "./team-analysis-health";
+import {
+  buildTeamAnalysisHealth,
+  buildTeamAnalysisVerdict,
+} from "./team-analysis-health";
 import type {
   TeamFieldReading,
   TeamFieldTypeReading,
@@ -410,5 +413,86 @@ describe("buildTeamAnalysisHealth", () => {
       "threat-response": "limited-data",
       "weakness-control": "limited-data",
     });
+  });
+});
+
+describe("buildTeamAnalysisVerdict", () => {
+  const verdict = (reading: TeamFieldReading, typed = 6, active = 6) =>
+    buildTeamAnalysisVerdict({
+      evidence: evidence(typed, active),
+      field: reading,
+    });
+  const words = (reading: TeamFieldReading) =>
+    (verdict(reading)?.next ?? [])
+      .map((part) => ("type" in part ? part.type.name : part.text))
+      .join(" ");
+
+  it("says how the team holds up in one plain sentence", () => {
+    expect(verdict(field({ share: 0.2 }))?.summary).toBe(
+      "Your team handles every type comfortably.",
+    );
+    expect(verdict(field({ share: 1 }))?.summary).toBe(
+      "Your team struggles against many types.",
+    );
+  });
+
+  it("starts with a shared weakness nothing answers", () => {
+    expect(
+      words(
+        field({
+          lagging: [{ level: 20, name: "Comet" }],
+          types: typeReadings({
+            3: { answerCost: 1, beats: ["Comet", "Crobat"] },
+          }),
+        }),
+      ),
+    ).toBe(
+      "Nothing answers Type 3 and it beats several of yours: start there.",
+    );
+  });
+
+  it("then with a Pokémon far below the rest", () => {
+    expect(words(field({ lagging: [{ level: 20, name: "Comet" }] }))).toBe(
+      "Start by levelling up Comet, well below your top level.",
+    );
+  });
+
+  it("then with slow knockouts, then with any type left unanswered", () => {
+    expect(
+      words(
+        field({
+          types: typeReadings(
+            Object.fromEntries(
+              [0, 1, 2, 3, 4, 5].map((id) => [id, { hitsToKnockOut: 4 }]),
+            ),
+          ),
+        }),
+      ),
+    ).toBe("Start with stronger moves: most types take more than two hits.");
+    expect(
+      words(field({ types: typeReadings({ 2: { answerCost: 1 } }) })),
+    ).toBe("Start with the 1 type nothing in your team answers.");
+  });
+
+  it("names nothing to fix when the cards found nothing", () => {
+    expect(words(field())).toBe("Nothing needs fixing first.");
+  });
+
+  it("says it is early for a team of one or two, whatever the cards read", () => {
+    const early = verdict(field({ share: 1 }), 1, 1);
+
+    expect(early?.summary).toBe(
+      "It's early: one Pokémon can't cover much yet.",
+    );
+    expect(early?.next).toEqual([
+      { text: "Add the Pokémon you catch and this reading fills in." },
+    ]);
+    expect(verdict(field({ share: 1 }), 2, 2)?.summary).toBe(
+      "It's early: 2 Pokémon can't cover much yet.",
+    );
+  });
+
+  it("gives no verdict while the team can't be read", () => {
+    expect(verdict(field(), 4)).toBeNull();
   });
 });

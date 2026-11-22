@@ -20,23 +20,30 @@ to Statistics), and it owns no mutation of its own.
     Play.
   - Then, in two columns from 1024px: **activity history** (a square for
     each of the last 26 weeks' days, deeper blue for more moments, by when
-    they happened; 13 weeks on phones), **types you pick** (the six most
-    used, with a bar), **your games** (one cover per game, the latest
-    first) and **favourite Pokémon**, each short with a link to Statistics
-    or the Collection; and **latest moments**: the newest eight across
+    they happened; 13 weeks on phones), **your games** (one cover per game,
+    the latest first) and **favourite Pokémon**, each short with a link to
+    the Collection; and **latest moments**: the newest six across
     every Play, in one column, each with its Play's cover, its kind and
     Play, what happened and the milestone's own description, and how long
     ago; each opens the moment in its Play's History. Status changes and
     notes are left out. On a phone the moments come right after Continue.
-    A row of other Plays and a Journal column were tried and dropped
-    (2026-11-20); the Plays page lists every Play.
-- **With one brand-new Play:** its first partners wait on the band; tapping
-  one is the Play's own partner choice, with Undo in the toast. Once it is
-  recorded, the partner stands alone; tapping it picks it, and Continue
-  becomes "Continue with {name}", opening it in the Roster.
-- **With no Plays:** the game picker is the page. Pick a game, tap a partner
-  and Start creates the Play at once (named "New Journey" with your trainer
-  name; Play Settings change the rest).
+    A row of other Plays, a Journal column and "Types you pick" (it
+    repeated Statistics) were tried and dropped (2026-11-20); the Plays
+    page lists every Play.
+- **One Home for everyone.** A brand-new first Play gets the same Home as
+  any other, with its Continue row. The page it once had (Welcome, the
+  Play's partner standing on the band, tap it for "Continue with {name}",
+  or tap your partner to record the choice) was removed with the old
+  Welcome (2026-11-22). The partner is still chosen in New Play, or in the
+  Play's Story as its first milestone.
+- **With no Plays:** the same Home, empty: your trainer card with its
+  figures at zero, then, in the Continue row's place, the card that starts
+  your first Play (`FirstPlayStart`, the same card the empty Plays list
+  shows: Start a Play opens New Play over the page; Browse the Codex beside
+  it), then an empty Activity history and Latest moments. The old Welcome
+  page, a game shelf with the partners appearing under it once a game was
+  picked, was dropped (2026-11-22): the partners arriving below read as
+  odd, and New Play already asks for the game and the partner.
 
 Home reads "last opened first": opening a Play (any of its pages)
 stamps `last_opened_at`, which is not a change to the Play (`updated_at`

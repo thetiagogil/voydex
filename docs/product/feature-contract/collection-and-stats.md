@@ -111,8 +111,14 @@ type, else the Play with the most time); then your team style (the types you
 pick as a ranked chart, old friends), the regions you've travelled and, last,
 where your time went (the top five, every Play in a dialog), since most Plays
 record no playtime. A Pokémon opens the shared species sheet in place, with
-"See in Collection". All of it is read from what you recorded; a new account
-says what fills in as it records more.
+"See in Collection". All of it is read from what you recorded. Every
+section is always on the page, from no Play at all, however small its
+numbers: one with nothing to show yet keeps its place and says what fills
+it (Most picked an open slot, Old friends six open places, the time ring
+empty at 0 hours), so the page never changes shape as you play. With no
+Play yet, the card that starts your first one sits under the band. A
+one-Play summary card and a separate empty state once stood in its place
+and were dropped (2026-11-22): they read as unfinished.
 
 The band opens on a trainer title, read from your Plays' rosters (every
 Pokémon on a roster counts, a dual type for both types). The first rule that

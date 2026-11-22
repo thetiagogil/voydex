@@ -1,15 +1,14 @@
 "use client";
 
-import { Link } from "@/shared/components/link";
 import { useRef, useState, type CSSProperties } from "react";
 
 import { appRoutes } from "@/config/routes";
+import { PlayRow } from "@/modules/mainline/shared/components/play-row";
 import type { StatsModel } from "@/modules/mainline/shared/data/stats-model";
 import {
   formatWholeHours,
   joinStatsList,
 } from "@/modules/mainline/shared/utils/stats-format";
-import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
@@ -64,8 +63,8 @@ type FocusProps = ReturnType<
 >;
 
 /*
- * One Play's time as a small card that opens the Play: colour dot, cover,
- * name, hours and share. Hovering it picks out its slice.
+ * One Play's time, as the row every list of Plays uses: its colour on the
+ * ring, hours and share. Hovering it picks out its slice.
  */
 const TimeCard = ({
   colour,
@@ -78,36 +77,26 @@ const TimeCard = ({
   isDimmed?: boolean;
   row: TimeRow;
 }) => (
-  <li style={colour} className="flex min-w-0">
-    <Link
-      href={appRoutes.mainlinePlay(row.playId)}
-      {...focusProps}
-      className={cn(
-        "tile-link focus-ring flex w-full min-w-0 items-center gap-3",
-        getHoverFocusClassName(isDimmed),
-      )}
-    >
-      <GameCover
-        alt=""
-        coverImageUrl={row.coverImageUrl}
-        gameName={row.gameName}
-        gameSlug={row.gameSlug ?? undefined}
-        size="row"
-      />
-      <span className="min-w-0 flex-1">
-        <span className="text-ink copy-strong block truncate">
-          {row.playName}
-        </span>
-        <span className="text-ink-2 copy-label flex items-center gap-1.5 tabular-nums">
-          <span
-            aria-hidden
-            className="size-2.5 shrink-0 rounded-full bg-(--slice)"
-          />
-          {formatWholeHours(row.minutes)} · {row.share}%
-        </span>
-      </span>
-    </Link>
-  </li>
+  <PlayRow
+    style={colour}
+    href={appRoutes.mainlinePlay(row.playId)}
+    linkProps={focusProps}
+    className={getHoverFocusClassName(isDimmed)}
+    play={{
+      gameName: row.gameName,
+      gameSlug: row.gameSlug,
+      name: row.playName,
+    }}
+    detail={
+      <>
+        <span
+          aria-hidden
+          className="size-2.5 shrink-0 rounded-full bg-(--slice)"
+        />
+        {formatWholeHours(row.minutes)} · {row.share}%
+      </>
+    }
+  />
 );
 
 /*
@@ -277,14 +266,11 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                       ),
                     )}
                   >
-                    <span className="text-ink-2 grid h-10 w-7.5 shrink-0 place-items-center">
-                      <AppIcon icon={appIcons.actions.next} size="md" />
-                    </span>
                     <span className="min-w-0 flex-1">
                       <span className="text-link copy-strong block truncate">
                         See all {stats.time.length} Plays
                       </span>
-                      <span className="text-ink-2 copy-label flex items-center gap-1.5 tabular-nums">
+                      <span className="text-ink-2 copy-meta flex items-center gap-1.5 tabular-nums">
                         <span
                           aria-hidden
                           className="bg-mute size-2.5 shrink-0 rounded-full"
@@ -292,16 +278,33 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                         {hidden.length} more · {formatWholeHours(otherMinutes)}
                       </span>
                     </span>
+                    <AppIcon
+                      icon={appIcons.actions.next}
+                      size="md"
+                      className="text-ink-3"
+                    />
                   </button>
                 </li>
               ) : null}
             </ul>
           </div>
         ) : (
-          <p className="text-ink-2 copy-note">
-            Add playtime in a Play&apos;s settings and this shows where your
-            hours go. It&apos;s optional. Everything else here works without it.
-          </p>
+          /* No playtime yet: the ring keeps its place, empty, beside how it fills. */
+          <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-8">
+            <TimeDonut
+              activeKey={null}
+              colours={[]}
+              getFocusProps={getFocusProps}
+              minutes={0}
+              otherMinutes={0}
+              rows={[]}
+            />
+            <p className="text-ink-2 copy-note max-w-md max-md:text-center">
+              Add playtime in a Play&apos;s settings and this shows where your
+              hours go. It&apos;s optional. Everything else here works without
+              it.
+            </p>
+          </div>
         )}
 
         {stats.time.length && untracked.length ? (

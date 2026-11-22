@@ -40,8 +40,9 @@ const Fact = ({
   className?: string;
   label: string;
 }) => {
+  /* One fact as a tile, the same tile an ability takes beside it. */
   return (
-    <div className={cn("min-w-0", className)}>
+    <div className={cn("tile min-w-0", className)}>
       <dt className="text-ink-2 copy-mark">{label}</dt>
       <dd className="copy-strong mt-0.5">{children}</dd>
     </div>
@@ -70,23 +71,15 @@ export const PokemonDetailTrainingCard = ({
 }: PokemonDetailTrainingCardProps) => {
   if (!training && note) {
     return (
-      <DetailSectionCard
-        id="training"
-        title="Training"
-        contentClassName="flex flex-1 flex-col"
-      >
-        <PokemonDetailMechanicNoteCard
-          arrivesHref={noteHref}
-          layout="fill"
-          note={note}
-        />
+      <DetailSectionCard id="training" title="Training">
+        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
       </DetailSectionCard>
     );
   }
 
   return (
     <DetailSectionCard id="training" title="Training">
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
+      <dl className="grid grid-cols-2 gap-2">
         {training?.evYield ? (
           <Fact label="EV yield">
             {training.evYield.length ? formatEvYield(training.evYield) : "None"}
@@ -156,16 +149,17 @@ const GenderRatio = ({
   const male = formatRatioPercent(ratio.malePercent);
   const female = formatRatioPercent(ratio.femalePercent);
 
+  /* The symbols say which is which, so each side is a symbol and a figure. */
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="flex items-center justify-between gap-3">
+      <span className="flex items-center justify-between gap-3 whitespace-nowrap">
         <span className="inline-flex items-center gap-1">
           <GenderIcon gender="male" />
-          {male}% male
+          {male}%<span className="sr-only"> male</span>
         </span>
         <span className="inline-flex items-center gap-1">
+          {female}%<span className="sr-only"> female</span>
           <GenderIcon gender="female" />
-          {female}% female
         </span>
       </span>
       <Meter
@@ -179,8 +173,8 @@ const GenderRatio = ({
 };
 
 /*
- * Eggs and gender, one fact a line. A game without eggs shows the note in
- * their place, keeping Gender where the game has it (Let's Go).
+ * Eggs and gender as fact tiles, like Training's. A game without eggs shows
+ * the note in their place, keeping Gender where the game has it (Let's Go).
  */
 export const PokemonDetailBreedingCard = ({
   eggCycles,
@@ -194,17 +188,13 @@ export const PokemonDetailBreedingCard = ({
     <DetailSectionCard
       id="breeding"
       title="Breeding"
-      contentClassName="flex flex-1 flex-col gap-3"
+      contentClassName="flex flex-col gap-2"
     >
       {note ? (
-        <PokemonDetailMechanicNoteCard
-          arrivesHref={noteHref}
-          layout={hasGender ? "row" : "fill"}
-          note={note}
-        />
+        <PokemonDetailMechanicNoteCard arrivesHref={noteHref} note={note} />
       ) : null}
       {!note || hasGender ? (
-        <dl className="grid grid-cols-1 gap-y-2">
+        <dl className="grid grid-cols-2 gap-2">
           {note ? null : (
             <>
               <Fact label="Egg groups">
@@ -214,7 +204,7 @@ export const PokemonDetailBreedingCard = ({
             </>
           )}
           {hasGender ? (
-            <Fact label="Gender">
+            <Fact label="Gender" className="col-span-2">
               <GenderRatio femaleRatioEighths={femaleRatioEighths} />
             </Fact>
           ) : null}

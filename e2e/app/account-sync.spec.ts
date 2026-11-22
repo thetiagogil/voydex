@@ -22,17 +22,44 @@ const rename = async (page: Page, name: string) => {
 /* The account's side of Supabase (data and files), not the app or login. */
 const accountRequests = /127\.0\.0\.1:54621\/(rest|storage)\//;
 
-/* Logs out, then logs in to a second, new account on the same device. */
-const switchAccount = async (page: Page, email: string) => {
+const askToLogOut = async (page: Page) => {
   await page.goto("/app/settings", { waitUntil: "networkidle" });
   await page
     .getByRole("region", { name: "Account" })
     .getByRole("button", { name: "Log out" })
     .click();
+
+  return page.getByRole("dialog", { name: "Log out?" });
+};
+
+/*
+ * Logs out with the account out of reach, so the last save can't go up and
+ * the device keeps its Plays, then logs in to a second, new account on the
+ * same device.
+ */
+const switchAccount = async (page: Page, email: string) => {
+  const question = await askToLogOut(page);
+
+  await page.route(accountRequests, (route) => route.abort());
+  await question.getByRole("button", { name: "Log out" }).click();
+
+  const stuck = page.getByRole("dialog", {
+    name: "Your latest changes aren't in your account yet",
+  });
+
+  await expect(stuck).toBeVisible(forTheAnswer);
+  await stuck
+    .getByRole("button", { name: "Log out and keep them here" })
+    .click();
   await page.waitForURL("**/login**");
+  await page.unroute(accountRequests);
   await createAccount(email);
   await logIn(page, email);
 };
+
+/* The step before the app, on a device with Plays made without an account. */
+const ownPlaysQuestion = (page: Page) =>
+  page.getByRole("region", { name: "This device already has Plays" });
 
 const otherPlaysQuestion = (page: Page) =>
   page.getByRole("dialog", {
@@ -75,6 +102,234 @@ test.describe("Account sync: backups that follow you between devices", () => {
     } finally {
       await other.close();
     }
+  });
+
+  test("logging out takes your Plays off this device, and logging in brings them back @phone", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const email = newTestEmail("clean");
+    const name = uniquePlayName("Mine");
+
+    await logInToNewAccount(page, email);
+    await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
+    await rename(page, "Sam");
+
+    /* No waiting for a sync: Log out saves to the account first. */
+    const question = await askToLogOut(page);
+
+    await expect(question).toBeVisible();
+    await expectAccessible(page);
+    await question.getByRole("button", { name: "Log out" }).click();
+    await page.waitForURL("**/login**");
+
+    /* Logged out is out of the app: Back home is the front page, as new. */
+    await page.getByRole("link", { name: "Back home" }).click();
+    await expect(
+      page.getByRole("link", { name: "Start a Play" }),
+    ).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+    await page
+      .getByRole("banner")
+      .getByRole("link", { name: "Log in" })
+      .click();
+
+    /* Without the account, the device is as new: no Play, no name. */
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await expect(
+      page.getByRole("heading", { name: "Your first Play starts here" }),
+    ).toBeVisible(forTheAnswer);
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
+    await expect(
+      page.getByRole("textbox", { name: "Display name" }),
+    ).toHaveValue("");
+
+    /* It survives a reload, and the front page has a Play to start. */
+    await page.goto("/#how-it-works");
+    await expect(
+      page.getByRole("link", { name: "Start a Play" }),
+    ).toBeVisible();
+
+    /* Logging in again brings everything back, and asks nothing. */
+    await logIn(page, email);
+    await page.waitForURL("**/app**");
+    await waitForSync(page);
+    await expect(otherPlaysQuestion(page)).toBeHidden();
+    await expect(
+      page.getByRole("textbox", { name: "Display name" }),
+    ).toHaveValue("Sam");
+    await page.goto("/app/plays");
+    await expect(page.getByText(name)).toBeVisible(forTheAnswer);
+  });
+
+  test("on a friend's device: their Plays stay out of your account and come back when you log out @phone", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const theirs = uniquePlayName("Friend");
+    const mine = uniquePlayName("Mine");
+
+    /* The friend plays without an account. */
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: theirs,
+      partner: null,
+    });
+
+    /* You log in on their device: a step before the app asks about their Plays. */
+    const email = newTestEmail("guest");
+
+    await createAccount(email);
+    await logIn(page, email);
+
+    const question = ownPlaysQuestion(page);
+
+    await expect(question).toBeVisible(forTheAnswer);
+    /* The step stands alone: no bars, and it shows what is on the device. */
+    await expect(page.getByRole("navigation")).toHaveCount(0);
+    await expect(
+      question.getByRole("list", { name: "Plays on this device" }),
+    ).toContainText(theirs);
+    await expectAccessible(page);
+
+    await question.getByRole("button", { name: "Keep them separate" }).click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await expect(page.getByRole("navigation").first()).toBeVisible(
+      forTheAnswer,
+    );
+    /* The app opens finished: Home is there with the bars, not still loading. */
+    expect(
+      await page
+        .getByRole("heading", { name: "Your first Play starts here" })
+        .count(),
+    ).toBe(1);
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeHidden();
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: mine,
+      partner: null,
+    });
+
+    /* You log out: yours leave, theirs are back as they were. */
+    const logOut = await askToLogOut(page);
+
+    await expect(logOut).toContainText("comes back now");
+    await logOut.getByRole("button", { name: "Log out" }).click();
+    await page.waitForURL("**/login**");
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+    await expect(page.getByText(mine)).toBeHidden();
+
+    /* And it survives a reload. */
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+  });
+
+  test("your own Plays made before logging in join your account when you add them, and stay on the device", async ({
+    browser,
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const name = uniquePlayName("Before");
+    const email = newTestEmail("owner");
+
+    await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
+    await createAccount(email);
+    await logIn(page, email);
+
+    const question = ownPlaysQuestion(page);
+
+    /* Adding can't be undone, so it asks once more. */
+    await question
+      .getByRole("button", { name: "Add them to my account" })
+      .click();
+    await question.getByRole("button", { name: "Yes, add them" }).click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await waitForSync(page);
+
+    const other = await browser.newContext({ storageState: signedOut });
+    const laptop = await other.newPage();
+
+    try {
+      await logIn(laptop, email);
+      await laptop.waitForURL("**/app**");
+      await waitForSync(laptop);
+      await laptop.goto("/app/plays");
+      await expect(laptop.getByText(name)).toBeVisible(forTheAnswer);
+    } finally {
+      await other.close();
+    }
+
+    /* Logging out deletes nothing of the device's own: the Play is still here. */
+    const logOut = await askToLogOut(page);
+
+    await logOut.getByRole("button", { name: "Log out" }).click();
+    await page.waitForURL("**/login**");
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(name)).toBeVisible(forTheAnswer);
+  });
+
+  test("Plays kept separate can still be added to the account later, from Settings", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const theirs = uniquePlayName("Kept");
+    const mine = uniquePlayName("Account");
+    const email = newTestEmail("later");
+
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: theirs,
+      partner: null,
+    });
+    await createAccount(email);
+    await logIn(page, email);
+
+    const question = ownPlaysQuestion(page);
+
+    await question.getByRole("button", { name: "Keep them separate" }).click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: mine,
+      partner: null,
+    });
+
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
+
+    const account = page.getByRole("region", { name: "Account" });
+
+    await expect(account).toContainText("Kept separate from your account");
+    await account.getByRole("button", { name: "Add to my account" }).click();
+    await page
+      .getByRole("dialog", { name: "Add this device's Plays to your account?" })
+      .getByRole("button", { name: "Add them" })
+      .click();
+    await expect(account).toContainText(
+      "A copy is in your account",
+      forTheAnswer,
+    );
+
+    /* Both are here now: the account's own and the device's. */
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+    await expect(page.getByText(mine)).toBeVisible(forTheAnswer);
   });
 
   test("asks which version to keep when both devices changed the same thing", async ({

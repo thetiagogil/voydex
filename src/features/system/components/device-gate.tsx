@@ -1,12 +1,11 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
-
-import { readInApp } from "@/config/front-door";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
 import { OldGameDataNotice } from "@/features/system/components/old-game-data-notice";
+import { isFirstSyncPending } from "@/platform/local-db/account-sync";
 import { watchBackgroundDownloads } from "@/platform/local-db/game-downloads";
 import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import {
@@ -18,64 +17,16 @@ import {
   useOpenLocalDb,
   type PreparePages,
 } from "@/platform/local-db/use-open-local-db";
-import { cn } from "@/shared/utils/cn";
 
 /*
- * The start screen and a device problem stand alone on the page: the app's
- * bars and its `main` come with the app, once the device is ready. The
- * start screen is the Dex booting, so it takes the Dex's red (`boot`); a
- * problem stays on the plain ground, where its actions read as usual.
+ * The start screen and a device problem stand alone on the wall: the app's
+ * bars and its `main` come with the app, once the device is ready.
  */
-const StartFrame = ({
-  boot = false,
-  children,
-}: {
-  boot?: boolean;
-  children: ReactNode;
-}) => (
-  <div
-    className={cn(
-      "flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10",
-      boot && "bg-action",
-    )}
-  >
+const StartFrame = ({ children }: { children: ReactNode }) => (
+  <div className="flex min-h-svh flex-col items-center justify-center px-(--page-gutter) py-10">
     {children}
   </div>
 );
-
-/* How long the Dex boots, at least, when you enter the app. */
-const bootHoldMs = 2000;
-
-/*
- * Entering the app (the first time on a device, or after leaving it) keeps
- * the start screen for two seconds even when the device is ready sooner, so
- * the Dex boots instead of flashing by. A device already in the app (a
- * reload, the installed app opening) gets no hold: it shows the app as soon
- * as it can. Answers whether the app may show.
- */
-const useBootHold = (opened: boolean) => {
-  const [released, setReleased] = useState(false);
-  const boot = useRef<{ entering: boolean; startedAt: number } | null>(null);
-
-  useEffect(() => {
-    boot.current ??= {
-      entering: !readInApp(),
-      startedAt: performance.now(),
-    };
-
-    if (!opened) return;
-
-    const { entering, startedAt } = boot.current;
-    const wait = entering
-      ? Math.max(0, bootHoldMs - (performance.now() - startedAt))
-      : 0;
-    const timer = window.setTimeout(() => setReleased(true), wait);
-
-    return () => window.clearTimeout(timer);
-  }, [opened]);
-
-  return opened && released;
-};
 
 /*
  * Opens the device database once per visit and shows the app under it when
@@ -104,10 +55,18 @@ export const DeviceGate = ({
   children: ReactNode;
   prepare?: PreparePages;
 }) => {
-  const { retry, startFresh, state } = useOpenLocalDb({ prepare });
+  /*
+   * Right after Log in the account's sync comes next and changes what the
+   * pages show: they are read once, after it, as the last step of the same
+   * bar, not here too.
+   */
+  const [withAccount] = useState(isFirstSyncPending);
+  const { retry, startFresh, state } = useOpenLocalDb({
+    prepare,
+    readPagesLater: withAccount,
+  });
 
   const opened = state.status === "open";
-  const open = useBootHold(opened);
 
   useEffect(listenForInstallPrompt, []);
   useEffect(() => (opened ? watchBackgroundDownloads() : undefined), [opened]);
@@ -115,15 +74,17 @@ export const DeviceGate = ({
   return (
     <Suspense
       fallback={
-        <StartFrame boot>
-          <DeviceStartState step={null} />
+        <StartFrame>
+          <DeviceStartState step={null} withAccount={withAccount} />
         </StartFrame>
       }
     >
-      {state.status === "opening" || (opened && !open) ? (
-        <StartFrame boot>
+      {state.status === "opening" ? (
+        <StartFrame>
           <DeviceStartState
-            step={state.status === "opening" ? state.step : null}
+            pages={state.pages}
+            step={state.step}
+            withAccount={withAccount}
           />
         </StartFrame>
       ) : state.status === "failed" ? (

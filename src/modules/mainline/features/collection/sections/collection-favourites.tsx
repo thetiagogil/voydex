@@ -23,7 +23,6 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PokemonCardLink } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -144,13 +143,14 @@ export const CollectionFavourites = ({
                       }
                     />
                   ) : (
-                    <PokemonCardLink
+                    <PokemonCollectorCard
+                      className="w-full"
                       detail="open in the Codex"
                       href={favourite.codexHref}
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      subtitle="Not on a team yet"
+                      note="Not on a team yet"
                       types={favourite.types}
                     />
                   )}

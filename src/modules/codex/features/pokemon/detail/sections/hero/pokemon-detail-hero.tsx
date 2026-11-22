@@ -94,7 +94,7 @@ export const PokemonDetailHero = ({
         name={name}
         type={typeSlug}
         preload
-        className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
+        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
         imageClassName="p-[9%]"
       />
 

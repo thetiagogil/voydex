@@ -19,21 +19,28 @@
     }
   }
 
+  /*
+   * The wall: the ground with a quiet grain of dots (a texture, not a fill),
+   * so white sections sit on something and never on plain white.
+   */
   body {
-    background: var(--bg);
+    background:
+      radial-gradient(circle at 14px 14px, var(--bg-dot) 0 2px, transparent 3px)
+        0 0 / 28px 28px,
+      var(--bg);
     color: var(--ink);
     font-family: var(--font-body);
     font-size: var(--text-15);
     line-height: 1.45;
   }
 
-  /* Fredoka is the app's voice for headings; Nunito does the work. */
+  /* Baloo 2 is the app's voice for headings; Nunito does the work. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
   :focus-visible {

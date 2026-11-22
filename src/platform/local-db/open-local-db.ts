@@ -62,6 +62,8 @@ const restoreIfDamaged = async (handle: LocalDbHandle, copy: Blob) => {
 
 let handle: LocalDbHandle | null = null;
 let opening: Promise<OpenedLocalDb> | null = null;
+/* What this visit has opened, once it has. */
+let openedNow: OpenedLocalDb | null = null;
 
 const open = async (
   onStep: (step: PrepareStep) => void,
@@ -118,13 +120,27 @@ const open = async (
 export const openLocalDb = (
   onStep: (step: PrepareStep) => void = () => undefined,
 ) => {
-  opening ??= open(onStep).catch((error: unknown) => {
-    opening = null;
-    throw error;
-  });
+  opening ??= open(onStep).then(
+    (opened) => {
+      openedNow = opened;
+
+      return opened;
+    },
+    (error: unknown) => {
+      opening = null;
+      throw error;
+    },
+  );
 
   return opening;
 };
+
+/*
+ * The database when this visit has already opened it, without waiting: a
+ * gate that mounts again (you left the app for the front page and came
+ * back) shows the app at once instead of its start screen. Null until then.
+ */
+export const readOpenedLocalDb = () => openedNow;
 
 /*
  * Asks for the game data version list again, for a visit that may have
@@ -152,6 +168,7 @@ export const startFreshLocalDb = async (
   await handle?.stop();
   handle = null;
   opening = null;
+  openedNow = null;
   await deleteLocalDb();
 
   return openLocalDb(onStep);

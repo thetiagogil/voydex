@@ -5,7 +5,7 @@ type SiteSectionHeadProps = {
   title: string;
 };
 
-/* A front page section's head: its Fredoka title and one paragraph. */
+/* A front page section's head: its Baloo 2 title and one paragraph. */
 export const SiteSectionHead = ({ id, text, title }: SiteSectionHeadProps) => (
   <header className="mb-5 sm:mb-7">
     <h2 id={id} className="title-page">

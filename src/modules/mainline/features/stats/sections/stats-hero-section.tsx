@@ -15,16 +15,12 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { appIcons } from "@/shared/components/app-icon";
 import { PageBand } from "@/shared/components/page-band";
 import { useFirstVisit } from "@/shared/hooks/use-first-visit";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
-import { iconDiscVariants } from "@/shared/components/icon-disc";
+import { StatTile } from "@/shared/components/stat-tile";
 
 type StatsHeroSectionProps = {
   onOpenPokemon: (pokemon: StatsMostPicked) => void;
@@ -38,42 +34,10 @@ const toTypeSlug = (slug: string): PokemonTypeSlug | null =>
 const fadeUpClassName =
   "group-data-first-visit/title:animate-fade-up motion-reduce:animate-none";
 
-/*
- * One figure under the title: big number, plain label, its icon. The label
- * comes first for the definition list and sits under the number on screen.
- */
-const Tile = ({
-  icon,
-  index,
-  label,
-  value,
-}: {
-  icon: AppIconComponent;
-  index: number;
-  label: string;
-  value: string;
-}) => (
-  <div
-    style={{ "--i": index } as CSSProperties}
-    className={cn(
-      "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-lg bg-white/60 py-3.5 pr-3.5 pl-4 [animation-delay:calc(900ms+var(--i)*60ms)] sm:pl-5",
-      fadeUpClassName,
-    )}
-  >
-    <dt className="text-ink-2 copy-note col-start-1 row-start-2 self-start">
-      {label}
-    </dt>
-    <dd className="figure col-start-1 row-start-1 self-end">{value}</dd>
-    <dd
-      aria-hidden
-      className={cn(
-        iconDiscVariants({ size: "xl", tone: "band" }),
-        "col-start-2 row-span-2 row-start-1",
-      )}
-    >
-      <AppIcon icon={icon} size="xl" />
-    </dd>
-  </div>
+/* The four figures under the title rise in one after another. */
+const figureClassName = cn(
+  "[animation-delay:calc(900ms+var(--i)*60ms)]",
+  fadeUpClassName,
 );
 
 /*
@@ -254,32 +218,44 @@ export const StatsHeroSection = ({
             />
           </div>
         </div>
-        <dl className="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
-          <Tile
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
+          <StatTile
+            ground="band"
+            size="lg"
             icon={appIcons.product.playtime}
-            index={0}
+            style={{ "--i": 0 } as CSSProperties}
+            className={figureClassName}
             label={hours === 1 ? "hour played" : "hours played"}
             value={String(hours)}
           />
-          <Tile
+          <StatTile
+            ground="band"
+            size="lg"
             icon={appIcons.product.game}
-            index={1}
+            style={{ "--i": 1 } as CSSProperties}
+            className={figureClassName}
             label={firstPlay ? `${playsLabel} since ${firstPlay}` : playsLabel}
             value={String(stats.playCount)}
           />
-          <Tile
+          <StatTile
+            ground="band"
+            size="lg"
             icon={appIcons.product.caught}
-            index={2}
+            style={{ "--i": 2 } as CSSProperties}
+            className={figureClassName}
             label="Pokémon met"
             value={String(stats.speciesCount)}
           />
-          <Tile
+          <StatTile
+            ground="band"
+            size="lg"
             icon={appIcons.product.shiny}
-            index={3}
+            style={{ "--i": 3 } as CSSProperties}
+            className={figureClassName}
             label={stats.shinyCount === 1 ? "shiny" : "shinies"}
             value={String(stats.shinyCount)}
           />
-        </dl>
+        </div>
       </div>
     </PageBand>
   );

@@ -36,15 +36,15 @@ export const ChoiceChip = ({
     type="button"
     aria-pressed={variant === "choice" ? pressed : undefined}
     className={cn(
-      "text-13 inline-flex items-center gap-1.5 rounded-full px-4 font-bold whitespace-nowrap transition-colors",
+      "text-13 inline-flex items-center gap-1.5 rounded-full border-[1.5px] border-transparent px-4 font-bold whitespace-nowrap transition-colors",
       size === "lg" ? "min-h-12" : "min-h-9",
       "focus-ring",
       "disabled:cursor-not-allowed disabled:opacity-50",
       variant === "add"
         ? "empty-slot text-ink-2 hover:bg-hover hover:text-ink"
         : pressed
-          ? "bg-select-soft bubble text-select-ink"
-          : "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink",
+          ? "bg-select-soft text-select-ink"
+          : "border-lip bg-surface text-ink-2 hover:bg-hover hover:text-ink",
       className,
     )}
     {...props}

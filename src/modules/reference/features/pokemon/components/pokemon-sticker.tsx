@@ -25,7 +25,7 @@ type StickerType = { name: string; slug: string };
  * Where a dragged Pokémon would land, on a tile that isn't a sticker (an open
  * slot, a plain card): the same accent ring `sticker-picked` puts round one.
  */
-export const dropTargetRingClassName = "ring-action ring-[2.5px]";
+export const dropTargetRingClassName = "ring-calm ring-[2.5px]";
 
 /* A picked sticker: its border in its type's colour, as a picked card's ring. */
 const pokemonStickerPickedClassName = "sticker-type-band";
@@ -156,10 +156,6 @@ export const PokemonSticker = ({
   const stickerClassName = cn(
     "group/sticker relative flex min-w-0 flex-col items-center rounded-lg px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     "sticker",
-    /* The target's ring takes the shadow's place. */
-    variant === "default" &&
-      !target &&
-      "[--sticker-shadow:var(--shadow-soft-value)]",
     selected && pokemonStickerPickedClassName,
     variantClassName.sticker,
     target && "sticker-picked",
@@ -186,7 +182,7 @@ export const PokemonSticker = ({
         <FallbackImage
           src={imageUrl}
           name={name}
-          className={variantClassName.art}
+          className={cn("sticker-art", variantClassName.art)}
         />
       </span>
       <span

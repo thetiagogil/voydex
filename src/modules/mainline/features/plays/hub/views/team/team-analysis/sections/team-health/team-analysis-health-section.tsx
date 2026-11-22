@@ -2,10 +2,12 @@ import { Fragment } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type {
+  TeamAnalysisHealthLinePart,
   TeamAnalysisHealthMetric,
   TeamAnalysisHealthStatus,
   TeamAnalysisHealthTip,
   TeamAnalysisTipRow,
+  TeamAnalysisVerdict,
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -155,6 +157,19 @@ const TeamHealthTip = ({
   </TipStack>
 );
 
+/* A line of words with a type shown as its dot and name. */
+const HealthLine = ({ parts }: { parts: TeamAnalysisHealthLinePart[] }) =>
+  parts.map((part, index) => (
+    <Fragment key={index}>
+      {index > 0 ? " " : null}
+      {"type" in part ? (
+        <TypeName size="sm" type={part.type} className="align-[-1px]" />
+      ) : (
+        part.text
+      )}
+    </Fragment>
+  ));
+
 const TeamAnalysisHealthCard = ({
   members,
   metric,
@@ -195,37 +210,37 @@ const TeamAnalysisHealthCard = ({
       </StatusBadge>
 
       <p className="text-13 text-ink-2 leading-normal font-medium">
-        {metric.line.map((part, index) => (
-          <Fragment key={index}>
-            {index > 0 ? " " : null}
-            {"type" in part ? (
-              <TypeName size="sm" type={part.type} className="align-[-1px]" />
-            ) : (
-              part.text
-            )}
-          </Fragment>
-        ))}
+        <HealthLine parts={metric.line} />
       </p>
     </Card>
   );
 };
 
 /*
- * How the team holds up, as four cards: a verdict each, backed by a line only
- * this team could have; why it reads that way is in the card's tooltip. A
- * note under them says when what the team leaves out makes it a rough read.
+ * How the team holds up: first one plain sentence and the one thing to do
+ * first, then four cards, a verdict each, backed by a line only this team
+ * could have; why it reads that way is in the card's tooltip. A note under
+ * them says when what the team leaves out makes it a rough read.
  */
 export const TeamAnalysisHealthSection = ({
   members,
   metrics,
   roughNote,
+  verdict,
 }: {
   members: MainlinePlayTeamMember[];
   metrics: TeamAnalysisHealthMetric[];
   roughNote: string | null;
+  verdict: TeamAnalysisVerdict | null;
 }) => {
   return (
     <div className="grid gap-3">
+      {verdict ? (
+        <p className="text-ink-2 copy-body max-w-3xl">
+          <b className="text-ink font-extrabold">{verdict.summary}</b>{" "}
+          <HealthLine parts={verdict.next} />
+        </p>
+      ) : null}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
         {metrics.map((metric) => (
           <TeamAnalysisHealthCard

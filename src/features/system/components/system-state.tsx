@@ -13,7 +13,7 @@ type SystemStateProps = {
 };
 
 /*
- * A page that has nothing to show (v3 `.nf`): centred, a Fredoka title, one
+ * A page that has nothing to show (v3 `.nf`): centred, a Baloo 2 title, one
  * sentence, at most two actions. The grass is EmptyState's small patch, not
  * the meadow.
  */

@@ -74,7 +74,7 @@ export const SlotPicker = ({
                     : slot.tone === "from"
                       ? /* Where a previewed move leaves: an emptied place, dashed. */
                         "bg-surface text-ink-2 border-mute border-dashed"
-                      : "bg-surface-2 text-ink-2 hover:bg-hover border-transparent",
+                      : "bg-surface text-ink-2 hover:bg-hover border-lip",
                 )}
               >
                 {slot.image ? (

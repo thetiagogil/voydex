@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { PGlite } from "@electric-sql/pglite";
 
 import {
+  clearAccountData,
   hasPlaysOrPlans,
   joinAccount,
   readDeviceSyncState,
@@ -513,6 +514,48 @@ describe("a device that joins an account", () => {
     await expect(
       readDeviceSyncState(laptop.db, accountB),
     ).resolves.toMatchObject({ restored: false });
+  });
+
+  it("logs out clean: the device is as new, and the account keeps everything", async () => {
+    const { account, backups } = createAccount();
+
+    await addPlay(phone.db, playId, "Phone run");
+    await phone.db.query(
+      "UPDATE public.profiles SET display_name = 'Sam' WHERE id = auth.uid()",
+    );
+    await syncAs(phone, accountA, account);
+
+    const uploads = backups.length;
+
+    await clearAccountData(phone.db);
+
+    /* Nothing of the account's is left, and it starts with a profile again. */
+    await expect(readPlayNames(phone.db)).resolves.toEqual([]);
+    await expect(hasPlaysOrPlans(phone.db)).resolves.toBe(false);
+    await expect(
+      phone.db.query<{ display_name: string | null }>(
+        "SELECT display_name FROM public.profiles",
+      ),
+    ).resolves.toMatchObject({ rows: [{ display_name: null }] });
+    /* Nothing counts as deleted, and it remembers no account. */
+    await expect(
+      phone.db.query("SELECT 1 FROM device.changes"),
+    ).resolves.toMatchObject({ rows: [] });
+    await expect(
+      readDeviceSyncState(phone.db, accountB),
+    ).resolves.toMatchObject({ otherAccount: false });
+
+    /* Logging in again brings it all back and takes nothing from the account. */
+    await syncAs(phone, accountA, account);
+    await expect(readPlayNames(phone.db)).resolves.toEqual(["Phone run"]);
+    await expect(
+      phone.db.query<{ display_name: string | null }>(
+        "SELECT display_name FROM public.profiles",
+      ),
+    ).resolves.toMatchObject({ rows: [{ display_name: "Sam" }] });
+    await syncAs(laptop, accountA, account);
+    await expect(readPlayNames(laptop.db)).resolves.toEqual(["Phone run"]);
+    expect(backups.length).toBeGreaterThanOrEqual(uploads);
   });
 
   it("waits for an answer when its Plays came from another account", async () => {

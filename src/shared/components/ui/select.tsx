@@ -52,8 +52,9 @@ const SelectValue = ({ className, ...props }: SelectPrimitive.Value.Props) => {
 };
 
 /*
- * `default` is a form field (the field look, 46px). `ghost` is v3's toolbar
- * select: the label in ink-2 with its chevron, no fill and no line. `card`
+ * `default` is a form field (the field look). `ghost` is the toolbar
+ * select: the label in ink-2 with its chevron, white with the thin outline
+ * of every quiet control. `card`
  * is a picker that is the page's subject, such as the Team Planner's game:
  * a white card on a soft shadow holding the caller's own content.
  */
@@ -67,11 +68,11 @@ const selectTriggerVariants = cva(
           "rounded-full pr-3 pl-4 hover:bg-hover aria-expanded:bg-hover data-placeholder:text-ink-3 data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
         ),
         ghost:
-          "rounded-full border-[1.5px] border-transparent bg-transparent px-3 text-ink-2 transition-colors hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink data-placeholder:text-ink-2 data-changed:bg-select-soft data-changed:text-select-ink data-changed:hover:bg-select-soft-hover data-changed:aria-expanded:bg-select-soft-hover data-changed:[&_svg]:text-select-ink",
-        card: "h-auto! min-h-16 gap-3 rounded-lg bg-surface px-3 py-2 text-left text-ink shadow-card transition-colors hover:bg-hover aria-expanded:bg-hover",
+          "rounded-full border-[1.5px] border-lip bg-surface px-3 text-ink-2 transition-colors hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink data-placeholder:text-ink-2 data-changed:bg-select-soft data-changed:text-select-ink data-changed:hover:bg-select-soft-hover data-changed:aria-expanded:bg-select-soft-hover data-changed:[&_svg]:text-select-ink",
+        card: "h-auto! min-h-16 gap-3 rounded-lg border-[1.5px] border-lip bg-surface px-3 py-2 text-left text-ink transition-colors hover:bg-hover aria-expanded:bg-hover",
         /* A white pill sitting on a picture, like the Shiny tag on art. */
         paper:
-          "rounded-full bg-white pr-3 pl-4 text-ink shadow-soft transition-colors hover:bg-hover aria-expanded:bg-hover data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
+          "rounded-full border-[1.5px] border-lip bg-surface pr-3 pl-4 text-ink transition-colors hover:bg-hover aria-expanded:bg-hover data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
       },
     },
     defaultVariants: {

@@ -30,8 +30,8 @@ type TrainerCardProps = {
 };
 
 /*
- * The trainer card: who you are in Voydex (You, Settings): a white card on
- * a soft shadow, its colour in your
+ * The trainer card: who you are in Voydex (You, Settings): a white section,
+ * flat like every other, its colour in your
  * disc alone (the soft red tint, as your icon on the top bar).
  */
 export const TrainerCard = ({
@@ -44,57 +44,67 @@ export const TrainerCard = ({
   name,
   size = "md",
   subtitle,
-}: TrainerCardProps) => (
-  <section
-    aria-label="Your trainer card"
-    className={cn(
-      "flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-6 sm:px-6.5 sm:pt-5.5 sm:pb-6",
-      icon || initial ? "bg-surface shadow-soft" : "bg-surface-2 shadow-soft",
-      className,
-    )}
-  >
-    {icon || initial ? (
-      <span
-        aria-hidden
-        style={icon ? getProfileIconTintStyle(icon.typeSlug) : undefined}
-        className={cn(
-          "font-display grid size-19 shrink-0 place-items-center overflow-hidden rounded-full border-4 border-white font-semibold sm:size-26",
-          icon ? "type-tint" : "bg-avatar text-avatar-ink",
-          "text-24 sm:text-32",
-        )}
-      >
-        {icon ? (
-          <FallbackImage
-            src={icon.url}
-            name={initial ?? icon.name}
-            className="size-full object-contain"
+}: TrainerCardProps) => {
+  const Name = size === "lg" ? "h1" : "p";
+
+  return (
+    <section
+      aria-label="Your trainer card"
+      className={cn(
+        /* White always: with no name yet only the disc and the name say so. */
+        "shadow-card bg-surface flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl px-5.5 pt-5 pb-6 sm:gap-x-6 sm:px-7.5 sm:pt-6.5 sm:pb-7",
+        className,
+      )}
+    >
+      {icon || initial ? (
+        <span
+          aria-hidden
+          style={icon ? getProfileIconTintStyle(icon.typeSlug) : undefined}
+          className={cn(
+            "font-display grid size-19 shrink-0 place-items-center overflow-hidden rounded-full border-4 border-white font-semibold sm:size-26",
+            icon ? "type-tint" : "bg-avatar text-avatar-ink",
+            "text-24 sm:text-32",
+          )}
+        >
+          {icon ? (
+            <FallbackImage
+              src={icon.url}
+              name={initial ?? icon.name}
+              className="size-full object-contain"
+            />
+          ) : (
+            initial
+          )}
+        </span>
+      ) : (
+        <span
+          aria-hidden
+          className="border-dash text-ink-3 grid size-19 shrink-0 place-items-center rounded-full border-3 border-dashed sm:size-26"
+        >
+          <AppIcon
+            icon={appIcons.product.trainer}
+            className="size-8 sm:size-9"
           />
-        ) : (
-          initial
-        )}
-      </span>
-    ) : (
-      <span
-        aria-hidden
-        className="border-dash text-ink-3 grid size-19 shrink-0 place-items-center rounded-full border-3 border-dashed sm:size-26"
-      >
-        <AppIcon icon={appIcons.product.trainer} className="size-8 sm:size-9" />
-      </span>
-    )}
-    <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-      {eyebrow ? <p className="text-select-ink copy-label">{eyebrow}</p> : null}
-      <p
-        className={cn(
-          size === "lg" ? "title-page sm:title-hero" : "title-section",
-          "wrap-anywhere",
-          !name && "text-ink-3",
-        )}
-      >
-        {name ?? "Your name"}
-      </p>
-      <p className="copy-meta text-ink-2">{subtitle}</p>
-    </div>
-    {aside ? <div className="w-full min-w-0 lg:w-auto">{aside}</div> : null}
-    {children ? <div className="w-full min-w-0">{children}</div> : null}
-  </section>
-);
+        </span>
+      )}
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+        {eyebrow ? (
+          <p className="text-select-ink copy-label">{eyebrow}</p>
+        ) : null}
+        {/* On Home the name is the page's heading; elsewhere the page has its own. */}
+        <Name
+          className={cn(
+            size === "lg" ? "title-page sm:title-hero" : "title-section",
+            "wrap-anywhere",
+            !name && "text-ink-3",
+          )}
+        >
+          {name ?? "Your name"}
+        </Name>
+        <p className="copy-meta text-ink-2">{subtitle}</p>
+      </div>
+      {aside ? <div className="w-full min-w-0 lg:w-auto">{aside}</div> : null}
+      {children ? <div className="w-full min-w-0">{children}</div> : null}
+    </section>
+  );
+};

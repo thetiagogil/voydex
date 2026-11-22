@@ -81,8 +81,8 @@ introduced in (a later `?form=` opens where that form can be found). It must:
 - use real heading hierarchy, keyboard-operable selectors, visible focus,
   labelled Shiny state, and non-color type and matchup meaning.
 
-As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
-Pokédex lists this species; picking one opens Add Pokémon over the entry on
+As built, a signed-in entry offers `Add to a Play` (a picker with a search, each Play
+with its game's cover, of your Plays whose Pokédex lists this species; picking one opens Add Pokémon over the entry on
 this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
 your rosters. The hero reads what the open game's Pokédex says about the

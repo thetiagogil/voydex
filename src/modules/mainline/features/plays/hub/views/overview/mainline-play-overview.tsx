@@ -100,7 +100,7 @@ export const MainlinePlayOverview = ({
           />
         ) : null}
         {/*
-         * Recent moments beside the Pokédex. A Play that tracks no Pokédex
+         * Latest moments beside the Pokédex. A Play that tracks no Pokédex
          * and has no collectibles draws no second card, so moments take the row.
          */}
         <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-6 *:only:lg:col-span-2">

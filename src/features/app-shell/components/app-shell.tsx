@@ -1,21 +1,17 @@
-import { appRoutes } from "@/config/routes";
 import { AppBarSections } from "@/features/app-shell/components/navigation/app-bar-sections";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
+import { LogOutDialog } from "@/features/app-shell/components/log-out-dialog";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
+import { SiteAccountAction } from "@/features/app-shell/components/navigation/site-account-action";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
 import { AppAccountProvider } from "@/features/app-shell/components/app-account-provider";
-import {
-  getBrandHref,
-  publicLinks,
-} from "@/features/app-shell/utils/app-navigation";
+import { publicLinks } from "@/features/app-shell/utils/app-navigation";
 import { AccountFoldsProvider } from "@/features/app-shell/components/account-folds-provider";
-import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { cn } from "@/shared/utils/cn";
-import { Link } from "@/shared/components/link";
 
 type AppShellProps = {
   /*
@@ -37,17 +33,15 @@ type AppShellProps = {
 };
 
 /*
- * The two bars. The app's: the V tile and the name (to Mainline Home),
+ * The two bars. The app's: the V tile and the name (out to the front page,
+ * as Leave the app goes),
  * Mainline's views and the Codex in the middle (Team Planner, Collection and
  * the Codex each open a menu of their pages), and your icon on the right;
  * on phones and tablets the views, the Codex and You move to a bottom bar.
  * The site's: the V tile with the name, How it works and Install (parts of
- * the front page), and Log in; on phones only the V tile and Log in. On the
- * front page and the log-in pages, which open on the red band, it is part
- * of the red: white words on the band's darker top. The site frame ends on
- * the site footer.
- * The bar is transparent: a page that opens on a band (`page-band`) runs it
- * edge to edge under the bar, which sits on the band's colour.
+ * the front page), and Log in (Open the app on a browser that is already
+ * logged in); on phones only the V tile and that button. Both
+ * sit on the red strip. The site frame ends on the site footer.
  */
 export const AppShell = ({
   bar = "full",
@@ -55,25 +49,6 @@ export const AppShell = ({
   frame = "site",
 }: AppShellProps) => {
   const isApp = frame === "app";
-  const onAction = bar === "front" || bar === "account";
-  const logIn = (
-    <Link
-      href={appRoutes.login}
-      className={buttonVariants(
-        onAction
-          ? { size: "sm", variant: "inverse" }
-          : {
-              className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-              /* Small, so it sits inside the bar's pill with room round it. */
-              size: "sm",
-              variant: "secondary",
-            },
-      )}
-    >
-      Log in
-    </Link>
-  );
-
   const frameTree = (
     <div
       className={cn(
@@ -84,10 +59,10 @@ export const AppShell = ({
       )}
     >
       {isApp ? <MotionPreferenceMark /> : null}
+      {isApp ? <LogOutDialog /> : null}
       {isApp ? (
         <AppNavbar
-          brandHref={getBrandHref(true)}
-          showName
+          leavesApp
           center={
             /* Every place you go together: the sections, then the Codex. */
             <AppBarSections className="hidden lg:flex" />
@@ -100,9 +75,6 @@ export const AppShell = ({
         />
       ) : bar === "none" ? null : (
         <AppNavbar
-          brandHref={getBrandHref(false)}
-          onAction={onAction}
-          showName
           center={
             <NavigationLinks
               ariaLabel="Main"
@@ -110,7 +82,7 @@ export const AppShell = ({
               className="hidden sm:flex"
             />
           }
-          end={bar === "account" ? null : logIn}
+          end={bar === "account" ? null : <SiteAccountAction />}
         />
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">

@@ -22,7 +22,7 @@ describe("SectionHead", () => {
     expect(html).toMatch(/<a[^>]*href="\/team"[^>]*>Open team/);
   });
 
-  it("is the head inside DetailSectionCard", () => {
+  it("is the head over DetailSectionCard's card", () => {
     const html = renderToStaticMarkup(
       <DetailSectionCard title="Stats" headingLevel={3}>
         Body
@@ -33,6 +33,8 @@ describe("SectionHead", () => {
     expect(html).toMatch(
       /<section aria-labelledby="([^"]+)"[\s\S]*<h3 id="\1"/,
     );
+    /* The title sits on the wall, never inside the card. */
+    expect(html.indexOf("<h3")).toBeLessThan(html.indexOf('data-slot="card"'));
   });
 });
 

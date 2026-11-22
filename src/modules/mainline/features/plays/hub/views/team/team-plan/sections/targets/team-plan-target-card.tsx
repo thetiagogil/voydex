@@ -52,7 +52,7 @@ export const TeamPlanTargetCard = ({
       style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
       className={cn(
         "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-lg px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-0.75",
-        owned && "sticker [--sticker-shadow:var(--shadow-soft-value)]",
+        owned && "sticker",
         !owned && found && "bg-surface border-line border",
         !found && "empty-slot",
       )}

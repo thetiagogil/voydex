@@ -62,25 +62,12 @@ import {
 } from "@/modules/reference/features/games/utils/game-display";
 import type { EggGroup, PokemonDetailData } from "@/modules/reference/types";
 import { PageBand } from "@/shared/components/page-band";
-import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailShellProps = {
   data: PokemonDetailData;
   scope: ResolvedPokemonDetailScope;
   /* The route's signed-in pieces: Add to a Play and In your Plays. */
   slots?: CodexPokemonEntrySlots;
-};
-
-/*
- * Abilities, Training and Breeding share one row on wide screens, Abilities
- * taking more of it the more abilities there are (one mini card each).
- * Tablets put Abilities on its own row above the other two.
- */
-const factsRowClassNames: Record<number, string> = {
-  0: "xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
-  1: "xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
-  2: "xl:grid-cols-[minmax(0,2.2fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
-  3: "xl:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
 };
 
 /* The form's training values as the open game reads them, with EVs only where it counts them. */
@@ -282,10 +269,8 @@ export const PokemonDetailShell = ({
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
         <div
-          className={cn(
-            "grid gap-6 *:h-full md:grid-cols-2",
-            factsRowClassNames[Math.min(abilitySlots.length, 3)],
-          )}
+          /* Three equal cards from 1280px; Abilities on its own row before. */
+          className="grid gap-6 *:h-full md:grid-cols-2 xl:grid-cols-3"
         >
           <div className="min-w-0 md:col-span-2 xl:col-span-1">
             <PokemonDetailAbilitiesCard

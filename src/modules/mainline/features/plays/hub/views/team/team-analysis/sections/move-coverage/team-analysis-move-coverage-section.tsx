@@ -109,7 +109,6 @@ export const TeamAnalysisMoveCoverageSection = ({
           types hit super effectively
         </>
       }
-      contentClassName="pt-2"
     >
       <ul
         aria-label="Move coverage by type"

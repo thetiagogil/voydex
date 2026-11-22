@@ -118,7 +118,7 @@ export const MainlinePlayRuleBreaks = ({
       <Badge
         variant="warn"
         size="md"
-        className="bg-surface shadow-card cursor-pointer"
+        className="bg-surface shadow-open cursor-pointer"
         render={
           <button
             type="button"

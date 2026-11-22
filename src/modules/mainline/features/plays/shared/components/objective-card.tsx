@@ -53,7 +53,7 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
 
 /*
  * The objective card (v3 `.cont`), Overview's next objective and Story's
- * panel: quiet, a Fredoka title over the page's main button, and an optional
+ * panel: quiet, a Baloo 2 title over the page's main button, and an optional
  * footer line at the bottom. Its heading names the region.
  */
 export const ObjectiveCard = ({

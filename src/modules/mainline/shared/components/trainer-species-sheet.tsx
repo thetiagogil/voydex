@@ -12,7 +12,7 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
-import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
+import { PlayRow } from "@/modules/mainline/shared/components/play-row";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -207,7 +207,7 @@ export const TrainerSpeciesSheet = ({
             style={getPokemonTypeCssVariables(primaryType)}
           >
             {now.map((member) => (
-              <TrainerPlayRow
+              <PlayRow
                 key={member.id}
                 detail={[
                   showsFamily
@@ -259,7 +259,7 @@ export const TrainerSpeciesSheet = ({
             style={getPokemonTypeCssVariables(primaryType)}
           >
             {before.map((past) => (
-              <TrainerPlayRow
+              <PlayRow
                 key={past.play.id}
                 detail={
                   showsFamily && past.member

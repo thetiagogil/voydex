@@ -222,6 +222,8 @@ export const prepareSnapshot = async (
   db: LocalDb,
   snapshot: VersionedSnapshot,
   ensureGame: (versionGroupId: number) => Promise<void>,
+  /* Told which games a round still needs, before it gets them. */
+  onNeeded?: (versionGroupIds: number[]) => void,
 ): Promise<VersionedSnapshot> => {
   const ensured = new Set<number>();
 
@@ -239,6 +241,8 @@ export const prepareSnapshot = async (
     const needed = readNeededVersionGroups(current.tables).filter(
       (versionGroupId) => !ensured.has(versionGroupId),
     );
+
+    onNeeded?.(needed);
 
     for (const versionGroupId of needed) {
       await ensureGame(versionGroupId);

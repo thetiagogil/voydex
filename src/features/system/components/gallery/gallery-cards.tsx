@@ -64,7 +64,7 @@ export const GalleryCards = () => {
       <GallerySection
         id="cards"
         title="Cards"
-        description="A card lifts on a soft shadow. Inside another card it goes flat."
+        description="A section is flat with a thin line. A card you can open has a small edge."
       >
         <GalleryGroup title="Card" columns={3}>
           <Specimen label="default" ground="ground" className="items-stretch">

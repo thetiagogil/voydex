@@ -26,12 +26,27 @@ describe("RecordRow on a timeline", () => {
     );
   });
 
-  it("keeps its medallion on the line unless it sits in a grid", () => {
+  it("keeps its medallion on the line below 1024px and inside the card from there", () => {
     const onLine = row();
-    const inGrid = row({ placement: "grid" });
 
-    expect(onLine).not.toContain("hidden lg:grid");
-    expect(inGrid).toContain("lg:hidden");
-    expect(inGrid).toContain("hidden lg:grid");
+    expect(onLine).toContain("lg:hidden");
+    expect(onLine).toContain("hidden lg:grid");
+  });
+
+  it("is the same card off a line, its medallion always inside", () => {
+    const card = row({ variant: "card" });
+
+    expect(card).not.toContain("lg:hidden");
+    expect(card).toContain("Boulder Badge");
+  });
+
+  it("takes a picture in the medallion's place", () => {
+    const card = row({
+      medallion: undefined,
+      picture: <span data-cover="gold" />,
+      variant: "card",
+    });
+
+    expect(card).toContain('data-cover="gold"');
   });
 });

@@ -261,6 +261,15 @@ export const getTrainerTitleReason = (title: TrainerTitle): StatsPhrase => {
         { text: "." },
       ];
     case "trainer":
+      /* No Play yet: nothing to count, only where it starts. */
+      if (!title.playCount) {
+        return [
+          { text: "Start your first Play and this page fills in as you " },
+          { strong: true, text: "record" },
+          { text: "." },
+        ];
+      }
+
       return [
         { strong: true, text: plural(title.playCount, "Play", "Plays") },
         { text: " and counting." },

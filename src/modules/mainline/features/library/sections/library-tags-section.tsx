@@ -11,7 +11,7 @@ import {
   renameLibraryTagAction,
 } from "@/modules/mainline/features/library/client/library-actions";
 import type { LibraryTag } from "@/modules/mainline/features/library/types";
-import { PaperTag } from "@/shared/components/paper-tag";
+import { TagLabel } from "@/shared/components/tag-label";
 import { EmptyState } from "@/shared/components/empty-state";
 
 type TagDialog =
@@ -46,12 +46,12 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
                 onClick={() => setDialog({ mode: "view", tag })}
                 className="focus-ring rounded-xs transition-[filter] hover:brightness-95"
               >
-                <PaperTag size="lg">
+                <TagLabel size="lg">
                   {tag.name}
                   <span className="text-ink-3 copy-meta tabular-nums">
                     {uses}
                   </span>
-                </PaperTag>
+                </TagLabel>
               </button>
             </li>
           );

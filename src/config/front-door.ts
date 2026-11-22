@@ -3,7 +3,8 @@ import { appRoutes } from "@/config/routes";
 /*
  * The front page is for people who are new here. A device that has opened
  * the app goes straight back in: `/` opens the app. Leave the app (the
- * account menu, You) brings the front page back until you continue from it,
+ * account menu, You, and the V in the app's bar) brings the front page back
+ * until you continue from it,
  * and a link that names a part of the front page (`/#how-it-works`) always
  * shows it. Your Plays stay on the device either way.
  */
@@ -13,6 +14,16 @@ const inApp = "1";
 /* Left the app: the front page shows, and offers Continue. */
 const leftApp = "left";
 
+/*
+ * Two more things the front page says to a device it knows, noted by the
+ * app because the front page opens neither the device's data nor the
+ * account: whether there is a Play here (its button reads Continue, not
+ * Start a Play) and whether this browser is logged in (its bar offers the
+ * app, not Log in).
+ */
+const hasPlaysKey = "voydex-has-plays";
+const signedInKey = "voydex-signed-in";
+
 const write = (value: string) => {
   try {
     window.localStorage.setItem(storageKey, value);
@@ -21,23 +32,39 @@ const write = (value: string) => {
   }
 };
 
-/* Marks this device as in the app; opening any app page does it. */
-export const rememberAppEntered = () => write(inApp);
-
-/* Leaves the app: the front page shows again until you continue from it. */
-export const leaveApp = () => write(leftApp);
-
-/*
- * Whether this device is in the app. Entering it (the first time, or after
- * leaving) is a moment of its own: the start screen takes its time then.
- */
-export const readInApp = () => {
+const writeNote = (key: string, on: boolean) => {
   try {
-    return window.localStorage.getItem(storageKey) === inApp;
+    if (on) window.localStorage.setItem(key, "1");
+    else window.localStorage.removeItem(key);
+  } catch {
+    /* Storage refused: the front page speaks as to a new device. */
+  }
+};
+
+const readNote = (key: string) => {
+  try {
+    return window.localStorage.getItem(key) !== null;
   } catch {
     return false;
   }
 };
+
+/* Notes whether this device holds a Play; the app does, after every save. */
+export const rememberHasPlays = (hasPlays: boolean) =>
+  writeNote(hasPlaysKey, hasPlays);
+
+/* Whether this device held a Play when the app last looked. */
+export const readHasPlays = () => readNote(hasPlaysKey);
+
+/* Notes whether this browser is logged in: on Log in, Log out and in the app. */
+export const rememberSignedIn = (signedIn: boolean) =>
+  writeNote(signedInKey, signedIn);
+
+/* Whether this browser was logged in when the app last looked. */
+export const readSignedIn = () => readNote(signedInKey);
+
+/* Marks this device as in the app; opening any app page does it. */
+export const rememberAppEntered = () => write(inApp);
 
 /* Whether this device has ever opened the app, in it now or not. */
 export const readAppEntered = () => {
@@ -46,6 +73,15 @@ export const readAppEntered = () => {
   } catch {
     return false;
   }
+};
+
+/*
+ * Leaves the app: the front page shows again until you continue from it. A
+ * device that has only browsed the Codex has nothing to leave, so its front
+ * page still says Start a Play.
+ */
+export const leaveApp = () => {
+  if (readAppEntered()) write(leftApp);
 };
 
 /*

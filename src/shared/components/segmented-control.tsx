@@ -59,6 +59,11 @@ type SegmentedControlProps<TValue extends string> = {
    * (a scope picker in a page head); from `sm` up it wraps in place.
    */
   phoneScroll?: boolean;
+  /*
+   * Every pill the same width, for a row of short marks that reads as a
+   * scale (the generations I to IX), so the row doesn't step in and out.
+   */
+  evenWidth?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
    * Both sizes are 36px tall from `sm` up and 40px on phones, so pills line
@@ -112,6 +117,7 @@ export const getSegmentedOptionState = <TValue extends string>(
 export const SegmentedControl = <TValue extends string>({
   ariaLabel,
   className,
+  evenWidth = false,
   fullWidth = false,
   iconOnly = false,
   onValueChange,
@@ -155,7 +161,10 @@ export const SegmentedControl = <TValue extends string>({
           size === "sm"
             ? "text-13 h-9 min-w-9 justify-center px-3 font-bold"
             : "text-13 h-9 px-4 font-bold",
-          variant === "pills" && !isActive && "bg-surface",
+          variant === "pills" &&
+            (isActive
+              ? "border-[1.5px] border-transparent"
+              : "border-lip bg-surface border-[1.5px]"),
           /*
            * With its 4px track a segment is one of the two control heights:
            * 48px like a field, or 36px (\`sm\`) like a pill.
@@ -163,15 +172,16 @@ export const SegmentedControl = <TValue extends string>({
           variant === "segment" && size === "md" && "h-10 px-3.5",
           variant === "segment" && size === "sm" && "h-7",
           iconOnly && "px-3.5 sm:px-3",
+          evenWidth && "w-12 justify-center px-0",
           fullWidth && "flex-1 justify-center",
           /*
-           * The pick is a small sticker: its fill in a white band. The
-           * weight never changes, so picking one doesn't shift its row.
+           * The pick is filled, with no band. The weight never changes, so
+           * picking one doesn't shift its row.
            */
           isActive
             ? selectedTone === "strong"
-              ? "bg-calm bubble text-white"
-              : "bg-select-soft bubble text-select-ink"
+              ? "bg-calm text-white"
+              : "bg-select-soft text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           /*

@@ -5,90 +5,76 @@
 
 /*
  * A reference card you don't own (a Codex Pokémon or game card): white with a
- * thin edge and no shadow, the same on the page and inside a section card.
- * The one surface for both; the white band is only for what is yours.
+ * thin line and the small edge of what you can open, the same on the wall
+ * and inside a section. The colour and the white band are only for what is
+ * yours.
  */
 @utility plain-card {
   background-color: var(--surface);
   border: 1px solid var(--line);
+  box-shadow: 0 3px 0 var(--line);
 }
 
 /*
- * An owned Pokémon's sticker surface: the type tint and a 4px white border on
- * a soft shadow. Set --t (neutral when it isn't set). Swap the shadow with
- * --sticker-shadow, or add `sticker-picked` to mark it as the target.
+ * An owned Pokémon's card: the whole card in its type's colour, a 3px white
+ * band, and the small solid edge of what you can open. Set --t (neutral
+ * when it isn't set). Swap the edge with --sticker-shadow, or add
+ * `sticker-picked` to mark it as the target.
  */
 @utility sticker {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 16%,
+    var(--t, var(--mute)) 20%,
     var(--surface)
   );
   /* The tint stops inside the band, so no coloured hairline shows round it. */
   background-clip: padding-box;
-  border: 4px solid var(--sticker-border, #fff);
-  box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
+  border: 3px solid var(--sticker-border, #fff);
+  box-shadow: var(--sticker-shadow, 0 3px 0 var(--lip));
+}
+
+/*
+ * The Pokémon on its card: a little larger than the pale circle behind it,
+ * standing out of its top, with a soft shadow of its own.
+ */
+@utility sticker-art {
+  transform: translateY(-9%) scale(1.14);
+  filter: drop-shadow(0 10px 5px rgb(var(--shade) / 0.32));
 }
 
 /*
  * A collector card: an owned Pokémon's card where you look at it as part of
  * a set. `card-frame` is the frame in its type's colour round the white
- * card; `card-window` is the tinted window its art stands in, with a thin
- * edge. Set --t (neutral when it isn't set).
+ * card, on the small edge of what you can open; `card-window` is the soft
+ * tinted block its art stands in. Set --t (neutral when it isn't set).
  */
 @utility card-frame {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 42%,
+    var(--t, var(--mute)) 30%,
     var(--surface)
   );
+  box-shadow: 0 3px 0
+    color-mix(in oklab, var(--t, var(--mute)) 34%, var(--line));
 }
 
 @utility card-window {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 26%,
+    var(--t, var(--mute)) 22%,
     var(--surface)
   );
-  box-shadow: inset 0 0 0 2px
-    color-mix(in oklab, var(--t, var(--mute)) 55%, var(--surface));
-}
 
-/*
- * A paper tag: a label tied to a thing (a Play's tag or rule), never a
- * control. It is pointed at the start, with the hole for its string.
- * `paper-tag-lift` goes on its wrapper: the clip would cut a shadow of its
- * own, so the wrapper casts it.
- */
-@utility paper-tag {
-  position: relative;
-  background-color: var(--surface-2);
-  padding-inline: 1.5rem 0.875rem;
-  clip-path: polygon(0.8125rem 0, 100% 0, 100% 100%, 0.8125rem 100%, 0 50%);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0.5625rem;
-    width: 0.4375rem;
-    height: 0.4375rem;
-    translate: 0 -50%;
-    border-radius: 50%;
-    background-color: var(--bg);
-    box-shadow: inset 0 1px 1px rgb(var(--shade) / 0.3);
+  & > img {
+    filter: drop-shadow(0 8px 4px rgb(var(--shade) / 0.3));
   }
-}
-
-@utility paper-tag-lift {
-  filter: drop-shadow(0 1px 0 rgb(var(--shade) / 0.12))
-    drop-shadow(0 2px 2px rgb(var(--shade) / 0.14));
 }
 
 /*
  * A tile: a block inside a card (a fact, a note, an ability), on the inset
- * fill with the tiles' corner and padding. `tile-link` is a tile you can
- * open (a row of a list inside a card), with the row hover. Screens never
+ * fill with the tiles' corner and padding. `tile-link` is a row you can
+ * open (a row of a list inside a card): white with the thin outline of
+ * every quiet control, so it never looks like a plain tile. Screens never
  * draw these by hand, so they always match.
  */
 @utility tile {
@@ -98,7 +84,9 @@
 }
 
 @utility tile-link {
-  background-color: var(--surface-2);
+  /* A row you can open: white with the thin outline of every quiet control. */
+  background-color: var(--surface);
+  box-shadow: inset 0 0 0 1.5px var(--lip);
   border-radius: var(--r-lg);
   padding: 0.625rem 0.75rem;
   min-height: 3.5rem;
@@ -119,7 +107,7 @@
  * own border, and a thin ring in the accent wraps it.
  */
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--action);
+  --sticker-shadow: 0 0 0 2.5px var(--calm);
 }
 
 /*
@@ -368,11 +356,10 @@
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
   /*
-   * The Dex's lights while it boots: each one flashes in its turn, a third of
-   * the cycle apart (`DexLights` sets the delay). `both` keeps a light dim
-   * while it waits for its first turn, so they never start all lit.
+   * The front page's shelf of games drifting by: two copies of the row slide
+   * one copy's width, so it never ends. Slow enough to read as a picture.
    */
-  --animate-dex-light: dex-light 1.2s ease-in-out infinite both;
+  --animate-shelf-drift: shelf-drift 160s linear infinite;
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {
@@ -403,15 +390,9 @@
     }
   }
 
-  @keyframes dex-light {
-    0%,
-    40%,
-    100% {
-      opacity: 0.18;
-    }
-    10%,
-    28% {
-      opacity: 1;
+  @keyframes shelf-drift {
+    to {
+      transform: translateX(-50%);
     }
   }
 
@@ -534,7 +515,7 @@
 }
 
 /*
- * The title steps (Fredoka, 600): every heading of 20px and up takes one of
+ * The title steps (Baloo 2, 700 and 800): every heading of 20px and up takes one of
  * them, so no page sizes its own. Each sets its size from the type scale,
  * its line height and tracking, and grows at 640px (and 1024px for display).
  *   title-display  a celebration or a front door: a trainer title, Welcome back
@@ -546,10 +527,10 @@
  */
 @utility title-display {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-36);
   line-height: 1.02;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 
   @media (width >= 40rem) {
     font-size: var(--text-52);
@@ -562,10 +543,10 @@
 
 @utility title-hero {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-36);
   line-height: 1.04;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.005em;
 
   @media (width >= 40rem) {
     font-size: var(--text-48);
@@ -574,10 +555,10 @@
 
 @utility title-page {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--text-28);
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 
   @media (width >= 40rem) {
     font-size: var(--text-36);
@@ -586,31 +567,27 @@
 
 @utility title-section {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--text-24);
+  font-weight: 800;
+  font-size: var(--text-20);
   line-height: 1.15;
-  letter-spacing: -0.015em;
+  letter-spacing: 0;
 
   @media (width >= 40rem) {
-    font-size: var(--text-28);
+    font-size: var(--text-22);
   }
 }
 
 @utility title-card {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--text-20);
   line-height: 1.2;
-  letter-spacing: -0.01em;
-
-  @media (width >= 40rem) {
-    font-size: var(--text-24);
-  }
+  letter-spacing: 0;
 }
 
 @utility figure {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--text-32);
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -679,7 +656,7 @@
 
 /*
  * Room for descenders under clipped display text (a truncated or clamped
- * Fredoka title, whose tight line height cuts a g or y): a little padding
+ * Baloo 2 title, whose tight line height cuts a g or y): a little padding
  * below, taken back by the margin so the layout doesn't move.
  */
 @utility descender-room {

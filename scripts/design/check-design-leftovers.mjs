@@ -95,7 +95,7 @@ const retired = [
 const sourceRules = [
   {
     label:
-      "a white band sized by hand (controls and corner marks take the --band token)",
+      "a white band sized by hand (controls wear no band; corner marks take bubble)",
     pattern:
       /\b(?:border|ring)-[1-9](?:\.\d+)?\s+(?:border|ring)-white\b|\b(?:border|ring)-white\s+(?:border|ring)-[1-9]\b|0_0_0_[\d.]+px_#fff/,
     /*
@@ -134,13 +134,24 @@ const sourceRules = [
   },
   {
     label:
-      "hard lip under a surface (lift it with a soft shadow; buttons take the sticker edge)",
+      "an edge drawn by hand (a card you can open takes shadow-open, sticker, plain-card or card-frame)",
     pattern: /(?:shadow-\[|,)0_[1-9][\d.]*px_0(?:_|,|\])/,
   },
   {
-    label: "retired lip token (use shadow-card, shadow-soft or shadow-button)",
+    label: "retired lip token (use shadow-card, shadow-open or shadow-button)",
     pattern:
       /\bshadow-(?:quiet|action|game)\b|--shadow-quiet-value|--clay-edge|--sticker-lip/,
+  },
+  {
+    label:
+      "a band on a pick (a selected tab, chip or segment is filled, with no bubble)",
+    pattern:
+      /\bbg-(?:calm|select-soft)\s+bubble\b|\bbubble\s+bg-(?:calm|select-soft)\b/,
+    /* Marks on a card (the picked tick, a fold's dot) keep their band. */
+    allow: [
+      path.join("src", "shared", "components", "picked-mark.tsx"),
+      path.join("src", "shared", "components", "fold.tsx"),
+    ],
   },
   {
     label: "a press that moves (buttons settle onto what they sit on)",

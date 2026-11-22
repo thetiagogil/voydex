@@ -87,7 +87,12 @@ export const legalTexts: Record<LegalPageKind, LegalText> = {
                 from which IP address, to keep accounts safe.
               </li>
             </ul>
-            <p>Logging out leaves your data on the device.</p>
+            <p>
+              Logging out saves to your account one last time, then removes your
+              account&apos;s data from the device. What the device had before
+              you logged in stays on it: Voydex never sends it to your account
+              unless you choose to add it.
+            </p>
           </>
         ),
       },

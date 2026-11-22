@@ -7,8 +7,12 @@ import type { ReactNode } from "react";
  * 36px like every small control. The height is forced so a select
  * trigger's own field heights never win.
  */
+/*
+ * A picker at the end of the path reads as the link beside it with a
+ * chevron, never as a button: no fill, no line, the path's own size.
+ */
 export const codexHeadPickerTriggerClassName =
-  "copy-strong text-ink hover:text-ink h-9! max-w-full gap-1 rounded-full px-2.5";
+  "copy-label! text-ink-2 hover:text-ink h-auto! max-w-full gap-1 rounded-xs border-transparent! bg-transparent! px-1 py-0.5 underline-offset-3 hover:bg-transparent! hover:underline aria-expanded:bg-transparent!";
 
 export type CodexCrumb = {
   /* Omitted on the last step, the page you're on. */

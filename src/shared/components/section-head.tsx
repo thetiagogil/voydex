@@ -52,7 +52,7 @@ export type SectionHeadProps = {
 };
 
 /*
- * A section's head (v3 `.sec-head`): a Fredoka title, an inline aside and a
+ * A section's head (v3 `.sec-head`): a Baloo 2 title, an inline aside and a
  * trailing "more" link or action. Used on the page ground above a grid, and
  * inside `DetailSectionCard`.
  */

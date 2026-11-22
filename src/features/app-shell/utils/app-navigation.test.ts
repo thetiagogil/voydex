@@ -5,7 +5,6 @@ import {
   appBarItems,
   codexLink,
   codexViewLinks,
-  getBrandHref,
   isCurrentBarItem,
   isCurrentBarView,
   isCurrentLink,
@@ -81,11 +80,6 @@ describe("app navigation", () => {
     expect(isYouCurrent("/app/you")).toBe(true);
     expect(isYouCurrent("/app/settings")).toBe(true);
     expect(isYouCurrent("/app/plays")).toBe(false);
-  });
-
-  it("sends the V tile to Mainline in the app and the front page on the site", () => {
-    expect(getBrandHref(true)).toBe("/app");
-    expect(getBrandHref(false)).toBe("/");
   });
 
   it("links the site's bar to the front page's parts", () => {

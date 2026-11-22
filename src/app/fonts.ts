@@ -1,9 +1,9 @@
 import { Nunito } from "next/font/google";
 
 /*
- * Nunito is everything you operate. Fredoka (headings and names) loads from
- * Google Fonts in globals.css: next/font's Turbopack build on Vercel can't
- * resolve Fredoka's font files.
+ * Nunito is everything you operate. Baloo 2 (headings and names) loads
+ * from Google Fonts in globals.css, as Fredoka did before it: next/font's
+ * Turbopack build on Vercel couldn't resolve that family's font files.
  */
 export const nunito = Nunito({
   subsets: ["latin", "latin-ext"],

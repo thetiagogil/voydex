@@ -5,9 +5,7 @@ import type {
 import { OpponentAvatar } from "@/modules/reference/features/trainers/components/opponent-avatar";
 import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { SectionHead } from "@/shared/components/section-head";
-import { cardVariants } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type GameDetailRegionSectionProps = {
   data: CodexGameDetailData;
@@ -49,11 +47,11 @@ const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
 );
 
 /*
- * v3's world card: the region the picked game is set in, in a few lines,
- * with its first partners beside it, then the leaders you battle on the way
- * to the Champion, each with the ace of your first battle and where you
- * face them. A game without them (the Legends games) leaves the leaders
- * out.
+ * The region the picked game is set in, in a few lines, with its first
+ * partners beside it; then, as a section of their own, the leaders you
+ * battle on the way to the Champion, each with the ace of your first battle
+ * and where you face them. A game without them (the Legends games) leaves
+ * the leaders out.
  */
 export const GameDetailRegionSection = ({
   data,
@@ -61,23 +59,19 @@ export const GameDetailRegionSection = ({
   const { firstPartners, leaders, version } = data;
 
   return (
-    <section
-      data-slot="card"
-      aria-labelledby="game-region-title"
-      className={cn(cardVariants(), "mt-8 gap-0 sm:mt-10")}
-    >
-      <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
-        <div className="min-w-0">
-          <p className="copy-label text-ink-2">The region</p>
-          <h2 id="game-region-title" className="title-page mt-0.5 mb-3">
-            {version.region?.name ?? "Region"}
-          </h2>
-          {version.region ? (
-            <p className="copy-body text-ink-2 max-w-[60ch]">
-              {version.region.description}
-            </p>
-          ) : null}
-        </div>
+    <>
+      <DetailSectionCard
+        title={
+          version.region ? `The ${version.region.name} region` : "The region"
+        }
+        className="mt-8 sm:mt-10"
+        contentClassName="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-8"
+      >
+        {version.region ? (
+          <p className="copy-body text-ink-2 max-w-[60ch]">
+            {version.region.description}
+          </p>
+        ) : null}
 
         {firstPartners.pokemon.length ? (
           <div className="min-w-0">
@@ -104,27 +98,24 @@ export const GameDetailRegionSection = ({
             </ul>
           </div>
         ) : null}
-      </div>
+      </DetailSectionCard>
 
       {leaders.length ? (
-        <div className="mt-8">
-          <SectionHead
-            title={getLeadersTitle(leaders)}
-            titleId="game-leaders-title"
-            aside="In the order you meet them, with the ace of your first battle"
-            headingLevel={3}
-            titleClassName="text-20"
-          />
+        <DetailSectionCard
+          title={getLeadersTitle(leaders)}
+          aside="In the order you meet them, with the ace of your first battle"
+          className="mt-8 sm:mt-10"
+        >
           <ul
-            aria-labelledby="game-leaders-title"
-            className="mt-4 grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9"
+            aria-label={getLeadersTitle(leaders)}
+            className="grid grid-cols-3 gap-x-2 gap-y-4 sm:grid-cols-5 lg:grid-cols-9"
           >
             {leaders.map((leader) => (
               <LeaderTile key={leader.key} leader={leader} />
             ))}
           </ul>
-        </div>
+        </DetailSectionCard>
       ) : null}
-    </section>
+    </>
   );
 };

@@ -6,7 +6,7 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * A Play card's words, the same on the Plays list and the Archived list: the
- * game and region eyebrow, the Play's name in Fredoka (`title`, which may be
+ * game and region eyebrow, the Play's name in Baloo 2 (`title`, which may be
  * a link) and one line under it.
  */
 export const PlayCardHeading = ({

@@ -26,20 +26,24 @@ export const menuSheetBackdropClassName =
 /* The panel: the surface with its inner padding. */
 export const menuPanelClassName = `${menuSurfaceClassName} p-1.5`;
 
-/* An option row's shape, shared by items and the bar's menu links. */
+/*
+ * An option row's shape, shared by items and the bar's menu links. Its
+ * corner is the panel's own (24px) less the panel's padding (6px), so a lit
+ * row follows the panel's curve instead of cutting across it.
+ */
 export const menuOptionShapeClassName =
-  "flex min-h-12 items-center gap-3 rounded-sm py-1.5 pl-2 copy-strong";
+  "flex min-h-12 items-center gap-3 rounded-[1.125rem] py-1.5 pl-2 copy-strong";
 
 /* One option's row. Items mark the highlighted and the picked option. */
 export const menuOptionClassName = `${menuOptionShapeClassName} relative w-full scroll-my-1.5 max-md:scroll-my-4 cursor-default pr-10 outline-hidden select-none transition-colors data-highlighted:bg-hover data-highlighted:text-ink data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0`;
 
 /*
  * The picked option, where the item marks it with `data-selected`: the soft
- * tint with an action-red edge inside it, so the pick has a shape and not
- * only a colour (a select shows no check).
+ * blue tint with a blue edge inside it, so the pick has a shape and not only
+ * a colour (a select shows no check). Blue on blue: red is for actions.
  */
 export const menuOptionSelectedClassName =
-  "data-selected:bg-select-soft data-selected:text-select-ink data-selected:shadow-[inset_0_0_0_1.5px_var(--action)] data-selected:data-highlighted:bg-select-soft data-selected:data-highlighted:text-select-ink";
+  "data-selected:bg-select-soft data-selected:text-select-ink data-selected:shadow-[inset_0_0_0_1.5px_var(--calm)] data-selected:data-highlighted:bg-select-soft data-selected:data-highlighted:text-select-ink";
 
 /* Where the check sits at the end of the picked option's row. */
 export const menuCheckClassName =

@@ -8,6 +8,7 @@ import type {
   StatsModel,
   StatsMostPicked,
 } from "@/modules/mainline/shared/data/stats-model";
+import { FirstPlayStart } from "@/modules/mainline/features/plays/shared/components/first-play-start";
 import { StatsHeroSection } from "@/modules/mainline/features/stats/sections/stats-hero-section";
 import { StatsRegionsSection } from "@/modules/mainline/features/stats/sections/stats-regions-section";
 import { StatsStyleSection } from "@/modules/mainline/features/stats/sections/stats-style-section";
@@ -19,8 +20,9 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 
 /*
- * Statistics with a few Plays: the band, your team style, the regions and,
- * last, where your time went (most Plays have none recorded). An old friend
+ * Statistics: the band, your team style, the regions and, last, where your
+ * time went (most Plays have none recorded). Every section is always
+ * there; with nothing to show yet it keeps its place and says what fills it. An old friend
  * opens its family's sheet here, and each of them its own, with a way on to
  * the Collection.
  */
@@ -48,6 +50,8 @@ export const StatsBoard = ({ stats }: { stats: StatsModel }) => {
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
       <StatsHeroSection onOpenPokemon={openPokemon} stats={stats} />
+      {/* No Play yet: the way to start one, as on Home and the Plays list. */}
+      {stats.playCount ? null : <FirstPlayStart />}
       <StatsStyleSection
         onOpenFriend={openFriend}
         onOpenPokemon={openPokemon}

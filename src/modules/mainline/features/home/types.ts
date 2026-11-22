@@ -1,28 +1,9 @@
-import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import type {
   MainlinePlayTimelineEvent,
-  NewPlayPickerData,
   PlayBrowseItem,
 } from "@/modules/mainline/features/plays/shared/types";
 import type { FavouritePokemon } from "@/modules/mainline/shared/data/favourite-pokemon-model";
-import type {
-  StatsCover,
-  StatsTypeTally,
-} from "@/modules/mainline/shared/data/stats-model";
-import type { GameStarter } from "@/modules/reference/features/games/types";
-
-/* A brand-new Play's partner milestone, waiting for you to tap your partner. */
-export type HomePartnerChoice = {
-  options: { decisionOptionId: number; starter: GameStarter }[];
-  playId: string;
-};
-
-/* A brand-new first Play on Home's band. */
-export type HomeBand = {
-  /* Its partner milestone, while it waits for the tap. */
-  partnerChoice: HomePartnerChoice | null;
-  play: HomePlay;
-};
+import type { StatsCover } from "@/modules/mainline/shared/data/stats-model";
 
 /* One of the latest moments, with the Play it was recorded in. */
 export type HomeMoment = {
@@ -53,26 +34,15 @@ export type HomeProfile = {
   moments: HomeMoment[];
   /* Your trainer title, such as "Region Hopper". */
   title: string;
-  /* The types on your teams, most used first. */
-  types: StatsTypeTally[];
 };
 
-export type HomePageData =
-  | {
-      displayName: string | null;
-      kind: "empty";
-      picker: NewPlayPickerData;
-    }
-  | {
-      /* The trainer's only Play, which has only just started (v3 `homefirst`). */
-      band: HomeBand;
-      displayName: string | null;
-      kind: "first";
-    }
-  | {
-      displayName: string | null;
-      /* The Play you're on: the one `?play=` names, else the latest underway. */
-      journey: PlayBrowseItem;
-      kind: "plays";
-      profile: HomeProfile;
-    };
+/* Home: your trainer profile, and the Play you're on. */
+export type HomePageData = {
+  displayName: string | null;
+  /*
+   * The Play you're on: the one `?play=` names, else the latest underway.
+   * Null with no Play yet: the same Home, empty, with the way to start one.
+   */
+  journey: PlayBrowseItem | null;
+  profile: HomeProfile;
+};

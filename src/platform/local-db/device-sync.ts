@@ -7,6 +7,7 @@ import {
   IdChangeError,
   type VersionedSnapshot,
 } from "@/platform/local-db/id-changes";
+import { localUserId } from "@/platform/local-db/device-schema";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import {
   mergeSnapshots,
@@ -24,7 +25,10 @@ import {
   SyncMovedOnError,
   type DeviceSnapshot,
 } from "@/platform/local-db/sync-snapshot";
-import { readNeededVersionGroups } from "@/platform/local-db/user-data";
+import {
+  readNeededVersionGroups,
+  replaceUserData,
+} from "@/platform/local-db/user-data";
 
 /*
  * One sync between this device and its account, whatever holds the
@@ -65,6 +69,16 @@ export type SyncState = {
   /* A restored file waits to replace the account's data. */
   restored: boolean;
 };
+
+/*
+ * How far a sync has got, for a screen that waits on it: reading the
+ * account's backup, getting the games its Plays need (how many of how
+ * many), then putting the data in place.
+ */
+export type SyncProgress =
+  | { step: "reading" }
+  | { done: number; step: "games"; total: number }
+  | { step: "applying" };
 
 export type SyncOutcome =
   /* Nothing new on either side. */
@@ -112,16 +126,41 @@ export const syncDevice = async (
   {
     account,
     choices = {},
-    ensureGame,
+    ensureGame: ensureGameData,
+    onProgress,
     state,
   }: {
     account: AccountBackups;
     choices?: MergeChoices;
     /* Downloads a game the merged Plays or Plans need. */
     ensureGame: (versionGroupId: number) => Promise<void>;
+    onProgress?: (progress: SyncProgress) => void;
     state: SyncState;
   },
 ): Promise<SyncOutcome> => {
+  /* Each game counted once, however many rounds ask for it. */
+  const games = new Set<number>();
+  const gamesDone = new Set<number>();
+  const reportGames = () =>
+    onProgress?.({
+      done: gamesDone.size,
+      step: "games",
+      total: games.size,
+    });
+  const onNeeded = (versionGroupIds: number[]) => {
+    for (const id of versionGroupIds) games.add(id);
+
+    if (games.size) reportGames();
+  };
+  const ensureGame = async (versionGroupId: number) => {
+    games.add(versionGroupId);
+    await ensureGameData(versionGroupId);
+    gamesDone.add(versionGroupId);
+    reportGames();
+  };
+
+  onProgress?.({ step: "reading" });
+
   const remoteId = await account.latestId();
 
   if (state.restored) {
@@ -149,6 +188,7 @@ export const syncDevice = async (
       db,
       remote.snapshot,
       ensureGame,
+      onNeeded,
     );
 
     if (remoteSnapshot.idChanges !== local.idChanges) {
@@ -170,12 +210,15 @@ export const syncDevice = async (
       };
     }
 
-    for (const versionGroupId of readNeededVersionGroups(
-      result.snapshot.tables,
-    )) {
+    const needed = readNeededVersionGroups(result.snapshot.tables);
+
+    onNeeded(needed);
+
+    for (const versionGroupId of needed) {
       await ensureGame(versionGroupId);
     }
 
+    onProgress?.({ step: "applying" });
     await applySyncSnapshot(
       db,
       {
@@ -294,6 +337,12 @@ export type DeviceSyncState = SyncState & {
    * `takeAccountData`).
    */
   otherAccount: boolean;
+  /*
+   * The device has never synced with any account: data of its own was
+   * made without one, and waits for you to add it to this account or keep
+   * it separate (`joinAccount`, `setOwnDataAside`).
+   */
+  unjoined: boolean;
 };
 
 /*
@@ -317,6 +366,7 @@ export const readDeviceSyncState = async (
       backupId: row.backup_id,
       otherAccount: false,
       restored: row.restored,
+      unjoined: false,
     };
   }
 
@@ -324,7 +374,33 @@ export const readDeviceSyncState = async (
     backupId: null,
     otherAccount: Boolean(row?.account_id),
     restored: false,
+    unjoined: !row?.account_id,
   };
+};
+
+/*
+ * Whether this device holds anything of its own worth asking about before
+ * it joins an account: a Play, a Plan, a favourite, a tag, a rule or a rule
+ * set of yours, a game on your shelf, or a name or icon you chose. Settings
+ * alone aren't.
+ */
+export const hasOwnData = async (db: LocalDb) => {
+  const [row] = await runQuery<{ found: boolean }>(
+    db,
+    `SELECT EXISTS (SELECT 1 FROM gameplay.mainline_plays)
+       OR EXISTS (SELECT 1 FROM planning.mainline_team_plans)
+       OR EXISTS (SELECT 1 FROM gameplay.user_favourite_pokemon)
+       OR EXISTS (SELECT 1 FROM gameplay.user_game_library_entries)
+       OR EXISTS (SELECT 1 FROM public.tags)
+       OR EXISTS (SELECT 1 FROM gameplay.mainline_challenge_rules
+         WHERE user_id IS NOT NULL)
+       OR EXISTS (SELECT 1 FROM gameplay.mainline_challenge_rule_sets
+         WHERE user_id IS NOT NULL)
+       OR EXISTS (SELECT 1 FROM public.profiles
+         WHERE display_name IS NOT NULL OR icon_form_id IS NOT NULL) AS found`,
+  );
+
+  return row?.found ?? false;
 };
 
 /* Whether this device holds any Plays or Plans: what is worth asking about. */
@@ -342,9 +418,39 @@ export const hasPlaysOrPlans = async (db: LocalDb) => {
  * "Add them": this device's data joins `accountId`. None of it counts as
  * synced, so the next sync merges all of it with the account's.
  */
-export const joinAccount = async (db: LocalDb, accountId: string) => {
+export const joinAccount = async (
+  db: LocalDb,
+  accountId: string,
+  {
+    alreadyIn = false,
+    profileFromAccount = false,
+  }: {
+    /*
+     * This data was added to this same account before (a copy of it is in
+     * the account), so what the account already has of it counts as synced:
+     * the account's later changes to it come down, with no question.
+     */
+    alreadyIn?: boolean;
+    /*
+     * The account's name, icon and settings win over the device's, with no
+     * question: adding a device's Plays to your account never touches who
+     * you are in it.
+     */
+    profileFromAccount?: boolean;
+  } = {},
+) => {
   await db.transaction(async (tx) => {
-    await tx.exec("UPDATE device.changes SET base_changed_at = NULL");
+    if (profileFromAccount) {
+      /* With no record of a change, the device's values give way in the merge. */
+      await tx.query("DELETE FROM device.changes WHERE table_name = ANY ($1)", [
+        [...profileTables],
+      ]);
+    }
+
+    if (!alreadyIn) {
+      await tx.exec("UPDATE device.changes SET base_changed_at = NULL");
+    }
+
     await tx.query(
       `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
        VALUES ($1, NULL, NULL, FALSE)
@@ -355,8 +461,11 @@ export const joinAccount = async (db: LocalDb, accountId: string) => {
   });
 };
 
+/* Who you are, not what you played: your name, icon and settings. */
+const profileTables = new Set(["public.profiles", "public.user_preferences"]);
+
 /* Your name, icon and settings stay when the rest is left out. */
-const keptOnLeaving = new Set(["public.profiles", "public.user_preferences"]);
+const keptOnLeaving = profileTables;
 
 /*
  * "Leave them out": this device's data gives way to `accountId`'s newest
@@ -417,6 +526,34 @@ export const takeAccountData = async (
        backup_id = EXCLUDED.backup_id, synced_at = EXCLUDED.synced_at,
        restored = FALSE`,
     [accountId, remoteId],
+  );
+};
+
+/*
+ * Log out: the account's data leaves this device, which is as a new one
+ * again (an empty profile and the starting settings; the game data it
+ * downloaded stays). Sync once more first: this doesn't. Nothing is
+ * recorded as deleted and the device forgets the account, so logging in
+ * again simply takes the account's data, and another account's finds
+ * nothing here to ask about. All in one go: a failure leaves the device as
+ * it was.
+ */
+export const clearAccountData = async (db: LocalDb) => {
+  await replaceUserData(
+    db,
+    {},
+    {
+      after: async (tx) => {
+        /* The profile and settings a device starts with, as at install. */
+        await tx.query("DELETE FROM auth.users WHERE id = $1", [localUserId]);
+        await tx.query("INSERT INTO auth.users (id) VALUES ($1)", [
+          localUserId,
+        ]);
+        await tx.exec("DELETE FROM device.changes");
+        await tx.exec("DELETE FROM device.sync");
+        await tx.exec("DELETE FROM device.backups");
+      },
+    },
   );
 };
 

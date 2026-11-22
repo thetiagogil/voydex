@@ -167,7 +167,7 @@ export const MainlinePlayHistory = ({
 
       <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
-          <PlayTimeline label="Moments">
+          <PlayTimeline label="Moments" months>
             {sort === "oldest" ? start : null}
             {months.map((month) => (
               <PlayHistoryMonthItems
@@ -205,7 +205,7 @@ export const MainlinePlayHistory = ({
               description="Milestones, team changes and notes you record are kept here, newest first."
               action={<AddNoteDialog playId={playId} />}
             />
-            <PlayTimeline label="Moments">
+            <PlayTimeline label="Moments" months>
               <PlayTimelineStart startedOn={data.play.started_on} />
             </PlayTimeline>
           </>

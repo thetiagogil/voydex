@@ -480,7 +480,16 @@ the device:
   clash only when both sides changed the same thing since the last sync),
   puts the result in place (`sync-snapshot.ts`) and uploads it
   (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog;
-  Plays from another account wait in `AccountOtherPlaysDialog`.
+  Plays from another account wait in `AccountOtherPlaysDialog`. Log out
+  (`LogOutDialog`, asked through `askLogOut`) runs `logOutClean`: one last
+  sync, the sign-out, then `clearAccountData` empties the device's own
+  tables; no other sync runs meanwhile, and a last sync that doesn't go
+  through removes nothing. `AccountGate` (in the app's layout, around its
+  frame) is the account step: it stands where the app would while the
+  first sync after Log in runs, and asks about data a device made without
+  an account: kept separate or added, a copy is set aside either way
+  (`own-data-aside.ts`, in the copies store of `device-copy.ts`) and Log
+  out brings it back.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.
@@ -513,7 +522,7 @@ The app's layout wraps the app's frame and every app page in the device gate
 (`src/features/system/components/device-gate.tsx`): one short start screen,
 alone on the page with no bars,
 while the database opens and the tabs get ready (`AppDeviceGate` passes
-Mainline's tab reads; at most four seconds, the rest carry on in the
+Mainline's tab reads; the app shows once they are read, with a 30-second guard, the rest carry on in the
 background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. A game data
 update that doesn't go in (a dropped download, a refused release) doesn't
