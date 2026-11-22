@@ -22,6 +22,7 @@ import {
   notifyLocalSave,
   subscribeLocalSaves,
 } from "@/platform/local-db/local-db-context";
+import { waitForWrites } from "@/platform/local-db/durable-writes";
 import { openLocalDb } from "@/platform/local-db/open-local-db";
 import {
   addAsideDataToAccount,
@@ -508,7 +509,7 @@ export type OwnDataAside = "added" | "none" | "separate";
 export const readOwnDataAside = async (): Promise<OwnDataAside> => {
   if (!(await hasOwnDataAside())) return "none";
 
-  return (await ownDataStore.readAdded().catch(() => false))
+  return (await ownDataStore.readAddedTo().catch(() => null))
     ? "added"
     : "separate";
 };
@@ -576,6 +577,7 @@ export const bringOwnDataBackIfLeft = async () => {
   const { db } = await openLocalDb();
   const back = await bringOwnDataBack(db, ownDataStore, {
     ensureGame: ensureVersionGroupData,
+    waitForWrites,
   }).catch(() => false);
 
   if (back) notifyLocalSave({ background: true });
@@ -670,6 +672,7 @@ export const logOutClean = async (
      */
     await bringOwnDataBack(db, ownDataStore, {
       ensureGame: ensureVersionGroupData,
+      waitForWrites,
     }).catch(() => false);
 
     /* Every screen reads again: the Plays are gone from this device. */

@@ -11,6 +11,7 @@ import {
   runQuery,
   type LocalDb,
 } from "@/platform/local-db/local-db";
+import { readChangeRecords } from "@/platform/local-db/sync-snapshot";
 
 /*
  * A device's own data and an account logged in on it, kept apart. The
@@ -36,8 +37,38 @@ const keepCopy = async (db: LocalDb, store: OwnDataStore) => {
   }
 
   const { bytes } = await makeBackupFile(db);
+  const marks = (await readChangeRecords(db)).filter(
+    (record) => record.baseChangedAt !== null,
+  );
 
+  await store.saveSyncMarks(JSON.stringify(marks));
   await store.save(bytes);
+};
+
+/*
+ * Puts the copy in place of what the device has, with the marks of what
+ * the account already had of it (see `OwnDataStore.readSyncMarks`).
+ */
+const putCopyBack = async (
+  db: LocalDb,
+  store: OwnDataStore,
+  bytes: Uint8Array,
+  { ensureGame }: { ensureGame: (versionGroupId: number) => Promise<void> },
+) => {
+  await restoreBackup(db, await readBackupFile(bytes), { ensureGame });
+
+  const marks = await store.readSyncMarks();
+
+  if (!marks) return;
+
+  await db.query(
+    `UPDATE device.changes AS changes SET base_changed_at = marks."baseChangedAt"
+     FROM jsonb_to_recordset($1::jsonb) AS marks ("table" text, "key" text,
+       "column" text, "baseChangedAt" timestamptz)
+     WHERE changes.table_name = marks."table" AND changes.row_key = marks."key"
+       AND changes.column_name = marks."column"`,
+    [marks],
+  );
 };
 
 /*
@@ -58,7 +89,8 @@ export const setOwnDataAside = async (
 /*
  * "Add them to my account": a copy of this device's own data is kept aside
  * all the same, then what is here joins `accountId` and the next sync
- * merges it with the account's.
+ * merges it with the account's. Your Plays, Plans, tags and the rest are
+ * added; the account's name, icon and settings stay as they are.
  */
 export const addOwnDataToAccount = async (
   db: LocalDb,
@@ -66,8 +98,11 @@ export const addOwnDataToAccount = async (
   accountId: string,
 ) => {
   await keepCopy(db, store);
-  await store.markAdded();
-  await joinAccount(db, accountId);
+  await store.markAdded(accountId);
+  await joinAccount(db, accountId, {
+    alreadyIn: (await store.readSyncedWith()) === accountId,
+    profileFromAccount: true,
+  });
 };
 
 /*
@@ -86,11 +121,14 @@ export const addAsideDataToAccount = async (
 ) => {
   const bytes = await store.read();
 
-  if (!bytes || (await store.readAdded())) return false;
+  if (!bytes || (await store.readAddedTo())) return false;
 
-  await restoreBackup(db, await readBackupFile(bytes), { ensureGame });
-  await joinAccount(db, accountId);
-  await store.markAdded();
+  await putCopyBack(db, store, bytes, { ensureGame });
+  await joinAccount(db, accountId, {
+    alreadyIn: (await store.readSyncedWith()) === accountId,
+    profileFromAccount: true,
+  });
+  await store.markAdded(accountId);
 
   return true;
 };
@@ -115,16 +153,42 @@ const hasAccount = async (db: LocalDb) => {
 export const bringOwnDataBack = async (
   db: LocalDb,
   store: OwnDataStore,
-  { ensureGame }: { ensureGame: (versionGroupId: number) => Promise<void> },
+  {
+    ensureGame,
+    waitForWrites = async () => undefined,
+  }: {
+    ensureGame: (versionGroupId: number) => Promise<void>;
+    /*
+     * Resolves once what was just put back is in the browser's storage.
+     * The copy is let go only then: a page closed or reloaded a moment
+     * after logging out must never lose both.
+     */
+    waitForWrites?: () => Promise<void>;
+  },
 ) => {
   const bytes = await store.read();
 
   if (!bytes) return false;
   if ((await hasAccount(db)) || (await hasOwnData(db))) return false;
 
-  await restoreBackup(db, await readBackupFile(bytes), { ensureGame });
+  const addedTo = await store.readAddedTo();
+
+  await putCopyBack(db, store, bytes, { ensureGame });
   /* Put back, not restored over an account: it waits to replace nothing. */
   await db.exec("DELETE FROM device.sync");
+
+  if (addedTo) {
+    /*
+     * A copy of it is in that account: as it was then, it is synced with
+     * the account, so adding it again later lets the account's newer
+     * changes to it come down instead of asking which to keep.
+     */
+    await db.exec("UPDATE device.changes SET base_changed_at = changed_at");
+    await store.rememberSyncedWith(addedTo);
+  }
+
+  /* Not written yet: the copy stays, and the next time the app opens asks again. */
+  await waitForWrites();
   await store.forget();
 
   return true;

@@ -379,9 +379,39 @@ export const hasPlaysOrPlans = async (db: LocalDb) => {
  * "Add them": this device's data joins `accountId`. None of it counts as
  * synced, so the next sync merges all of it with the account's.
  */
-export const joinAccount = async (db: LocalDb, accountId: string) => {
+export const joinAccount = async (
+  db: LocalDb,
+  accountId: string,
+  {
+    alreadyIn = false,
+    profileFromAccount = false,
+  }: {
+    /*
+     * This data was added to this same account before (a copy of it is in
+     * the account), so what the account already has of it counts as synced:
+     * the account's later changes to it come down, with no question.
+     */
+    alreadyIn?: boolean;
+    /*
+     * The account's name, icon and settings win over the device's, with no
+     * question: adding a device's Plays to your account never touches who
+     * you are in it.
+     */
+    profileFromAccount?: boolean;
+  } = {},
+) => {
   await db.transaction(async (tx) => {
-    await tx.exec("UPDATE device.changes SET base_changed_at = NULL");
+    if (profileFromAccount) {
+      /* With no record of a change, the device's values give way in the merge. */
+      await tx.query("DELETE FROM device.changes WHERE table_name = ANY ($1)", [
+        [...profileTables],
+      ]);
+    }
+
+    if (!alreadyIn) {
+      await tx.exec("UPDATE device.changes SET base_changed_at = NULL");
+    }
+
     await tx.query(
       `INSERT INTO device.sync (account_id, backup_id, synced_at, restored)
        VALUES ($1, NULL, NULL, FALSE)
@@ -392,8 +422,11 @@ export const joinAccount = async (db: LocalDb, accountId: string) => {
   });
 };
 
+/* Who you are, not what you played: your name, icon and settings. */
+const profileTables = new Set(["public.profiles", "public.user_preferences"]);
+
 /* Your name, icon and settings stay when the rest is left out. */
-const keptOnLeaving = new Set(["public.profiles", "public.user_preferences"]);
+const keptOnLeaving = profileTables;
 
 /*
  * "Leave them out": this device's data gives way to `accountId`'s newest

@@ -55,17 +55,28 @@ const createAccount = () => {
 /* Where the device's own data waits, as the browser's store keeps it. */
 const createStore = () => {
   let kept: Uint8Array | null = null;
-  let added = false;
+  let addedTo: string | null = null;
+  let syncedWith: string | null = null;
+  let marks: string | null = null;
   const store: OwnDataStore = {
     forget: async () => {
       kept = null;
-      added = false;
+      addedTo = null;
+      marks = null;
     },
-    markAdded: async () => {
-      added = true;
+    readSyncMarks: async () => marks,
+    saveSyncMarks: async (next) => {
+      marks = next;
+    },
+    markAdded: async (accountId) => {
+      addedTo = accountId;
     },
     read: async () => kept,
-    readAdded: async () => added,
+    readAddedTo: async () => addedTo,
+    readSyncedWith: async () => syncedWith,
+    rememberSyncedWith: async (accountId) => {
+      syncedWith = accountId;
+    },
     save: async (bytes) => {
       kept = bytes;
     },
@@ -189,12 +200,19 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     const { holds, store } = createStore();
 
     await addPlay(mine, myPlayId, "My run");
+    await mine.query(
+      "UPDATE public.profiles SET display_name = 'Sam' WHERE id = auth.uid()",
+    );
     await syncAs(mine, account);
 
     /* The device's owner logs in and adds what is here. */
     await addOwnDataToAccount(friend, store, accountId);
     expect(holds()).toBe(true);
-    await syncAs(friend, account);
+    /* The Plays are added; the account's name stays, with no question. */
+    await expect(syncAs(friend, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(readName(friend)).resolves.toBe("Sam");
     await expect(readPlayNames(friend)).resolves.toEqual([
       "Friend's run",
       "My run",
@@ -212,6 +230,88 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     );
     await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
     await expect(readName(friend)).resolves.toBe("Alex");
+  });
+
+  it("added, changed in the account, then added again: the account's change comes down, no question", async () => {
+    const { account } = createAccount();
+    const { store } = createStore();
+
+    await syncAs(mine, account);
+    await addOwnDataToAccount(friend, store, accountId);
+    await syncAs(friend, account);
+
+    /* While logged in, the Play is renamed; it reaches the other device. */
+    await syncAs(mine, account);
+    await mine.query(
+      "UPDATE gameplay.mainline_plays SET name = 'Renamed run' WHERE id = $1",
+      [friendPlayId],
+    );
+    await syncAs(mine, account);
+
+    /* Log out: the device gets back its own copy, from before. */
+    await clearAccountData(friend);
+    await bringOwnDataBack(friend, store, { ensureGame });
+    await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
+
+    /* Log in to the same account and add again: no clash, the rename wins. */
+    await addOwnDataToAccount(friend, store, accountId);
+    await expect(syncAs(friend, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(readPlayNames(friend)).resolves.toEqual(["Renamed run"]);
+  });
+
+  it("added and changed in the account, then kept separate and added later: no question either", async () => {
+    const { account } = createAccount();
+    const { store } = createStore();
+
+    await syncAs(mine, account);
+    await addOwnDataToAccount(friend, store, accountId);
+    await syncAs(friend, account);
+    await syncAs(mine, account);
+    await mine.query(
+      "UPDATE gameplay.mainline_plays SET name = 'Renamed run' WHERE id = $1",
+      [friendPlayId],
+    );
+    await syncAs(mine, account);
+    await clearAccountData(friend);
+    await bringOwnDataBack(friend, store, { ensureGame });
+
+    /* Logged in again, kept separate; then added from Settings after a sync. */
+    await setOwnDataAside(friend, store, accountId);
+    await syncAs(friend, account);
+    await addAsideDataToAccount(friend, store, accountId, { ensureGame });
+    await expect(syncAs(friend, account)).resolves.toMatchObject({
+      status: "synced",
+    });
+    await expect(readPlayNames(friend)).resolves.toEqual(["Renamed run"]);
+  });
+
+  it("added to one account, then to another: everything is new to the second", async () => {
+    const first = createAccount();
+    const second = createAccount();
+    const otherAccountId = "b0000000-0000-4000-8000-000000000001";
+    const { store } = createStore();
+
+    await addOwnDataToAccount(friend, store, accountId);
+    await syncAs(friend, first.account);
+    await clearAccountData(friend);
+    await bringOwnDataBack(friend, store, { ensureGame });
+
+    await addOwnDataToAccount(friend, store, otherAccountId);
+
+    const outcome = await syncDevice(friend, {
+      account: second.account,
+      ensureGame,
+      state: await readDeviceSyncState(friend, otherAccountId),
+    });
+
+    expect(outcome.status).toBe("synced");
+    expect(
+      second.backups
+        .at(-1)!
+        .snapshot.tables["gameplay.mainline_plays"]?.map((row) => row.name),
+    ).toEqual(["Friend's run"]);
   });
 
   it("kept separate, they can still be added later, and the account keeps its own", async () => {
@@ -271,6 +371,32 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     );
     await expect(readPlayNames(friend)).resolves.toEqual(["Made since"]);
     expect(holds()).toBe(true);
+  });
+
+  it("keeps the copy until what came back is written, so a reload can't lose both", async () => {
+    const { account } = createAccount();
+    const { holds, store } = createStore();
+
+    await setOwnDataAside(friend, store, accountId);
+    await syncAs(friend, account);
+    await clearAccountData(friend);
+
+    /* The browser hasn't finished writing when the page goes away. */
+    await expect(
+      bringOwnDataBack(friend, store, {
+        ensureGame,
+        waitForWrites: () => Promise.reject(new Error("closed mid-write")),
+      }),
+    ).rejects.toThrow("closed mid-write");
+    expect(holds()).toBe(true);
+
+    /* Written: now it can go. */
+    await clearAccountData(friend);
+    await expect(bringOwnDataBack(friend, store, { ensureGame })).resolves.toBe(
+      true,
+    );
+    expect(holds()).toBe(false);
+    await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
   });
 
   it("has nothing to bring back when nothing was set aside", async () => {

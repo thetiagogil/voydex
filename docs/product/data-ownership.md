@@ -75,7 +75,13 @@ above as the source of truth but moves where they live:
   account** (a copy joins the account; it can't be taken back, so it asks
   once more). Either way a copy of the device's own data is first set
   aside, whole, as a backup file kept beside the database, and logging out
-  puts it back exactly as it was. Kept separate, it can still be added
+  puts it back exactly as it was, only once it is written to the browser's
+  storage (a reload a moment after logging out never loses both). Adding
+  brings the Plays, Plans, tags, rules and favourites; the account's name,
+  icon and settings stay. A copy added to an account remembers it: adding
+  it to that account again (or keeping it separate and adding it later)
+  takes the account's newer changes to it with no question, while a
+  different account gets all of it as new. Kept separate, it can still be added
   later from Settings' Account section. A device with nothing of its own
   joins at once, so what you make after logging in is the account's.
 - **Log out** takes the account's data off the device. It asks first, saves
