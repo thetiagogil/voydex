@@ -1,5 +1,6 @@
 "use client";
 
+import { waitForWrites } from "@/platform/local-db/durable-writes";
 import { useSyncExternalStore } from "react";
 
 import {
@@ -331,6 +332,25 @@ const runBackground = async () => {
   }
 
   if (result.status === "storage-full") deviceFull = true;
+
+  if (result.done.length) {
+    /*
+     * Counted on the page's root once it is in IndexedDB
+     * (`data-downloads-written`), so a browser test can wait for a download
+     * that survives a reload; one cut short by a reload is simply fetched
+     * again next time.
+     */
+    await waitForWrites().then(
+      () => {
+        const root = document.documentElement;
+
+        root.dataset.downloadsWritten = String(
+          Number(root.dataset.downloadsWritten ?? 0) + 1,
+        );
+      },
+      () => undefined,
+    );
+  }
 };
 
 /*
