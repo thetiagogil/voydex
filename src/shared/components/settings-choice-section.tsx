@@ -48,7 +48,7 @@ export const SettingsChoiceSection = <Value,>({
   const [error, setError] = useState<string | null>(null);
 
   /*
-   * The saved value changed under it (another device's, through sync):
+   * The saved value changed under it (another device's backup, taken):
    * follow it, unless you have unsaved changes of your own.
    */
   if (!isEqual(served, initialValue)) {

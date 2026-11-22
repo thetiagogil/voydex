@@ -40,66 +40,60 @@ above as the source of truth but moves where they live:
   versioned game data files built from the seeds, one per game, and the
   device keeps a copy of each game it uses.
 - **Backups** are copies, never a second source of truth. A backup file is a
-  versioned, gzipped JSON of every row of yours with its change records
-  (Settings > Your data: Save backup and Restore; a restore replaces the
-  device's data in one go, and an older file is upgraded first). A quiet
-  note on Home reminds you after 30 days without one. Signed in, the device
-  uploads the same file to the account a few seconds after each change, and
-  hosted Supabase keeps the last 3.
-- **Sync** is event merge. Every change on the device leaves a small record
-  (the row added or deleted, the column changed, and when). When the app
-  opens or comes to the front it merges the account's newest backup: the
-  latest change wins per column, two devices' History moments keep their
-  order, and two tags or rules of one name become "Shiny" and "Shiny 2".
-  You're asked only on a true clash: both devices changed the same column of
-  the same row since they last synced, one deleted what the other changed,
-  or a Play's or Plan's rows no longer fit together (keep one side's
-  version). Nothing changes until you answer. Restoring a file while signed
-  in is a deliberate choice: the restored data replaces that account's. A
-  file restored while signed out, or under another account, merges like
-  any sync. A device that last synced with another account asks first:
-  add its Plays to this account, or leave them out (saved to a backup file
-  first, then the device takes this account's data).
+  versioned, gzipped JSON of every row of yours with its change records.
+  Settings > Your data is the one place data moves: **Export** saves
+  everything (Plays, Plans, tags, rules, favourites and settings) as one
+  file; **Import** either replaces everything on the device with a file
+  (an older file is upgraded first) or adds the file's Plays and Plans as
+  copies with ids of their own, never merged (a Play imported twice is
+  there twice; a tag, rule or rule set of the same name is the one already
+  here; your name, icon and settings stay). A quiet note on Home reminds
+  you after 30 days without a backup.
+- **An account backs up one way** ([ADR 0010](../decisions/0010-account-backups-never-merged.md)).
+  Logged in, the device uploads the same file to the account a few seconds
+  after each change, and Settings' Back up now does it at once; hosted
+  Supabase keeps the last 3. Nothing is ever merged. Change records only
+  tell whether the device has anything new since its last backup (opening
+  a Play doesn't count). When the app opens or comes to the front it looks
+  for a newer backup another device saved: with nothing new here it comes
+  down by itself; when both changed, a dialog asks which to keep (this
+  device's goes up as the newest, or the other's replaces this one's) and
+  nothing backs up until you answer. **Restore from account** puts one of
+  the last 3 backups in place of the device's data; it then goes up as the
+  newest. Importing a file while logged in does the same.
+- **Two worlds on a device**: its own data, made without an account, and the
+  account's. Logging in asks nothing: a copy of the device's own data
+  (anything: a Play, a Plan, a favourite, a tag, a rule, a game on the
+  shelf, a name or an icon) is set aside, whole, as a backup file kept
+  beside the database, and the account's newest backup takes its place.
+  Logging out puts the copy back exactly as it was, only once it is written
+  to the browser's storage (a reload a moment after logging out never loses
+  both). Nothing of the device's own ever reaches the account unless you
+  Export it and Import it while logged in.
 - **The account step.** Right after logging in the app waits behind one
-  step, alone on the page with no bars, until the account has synced with
-  the device and Home and the other tabs have been read again, so the app
-  opens finished, never on its loading states, however many games the
+  step, alone on the page with no bars, until the account's newest backup
+  is on the device and Home and the other tabs have been read again, so the
+  app opens finished, never on its loading states, however many games the
   account's Plays need. The step says how far it has got (reading your
   account; downloading game data, so many of so many games, with the ring
   filling; putting your Plays on this device; getting your pages ready)
   and its steps only move forward. It shows at least a second so it never
-  flashes; only a wait that stops moving for a minute opens the app anyway,
-  and a sync that fails or goes offline ends it at once. The same wait
-  follows the answer below.
-- **A device's own data is never deleted by logging in or out.** A device
-  that never had an account and holds something of its own (a Play, a
-  Plan, a favourite, a tag, a rule, a game on the shelf, a name or an
-  icon) asks on that step, before anything merges, showing the Plays it
-  holds: **Keep them separate**, the main answer (they stay on the device
-  only and nothing of them reaches the account), or **Add them to my
-  account** (a copy joins the account; it can't be taken back, so it asks
-  once more). Either way a copy of the device's own data is first set
-  aside, whole, as a backup file kept beside the database, and logging out
-  puts it back exactly as it was, only once it is written to the browser's
-  storage (a reload a moment after logging out never loses both). Adding
-  brings the Plays, Plans, tags, rules and favourites; the account's name,
-  icon and settings stay. A copy added to an account remembers it: adding
-  it to that account again (or keeping it separate and adding it later)
-  takes the account's newer changes to it with no question, while a
-  different account gets all of it as new. Kept separate, it can still be added
-  later from Settings' Account section. A device with nothing of its own
-  joins at once, so what you make after logging in is the account's.
-- **Log out** takes the account's data off the device. It asks first, saves
-  to the account one last time, signs the browser out, empties the device's
-  own tables (Plays, Plans, tags, rules, favourites, the profile and
-  settings) and brings back what the device had before the account logged
-  in; with nothing set aside it is left as a new device. Its downloaded
-  game data stays. Nothing is recorded as deleted and the device forgets
-  the account, so logging in again simply takes the account's data. If the
-  last save can't finish (offline, or a sync question still waits), nothing
-  is removed and you choose: stay logged in, or log out and keep the data
-  on the device. Kept data syncs the next time that account logs in;
-  another account is asked what to do with it.
+  flashes. The app never opens before the account is in (a half-opened
+  device would take saves that belong to nobody): a wait that fails, goes
+  offline or stops moving for a minute says so on the step, with Try again
+  and Log out (which brings the device's own data back). Another account's
+  data left on the device (its session ended without Log out) gives way
+  only when it has nothing that isn't in that account's backups; otherwise
+  the step says to log in to that account first.
+- **Log out** takes the account's data off the device. It asks first, backs
+  up to the account one last time, empties the device's own tables (Plays,
+  Plans, tags, rules, favourites, the profile and settings), brings back
+  what the device had before the account logged in (with nothing set aside
+  it is left as a new device) and signs the browser out. Its downloaded
+  game data stays. If the last backup can't go up, nothing is removed:
+  offline, you stay logged in or log out anyway and lose what changed since
+  the last backup; when another device saved a newer one, you choose which
+  to keep first, or log out anyway.
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup
@@ -145,8 +139,8 @@ when it starts the Play; nothing stores them. The email typed on an auth page is
 next page can say where the link went; it never goes in a URL.
 
 An email change is Auth-owned: Supabase sends a confirmation link and the
-change takes effect once it is opened. The backup file is the export and
-import for everyone; a Plan's share link imports one Plan.
+change takes effect once it is opened. Export and Import are for everyone;
+a Plan's share link imports one Plan.
 
 Validated authentication destination and action context are temporary
 application state. They are not a second user-owned workflow record and never

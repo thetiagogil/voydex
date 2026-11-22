@@ -78,7 +78,7 @@ export const ensureDeviceSchema = async (
       await tx.query("INSERT INTO auth.users (id) VALUES ($1)", [localUserId]);
       /*
        * The profile and settings a new device starts with aren't changes of
-       * yours: syncing with an account, its own give way to the account's.
+       * yours: nothing new to back up until you change something.
        */
       await tx.exec("DELETE FROM device.changes");
       await tx.query("INSERT INTO device.installs (schema_hash) VALUES ($1)", [

@@ -4,18 +4,20 @@ import {
   writeBackupFile,
   type BackupFile,
 } from "@/platform/local-db/backup-file";
+import { markReplaced } from "@/platform/local-db/device-account";
 import {
   countAppliedIdChanges,
   prepareSnapshot,
 } from "@/platform/local-db/device-id-changes";
 import { IdChangeError } from "@/platform/local-db/id-changes";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
-import { rowKeyOf, type ChangeRecord } from "@/platform/local-db/sync-merge";
 import {
   readSchemaShape,
-  readSyncSnapshot,
+  readUserSnapshot,
   restoreChangeRecords,
-} from "@/platform/local-db/sync-snapshot";
+  rowKeyOf,
+  type ChangeRecord,
+} from "@/platform/local-db/user-snapshot";
 import { replaceUserData } from "@/platform/local-db/user-data";
 
 /*
@@ -60,6 +62,16 @@ export const isBackupDue = (status: BackupStatus, now = new Date()) =>
   daysSince(status.lastBackupAt ?? status.installedAt, now) >=
   backupReminderDays;
 
+/* When this device last backed up to its account; null if never. */
+export const readLastAccountBackup = async (db: LocalDb) => {
+  const [row] = await runQuery<{ savedAt: string }>(
+    db,
+    `SELECT saved_at AS "savedAt" FROM device.backups WHERE kind = 'account'`,
+  );
+
+  return row?.savedAt ?? null;
+};
+
 export const recordBackup = async (
   db: LocalDb,
   kind: BackupKind,
@@ -74,7 +86,7 @@ export const recordBackup = async (
 
 /* Every row of yours as a backup file, with the name to save it under. */
 export const makeBackupFile = async (db: LocalDb, savedAt = new Date()) => {
-  const backup = createBackup(await readSyncSnapshot(db), savedAt);
+  const backup = createBackup(await readUserSnapshot(db), savedAt);
 
   return {
     backup,
@@ -120,8 +132,8 @@ const fillRecords = async (db: LocalDb, backup: BackupFile) => {
  * their data, and a backup saved before some of the game data's ID
  * changes follows them; then every row is replaced in one go, so a backup
  * that doesn't fit leaves the device as it was. Restoring is a deliberate
- * choice: with an account, the restored data replaces the account's at
- * the next sync instead of merging with it.
+ * choice: logged in, the restored data goes up as the account's newest
+ * backup next, whatever the account had.
  */
 export const restoreBackup = async (
   db: LocalDb,
@@ -141,10 +153,7 @@ export const restoreBackup = async (
   await replaceUserData(db, prepared.tables, {
     after: async (tx) => {
       await restoreChangeRecords(tx, prepared.changes);
-      await tx.exec(
-        `INSERT INTO device.sync (restored) VALUES (TRUE)
-         ON CONFLICT (id) DO UPDATE SET restored = TRUE`,
-      );
+      await markReplaced(tx);
     },
     inside: async (tx) => {
       if ((await countAppliedIdChanges(tx)) !== prepared.idChanges) {

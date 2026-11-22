@@ -78,7 +78,7 @@ export const HomeDataNote = () => {
         : backup.status === "ready" && isBackupDue(backup.data)
           ? {
               icon: appIcons.status.info,
-              link: "Save a backup",
+              link: "Export your data",
               text: `${describeLastBackup(backup.data.lastBackupAt)}.`,
             }
           : null;

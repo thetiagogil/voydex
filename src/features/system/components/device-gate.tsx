@@ -5,7 +5,7 @@ import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
 import { OldGameDataNotice } from "@/features/system/components/old-game-data-notice";
-import { isFirstSyncPending } from "@/platform/local-db/account-sync";
+import { isAccountOpenPending } from "@/platform/local-db/account-runner";
 import { watchBackgroundDownloads } from "@/platform/local-db/game-downloads";
 import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import {
@@ -46,7 +46,7 @@ const StartFrame = ({ children }: { children: ReactNode }) => (
  * `prepare` names the pages to get ready while the start screen shows (the
  * app's tabs), so changing tabs never waits on the device. They are read
  * once when the database opens and again whenever the device's data
- * changes (a save, a sync, a game added), in the background.
+ * changes (a save, an account backup coming in, a game added), in the background.
  */
 export const DeviceGate = ({
   children,
@@ -56,11 +56,11 @@ export const DeviceGate = ({
   prepare?: PreparePages;
 }) => {
   /*
-   * Right after Log in the account's sync comes next and changes what the
+   * Right after Log in the account opens next and changes what the
    * pages show: they are read once, after it, as the last step of the same
    * bar, not here too.
    */
-  const [withAccount] = useState(isFirstSyncPending);
+  const [withAccount] = useState(isAccountOpenPending);
   const { retry, startFresh, state } = useOpenLocalDb({
     prepare,
     readPagesLater: withAccount,

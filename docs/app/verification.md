@@ -88,7 +88,7 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 - Every test starts with an empty device (a fresh browser context has its own
   IndexedDB), so a test makes the Plays it needs through the app
   (`startPlay` in `e2e/support/plays.ts`); nothing reads seeded user data.
-  Every test also starts signed out: a signed-in device syncs with its
+  Every test also starts signed out: a signed-in device backs up to its
   account, so tests sharing one would mix their data. A test that needs an
   account makes its own (`e2e-…@voydex.test`) straight on the local Supabase
   (`logInToNewAccount` in `e2e/support/auth.ts`, which refuses any other
@@ -118,12 +118,12 @@ for accessibility problems. The tests live in `e2e/`, one folder per area
 
 The suite runs only on the Mac, and how much of it depends on the change:
 
-| Change                                                                                                        | Browser tests                                                                                   |
-| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Docs or CI only                                                                                               | None                                                                                            |
-| One area (Plays, Plans, Codex, Home, Library, Settings...)                                                    | That area's folder or file, e.g. `npx playwright test e2e/plays` or `e2e/mainline/home.spec.ts` |
-| Something every screen uses: app shell, navigation, local database, login and sync, shared components, styles | The full `npm run test:e2e`                                                                     |
-| Before a deploy batch or a release                                                                            | The full `npm run test:e2e`                                                                     |
+| Change                                                                                                                   | Browser tests                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| Docs or CI only                                                                                                          | None                                                                                            |
+| One area (Plays, Plans, Codex, Home, Library, Settings...)                                                               | That area's folder or file, e.g. `npx playwright test e2e/plays` or `e2e/mainline/home.spec.ts` |
+| Something every screen uses: app shell, navigation, local database, login and account backups, shared components, styles | The full `npm run test:e2e`                                                                     |
+| Before a deploy batch or a release                                                                                       | The full `npm run test:e2e`                                                                     |
 
 When unsure which area a change reaches, run the full suite.
 

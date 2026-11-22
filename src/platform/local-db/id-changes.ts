@@ -3,8 +3,8 @@ import { LocalDbError } from "@/platform/local-db/local-db";
 import {
   rowKeyOf,
   type ChangeRecord,
-  type SyncSnapshot,
-} from "@/platform/local-db/sync-merge";
+  type UserSnapshot,
+} from "@/platform/local-db/user-snapshot";
 import {
   userTables,
   type UserData,
@@ -25,7 +25,7 @@ import {
  *   and anything else can't follow (the release checks stop that list).
  *
  * An ID change isn't an edit of yours: the change records move with the
- * rows and keep their times, so a sync never takes it for one. The device
+ * rows and keep their times, so a backup never counts it as new. The device
  * remembers the entries its rows have had (device.id_changes), and a
  * backup carries how many its rows have had, so one saved before a change
  * is brought up to date before it is restored or merged.
@@ -34,7 +34,7 @@ import {
 export type IdChange = { becomes: string | null; id: string; table: string };
 
 /* A snapshot with how many ID changes its rows have had. */
-export type VersionedSnapshot = SyncSnapshot & { idChanges: number };
+export type VersionedSnapshot = UserSnapshot & { idChanges: number };
 
 /* A foreign key from a table of yours to game data. */
 export type GameLink = {
@@ -112,7 +112,7 @@ class Rows {
   private readonly tables = new Map<string, UserRow[]>();
 
   constructor(
-    snapshot: SyncSnapshot,
+    snapshot: UserSnapshot,
     private readonly shape: IdChangeShape,
   ) {
     this.keyColumns = new Map(
@@ -258,7 +258,7 @@ class Rows {
     }
   }
 
-  toSnapshot(): SyncSnapshot {
+  toSnapshot(): UserSnapshot {
     return {
       changes: [...this.records.values()].flat(),
       tables: Object.fromEntries(this.tables) as UserData,
@@ -289,7 +289,7 @@ class IdChangeRun {
   private readonly rows: Rows;
 
   constructor(
-    snapshot: SyncSnapshot,
+    snapshot: UserSnapshot,
     private readonly shape: IdChangeShape,
     private readonly targets: IdChangeTargets,
   ) {
@@ -312,7 +312,7 @@ class IdChangeRun {
   }
 
   /* The snapshot as it came when nothing changed. */
-  result(snapshot: SyncSnapshot) {
+  result(snapshot: UserSnapshot) {
     return this.rows.changed ? this.rows.toSnapshot() : snapshot;
   }
 
@@ -384,7 +384,7 @@ class IdChangeRun {
       }
     }
 
-    /* Deleted rows' records follow too, so a sync still lets them go. */
+    /* Deleted rows' records follow too, as the rows they named do. */
     if (!keyColumns.every((column) => this.isKeyColumn(link.child, column))) {
       return;
     }
@@ -506,10 +506,10 @@ class IdChangeRun {
  * row can't follow.
  */
 export const applyIdChanges = (
-  snapshot: SyncSnapshot,
+  snapshot: UserSnapshot,
   changes: readonly IdChange[],
   { shape, targets }: { shape: IdChangeShape; targets: IdChangeTargets },
-): SyncSnapshot => {
+): UserSnapshot => {
   if (!changes.length) return snapshot;
 
   const run = new IdChangeRun(snapshot, shape, targets);

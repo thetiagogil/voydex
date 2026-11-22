@@ -1,6 +1,6 @@
 # ADR 0008: User Data Lives On The Device
 
-- Status: Accepted
+- Status: Accepted, amended by [ADR 0010](./0010-account-backups-never-merged.md)
 - Date: 2026-11-09
 - Supersedes: [ADR 0005](./0005-postgres-is-the-backend.md)
 - Amends: [ADR 0006](./0006-installable-web-app-first.md)
@@ -48,10 +48,9 @@ and should stay. What has to change is where they run.
 - Supabase keeps only login (Supabase Auth) and backups for a few invited
   users.
 - Everyone can save and restore a versioned backup file. An account is the
-  same backup, uploaded by itself, plus sync by event merge: each change is
-  saved as a small timestamped record per Play, devices combine the records,
-  the latest change wins per field, and the user is asked only when two
-  devices changed the same field of the same item.
+  same backup, uploaded by itself. (Sync by event merge was replaced by
+  one-way backups that never merge: see
+  [ADR 0010](./0010-account-backups-never-merged.md).)
 - At the hosted reset before launch, the hosted database keeps only auth and
   backups.
 

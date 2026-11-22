@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+
 import { expect, test, type Browser, type Page } from "@playwright/test";
 
 import { newTestEmail, newDevice } from "../support/accounts";
@@ -8,10 +10,10 @@ import { startPlay, uniquePlayName } from "../support/plays";
 /*
  * One device's whole life with an account and without one, start to end,
  * beside the account's other device: log in on an empty device, leave and
- * log out, play without an account, log in and keep those Plays separate,
- * log out and get them back, add them to the account, edit them, add again,
- * keep separate and add later from Settings, log out offline, and Log out
- * instead. Each step checks what both devices show, so the parts that the
+ * log out, play without an account, log in (nothing asked: they wait
+ * aside), log out and get them back, bring them into the account with
+ * Export and Import, both devices changing things, and logging out
+ * offline. Each step checks what both devices show, so the parts that the
  * other tests cover one by one are also tested in the order people meet
  * them.
  */
@@ -28,11 +30,8 @@ const newDeviceFor = async (browser: Browser) => {
 const appReady = (page: Page) =>
   expect(page.getByRole("navigation").first()).toBeVisible(forTheAnswer);
 
-const ownPlaysQuestion = (page: Page) =>
-  page.getByRole("region", { name: "This device already has Plays" });
-
-const clashQuestion = (page: Page) =>
-  page.getByRole("dialog", { name: "Which version to keep?" });
+const newerQuestion = (page: Page) =>
+  page.getByRole("dialog", { name: "Your account has newer Plays" });
 
 const playsText = async (page: Page) => {
   await page.goto("/app/plays", { waitUntil: "networkidle" });
@@ -61,11 +60,17 @@ const trainerCard = async (page: Page) => {
   return page.getByRole("region", { name: "Your trainer card" });
 };
 
-const waitForSync = async (page: Page) => {
+const yourData = (page: Page) =>
+  page.getByRole("region", { name: "Your data" });
+
+/* Backs up now, and waits for it to finish. */
+const backUpNow = async (page: Page) => {
   await page.goto("/app/settings", { waitUntil: "networkidle" });
-  await expect(
-    page.getByRole("region", { name: "Account" }).getByText(/Synced today/),
-  ).toBeVisible(forTheAnswer);
+
+  const button = yourData(page).getByRole("button", { name: "Back up now" });
+
+  await button.click();
+  await expect(button).toBeEnabled(forTheAnswer);
 };
 
 const setName = async (page: Page, name: string) => {
@@ -122,16 +127,43 @@ const logOutAndOpenApp = async (page: Page) => {
   await appReady(page);
 };
 
-const answerAdd = async (page: Page) => {
-  const question = ownPlaysQuestion(page);
+/* Exports everything on the device as a file; returns its bytes. */
+const exportFile = async (page: Page) => {
+  await page.goto("/app/settings#your-data", { waitUntil: "networkidle" });
 
-  await question
-    .getByRole("button", { name: "Add them to my account" })
-    .click();
-  await question.getByRole("button", { name: "Yes, add them" }).click();
-  await appReady(page);
-  await waitForSync(page);
-  await expect(clashQuestion(page)).toHaveCount(0);
+  const download = page.waitForEvent("download");
+
+  await yourData(page).getByRole("button", { name: "Export" }).click();
+
+  const file = await download;
+
+  return {
+    bytes: await readFile(await file.path()),
+    name: file.suggestedFilename(),
+  };
+};
+
+/* Imports a file, adding its Plays to the device's. */
+const importAdding = async (
+  page: Page,
+  file: { bytes: Buffer; name: string },
+) => {
+  await page.goto("/app/settings#your-data", { waitUntil: "networkidle" });
+  await yourData(page).getByLabel("File to import").setInputFiles({
+    buffer: file.bytes,
+    mimeType: "application/gzip",
+    name: file.name,
+  });
+
+  const confirm = page.getByRole("dialog", { name: "Import this file?" });
+
+  await confirm.getByText("Add its Plays and Plans").click();
+
+  const added = waitForAction(page);
+
+  await confirm.getByRole("button", { name: "Add them" }).click();
+  await expect(confirm).toBeHidden(forTheAnswer);
+  await added;
 };
 
 test("a device's life with an account and without one, in order", async ({
@@ -143,10 +175,8 @@ test("a device's life with an account and without one, in order", async ({
   const email = newTestEmail("journey");
   const accountPlay = uniquePlayName("Account");
   const accountPlay2 = uniquePlayName("Account");
-  const accountPlay3 = uniquePlayName("Account");
   const local1 = uniquePlayName("Local");
-  const local2 = uniquePlayName("Local");
-  const local3 = uniquePlayName("Local");
+  const offline = uniquePlayName("Offline");
   const other = await newDeviceFor(browser);
 
   await createAccount(email);
@@ -156,19 +186,17 @@ test("a device's life with an account and without one, in order", async ({
     await logIn(other.page, email);
     await other.page.waitForURL("**/app");
     await appReady(other.page);
-    await expect(ownPlaysQuestion(other.page)).toHaveCount(0);
     await startPlay(other.page, {
       game: "Pokémon Red, 1996",
       name: accountPlay,
       partner: null,
     });
     await setName(other.page, "Ana");
-    await waitForSync(other.page);
+    await backUpNow(other.page);
 
-    /* This device logs in empty: no question, the account arrives. */
+    /* This device logs in empty: the account arrives. */
     await logIn(page, email);
     await page.waitForURL("**/app");
-    await expect(ownPlaysQuestion(page)).toHaveCount(0);
     await appReady(page);
     await expect(await trainerCard(page)).toContainText("Ana");
     await expectPlays(page, [accountPlay]);
@@ -199,7 +227,7 @@ test("a device's life with an account and without one, in order", async ({
     ).toBeVisible(forTheAnswer);
     await expectPlays(page, [], [accountPlay]);
 
-    /* Plays without an account, then logging in: kept separate. */
+    /* Plays without an account, then logging in: nothing asked, they wait aside. */
     await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: local1,
@@ -207,139 +235,94 @@ test("a device's life with an account and without one, in order", async ({
     });
     await setName(page, "Local Sam");
     await logIn(page, email);
-    await expect(ownPlaysQuestion(page)).toBeVisible(forTheAnswer);
-    await expect(page.getByRole("navigation")).toHaveCount(0);
-    await expect(
-      ownPlaysQuestion(page).getByRole("list", {
-        name: "Plays on this device",
-      }),
-    ).toContainText(local1);
-    await ownPlaysQuestion(page)
-      .getByRole("button", { name: "Keep them separate" })
-      .click();
+    await page.waitForURL("**/app");
     await appReady(page);
     await expect(await trainerCard(page)).toContainText("Ana");
     await expectPlays(page, [accountPlay], [local1]);
 
-    /* A Play made logged in is the account's; nothing local reaches it. */
+    /* A Play made logged in is the account's; the other device takes it quietly. */
     await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: accountPlay2,
       partner: null,
     });
-    await waitForSync(page);
-    await waitForSync(other.page);
+    await backUpNow(page);
+    await other.page.reload({ waitUntil: "networkidle" });
     await expectPlays(other.page, [accountPlay, accountPlay2], [local1]);
+    await expect(newerQuestion(other.page)).toHaveCount(0);
 
     /* Logging out brings the device's own back, exactly. */
     await logOutAndOpenApp(page);
     await expect(await trainerCard(page)).toContainText("Local Sam");
     await expectPlays(page, [local1], [accountPlay, accountPlay2]);
 
-    /* Adding them: the Plays join, the account's name stays, no question. */
-    await startPlay(page, {
-      game: "Pokémon Red, 1996",
-      name: local2,
-      partner: null,
-    });
-    await logIn(page, email);
-    await expect(ownPlaysQuestion(page)).toBeVisible(forTheAnswer);
-    await answerAdd(page);
-    await expect(await trainerCard(page)).toContainText("Ana");
-    await expectPlays(page, [accountPlay, accountPlay2, local1, local2]);
+    /* Export, log in, Import adding: the device's Plays join the account. */
+    const file = await exportFile(page);
 
-    /* An added Play edited while logged in: the edit reaches the other device. */
-    await renamePlay(page, local1, `${local1} renamed`);
-    await waitForSync(page);
-    await waitForSync(other.page);
-    await expectPlays(other.page, [`${local1} renamed`, local2]);
-
-    /* Logging out keeps the device's own; adding again asks nothing more. */
-    await logOutAndOpenApp(page);
-    await expectPlays(page, [local2], [accountPlay]);
-    await startPlay(page, {
-      game: "Pokémon Red, 1996",
-      name: local3,
-      partner: null,
-    });
     await logIn(page, email);
-    await expect(ownPlaysQuestion(page)).toBeVisible(forTheAnswer);
-    await answerAdd(page);
-    await expectPlays(page, [
-      accountPlay,
-      accountPlay2,
-      `${local1} renamed`,
-      local2,
-      local3,
-    ]);
-
-    /* Kept separate, then added later from Settings: no question either. */
-    await logOutAndOpenApp(page);
-    await logIn(page, email);
-    await ownPlaysQuestion(page)
-      .getByRole("button", { name: "Keep them separate" })
-      .click();
+    await page.waitForURL("**/app");
     await appReady(page);
+    await importAdding(page, file);
+    await expect(await trainerCard(page)).toContainText("Ana");
+    await expectPlays(page, [accountPlay, accountPlay2, local1]);
+    await backUpNow(page);
+    await other.page.reload({ waitUntil: "networkidle" });
+    await expectPlays(other.page, [accountPlay, accountPlay2, local1]);
+
+    /* Both devices change things: the other keeps its own, nothing merges. */
+    await other.context.route(accountRequests, (route) => route.abort());
+    await renamePlay(other.page, accountPlay, `${accountPlay} on the laptop`);
+    await renamePlay(page, accountPlay2, `${accountPlay2} on this one`);
+    await backUpNow(page);
+    await other.context.unroute(accountRequests);
+    await other.page.goto("/app/settings", { waitUntil: "networkidle" });
+    await expect(newerQuestion(other.page)).toBeVisible(forTheAnswer);
+    await newerQuestion(other.page)
+      .getByRole("button", { name: "Keep this device's" })
+      .click();
+    await expect(newerQuestion(other.page)).toBeHidden(forTheAnswer);
+    await page.reload({ waitUntil: "networkidle" });
+    await expectPlays(
+      page,
+      [`${accountPlay} on the laptop`, accountPlay2],
+      [`${accountPlay2} on this one`],
+    );
+
+    /* Logging out offline: stay, then log out anyway and lose the latest. */
+    await page.route(accountRequests, (route) => route.abort());
     await startPlay(page, {
       game: "Pokémon Red, 1996",
-      name: accountPlay3,
+      name: offline,
       partner: null,
     });
-    await page.goto("/app/settings", { waitUntil: "networkidle" });
-
-    const account = page.getByRole("region", { name: "Account" });
-
-    await account.getByRole("button", { name: "Add to my account" }).click();
-    await page
-      .getByRole("dialog", { name: "Add this device's Plays to your account?" })
-      .getByRole("button", { name: "Add them" })
-      .click();
-    await expect(account.getByText("A copy is in your account")).toBeVisible(
-      forTheAnswer,
-    );
-    await expect(clashQuestion(page)).toHaveCount(0);
-    await expectPlays(page, [
-      accountPlay,
-      accountPlay3,
-      `${local1} renamed`,
-      local2,
-      local3,
-    ]);
-
-    /* Logging out offline removes nothing: stay logged in. */
-    const question = await askToLogOut(page);
-
-    await page.route(accountRequests, (route) => route.abort());
-    await question.getByRole("button", { name: "Log out" }).click();
 
     const stuck = page.getByRole("dialog", {
-      name: "Your latest changes aren't in your account yet",
+      name: "Your latest changes aren't backed up",
     });
 
-    await expect(stuck).toBeVisible(forTheAnswer);
-    await stuck.getByRole("button", { name: "Stay logged in" }).click();
-    await page.unroute(accountRequests);
-    await expectPlays(page, [accountPlay, local2]);
-
-    /* Log out instead, on the question: the device stays as it was. */
-    await logOutAndOpenApp(page);
-    await expectPlays(page, [local2, local3], [accountPlay]);
-    await logIn(page, email);
-    await ownPlaysQuestion(page)
-      .getByRole("button", { name: "Log out instead" })
+    await (
+      await askToLogOut(page)
+    )
+      .getByRole("button", { name: "Log out" })
       .click();
+    await stuck.getByRole("button", { name: "Stay logged in" }).click();
+    await expectPlays(page, [offline]);
+    await (
+      await askToLogOut(page)
+    )
+      .getByRole("button", { name: "Log out" })
+      .click();
+    await stuck.getByRole("button", { name: "Log out anyway" }).click();
     await page.waitForURL("**/login**");
+    await page.unroute(accountRequests);
     await page
       .getByRole("link", { name: "Continue without an account" })
       .click();
     await page.waitForURL("**/app");
     await appReady(page);
-    await expectPlays(page, [local2, local3], [accountPlay]);
-    await page.getByRole("link", { name: "Voydex home" }).click();
-    await expect(page.getByRole("link", { name: "Continue" })).toBeVisible();
-    await expect(
-      page.getByRole("banner").getByRole("link", { name: "Log in" }),
-    ).toBeVisible();
+    await expectPlays(page, [local1], [offline, accountPlay]);
+    await other.page.reload({ waitUntil: "networkidle" });
+    await expectPlays(other.page, [local1], [offline]);
   } finally {
     await other.context.close();
   }

@@ -4,17 +4,33 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import {
+  addBackupFile,
   openBackupFile,
   restoreBackupFile,
   saveBackupFile,
 } from "@/features/settings/client/backup-actions";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
+import { SettingsAccountRestoreDialog } from "@/features/settings/components/settings-account-restore-dialog";
+import {
+  describeContents,
+  SettingsImportDialog,
+  type ImportMode,
+} from "@/features/settings/components/settings-import-dialog";
 import { SettingsKeepDataRow } from "@/features/settings/components/settings-keep-data-row";
-import { SettingsRestoreDialog } from "@/features/settings/components/settings-restore-dialog";
+import {
+  describeBackupDevice,
+  describeBackupTime,
+} from "@/features/settings/utils/backup-copy";
+import {
+  askAgain,
+  backUpNow,
+  useAccountBackupStatus,
+} from "@/platform/local-db/account-runner";
 import type { BackupFile } from "@/platform/local-db/backup-file";
 import {
   describeLastBackup,
   readBackupStatus,
+  readLastAccountBackup,
 } from "@/platform/local-db/backups";
 import { useLocalDb, useLocalRead } from "@/platform/local-db/local-db-context";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -24,12 +40,96 @@ import { SettingsRow } from "@/shared/components/settings-row";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
+const keptLine =
+  "It backs up by itself after each change; your account keeps the last 3.";
+
 /*
- * v3's Your data: save every Play, Plan and setting as a backup file,
- * restore one in place of this device's data, keep the browser from
- * clearing it, and (later) delete the account.
+ * Signed in: when this device last backed up to your account, a newer
+ * backup from another device waiting for your choice, or why it didn't go
+ * up; with Back up now, or Choose to answer.
  */
-export const SettingsDataSection = () => {
+const AccountBackupRow = () => {
+  const { db } = useLocalDb();
+  const status = useAccountBackupStatus();
+  const last = useLocalRead("account-last-backup", () =>
+    readLastAccountBackup(db),
+  );
+  const saving = status.status === "saving";
+  const lastAt = last.status === "ready" ? last.data : null;
+  const description =
+    status.status === "newer"
+      ? `Waiting for you: ${describeBackupDevice(status.device)} saved newer Plays.`
+      : status.status === "failed"
+        ? status.message
+        : lastAt
+          ? `Backed up ${describeBackupTime(lastAt)}. ${keptLine}`
+          : keptLine;
+
+  return (
+    <SettingsRow title="Account backup" description={description}>
+      {status.status === "newer" ? (
+        <Button
+          type="button"
+          className={SETTINGS_ACTION_CLASS_NAME}
+          onClick={askAgain}
+        >
+          Choose
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          variant="secondary"
+          className={SETTINGS_ACTION_CLASS_NAME}
+          disabled={saving || status.status === "off"}
+          aria-busy={saving}
+          onClick={() => void backUpNow()}
+        >
+          {saving ? (
+            <Spinner data-icon="inline-start" />
+          ) : (
+            <AppIcon icon={appIcons.devices.account} inline="start" />
+          )}
+          {saving ? "Backing up..." : "Back up now"}
+        </Button>
+      )}
+    </SettingsRow>
+  );
+};
+
+/* Signed in: puts one of the account's last 3 backups in place of this device's data. */
+const AccountRestoreRow = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <SettingsRow
+      title="Restore from account"
+      description="Puts one of your account's last 3 backups in place of what's on this device"
+    >
+      <Button
+        type="button"
+        variant="secondary"
+        className={SETTINGS_ACTION_CLASS_NAME}
+        onClick={() => setOpen(true)}
+      >
+        <AppIcon icon={appIcons.actions.restore} inline="start" />
+        Restore
+      </Button>
+      <SettingsAccountRestoreDialog
+        open={open}
+        onClose={() => setOpen(false)}
+      />
+    </SettingsRow>
+  );
+};
+
+/*
+ * Your data: the one place data moves. Signed in, the account's backups
+ * (Back up now, Restore from account). Always, Export (every Play, Plan
+ * and setting as one file) and Import (a file in place of everything here,
+ * or its Plays and Plans added as copies), keeping the browser from
+ * clearing it, and (later) deleting the account.
+ */
+export const SettingsDataSection = ({ signedIn }: { signedIn: boolean }) => {
   const { db } = useLocalDb();
   const status = useLocalRead("backup-status", () => readBackupStatus(db));
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,7 +160,21 @@ export const SettingsDataSection = () => {
     setOpened(result.backup);
   };
 
-  const restore = async (backup: BackupFile) => {
+  const importFile = async (backup: BackupFile, mode: ImportMode) => {
+    if (mode === "add") {
+      const result = await addBackupFile(db, backup);
+
+      if (result.status === "error") {
+        toast.error(result.message);
+
+        return false;
+      }
+
+      toast.success(`Added ${describeContents(result.counts)}`);
+
+      return true;
+    }
+
     const result = await restoreBackupFile(db, backup);
 
     if (result.status === "error") {
@@ -69,19 +183,25 @@ export const SettingsDataSection = () => {
       return false;
     }
 
-    toast.success("Backup restored");
+    toast.success("File imported");
 
     return true;
   };
 
   return (
     <DetailSectionCard title="Your data" id="your-data">
+      {signedIn ? (
+        <>
+          <AccountBackupRow />
+          <AccountRestoreRow />
+        </>
+      ) : null}
       <SettingsRow
-        title="Backup"
+        title="Export"
         description={
-          status.status === "ready"
-            ? `${describeLastBackup(status.data.lastBackupAt)}. Your Plays live on this device; a backup file keeps them safe.`
-            : "Your Plays live on this device; a backup file keeps them safe."
+          status.status === "ready" && !signedIn
+            ? `${describeLastBackup(status.data.lastBackupAt)}. Saves everything as one file: Plays, Plans, tags, rules, favourites and settings.`
+            : "Saves everything as one file: Plays, Plans, tags, rules, favourites and settings"
         }
       >
         <Button
@@ -97,12 +217,12 @@ export const SettingsDataSection = () => {
           ) : (
             <AppIcon icon={appIcons.actions.download} inline="start" />
           )}
-          Save backup
+          Export
         </Button>
       </SettingsRow>
       <SettingsRow
-        title="Restore"
-        description="Puts a backup file's data in place of what's on this device"
+        title="Import"
+        description="Brings in a file: in place of everything here, or its Plays and Plans added to yours"
       >
         <Button
           type="button"
@@ -111,13 +231,13 @@ export const SettingsDataSection = () => {
           onClick={() => fileInputRef.current?.click()}
         >
           <AppIcon icon={appIcons.actions.upload} inline="start" />
-          Restore
+          Import
         </Button>
         <input
           ref={fileInputRef}
           type="file"
           className="hidden"
-          aria-label="Backup file to restore"
+          aria-label="File to import"
           onChange={(event) => {
             const [file] = event.target.files ?? [];
 
@@ -138,10 +258,10 @@ export const SettingsDataSection = () => {
           className={`${SETTINGS_ACTION_CLASS_NAME} h-11 justify-center rounded-lg`}
         />
       </SettingsRow>
-      <SettingsRestoreDialog
+      <SettingsImportDialog
         backup={opened}
         onClose={() => setOpened(null)}
-        onRestore={restore}
+        onImport={importFile}
       />
     </DetailSectionCard>
   );

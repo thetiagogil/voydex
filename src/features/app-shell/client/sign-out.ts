@@ -3,9 +3,10 @@
 import { useSyncExternalStore } from "react";
 
 import {
+  logOutAnyway,
   logOutClean,
   type LogOutResult,
-} from "@/platform/local-db/account-sync";
+} from "@/platform/local-db/account-runner";
 import {
   type BrowserSupabaseClient,
   getBrowserSupabaseClient,
@@ -64,11 +65,12 @@ export const useAskLogOut = () => async () => askLogOut();
 const signOutHere = () => signOutOfAccount(getBrowserSupabaseClient().auth);
 
 /*
- * Log out, clean: the account gets everything one last time, this browser
- * signs out and the account's data leaves the device (`logOutClean`).
+ * Log out, clean: the account gets one last backup, the account's data
+ * leaves the device and this browser signs out (`logOutClean`).
  */
 export const logOutAndClear = (userId: string): Promise<LogOutResult> =>
   logOutClean(userId, signOutHere);
 
-/* Log out and keep the device's data, when the last save couldn't go up. */
-export const logOutAndKeep = () => signOutHere();
+/* "Log out anyway", when the last backup couldn't go up: its changes are lost. */
+export const logOutWithoutBackup = (userId: string) =>
+  logOutAnyway(userId, signOutHere);

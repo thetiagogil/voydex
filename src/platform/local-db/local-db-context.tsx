@@ -104,7 +104,7 @@ const keepSave = async (counted: boolean) => {
  * screen updates at once; the write to IndexedDB follows (relaxed
  * durability), and leaving the page before it lands asks first where the
  * browser can ask.
- * `background` marks a save the app made on its own (an account sync),
+ * `background` marks a save the app made on its own (an account backup taken),
  * which isn't counted: it lands at any moment, not after a tap.
  */
 export const notifyLocalSave = ({ background = false } = {}) => {

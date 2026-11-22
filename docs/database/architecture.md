@@ -172,7 +172,7 @@ ships the whole list in `versions.json`, and your rows follow it
   decisions, collectibles, Pokédex marks, move slots, content scopes,
   chosen rules, favourites, library games, rules in a set). A Play, Pokémon or History moment never goes.
 - An ID change isn't your edit: change records move with their rows and
-  keep their times, so account sync never takes it for one.
+  keep their times, so an account backup never counts it as new.
 - The device keeps the entries its rows followed in `device.id_changes`
   (`device-id-changes.ts`), and follows the rest during a game data update,
   or on opening when the release only added entries for files it doesn't
@@ -198,8 +198,8 @@ starts it from the device gate.
 - What: the missing learnsets of the games in use, then the games of your
   Plays (open ones first), Plans and archived Plays, each with its
   learnsets, then every other game, without learnsets. That covers a Play
-  or Plan whose game isn't on the device (restored or synced while
-  offline), learnsets that didn't finish, and New Play or the Planner on a
+  or Plan whose game isn't on the device (restored, or taken from the
+  account, while offline), learnsets that didn't finish, and New Play or the Planner on a
   game never opened, offline. "In use" also counts a game a screen opened
   this visit (New Play, the Planner).
 - Why no learnsets for the rest: every game's file together adds about

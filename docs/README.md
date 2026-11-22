@@ -21,6 +21,7 @@ one canonical owner; other documents should link to it instead of restating it.
 | Database structure and integration         | [Database Architecture](./database/architecture.md)                   |
 | Where user and game data live              | [ADR 0008](./decisions/0008-user-data-on-the-device.md)               |
 | How the app is hosted                      | [ADR 0009](./decisions/0009-app-as-plain-files.md)                    |
+| How an account backs up and logs in        | [ADR 0010](./decisions/0010-account-backups-never-merged.md)          |
 | Tables, constraints, grants, and policies  | `database/schema`                                                     |
 | Seed facts                                 | `database/seeds`                                                      |
 | Durable architecture rationale             | [Architecture Decision Records](./decisions/0001-modular-monolith.md) |
@@ -68,6 +69,7 @@ which slices are currently implemented.
 - [ADR 0007: Development Workflow](./decisions/0007-development-workflow.md)
 - [ADR 0008: User Data Lives On The Device](./decisions/0008-user-data-on-the-device.md)
 - [ADR 0009: The Whole App Is Plain Files](./decisions/0009-app-as-plain-files.md)
+- [ADR 0010: Account Backups, Never Merged](./decisions/0010-account-backups-never-merged.md)
 - [Design References](./design/README.md)
 - [Soft Clay Brief](./design/soft-clay-brief.md)
 - [Codex Pokémon Detail Direction](./design/codex-pokemon-detail.md)

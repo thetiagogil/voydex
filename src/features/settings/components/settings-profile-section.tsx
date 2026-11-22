@@ -73,8 +73,8 @@ export const SettingsProfileSection = ({
   const [served, setServed] = useState(incoming);
 
   /*
-   * The saved profile changed under the form (another device's, through
-   * sync): follow it, unless you have unsaved changes of your own.
+   * The saved profile changed under the form (another device's backup,
+   * taken): follow it, unless you have unsaved changes of your own.
    */
   if (!sameProfile(served, incoming)) {
     setServed(incoming);

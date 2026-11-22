@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  leavePlaysOut,
-  withSyncPaused,
-} from "@/platform/local-db/account-sync";
+import { addBackup, type AddedCounts } from "@/platform/local-db/add-backup";
+import { withBackupsPaused } from "@/platform/local-db/account-runner";
 import {
   BackupFileError,
   readBackupFile,
@@ -19,8 +17,8 @@ import { LocalDbError, type LocalDb } from "@/platform/local-db/local-db";
 import { notifyLocalSave } from "@/platform/local-db/local-db-context";
 
 /*
- * Settings' backup file: save every row of yours as a file, and restore
- * one in place of this device's data.
+ * Settings' Export and Import: save every row of yours as a file, and
+ * bring one in, in place of this device's data or added to it.
  */
 
 export type BackupResult =
@@ -90,8 +88,8 @@ export const restoreBackupFile = async (
   backup: BackupFile,
 ): Promise<BackupResult> => {
   try {
-    /* No account sync runs while the backup goes in; one runs after. */
-    await withSyncPaused(() =>
+    /* No account backup runs while the file goes in; one runs after. */
+    await withBackupsPaused(() =>
       restoreBackup(db, backup, { ensureGame: ensureVersionGroupData }),
     );
     notifyLocalSave();
@@ -108,27 +106,28 @@ export const restoreBackupFile = async (
   }
 };
 
-/*
- * "Leave them out" for Plays from another account: they go to a backup
- * file first, then this device takes the signed-in account's data. If the
- * file doesn't save, nothing changes.
- */
-export const leaveOtherAccountOut = async (
+export type AddResult =
+  | { counts: AddedCounts; status: "success" }
+  | { message: string; status: "error" };
+
+/* Adds a file's Plays and Plans to this device's, as copies. */
+export const addBackupFile = async (
   db: LocalDb,
-): Promise<BackupResult> => {
-  const saved = await saveBackupFile(db);
-
-  if (saved.status === "error") return saved;
-
+  backup: BackupFile,
+): Promise<AddResult> => {
   try {
-    await leavePlaysOut();
+    const counts = await withBackupsPaused(() =>
+      addBackup(db, backup, { ensureGame: ensureVersionGroupData }),
+    );
 
-    return { status: "success" };
+    notifyLocalSave();
+
+    return { counts, status: "success" };
   } catch (error) {
     return {
       message: toMessage(
         error,
-        "Voydex couldn't leave them out, so nothing changed. Try again.",
+        "The file's Plays weren't added, so nothing changed. Try again.",
       ),
       status: "error",
     };
