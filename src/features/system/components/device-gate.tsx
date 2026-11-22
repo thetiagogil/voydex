@@ -1,10 +1,11 @@
 "use client";
 
-import { Suspense, useEffect, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 
 import { DeviceProblemState } from "@/features/system/components/device-problem-state";
 import { DeviceStartState } from "@/features/system/components/device-start-state";
 import { OldGameDataNotice } from "@/features/system/components/old-game-data-notice";
+import { isFirstSyncPending } from "@/platform/local-db/account-sync";
 import { watchBackgroundDownloads } from "@/platform/local-db/game-downloads";
 import { listenForInstallPrompt } from "@/platform/local-db/install-prompt";
 import {
@@ -54,7 +55,16 @@ export const DeviceGate = ({
   children: ReactNode;
   prepare?: PreparePages;
 }) => {
-  const { retry, startFresh, state } = useOpenLocalDb({ prepare });
+  /*
+   * Right after Log in the account's sync comes next and changes what the
+   * pages show: they are read once, after it, as the last step of the same
+   * bar, not here too.
+   */
+  const [withAccount] = useState(isFirstSyncPending);
+  const { retry, startFresh, state } = useOpenLocalDb({
+    prepare,
+    readPagesLater: withAccount,
+  });
 
   const opened = state.status === "open";
 
@@ -65,13 +75,17 @@ export const DeviceGate = ({
     <Suspense
       fallback={
         <StartFrame>
-          <DeviceStartState step={null} />
+          <DeviceStartState step={null} withAccount={withAccount} />
         </StartFrame>
       }
     >
       {state.status === "opening" ? (
         <StartFrame>
-          <DeviceStartState step={state.step} />
+          <DeviceStartState
+            pages={state.pages}
+            step={state.step}
+            withAccount={withAccount}
+          />
         </StartFrame>
       ) : state.status === "failed" ? (
         <StartFrame>

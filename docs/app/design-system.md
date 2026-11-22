@@ -620,8 +620,11 @@ There are no site-only stills: a public picture uses the app's own component.
   the site (the front page, Log in), with round bottom corners (2026-11-20),
   under the red top bar: the V tile and
   the name, the sections as white words (the current one a white pill, the
-  same size and weight as a hovered link), and your utilities. The start
-  screen stands alone on the wall: the V in a ring that fills or turns.
+  same size and weight as a hovered link), and your utilities. The app's
+  one loading screen (`LoadingSteps`) stands alone on the wall: the V, a
+  title, a progress bar with one part per step (filled as each ends, the
+  current one filling or pulsing), "Step n of N: what it does" under it and
+  a line for its detail that is always there, so nothing moves.
 - Before adding or materially styling a recurring pattern, inventory the
   primitives and the components above and reuse the closest one. Add a variant
   only for a materially different contract.

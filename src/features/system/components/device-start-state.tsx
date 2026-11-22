@@ -1,53 +1,54 @@
 import { getGameDataPercent } from "@/platform/local-db/game-data";
 import type { PrepareStep } from "@/platform/local-db/prepare-device";
-import { StartMark } from "@/shared/components/brand/start-mark";
+import {
+  getStartupSteps,
+  getStartupTitle,
+  startupStepLabels,
+} from "@/platform/local-db/startup-steps";
+import { LoadingSteps } from "@/shared/components/brand/loading-steps";
 
+/* What opening the device is doing, when it is more than opening. */
 const describeStep = (step: PrepareStep | null) => {
   switch (step?.step) {
     case "updating":
-      return {
-        detail: "A copy of your data is kept until it's done.",
-        title: "Updating the data on this device",
-      };
+      return "Updating the data on this device. A copy is kept until it's done.";
     case "base":
-      return {
-        detail: "This happens once, the first time you open Voydex here.",
-        title: "Setting up Voydex on this device",
-      };
+      return "Setting up Voydex on this device. This happens once.";
     case "game-data":
-      return {
-        detail:
-          "New game data came out. Your Plays and Plans stay as they are.",
-        title: "Updating game data",
-      };
+      return "New game data came out. Your Plays and Plans stay as they are.";
     default:
-      return { detail: null, title: "Opening your Plays" };
+      return null;
   }
 };
 
 /*
- * The start screen: the one step between the website and the app, alone on
- * the wall while the device database opens. The V sits in a ring that fills
- * while game data downloads (the first time Voydex sets up on a device, or
- * when new game data came out) and turns otherwise.
+ * The start screen: the first steps of the app's one loading bar, alone on
+ * the wall while the device database opens and, then, the app's pages are
+ * read. Right after Log in (`withAccount`) the account's sync follows on
+ * the next screen, as the next steps of the same bar.
  */
-export const DeviceStartState = ({ step }: { step: PrepareStep | null }) => {
-  const { detail, title } = describeStep(step);
-  const progress =
+export const DeviceStartState = ({
+  pages = false,
+  step,
+  withAccount = false,
+}: {
+  /* The device is open: the app's pages are being read. */
+  pages?: boolean;
+  step: PrepareStep | null;
+  withAccount?: boolean;
+}) => {
+  const steps = getStartupSteps(withAccount);
+  const download =
     step?.step === "base" || step?.step === "game-data" ? step.progress : null;
-  const saving = progress !== null && progress.step !== "downloading";
+  const key = pages ? "pages" : "device";
 
   return (
-    <div
-      role="status"
-      className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center"
-    >
-      <StartMark
-        progress={progress ? getGameDataPercent(progress) : "busy"}
-        progressLabel={saving ? "Saving game data" : "Downloading game data"}
-      />
-      <p className="title-card mt-2">{title}</p>
-      {detail ? <p className="text-ink-2 copy-body">{detail}</p> : null}
-    </div>
+    <LoadingSteps
+      title={getStartupTitle(withAccount)}
+      steps={steps.map((stepKey) => startupStepLabels[stepKey])}
+      current={steps.indexOf(key)}
+      fraction={!pages && download ? getGameDataPercent(download) / 100 : null}
+      detail={pages ? null : describeStep(step)}
+    />
   );
 };

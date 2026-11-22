@@ -91,10 +91,9 @@ test.describe("Log in", () => {
 
     /* The step says how far it has got while the games come down. */
     await expect(
-      page.getByText(/^Downloading game data: \d+ of \d+ games$/),
-    ).toBeVisible({
-      timeout: 60_000,
-    });
+      page.getByText("Step 3 of 5: Downloading game data"),
+    ).toBeVisible({ timeout: 60_000 });
+    await expect(page.getByText(/^\d+ of \d+ games$/)).toBeVisible();
 
     /* The moment the app shows, Home is already filled: no empty state first. */
     await expect(page.getByRole("navigation").first()).toBeVisible({

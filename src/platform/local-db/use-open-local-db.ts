@@ -16,7 +16,8 @@ import {
 } from "@/platform/local-db/prepare-device";
 
 export type LocalDbOpenState =
-  | { status: "opening"; step: PrepareStep | null }
+  /* `pages`: the database is open and the pages are being read. */
+  | { pages?: boolean; status: "opening"; step: PrepareStep | null }
   | { db: LocalDb; status: "open"; versions: GameDataVersions | null }
   | { message: string; problem: DeviceProblem | "failed"; status: "failed" };
 
@@ -115,8 +116,19 @@ const readOpenNow = (
  * again; `startFresh` deletes the device's data first (the caller confirms).
  */
 export const useOpenLocalDb = ({
-  prepare,
-}: { prepare?: PreparePages } = {}) => {
+  prepare: pages,
+  readPagesLater = false,
+}: {
+  prepare?: PreparePages;
+  /*
+   * Someone else reads the pages once the device is open (right after Log
+   * in, the account's step does, after its sync): open without reading
+   * them, and count them as ready, so going back in later in the visit
+   * still shows the app at once.
+   */
+  readPagesLater?: boolean;
+} = {}) => {
+  const prepare = readPagesLater ? undefined : pages;
   const [state, setState] = useState<LocalDbOpenState>(
     () => readOpenNow(prepare) ?? { status: "opening", step: null },
   );
@@ -127,14 +139,15 @@ export const useOpenLocalDb = ({
 
       return open((step) => setState({ status: "opening", step })).then(
         async ({ db, versions }) => {
+          if (prepare) setState({ pages: true, status: "opening", step: null });
           await getReady(db, prepare);
-          markPagesReady(db, prepare);
+          markPagesReady(db, pages);
           showOpen(setState, { db, status: "open", versions });
         },
         (error: unknown) => setState(toFailedState(error)),
       );
     },
-    [prepare],
+    [pages, prepare],
   );
 
   useEffect(() => {
@@ -148,8 +161,12 @@ export const useOpenLocalDb = ({
       if (current) setState({ status: "opening", step });
     }).then(
       async ({ db, versions }) => {
+        if (current && prepare) {
+          setState({ pages: true, status: "opening", step: null });
+        }
+
         await getReady(db, prepare);
-        markPagesReady(db, prepare);
+        markPagesReady(db, pages);
         await wait(getStartScreenWaitMs(performance.now() - shownAt));
 
         if (current) showOpen(setState, { db, status: "open", versions });
@@ -162,7 +179,7 @@ export const useOpenLocalDb = ({
     return () => {
       current = false;
     };
-  }, [prepare]);
+  }, [pages, prepare]);
 
   return {
     retry: () => run(openLocalDb),

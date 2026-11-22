@@ -119,7 +119,12 @@ log-in pages beside it. Everything else is the app.
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens
   and every tab gets ready, so the bars appear with a working app and
-  changing tabs afterwards never waits. It shows once per visit and never
+  changing tabs afterwards never waits. It is the app's one loading
+  screen: a progress bar with a part for every step, from opening the
+  device to the pages being ready, and right after Log in the account's
+  sync steps in between (reading your account, downloading game data with
+  a count, putting your Plays on this device), as one bar from start to
+  end on the same screen (`startup-steps.ts`). It shows once per visit and never
   for less than a second, so it doesn't flash by on a quick device: going
   out to the front page or Log in and back in again shows the app at
   once, with no start screen (`useOpenLocalDb`). Every move between the

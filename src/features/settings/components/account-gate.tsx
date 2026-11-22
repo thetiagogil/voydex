@@ -15,11 +15,16 @@ import {
 } from "@/platform/local-db/account-sync";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import {
+  getStartupSteps,
+  getStartupTitle,
+  startupStepLabels,
+} from "@/platform/local-db/startup-steps";
+import {
   AppIcon,
   appIcons,
   type AppIconComponent,
 } from "@/shared/components/app-icon";
-import { StartMark } from "@/shared/components/brand/start-mark";
+import { LoadingSteps } from "@/shared/components/brand/loading-steps";
 import { IconDisc } from "@/shared/components/icon-disc";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
@@ -47,49 +52,41 @@ const GateFrame = ({ children }: { children: ReactNode }) => (
   </div>
 );
 
-/* What the step says it is doing, and how far along when it can tell. */
+/* Where the first sync is on the app's one loading bar. */
 const describeProgress = (progress: FirstSyncProgress) => {
   switch (progress?.step) {
     case "games":
       return {
-        detail: `Downloading game data: ${progress.done} of ${progress.total} ${progress.total === 1 ? "game" : "games"}`,
-        percent: progress.total
-          ? Math.round((progress.done / progress.total) * 100)
-          : null,
+        detail: `${progress.done} of ${progress.total} ${progress.total === 1 ? "game" : "games"}`,
+        fraction: progress.total ? progress.done / progress.total : null,
+        key: "games" as const,
       };
     case "applying":
-      return { detail: "Putting your Plays on this device", percent: null };
+      return { detail: null, fraction: null, key: "applying" as const };
     case "pages":
-      return { detail: "Getting your pages ready", percent: null };
+      return { detail: null, fraction: null, key: "pages" as const };
     default:
-      return { detail: "Reading your account", percent: null };
+      return { detail: null, fraction: null, key: "account" as const };
   }
 };
 
 /*
- * The wait after logging in: your account's Plays are on their way. It is
- * laid out as the start screen it follows, so the mark stays where it was,
- * and its words come a moment late: a wait that ends at once (straight on
- * to the question below) never flashes them. The ring fills while game
- * data downloads, and a line says what it is doing.
+ * The wait after logging in: the next steps of the app's one loading bar,
+ * after the device opened on the start screen (same title, same bar, same
+ * place), through the account's sync to the pages being read.
  */
 const SyncStep = () => {
-  const { detail, percent } = describeProgress(useFirstSyncProgress());
+  const { detail, fraction, key } = describeProgress(useFirstSyncProgress());
+  const steps = getStartupSteps(true);
 
   return (
-    <div
-      role="status"
-      className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center"
-    >
-      <StartMark
-        progress={percent ?? "busy"}
-        progressLabel="Bringing your account to this device"
-      />
-      <p className="title-card appear-late mt-2">
-        Bringing your account to this device
-      </p>
-      <p className="text-ink-2 copy-body appear-late">{detail}</p>
-    </div>
+    <LoadingSteps
+      title={getStartupTitle(true)}
+      steps={steps.map((stepKey) => startupStepLabels[stepKey])}
+      current={steps.indexOf(key)}
+      fraction={fraction}
+      detail={detail}
+    />
   );
 };
 

@@ -30,8 +30,9 @@ export const waitForAction = async (page: Page, count = 1) => {
 export const forTheAnswer = { timeout: 0 };
 
 /*
- * Watches the page from now on and answers, when asked, whether the start
- * screen ("Opening your Plays") ever showed: going back into the app in the
+ * Watches the page from now on and answers, when asked, whether the app's
+ * loading screen (its stepped progress bar: the start screen, or the
+ * account's sync after Log in) ever showed: going back into the app in the
  * same visit must not flash it.
  */
 export const watchForStartScreen = async (page: Page) => {
@@ -39,7 +40,7 @@ export const watchForStartScreen = async (page: Page) => {
     const seen = { start: false };
 
     new MutationObserver(() => {
-      if (document.body.innerText.includes("Opening your Plays")) {
+      if (document.querySelector("[role=status] [role=progressbar]")) {
         seen.start = true;
       }
     }).observe(document.body, { childList: true, subtree: true });

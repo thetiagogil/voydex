@@ -244,6 +244,9 @@ const setFirstSyncPending = (next: boolean) => {
     .finally(open);
 };
 
+/* Whether a first sync is on its way (read once, by the device's start screen). */
+export const isFirstSyncPending = () => firstSyncPending;
+
 /* Log in calls this: the next sync is one the app waits for. */
 export const expectFirstSync = () => setFirstSyncPending(true);
 
