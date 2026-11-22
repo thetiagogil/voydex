@@ -202,6 +202,12 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(page.getByRole("navigation").first()).toBeVisible(
       forTheAnswer,
     );
+    /* The app opens finished: Home is there with the bars, not still loading. */
+    expect(
+      await page
+        .getByRole("heading", { name: "Your first Play starts here" })
+        .count(),
+    ).toBe(1);
     await page.goto("/app/plays", { waitUntil: "networkidle" });
     await expect(page.getByText(theirs)).toBeHidden();
     await startPlay(page, {

@@ -105,6 +105,8 @@ export const useAccountSync = () =>
 let firstSyncPending = false;
 let firstSyncSince = 0;
 let firstSyncTimer: ReturnType<typeof setTimeout> | null = null;
+/* Counts each wait, so a slow finish of an earlier one can't end a later one. */
+let firstSyncRound = 0;
 const firstSyncListeners = new Set<() => void>();
 
 /*
@@ -114,6 +116,32 @@ const firstSyncListeners = new Set<() => void>();
 export const firstSyncLimitMs = 10_000;
 /* The least its step shows once it shows, so it never flashes by. */
 export const firstSyncMinMs = 1000;
+/* The longest it then waits for the app's pages to be read again. */
+export const firstSyncPagesLimitMs = 4000;
+
+/* Gets the app's pages ready once the account is in; the app's route names them. */
+let prepareApp: (() => Promise<void>) | null = null;
+
+/*
+ * Names how the app's pages are read ahead after the first sync, so the
+ * step gives way to a finished app and not to its loading states. Returns
+ * the way to take it back.
+ */
+export const prepareAppAfterFirstSync = (prepare: () => Promise<void>) => {
+  prepareApp = prepare;
+
+  return () => {
+    if (prepareApp === prepare) prepareApp = null;
+  };
+};
+
+const showFirstSync = (pending: boolean) => {
+  if (firstSyncPending === pending) return;
+
+  firstSyncPending = pending;
+
+  for (const listener of firstSyncListeners) listener();
+};
 
 const setFirstSyncPending = (next: boolean) => {
   if (firstSyncTimer !== null) clearTimeout(firstSyncTimer);
@@ -121,33 +149,59 @@ const setFirstSyncPending = (next: boolean) => {
   firstSyncTimer = null;
 
   if (next) {
-    firstSyncTimer = setTimeout(
-      () => setFirstSyncPending(false),
-      firstSyncLimitMs,
-    );
+    firstSyncRound += 1;
 
-    if (firstSyncPending) return;
+    const round = firstSyncRound;
 
-    firstSyncSince = Date.now();
-  } else {
-    if (!firstSyncPending) return;
+    /* Whatever happens, the app opens after the limit. */
+    firstSyncTimer = setTimeout(() => {
+      if (round === firstSyncRound) showFirstSync(false);
+    }, firstSyncLimitMs);
 
-    /* A sync that goes through at once still shows its step for a moment. */
-    const shownForMs = Date.now() - firstSyncSince;
+    if (!firstSyncPending) firstSyncSince = Date.now();
 
-    if (shownForMs < firstSyncMinMs) {
-      firstSyncTimer = setTimeout(
-        () => setFirstSyncPending(false),
-        firstSyncMinMs - shownForMs,
-      );
+    showFirstSync(true);
 
-      return;
-    }
+    return;
   }
 
-  firstSyncPending = next;
+  if (!firstSyncPending) return;
 
-  for (const listener of firstSyncListeners) listener();
+  /* A sync that goes through at once still shows its step for a moment. */
+  const shownForMs = Date.now() - firstSyncSince;
+
+  if (shownForMs < firstSyncMinMs) {
+    firstSyncTimer = setTimeout(
+      () => setFirstSyncPending(false),
+      firstSyncMinMs - shownForMs,
+    );
+
+    return;
+  }
+
+  /* The account is in: read the app's pages again, then show the app. */
+  const round = firstSyncRound;
+  const open = () => {
+    if (round === firstSyncRound) showFirstSync(false);
+  };
+
+  if (!prepareApp) {
+    open();
+
+    return;
+  }
+
+  let limit: ReturnType<typeof setTimeout> | undefined;
+
+  void Promise.race([
+    prepareApp().catch(() => undefined),
+    new Promise<void>((resolve) => {
+      limit = setTimeout(resolve, firstSyncPagesLimitMs);
+    }),
+  ]).finally(() => {
+    clearTimeout(limit);
+    open();
+  });
 };
 
 /* Log in calls this: the next sync is one the app waits for. */

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { AccountSyncRunner } from "@/features/settings/components/account-sync-runner";
 import { useAuthSession } from "@/platform/local-db/account-session";
 import {
   addPlaysToAccount,
   keepOwnDataSeparate,
+  prepareAppAfterFirstSync,
   useAccountSync,
   useFirstSyncPending,
 } from "@/platform/local-db/account-sync";
@@ -30,6 +31,11 @@ type AccountGateProps = {
   deviceData: ReactNode;
   /* "Log out instead": signs out and leaves the device as it is. */
   onLogOut: () => Promise<void>;
+  /*
+   * Reads the app's pages ahead once the account is in, so the step gives
+   * way to a finished app, never to its loading states.
+   */
+  prepare?: () => Promise<void>;
 };
 
 /* Alone on the wall, like the start screen: no bars until the app shows. */
@@ -39,15 +45,21 @@ const GateFrame = ({ children }: { children: ReactNode }) => (
   </div>
 );
 
-/* The wait after logging in: your account's Plays are on their way. */
+/*
+ * The wait after logging in: your account's Plays are on their way. It is
+ * laid out as the start screen it follows, so the mark stays where it was,
+ * and its words come a moment late: a wait that ends at once (straight on
+ * to the question below) never flashes them.
+ */
 const SyncStep = () => (
   <div
     role="status"
     className="mx-auto flex w-full max-w-sm flex-col items-center gap-3 text-center"
   >
     <StartMark progress="busy" progressLabel="Syncing with your account" />
-    <p className="title-card mt-2">Bringing your account to this device</p>
-    <p className="text-ink-2 copy-body">Your Plays will be right here.</p>
+    <p className="title-card appear-late mt-2">
+      Bringing your account to this device
+    </p>
   </div>
 );
 
@@ -263,8 +275,9 @@ const OwnDataChoice = ({
 /*
  * The step between logging in and the app, standing where the app would:
  * nothing of the app shows until your account is in sync with this device.
- * Right after Log in it waits for the first sync (a few seconds at most,
- * then the app opens anyway and sync carries on); when this device holds
+ * Right after Log in it waits for the first sync and for the app's pages
+ * to be read again (`prepare`), so the app opens finished; after a few
+ * seconds at most it opens anyway and sync carries on. When this device holds
  * data of its own, made without an account, it asks what to do with it
  * first. It also keeps account sync running under the app
  * (`AccountSyncRunner`).
@@ -273,7 +286,13 @@ export const AccountGate = ({
   children,
   deviceData,
   onLogOut,
+  prepare,
 }: AccountGateProps) => {
+  useEffect(
+    () => (prepare ? prepareAppAfterFirstSync(prepare) : undefined),
+    [prepare],
+  );
+
   const session = useAuthSession();
   const sync = useAccountSync();
   const firstSyncPending = useFirstSyncPending();
