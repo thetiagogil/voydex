@@ -289,10 +289,22 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
             </ul>
           </div>
         ) : (
-          <p className="text-ink-2 copy-note">
-            Add playtime in a Play&apos;s settings and this shows where your
-            hours go. It&apos;s optional. Everything else here works without it.
-          </p>
+          /* No playtime yet: the ring keeps its place, empty, beside how it fills. */
+          <div className="flex flex-col items-center gap-4 md:flex-row md:items-center md:gap-8">
+            <TimeDonut
+              activeKey={null}
+              colours={[]}
+              getFocusProps={getFocusProps}
+              minutes={0}
+              otherMinutes={0}
+              rows={[]}
+            />
+            <p className="text-ink-2 copy-note max-w-md max-md:text-center">
+              Add playtime in a Play&apos;s settings and this shows where your
+              hours go. It&apos;s optional. Everything else here works without
+              it.
+            </p>
+          </div>
         )}
 
         {stats.time.length && untracked.length ? (

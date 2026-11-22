@@ -41,8 +41,10 @@ type StatsStyleSectionProps = {
 /* The grid shows the types you lean on; See all opens every one. */
 const typesShownFirst = 12;
 
-/* Old friends shows once it can fill a row. */
-const oldFriendsShownFrom = 3;
+/* Old friends has six places; the ones still open show as empty slots. */
+const oldFriendSlots = 6;
+/* With fewer than a row of them, a line says how one gets there. */
+const oldFriendsRow = 3;
 
 /* One type as v3's `.tygrid` tile: tinted by how often you pick it. */
 const TypeTile = ({
@@ -217,6 +219,29 @@ const MostPickedCard = ({
 };
 
 /*
+ * Most picked before any Pokémon has been in two Plays: its place kept
+ * open, and how one gets there. The section never leaves the page.
+ */
+const MostPickedEmpty = () => (
+  <DetailSectionCard
+    title="Most picked"
+    contentClassName="flex flex-col items-center justify-center gap-3 text-center"
+  >
+    <span
+      aria-hidden
+      className="empty-slot text-ink-3 grid size-28 shrink-0 place-items-center rounded-lg"
+    >
+      <AppIcon icon={appIcons.product.caught} size="xl" />
+    </span>
+    <p className="text-ink copy-strong">No favourite yet</p>
+    <p className="text-ink-2 copy-note max-w-xs">
+      Use the same Pokémon in two Plays and it stands here, with what only it
+      can tell.
+    </p>
+  </DetailSectionCard>
+);
+
+/*
  * Your team style, three sections side by side and one height on wide screens
  * (Old friends moves under the other two on tablets): the Pokémon you pick
  * most; the types you pick as v3's tile grid (the twelve you lean on, every
@@ -234,132 +259,117 @@ export const StatsStyleSection = ({
   );
   const used = ranked.filter((type) => type.count > 0);
   const most = Math.max(1, used[0]?.count ?? 1);
-  /* A lone friend or two reads as a gap, so the card waits for a full row. */
-  const showFriends = stats.friends.length >= oldFriendsShownFrom;
-  /*
-   * With a card missing, Types you pick takes the room: six across on wide
-   * screens, so every type shows and "See all" goes.
-   */
-  const typesTakeRoom = !stats.mostPicked || !showFriends;
+  const friends = stats.friends.slice(0, oldFriendSlots);
+  const openFriendSlots = oldFriendSlots - friends.length;
+
   return (
     <>
-      <div
-        className={cn(
-          "grid gap-4",
-          stats.mostPicked
-            ? showFriends
-              ? "md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)_minmax(0,1.3fr)]"
-              : "md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)]"
-            : showFriends && "xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1.1fr)]",
-        )}
-      >
+      {/* All three sections, always: one with nothing yet keeps its place and says what fills it. */}
+      <div className="grid gap-4 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.45fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)_minmax(0,1.3fr)]">
         {stats.mostPicked ? (
           <MostPickedCard
             mostPicked={stats.mostPicked}
             onOpenPokemon={onOpenPokemon}
           />
-        ) : null}
+        ) : (
+          <MostPickedEmpty />
+        )}
 
         <DetailSectionCard
           title="Types you pick"
           aside={`${used.length} of ${stats.types.length} used`}
           contentClassName="flex flex-col gap-4"
         >
-          {used.length ? (
-            <>
-              <ol
-                className={cn(
-                  "grid flex-1 grid-cols-4 gap-2",
-                  typesTakeRoom && "xl:grid-cols-6",
-                )}
-              >
-                {(typesTakeRoom
-                  ? ranked
-                  : ranked.slice(0, typesShownFirst)
-                ).map((type, index) => (
-                  <TypeTile
-                    key={type.slug}
-                    className={cn(
-                      "justify-center py-2",
-                      index >= typesShownFirst && "max-xl:hidden",
-                    )}
-                    most={most}
-                    type={type}
-                  />
-                ))}
-              </ol>
-              {ranked.length > typesShownFirst ? (
-                <TextLink
-                  arrow="forward"
-                  onClick={() => setIsAllTypesOpen(true)}
-                  className={cn(
-                    "-mt-1 self-start",
-                    typesTakeRoom && "xl:hidden",
-                  )}
-                >
-                  See all {ranked.length} types
-                </TextLink>
-              ) : null}
-            </>
-          ) : (
+          <ol className="grid flex-1 grid-cols-4 gap-2">
+            {ranked.slice(0, typesShownFirst).map((type) => (
+              <TypeTile
+                key={type.slug}
+                className="justify-center py-2"
+                most={most}
+                type={type}
+              />
+            ))}
+          </ol>
+          {used.length ? null : (
             <p className="text-ink-2 copy-note">
-              Add Pokémon to your teams and the types you pick show up here.
+              Add Pokémon to your teams and the types you pick fill in.
             </p>
           )}
+          {ranked.length > typesShownFirst ? (
+            <TextLink
+              arrow="forward"
+              onClick={() => setIsAllTypesOpen(true)}
+              className="-mt-1 self-start"
+            >
+              See all {ranked.length} types
+            </TextLink>
+          ) : null}
         </DetailSectionCard>
 
-        {showFriends ? (
-          <DetailSectionCard
-            title="Old friends"
-            aside="Back for more than one run"
-            className="md:col-span-full xl:col-span-1"
-            contentClassName="flex flex-col gap-4"
-          >
-            <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
-              {stats.friends.slice(0, 6).map((friend) => (
-                <li
-                  key={friend.speciesSlug}
-                  className="relative flex min-w-0 transition-transform duration-150 hover:-translate-y-0.75"
-                >
-                  <PokemonSticker
-                    variant="mini"
-                    /* The card lifts instead, carrying the family tip. */
-                    className="w-full justify-center hover:translate-y-0"
-                    detail="Open"
-                    onClick={() => onOpenFriend(friend)}
-                    imageUrl={friend.imageUrl}
-                    name={friend.entry.name}
-                    subtitle={`${friend.playCount} Plays`}
-                    types={friend.types}
-                    showTypes={false}
-                  />
-                  {friend.family.length > 1 ? (
-                    <CornerBubble corner="inside-top-left">
-                      <ExplanatoryTip
-                        triggerVariant="raised"
-                        triggerLabel={`${friend.entry.name}'s family`}
-                        contentClassName="w-60"
-                        content={
-                          <TipNamed name={`${friend.entry.name}'s family`}>
-                            You used {friend.memberNames} across{" "}
-                            {friend.playCount} Plays.
-                          </TipNamed>
-                        }
-                      >
-                        <AppIcon icon={appIcons.product.family} size="sm" />
-                      </ExplanatoryTip>
-                    </CornerBubble>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-            <SectionMoreLink
-              href={appRoutes.mainlineCollection}
-              label="See your whole Collection"
-              className="self-start"
-            />
-          </DetailSectionCard>
-        ) : null}
+        <DetailSectionCard
+          title="Old friends"
+          aside="Back for more than one run"
+          className="md:col-span-full xl:col-span-1"
+          contentClassName="flex flex-col gap-4"
+        >
+          <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
+            {friends.map((friend) => (
+              <li
+                key={friend.speciesSlug}
+                className="relative flex min-w-0 transition-transform duration-150 hover:-translate-y-0.75"
+              >
+                <PokemonSticker
+                  variant="mini"
+                  /* The card lifts instead, carrying the family tip. */
+                  className="w-full justify-center hover:translate-y-0"
+                  detail="Open"
+                  onClick={() => onOpenFriend(friend)}
+                  imageUrl={friend.imageUrl}
+                  name={friend.entry.name}
+                  subtitle={`${friend.playCount} Plays`}
+                  types={friend.types}
+                  showTypes={false}
+                />
+                {friend.family.length > 1 ? (
+                  <CornerBubble corner="inside-top-left">
+                    <ExplanatoryTip
+                      triggerVariant="raised"
+                      triggerLabel={`${friend.entry.name}'s family`}
+                      contentClassName="w-60"
+                      content={
+                        <TipNamed name={`${friend.entry.name}'s family`}>
+                          You used {friend.memberNames} across{" "}
+                          {friend.playCount} Plays.
+                        </TipNamed>
+                      }
+                    >
+                      <AppIcon icon={appIcons.product.family} size="sm" />
+                    </ExplanatoryTip>
+                  </CornerBubble>
+                ) : null}
+              </li>
+            ))}
+            {/* The places still open: a friend comes back, a slot fills. */}
+            {Array.from({ length: openFriendSlots }, (_, index) => (
+              <li
+                key={`open-${index}`}
+                aria-hidden
+                className="empty-slot min-h-32 rounded-lg"
+              />
+            ))}
+          </ul>
+          {friends.length < oldFriendsRow ? (
+            <p className="text-ink-2 copy-note">
+              Bring a Pokémon, or one of its family, back for another Play and
+              it takes a place here.
+            </p>
+          ) : null}
+          <SectionMoreLink
+            href={appRoutes.mainlineCollection}
+            label="See your whole Collection"
+            className="self-start"
+          />
+        </DetailSectionCard>
       </div>
 
       <OverlaySheet
