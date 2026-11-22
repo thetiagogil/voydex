@@ -38,7 +38,8 @@ and should stay. What has to change is where they run.
   one small version list. They are published to Cloudflare Pages, with the
   images.
 - A game downloads when its first Play is created. The games your Plays and
-  Plans use download in the background when one is missing (#277).
+  Plans use download in the background when one is missing (#277), then
+  every other game without its learnsets, so any game starts offline.
 - Codex becomes pre-built pages made from the same data, with no database
   read at runtime.
 

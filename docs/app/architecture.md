@@ -457,8 +457,9 @@ the device:
   needs it (a Play starting, a Plan's moves or save), with its
   learnsets after, in the background. Once the device gate opens, the
   games the device should have download quietly in the background
-  (`game-data-background.ts`): the games of your Plays and Plans, and any
-  missing learnsets.
+  (`game-data-background.ts`): the games of your Plays and Plans with
+  their learnsets, then every other game without learnsets, so New Play
+  and the Planner work offline for any game.
 - **The Codex, the game pickers and the Team Planner's Pokémon** read
   pre-built files (#256, #289): the build
   runs the Codex's `server/` readers once over every game data file and

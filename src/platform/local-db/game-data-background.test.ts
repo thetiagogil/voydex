@@ -14,6 +14,7 @@ import {
 } from "@/platform/local-db/game-data-background";
 import { buildFile } from "@/platform/local-db/game-data-test-support";
 import { createTestDevice } from "@/platform/local-db/local-db-test-support";
+import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import {
   hashDeviceSchemaSql,
   readDeviceSchemaSql,
@@ -157,6 +158,37 @@ describe("planBackgroundDownloads", () => {
     ]);
   });
 
+  it("leaves the learnsets of a game on the device that nothing uses", () => {
+    const installed = new Map([
+      ["base", base.entry.hash],
+      ["swsh", swsh.entry.hash],
+    ]);
+
+    expect(planBackgroundDownloads(versions, installed, [])).toEqual([]);
+  });
+
+  it("brings every other game last, without learnsets, when asked", () => {
+    expect(
+      planBackgroundDownloads(versions, new Map(), [23], { everyGame: true }),
+    ).toEqual([
+      { file: "game", slug: "sv" },
+      { file: "learnsets", slug: "sv" },
+      { file: "game", slug: "swsh", spare: true },
+    ]);
+  });
+
+  it("brings no spare game the device already has", () => {
+    const installed = new Map([
+      ["base", base.entry.hash],
+      ["swsh", swsh.entry.hash],
+      ["sv", sv.entry.hash],
+    ]);
+
+    expect(
+      planBackgroundDownloads(versions, installed, [], { everyGame: true }),
+    ).toEqual([]);
+  });
+
   it("plans a game once, whichever of its version groups is wanted", () => {
     expect(planBackgroundDownloads(versions, new Map(), [20, 18, 19])).toEqual([
       { file: "game", slug: "swsh" },
@@ -230,10 +262,11 @@ describe("runBackgroundDownloads", () => {
     expect(download).not.toHaveBeenCalled();
   });
 
-  it("finishes the learnsets of a game whose learnsets didn't download", async () => {
+  it("finishes the learnsets of a Play's game whose learnsets didn't download", async () => {
     const db = await createDevice();
 
     await installGame(db, "swsh", { download: createDownload(), versions });
+    await addPlay(db);
 
     const download = createDownload();
 
@@ -244,6 +277,79 @@ describe("runBackgroundDownloads", () => {
       status: "done",
     });
     expect(downloadedNames(download)).toEqual(["swsh-learnsets"]);
+  });
+
+  it("finishes the learnsets of a game opened this visit", async () => {
+    const db = await createDevice();
+
+    await installGame(db, "swsh", { download: createDownload(), versions });
+
+    const download = createDownload();
+
+    await expect(
+      runBackgroundDownloads(db, { alsoWanted: [19], download, versions }),
+    ).resolves.toMatchObject({
+      done: [{ file: "learnsets", slug: "swsh" }],
+      status: "done",
+    });
+  });
+
+  it("brings every game after the ones in use, telling the screens once", async () => {
+    const db = await createDevice();
+    const download = createDownload();
+    const revisionBefore = currentPageReadRevision();
+
+    await addPlan(db);
+
+    await expect(
+      runBackgroundDownloads(db, { download, everyGame: true, versions }),
+    ).resolves.toEqual({
+      done: [
+        { file: "game", slug: "sv" },
+        { file: "learnsets", slug: "sv" },
+        { file: "game", slug: "swsh", spare: true },
+      ],
+      failed: [],
+      status: "done",
+    });
+    expect(downloadedNames(download)).toEqual([
+      "base",
+      "sv",
+      "sv-learnsets",
+      "swsh",
+    ]);
+    /* Once for each file in use, once for every spare game together. */
+    expect(currentPageReadRevision() - revisionBefore).toBe(3);
+
+    download.mockClear();
+
+    await expect(
+      runBackgroundDownloads(db, { download, everyGame: true, versions }),
+    ).resolves.toMatchObject({ done: [], status: "done" });
+    expect(download).not.toHaveBeenCalled();
+  });
+
+  it("tells the screens of the spare games it got before a run stops", async () => {
+    const db = await createDevice();
+    const download = createDownload();
+    const revisionBefore = currentPageReadRevision();
+    let online = true;
+
+    await expect(
+      runBackgroundDownloads(db, {
+        beforeEach: async () => {
+          if (download.mock.calls.length) online = false;
+        },
+        download,
+        everyGame: true,
+        shouldStop: () => !online,
+        versions,
+      }),
+    ).resolves.toMatchObject({
+      done: [{ file: "game", slug: "swsh", spare: true }],
+      status: "stopped",
+    });
+    expect(currentPageReadRevision() - revisionBefore).toBe(1);
   });
 
   it("downloads the game of a Play or Plan that isn't on the device", async () => {

@@ -5,10 +5,35 @@ import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
  * The games a device should have download on their own, a few seconds after
- * the app opens or a save lands, with nothing on screen. Learnsets that
- * didn't download with their game are the case a test can make: a Play's
- * learnsets download is cut off, then the app picks it up by itself.
+ * the app opens or a save lands, with nothing on screen: every game, and
+ * the learnsets of the games in use. Learnsets that didn't download with
+ * their game are the case a test can make: a Play's learnsets download is
+ * cut off, then the app picks it up by itself.
  */
+
+/* A game's own file, such as `/game-data/sv.4f1c….json.gz`. */
+const gameFile = /\/game-data\/([a-z0-9]+)\.[0-9a-f]+\.json\.gz$/;
+
+/* Each game the page downloaded, by its file's slug. */
+const watchGames = (page: Page) => {
+  const fetched = new Set<string>();
+
+  page.on("requestfinished", (request) => {
+    const slug = gameFile.exec(new URL(request.url()).pathname)?.[1];
+
+    if (slug && slug !== "base") fetched.add(slug);
+  });
+
+  return fetched;
+};
+
+/* Waits for the background's next files to be kept on the device. */
+const waitForDownloadsWritten = (page: Page) =>
+  page.waitForFunction(
+    () => Number(document.documentElement.dataset.downloadsWritten ?? 0) > 0,
+    undefined,
+    { timeout: 45_000 },
+  );
 
 const learnsets = "**/game-data/*-learnsets.*.json.gz";
 
@@ -32,6 +57,42 @@ const watchLearnsets = (page: Page) => {
 
 test.describe("Background game downloads", () => {
   test.use({ storageState: signedOut });
+
+  test("bring every game, so New Play starts one never opened without downloading it", async ({
+    page,
+  }) => {
+    const fetched = watchGames(page);
+    const asked = watchLearnsets(page);
+    const versions = (await (
+      await page.request.get("/game-data/versions.json")
+    ).json()) as { games: { slug: string }[] };
+
+    await page.goto("/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await waitForDownloadsWritten(page);
+
+    expect([...fetched].sort()).toEqual(
+      versions.games.map((game) => game.slug).sort(),
+    );
+    /* No game is in use: learnsets wait until one is. */
+    expect(asked).toEqual([]);
+
+    /* Game files no longer download: Scarlet starts from the device. */
+    let refused = 0;
+
+    await page.route(gameFile, (route) => {
+      refused += 1;
+
+      return route.abort();
+    });
+    await startPlay(page, {
+      game: "Pokémon Scarlet, 2022",
+      name: uniquePlayName("Every game"),
+      partner: null,
+    });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(refused).toBe(0);
+  });
 
   test("pick up a game's learnsets that didn't download, then leave it be", async ({
     page,
@@ -61,11 +122,7 @@ test.describe("Background game downloads", () => {
       .poll(() => asked.filter((item) => item.ok).length, { timeout: 20_000 })
       .toBe(1);
     /* Kept on the device before the next reload, not only fetched. */
-    await page.waitForFunction(
-      () => Number(document.documentElement.dataset.downloadsWritten ?? 0) > 0,
-      undefined,
-      { timeout: 20_000 },
-    );
+    await waitForDownloadsWritten(page);
 
     asked.length = 0;
     await page.reload();

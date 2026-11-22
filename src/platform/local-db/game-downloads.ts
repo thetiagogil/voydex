@@ -43,8 +43,8 @@ import {
  * file is named after its game's version group ("swsh") and holds its
  * expansions. While one downloads, `useGameDownload` says how far it is,
  * so whichever screen waits can show a bar. The games the device should
- * have before anyone waits download in the background
- * (`watchBackgroundDownloads`), always giving way to these.
+ * have before anyone waits, which is every game, download in the
+ * background (`watchBackgroundDownloads`), always giving way to these.
  */
 
 export type GameDownload = { name: string; progress: GameDataProgress };
@@ -70,6 +70,12 @@ const subscribe = (listener: () => void) => {
     listeners.delete(listener);
   };
 };
+
+/*
+ * Version groups a screen opened this visit (New Play, the Team Planner):
+ * the background finishes their learnsets too, like a Play's.
+ */
+const openedThisVisit = new Set<number>();
 
 /* The download running now, or null. */
 export const useGameDownload = () =>
@@ -106,6 +112,7 @@ const installLearnsetsLater = (
  */
 export const ensureVersionGroupData = async (versionGroupId: number) => {
   waitedFor += 1;
+  openedThisVisit.add(versionGroupId);
 
   try {
     await ensureVersionGroup(versionGroupId);
@@ -292,10 +299,47 @@ let deviceFull = false;
 
 const isOnline = () => navigator.onLine;
 
-/* The browser's data saver (Android Chrome); others don't say. */
-const savesData = () =>
-  (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    ?.saveData === true;
+type NetworkInformation = {
+  effectiveType?: string;
+  saveData?: boolean;
+  type?: string;
+};
+
+/* What the browser says of the connection (Chrome); others don't say. */
+const readConnection = () =>
+  (navigator as Navigator & { connection?: NetworkInformation }).connection;
+
+/* The browser's data saver: nothing downloads in the background. */
+const savesData = () => readConnection()?.saveData === true;
+
+/*
+ * Mobile data or a slow connection: only the games in use download, not
+ * every other one.
+ */
+const isMetered = () => {
+  const connection = readConnection();
+
+  return (
+    connection?.type === "cellular" ||
+    ["slow-2g", "2g"].includes(connection?.effectiveType ?? "")
+  );
+};
+
+/*
+ * Between two background files: once nothing waited for runs, and the page
+ * has a quiet moment, so a screen's own reads and taps go first.
+ */
+const giveWay = async () => {
+  await waitForWaitedDownloads();
+  await new Promise<void>((resolve) => {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => resolve(), { timeout: 1000 });
+    } else {
+      setTimeout(resolve, 100);
+    }
+  });
+  await waitForWaitedDownloads();
+};
 
 const notFailed = (download: BackgroundDownload) =>
   !failedThisVisit.has(backgroundDownloadKey(download));
@@ -310,8 +354,15 @@ const runBackground = async () => {
   if (!isOnline() || savesData() || deviceFull) return;
 
   const { db, versions: known } = await openLocalDb();
+  const plan = {
+    alsoWanted: [...openedThisVisit],
+    everyGame: !isMetered(),
+  };
 
-  if (known && !(await readBackgroundDownloads(db, known)).some(notFailed)) {
+  if (
+    known &&
+    !(await readBackgroundDownloads(db, known, plan)).some(notFailed)
+  ) {
     return;
   }
 
@@ -320,9 +371,10 @@ const runBackground = async () => {
   if (!versions) return;
 
   const result = await runBackgroundDownloads(db, {
-    beforeEach: waitForWaitedDownloads,
+    ...plan,
+    beforeEach: giveWay,
     download: downloadGameDataFileWithin(backgroundTimeoutMs),
-    shouldStop: () => !isOnline(),
+    shouldStop: () => !isOnline() || savesData(),
     skip: (download) => !notFailed(download),
     versions,
   });
@@ -388,7 +440,8 @@ const startBackgroundRun = () => {
  * Downloads the games the device should have in the background, a few
  * seconds from now so the screen on the way draws first. Called again
  * before then, it waits from the new call; during a run, another run
- * follows it. Nothing runs offline or on data saver.
+ * follows it. Nothing runs offline or on data saver, and on mobile data
+ * only the games in use download.
  */
 const scheduleBackgroundDownloads = () => {
   clearTimeout(backgroundTimer);

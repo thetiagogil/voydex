@@ -569,6 +569,15 @@ const installMissing = async (
   };
 };
 
+type InstallFilesOptions = {
+  /*
+   * True leaves the screens be: a game nobody uses yet, which no screen
+   * reads, so the caller says once that the data changed.
+   */
+  quiet?: boolean;
+  update?: boolean;
+};
+
 /*
  * Installs `entries` from the list's release. A device on another release
  * takes the list's whole, unless `update` is false (a caller whose list may
@@ -578,7 +587,7 @@ const installFiles = async (
   db: LocalDb,
   entries: GameDataFileEntry[],
   options: InstallOptions,
-  { update = true }: { update?: boolean } = {},
+  { quiet = false, update = true }: InstallFilesOptions = {},
 ): Promise<GameDataInstall> => {
   let changed = true;
 
@@ -593,7 +602,7 @@ const installFiles = async (
      * Pages read before the game was on the device read it again; so do
      * they after a failure, which may have put in some files.
      */
-    if (changed) movePageReadRevision();
+    if (changed && !quiet) movePageReadRevision();
   }
 };
 
@@ -692,11 +701,12 @@ export const installGame = async (
   db: LocalDb,
   slug: string,
   options: InstallOptions,
-  { update = true }: { update?: boolean } = {},
+  { quiet = false, update = true }: InstallFilesOptions = {},
 ) => {
   const game = findGame(options.versions, slug);
 
   return installFiles(db, [options.versions.base, game.data], options, {
+    quiet,
     update,
   });
 };
@@ -752,19 +762,23 @@ export const downloadGameDataFile: DownloadGameDataFile = (path, onBytes) =>
 /*
  * The same, given up after `ms` (the body included), for a download nobody
  * waits on: a stalled one would otherwise hold the background for the
- * whole visit.
+ * whole visit. It asks the browser for a low priority, so whatever the
+ * screen fetches goes first.
  */
 export const downloadGameDataFileWithin =
   (ms: number): DownloadGameDataFile =>
   (path, onBytes) =>
-    fetchGameDataFile(path, onBytes, AbortSignal.timeout(ms));
+    fetchGameDataFile(path, onBytes, {
+      priority: "low",
+      signal: AbortSignal.timeout(ms),
+    });
 
 const fetchGameDataFile = async (
   path: string,
   onBytes: (bytes: number) => void,
-  signal?: AbortSignal,
+  init?: RequestInit,
 ) => {
-  const response = await fetch(`${gameDataUrl}/${path}`, { signal });
+  const response = await fetch(`${gameDataUrl}/${path}`, init);
 
   if (!response.ok || !response.body) {
     throw new GameDataDownloadError(

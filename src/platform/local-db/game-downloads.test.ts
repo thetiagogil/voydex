@@ -46,7 +46,8 @@ vi.mock("@/platform/local-db/game-data-background", async (importOriginal) => ({
 
 const browser = {
   navigator: {
-    connection: undefined as { saveData?: boolean } | undefined,
+    connection: undefined as
+      { effectiveType?: string; saveData?: boolean; type?: string } | undefined,
     locks: undefined as unknown,
     onLine: true,
   },
@@ -192,6 +193,59 @@ describe("watchBackgroundDownloads", () => {
 
     expect(shouldStop?.()).toBe(false);
     browser.navigator.onLine = false;
+    expect(shouldStop?.()).toBe(true);
+  });
+
+  it("brings every game on a good connection, only the games in use on mobile data", async () => {
+    const { run, watchBackgroundDownloads } = await load();
+
+    stop = watchBackgroundDownloads();
+    await settle();
+    expect(run.mock.calls[0][1]).toMatchObject({ everyGame: true });
+
+    for (const connection of [
+      { type: "cellular" },
+      { effectiveType: "2g" },
+      { effectiveType: "slow-2g" },
+    ]) {
+      browser.navigator.connection = connection;
+      save();
+      await settle();
+      expect(run.mock.lastCall?.[1]).toMatchObject({ everyGame: false });
+    }
+
+    browser.navigator.connection = { effectiveType: "4g", type: "wifi" };
+    save();
+    await settle();
+    expect(run.mock.lastCall?.[1]).toMatchObject({ everyGame: true });
+  });
+
+  it("finishes the learnsets of a game a screen opened this visit", async () => {
+    const {
+      ensureVersionGroupData,
+      readMissing,
+      run,
+      watchBackgroundDownloads,
+    } = await load();
+
+    await ensureVersionGroupData(18).catch(() => undefined);
+    stop = watchBackgroundDownloads();
+    await settle();
+
+    expect(readMissing.mock.calls[0][2]).toMatchObject({ alsoWanted: [18] });
+    expect(run.mock.calls[0][1]).toMatchObject({ alsoWanted: [18] });
+  });
+
+  it("stops the run when data saver is switched on", async () => {
+    const { run, watchBackgroundDownloads } = await load();
+
+    stop = watchBackgroundDownloads();
+    await settle();
+
+    const { shouldStop } = run.mock.calls[0][1];
+
+    expect(shouldStop?.()).toBe(false);
+    browser.navigator.connection = { saveData: true };
     expect(shouldStop?.()).toBe(true);
   });
 
@@ -360,7 +414,10 @@ describe("watchBackgroundDownloads", () => {
 
     openForEnsure();
     await expect(ensuring).resolves.toBe("failed");
+    /* Then a quiet moment on the page. */
     await settle(0);
+    expect(gaveWay).toBe(false);
+    await settle(100);
     expect(gaveWay).toBe(true);
   });
 });
@@ -435,7 +492,7 @@ describe("retryGameDataUpdate", () => {
 
     finish();
     await retrying;
-    await settle(0);
+    await settle(100);
     expect(gaveWay).toBe(true);
   });
 });
