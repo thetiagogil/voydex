@@ -23,6 +23,7 @@ import {
   readAuthEmail,
   rememberAuthEmail,
 } from "@/features/auth/client/auth-email";
+import { expectFirstSync } from "@/platform/local-db/account-sync";
 import { getBrowserSupabaseClient } from "@/platform/supabase/browser-client";
 
 /*
@@ -63,6 +64,8 @@ export const logInWithPassword = async (formData: FormData) => {
   forgetAuthEmail();
   /* The front page's bar offers the app from now on, not Log in. */
   rememberSignedIn(true);
+  /* The app waits for your account to sync before it shows. */
+  expectFirstSync();
 
   return getLogInLandingPath(next);
 };

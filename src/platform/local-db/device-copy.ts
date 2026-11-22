@@ -10,6 +10,7 @@ const copyDbName = "voydex-copies";
 const storeName = "copies";
 const copyKey = "before-update";
 const ownDataKey = "own-data";
+const ownDataAddedKey = "own-data-added";
 
 const openCopies = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
@@ -42,17 +43,30 @@ export const saveDeviceCopy = async (copy: Blob) => {
   await inStore("readwrite", (store) => store.put(copy, copyKey));
 };
 
-/* Where the device's own data waits while an account is logged in. */
+/*
+ * Where the device's own data waits while an account is logged in, and
+ * whether a copy of it was added to that account.
+ */
 export type OwnDataStore = {
   forget: () => Promise<void>;
+  markAdded: () => Promise<void>;
   read: () => Promise<Uint8Array | null>;
+  readAdded: () => Promise<boolean>;
   save: (bytes: Uint8Array) => Promise<void>;
 };
 
 export const ownDataStore: OwnDataStore = {
   forget: async () => {
     await inStore("readwrite", (store) => store.delete(ownDataKey));
+    await inStore("readwrite", (store) => store.delete(ownDataAddedKey));
   },
+  markAdded: async () => {
+    await inStore("readwrite", (store) => store.put(true, ownDataAddedKey));
+  },
+  readAdded: async () =>
+    (await inStore<unknown>("readonly", (store) =>
+      store.get(ownDataAddedKey),
+    )) === true,
   read: async () => {
     const kept = await inStore<unknown>("readonly", (store) =>
       store.get(ownDataKey),

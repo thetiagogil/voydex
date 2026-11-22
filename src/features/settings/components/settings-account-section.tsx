@@ -3,6 +3,7 @@ import {
   ChangePasswordDialog,
 } from "@/features/settings/components/account-change-dialogs";
 import { SettingsSyncRow } from "@/features/settings/components/settings-sync-row";
+import { SettingsOwnDataRow } from "@/features/settings/components/settings-own-data-row";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { appRoutes } from "@/config/routes";
@@ -63,6 +64,7 @@ const SignedInAccount = ({
       <ChangePasswordDialog />
     </SettingsRow>
     <SettingsSyncRow />
+    <SettingsOwnDataRow />
     <SettingsRow
       title="Log out"
       description="Your Plays stay in your account and leave this device"

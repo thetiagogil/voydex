@@ -60,28 +60,33 @@ above as the source of truth but moves where they live:
   any sync. A device that last synced with another account asks first:
   add its Plays to this account, or leave them out (saved to a backup file
   first, then the device takes this account's data).
-- **Log in on a device that already has data** asks first. A device that
-  never had an account and holds something of its own (a Play, a Plan, a
-  favourite, a tag, a rule, a game on the shelf, a name or an icon) waits
-  for an answer before anything merges: **Add them to my account** (they
-  are yours: they join the account) or **Keep them separate** (someone
-  else's device: its data is set aside, whole, as a backup file kept beside
-  the database, and the device shows the account alone). A device with
-  nothing of its own joins at once, so what you make after logging in is
-  the account's and is never asked about.
+- **The account step.** Right after logging in the app waits behind one
+  step, alone on the page with no bars, until the account has synced with
+  the device (at least a second so it never flashes, ten at most, then
+  the app opens and sync carries on).
+- **A device's own data is never deleted by logging in or out.** A device
+  that never had an account and holds something of its own (a Play, a
+  Plan, a favourite, a tag, a rule, a game on the shelf, a name or an
+  icon) asks on that step, before anything merges, showing the Plays it
+  holds: **Keep them separate**, the main answer (they stay on the device
+  only and nothing of them reaches the account), or **Add them to my
+  account** (a copy joins the account; it can't be taken back, so it asks
+  once more). Either way a copy of the device's own data is first set
+  aside, whole, as a backup file kept beside the database, and logging out
+  puts it back exactly as it was. Kept separate, it can still be added
+  later from Settings' Account section. A device with nothing of its own
+  joins at once, so what you make after logging in is the account's.
 - **Log out** takes the account's data off the device. It asks first, saves
-  to the account one last time, signs the browser out and then empties the
-  device's own tables (Plays, Plans, tags, rules, favourites, the profile
-  and settings), leaving it as a new device with its downloaded game data.
-  Nothing is recorded as deleted and the device forgets the account, so
-  logging in again simply takes the account's data. If the last save can't
-  finish (offline, or a sync question still waits), nothing is removed and
-  you choose: stay logged in, or log out and keep the data on the device.
-  Kept data syncs the next time that account logs in; another account is
-  asked what to do with it. What the device had before logging in comes
-  back, untouched, if it was kept separate; if it was added to the account
-  it is the account's, and leaves with it. Nothing of the account's ever
-  mixes into the kept data, and none of the kept data reaches the account.
+  to the account one last time, signs the browser out, empties the device's
+  own tables (Plays, Plans, tags, rules, favourites, the profile and
+  settings) and brings back what the device had before the account logged
+  in; with nothing set aside it is left as a new device. Its downloaded
+  game data stays. Nothing is recorded as deleted and the device forgets
+  the account, so logging in again simply takes the account's data. If the
+  last save can't finish (offline, or a sync question still waits), nothing
+  is removed and you choose: stay logged in, or log out and keep the data
+  on the device. Kept data syncs the next time that account logs in;
+  another account is asked what to do with it.
 - **Login** stays with Supabase Auth.
 
 Data lives per browser: moving it to another browser or device takes a backup

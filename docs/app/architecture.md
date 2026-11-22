@@ -484,10 +484,12 @@ the device:
   (`LogOutDialog`, asked through `askLogOut`) runs `logOutClean`: one last
   sync, the sign-out, then `clearAccountData` empties the device's own
   tables; no other sync runs meanwhile, and a last sync that doesn't go
-  through removes nothing. Data a device made without an account waits in
-  `AccountOwnDataDialog` when someone logs in: added, or kept separate
-  (`own-data-aside.ts` sets it aside in the copies store of
-  `device-copy.ts` and Log out brings it back).
+  through removes nothing. `AccountGate` (in the app's layout, around its
+  frame) is the account step: it stands where the app would while the
+  first sync after Log in runs, and asks about data a device made without
+  an account: kept separate or added, a copy is set aside either way
+  (`own-data-aside.ts`, in the copies store of `device-copy.ts`) and Log
+  out brings it back.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.

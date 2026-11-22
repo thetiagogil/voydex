@@ -172,7 +172,7 @@ export const LogOutDialog = () => {
         {stuck
           ? "Stay logged in and try again later, or log out now and keep your Plays on this device. Kept here, they sync the next time you log in to this account."
           : ownDataAside
-            ? "Voydex saves to your account one last time first. What this device had before you logged in was kept separate, and comes back now."
+            ? "Voydex saves to your account one last time first. What this device had before you logged in comes back now, as it was."
             : "Voydex saves to your account one last time first. Your Plays, Plans, tags, rules, favourites, name and settings come back when you log in again."}
       </p>
     </OverlayDialog>

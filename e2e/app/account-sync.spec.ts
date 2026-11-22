@@ -57,6 +57,10 @@ const switchAccount = async (page: Page, email: string) => {
   await logIn(page, email);
 };
 
+/* The step before the app, on a device with Plays made without an account. */
+const ownPlaysQuestion = (page: Page) =>
+  page.getByRole("region", { name: "This device already has Plays" });
+
 const otherPlaysQuestion = (page: Page) =>
   page.getByRole("dialog", {
     name: "Add this device's Plays to your account?",
@@ -162,7 +166,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(page.getByText(name)).toBeVisible(forTheAnswer);
   });
 
-  test("on a friend's device: their Plays stay out of your account and come back when you log out", async ({
+  test("on a friend's device: their Plays stay out of your account and come back when you log out @phone", async ({
     page,
   }) => {
     test.setTimeout(120_000);
@@ -177,25 +181,27 @@ test.describe("Account sync: backups that follow you between devices", () => {
       partner: null,
     });
 
-    /* You log in on their device, and keep their Plays separate. */
+    /* You log in on their device: a step before the app asks about their Plays. */
     const email = newTestEmail("guest");
 
     await createAccount(email);
     await logIn(page, email);
-    await page.waitForURL("**/app**");
 
-    const question = page.getByRole("dialog", {
-      name: "Add this device's Plays to your account?",
-    });
+    const question = ownPlaysQuestion(page);
 
     await expect(question).toBeVisible(forTheAnswer);
+    /* The step stands alone: no bars, and it shows what is on the device. */
+    await expect(page.getByRole("navigation")).toHaveCount(0);
+    await expect(
+      question.getByRole("list", { name: "Plays on this device" }),
+    ).toContainText(theirs);
     await expectAccessible(page);
-
-    const setAside = waitForAction(page);
 
     await question.getByRole("button", { name: "Keep them separate" }).click();
     await expect(question).toBeHidden(forTheAnswer);
-    await setAside;
+    await expect(page.getByRole("navigation").first()).toBeVisible(
+      forTheAnswer,
+    );
     await page.goto("/app/plays", { waitUntil: "networkidle" });
     await expect(page.getByText(theirs)).toBeHidden();
     await startPlay(page, {
@@ -223,7 +229,7 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
   });
 
-  test("your own Plays made before logging in join your account when you add them", async ({
+  test("your own Plays made before logging in join your account when you add them, and stay on the device", async ({
     browser,
     page,
   }) => {
@@ -235,18 +241,15 @@ test.describe("Account sync: backups that follow you between devices", () => {
     await startPlay(page, { game: "Pokémon Red, 1996", name, partner: null });
     await createAccount(email);
     await logIn(page, email);
-    await page.waitForURL("**/app**");
 
-    const question = page.getByRole("dialog", {
-      name: "Add this device's Plays to your account?",
-    });
-    const joined = waitForAction(page);
+    const question = ownPlaysQuestion(page);
 
+    /* Adding can't be undone, so it asks once more. */
     await question
       .getByRole("button", { name: "Add them to my account" })
       .click();
+    await question.getByRole("button", { name: "Yes, add them" }).click();
     await expect(question).toBeHidden(forTheAnswer);
-    await joined;
     await waitForSync(page);
 
     const other = await browser.newContext({ storageState: signedOut });
@@ -261,6 +264,66 @@ test.describe("Account sync: backups that follow you between devices", () => {
     } finally {
       await other.close();
     }
+
+    /* Logging out deletes nothing of the device's own: the Play is still here. */
+    const logOut = await askToLogOut(page);
+
+    await logOut.getByRole("button", { name: "Log out" }).click();
+    await page.waitForURL("**/login**");
+    await page
+      .getByRole("link", { name: "Continue without an account" })
+      .click();
+    await page.waitForURL("**/app");
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(name)).toBeVisible(forTheAnswer);
+  });
+
+  test("Plays kept separate can still be added to the account later, from Settings", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+
+    const theirs = uniquePlayName("Kept");
+    const mine = uniquePlayName("Account");
+    const email = newTestEmail("later");
+
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: theirs,
+      partner: null,
+    });
+    await createAccount(email);
+    await logIn(page, email);
+
+    const question = ownPlaysQuestion(page);
+
+    await question.getByRole("button", { name: "Keep them separate" }).click();
+    await expect(question).toBeHidden(forTheAnswer);
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: mine,
+      partner: null,
+    });
+
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
+
+    const account = page.getByRole("region", { name: "Account" });
+
+    await expect(account).toContainText("Kept separate from your account");
+    await account.getByRole("button", { name: "Add to my account" }).click();
+    await page
+      .getByRole("dialog", { name: "Add this device's Plays to your account?" })
+      .getByRole("button", { name: "Add them" })
+      .click();
+    await expect(account).toContainText(
+      "A copy is in your account",
+      forTheAnswer,
+    );
+
+    /* Both are here now: the account's own and the device's. */
+    await page.goto("/app/plays", { waitUntil: "networkidle" });
+    await expect(page.getByText(theirs)).toBeVisible(forTheAnswer);
+    await expect(page.getByText(mine)).toBeVisible(forTheAnswer);
   });
 
   test("asks which version to keep when both devices changed the same thing", async ({

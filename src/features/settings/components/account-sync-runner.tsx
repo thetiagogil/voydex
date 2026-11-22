@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 import { AccountClashDialog } from "@/features/settings/components/account-clash-dialog";
 import { AccountOtherPlaysDialog } from "@/features/settings/components/account-other-plays-dialog";
-import { AccountOwnDataDialog } from "@/features/settings/components/account-own-data-dialog";
 import {
   bringOwnDataBackIfLeft,
   startAccountSync,
@@ -13,9 +12,10 @@ import { useAuthSession } from "@/platform/local-db/account-session";
 
 /*
  * Keeps this device in sync with your account while you're signed in on
- * this browser, and asks about clashes, Plays from another account, or
- * Plays this device made without one, wherever you are. Signed out, it only
- * puts back what the device kept of its own while an account was logged in.
+ * this browser, and asks about clashes or Plays from another account
+ * wherever you are (Plays this device made without an account are asked
+ * about by `AccountGate`, before the app shows). Signed out, it only puts
+ * back what the device kept of its own while an account was logged in.
  */
 export const AccountSyncRunner = () => {
   const session = useAuthSession();
@@ -32,7 +32,6 @@ export const AccountSyncRunner = () => {
     <>
       <AccountClashDialog />
       <AccountOtherPlaysDialog />
-      <AccountOwnDataDialog />
     </>
   ) : null;
 };

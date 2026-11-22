@@ -19,6 +19,42 @@ import { cn } from "@/shared/utils/cn";
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
 
+const rowLayoutClassName =
+  "grid w-full min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3";
+
+/* The row itself: a link that opens the Play, or a plain tile that shows it. */
+const PlayRowFrame = ({
+  children,
+  className,
+  href,
+  label,
+  linkProps,
+}: {
+  children: ReactNode;
+  className?: string;
+  href?: string;
+  label?: string;
+  linkProps?: Omit<ComponentProps<typeof Link>, "className" | "href">;
+}) =>
+  href ? (
+    <Link
+      href={href}
+      aria-label={label}
+      {...linkProps}
+      className={cn(
+        rowInteractionVariants({ interaction: "action" }),
+        /* Each Play is its own tile, so a list of them reads as cards. */
+        "tile-link",
+        rowLayoutClassName,
+        className,
+      )}
+    >
+      {children}
+    </Link>
+  ) : (
+    <div className={cn("tile", rowLayoutClassName, className)}>{children}</div>
+  );
+
 type PlayRowPlay = Pick<TrainerPlay, "gameName" | "gameSlug" | "name"> &
   Partial<Pick<TrainerPlay, "statusName" | "statusSlug">>;
 
@@ -46,7 +82,8 @@ export const PlayRow = ({
 }: {
   className?: string;
   detail: ReactNode;
-  href: string;
+  /* Where the row opens the Play; without it the row only shows it. */
+  href?: string;
   label?: string;
   /* Handlers for the link, such as a chart's hover focus. */
   linkProps?: Omit<ComponentProps<typeof Link>, "className" | "href">;
@@ -57,16 +94,11 @@ export const PlayRow = ({
   style?: CSSProperties;
 }) => (
   <li style={style} className="flex min-w-0">
-    <Link
+    <PlayRowFrame
       href={href}
-      aria-label={label}
-      {...linkProps}
-      className={cn(
-        rowInteractionVariants({ interaction: "action" }),
-        /* Each Play is its own tile, so a list of them reads as cards. */
-        "tile-link grid w-full min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3",
-        className,
-      )}
+      label={label}
+      linkProps={linkProps}
+      className={className}
     >
       <GameCover
         alt=""
@@ -113,11 +145,15 @@ export const PlayRow = ({
           </span>
         </span>
       </span>
-      <AppIcon
-        icon={appIcons.actions.continue}
-        size="md"
-        className="text-ink-3"
-      />
-    </Link>
+      {href ? (
+        <AppIcon
+          icon={appIcons.actions.continue}
+          size="md"
+          className="text-ink-3"
+        />
+      ) : (
+        <span />
+      )}
+    </PlayRowFrame>
   </li>
 );

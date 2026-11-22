@@ -1,7 +1,6 @@
 import { getGameDataPercent } from "@/platform/local-db/game-data";
 import type { PrepareStep } from "@/platform/local-db/prepare-device";
-import { LogoMark } from "@/shared/components/brand/logo-mark";
-import { cn } from "@/shared/utils/cn";
+import { StartMark } from "@/shared/components/brand/start-mark";
 
 const describeStep = (step: PrepareStep | null) => {
   switch (step?.step) {
@@ -24,63 +23,6 @@ const describeStep = (step: PrepareStep | null) => {
     default:
       return { detail: null, title: "Opening your Plays" };
   }
-};
-
-const ringRadius = 46;
-const ringLength = 2 * Math.PI * ringRadius;
-
-/*
- * The start screen's mark: the V inside a ring. The ring fills while game
- * data downloads (how far along, 0 to 100) and turns a short arc while there
- * is nothing to measure.
- */
-const StartMark = ({
-  progress,
-  progressLabel,
-}: {
-  progress: number | "busy";
-  progressLabel: string;
-}) => {
-  const measured = typeof progress === "number";
-
-  return (
-    <span className="relative inline-grid size-28 shrink-0 place-items-center">
-      <svg
-        viewBox="0 0 100 100"
-        role={measured ? "progressbar" : undefined}
-        aria-label={measured ? progressLabel : undefined}
-        aria-valuemin={measured ? 0 : undefined}
-        aria-valuemax={measured ? 100 : undefined}
-        aria-valuenow={measured ? Math.round(progress) : undefined}
-        aria-hidden={measured ? undefined : true}
-        className={cn(
-          "absolute inset-0 size-full -rotate-90",
-          !measured && "animate-spin motion-reduce:animate-none",
-        )}
-      >
-        <circle
-          cx="50"
-          cy="50"
-          r={ringRadius}
-          fill="none"
-          strokeWidth="5"
-          className="stroke-track"
-        />
-        <circle
-          cx="50"
-          cy="50"
-          r={ringRadius}
-          fill="none"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeDasharray={ringLength}
-          strokeDashoffset={ringLength * (1 - (measured ? progress : 25) / 100)}
-          className="stroke-progress transition-[stroke-dashoffset] duration-300 ease-out"
-        />
-      </svg>
-      <LogoMark className="size-18" />
-    </span>
-  );
 };
 
 /*

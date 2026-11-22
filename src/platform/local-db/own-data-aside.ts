@@ -13,14 +13,32 @@ import {
 } from "@/platform/local-db/local-db";
 
 /*
- * A device's own data and an account it wasn't added to, kept apart. Someone
- * logs in on a device that already has Plays made without an account (a
- * friend's computer): "Keep them separate" sets that data aside, whole, as
- * a backup file kept beside the database (`OwnDataStore`), and the device
- * shows the account alone. Logging out takes the account's data off the
- * device and brings the device's own back exactly as it was. Nothing of
- * either ever reaches the other.
+ * A device's own data and an account logged in on it, kept apart. The
+ * device's own data, made without an account, is never deleted by logging
+ * in or out: whatever you answer when you log in, a copy of it is first set
+ * aside, whole, as a backup file kept beside the database (`OwnDataStore`),
+ * and logging out puts it back exactly as it was.
+ *
+ * "Keep them separate" (someone else's device, or you'd rather decide
+ * later): the device shows the account alone, and nothing of the device's
+ * reaches the account. "Add them to my account": a copy joins the account
+ * and follows you to your other devices; that can't be taken back, which
+ * is why it is never the default. Kept separate, they can still be added
+ * later.
  */
+
+/* Keeps the copy, once: a second would write over the first. */
+const keepCopy = async (db: LocalDb, store: OwnDataStore) => {
+  if (await store.read()) {
+    throw new LocalDbError(
+      "This device is already keeping other Plays aside. Log out first, then log in again.",
+    );
+  }
+
+  const { bytes } = await makeBackupFile(db);
+
+  await store.save(bytes);
+};
 
 /*
  * "Keep them separate": this device's own data is set aside and the device
@@ -32,18 +50,49 @@ export const setOwnDataAside = async (
   store: OwnDataStore,
   accountId: string,
 ) => {
-  /* One copy waits at a time: a second would write over the first. */
-  if (await store.read()) {
-    throw new LocalDbError(
-      "This device is already keeping other Plays aside. Add these to your account instead.",
-    );
-  }
-
-  const { bytes } = await makeBackupFile(db);
-
-  await store.save(bytes);
+  await keepCopy(db, store);
   await clearAccountData(db);
   await joinAccount(db, accountId);
+};
+
+/*
+ * "Add them to my account": a copy of this device's own data is kept aside
+ * all the same, then what is here joins `accountId` and the next sync
+ * merges it with the account's.
+ */
+export const addOwnDataToAccount = async (
+  db: LocalDb,
+  store: OwnDataStore,
+  accountId: string,
+) => {
+  await keepCopy(db, store);
+  await store.markAdded();
+  await joinAccount(db, accountId);
+};
+
+/*
+ * Later, from Settings: adds the data kept separate to `accountId` after
+ * all. Call it only once the account has everything on this device (a sync
+ * just went through): the kept data takes the device's place and joins the
+ * account, and the next sync merges it with the account's, which brings
+ * the account's own data back beside it. The copy stays aside for Log out.
+ * Answers whether there was anything to add.
+ */
+export const addAsideDataToAccount = async (
+  db: LocalDb,
+  store: OwnDataStore,
+  accountId: string,
+  { ensureGame }: { ensureGame: (versionGroupId: number) => Promise<void> },
+) => {
+  const bytes = await store.read();
+
+  if (!bytes || (await store.readAdded())) return false;
+
+  await restoreBackup(db, await readBackupFile(bytes), { ensureGame });
+  await joinAccount(db, accountId);
+  await store.markAdded();
+
+  return true;
 };
 
 /* Whether this device syncs with an account, logged in right now or not. */

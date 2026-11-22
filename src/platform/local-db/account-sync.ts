@@ -24,6 +24,8 @@ import {
 } from "@/platform/local-db/local-db-context";
 import { openLocalDb } from "@/platform/local-db/open-local-db";
 import {
+  addAsideDataToAccount,
+  addOwnDataToAccount,
   bringOwnDataBack,
   setOwnDataAside,
 } from "@/platform/local-db/own-data-aside";
@@ -93,6 +95,76 @@ export const useAccountSync = () =>
     },
     () => current,
     () => current,
+  );
+
+/*
+ * The first sync after logging in, or after answering what to do with the
+ * device's own data: the app waits behind it (`AccountGate`), so your
+ * account is here before anything shows.
+ */
+let firstSyncPending = false;
+let firstSyncSince = 0;
+let firstSyncTimer: ReturnType<typeof setTimeout> | null = null;
+const firstSyncListeners = new Set<() => void>();
+
+/*
+ * The longest the app waits for it: on a slow or missing connection the
+ * app opens with what the device has, and sync carries on behind it.
+ */
+export const firstSyncLimitMs = 10_000;
+/* The least its step shows once it shows, so it never flashes by. */
+export const firstSyncMinMs = 1000;
+
+const setFirstSyncPending = (next: boolean) => {
+  if (firstSyncTimer !== null) clearTimeout(firstSyncTimer);
+
+  firstSyncTimer = null;
+
+  if (next) {
+    firstSyncTimer = setTimeout(
+      () => setFirstSyncPending(false),
+      firstSyncLimitMs,
+    );
+
+    if (firstSyncPending) return;
+
+    firstSyncSince = Date.now();
+  } else {
+    if (!firstSyncPending) return;
+
+    /* A sync that goes through at once still shows its step for a moment. */
+    const shownForMs = Date.now() - firstSyncSince;
+
+    if (shownForMs < firstSyncMinMs) {
+      firstSyncTimer = setTimeout(
+        () => setFirstSyncPending(false),
+        firstSyncMinMs - shownForMs,
+      );
+
+      return;
+    }
+  }
+
+  firstSyncPending = next;
+
+  for (const listener of firstSyncListeners) listener();
+};
+
+/* Log in calls this: the next sync is one the app waits for. */
+export const expectFirstSync = () => setFirstSyncPending(true);
+
+/* Whether the app is still waiting for that sync. */
+export const useFirstSyncPending = () =>
+  useSyncExternalStore(
+    (listener) => {
+      firstSyncListeners.add(listener);
+
+      return () => {
+        firstSyncListeners.delete(listener);
+      };
+    },
+    () => firstSyncPending,
+    () => false,
   );
 
 let accountId: string | null = null;
@@ -237,7 +309,10 @@ export const syncNow = (): Promise<void> => {
   }
 
   running = run()
-    .then(() => undefined)
+    .then((result) => {
+      /* Through, waiting on you, or failed: the app needn't wait any more. */
+      if (result !== "again") setFirstSyncPending(false);
+    })
     .finally(() => {
       running = null;
 
@@ -281,7 +356,8 @@ export const resolveAccountClashes = (choices: MergeChoices) => {
 
 /*
  * "Add them": this device's Plays, from another account or made without
- * one, join this account.
+ * one, join this account. Of data made without an account a copy is kept
+ * aside first, so logging out gives the device back what it had.
  */
 export const addPlaysToAccount = async () => {
   const userId = accountId;
@@ -295,7 +371,13 @@ export const addPlaysToAccount = async () => {
 
   const { db } = await openLocalDb();
 
-  await joinAccount(db, userId);
+  if (current.status === "own-data") {
+    await addOwnDataToAccount(db, ownDataStore, userId);
+    setFirstSyncPending(true);
+  } else {
+    await joinAccount(db, userId);
+  }
+
   setStatus({ status: "idle" });
   /*
    * A save like any you make: counted, and a reload waits for its write, so
@@ -348,6 +430,7 @@ export const keepOwnDataSeparate = async () => {
   const { db } = await openLocalDb();
 
   await setOwnDataAside(db, ownDataStore, userId);
+  setFirstSyncPending(true);
   setStatus({ status: "idle" });
   ownSave = true;
   /* Counted like any save you make: it follows your tap. */
@@ -360,6 +443,73 @@ export const keepOwnDataSeparate = async () => {
 /* Whether this device keeps data of its own aside while you're logged in. */
 export const hasOwnDataAside = async () =>
   (await ownDataStore.read().catch(() => null)) !== null;
+
+/*
+ * What became of the data this device had before you logged in: nothing
+ * was kept aside (`none`), it is kept separate from this account, or a
+ * copy of it was added to the account. It waits for Log out either way.
+ */
+export type OwnDataAside = "added" | "none" | "separate";
+
+export const readOwnDataAside = async (): Promise<OwnDataAside> => {
+  if (!(await hasOwnDataAside())) return "none";
+
+  return (await ownDataStore.readAdded().catch(() => false))
+    ? "added"
+    : "separate";
+};
+
+/*
+ * From Settings: adds the data kept separate to this account after all. It
+ * syncs first, so the account has everything on this device, then puts the
+ * kept data in the device's place to join the account, and syncs again to
+ * merge the two. If the first sync doesn't go through, nothing changes.
+ */
+export const addAsideToAccount = async (): Promise<
+  "added" | "failed" | "waiting"
+> => {
+  const userId = accountId;
+
+  if (!userId) return "failed";
+  if (isWaiting(current)) return "waiting";
+
+  paused = true;
+
+  try {
+    if (timer !== null) window.clearTimeout(timer);
+
+    timer = null;
+    await running;
+
+    let result: RunResult = "again";
+
+    for (
+      let tries = 0;
+      result === "again" && tries < logOutSyncTries;
+      tries++
+    ) {
+      result = await run();
+    }
+
+    if (result !== "done") return result === "waiting" ? "waiting" : "failed";
+
+    const { db } = await openLocalDb();
+
+    await addAsideDataToAccount(db, ownDataStore, userId, {
+      ensureGame: ensureVersionGroupData,
+    });
+    ownSave = true;
+    notifyLocalSave();
+    ownSave = false;
+  } finally {
+    paused = false;
+    runAgain = false;
+  }
+
+  await syncNow();
+
+  return "added";
+};
 
 /*
  * Logged out, with the device's own data still set aside (a log out cut

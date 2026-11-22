@@ -1,7 +1,7 @@
 import { FrontDoorMark } from "@/features/app-shell/components/front-door-mark";
 import { AppShell } from "@/features/app-shell/components/app-shell";
-import { AccountSyncRunner } from "@/features/settings/components/account-sync-runner";
 
+import { AppAccountGate } from "./app-account-gate";
 import { AppDeviceGate } from "./app-device-gate";
 
 /*
@@ -9,6 +9,8 @@ import { AppDeviceGate } from "./app-device-gate";
  * for backups; signed in, the device keeps in sync with the account. The
  * start screen stands alone until the device is ready and every tab with
  * it, so the bars appear with a working app and changing tabs never waits.
+ * Right after logging in, the account step stands there instead until the
+ * account has synced (and asks first about Plays the device already had).
  */
 export default function AppLayout({
   children,
@@ -17,10 +19,9 @@ export default function AppLayout({
 }>) {
   return (
     <AppDeviceGate>
-      <AppShell frame="app">
-        {children}
-        <AccountSyncRunner />
-      </AppShell>
+      <AppAccountGate>
+        <AppShell frame="app">{children}</AppShell>
+      </AppAccountGate>
       <FrontDoorMark />
     </AppDeviceGate>
   );

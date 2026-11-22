@@ -16,6 +16,8 @@ import {
   createTestDevice,
 } from "@/platform/local-db/local-db-test-support";
 import {
+  addAsideDataToAccount,
+  addOwnDataToAccount,
   bringOwnDataBack,
   setOwnDataAside,
 } from "@/platform/local-db/own-data-aside";
@@ -53,11 +55,17 @@ const createAccount = () => {
 /* Where the device's own data waits, as the browser's store keeps it. */
 const createStore = () => {
   let kept: Uint8Array | null = null;
+  let added = false;
   const store: OwnDataStore = {
     forget: async () => {
       kept = null;
+      added = false;
+    },
+    markAdded: async () => {
+      added = true;
     },
     read: async () => kept,
+    readAdded: async () => added,
     save: async (bytes) => {
       kept = bytes;
     },
@@ -174,6 +182,71 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     /* My other device still has only mine. */
     await syncAs(mine, account);
     await expect(readPlayNames(mine)).resolves.toEqual(["My run"]);
+  });
+
+  it("adds them: a copy joins the account, and the device still gets its own back at log out", async () => {
+    const { account } = createAccount();
+    const { holds, store } = createStore();
+
+    await addPlay(mine, myPlayId, "My run");
+    await syncAs(mine, account);
+
+    /* The device's owner logs in and adds what is here. */
+    await addOwnDataToAccount(friend, store, accountId);
+    expect(holds()).toBe(true);
+    await syncAs(friend, account);
+    await expect(readPlayNames(friend)).resolves.toEqual([
+      "Friend's run",
+      "My run",
+    ]);
+    await syncAs(mine, account);
+    await expect(readPlayNames(mine)).resolves.toEqual([
+      "Friend's run",
+      "My run",
+    ]);
+
+    /* Logging out deletes nothing of the device's own. */
+    await clearAccountData(friend);
+    await expect(bringOwnDataBack(friend, store, { ensureGame })).resolves.toBe(
+      true,
+    );
+    await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
+    await expect(readName(friend)).resolves.toBe("Alex");
+  });
+
+  it("kept separate, they can still be added later, and the account keeps its own", async () => {
+    const { account } = createAccount();
+    const { holds, store } = createStore();
+
+    await addPlay(mine, myPlayId, "My run");
+    await syncAs(mine, account);
+    await setOwnDataAside(friend, store, accountId);
+    await syncAs(friend, account);
+    await expect(readPlayNames(friend)).resolves.toEqual(["My run"]);
+
+    /* Later, from Settings, once the account has everything here. */
+    await expect(
+      addAsideDataToAccount(friend, store, accountId, { ensureGame }),
+    ).resolves.toBe(true);
+    await syncAs(friend, account);
+    await expect(readPlayNames(friend)).resolves.toEqual([
+      "Friend's run",
+      "My run",
+    ]);
+    await syncAs(mine, account);
+    await expect(readPlayNames(mine)).resolves.toEqual([
+      "Friend's run",
+      "My run",
+    ]);
+
+    /* Once is enough, and the copy still waits for Log out. */
+    await expect(
+      addAsideDataToAccount(friend, store, accountId, { ensureGame }),
+    ).resolves.toBe(false);
+    expect(holds()).toBe(true);
+    await clearAccountData(friend);
+    await bringOwnDataBack(friend, store, { ensureGame });
+    await expect(readPlayNames(friend)).resolves.toEqual(["Friend's run"]);
   });
 
   it("never puts the kept data over an account's, or over newer data of the device's own", async () => {
