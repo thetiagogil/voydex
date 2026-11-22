@@ -38,10 +38,13 @@ export const PageLoadingState = ({
           className,
         )}
       >
-        <Spinner
-          aria-label={label}
-          className="text-action appear-late size-7"
-        />
+        {/*
+         * The late appearance sits on a wrapper: on the spinner itself it
+         * would replace the spin, and the mark would stand still.
+         */}
+        <span className="appear-late">
+          <Spinner aria-label={label} className="text-action size-7" />
+        </span>
       </div>
     </>
   );
