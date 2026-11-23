@@ -14,7 +14,11 @@ import {
   resolveVersionGroupMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
+import {
+  ensureVersionGroupData,
+  readGameMovesOnDevice,
+  readVersionGroupOnDevice,
+} from "@/platform/local-db/game-downloads";
 import { getLocalQueryClient } from "@/platform/local-db/open-local-db";
 import {
   parseInput,
@@ -27,6 +31,8 @@ export type PlanMemberOptions = {
   heldItems: BuildItemOption[];
   /* What it can learn in every game of the version group. */
   moves: BuildMoveOption[];
+  /* False while the game's moves aren't on the device yet. */
+  movesOnDevice: boolean;
 };
 
 export type PlanMemberOptionsResult =
@@ -75,26 +81,43 @@ export const loadPlanMemberOptionsAction = async (input: {
       throw new Error("Pick a game for the Plan.");
     }
 
-    /* The Planner opens from its pre-built file, before its game downloads. */
-    await ensureVersionGroupData(group.id);
+    /*
+     * The Planner opens from its pre-built file, before its game downloads.
+     * Offline, a game not on the device yet has no moves or held items to
+     * offer: the picker says they come with the internet.
+     */
+    try {
+      await ensureVersionGroupData(group.id);
+    } catch (error) {
+      if (navigator.onLine || (await readVersionGroupOnDevice(group.id))) {
+        throw error;
+      }
 
-    const [gamesResult, addOnsResult, learnsets] = await Promise.all([
-      supabase
-        .schema("reference")
-        .from("games")
-        .select("id")
-        .eq("version_group_id", group.id),
-      /* A Plan covers the game and its add-ons, as the Planner's pool does. */
-      supabase
-        .schema("reference")
-        .from("version_groups")
-        .select("id")
-        .eq("parent_version_group_id", group.id),
-      readFormLearnsetRows(supabase, {
-        formId,
-        versionGroupId: group.id,
-      }),
-    ]);
+      return {
+        options: { heldItems: [], moves: [], movesOnDevice: false },
+        status: "success",
+      };
+    }
+
+    const [gamesResult, addOnsResult, learnsets, movesOnDevice] =
+      await Promise.all([
+        supabase
+          .schema("reference")
+          .from("games")
+          .select("id")
+          .eq("version_group_id", group.id),
+        /* A Plan covers the game and its add-ons, as the Planner's pool does. */
+        supabase
+          .schema("reference")
+          .from("version_groups")
+          .select("id")
+          .eq("parent_version_group_id", group.id),
+        readFormLearnsetRows(supabase, {
+          formId,
+          versionGroupId: group.id,
+        }),
+        readGameMovesOnDevice(group.id),
+      ]);
 
     if (gamesResult.error || addOnsResult.error) {
       throw new Error("Unable to read the Plan's game.");
@@ -125,7 +148,10 @@ export const loadPlanMemberOptionsAction = async (input: {
       }),
     ]);
 
-    return { options: { heldItems, moves }, status: "success" };
+    return {
+      options: { heldItems, moves, movesOnDevice },
+      status: "success",
+    };
   } catch (error) {
     return {
       message:

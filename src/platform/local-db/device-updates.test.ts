@@ -214,6 +214,57 @@ describe("the shipped device updates", () => {
   });
 });
 
+describe("0007-slim-learnsets", () => {
+  it("keeps a device's learnsets and leaves one lookup on them", async () => {
+    /* A device from before 0007: the full learnset indexes, some rows. */
+    const untrimmedSql = readDeviceSchemaSql({ trimmed: false });
+    const db = track(await createTestDb());
+
+    await ensureDeviceSchema(db, {
+      hash: hashDeviceSchemaSql(untrimmedSql),
+      readSql: () => Promise.resolve(untrimmedSql),
+    });
+    await db.exec(`
+      DELETE FROM device.updates WHERE name = '0007-slim-learnsets.sql';
+      SET session_replication_role = replica;
+      INSERT INTO reference.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at, sort_order)
+        SELECT 1, 1, n, 1, 1, 1, n FROM generate_series(1, 50) AS n;
+      SET session_replication_role = origin;
+    `);
+
+    await expect(
+      runDeviceUpdates(db, {
+        saveCopy: () => Promise.resolve(),
+        schemaHash,
+        updates: readDeviceUpdateFiles(),
+      }),
+    ).resolves.toEqual({
+      names: ["0007-slim-learnsets.sql"],
+      status: "updated",
+    });
+
+    const { rows: indexes } = await db.query<{ indexname: string }>(
+      "SELECT indexname FROM pg_indexes WHERE tablename = 'pokemon_learnsets'",
+    );
+    await db.exec("SET enable_seqscan = off");
+    const { rows: plan } = await db.query<{ "QUERY PLAN": string }>(`
+      EXPLAIN SELECT move_id FROM reference.pokemon_learnsets
+        WHERE form_id = 1 AND version_group_id = 1;
+    `);
+    const { rows: learnsets } = await db.query<{ count: number }>(
+      "SELECT count(*)::int AS count FROM reference.pokemon_learnsets WHERE form_id = 1 AND version_group_id = 1",
+    );
+
+    expect(indexes).toEqual([
+      { indexname: "pokemon_learnsets_form_lookup_idx" },
+    ]);
+    expect(plan[0]["QUERY PLAN"]).toContain(
+      "pokemon_learnsets_form_lookup_idx",
+    );
+    expect(learnsets).toEqual([{ count: 50 }]);
+  });
+});
+
 describe("parseDeviceUpdates", () => {
   it("reads the update list and refuses a broken one", () => {
     expect(parseDeviceUpdates({ updates: [addColour] })).toEqual([addColour]);

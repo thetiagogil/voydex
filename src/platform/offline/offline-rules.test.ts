@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   cacheKeyFor,
   cachesToDelete,
+  imagesCacheName,
   isPrefetch,
   keptAddressFor,
   metaCacheName,
@@ -66,6 +67,29 @@ describe("ruleFor", () => {
     expect(ruleFor(request("/game-data/versions.json"), origin)).toBe("pass");
     expect(
       ruleFor(request("/game-data/base.0123456789abcdef.json.gz"), origin),
+    ).toBe("pass");
+  });
+
+  it("answers the pictures a page shows from the images site, and nothing else of it", () => {
+    const images = "https://assets.test";
+
+    expect(
+      ruleFor(
+        request(`${images}/pokemon/home/md/pikachu.webp`, { mode: "no-cors" }),
+        origin,
+        images,
+      ),
+    ).toBe("image");
+    /* The background download's own requests keep their own copies. */
+    expect(
+      ruleFor(
+        request(`${images}/pokemon/home/md/pikachu.webp`),
+        origin,
+        images,
+      ),
+    ).toBe("pass");
+    expect(
+      ruleFor(request(`${images}/offline-images.json`), origin, images),
     ).toBe("pass");
   });
 
@@ -228,8 +252,9 @@ describe("releases", () => {
     });
   });
 
-  it("deletes older releases and failed installs, never other sites' caches", () => {
+  it("deletes older releases and failed installs, never the pictures or other sites' caches", () => {
     const names = [
+      imagesCacheName,
       releaseCacheName("a"),
       visitedCacheName("a"),
       releaseCacheName("b"),

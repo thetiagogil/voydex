@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+  imagesCacheName,
   metaCacheName,
   releaseCacheName,
   releasesKey,
@@ -18,6 +19,7 @@ import {
  */
 
 const origin = "https://voydex.test";
+const imagesOrigin = "https://images.test";
 
 type Stored = {
   body: ArrayBuffer;
@@ -118,33 +120,47 @@ let network: Map<string, string>;
 let redirects: Map<string, string>;
 let online: boolean;
 let fetchCalls: string[];
+/* The images site's pictures, by path, and the mode each was asked in. */
+let images: Map<string, string>;
+let imageModes: (RequestMode | undefined)[];
 let worker: {
   clients: { claim: ReturnType<typeof vi.fn> };
   skipWaiting: ReturnType<typeof vi.fn>;
 };
 
-const fakeFetch = vi.fn(async (input: RequestInfo | URL) => {
-  const url = new URL(keyOf(input), origin);
+const fakeFetch = vi.fn(
+  async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = new URL(keyOf(input), origin);
 
-  fetchCalls.push(url.pathname + url.search);
+    fetchCalls.push(url.pathname + url.search);
 
-  if (!online) throw new TypeError("Failed to fetch");
+    if (!online) throw new TypeError("Failed to fetch");
 
-  const target = redirects.get(url.pathname);
-  const path = target ? new URL(target, origin).pathname : url.pathname;
-  const body = network.get(path.replace(/(.)\/$/, "$1"));
-  const response =
-    body === undefined
-      ? new Response("not found", { status: 404 })
-      : new Response(body, { status: 200 });
+    if (url.origin === imagesOrigin) {
+      imageModes.push(init?.mode);
+      const picture = images.get(url.pathname);
 
-  return target
-    ? Object.defineProperties(response, {
-        redirected: { value: true },
-        url: { value: new URL(target, origin).href },
-      })
-    : response;
-});
+      return picture === undefined
+        ? new Response("not found", { status: 404 })
+        : new Response(picture, { status: 200 });
+    }
+
+    const target = redirects.get(url.pathname);
+    const path = target ? new URL(target, origin).pathname : url.pathname;
+    const body = network.get(path.replace(/(.)\/$/, "$1"));
+    const response =
+      body === undefined
+        ? new Response("not found", { status: 404 })
+        : new Response(body, { status: 200 });
+
+    return target
+      ? Object.defineProperties(response, {
+          redirected: { value: true },
+          url: { value: new URL(target, origin).href },
+        })
+      : response;
+  },
+);
 
 /* Starts a worker for a release, as the browser would after a deploy. */
 const loadWorker = async (release: OfflineRelease) => {
@@ -173,14 +189,18 @@ const install = async (release: OfflineRelease) => {
 /* Sends a request through the worker; null when it leaves it alone. */
 const request = async (
   path: string,
-  init: { headers?: Record<string, string>; mode?: RequestMode } = {},
+  init: {
+    headers?: Record<string, string>;
+    mode?: RequestMode;
+    site?: string;
+  } = {},
 ) => {
   /* A page request's mode can't be set on a Request made outside a browser. */
   const fake = {
     headers: new Headers(init.headers),
     method: "GET",
     mode: init.mode ?? "cors",
-    url: `${origin}${path}`,
+    url: `${init.site ?? origin}${path}`,
   } as Request;
   let answer: Promise<Response> | null = null;
 
@@ -211,6 +231,7 @@ const release = (
       ]),
   ),
   id,
+  imagesOrigin,
   offlinePage: "/offline",
 });
 
@@ -231,6 +252,8 @@ beforeEach(() => {
   online = true;
   redirects = new Map();
   fetchCalls = [];
+  images = new Map([["/pokemon/home/md/pikachu.webp", "pikachu picture"]]);
+  imageModes = [];
   worker = {
     clients: { claim: vi.fn(async () => undefined) },
     skipWaiting: vi.fn(async () => undefined),
@@ -570,5 +593,55 @@ describe("files", () => {
     const answer = await request("/local-db/schema-hash.txt");
 
     expect(await answer?.text()).toBe("schema 2");
+  });
+});
+
+describe("pictures from the images site", () => {
+  const pikachu = "/pokemon/home/md/pikachu.webp";
+
+  it("keeps a picture the first time it shows, asked with CORS, and shows it offline", async () => {
+    await install(release("r1"));
+
+    const first = await request(pikachu, {
+      mode: "no-cors",
+      site: imagesOrigin,
+    });
+
+    await expect(first?.text()).resolves.toBe("pikachu picture");
+    expect(imageModes).toEqual(["cors"]);
+    await flush();
+
+    online = false;
+
+    const offline = await request(pikachu, {
+      mode: "no-cors",
+      site: imagesOrigin,
+    });
+
+    await expect(offline?.text()).resolves.toBe("pikachu picture");
+  });
+
+  it("keeps pictures when a new release takes over", async () => {
+    await install(release("r1"));
+    await (
+      await request(pikachu, { mode: "no-cors", site: imagesOrigin })
+    )?.text();
+    await flush();
+    await install(release("r2"));
+
+    expect(await caches.keys()).toContain(imagesCacheName);
+    expect(
+      (await caches.open(imagesCacheName)).entries.has(
+        `${imagesOrigin}${pikachu}`,
+      ),
+    ).toBe(true);
+  });
+
+  it("leaves the images site's other files alone", async () => {
+    await install(release("r1"));
+
+    expect(
+      await request("/offline-images.json", { site: imagesOrigin }),
+    ).toBeNull();
   });
 });

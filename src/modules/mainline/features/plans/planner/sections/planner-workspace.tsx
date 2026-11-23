@@ -1,6 +1,8 @@
 "use client";
 
 import { getScrollBehavior } from "@/shared/utils/motion";
+import { readVersionGroupOnDevice } from "@/platform/local-db/game-downloads";
+import { useLocalRead } from "@/platform/local-db/local-db-context";
 import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
@@ -225,6 +227,13 @@ export const PlannerWorkspace = ({
       trainerId: data.trainerId,
       versionGroup: context.versionGroup,
     });
+  /* A save downloads a game not on the device yet: online only. */
+  const gameOnDevice = useLocalRead(
+    `version-group-on-device:${context.versionGroup.id}`,
+    () => readVersionGroupOnDevice(context.versionGroup.id),
+  );
+  const saveNeedsDownload =
+    gameOnDevice.status === "ready" && !gameOnDevice.data;
   const { isDetailsOpen, isDirty, isSaving, save, saveAs, setIsDetailsOpen } =
     usePlanSave({
       contents: {
@@ -402,6 +411,7 @@ export const PlannerWorkspace = ({
     <PageBand className="flex flex-col gap-6">
       <PlannerTopSection
         canSave={members.length > 0 && isDirty}
+        saveNeedsDownload={saveNeedsDownload}
         canEdit={isUnlocked}
         includedExpansions={context.versionGroup.expansions
           .filter((expansion) => expansions.includes(expansion.versionGroupId))
@@ -504,6 +514,7 @@ export const PlannerWorkspace = ({
           byId={byId}
           canEdit={isUnlocked}
           canSave={members.length > 0 && isDirty}
+          saveNeedsDownload={saveNeedsDownload}
           isSaving={isSaving}
           onOpenSlot={setOpenSlot}
           onSave={save}

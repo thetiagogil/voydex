@@ -10,6 +10,7 @@ import type {
   PlanMember,
   PlanMoveSlots,
 } from "@/modules/mainline/features/plans/types";
+import { useLocalDataRevision } from "@/platform/local-db/local-db-context";
 import { EmptyState } from "@/shared/components/empty-state";
 import {
   MoveSlotGrid,
@@ -50,6 +51,10 @@ export const PlannerSlotMoves = ({
 }: PlannerSlotMovesProps) => {
   const key = `${member.formId}:${versionGroupSlug}`;
   const [state, setState] = useState<OptionsState | null>(null);
+  /* Again once the game's moves come in, if they weren't on the device. */
+  const movesRevision = useLocalDataRevision(
+    state?.status === "success" && !state.options.movesOnDevice,
+  );
 
   useEffect(() => {
     let isCurrent = true;
@@ -64,7 +69,7 @@ export const PlannerSlotMoves = ({
     return () => {
       isCurrent = false;
     };
-  }, [key, member.formId, versionGroupSlug]);
+  }, [key, member.formId, movesRevision, versionGroupSlug]);
 
   if (!state || state.key !== key) {
     return (
@@ -81,7 +86,7 @@ export const PlannerSlotMoves = ({
     return <EmptyState variant="bare" title={state.message} />;
   }
 
-  const { heldItems, moves } = state.options;
+  const { heldItems, moves, movesOnDevice } = state.options;
   const moveOptions = toMoveSlotOptions(moves);
   /* A saved move its learnset here no longer lists stays visible. */
   const savedOnly = member.moveIds.flatMap((moveId) =>
@@ -119,22 +124,17 @@ export const PlannerSlotMoves = ({
       ) : null}
       <fieldset className="grid gap-2">
         <legend className="copy-strong mb-2">Moves</legend>
-        {moveOptions.length || savedOnly.length ? (
-          <MoveSlotGrid
-            emptyLabel="Any move"
-            values={picked}
-            onValueChange={(index, next) => {
-              const moveIds = [...member.moveIds] as PlanMoveSlots;
-              moveIds[index] = next ? Number(next) : null;
-              onChange({ moveIds });
-            }}
-            options={[...moveOptions, ...savedOnly]}
-          />
-        ) : (
-          <p className="text-ink-2 copy-note">
-            Voydex doesn&apos;t have its moves for this game yet.
-          </p>
-        )}
+        <MoveSlotGrid
+          emptyLabel="Any move"
+          movesOnDevice={movesOnDevice}
+          values={picked}
+          onValueChange={(index, next) => {
+            const moveIds = [...member.moveIds] as PlanMoveSlots;
+            moveIds[index] = next ? Number(next) : null;
+            onChange({ moveIds });
+          }}
+          options={[...moveOptions, ...savedOnly]}
+        />
       </fieldset>
     </div>
   );

@@ -26,13 +26,15 @@ const readSeedFiles = () =>
     );
 
 /*
- * An in-memory PGlite with the device schema (exactly what a device runs)
- * and every seed except the development fixtures. No Docker needed.
+ * An in-memory PGlite with the device schema and every seed except the
+ * development fixtures. No Docker needed. It keeps what a device leaves out
+ * of the server's schema (device-trims.sql), so the seeds still meet every
+ * uniqueness guard.
  */
 export async function loadSeededDb() {
   const db = await PGlite.create();
 
-  await db.exec(readDeviceSchemaSql());
+  await db.exec(readDeviceSchemaSql({ trimmed: false }));
 
   for (const file of readSeedFiles()) {
     try {

@@ -35,29 +35,98 @@ const userRowsFilter = new Map(
   userTables.map((table) => [table.name, table.where ?? null]),
 );
 
+type GameTable = { filter: string | undefined; name: string };
+
+/*
+ * The tables holding game data, split by how an update empties them. One
+ * that only other emptied tables point at is truncated: its old files go
+ * when the update commits. Postgres can't truncate a table your rows point
+ * at (a game, a Pokémon), so those are deleted from, which leaves the old
+ * rows' room behind until `vacuumGameTables`.
+ */
+export const readGameTables = async (db: Pick<Transaction, "query">) => {
+  const { rows } = await db.query<{ name: string; referenced_by: string[] }>(
+    `SELECT schemas.nspname || '.' || tables.relname AS name,
+       coalesce(array_agg(DISTINCT child_schemas.nspname || '.' || children.relname)
+         FILTER (WHERE children.oid IS NOT NULL), '{}') AS referenced_by
+     FROM pg_class tables
+     JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
+     LEFT JOIN pg_constraint keys ON keys.confrelid = tables.oid AND keys.contype = 'f'
+     LEFT JOIN pg_class children ON children.oid = keys.conrelid
+     LEFT JOIN pg_namespace child_schemas ON child_schemas.oid = children.relnamespace
+     WHERE tables.relkind = 'r' AND schemas.nspname = ANY ($1)
+     GROUP BY 1
+     ORDER BY 1`,
+    [appSchemas],
+  );
+  /* A table that is all yours keeps every row. */
+  const gameTables = rows.filter(
+    (row) => userRowsFilter.get(row.name) !== null,
+  );
+  const truncated = new Set(
+    gameTables
+      .filter((row) => !userRowsFilter.has(row.name))
+      .map((row) => row.name),
+  );
+
+  /* Leave out any table a table outside the set points at, until none does. */
+  for (let changed = true; changed;) {
+    changed = false;
+
+    for (const row of gameTables) {
+      if (
+        truncated.has(row.name) &&
+        row.referenced_by.some((child) => !truncated.has(child))
+      ) {
+        truncated.delete(row.name);
+        changed = true;
+      }
+    }
+  }
+
+  return {
+    deleted: gameTables
+      .filter((row) => !truncated.has(row.name))
+      .map((row): GameTable => ({
+        filter: userRowsFilter.get(row.name) ?? undefined,
+        name: row.name,
+      })),
+    truncated: [...truncated],
+  };
+};
+
 /*
  * Deletes every game data row: all of each table that isn't yours, and the
  * rows Voydex ships in a table that also holds yours (its own Challenge
  * rules). The caller turns triggers and foreign key checks off first.
  */
 export const deleteGameRows = async (tx: Transaction) => {
-  const { rows } = await tx.query<{ name: string }>(
-    `SELECT schemas.nspname || '.' || tables.relname AS name
-     FROM pg_class tables
-     JOIN pg_namespace schemas ON schemas.oid = tables.relnamespace
-     WHERE tables.relkind = 'r' AND schemas.nspname = ANY ($1)
-     ORDER BY 1`,
-    [appSchemas],
-  );
+  const { deleted, truncated } = await readGameTables(tx);
 
-  for (const { name } of rows) {
-    const filter = userRowsFilter.get(name);
+  if (truncated.length) await tx.exec(`TRUNCATE ${truncated.join(", ")}`);
 
-    if (filter === undefined) {
-      await tx.exec(`DELETE FROM ${name}`);
-    } else if (filter) {
-      await tx.exec(`DELETE FROM ${name} WHERE (${filter}) IS NOT TRUE`);
-    }
+  for (const { filter, name } of deleted) {
+    await tx.exec(
+      filter
+        ? `DELETE FROM ${name} WHERE (${filter}) IS NOT TRUE`
+        : `DELETE FROM ${name}`,
+    );
+  }
+};
+
+/*
+ * After an update commits, outside its transaction: rewrites the tables it
+ * deleted from, so the database doesn't grow with every release.
+ */
+export const vacuumGameTables = async (
+  db: Pick<Transaction, "exec" | "query">,
+) => {
+  const { deleted } = await readGameTables(db);
+
+  if (deleted.length) {
+    await db.exec(
+      `VACUUM FULL ${deleted.map((table) => table.name).join(", ")}`,
+    );
   }
 };
 

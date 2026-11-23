@@ -23,6 +23,7 @@ import {
   ChevronsUp,
   GripVertical,
   Circle,
+  CircleCheck,
   CircleHelp,
   CircleOff,
   ClipboardList,
@@ -90,6 +91,7 @@ import {
   Upload,
   UsersRound,
   Venus,
+  WifiOff,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -221,6 +223,10 @@ export const appIcons = {
     /* Something a game doesn't have yet: it arrives in a later generation. */
     later: Hourglass,
     locked: Lock,
+    /* Something that needs the internet, while there is none. */
+    offline: WifiOff,
+    /* Everything Voydex keeps for offline is on this device. */
+    ready: CircleCheck,
     /* A stat a nature lowers, and one it raises. */
     statDown: ArrowDown,
     statUp: ArrowUp,

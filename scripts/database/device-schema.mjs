@@ -5,8 +5,9 @@
  * before `dev` and `build`): the device schema
  * (src/platform/local-db/device-schema.sql), then the built migration, then
  * the device's change records on top of it
- * (src/platform/local-db/device-changes.sql), then the device updates it
- * already holds. The app serves them as static files,
+ * (src/platform/local-db/device-changes.sql), then what the device leaves
+ * out of the server's schema (src/platform/local-db/device-trims.sql), then
+ * the device updates it already holds. The app serves them as static files,
  * so a returning device only fetches the hash. The device updates
  * (database/device-updates/) go to updates.json, which only a device with
  * an older schema fetches. PGlite's own file system bundle goes beside them,
@@ -72,6 +73,7 @@ const checkUpdateName = (name) => {
 export function buildDeviceSchemaSql({
   deviceSql,
   deviceTailSql = "",
+  deviceTrimSql = "",
   migrationSql,
   updateNames = [],
 }) {
@@ -93,7 +95,10 @@ export function buildDeviceSchemaSql({
         .join(", ")};\n`
     : "";
 
-  const tailSql = deviceTailSql.trim() ? `\n${deviceTailSql.trimEnd()}\n` : "";
+  const tailSql = [deviceTailSql, deviceTrimSql]
+    .filter((sql) => sql.trim())
+    .map((sql) => `\n${sql.trimEnd()}\n`)
+    .join("");
 
   return `${deviceSql.trimEnd()}\n\n${schemaSql.trimEnd()}\n${tailSql}${updatesSql}`;
 }
@@ -106,16 +111,19 @@ export function readDeviceUpdateFiles() {
   }));
 }
 
-export function readDeviceSchemaSql() {
-  return buildDeviceSchemaSql({
-    deviceSql: fs.readFileSync(
-      path.join(rootDir, "src/platform/local-db/device-schema.sql"),
-      "utf8",
-    ),
-    deviceTailSql: fs.readFileSync(
-      path.join(rootDir, "src/platform/local-db/device-changes.sql"),
-      "utf8",
-    ),
+const readLocalDbFile = (name) =>
+  fs.readFileSync(path.join(rootDir, "src/platform/local-db", name), "utf8");
+
+/*
+ * What `buildDeviceSchemaSql` takes, from the files. `trimmed: false` keeps
+ * everything the server has (the release build, which checks the seeds
+ * against the uniqueness guards the device leaves out).
+ */
+export function readDeviceSchemaParts({ trimmed = true } = {}) {
+  return {
+    deviceSql: readLocalDbFile("device-schema.sql"),
+    deviceTailSql: readLocalDbFile("device-changes.sql"),
+    deviceTrimSql: trimmed ? readLocalDbFile("device-trims.sql") : "",
     migrationSql: fs.readFileSync(
       path.join(
         supabaseDir,
@@ -124,6 +132,12 @@ export function readDeviceSchemaSql() {
       ),
       "utf8",
     ),
+  };
+}
+
+export function readDeviceSchemaSql({ trimmed = true } = {}) {
+  return buildDeviceSchemaSql({
+    ...readDeviceSchemaParts({ trimmed }),
     updateNames: readDeviceUpdates(),
   });
 }

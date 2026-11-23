@@ -50,6 +50,7 @@ export const TeamMemberEditorMovesStep = ({
       aside="Optional"
     >
       <MoveSlotGrid
+        movesOnDevice={options.movesOnDevice}
         values={values.moveIds.map((moveId) => moveId || null)}
         onValueChange={(index, value) => {
           const next = [...values.moveIds] as TeamMemberEditorValues["moveIds"];

@@ -11,6 +11,7 @@ import {
   readHeldItemOptions,
   readMoveOptions,
 } from "@/modules/mainline/shared/client/build-option-readers";
+import { readGameMovesOnDevice } from "@/platform/local-db/game-downloads";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type { TeamMemberEditorOptions } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
@@ -18,7 +19,7 @@ import type { TeamMemberEditorOptions } from "@/modules/mainline/features/plays/
 /* A Pokémon's build in the Play's game: what Add's More details and Edit offer. */
 export type PokemonBuildOptions = Pick<
   TeamMemberEditorOptions,
-  "abilities" | "heldItems" | "moves" | "natures"
+  "abilities" | "heldItems" | "moves" | "movesOnDevice" | "natures"
 >;
 
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
@@ -68,38 +69,42 @@ export const readPokemonBuildOptions = async (
   const hasNatures = reads("natures", gameMechanics.natures);
   const hasHeldItems = reads("heldItems", gameMechanics.heldItems);
   const hasMoves = reads("moves");
-  const [attributesResult, naturesResult, learnsets, contentScopesResult] =
-    await Promise.all([
-      hasAbilities
-        ? supabase
-            .schema("reference")
-            .from("pokemon_attributes")
-            .select(
-              "generation_start_id, primary_ability_id, secondary_ability_id, hidden_ability_id",
-            )
-            .eq("form_id", formId)
-            .lte("generation_start_id", generationId)
-        : null,
-      hasNatures
-        ? supabase
-            .schema("reference")
-            .from("natures")
-            .select("id, name, increased_stat, decreased_stat")
-            .lte("introduced_generation_id", generationId)
-            .order("name", { ascending: true })
-        : null,
-      hasMoves
-        ? readFormLearnsetRows(supabase, { formId, versionGroupId })
-        : [],
-      /* The add-ons the Play includes: their held items. */
-      hasHeldItems
-        ? supabase
-            .schema("gameplay")
-            .from("mainline_play_optional_content_scopes")
-            .select("version_group_id")
-            .eq("play_id", playId)
-        : null,
-    ]);
+  const [
+    attributesResult,
+    naturesResult,
+    learnsets,
+    contentScopesResult,
+    movesOnDevice,
+  ] = await Promise.all([
+    hasAbilities
+      ? supabase
+          .schema("reference")
+          .from("pokemon_attributes")
+          .select(
+            "generation_start_id, primary_ability_id, secondary_ability_id, hidden_ability_id",
+          )
+          .eq("form_id", formId)
+          .lte("generation_start_id", generationId)
+      : null,
+    hasNatures
+      ? supabase
+          .schema("reference")
+          .from("natures")
+          .select("id, name, increased_stat, decreased_stat")
+          .lte("introduced_generation_id", generationId)
+          .order("name", { ascending: true })
+      : null,
+    hasMoves ? readFormLearnsetRows(supabase, { formId, versionGroupId }) : [],
+    /* The add-ons the Play includes: their held items. */
+    hasHeldItems
+      ? supabase
+          .schema("gameplay")
+          .from("mainline_play_optional_content_scopes")
+          .select("version_group_id")
+          .eq("play_id", playId)
+      : null,
+    hasMoves ? readGameMovesOnDevice(versionGroupId) : true,
+  ]);
 
   if (
     attributesResult?.error ||
@@ -190,6 +195,7 @@ export const readPokemonBuildOptions = async (
     }),
     heldItems,
     moves,
+    movesOnDevice,
     natures: (naturesResult?.data ?? []).map((nature) => ({
       decreased: nature.decreased_stat,
       id: nature.id,

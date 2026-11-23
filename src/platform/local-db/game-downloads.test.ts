@@ -22,7 +22,10 @@ vi.mock("@/platform/local-db/open-local-db", () => ({
 vi.mock("@/platform/local-db/game-data", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/platform/local-db/game-data")>()),
   downloadGameDataFileWithin: vi.fn(() => "timed download"),
-  fetchGameDataVersions: vi.fn(async () => ({ schemaHash: "fresh" })),
+  fetchGameDataVersions: vi.fn(async () => ({
+    games: [],
+    schemaHash: "fresh",
+  })),
   updateGameData: vi.fn(async () => ({ status: "already-installed" })),
 }));
 vi.mock("@/platform/local-db/local-db", async (importOriginal) => ({
@@ -97,7 +100,7 @@ beforeEach(() => {
   vi.stubGlobal("navigator", browser.navigator);
   vi.stubGlobal("window", browser.window);
   state.missing = [{ file: "game", slug: "sv" }];
-  state.versions = { schemaHash: "known" };
+  state.versions = { games: [], schemaHash: "known" };
   state.saveListeners.clear();
 });
 
@@ -167,14 +170,16 @@ describe("watchBackgroundDownloads", () => {
     expect(run).toHaveBeenCalledTimes(1);
   });
 
-  it("does nothing offline, and runs when the connection comes back", async () => {
-    const { openLocalDb, run, watchBackgroundDownloads } = await load();
+  it("downloads nothing offline, and runs when the connection comes back", async () => {
+    const { fetchVersions, run, watchBackgroundDownloads } = await load();
 
     browser.navigator.onLine = false;
     stop = watchBackgroundDownloads();
 
     await settle();
-    expect(openLocalDb).not.toHaveBeenCalled();
+    /* It only reads what the device has, for the bar's status. */
+    expect(fetchVersions).not.toHaveBeenCalled();
+    expect(run).not.toHaveBeenCalled();
 
     browser.navigator.onLine = true;
     browser.window.dispatchEvent(new Event("online"));
@@ -249,14 +254,30 @@ describe("watchBackgroundDownloads", () => {
     expect(shouldStop?.()).toBe(true);
   });
 
-  it("does nothing on data saver", async () => {
-    const { openLocalDb, watchBackgroundDownloads } = await load();
+  it("downloads nothing on data saver, and says it waits for Wi-Fi", async () => {
+    const { fetchVersions, run, watchBackgroundDownloads } = await load();
+    const { readOfflineProgress } =
+      await import("@/platform/offline/offline-progress");
 
+    /* A game the device doesn't have yet. */
+    state.versions = {
+      games: [
+        {
+          data: { hash: "a", name: "sv" },
+          learnsets: { hash: "b", name: "sv-learnsets" },
+          slug: "sv",
+          versionGroupIds: [25],
+        },
+      ],
+      schemaHash: "known",
+    };
     browser.navigator.connection = { saveData: true };
     stop = watchBackgroundDownloads();
 
     await settle();
-    expect(openLocalDb).not.toHaveBeenCalled();
+    expect(fetchVersions).not.toHaveBeenCalled();
+    expect(run).not.toHaveBeenCalled();
+    expect(readOfflineProgress().waitingForWifi).toBe(true);
   });
 
   it("leaves out what failed this visit until the connection comes back", async () => {
@@ -300,7 +321,7 @@ describe("watchBackgroundDownloads", () => {
   });
 
   it("stops for the visit once the device is full", async () => {
-    const { openLocalDb, run, watchBackgroundDownloads } = await load();
+    const { run, watchBackgroundDownloads } = await load();
 
     run.mockResolvedValueOnce({ done: [], failed: [], status: "storage-full" });
     stop = watchBackgroundDownloads();
@@ -309,7 +330,6 @@ describe("watchBackgroundDownloads", () => {
     save();
     browser.window.dispatchEvent(new Event("online"));
     await settle();
-    expect(openLocalDb).toHaveBeenCalledTimes(1);
     expect(run).toHaveBeenCalledTimes(1);
   });
 
@@ -504,5 +524,25 @@ describe("readGameDataBehind", () => {
     state.versions = null;
 
     await expect(readGameDataBehind()).resolves.toBe(false);
+  });
+});
+
+describe("downloadEverythingNow", () => {
+  it("brings every game on mobile data once asked", async () => {
+    const { downloadEverythingNow, readMissing, watchBackgroundDownloads } =
+      await load();
+
+    browser.navigator.connection = { type: "cellular" };
+    stop = watchBackgroundDownloads();
+    await settle();
+    expect(readMissing.mock.calls.at(-1)?.[2]).toMatchObject({
+      everyGame: false,
+    });
+
+    downloadEverythingNow();
+    await settle();
+    expect(readMissing.mock.calls.at(-1)?.[2]).toMatchObject({
+      everyGame: true,
+    });
   });
 });

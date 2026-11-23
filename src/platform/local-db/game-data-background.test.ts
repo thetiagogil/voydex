@@ -167,21 +167,48 @@ describe("planBackgroundDownloads", () => {
     expect(planBackgroundDownloads(versions, installed, [])).toEqual([]);
   });
 
-  it("brings every other game last, without learnsets, when asked", () => {
+  it("brings every other game last, then their learnsets, when asked", () => {
     expect(
       planBackgroundDownloads(versions, new Map(), [23], { everyGame: true }),
     ).toEqual([
       { file: "game", slug: "sv" },
       { file: "learnsets", slug: "sv" },
       { file: "game", slug: "swsh", spare: true },
+      { file: "learnsets", slug: "swsh", spare: true },
     ]);
   });
 
-  it("brings no spare game the device already has", () => {
+  it("brings every spare game before any spare learnsets", () => {
+    expect(
+      planBackgroundDownloads(versions, new Map(), [], { everyGame: true }),
+    ).toEqual([
+      { file: "game", slug: "swsh", spare: true },
+      { file: "game", slug: "sv", spare: true },
+      { file: "learnsets", slug: "swsh", spare: true },
+      { file: "learnsets", slug: "sv", spare: true },
+    ]);
+  });
+
+  it("brings only the learnsets of a spare game the device already has", () => {
     const installed = new Map([
       ["base", base.entry.hash],
       ["swsh", swsh.entry.hash],
       ["sv", sv.entry.hash],
+      ["sv-learnsets", svLearnsets.entry.hash],
+    ]);
+
+    expect(
+      planBackgroundDownloads(versions, installed, [], { everyGame: true }),
+    ).toEqual([{ file: "learnsets", slug: "swsh", spare: true }]);
+  });
+
+  it("brings nothing once every game and learnset is on the device", () => {
+    const installed = new Map([
+      ["base", base.entry.hash],
+      ["swsh", swsh.entry.hash],
+      ["swsh-learnsets", swshLearnsets.entry.hash],
+      ["sv", sv.entry.hash],
+      ["sv-learnsets", svLearnsets.entry.hash],
     ]);
 
     expect(
@@ -308,6 +335,7 @@ describe("runBackgroundDownloads", () => {
         { file: "game", slug: "sv" },
         { file: "learnsets", slug: "sv" },
         { file: "game", slug: "swsh", spare: true },
+        { file: "learnsets", slug: "swsh", spare: true },
       ],
       failed: [],
       status: "done",
@@ -317,8 +345,9 @@ describe("runBackgroundDownloads", () => {
       "sv",
       "sv-learnsets",
       "swsh",
+      "swsh-learnsets",
     ]);
-    /* Once for each file in use, once for every spare game together. */
+    /* Once for each file in use, once for every spare file together. */
     expect(currentPageReadRevision() - revisionBefore).toBe(3);
 
     download.mockClear();

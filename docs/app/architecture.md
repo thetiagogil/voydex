@@ -458,8 +458,8 @@ the device:
   learnsets after, in the background. Once the device gate opens, the
   games the device should have download quietly in the background
   (`game-data-background.ts`): the games of your Plays and Plans with
-  their learnsets, then every other game without learnsets, so New Play
-  and the Planner work offline for any game.
+  their learnsets, then every other game and its learnsets, so New Play,
+  the Planner and the move pickers work offline for any game.
 - **The Codex, the game pickers and the Team Planner's Pokémon** read
   pre-built files (#256, #289): the build
   runs the Codex's `server/` readers once over every game data file and
@@ -577,8 +577,25 @@ in the built app only, never under `next dev`.
   each visit and keeps the release it has when the list doesn't answer
   (`prepare-device.ts`); game data files go into the device database, which
   is what makes installed games work offline.
-- Images come from the images site and stay in the browser's own cache (30
-  days).
+- **Pictures** from the images site go into their own cache
+  (`voydex-images`), which no release deletes. The worker keeps every
+  picture a page shows (asking with CORS, so it is kept whole) and answers
+  it from that cache first. The background download (`offline-images.ts`)
+  fills it with the pictures the images site lists in
+  `offline-images.json`: the normal HOME sprites, the Z-A icons, game
+  covers, items, move categories, trainers and badges, about 41 MB. Each
+  is listed with a short hash, so a changed picture downloads again. Shiny
+  sprites and official art are kept once shown.
+- **The bar's status** (`OfflineStatus`) shows on every page and width
+  only while there is something to say: a pill with a ring and the figure
+  while games, moves and pictures download, the offline mark while there is
+  no connection, a warning when the device is full. Once everything is on
+  the device it goes. Settings, Your data, keeps an Offline data row. Both
+  open `OfflineDataDialog` (`src/shared/components`): what is on the
+  device, how much room it takes, what still needs the internet and, on
+  mobile data, Download now (`downloadEverythingNow`). `offline-progress.ts`
+  holds the counts the background downloads fill in, and `useOfflineData`
+  reads them for both.
 
 ## Reads, Writes, And File Responsibilities
 

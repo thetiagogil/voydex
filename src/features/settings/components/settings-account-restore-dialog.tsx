@@ -15,6 +15,7 @@ import type { AccountBackupEntry } from "@/platform/local-db/device-account";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Badge } from "@/shared/components/ui/badge";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import { Button } from "@/shared/components/ui/button";
 import {
   Field,
@@ -121,16 +122,20 @@ export const SettingsAccountRestoreDialog = ({
           >
             Cancel
           </Button>
-          <Button
-            type="button"
-            variant="destructive"
-            disabled={restoring || !picked}
-            aria-busy={restoring}
-            onClick={() => void restore()}
-          >
-            {restoring ? <Spinner data-icon="inline-start" /> : null}
-            {restoring ? "Restoring..." : "Replace with this backup"}
-          </Button>
+          <NeedsInternet className="max-sm:*:w-full">
+            {(offline) => (
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={restoring || offline || !picked}
+                aria-busy={restoring}
+                onClick={() => void restore()}
+              >
+                {restoring ? <Spinner data-icon="inline-start" /> : null}
+                {restoring ? "Restoring..." : "Replace with this backup"}
+              </Button>
+            )}
+          </NeedsInternet>
         </div>
       }
     >

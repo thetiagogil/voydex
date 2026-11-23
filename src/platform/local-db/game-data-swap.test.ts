@@ -4,6 +4,8 @@ import type { PGlite } from "@electric-sql/pglite";
 import {
   deleteGameRows,
   findMissingReferences,
+  readGameTables,
+  vacuumGameTables,
 } from "@/platform/local-db/game-data-swap";
 import {
   addTestGameData,
@@ -65,6 +67,92 @@ describe("deleteGameRows", () => {
     });
 
     expect(await countGameRows(db)).toBe(0);
+    await expect(readUserData(db)).resolves.toEqual(before);
+  });
+});
+
+/* Learnset rows as a learnsets file brings them, checks off. */
+const addTestLearnsets = (db: PGlite) =>
+  db.exec(`
+    SET session_replication_role = replica;
+    INSERT INTO reference.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at, sort_order)
+      SELECT 1, 1, n, 1, 1, 1, n FROM generate_series(1, 5000) AS n;
+    SET session_replication_role = origin;
+  `);
+
+const readSizes = async (db: PGlite) => {
+  const { rows } = await db.query<{ games: number; learnsets: number }>(`
+    SELECT pg_total_relation_size('reference.games')::int AS games,
+      pg_total_relation_size('reference.pokemon_learnsets')::int AS learnsets
+  `);
+
+  return rows[0];
+};
+
+describe("readGameTables", () => {
+  let db: PGlite;
+
+  beforeEach(async () => {
+    db = await createTestDevice();
+  });
+
+  afterEach(() => db.close());
+
+  it("truncates what only game data points at and deletes from the rest", async () => {
+    const { deleted, truncated } = await readGameTables(db);
+    const deletedNames = deleted.map((table) => table.name);
+
+    expect(truncated).toContain("reference.pokemon_learnsets");
+    expect(truncated).not.toContain("reference.games");
+    expect(deletedNames).toContain("reference.games");
+    expect(deletedNames).toContain("reference.pokemon_forms");
+    expect(deleted).toContainEqual({
+      filter: "user_id IS NOT NULL",
+      name: "gameplay.mainline_challenge_rules",
+    });
+    expect([...truncated, ...deletedNames]).not.toContain(
+      "gameplay.mainline_plays",
+    );
+  });
+});
+
+/*
+ * A release update deletes every game data row and adds the new release's.
+ * Deleted rows used to stay in the files, so each release made the device
+ * database bigger; it now stays the same size.
+ */
+describe("a release update", () => {
+  let db: PGlite;
+
+  beforeEach(async () => {
+    db = await createTestDevice();
+    await addTestGameData(db);
+    await addTestLearnsets(db);
+    await addUserData(db);
+  });
+
+  afterEach(() => db.close());
+
+  const update = async () => {
+    await db.transaction(async (tx) => {
+      await tx.exec("SET LOCAL session_replication_role = replica");
+      await deleteGameRows(tx);
+    });
+    await addTestGameData(db);
+    await addTestLearnsets(db);
+    await vacuumGameTables(db);
+  };
+
+  it("leaves the database no bigger, release after release", async () => {
+    const before = await readUserData(db);
+
+    await update();
+    const first = await readSizes(db);
+
+    await update();
+    await update();
+
+    expect(await readSizes(db)).toEqual(first);
     await expect(readUserData(db)).resolves.toEqual(before);
   });
 });

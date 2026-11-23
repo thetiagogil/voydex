@@ -4,6 +4,7 @@ import {
   deleteGameRows,
   findMissingReferences,
   followIdChanges,
+  vacuumGameTables,
 } from "@/platform/local-db/game-data-swap";
 import { recordIdChanges } from "@/platform/local-db/device-id-changes";
 import { IdChangeError } from "@/platform/local-db/id-changes";
@@ -160,6 +161,33 @@ export const readInstalledGameData = async (db: LocalDb) => {
   );
 
   return new Map(rows.map((row) => [row.name, row.hash]));
+};
+
+/*
+ * Whether a version group's game file, or its learnsets (the moves a
+ * Pokémon can learn there), is on the device. An expansion comes in its
+ * game's files, which `npm run game-data:build` names "<game>" and
+ * "<game>-learnsets". A version group the device doesn't know isn't on it.
+ */
+export const hasGameFile = async (
+  db: LocalDb,
+  versionGroupId: number,
+  kind: "game" | "learnsets",
+) => {
+  const [row] = await runQuery<{ found: boolean }>(
+    db,
+    `SELECT EXISTS (
+       SELECT 1
+       FROM reference.version_groups groups
+       LEFT JOIN reference.version_groups parent ON parent.id = groups.parent_version_group_id
+       JOIN device.game_data_files files
+         ON files.name = COALESCE(parent.slug, groups.slug) || $2
+       WHERE groups.id = $1
+     ) AS found`,
+    [versionGroupId, kind === "learnsets" ? "-learnsets" : ""],
+  );
+
+  return row?.found === true;
 };
 
 /* After COPY, sequences sit behind the copied ids; move them past. */
@@ -410,6 +438,7 @@ const replaceGameData = async (
 
     if (!replaced) return null;
 
+    await vacuumGameTables(db);
     await db.exec("CHECKPOINT");
   } catch (error) {
     throw toLocalDbError(error);
@@ -719,6 +748,7 @@ export const installGameLearnsets = async (
   db: LocalDb,
   slug: string,
   options: InstallOptions,
+  { quiet = false }: Pick<InstallFilesOptions, "quiet"> = {},
 ) => {
   const game = findGame(options.versions, slug);
   const installed = await readInstalledGameData(db);
@@ -727,7 +757,7 @@ export const installGameLearnsets = async (
     throw new LocalDbError(`Install ${slug} before its learnsets.`);
   }
 
-  return installFiles(db, [game.learnsets], options, { update: false });
+  return installFiles(db, [game.learnsets], options, { quiet, update: false });
 };
 
 /*

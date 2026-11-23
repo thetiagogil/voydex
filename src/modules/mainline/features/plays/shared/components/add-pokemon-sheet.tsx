@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocalDataRevision } from "@/platform/local-db/local-db-context";
 import {
   useCallback,
   useEffect,
@@ -207,6 +208,11 @@ export const AddPokemonSheet = ({
     });
   }, [loadState.status, open, playId, preset]);
 
+  /* Again once the game's moves come in, if they weren't on the device. */
+  const movesRevision = useLocalDataRevision(
+    buildState?.status === "ready" && !buildState.options.movesOnDevice,
+  );
+
   /* More details' choices load once a Pokémon is picked to add. */
   useEffect(() => {
     if (!open || isReplace || pickedFormId === null) {
@@ -236,7 +242,7 @@ export const AddPokemonSheet = ({
     return () => {
       isCurrent = false;
     };
-  }, [isReplace, open, pickedFormId, playId]);
+  }, [isReplace, movesRevision, open, pickedFormId, playId]);
 
   /* Another Pokémon, or another of its patterns, starts its details over. */
   const pick = (choice: PokemonChoice | null) => {

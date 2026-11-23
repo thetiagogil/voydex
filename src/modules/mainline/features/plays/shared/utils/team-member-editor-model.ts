@@ -49,6 +49,11 @@ export type TeamMemberEditorOptions = {
   forms: EditorFormOption[];
   heldItems: BuildItemOption[];
   moves: EditorMoveOption[];
+  /*
+   * False while the game's moves aren't on the device yet: `moves` is
+   * empty and the picker says why.
+   */
+  movesOnDevice: boolean;
   /* The 18 types, in games with Terastal; empty elsewhere. */
   teraTypes: EditorOption[];
   natures: (EditorOption & {

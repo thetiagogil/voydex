@@ -5,10 +5,10 @@ import zlib from "node:zlib";
 import { PGlite } from "@electric-sql/pglite";
 import { describe, expect, it } from "vitest";
 
-import { rootDir } from "./context.mjs";
 import {
   buildDeviceSchemaSql,
   hashDeviceSchemaSql,
+  readDeviceSchemaParts,
   readDeviceSchemaSql,
   readDeviceUpdateFiles,
   stripHostedOnly,
@@ -56,6 +56,23 @@ describe("buildDeviceSchemaSql", () => {
     ).toBe(true);
   });
 
+  it("puts the device trims after the change records, before the updates", () => {
+    const sql = buildDeviceSchemaSql({
+      deviceSql: "CREATE SCHEMA device;\n",
+      deviceTailSql: "CREATE TABLE device.changes ();\n",
+      deviceTrimSql: "DROP INDEX reference.a;\n",
+      migrationSql: "CREATE SCHEMA reference;",
+      updateNames: ["0001-first.sql"],
+    });
+
+    expect(sql.indexOf("CREATE TABLE device.changes")).toBeLessThan(
+      sql.indexOf("DROP INDEX reference.a"),
+    );
+    expect(sql.indexOf("DROP INDEX reference.a")).toBeLessThan(
+      sql.indexOf("INSERT INTO device.updates"),
+    );
+  });
+
   it("refuses a device update named out of order", () => {
     expect(() =>
       buildDeviceSchemaSql({
@@ -93,6 +110,53 @@ describe("stripHostedOnly", () => {
 });
 
 /*
+ * The device leaves the learnset indexes only the server needs out
+ * (device-trims.sql); the release build keeps them, so a seed that repeats
+ * a learnset still fails before a release.
+ */
+describe("device trims", () => {
+  const readLearnsetIndexes = async (db) =>
+    (
+      await db.query(
+        "SELECT indexname FROM pg_indexes WHERE tablename = 'pokemon_learnsets' ORDER BY 1",
+      )
+    ).rows.map((row) => row.indexname);
+  const addLearnset = (db) =>
+    db.exec(`
+      SET session_replication_role = replica;
+      INSERT INTO reference.pokemon_learnsets (species_id, form_id, move_id, version_group_id, learn_method_id, level_learned_at, sort_order)
+        VALUES (1, 1, 1, 1, 1, 1, 1);
+      SET session_replication_role = origin;
+    `);
+
+  it("keep one learnset lookup on a device", async () => {
+    const db = await PGlite.create();
+
+    await db.exec(readDeviceSchemaSql());
+
+    expect(await readLearnsetIndexes(db)).toEqual([
+      "pokemon_learnsets_form_lookup_idx",
+    ]);
+    await db.close();
+  }, 60_000);
+
+  it("leave the release build every uniqueness guard", async () => {
+    const db = await PGlite.create();
+
+    await db.exec(readDeviceSchemaSql({ trimmed: false }));
+
+    expect(await readLearnsetIndexes(db)).toContain(
+      "pokemon_learnsets_vg_unique",
+    );
+    await addLearnset(db);
+    await expect(addLearnset(db)).rejects.toThrow(
+      "pokemon_learnsets_vg_unique",
+    );
+    await db.close();
+  }, 60_000);
+});
+
+/*
  * A device that already holds data only reaches a new schema through a
  * device update; without one it has to start fresh and loses its Plays.
  * schema.sha256 names the latest device update and the schema it brings a
@@ -104,15 +168,8 @@ describe("device updates", () => {
       .readFileSync(path.join(deviceUpdatesDir, "schema.sha256"), "utf8")
       .trim()
       .split(" ");
-    const read = (file) => fs.readFileSync(path.join(rootDir, file), "utf8");
     const schemaHash = hashDeviceSchemaSql(
-      buildDeviceSchemaSql({
-        deviceSql: read("src/platform/local-db/device-schema.sql"),
-        deviceTailSql: read("src/platform/local-db/device-changes.sql"),
-        migrationSql: read(
-          "database/supabase/migrations/00000000000000_voydex_current_schema.sql",
-        ),
-      }),
+      buildDeviceSchemaSql(readDeviceSchemaParts()),
     );
 
     expect(name).toBe(readDeviceUpdates().at(-1));

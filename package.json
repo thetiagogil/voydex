@@ -53,6 +53,7 @@
     "db:types:check": "node scripts/database/generate-types.mjs --local --check",
     "db:types:linked": "node scripts/database/generate-types.mjs --linked",
     "db:verify": "npm run db:reset && npm run db:audit && npm run db:format:sql:check && npm run db:lint && npm run db:test && npm run db:types:check",
+    "db:device-size": "tsx scripts/database/device-size.mts",
     "game-data:build": "node scripts/database/game-data/build-game-data.mjs",
     "game-data:check": "node scripts/database/game-data/build-game-data.mjs --check",
     "codex:build": "tsx scripts/codex/build-codex-data.mts",

@@ -1,6 +1,7 @@
 import {
   cacheKeyFor,
   cachesToDelete,
+  imagesCacheName,
   isBuildFile,
   isPrefetch,
   metaCacheName,
@@ -28,6 +29,7 @@ import {
  * - Activate: the new release takes over open tabs at once and deletes the
  *   caches of releases before the previous one.
  * - Fetch: pages and data from the network first; the kept copy offline.
+ *   Pictures from the images site come from their kept copy first.
  */
 
 declare const __VOYDEX_RELEASE__: OfflineRelease;
@@ -339,7 +341,33 @@ const answerFromNetworkFirst = async (
   }
 };
 
+/*
+ * A picture: its kept copy, else the network, kept from then on. An <img>
+ * asks without CORS, which would give a sealed copy the browser counts as
+ * megabytes, so the worker asks with CORS itself; a site that doesn't allow
+ * it (an older images site) still answers the picture, which isn't kept.
+ */
+const answerImage = async (request: Request) => {
+  const cache = await caches.open(imagesCacheName);
+  const kept = await cache.match(request.url);
+
+  if (kept) return kept;
+
+  const response = await fetch(request.url, {
+    credentials: "omit",
+    mode: "cors",
+  }).catch(() => null);
+
+  if (!response?.ok) return response ?? fetch(request);
+
+  void cache.put(request.url, response.clone()).catch(() => undefined);
+
+  return response;
+};
+
 const answer = (request: Request, rule: RequestRule, info: OfflineRequest) => {
+  if (rule === "image") return answerImage(request);
+
   const key = cacheKeyFor(info.url);
 
   return rule === "script"
@@ -363,7 +391,7 @@ worker.addEventListener("fetch", (event) => {
     mode: request.mode,
     url: request.url,
   };
-  const rule = ruleFor(info, origin);
+  const rule = ruleFor(info, origin, release.imagesOrigin);
 
   if (rule === "pass") return;
 

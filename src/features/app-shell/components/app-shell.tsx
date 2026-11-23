@@ -4,6 +4,7 @@ import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-ba
 import { LogOutDialog } from "@/features/app-shell/components/log-out-dialog";
 import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
+import { OfflineStatus } from "@/features/app-shell/components/navigation/offline-status";
 import { SiteAccountAction } from "@/features/app-shell/components/navigation/site-account-action";
 import { UserMenu } from "@/features/app-shell/components/navigation/user-menu";
 import { SiteFooter } from "@/features/app-shell/components/site-footer";
@@ -68,8 +69,12 @@ export const AppShell = ({
             <AppBarSections className="hidden lg:flex" />
           }
           end={
-            <div className="hidden items-center lg:flex">
-              <UserMenu />
+            <div className="flex items-center gap-2">
+              {/* What's kept for offline, on every page and every width. */}
+              <OfflineStatus />
+              <div className="hidden items-center lg:flex">
+                <UserMenu />
+              </div>
             </div>
           }
         />

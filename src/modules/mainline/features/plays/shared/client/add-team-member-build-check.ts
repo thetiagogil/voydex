@@ -96,7 +96,13 @@ export const assertAddedBuildOffered = async (
           playId,
           versionGroupId: play.version_group_id,
         })
-      : { abilities: [], heldItems: [], moves: [], natures: [] },
+      : {
+          abilities: [],
+          heldItems: [],
+          moves: [],
+          movesOnDevice: true,
+          natures: [],
+        },
     build.moveIds.length
       ? readFormLearnsetRows(supabase, {
           formId,
