@@ -1,5 +1,7 @@
 "use client";
 
+import { gameDownloadReason } from "@/platform/local-db/game-downloads";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import type { ReactNode } from "react";
 
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -23,6 +25,8 @@ type PlannerDockedBarProps = {
   /* A locked Plan reads its team: no Save in the bar. */
   canEdit: boolean;
   canSave: boolean;
+  /* The game isn't on the device yet: a save downloads it, online only. */
+  saveNeedsDownload: boolean;
   /* The Planner's band: once it scrolls away, the bar docks. */
   children: ReactNode;
   isSaving: boolean;
@@ -47,6 +51,7 @@ export const PlannerDockedBar = ({
   byId,
   canEdit,
   canSave,
+  saveNeedsDownload,
   children,
   isSaving,
   onOpenSlot,
@@ -115,15 +120,22 @@ export const PlannerDockedBar = ({
             })}
           </ol>
           {canEdit ? (
-            <Button
-              type="button"
-              size="sm"
-              disabled={!canSave || isSaving}
-              onClick={onSave}
+            <NeedsInternet
+              needed={saveNeedsDownload}
+              reason={gameDownloadReason}
             >
-              {isSaving ? <Spinner data-icon="inline-start" /> : null}
-              Save
-            </Button>
+              {(offline) => (
+                <Button
+                  type="button"
+                  size="sm"
+                  disabled={!canSave || isSaving || offline}
+                  onClick={onSave}
+                >
+                  {isSaving ? <Spinner data-icon="inline-start" /> : null}
+                  Save
+                </Button>
+              )}
+            </NeedsInternet>
           ) : null}
         </div>
       }

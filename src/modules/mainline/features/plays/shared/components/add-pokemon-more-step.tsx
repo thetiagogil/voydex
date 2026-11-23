@@ -93,21 +93,16 @@ export const AddPokemonMoreStep = ({
         </SheetSection>
       ) : null}
       <SheetSection title="Moves" aside="Optional">
-        {state.options.moves.length ? (
-          <MoveSlotGrid
-            values={build.moveIds.map((moveId) => moveId || null)}
-            onValueChange={(index, value) => {
-              const moveIds = [...build.moveIds] as AddPokemonBuild["moveIds"];
-              moveIds[index] = value ?? "";
-              onBuildChange({ ...build, moveIds });
-            }}
-            options={toMoveSlotOptions(state.options.moves)}
-          />
-        ) : (
-          <p className="text-ink-2 copy-note">
-            Voydex doesn&apos;t have its moves for this game yet.
-          </p>
-        )}
+        <MoveSlotGrid
+          movesOnDevice={state.options.movesOnDevice}
+          values={build.moveIds.map((moveId) => moveId || null)}
+          onValueChange={(index, value) => {
+            const moveIds = [...build.moveIds] as AddPokemonBuild["moveIds"];
+            moveIds[index] = value ?? "";
+            onBuildChange({ ...build, moveIds });
+          }}
+          options={toMoveSlotOptions(state.options.moves)}
+        />
       </SheetSection>
     </>
   );

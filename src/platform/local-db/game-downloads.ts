@@ -8,6 +8,7 @@ import {
   fetchGameDataVersions,
   findGameData,
   GameDataDownloadError,
+  hasGameFile,
   installGame,
   installGameLearnsets,
   isGameDataBehind,
@@ -250,6 +251,44 @@ export const retryGameDataUpdate = async () => {
     waitedFor -= 1;
     notify();
   }
+};
+
+/*
+ * Whether a version group's moves are on the device yet. A game comes
+ * first and its learnsets follow in the background, so a move picker can
+ * open before they are in (or offline, before they ever came): it says so,
+ * and reads again once they are.
+ */
+export const readGameMovesOnDevice = async (versionGroupId: number) => {
+  const { db } = await openLocalDb();
+
+  return hasGameFile(db, versionGroupId, "learnsets");
+};
+
+/* Whether a version group's game is on the device. */
+export const readVersionGroupOnDevice = async (versionGroupId: number) => {
+  const { db } = await openLocalDb();
+
+  return hasGameFile(db, versionGroupId, "game");
+};
+
+/* Why a game that isn't on the device can't be picked, offline. */
+export const gameDownloadReason =
+  "This game isn't on this device yet. It downloads when you're online.";
+
+/*
+ * Whether a game is on the device, by its slug ("sword"): offline, a game
+ * that isn't can't be started or planned until the internet brings it.
+ */
+export const readGameOnDevice = async (gameSlug: string) => {
+  const { db } = await openLocalDb();
+  const [game] = await runQuery<{ version_group_id: number }>(
+    db,
+    "SELECT version_group_id FROM reference.games WHERE slug = $1",
+    [gameSlug],
+  );
+
+  return game ? hasGameFile(db, game.version_group_id, "game") : false;
 };
 
 /* The same, for a game by its slug ("sword"). */

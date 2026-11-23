@@ -177,6 +177,18 @@ export const LocalDbProvider = ({
   );
 };
 
+/*
+ * A number that moves on whenever the device's data changes, while
+ * `watch` is true (0 otherwise): an effect that loaded something not yet
+ * whole, such as a game's moves still downloading, loads again once more
+ * has come in, and no more often than that.
+ */
+export const useLocalDataRevision = (watch = true) => {
+  const revision = useContext(RevisionContext);
+
+  return watch ? revision : 0;
+};
+
 /* The device database; only under the device gate, which opens it. */
 export const useLocalDb = () => {
   const session = useContext(LocalDbContext);

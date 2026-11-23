@@ -14,6 +14,7 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { HoverInfo } from "@/shared/components/hover-info";
+import { InternetNote } from "@/shared/components/needs-internet";
 import {
   Combobox,
   ComboboxCollection,
@@ -274,32 +275,53 @@ export const MoveSlotSelect = ({
 /*
  * The four slots, two by two from the small breakpoint; each lists only
  * what the other slots haven't picked. Add Pokémon, Edit Pokémon and the
- * Team Planner's slot sheet.
+ * Team Planner's slot sheet. Before the game's moves are on the device it
+ * says so, and keeps the slots only for a move already picked; a game
+ * Voydex has no moves for says that instead.
  */
 export const MoveSlotGrid = ({
   emptyLabel,
+  movesOnDevice = true,
   onValueChange,
   options,
   values,
 }: {
   emptyLabel?: string;
+  /* False while the game's moves haven't downloaded. */
+  movesOnDevice?: boolean;
   onValueChange: (index: number, value: string | null) => void;
   options: readonly MoveSlotOption[];
   /* One per slot, in order; null for an empty one. */
   values: readonly (string | null)[];
 }) => (
-  <div className="grid gap-2 sm:grid-cols-2">
-    {values.map((value, index) => (
-      <MoveSlotSelect
-        key={index}
-        slot={index + 1}
-        emptyLabel={emptyLabel}
-        value={value}
-        onValueChange={(next) => onValueChange(index, next)}
-        options={options.filter(
-          (option) => option.value === value || !values.includes(option.value),
-        )}
+  <div className="grid gap-2">
+    {movesOnDevice ? null : (
+      <InternetNote
+        offline="This game's moves download the next time you're online."
+        online="This game's moves are downloading. They show here once they're in."
       />
-    ))}
+    )}
+    {movesOnDevice && !options.length ? (
+      <p className="text-ink-2 copy-note">
+        Voydex doesn&apos;t have its moves for this game yet.
+      </p>
+    ) : null}
+    {options.length ? (
+      <div className="grid gap-2 sm:grid-cols-2">
+        {values.map((value, index) => (
+          <MoveSlotSelect
+            key={index}
+            slot={index + 1}
+            emptyLabel={emptyLabel}
+            value={value}
+            onValueChange={(next) => onValueChange(index, next)}
+            options={options.filter(
+              (option) =>
+                option.value === value || !values.includes(option.value),
+            )}
+          />
+        ))}
+      </div>
+    ) : null}
   </div>
 );

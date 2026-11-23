@@ -7,6 +7,7 @@ import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/pla
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
+import { useLocalDataRevision } from "@/platform/local-db/local-db-context";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -114,6 +115,11 @@ export const TeamMemberEditorSheet = ({
     terastal: supportsGameMechanic(mechanics, gameMechanics.terastal),
   };
 
+  /* Again once the game's moves come in, if they weren't on the device. */
+  const movesRevision = useLocalDataRevision(
+    options !== null && !options.movesOnDevice,
+  );
+
   useEffect(() => {
     if (!open || !playPokemonId) {
       return;
@@ -138,7 +144,7 @@ export const TeamMemberEditorSheet = ({
     return () => {
       isCurrent = false;
     };
-  }, [open, playId, playPokemonId]);
+  }, [movesRevision, open, playId, playPokemonId]);
 
   const nameOf = (field: TeamMemberEditorField, value: string) => {
     const lists: Partial<

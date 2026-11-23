@@ -8,6 +8,7 @@ import {
   downloadGameDataFileWithin,
   findGameData,
   GameDataRefusedError,
+  hasGameFile,
   installGame,
   installGameBase,
   installGameLearnsets,
@@ -366,6 +367,40 @@ describe("installGameLearnsets", () => {
         versions,
       }),
     ).resolves.toEqual({ status: "already-installed" });
+  });
+});
+
+describe("hasGameFile", () => {
+  it("says whether a game and its moves are on the device, its expansions' included", async () => {
+    const db = await createDevice();
+
+    await db.exec(`
+      SET session_replication_role = replica;
+      INSERT INTO reference.version_groups (id, slug, name, generation_id, parent_version_group_id, description, sort_order)
+        VALUES (18, 'swsh', 'Sword and Shield', 8, NULL, 'Galar.', 18),
+          (19, 'swsh-isle-of-armor', 'The Isle of Armor', 8, 18, 'Galar.', 19),
+          (23, 'sv', 'Scarlet and Violet', 9, NULL, 'Paldea.', 23);
+      SET session_replication_role = DEFAULT;
+    `);
+
+    expect(await hasGameFile(db, 18, "game")).toBe(false);
+
+    await installGame(db, "swsh", { download: createDownload(), versions });
+
+    expect(await hasGameFile(db, 18, "game")).toBe(true);
+    expect(await hasGameFile(db, 19, "game")).toBe(true);
+    expect(await hasGameFile(db, 18, "learnsets")).toBe(false);
+
+    await installGameLearnsets(db, "swsh", {
+      download: createDownload(),
+      versions,
+    });
+
+    expect(await hasGameFile(db, 18, "learnsets")).toBe(true);
+    expect(await hasGameFile(db, 19, "learnsets")).toBe(true);
+    expect(await hasGameFile(db, 23, "game")).toBe(false);
+    expect(await hasGameFile(db, 23, "learnsets")).toBe(false);
+    expect(await hasGameFile(db, 99, "game")).toBe(false);
   });
 });
 

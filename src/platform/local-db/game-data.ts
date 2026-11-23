@@ -162,6 +162,33 @@ export const readInstalledGameData = async (db: LocalDb) => {
   return new Map(rows.map((row) => [row.name, row.hash]));
 };
 
+/*
+ * Whether a version group's game file, or its learnsets (the moves a
+ * Pokémon can learn there), is on the device. An expansion comes in its
+ * game's files, which `npm run game-data:build` names "<game>" and
+ * "<game>-learnsets". A version group the device doesn't know isn't on it.
+ */
+export const hasGameFile = async (
+  db: LocalDb,
+  versionGroupId: number,
+  kind: "game" | "learnsets",
+) => {
+  const [row] = await runQuery<{ found: boolean }>(
+    db,
+    `SELECT EXISTS (
+       SELECT 1
+       FROM reference.version_groups groups
+       LEFT JOIN reference.version_groups parent ON parent.id = groups.parent_version_group_id
+       JOIN device.game_data_files files
+         ON files.name = COALESCE(parent.slug, groups.slug) || $2
+       WHERE groups.id = $1
+     ) AS found`,
+    [versionGroupId, kind === "learnsets" ? "-learnsets" : ""],
+  );
+
+  return row?.found === true;
+};
+
 /* After COPY, sequences sit behind the copied ids; move them past. */
 const resetSequencesSql = `
 DO $$

@@ -6,7 +6,13 @@ import { toast } from "sonner";
 
 import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
 import { getGameDataPercent } from "@/platform/local-db/game-data";
-import { useGameDownload } from "@/platform/local-db/game-downloads";
+import {
+  gameDownloadReason,
+  readGameOnDevice,
+  useGameDownload,
+} from "@/platform/local-db/game-downloads";
+import { useLocalRead } from "@/platform/local-db/local-db-context";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayExpansions } from "@/modules/mainline/features/plays/new/components/new-play-expansions";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
@@ -186,6 +192,11 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
     : false;
   /* Monotype offers the types the picked game has: no Fairy in Red. */
   const types = game ? getGameTypes(data.types, game.generation.number) : [];
+  /* A game not on the device yet downloads as the Play starts: online only. */
+  const onDevice = useLocalRead(`game-on-device:${gameSlug ?? ""}`, () =>
+    gameSlug ? readGameOnDevice(gameSlug) : Promise.resolve(true),
+  );
+  const needsDownload = onDevice.status === "ready" && !onDevice.data;
 
   /* Each step's title takes focus, so a screen reader hears where it is. */
   useEffect(() => {
@@ -437,10 +448,18 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           </Button>
         )}
         {step === 1 ? (
-          <Button type="button" disabled={!game} onClick={() => setStep(2)}>
-            Next
-            <AppIcon icon={appIcons.actions.continue} inline="end" />
-          </Button>
+          <NeedsInternet needed={needsDownload} reason={gameDownloadReason}>
+            {(offline) => (
+              <Button
+                type="button"
+                disabled={!game || offline}
+                onClick={() => setStep(2)}
+              >
+                Next
+                <AppIcon icon={appIcons.actions.continue} inline="end" />
+              </Button>
+            )}
+          </NeedsInternet>
         ) : step === 2 ? (
           <Button type="button" onClick={() => setStep(3)}>
             {partner || !starters.length ? (
@@ -453,20 +472,24 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             )}
           </Button>
         ) : (
-          <Button
-            type="button"
-            disabled={isPending || !playName.trim()}
-            onClick={start}
-          >
-            {isPending ? (
-              <Spinner className="size-4" />
-            ) : (
-              <AppIcon icon={appIcons.status.active} inline="start" />
+          <NeedsInternet needed={needsDownload} reason={gameDownloadReason}>
+            {(offline) => (
+              <Button
+                type="button"
+                disabled={isPending || offline || !playName.trim()}
+                onClick={start}
+              >
+                {isPending ? (
+                  <Spinner className="size-4" />
+                ) : (
+                  <AppIcon icon={appIcons.status.active} inline="start" />
+                )}
+                {partner
+                  ? `Start with ${partner.name}`
+                  : `Start your ${game?.shortName ?? ""} Play`}
+              </Button>
             )}
-            {partner
-              ? `Start with ${partner.name}`
-              : `Start your ${game?.shortName ?? ""} Play`}
-          </Button>
+          </NeedsInternet>
         )}
       </div>
     </section>

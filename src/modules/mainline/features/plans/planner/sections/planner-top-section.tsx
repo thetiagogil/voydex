@@ -1,5 +1,7 @@
 "use client";
 
+import { gameDownloadReason } from "@/platform/local-db/game-downloads";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import { Link } from "@/shared/components/link";
 
 import { appRoutes } from "@/config/routes";
@@ -41,6 +43,8 @@ type PlannerTopSectionProps = {
   /* Whether Archive can run now: unsaved changes are saved or undone first. */
   canArchive: boolean;
   canSave: boolean;
+  /* The game isn't on the device yet: a save downloads it, online only. */
+  saveNeedsDownload: boolean;
   isSaved: boolean;
   isSaving: boolean;
   /* A game switch being checked or opening: the picker shows it's working. */
@@ -85,6 +89,7 @@ export const PlannerTopSection = ({
   includedExpansions,
   onLockedEdit,
   canSave,
+  saveNeedsDownload,
   isSaved,
   isSaving,
   isSwitching,
@@ -251,14 +256,21 @@ export const PlannerTopSection = ({
             </Link>
           )}
           {canEdit ? (
-            <Button
-              type="button"
-              disabled={!canSave || isSaving}
-              onClick={onSave}
+            <NeedsInternet
+              needed={saveNeedsDownload}
+              reason={gameDownloadReason}
             >
-              {isSaving ? <Spinner data-icon="inline-start" /> : null}
-              {isSaved ? "Save changes" : "Save Plan"}
-            </Button>
+              {(offline) => (
+                <Button
+                  type="button"
+                  disabled={!canSave || isSaving || offline}
+                  onClick={onSave}
+                >
+                  {isSaving ? <Spinner data-icon="inline-start" /> : null}
+                  {isSaved ? "Save changes" : "Save Plan"}
+                </Button>
+              )}
+            </NeedsInternet>
           ) : (
             /* Locked, Save's place unlocks the Plan first. */
             <Button type="button" onClick={() => onLockedEdit(() => {})}>
