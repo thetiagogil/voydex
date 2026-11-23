@@ -74,6 +74,15 @@ three places:
   `scripts/database/device-schema.mjs` writes both, with their hash, to
   `public/local-db/` before every `dev` and `build`; a returning device only
   fetches the hash.
+- `device-trims.sql` runs last and leaves out what only the server needs
+  (#349): the whole database sits in memory while the app is open, so the
+  device keeps one learnset lookup by form and version group instead of the
+  server's seven learnset indexes (about 110 MB with every game's
+  learnsets). The release build loads the schema without the trims, so the
+  seeds still meet every uniqueness guard. `npm run db:device-size`
+  installs every game and learnset the way the app does and prints the
+  sizes: 40 MB empty, 68 MB with every game, 127 MB with every learnset,
+  153 MB once a release update has run (measured 2026-11-23).
 - `game-data.ts` installs game data files (below): `installGame` puts the
   base file and a game's file on the device once, with progress, and
   `installGameLearnsets` adds the game's learnsets after, for the background.
@@ -130,10 +139,14 @@ the device swaps all its game data for the new release in one transaction
 - It downloads the new release of every file it has, plus the file it was
   asked for, before it changes anything. A failed download leaves the device
   as it was.
-- It deletes every game data row (each table that isn't in `userTables`,
+- It empties every game data table (each table that isn't in `userTables`,
   and the rows Voydex ships in a table that also holds yours, its own
   Challenge rules) with triggers and foreign key checks off, and copies the
-  new files in. Your rows stay.
+  new files in. Your rows stay. Tables only game data points at (the
+  learnsets, most of it) are truncated; the ones your rows point at (games,
+  Pokémon, moves) are deleted from and rewritten (`VACUUM FULL`) after the
+  update commits, so the database stays the same size release after
+  release instead of keeping the old rows.
 - Your rows follow the release's ID changes the device hasn't had yet (see
   [ID Changes](#id-changes)), in the same transaction.
 - It refuses the release, leaving the device as it was, when one of your
@@ -197,15 +210,16 @@ starts it from the device gate.
 
 - What: the missing learnsets of the games in use, then the games of your
   Plays (open ones first), Plans and archived Plays, each with its
-  learnsets, then every other game, without learnsets. That covers a Play
-  or Plan whose game isn't on the device (restored, or taken from the
-  account, while offline), learnsets that didn't finish, and New Play or the Planner on a
-  game never opened, offline. "In use" also counts a game a screen opened
-  this visit (New Play, the Planner).
-- Why no learnsets for the rest: every game's file together adds about
-  28 MB to the device database, but every game's learnsets add about
-  150 MB (two thirds of it indexes), and the device database lives in
-  memory while the app is open. A game's learnsets come once it is in use.
+  learnsets, then every other game, then every other game's learnsets.
+  That covers a Play or Plan whose game isn't on the device (restored, or
+  taken from the account, while offline), learnsets that didn't finish, and
+  New Play, the Planner and the move pickers on a game never opened,
+  offline. "In use"
+  also counts a game a screen opened this visit (New Play, the Planner).
+  On mobile data only the games in use download.
+- Size: every game's file adds about 28 MB to the device database and every
+  game's learnsets about 60 MB, since the device keeps one learnset index
+  (see [The Device Database](#the-device-database)).
 - When: 3 seconds after the app opens, 3 seconds after the last of a run of
   saves, and when the connection comes back. A run only asks for the version
   list when the device is missing something by the one it knows.

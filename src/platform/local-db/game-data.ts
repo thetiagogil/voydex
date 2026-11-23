@@ -4,6 +4,7 @@ import {
   deleteGameRows,
   findMissingReferences,
   followIdChanges,
+  vacuumGameTables,
 } from "@/platform/local-db/game-data-swap";
 import { recordIdChanges } from "@/platform/local-db/device-id-changes";
 import { IdChangeError } from "@/platform/local-db/id-changes";
@@ -437,6 +438,7 @@ const replaceGameData = async (
 
     if (!replaced) return null;
 
+    await vacuumGameTables(db);
     await db.exec("CHECKPOINT");
   } catch (error) {
     throw toLocalDbError(error);
@@ -746,6 +748,7 @@ export const installGameLearnsets = async (
   db: LocalDb,
   slug: string,
   options: InstallOptions,
+  { quiet = false }: Pick<InstallFilesOptions, "quiet"> = {},
 ) => {
   const game = findGame(options.versions, slug);
   const installed = await readInstalledGameData(db);
@@ -754,7 +757,7 @@ export const installGameLearnsets = async (
     throw new LocalDbError(`Install ${slug} before its learnsets.`);
   }
 
-  return installFiles(db, [game.learnsets], options, { update: false });
+  return installFiles(db, [game.learnsets], options, { quiet, update: false });
 };
 
 /*

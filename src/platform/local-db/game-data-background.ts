@@ -14,14 +14,12 @@ import { isStorageFullError } from "@/platform/local-db/prepare-device";
 /*
  * The games this device should have before anyone waits for them, downloaded
  * one at a time in the background: the games of your Plays and Plans with
- * their learnsets, then every other game, so New Play and the Team Planner
- * work offline for any game. Those spare games come without learnsets:
- * learnsets are most of what a game weighs on the device (about 150 MB for
- * all of them), so a game's follow it once it is in use. Each file goes in
- * on its own, so a run cut short keeps what it finished and the next run
- * picks up the rest. It never swaps the device's game data for a newer
- * release; that waits for the update when the app opens or a game is
- * downloaded.
+ * their learnsets, then every other game, then every other game's
+ * learnsets, so New Play, the Team Planner and the move pickers work
+ * offline for any game. Each file goes in on its own, so a run cut short
+ * keeps what it finished and the next run picks up the rest. It never
+ * swaps the device's game data for a newer release; that waits for the
+ * update when the app opens or a game is downloaded.
  */
 
 export type BackgroundDownload = {
@@ -65,7 +63,7 @@ export const readWantedVersionGroups = async (db: LocalDb) =>
   ).map((row) => row.version_group_id);
 
 export type BackgroundPlanOptions = {
-  /* Every other game too, without its learnsets (false on a metered connection). */
+  /* Every other game and its learnsets too (false on a metered connection). */
   everyGame?: boolean;
   /* Version groups wanted besides Plays and Plans: games opened this visit. */
   alsoWanted?: number[];
@@ -74,9 +72,10 @@ export type BackgroundPlanOptions = {
 /*
  * What to download, in order: the missing learnsets of wanted games already
  * on the device, then each wanted game the device doesn't have, followed by
- * its learnsets, then (`everyGame`) each other game, without learnsets. A
- * version group the list doesn't have is left out; New Play says so when it
- * is picked.
+ * its learnsets, then (`everyGame`) each other game, and after all of them
+ * each other game's learnsets, so every game can be picked offline as soon
+ * as possible. A version group the list doesn't have is left out; New Play
+ * says so when it is picked.
  */
 export const planBackgroundDownloads = (
   versions: GameDataVersions,
@@ -109,10 +108,18 @@ export const planBackgroundDownloads = (
   }
 
   if (everyGame) {
-    for (const game of versions.games) {
-      if (wanted.includes(game) || installed.has(game.data.name)) continue;
+    const spare = versions.games.filter((game) => !wanted.includes(game));
+
+    for (const game of spare) {
+      if (installed.has(game.data.name)) continue;
 
       downloads.push({ file: "game", slug: game.slug, spare: true });
+    }
+
+    for (const game of spare) {
+      if (installed.has(game.learnsets.name)) continue;
+
+      downloads.push({ file: "learnsets", slug: game.slug, spare: true });
     }
   }
 
@@ -160,7 +167,7 @@ export const runBackgroundDownloads = async (
   try {
     return await runDownloads(db, result, options);
   } finally {
-    /* Spare games go in quietly; the screens hear of them once. */
+    /* Spare games and learnsets go in quietly; the screens hear of them once. */
     if (result.done.some((item) => item.spare)) movePageReadRevision();
   }
 };
@@ -202,7 +209,12 @@ const runDownloads = async (
           { quiet: item.spare, update: false },
         );
       } else {
-        await installGameLearnsets(db, item.slug, { download, versions });
+        await installGameLearnsets(
+          db,
+          item.slug,
+          { download, versions },
+          { quiet: item.spare },
+        );
       }
 
       result.done.push(item);

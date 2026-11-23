@@ -1,14 +1,14 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page, type Route } from "@playwright/test";
 
 import { signedOut } from "../support/accounts";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
  * The games a device should have download on their own, a few seconds after
- * the app opens or a save lands, with nothing on screen: every game, and
- * the learnsets of the games in use. Learnsets that didn't download with
- * their game are the case a test can make: a Play's learnsets download is
- * cut off, then the app picks it up by itself.
+ * the app opens or a save lands, with nothing on screen: every game and
+ * every game's learnsets. Learnsets that didn't download with their game
+ * are the case a test can make: a Play's learnsets download is cut off,
+ * then the app picks it up by itself.
  */
 
 /* A game's own file, such as `/game-data/sv.4f1c….json.gz`. */
@@ -58,7 +58,7 @@ const watchLearnsets = (page: Page) => {
 test.describe("Background game downloads", () => {
   test.use({ storageState: signedOut });
 
-  test("bring every game, so New Play starts one never opened without downloading it", async ({
+  test("bring every game and its learnsets, so New Play starts one never opened without downloading anything", async ({
     page,
   }) => {
     const fetched = watchGames(page);
@@ -71,20 +71,28 @@ test.describe("Background game downloads", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await waitForDownloadsWritten(page);
 
-    expect([...fetched].sort()).toEqual(
-      versions.games.map((game) => game.slug).sort(),
-    );
-    /* No game is in use: learnsets wait until one is. */
-    expect(asked).toEqual([]);
+    const slugs = versions.games.map((game) => game.slug).sort();
 
-    /* Game files no longer download: Scarlet starts from the device. */
+    expect([...fetched].sort()).toEqual(slugs);
+    expect(asked.every((item) => item.ok)).toBe(true);
+    expect(
+      asked
+        .map(
+          (item) => /\/game-data\/([a-z0-9]+)-learnsets\./.exec(item.url)?.[1],
+        )
+        .sort(),
+    ).toEqual(slugs);
+
+    /* Nothing downloads any more: Scarlet starts from the device. */
     let refused = 0;
-
-    await page.route(gameFile, (route) => {
+    const refuse = (route: Route) => {
       refused += 1;
 
       return route.abort();
-    });
+    };
+
+    await page.route(gameFile, refuse);
+    await page.route(learnsets, refuse);
     await startPlay(page, {
       game: "Pokémon Scarlet, 2022",
       name: uniquePlayName("Every game"),
