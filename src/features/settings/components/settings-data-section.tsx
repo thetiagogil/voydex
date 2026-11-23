@@ -17,6 +17,7 @@ import {
   type ImportMode,
 } from "@/features/settings/components/settings-import-dialog";
 import { SettingsKeepDataRow } from "@/features/settings/components/settings-keep-data-row";
+import { SettingsOfflineDataRow } from "@/features/settings/components/settings-offline-data-row";
 import {
   describeBackupDevice,
   describeBackupTime,
@@ -259,6 +260,7 @@ export const SettingsDataSection = ({ signedIn }: { signedIn: boolean }) => {
         />
       </SettingsRow>
       <SettingsKeepDataRow />
+      <SettingsOfflineDataRow />
       <SettingsRow
         title="Delete your account"
         description="Removes your account and everything in it. This can't be undone."

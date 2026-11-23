@@ -83,11 +83,26 @@ test.describe("Background game downloads", () => {
         .sort(),
     ).toEqual(slugs);
 
-    /* The bar says so, and its dialog counts every part, pictures too. */
-    const status = page.getByRole("button", { name: "Offline data: ready" });
+    /*
+     * Once everything is on the device the bar's status goes, and Settings
+     * counts every part, pictures too.
+     */
+    await expect(page.locator("[data-offline-status]")).toHaveCount(0, {
+      timeout: 30_000,
+    });
+    await page.goto("/app/settings");
 
-    await expect(status).toBeVisible({ timeout: 30_000 });
-    await status.click();
+    const row = page
+      .getByText("Offline data", { exact: true })
+      .locator("..")
+      .locator("..");
+
+    await expect(
+      page.getByText(
+        "Everything is on this device. Voydex works without the internet.",
+      ),
+    ).toBeVisible();
+    await row.getByRole("button", { name: "Details" }).click();
 
     const dialog = page.getByRole("dialog", { name: "Offline data" });
 

@@ -93,3 +93,18 @@ export const getOfflinePercent = ({
     (parts.reduce((sum, part) => sum + part, 0) / parts.length) * 100,
   );
 };
+
+/* Where the offline data stands, for the bar and Settings to say. */
+export type OfflineState =
+  "checking" | "downloading" | "full" | "offline" | "ready";
+
+export const readOfflineState = (
+  online: boolean,
+  progress: OfflineProgress,
+): OfflineState => {
+  if (!online) return "offline";
+  if (progress.storageFull) return "full";
+  if (progress.games === null) return "checking";
+
+  return isEverythingKept(progress) ? "ready" : "downloading";
+};

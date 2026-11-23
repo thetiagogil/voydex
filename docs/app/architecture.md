@@ -586,13 +586,16 @@ in the built app only, never under `next dev`.
   covers, items, move categories, trainers and badges, about 41 MB. Each
   is listed with a short hash, so a changed picture downloads again. Shiny
   sprites and official art are kept once shown.
-- **The bar's status** (`OfflineStatus`, on every page and width) shows
-  what is kept: a ring while games, moves and pictures download, a tick
-  once everything is on the device, and the offline mark while there is
-  no connection. A tap opens what is on the device, how much room it
-  takes, what still needs the internet and, on mobile data, Download now
-  (`downloadEverythingNow`). `offline-progress.ts` holds the counts the
-  background downloads fill in.
+- **The bar's status** (`OfflineStatus`) shows on every page and width
+  only while there is something to say: a pill with a ring and the figure
+  while games, moves and pictures download, the offline mark while there is
+  no connection, a warning when the device is full. Once everything is on
+  the device it goes. Settings, Your data, keeps an Offline data row. Both
+  open `OfflineDataDialog` (`src/shared/components`): what is on the
+  device, how much room it takes, what still needs the internet and, on
+  mobile data, Download now (`downloadEverythingNow`). `offline-progress.ts`
+  holds the counts the background downloads fill in, and `useOfflineData`
+  reads them for both.
 
 ## Reads, Writes, And File Responsibilities
 
