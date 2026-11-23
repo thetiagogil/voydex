@@ -18,7 +18,7 @@ type LoadingStepsProps = {
  * with a part for every step, filled as each one ends, the step at hand
  * filling as it goes (or pulsing when it can't tell how far it is), with
  * which step it is and what it is doing under it. Every wait the app shows
- * before it opens (the device opening, the account's first sync, the pages
+ * before it opens (the device opening, the account opening, the pages
  * being read) is one of its steps, so the bar runs once from start to end.
  */
 export const LoadingSteps = ({

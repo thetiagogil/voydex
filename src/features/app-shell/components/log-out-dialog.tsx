@@ -12,30 +12,47 @@ import { appRoutes } from "@/config/routes";
 import {
   closeLogOut,
   logOutAndClear,
-  logOutAndKeep,
+  logOutWithoutBackup,
   useLogOutAsked,
 } from "@/features/app-shell/client/sign-out";
 import { useAuthSession } from "@/platform/local-db/account-session";
-import { hasOwnDataAside } from "@/platform/local-db/account-sync";
+import { backUpNow, hasOwnDataAside } from "@/platform/local-db/account-runner";
+import { LocalDbError } from "@/platform/local-db/local-db";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
-/* Why the last save to the account didn't go through, if it didn't. */
-type Stuck = "failed" | "waiting" | null;
+type Pending = "anyway" | "clean" | null;
 
-type Pending = "clean" | "keep" | null;
+/* Why the last backup didn't go up: offline or failing, or a newer one elsewhere. */
+type Stuck = "newer" | "unsaved" | null;
+
+const stuckCopy = {
+  newer: {
+    body: "Choose which Plays to keep first, or log out anyway: this device's changes since its last backup are lost.",
+    description:
+      "Another device saved newer Plays to your account, and this one has changes of its own, so nothing was removed.",
+    title: "Your account has newer Plays",
+  },
+  unsaved: {
+    body: "If you log out now, what changed since your last backup is lost. Stay logged in and try again when you're online.",
+    description:
+      "Voydex couldn't back up to your account just now, so nothing was removed from this device.",
+    title: "Your latest changes aren't backed up",
+  },
+} as const;
 
 /*
- * Log out, asked wherever it is tapped. Logging out saves to your account
- * one last time, signs this browser out and removes your Plays from this
- * device: they are the account's, and come back when you log in again.
- * If that last save can't finish (offline, or a sync question still
- * waits), nothing is removed and you choose: stay logged in, or log out
- * and keep your Plays on this device. What the device had of its own,
- * kept separate when you logged in, comes back. Then Log in opens, and the device
- * has left the app: Back home shows the front page, not the app.
+ * Log out, asked wherever it is tapped. Logging out backs up to your
+ * account one last time, removes the account's Plays from this device and
+ * signs this browser out: they are the account's, and come back when you
+ * log in again. If that last backup can't go up (offline: stay logged in;
+ * another device saved a newer one: choose which to keep), nothing is
+ * removed, and you can log out anyway and lose what changed since the
+ * last backup. What the device had of its own, set aside when you logged in,
+ * comes back. Then Log in opens, and the device has left the app: Back
+ * home shows the front page, not the app.
  */
 export const LogOutDialog = () => {
   const router = useRouter();
@@ -43,7 +60,9 @@ export const LogOutDialog = () => {
   const userId = useAuthSession()?.userId ?? null;
   const [pending, setPending] = useState<Pending>(null);
   const [stuck, setStuck] = useState<Stuck>(null);
-  /* The device's own data waits, kept separate from this account. */
+  /* What went wrong logging out, said in the dialog. */
+  const [message, setMessage] = useState<string | null>(null);
+  /* The device's own data waits aside, apart from this account. */
   const [ownDataAside, setOwnDataAside] = useState(false);
 
   useEffect(() => {
@@ -63,7 +82,15 @@ export const LogOutDialog = () => {
   const close = () => {
     closeLogOut();
     setStuck(null);
+    setMessage(null);
   };
+
+  const failed = (error: unknown) =>
+    setMessage(
+      error instanceof LocalDbError
+        ? error.message
+        : "That didn't work, so you're still logged in. Try again.",
+    );
 
   const leave = () => {
     rememberSignedIn(false);
@@ -77,31 +104,45 @@ export const LogOutDialog = () => {
     if (!userId) return;
 
     setPending("clean");
+    setMessage(null);
 
     try {
       const result = await logOutAndClear(userId);
 
-      if (result === "waiting" || result === "failed") {
+      if (result !== "cleared") {
         setStuck(result);
 
         return;
       }
 
       /* Cleared: the front page has a Play to start again. */
-      if (result === "cleared") rememberHasPlays(false);
-
+      rememberHasPlays(false);
       leave();
+    } catch (error) {
+      failed(error);
     } finally {
       setPending(null);
     }
   };
 
-  const keep = async () => {
-    setPending("keep");
+  /* Closes this and opens the choice between the two devices' Plays. */
+  const choose = () => {
+    close();
+    void backUpNow();
+  };
+
+  const logOutAnyway = async () => {
+    if (!userId) return;
+
+    setPending("anyway");
+    setMessage(null);
 
     try {
-      await logOutAndKeep();
+      await logOutWithoutBackup(userId);
+      rememberHasPlays(false);
       leave();
+    } catch (error) {
+      failed(error);
     } finally {
       setPending(null);
     }
@@ -114,67 +155,83 @@ export const LogOutDialog = () => {
         if (!open && !pending) close();
       }}
       size="md"
-      title={
-        stuck ? "Your latest changes aren't in your account yet" : "Log out?"
-      }
+      title={stuck ? stuckCopy[stuck].title : "Log out?"}
       description={
-        stuck === "waiting"
-          ? "A sync question is waiting for your answer, so nothing was removed from this device."
-          : stuck === "failed"
-            ? "Voydex couldn't save to your account just now, so nothing was removed from this device."
-            : "Your Plays stay in your account and are removed from this device."
+        stuck
+          ? stuckCopy[stuck].description
+          : "Your Plays are backed up to your account, then removed from this device."
       }
       footer={
-        /* The longer pair of answers stacks on a phone, the way out last. */
+        /* The pair of answers stacks on a phone, the way out last. */
         <div
           className={cn(
             "flex gap-2 max-sm:w-full sm:justify-end",
             stuck ? "max-sm:flex-col-reverse" : "max-sm:*:flex-1",
           )}
         >
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={pending !== null}
-            onClick={close}
-          >
-            {stuck ? "Stay logged in" : "Cancel"}
-          </Button>
           {stuck ? (
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={pending !== null}
-              aria-busy={pending === "keep"}
-              onClick={() => void keep()}
-            >
-              {pending === "keep" ? <Spinner data-icon="inline-start" /> : null}
-              Log out and keep them here
-            </Button>
+            <>
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={pending !== null}
+                aria-busy={pending === "anyway"}
+                onClick={() => void logOutAnyway()}
+              >
+                {pending === "anyway" ? (
+                  <Spinner data-icon="inline-start" />
+                ) : null}
+                Log out anyway
+              </Button>
+              <Button
+                type="button"
+                disabled={pending !== null}
+                onClick={stuck === "newer" ? choose : close}
+              >
+                {stuck === "newer" ? "Choose" : "Stay logged in"}
+              </Button>
+            </>
           ) : (
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={pending !== null}
-              aria-busy={pending === "clean"}
-              onClick={() => void logOut()}
-            >
-              {pending === "clean" ? (
-                <Spinner data-icon="inline-start" />
-              ) : null}
-              {pending === "clean" ? "Saving to your account..." : "Log out"}
-            </Button>
+            <>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={pending !== null}
+                onClick={close}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={pending !== null}
+                aria-busy={pending === "clean"}
+                onClick={() => void logOut()}
+              >
+                {pending === "clean" ? (
+                  <Spinner data-icon="inline-start" />
+                ) : null}
+                {pending === "clean" ? "Backing up..." : "Log out"}
+              </Button>
+            </>
           )}
         </div>
       }
     >
-      <p className="text-ink-2 copy-body">
-        {stuck
-          ? "Stay logged in and try again later, or log out now and keep your Plays on this device. Kept here, they sync the next time you log in to this account."
-          : ownDataAside
-            ? "Voydex saves to your account one last time first. What this device had before you logged in comes back now, as it was."
-            : "Voydex saves to your account one last time first. Your Plays, Plans, tags, rules, favourites, name and settings come back when you log in again."}
-      </p>
+      <div className="flex flex-col gap-3">
+        <p className="text-ink-2 copy-body">
+          {stuck
+            ? stuckCopy[stuck].body
+            : ownDataAside
+              ? "They come back when you log in again. What this device had before you logged in comes back now, as it was."
+              : "They come back when you log in again, on this device or any other."}
+        </p>
+        {message ? (
+          <p role="alert" className="text-danger copy-body">
+            {message}
+          </p>
+        ) : null}
+      </div>
     </OverlayDialog>
   );
 };

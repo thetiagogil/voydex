@@ -58,20 +58,26 @@ you've signed in. Leave the app sits on You and in the account
 menu: it returns to the front page, which then shows until you continue
 from it, and leaves everything on the device as it is.
 
-Signed out, Account is one row, Back up to an account, with Log in (it
+Signed out, Account is one row, Have an account?, with Log in (it
 returns to Settings). Signed in, Account shows your email with Change email (confirmed by a link Supabase
-sends; the change takes effect once it is opened), Change password, Sync
-(when this device last synced with the account, with Sync now, or Choose
-while a clash waits) and Log out on this device. When two devices changed
-the same thing since they last synced, a dialog, wherever you are, asks
-which version to keep: each choice names its device (This Mac, your iPhone)
-and when it changed there; Later closes it and nothing syncs until you
-answer. Your data offers Save backup (every Play, Plan and
-setting as one gzipped file, `voydex-backup-<day>.json.gz`, with "Last backup
-N days ago"), Restore (reads a file, says when it was saved and how many
-Plays and Plans it holds, and after a confirm replaces everything on this
-device in one go; an older file is upgraded first, a broken or newer one is
-refused and nothing changes), whether this browser keeps the data (Install
+sends; the change takes effect once it is opened), Change password and Log
+out on this device. Your data is the one place data moves. Signed in it
+starts with Account backup (when this device last backed up, with Back up
+now, or Choose while a newer backup from another device waits) and Restore
+from account (your account's last 3 backups, newest first, each with the
+device that saved it and when; the one you pick replaces everything here
+and goes up as the newest). When another device saved a newer backup and
+this one changed things too, a dialog, wherever you are, asks which to
+keep: Keep this device's (it goes up as the newest) or Use the other
+device's (this one's changes since its last backup are lost); closing it
+waits and nothing backs up until you answer. Then, for everyone, Export
+(every Play, Plan and setting as one gzipped file,
+`voydex-backup-<day>.json.gz`, with "Last backup N days ago" when signed
+out), Import (reads a file, says when it was saved and how many Plays and
+Plans it holds, then asks how it comes in: Replace everything, picked by
+default, in one go; or Add its Plays and Plans, as copies beside yours; an
+older file is upgraded first, a broken or newer one is refused and nothing
+changes), whether this browser keeps the data (Install
 where the browser offers it, Share then Add to Home Screen on an iPhone, and
 a warning in an app's own browser), and Delete your account. On Home a quiet
 line under the moments says when the data needs a hand: an app's own

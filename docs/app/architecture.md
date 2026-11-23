@@ -471,26 +471,28 @@ the device:
   names no file is a 404, and an old game or expansion address moves on to
   its base group.
 - **Supabase** keeps login and account backups only. The app opens without
-  signing in; signed in, the device syncs with the account's backups
-  (`account-sync.ts`, started by `AccountSyncRunner` in the app layout).
-- **Backups and sync**: a backup is every row of yours (`user-data.ts`
-  names the tables) with the device's change records (`device.changes`,
-  filled by triggers from `device-changes.sql`), as a gzipped JSON file
-  (`backup-file.ts`). Account sync reads the newest backup, merges it with
-  the device's data (`sync-merge.ts`, pure: latest change per column, a
-  clash only when both sides changed the same thing since the last sync),
-  puts the result in place (`sync-snapshot.ts`) and uploads it
-  (`device-sync.ts`, `account-backups.ts`). Clashes wait in the clash dialog;
-  Plays from another account wait in `AccountOtherPlaysDialog`. Log out
-  (`LogOutDialog`, asked through `askLogOut`) runs `logOutClean`: one last
-  sync, the sign-out, then `clearAccountData` empties the device's own
-  tables; no other sync runs meanwhile, and a last sync that doesn't go
-  through removes nothing. `AccountGate` (in the app's layout, around its
-  frame) is the account step: it stands where the app would while the
-  first sync after Log in runs, and asks about data a device made without
-  an account: kept separate or added, a copy is set aside either way
-  (`own-data-aside.ts`, in the copies store of `device-copy.ts`) and Log
-  out brings it back.
+  signing in; signed in, the device backs up to the account
+  (`account-runner.ts`, started by `AccountBackupRunner` in the app layout).
+- **Backups, never merged** ([ADR 0010](../decisions/0010-account-backups-never-merged.md)):
+  a backup is every row of yours (`user-data.ts` names the tables) with the
+  device's change records (`device.changes`, filled by triggers from
+  `device-changes.sql`), as a gzipped JSON file (`backup-file.ts`). The
+  records only say whether the device has anything new since its last
+  backup. `device-account.ts` holds the steps, with the account's side passed
+  in (`account-backups.ts` on Supabase): take a backup in place of the
+  device's data (`takeAccountBackup`, also Log in and Restore from account),
+  and one look at the account (`backUpDevice`: upload what's new, take a
+  newer backup when nothing is new here, or report one that waits for your
+  choice in `AccountNewerDialog`). Import's Add (`add-backup.ts`) copies a
+  file's Plays and Plans with new ids. Log out (`LogOutDialog`, asked
+  through `askLogOut`) runs `logOutClean`: one last backup, then
+  `clearAccountData` empties the device's own tables, the device's own data
+  comes back and the browser signs out; no other backup runs meanwhile, and
+  one that doesn't go up removes nothing unless you log out anyway.
+  `AccountGate` (in the app's layout, around its frame) is the account
+  step: it stands where the app would while the account opens after Log
+  in. A device's own data is set aside first (`own-data-aside.ts`, in the
+  copies store of `device-copy.ts`) and Log out brings it back.
 - **User-table changes** ship as device updates: numbered SQL files in
   `database/device-updates/`, run in name order, recorded in
   `device.updates`, after a copy of the whole database is kept.
@@ -512,11 +514,12 @@ src/platform/local-db/
   backup-file.ts         # the backup file: format, upgrades, gzip
   backups.ts             # save and restore a file, the "Last backup" note
   device-changes.sql     # change records, after the schema on a new device
-  sync-merge.ts          # event merge of two snapshots, and its clashes
-  sync-snapshot.ts       # the device's side: snapshot, shape, apply
-  device-sync.ts         # one sync with an account's backups
+  user-snapshot.ts       # your rows with their records, the tables' shape, apply
+  device-account.ts      # this device and its account: take, back up, clear
+  add-backup.ts          # Import's Add: a file's Plays and Plans as copies
+  own-data-aside.ts      # the device's own data, aside while logged in
   account-backups.ts     # the account's backups on Supabase
-  account-sync.ts        # syncing while signed in, with useAccountSync
+  account-runner.ts      # backing up while signed in, Log in and Log out
 ```
 
 The app's layout wraps the app's frame and every app page in the device gate
@@ -608,7 +611,7 @@ its loading state for at least 300 ms (React holds a fallback that long), so
 getting pages ready ahead is what makes them instant. Queries
 reach the device database's worker in one message each (`worker-queries.ts`),
 not PGlite's dozen. A piece of a page that can show without its
-data (a backup note, a sync row) uses `useLocalRead`, which returns a loading
+data (a backup note, the account backup row) uses `useLocalRead`, which returns a loading
 state instead. The Team Planner reads its game's Pokémon from a pre-built
 file and only the Plan from the device, so it never waits on a download; the
 game downloads in the background for the reads that need it later (a

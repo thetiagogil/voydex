@@ -4,7 +4,7 @@ import { userTables } from "@/platform/local-db/user-data";
 /*
  * The keys of your tables as this device's schema has them: primary keys,
  * unique column sets and foreign keys, each with its columns in order.
- * Account sync and ID changes each read what they need from it.
+ * Import's Add and ID changes each read what they need from it.
  */
 export type UserConstraint = {
   /* "public.profiles", never the bare name the search path allows. */

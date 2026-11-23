@@ -87,7 +87,7 @@ export const GalleryMarks = () => (
         </Specimen>
         <Specimen
           label='ground="band"'
-          note="White on the band; the dot keeps the meaning"
+          note="White on the band, and the dot keeps the meaning"
           ground="band"
         >
           {statusTones.map((status) => (

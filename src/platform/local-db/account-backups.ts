@@ -6,16 +6,16 @@ import {
   readBackupFile,
   writeBackupFile,
 } from "@/platform/local-db/backup-file";
-import type { AccountBackups } from "@/platform/local-db/device-sync";
+import type { AccountBackups } from "@/platform/local-db/device-account";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import type { BrowserSupabaseClient } from "@/platform/supabase/browser-client";
 
 /*
  * The account's backups on Supabase: one row per file in `user_backups`,
  * the files in the account's own folder of the private `backups` bucket.
- * The newest (by the server's clock) is the one devices merge with; a new
- * one goes on top of it only through `add_user_backup`, so two devices
- * can't both save on top of the same one. The last three are kept; the
+ * The newest (by the server's clock) is the one a device takes when you
+ * log in; a new one goes on top of it only through `add_user_backup`, so
+ * a device never saves over another's newer backup without knowing. The last three are kept; the
  * server refuses a file over 5 MB and a sixth backup (database/schema/
  * 07_backups), so nobody can fill the hosted project.
  */
@@ -114,7 +114,12 @@ export const createAccountBackups = (
   };
 
   return {
-    latestId: async () => (await listNewest())[0]?.id ?? null,
+    list: async () =>
+      (await listNewest()).slice(0, keptBackups).map((row) => ({
+        id: row.id,
+        name: row.device_name,
+        savedAt: row.saved_at,
+      })),
     read: async (id) => {
       const row = (await listNewest()).find((item) => item.id === id);
       const { data, error } = row
@@ -144,7 +149,7 @@ export const createAccountBackups = (
 
       if (bytes.byteLength > maxBackupBytes) {
         throw new LocalDbError(
-          "Your data is too big for an account backup. Save a backup file instead.",
+          "Your data is too big for an account backup. Export it as a file instead.",
         );
       }
 

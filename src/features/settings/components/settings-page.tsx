@@ -65,7 +65,7 @@ export const SettingsPage = ({
       <SettingsLookSection lookAndFeel={lookAndFeel} />
       <SettingsNewPlayDefaultsSection defaults={newPlayDefaults} />
       <SettingsAccountSection email={email} signOutAction={signOutAction} />
-      <SettingsDataSection />
+      <SettingsDataSection signedIn={email !== null} />
       <SettingsAboutSection />
     </div>
   </div>

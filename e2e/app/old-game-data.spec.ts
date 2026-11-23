@@ -11,7 +11,7 @@ import { signedOut } from "../support/accounts";
 
 const versionsUrl = "**/game-data/versions.json";
 const failedLog =
-  "The game data update failed; this device keeps the game data it has.";
+  "The game data update failed. This device keeps the game data it has.";
 
 /* Serves a version list whose base file is a newer one that 404s. */
 const offerBrokenRelease = (page: Page) =>

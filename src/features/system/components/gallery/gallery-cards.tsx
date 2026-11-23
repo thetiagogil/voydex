@@ -79,7 +79,7 @@ export const GalleryCards = () => {
           </Specimen>
           <Specimen
             label="interactive"
-            note="Opens something; hover it"
+            note="Opens something. Hover it"
             ground="ground"
             className="items-stretch"
           >

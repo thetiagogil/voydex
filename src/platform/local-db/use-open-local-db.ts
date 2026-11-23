@@ -123,7 +123,7 @@ export const useOpenLocalDb = ({
   prepare?: PreparePages;
   /*
    * Someone else reads the pages once the device is open (right after Log
-   * in, the account's step does, after its sync): open without reading
+   * in, the account's step does, once the account is in): open without reading
    * them, and count them as ready, so going back in later in the visit
    * still shows the app at once.
    */

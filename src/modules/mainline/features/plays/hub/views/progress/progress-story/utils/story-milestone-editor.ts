@@ -16,7 +16,7 @@ export type StoryMilestoneEditorCopy = {
 const editorCopyByIntent = {
   complete: {
     description:
-      "Mark this milestone as done; it becomes a moment in History. Add any details from this Play.",
+      "Mark this milestone as done. It becomes a moment in History. Add any details from this Play.",
     submitLabel: "Record milestone",
     submittingLabel: "Recording...",
     title: "Record milestone",

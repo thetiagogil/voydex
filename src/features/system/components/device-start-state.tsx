@@ -24,7 +24,7 @@ const describeStep = (step: PrepareStep | null) => {
 /*
  * The start screen: the first steps of the app's one loading bar, alone on
  * the wall while the device database opens and, then, the app's pages are
- * read. Right after Log in (`withAccount`) the account's sync follows on
+ * read. Right after Log in (`withAccount`) the account's opening follows on
  * the next screen, as the next steps of the same bar.
  */
 export const DeviceStartState = ({

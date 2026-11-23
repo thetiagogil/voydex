@@ -424,7 +424,7 @@ describe("watchBackgroundDownloads", () => {
 
 describe("retryGameDataUpdate", () => {
   const logged =
-    "The game data update failed; this device keeps the game data it has.";
+    "The game data update failed. This device keeps the game data it has.";
 
   it("updates the device to the list the server has now", async () => {
     const { refreshVersions, retryGameDataUpdate, update } = await load();

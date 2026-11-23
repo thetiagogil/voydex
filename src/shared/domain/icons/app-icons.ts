@@ -49,7 +49,6 @@ import {
   Home,
   Hourglass,
   Info,
-  Laptop,
   Layers3,
   LayoutDashboard,
   Library,
@@ -141,14 +140,11 @@ export const appIcons = {
     /* Open a file from this device, such as a backup to restore. */
     upload: Upload,
   },
-  /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
-  /* Which device a change came from: a phone or tablet, or a computer. */
   devices: {
     /* Your account, where its backups live. */
     account: Cloud,
-    computer: Laptop,
-    phone: Smartphone,
   },
+  /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
   matchup: {
     balanced: Scale,
     challenging: AlertTriangle,

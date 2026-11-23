@@ -211,7 +211,7 @@ describe("prepareDevice", () => {
     );
 
     expect(log).toHaveBeenCalledWith(
-      "The game data update failed; this device keeps the game data it has.",
+      "The game data update failed. This device keeps the game data it has.",
       failure,
     );
     await expect(isGameDataBehind(db, next.versions)).resolves.toBe(true);
@@ -374,7 +374,7 @@ describe("describeGameDataUpdateFailure", () => {
     for (const error of [
       toLocalDbError(new Error('relation "reference.x" does not exist')),
       new LocalDbError(
-        "The game data on this device kept changing in another tab; try again.",
+        "The game data on this device kept changing in another tab. Try again.",
       ),
       "nope",
     ]) {

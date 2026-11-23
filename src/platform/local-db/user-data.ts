@@ -150,6 +150,31 @@ const switchTriggers = async (
 };
 
 /*
+ * Adds `rows` to one of your tables, inside `tx`. A column the rows lack
+ * takes its default; one the table lacks is left out.
+ */
+export const insertUserRows = async (
+  tx: Transaction,
+  table: string,
+  rows: UserRow[],
+) => {
+  if (!rows.length) return;
+
+  const tableColumns = await readColumns(tx, table);
+  const rowColumns = new Set(rows.flatMap((row) => Object.keys(row)));
+  const columns = [...tableColumns]
+    .filter((column) => rowColumns.has(column))
+    .map(quoteName)
+    .join(", ");
+
+  await tx.query(
+    `INSERT INTO ${table} (${columns})
+     SELECT ${columns} FROM jsonb_populate_recordset(NULL::${table}, $1::jsonb)`,
+    [JSON.stringify(rows)],
+  );
+};
+
+/*
  * Puts `data` in place of every row of yours, inside `tx`. Rows go back
  * exactly as they were: the triggers that stamp times, move a Play's "last
  * changed" or record changes are off meanwhile, while foreign keys, checks
@@ -168,22 +193,7 @@ export const writeUserData = async (tx: Transaction, data: UserData) => {
   }
 
   for (const { name } of userTables) {
-    const rows = data[name] ?? [];
-
-    if (!rows.length) continue;
-
-    const tableColumns = await readColumns(tx, name);
-    const rowColumns = new Set(rows.flatMap((row) => Object.keys(row)));
-    const columns = [...tableColumns]
-      .filter((column) => rowColumns.has(column))
-      .map(quoteName)
-      .join(", ");
-
-    await tx.query(
-      `INSERT INTO ${name} (${columns})
-       SELECT ${columns} FROM jsonb_populate_recordset(NULL::${name}, $1::jsonb)`,
-      [JSON.stringify(rows)],
-    );
+    await insertUserRows(tx, name, data[name] ?? []);
   }
 
   /* Deferred checks run now, so the triggers can come back on. */
@@ -216,7 +226,7 @@ export const replaceUserData = async (
       await writeUserData(tx, data);
       await after?.(tx);
     });
-    /* A restore or a sync merge: pages read before it read again. */
+    /* A restore or an account backup taken: pages read before it read again. */
     movePageReadRevision();
   } catch (error) {
     if (error instanceof LocalDbError) throw error;

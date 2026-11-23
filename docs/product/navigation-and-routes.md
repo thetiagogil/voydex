@@ -88,9 +88,10 @@ log-in pages beside it. Everything else is the app.
   leads: Back home, or Back to the app when a page of the app sent you
   here. Below the band the form sits on one quiet card, centred.
 - **After logging in** the app opens behind the account step (see
-  [Data Ownership](./data-ownership.md)): a short wait while the account
-  syncs, and, on a device that already has Plays, the question of what to
-  do with them. It is a step, not a page: no address, no bars.
+  [Data Ownership](./data-ownership.md)): a short wait while the account's
+  newest backup comes in. It asks nothing: Plays the device already had
+  wait aside until you log out. It is a step, not a page: no address, no
+  bars.
 - **Log in offers both ways into the app** on that card: the account's
   form, then, after an "or", Continue without an account (your Plays are
   saved on this device only), which opens the app, or the page of it that
@@ -122,7 +123,7 @@ log-in pages beside it. Everything else is the app.
   changing tabs afterwards never waits. It is the app's one loading
   screen: a progress bar with a part for every step, from opening the
   device to the pages being ready, and right after Log in the account's
-  sync steps in between (reading your account, downloading game data with
+  steps in between (reading your account, downloading game data with
   a count, putting your Plays on this device), as one bar from start to
   end on the same screen (`startup-steps.ts`). It shows once per visit and never
   for less than a second, so it doesn't flash by on a quick device: going

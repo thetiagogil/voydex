@@ -12,7 +12,7 @@ import {
 import {
   readChangeRecords,
   writeRecords,
-} from "@/platform/local-db/sync-snapshot";
+} from "@/platform/local-db/user-snapshot";
 import {
   readUserData,
   userTables,

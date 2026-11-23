@@ -257,6 +257,6 @@ export const prepareSnapshot = async (
   }
 
   throw new IdChangeError(
-    "The game data on this device kept changing; try again.",
+    "The game data on this device kept changing. Try again.",
   );
 };

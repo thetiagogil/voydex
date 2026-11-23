@@ -5,9 +5,9 @@ import type { ReactNode } from "react";
 
 import { leaveApp, rememberSignedIn } from "@/config/front-door";
 import { appRoutes } from "@/config/routes";
-import { logOutAndKeep } from "@/features/app-shell/client/sign-out";
+import { logOutWithoutBackup } from "@/features/app-shell/client/sign-out";
 import { AccountGate } from "@/features/settings/components/account-gate";
-import { DeviceOwnPlays } from "@/modules/mainline/public-device-plays";
+import { useAuthSession } from "@/platform/local-db/account-session";
 import { openLocalDb } from "@/platform/local-db/open-local-db";
 
 /*
@@ -24,21 +24,20 @@ const prepareMainlineTabs = async () => {
 };
 
 /*
- * The app's account step (the wait after logging in, and the question a
- * device with Plays of its own asks), with what only the route can hand it:
- * Mainline's list of the device's Plays, its pages to read ahead, and the
- * way to log out instead.
+ * The app's account step (the wait after logging in), with what only the
+ * route can hand it: Mainline's pages to read ahead, and the way to Log in
+ * when you log out from a step that couldn't open the account.
  */
 export const AppAccountGate = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
+  const userId = useAuthSession()?.userId ?? null;
 
   return (
     <AccountGate
-      deviceData={<DeviceOwnPlays />}
       prepare={prepareMainlineTabs}
       onLogOut={async () => {
-        /* Nothing has synced or changed: the device is as it was. */
-        await logOutAndKeep();
+        if (userId) await logOutWithoutBackup(userId);
+
         rememberSignedIn(false);
         leaveApp();
         router.push(appRoutes.login);

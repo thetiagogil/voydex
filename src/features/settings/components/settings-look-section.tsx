@@ -44,7 +44,7 @@ export const SettingsLookSection = ({
         </SettingsRow>
         <SettingsRow
           title="Motion"
-          description="Stamps, pops and little lifts. Full still holds back when your device asks for reduced motion; None stops them all."
+          description="Stamps, pops and little lifts. Full still holds back when your device asks for reduced motion. None stops them all."
         >
           <SegmentedControl
             ariaLabel="Motion"

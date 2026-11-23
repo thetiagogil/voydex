@@ -48,6 +48,17 @@ describe("OverlayFrame", () => {
     },
   );
 
+  it("leaves the body out when there's nothing in it, so a confirm is only its line and buttons", () => {
+    const markup = render(
+      "dialog",
+      { description: "A short line", footer: "Buttons" },
+      null,
+    );
+
+    expect(markup).not.toContain('data-slot="overlay-body"');
+    expect(markup).toContain('data-slot="overlay-footer"');
+  });
+
   it("names a dialog and a sheet the same way", () => {
     expect(render("dialog")).toContain('data-slot="dialog-title"');
     expect(render("side")).toContain('data-slot="sheet-title"');

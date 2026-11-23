@@ -19,7 +19,7 @@ export const fetchGameCatalogue = async (): Promise<GameCatalogue> => {
   const catalogue = await fetchPrebuiltData<GameCatalogue>(gameCatalogueFile);
 
   if (!catalogue) {
-    throw new Error("The games list is missing; run npm run codex:build.");
+    throw new Error("The games list is missing. Run npm run codex:build.");
   }
 
   return catalogue;

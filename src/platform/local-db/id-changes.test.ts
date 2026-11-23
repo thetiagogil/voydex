@@ -15,8 +15,8 @@ import { createTestDevice } from "@/platform/local-db/local-db-test-support";
 import {
   rowKeyOf,
   type ChangeRecord,
-  type SyncSnapshot,
-} from "@/platform/local-db/sync-merge";
+  type UserSnapshot,
+} from "@/platform/local-db/user-snapshot";
 import type { UserRow } from "@/platform/local-db/user-data";
 
 const playId = "10000000-0000-4000-8000-000000000001";
@@ -82,7 +82,7 @@ const moment = (id: string, milestoneId: number | null) => ({
 });
 
 /* Records in a fixed order: their order means nothing. */
-const sortRecords = (snapshot: SyncSnapshot): SyncSnapshot => ({
+const sortRecords = (snapshot: UserSnapshot): UserSnapshot => ({
   ...snapshot,
   changes: [...snapshot.changes].sort((left, right) =>
     `${left.table} ${left.key} ${left.column}`.localeCompare(
@@ -92,7 +92,7 @@ const sortRecords = (snapshot: SyncSnapshot): SyncSnapshot => ({
 });
 
 const apply = (
-  snapshot: SyncSnapshot,
+  snapshot: UserSnapshot,
   changes: IdChange[],
   targets: IdChangeTargets = new Map(),
 ) => sortRecords(applyIdChanges(snapshot, changes, { shape, targets }));
@@ -105,7 +105,7 @@ const merge = (table: string, id: string, becomes: string | null) => ({
 
 describe("applyIdChanges", () => {
   it("moves a ticked milestone and its moment to the new ID, with their change times", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [
         added(progress, tick(10)),
         { ...added(progress, tick(10)), column: "notes" },
@@ -131,7 +131,7 @@ describe("applyIdChanges", () => {
   });
 
   it("keeps the row already on the new ID when both were ticked", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [added(progress, tick(10)), added(progress, tick(11))],
       tables: {
         [events]: [moment(momentA, 10), moment(momentB, 11)],
@@ -150,7 +150,7 @@ describe("applyIdChanges", () => {
   });
 
   it("lets a removed milestone's progress and decision go, and keeps its moment", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [added(progress, tick(10)), added(events, moment(momentA, 10))],
       tables: {
         [decisions]: [{ ...tick(10), decision_option_id: 3 }],
@@ -170,7 +170,7 @@ describe("applyIdChanges", () => {
   });
 
   it("follows a chain of changes in order", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [],
       tables: { [progress]: [tick(10)] },
     };
@@ -184,7 +184,7 @@ describe("applyIdChanges", () => {
   });
 
   it("moves a deleted row's record along, and lets it go with a removed ID", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [deleted(progress, tick(10)), deleted(progress, tick(20))],
       tables: { [progress]: [] },
     };
@@ -198,7 +198,7 @@ describe("applyIdChanges", () => {
   });
 
   it("drops a deleted row's record where a row already is", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [deleted(progress, tick(10)), added(progress, tick(11))],
       tables: { [progress]: [tick(11)] },
     };
@@ -214,7 +214,7 @@ describe("applyIdChanges", () => {
       { move_id: 5, play_pokemon_id: pokemonId, slot: 1 },
       { move_id: 6, play_pokemon_id: pokemonId, slot: 2 },
     ];
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [],
       tables: { [pokemonMoves]: slots },
     };
@@ -255,7 +255,7 @@ describe("applyIdChanges", () => {
 
   it("takes a form's new species along with it", () => {
     const favourite = { form_id: 25, species_id: 25, user_id: userId };
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [added(favourites, favourite)],
       tables: { [favourites]: [favourite] },
     };
@@ -310,7 +310,7 @@ describe("applyIdChanges", () => {
       library_status_id: 1,
       user_id: userId,
     });
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [added(library, entry(1)), added(library, entry(2))],
       tables: { [library]: [entry(1), entry(2)] },
     };
@@ -330,7 +330,7 @@ describe("applyIdChanges", () => {
   });
 
   it("changes nothing without ID changes", () => {
-    const snapshot: SyncSnapshot = {
+    const snapshot: UserSnapshot = {
       changes: [],
       tables: { [progress]: [tick(10)] },
     };

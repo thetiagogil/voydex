@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { gzipText, readMaybeGzippedText } from "@/platform/local-db/gzip";
 import type { VersionedSnapshot } from "@/platform/local-db/id-changes";
-import type { ChangeRecord } from "@/platform/local-db/sync-merge";
+import type { ChangeRecord } from "@/platform/local-db/user-snapshot";
 import type { UserData } from "@/platform/local-db/user-data";
 
 /*
@@ -14,7 +14,7 @@ export const backupFormat = 3;
 
 export type BackupFile = {
   app: "voydex";
-  /* When each row was added and each column last changed, for account sync. */
+  /* When each row was added and each column last changed. */
   changes: ChangeRecord[];
   format: typeof backupFormat;
   /* How many game data ID changes its rows have had (see id-changes.ts). */
@@ -126,7 +126,7 @@ export const createBackup = (
 ) =>
   ({
     app: "voydex",
-    /* The base is this device's own sync point: it means nothing elsewhere. */
+    /* The base is this device's own last backup: it means nothing elsewhere. */
     changes: changes.map((change) => ({ ...change, baseChangedAt: null })),
     format: backupFormat,
     idChanges,

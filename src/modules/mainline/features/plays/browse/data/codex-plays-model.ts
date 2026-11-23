@@ -73,7 +73,7 @@ export const settleCodexExtra = async <T>(
   try {
     return await read();
   } catch (error) {
-    console.error(`[codex] ${label} failed; hiding it.`, error);
+    console.error(`[codex] ${label} failed, so it's hidden.`, error);
     return fallback;
   }
 };
