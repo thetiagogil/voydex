@@ -577,8 +577,22 @@ in the built app only, never under `next dev`.
   each visit and keeps the release it has when the list doesn't answer
   (`prepare-device.ts`); game data files go into the device database, which
   is what makes installed games work offline.
-- Images come from the images site and stay in the browser's own cache (30
-  days).
+- **Pictures** from the images site go into their own cache
+  (`voydex-images`), which no release deletes. The worker keeps every
+  picture a page shows (asking with CORS, so it is kept whole) and answers
+  it from that cache first. The background download (`offline-images.ts`)
+  fills it with the pictures the images site lists in
+  `offline-images.json`: the normal HOME sprites, the Z-A icons, game
+  covers, items, move categories, trainers and badges, about 41 MB. Each
+  is listed with a short hash, so a changed picture downloads again. Shiny
+  sprites and official art are kept once shown.
+- **The bar's status** (`OfflineStatus`, on every page and width) shows
+  what is kept: a ring while games, moves and pictures download, a tick
+  once everything is on the device, and the offline mark while there is
+  no connection. A tap opens what is on the device, how much room it
+  takes, what still needs the internet and, on mobile data, Download now
+  (`downloadEverythingNow`). `offline-progress.ts` holds the counts the
+  background downloads fill in.
 
 ## Reads, Writes, And File Responsibilities
 

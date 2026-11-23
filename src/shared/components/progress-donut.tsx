@@ -5,10 +5,14 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 type ProgressDonutProps = {
   className?: string;
-  /* What it measures, as the meter's accessible name. */
-  label: string;
-  /* `sm` for a ring under 64px (Home's Continue card): its figure a step smaller. */
-  size?: "md" | "sm";
+  /* What it measures, as the meter's accessible name (not read at `xs`). */
+  label?: string;
+  /*
+   * `sm` for a ring under 64px (Home's Continue card): its figure a step
+   * smaller. `xs` for an icon-sized ring (the bar's offline status), with
+   * no figure: its label says it.
+   */
+  size?: "md" | "sm" | "xs";
   /* 0 to 100. */
   value: number;
 };
@@ -27,11 +31,16 @@ export const ProgressDonut = ({
 
   return (
     <div
-      role="meter"
-      aria-label={label}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={percentage}
+      {...(size === "xs"
+        ? /* An icon-sized ring: what it shows is said by what holds it. */
+          { "aria-hidden": true }
+        : {
+            "aria-label": label,
+            "aria-valuemax": 100,
+            "aria-valuemin": 0,
+            "aria-valuenow": percentage,
+            role: "meter",
+          })}
       className={cn(
         "relative grid aspect-square place-items-center",
         className,
@@ -47,7 +56,7 @@ export const ProgressDonut = ({
           cy="50"
           r={RADIUS}
           fill="none"
-          strokeWidth="11"
+          strokeWidth={size === "xs" ? 16 : 11}
           className="stroke-track"
         />
         <circle
@@ -55,7 +64,7 @@ export const ProgressDonut = ({
           cy="50"
           r={RADIUS}
           fill="none"
-          strokeWidth="11"
+          strokeWidth={size === "xs" ? 16 : 11}
           strokeLinecap="round"
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={CIRCUMFERENCE * (1 - percentage / 100)}
@@ -65,15 +74,17 @@ export const ProgressDonut = ({
           )}
         />
       </svg>
-      <span
-        className={cn(
-          "font-display relative leading-none font-semibold tracking-tight tabular-nums",
-          size === "sm" ? "text-17" : "text-20",
-        )}
-      >
-        {percentage}
-        <small className="text-ink-3 ml-px text-[0.55em]">%</small>
-      </span>
+      {size === "xs" ? null : (
+        <span
+          className={cn(
+            "font-display relative leading-none font-semibold tracking-tight tabular-nums",
+            size === "sm" ? "text-17" : "text-20",
+          )}
+        >
+          {percentage}
+          <small className="text-ink-3 ml-px text-[0.55em]">%</small>
+        </span>
+      )}
     </div>
   );
 };

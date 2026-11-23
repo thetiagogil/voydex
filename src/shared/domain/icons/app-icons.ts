@@ -23,6 +23,7 @@ import {
   ChevronsUp,
   GripVertical,
   Circle,
+  CircleCheck,
   CircleHelp,
   CircleOff,
   ClipboardList,
@@ -224,6 +225,8 @@ export const appIcons = {
     locked: Lock,
     /* Something that needs the internet, while there is none. */
     offline: WifiOff,
+    /* Everything Voydex keeps for offline is on this device. */
+    ready: CircleCheck,
     /* A stat a nature lowers, and one it raises. */
     statDown: ArrowDown,
     statUp: ArrowUp,

@@ -37,6 +37,16 @@ import {
   isStorageFullError,
   logGameDataUpdateFailure,
 } from "@/platform/local-db/prepare-device";
+import {
+  downloadImages,
+  readImageList,
+  readImageProgress,
+} from "@/platform/offline/offline-images";
+import {
+  isEverythingKept,
+  readOfflineProgress,
+  setOfflineProgress,
+} from "@/platform/offline/offline-progress";
 
 /*
  * A game's data on the device, downloaded the first time something needs
@@ -383,19 +393,90 @@ const giveWay = async () => {
 const notFailed = (download: BackgroundDownload) =>
   !failedThisVisit.has(backgroundDownloadKey(download));
 
+/* Set by Download now: this visit downloads everything on mobile data too. */
+let downloadAnyway = false;
+
+/* Mobile data or data saver, unless Download now said otherwise. */
+const isHoldingBack = () => !downloadAnyway && (isMetered() || savesData());
+
+/* How many games and learnsets of `versions` the device has. */
+const readGameProgress = async (db: LocalDb, versions: GameDataVersions) => {
+  const installed = await readInstalledGameData(db);
+  const count = (file: "data" | "learnsets") => ({
+    done: versions.games.filter(
+      (game) => installed.get(game[file].name) === game[file].hash,
+    ).length,
+    total: versions.games.length,
+  });
+
+  setOfflineProgress({ games: count("data"), learnsets: count("learnsets") });
+};
+
+/*
+ * The pictures the images site lists, downloaded after the game data, on
+ * Wi-Fi only (`offline-images.ts`).
+ */
+const runImages = async () => {
+  const list = await readImageList({ online: isOnline() });
+
+  /* No list (offline before the first, or a site without one): none to keep. */
+  setOfflineProgress({
+    images: (await readImageProgress(list)) ?? { bytes: 0, done: 0, total: 0 },
+  });
+
+  if (!list || !isOnline() || isHoldingBack() || deviceFull) return;
+
+  const progress = readOfflineProgress().images;
+
+  if (progress && progress.done >= progress.total) return;
+
+  setOfflineProgress({ running: true });
+
+  const result = await downloadImages(list, {
+    onProgress: (images) => setOfflineProgress({ images }),
+    shouldStop: () => !isOnline() || isHoldingBack(),
+  }).finally(() => setOfflineProgress({ running: false }));
+
+  if (result === "storage-full") {
+    deviceFull = true;
+    setOfflineProgress({ storageFull: true });
+  }
+};
+
 /*
  * Asks for the version list only when something is missing by the one this
  * visit knows, so a run after each save costs a few device reads. The list
  * stays this run's own: a newer release waits for the update on opening or
- * a game download, never one the background brings forward.
+ * a game download, never one the background brings forward. The pictures
+ * follow the game data.
  */
 const runBackground = async () => {
-  if (!isOnline() || savesData() || deviceFull) return;
-
   const { db, versions: known } = await openLocalDb();
+
+  if (known) await readGameProgress(db, known);
+
+  /* The pictures' count from the last list, before anything downloads. */
+  setOfflineProgress({
+    images: await readImageProgress(
+      await readImageList({ online: false }),
+    ).catch(() => null),
+  });
+
+  await runGameData(db, known);
+  await runImages().catch(() => undefined);
+
+  setOfflineProgress({
+    waitingForWifi:
+      isOnline() && isHoldingBack() && !isEverythingKept(readOfflineProgress()),
+  });
+};
+
+const runGameData = async (db: LocalDb, known: GameDataVersions | null) => {
+  if (!isOnline() || (savesData() && !downloadAnyway) || deviceFull) return;
+
   const plan = {
     alsoWanted: [...openedThisVisit],
-    everyGame: !isMetered(),
+    everyGame: !isHoldingBack(),
   };
 
   if (
@@ -409,20 +490,31 @@ const runBackground = async () => {
 
   if (!versions) return;
 
+  await readGameProgress(db, versions);
+  setOfflineProgress({ running: true });
+
   const result = await runBackgroundDownloads(db, {
     ...plan,
-    beforeEach: giveWay,
+    beforeEach: async () => {
+      await readGameProgress(db, versions);
+      await giveWay();
+    },
     download: downloadGameDataFileWithin(backgroundTimeoutMs),
-    shouldStop: () => !isOnline() || savesData(),
+    shouldStop: () => !isOnline() || (savesData() && !downloadAnyway),
     skip: (download) => !notFailed(download),
     versions,
-  });
+  }).finally(() => setOfflineProgress({ running: false }));
+
+  await readGameProgress(db, versions);
 
   for (const { download } of result.failed) {
     failedThisVisit.add(backgroundDownloadKey(download));
   }
 
-  if (result.status === "storage-full") deviceFull = true;
+  if (result.status === "storage-full") {
+    deviceFull = true;
+    setOfflineProgress({ storageFull: true });
+  }
 
   if (result.done.length) {
     /*
@@ -485,6 +577,17 @@ const startBackgroundRun = () => {
 const scheduleBackgroundDownloads = () => {
   clearTimeout(backgroundTimer);
   backgroundTimer = setTimeout(startBackgroundRun, backgroundDelayMs);
+};
+
+/*
+ * Download now, from the bar's status: everything downloads this visit,
+ * mobile data and data saver included.
+ */
+export const downloadEverythingNow = () => {
+  downloadAnyway = true;
+  failedThisVisit.clear();
+  setOfflineProgress({ waitingForWifi: false });
+  startBackgroundRun();
 };
 
 /* Back online, what failed is worth another try. */

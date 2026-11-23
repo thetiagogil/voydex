@@ -65,11 +65,21 @@ if (!files.includes(offlinePage)) {
   throw new Error(`The offline page (${offlinePage}) is missing from out/.`);
 }
 
+/* The images site, as the build read it: GitHub sets it, a Mac has `.env.local`. */
+try {
+  process.loadEnvFile(".env.local");
+} catch {
+  /* No `.env.local` (GitHub): the workflow sets the address. */
+}
+
+const imagesUrl = URL.parse(process.env.NEXT_PUBLIC_ASSETS_URL ?? "");
+
 const release: OfflineRelease = {
   files,
   hashLength,
   hashes,
   id: hash.digest("hex").slice(0, 16),
+  imagesOrigin: imagesUrl?.origin ?? null,
   offlinePage,
 };
 

@@ -220,6 +220,10 @@ starts it from the device gate.
 - Size: every game's file adds about 28 MB to the device database and every
   game's learnsets about 60 MB, since the device keeps one learnset index
   (see [The Device Database](#the-device-database)).
+- Then the pictures the images site lists (about 41 MB, kept by the
+  service worker's picture cache, not the database; see the app's
+  Architecture, The Offline Copy). On mobile data or data saver only the
+  games in use download, until Download now in the bar's status.
 - When: 3 seconds after the app opens, 3 seconds after the last of a run of
   saves, and when the connection comes back. A run only asks for the version
   list when the device is missing something by the one it knows.

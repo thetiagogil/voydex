@@ -24,6 +24,8 @@ export type OfflineRelease = {
   hashLength: number;
   /* The page shown for a page that isn't kept, offline. */
   offlinePage: string;
+  /* The images site's origin (`NEXT_PUBLIC_ASSETS_URL`); null without one. */
+  imagesOrigin: string | null;
 };
 
 const cachePrefix = "voydex-";
@@ -38,6 +40,13 @@ export const visitedCacheName = (releaseId: string) =>
 
 /* Remembers which release is current and which came before it. */
 export const metaCacheName = `${cachePrefix}meta`;
+
+/*
+ * Pokémon images and the rest of the images site's pictures, kept as they
+ * are shown and by the background download (`offline-images.ts`). They
+ * don't belong to a release: every release uses the same pictures.
+ */
+export const imagesCacheName = `${cachePrefix}images`;
 export const releasesKey = "/__voydex-offline/releases";
 
 /* How many opened pages and Codex files a release keeps, newest kept. */
@@ -65,7 +74,10 @@ export const cachesToDelete = (names: string[], keep: Releases) => {
 
   return names.filter(
     (name) =>
-      name.startsWith(cachePrefix) && name !== metaCacheName && !kept.has(name),
+      name.startsWith(cachePrefix) &&
+      name !== metaCacheName &&
+      name !== imagesCacheName &&
+      !kept.has(name),
   );
 };
 
@@ -102,13 +114,16 @@ export const isBuildFile = (path: string) =>
  *   page.
  * - `file`: any other file of the app (page data, icons, Codex files, the
  *   device schema in /local-db/); network first, the kept copy offline.
+ * - `image`: a picture the page shows from the images site: the kept copy
+ *   first (a changed picture comes with the next background download),
+ *   else the network, and kept from then on.
  *
  * The device schema is kept with its release on purpose: a release that
  * took over in the background and first opens offline still finds the
  * schema its code was built for, and updates the device before any screen
  * reads it (`prepare-device.ts`).
  */
-export type RequestRule = "pass" | "script" | "page" | "file";
+export type RequestRule = "pass" | "script" | "page" | "file" | "image";
 
 /*
  * Never kept:
@@ -127,10 +142,21 @@ const gameDataPath = "/game-data/";
 export const ruleFor = (
   request: OfflineRequest,
   origin: string,
+  imagesOrigin: string | null = null,
 ): RequestRule => {
   if (request.method !== "GET") return "pass";
 
   const url = new URL(request.url);
+
+  /*
+   * A picture an <img> asks for (without CORS). The background download
+   * asks with CORS and keeps its own copies (`offline-images.ts`).
+   */
+  if (url.origin === imagesOrigin) {
+    return url.pathname.endsWith(".webp") && request.mode !== "cors"
+      ? "image"
+      : "pass";
+  }
 
   if (url.origin !== origin) return "pass";
   if (url.pathname === "/sw.js") return "pass";

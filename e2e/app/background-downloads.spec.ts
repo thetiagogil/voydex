@@ -83,6 +83,24 @@ test.describe("Background game downloads", () => {
         .sort(),
     ).toEqual(slugs);
 
+    /* The bar says so, and its dialog counts every part, pictures too. */
+    const status = page.getByRole("button", { name: "Offline data: ready" });
+
+    await expect(status).toBeVisible({ timeout: 30_000 });
+    await status.click();
+
+    const dialog = page.getByRole("dialog", { name: "Offline data" });
+
+    await expect(
+      dialog.getByText("Everything is on this device."),
+    ).toBeVisible();
+    await expect(
+      dialog.getByText(`${slugs.length} of ${slugs.length}`),
+    ).toHaveCount(2);
+    /* The images stand-in lists three pictures. */
+    await expect(dialog.getByText(/^3 of 3/)).toBeVisible();
+    await page.keyboard.press("Escape");
+
     /* Nothing downloads any more: Scarlet starts from the device. */
     let refused = 0;
     const refuse = (route: Route) => {
@@ -107,6 +125,15 @@ test.describe("Background game downloads", () => {
   }) => {
     const asked = watchLearnsets(page);
 
+    /*
+     * On mobile data, so only the games in use download: the run is this
+     * Play's learnsets alone, not every other game's too.
+     */
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "connection", {
+        value: { type: "cellular" },
+      });
+    });
     await page.route(learnsets, (route) => route.abort());
     await startPlay(page, {
       game: "Pokémon Red, 1996",
