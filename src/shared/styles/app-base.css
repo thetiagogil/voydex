@@ -5,8 +5,20 @@
     scrollbar-width: thin;
   }
 
+  /*
+   * The root's colour is what shows past the page's ends when it is pulled
+   * too far (the rubber band). Under the bar it is the bar's red while the
+   * page's top half is in view, and the wall past it (`data-page-end`, set by
+   * `src/shared/utils/page-overscroll.ts`), so neither end shows a pale
+   * strip. Sideways there is nothing to pull, so it doesn't bounce.
+   */
   html {
     background: var(--bg);
+    overscroll-behavior-x: none;
+  }
+
+  html:has(.page-band-strip):not([data-page-end]) {
+    background: var(--band-deep);
   }
 
   /*
