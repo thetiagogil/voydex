@@ -82,15 +82,14 @@ export const getOfflinePercent = ({
   images,
   learnsets,
 }: OfflineProgress) => {
-  const parts = [games, learnsets, images].filter(
-    (part): part is Count => part !== null && part.total > 0,
-  );
+  /* A part not counted yet is still to come; one with nothing to keep isn't a part. */
+  const parts = [games, learnsets, images]
+    .filter((part) => part === null || part.total > 0)
+    .map((part) => (part ? part.done / part.total : 0));
 
   if (!parts.length) return 0;
 
   return Math.floor(
-    (parts.reduce((sum, part) => sum + part.done / part.total, 0) /
-      parts.length) *
-      100,
+    (parts.reduce((sum, part) => sum + part, 0) / parts.length) * 100,
   );
 };

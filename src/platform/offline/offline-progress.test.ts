@@ -49,6 +49,10 @@ describe("getOfflinePercent", () => {
     ).toBe(50);
   });
 
+  it("counts pictures not counted yet as still to come", () => {
+    expect(getOfflinePercent(progress({ images: null }))).toBe(66);
+  });
+
   it("is 0 before anything is known", () => {
     expect(
       getOfflinePercent(

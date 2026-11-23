@@ -56,14 +56,25 @@ const labels: Record<OfflineState, string> = {
   ready: "Offline data: ready",
 };
 
-const PartRow = ({ count, label }: { count: Count | null; label: string }) => (
+const PartRow = ({
+  count,
+  label,
+  pending = "Checking",
+}: {
+  count: Count | null;
+  label: string;
+  /* What it says before it is counted. */
+  pending?: string;
+}) => (
   <div className="tile flex flex-col gap-2">
     <div className="flex items-baseline justify-between gap-3">
       <p className="copy-strong">{label}</p>
       <p className="copy-meta text-ink-2 tabular-nums">
-        {count?.total
-          ? `${count.done.toLocaleString()} of ${count.total.toLocaleString()}`
-          : "—"}
+        {count === null
+          ? pending
+          : count.total
+            ? `${count.done.toLocaleString()} of ${count.total.toLocaleString()}`
+            : "None to keep"}
       </p>
     </div>
     <Progress
@@ -122,6 +133,7 @@ export const OfflineStatus = () => {
     };
   }, [open, progress]);
 
+  const busy = state === "downloading";
   const label =
     state === "downloading"
       ? `${labels.downloading}, ${percent}%`
@@ -135,13 +147,22 @@ export const OfflineStatus = () => {
       title="Offline data"
       description={summaries[state]}
       trigger={
+        /*
+         * Round with its mark once it settles; while it downloads, a pill
+         * with the ring and the figure, so it reads as busy.
+         */
         <Button
           variant="secondary"
-          size="icon-sm"
+          size={busy ? "sm" : "icon-sm"}
           aria-label={label}
           data-offline-status={state}
         >
           <StatusMark percent={percent} state={state} />
+          {busy ? (
+            <span aria-hidden className="tabular-nums">
+              {percent}%
+            </span>
+          ) : null}
         </Button>
       }
       footer={
@@ -156,18 +177,24 @@ export const OfflineStatus = () => {
       <div className="flex flex-col gap-2">
         <PartRow count={progress.games} label="Games" />
         <PartRow count={progress.learnsets} label="Moves" />
-        <PartRow count={progress.images} label="Pokémon pictures" />
+        <PartRow
+          count={progress.images}
+          label="Pokémon pictures"
+          pending="After the games"
+        />
         {progress.waitingForWifi && online ? (
           <p className="copy-note text-ink-2">
             On mobile data, the rest waits for Wi-Fi.
           </p>
         ) : null}
+        {usage === null ? null : (
+          <p className="copy-note text-ink-2">
+            Voydex uses {megabytes(usage)} on this device.
+          </p>
+        )}
         <p className="copy-note text-ink-2">
-          {usage === null
-            ? null
-            : `Voydex uses ${megabytes(usage)} on this device. `}
-          Logging in, backups, and shiny or official art you haven&apos;t opened
-          yet need the internet.
+          Needs the internet: logging in, backups, and shiny or official art you
+          haven&apos;t opened.
         </p>
       </div>
     </OverlayDialog>
