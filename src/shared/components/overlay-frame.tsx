@@ -185,7 +185,11 @@ export const OverlayFrame = ({
       {footer}
     </div>
   ) : null;
-  const body = (
+  /* A confirm whose title and line say it all has no body, only its buttons. */
+  const hasBody =
+    headScrolls ||
+    (children !== null && children !== undefined && children !== false);
+  const body = hasBody ? (
     <div
       ref={bodyRef}
       data-slot="overlay-body"
@@ -203,7 +207,7 @@ export const OverlayFrame = ({
       {headScrolls ? <div className="mb-4">{headNode}</div> : null}
       <div className={bodyClassName}>{children}</div>
     </div>
-  );
+  ) : null;
   const parts = (
     <>
       {titleHidden ? titleBlock : null}

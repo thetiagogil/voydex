@@ -158,7 +158,7 @@ export const restoreBackup = async (
     inside: async (tx) => {
       if ((await countAppliedIdChanges(tx)) !== prepared.idChanges) {
         throw new IdChangeError(
-          "The game data on this device changed while restoring; try again.",
+          "The game data on this device changed while restoring. Try again.",
         );
       }
     },

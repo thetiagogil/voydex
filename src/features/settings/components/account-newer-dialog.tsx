@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 
-import {
-  describeBackupDevice,
-  describeBackupTime,
-} from "@/features/settings/utils/backup-copy";
+import { describeBackupTime } from "@/features/settings/utils/backup-copy";
 import {
   keepThisDevice,
   takeBackupFromAccount,
@@ -21,8 +18,8 @@ type Pending = "keep" | "use" | null;
 /*
  * Another device saved a newer backup to your account, and this one
  * changed things too since its last backup. Nothing is merged: you keep
- * one side. Keeping this device's sends it up as the newest (the other
- * stays among the account's last 3 backups); using the other device's
+ * one side. Keeping this device's sends it up as the newest, and the other
+ * stays among the account's last 3 backups. Using the other device's
  * replaces what this one has, and its unsaved changes are lost. Closing it waits: no backup goes up until
  * you choose (Settings' Account backup row opens it again).
  */
@@ -34,10 +31,7 @@ export const AccountNewerDialog = () => {
 
   if (status.status !== "newer") return null;
 
-  const device = describeBackupDevice(status.device);
-  const other = status.device.name
-    ? `${status.device.name}'s`
-    : "the newer one";
+  const device = status.device.name ?? "another device";
 
   const choose = async (choice: Exclude<Pending, null>) => {
     setPending(choice);
@@ -66,7 +60,7 @@ export const AccountNewerDialog = () => {
       }}
       size="md"
       title="Your account has newer Plays"
-      description={`${device} backed up ${describeBackupTime(status.device.savedAt)}, and this device has changes of its own. Which do you keep?`}
+      description={`Saved on ${device} ${describeBackupTime(status.device.savedAt)}. This device has changes too.`}
       footer={
         <div className="flex gap-2 max-sm:w-full max-sm:flex-col-reverse sm:justify-end">
           <Button
@@ -77,7 +71,9 @@ export const AccountNewerDialog = () => {
             onClick={() => void choose("use")}
           >
             {pending === "use" ? <Spinner data-icon="inline-start" /> : null}
-            Use {other}
+            {status.device.name
+              ? `Use ${status.device.name}'s`
+              : "Use the newer Plays"}
           </Button>
           <Button
             type="button"
@@ -91,18 +87,11 @@ export const AccountNewerDialog = () => {
         </div>
       }
     >
-      <div className="flex flex-col gap-3">
-        <p className="text-ink-2 copy-body">
-          Nothing is merged. Keep this device&apos;s and it becomes the newest
-          backup; {other} stays among your last 3 for a while. Use {other} and
-          this device&apos;s changes since its last backup are lost.
+      {message ? (
+        <p role="alert" className="text-danger copy-body">
+          {message}
         </p>
-        {message ? (
-          <p role="alert" className="text-danger copy-body">
-            {message}
-          </p>
-        ) : null}
-      </div>
+      ) : null}
     </OverlayDialog>
   );
 };

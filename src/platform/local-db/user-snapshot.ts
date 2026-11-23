@@ -71,7 +71,7 @@ export const rowKeyOf = (row: UserRow, keyColumns: string[]) =>
 /* Some change landed after the snapshot was read; try again. */
 export class MovedOnError extends LocalDbError {
   constructor() {
-    super("Something changed meanwhile; it tries again in a moment.");
+    super("Something changed meanwhile. It tries again in a moment.");
     this.name = "MovedOnError";
   }
 }

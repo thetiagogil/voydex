@@ -229,7 +229,7 @@ export const addBackup = async (
     await db.transaction(async (tx) => {
       if ((await countAppliedIdChanges(tx)) !== prepared.idChanges) {
         throw new IdChangeError(
-          "The game data on this device changed while importing; try again.",
+          "The game data on this device changed while importing. Try again.",
         );
       }
 

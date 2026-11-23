@@ -152,7 +152,7 @@ export const GalleryChoices = () => {
         <GalleryGroup title="Chips">
           <Specimen
             label="ChoiceChip"
-            note="Pick several; press them to see both states"
+            note="Pick several, then press them to see both states"
           >
             {["Nuzlocke", "No items", "Monotype"].map((rule) => (
               <ChoiceChip
@@ -190,7 +190,7 @@ export const GalleryChoices = () => {
           </Specimen>
           <Specimen
             label="RemovableChip"
-            note="Something a Play keeps; hover for the ×"
+            note="Something a Play keeps. Hover for the ×"
           >
             {tags.map((tag) => (
               <RemovableChip

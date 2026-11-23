@@ -68,7 +68,7 @@ export const ensureDeviceSchema = async (
 
   if ((await hashSchemaSql(schemaSql)) !== schema.hash) {
     throw new LocalDbError(
-      "The schema doesn't match its hash; reload the app and try again.",
+      "The schema doesn't match its hash. Reload the app and try again.",
     );
   }
 

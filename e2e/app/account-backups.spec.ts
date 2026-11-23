@@ -279,7 +279,7 @@ test.describe("Account backups: your Plays on every device, never merged", () =>
       });
 
       await expect(dialog).toBeVisible(forTheAnswer);
-      await expect(dialog).toContainText("backed up today at");
+      await expect(dialog).toContainText("today at");
       await expectAccessible(laptop);
 
       /* Using the phone's: the laptop's change gives way, nothing merged. */

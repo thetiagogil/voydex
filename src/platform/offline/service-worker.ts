@@ -150,7 +150,7 @@ const checkComplete = async () => {
   );
 
   if (kept.some((response) => !response)) {
-    throw new Error("The release's copy is incomplete; installing again.");
+    throw new Error("The release's copy is incomplete. Installing it again.");
   }
 };
 

@@ -136,7 +136,7 @@ export const readGameDataFile = async (
 
   if ((await sha256Hex(text)) !== entry.hash) {
     throw new GameDataDownloadError(
-      `The ${entry.name} game data file didn't download whole; try again.`,
+      `The ${entry.name} game data file didn't download whole. Try again.`,
     );
   }
 
@@ -285,7 +285,7 @@ export class GameDataDownloadError extends LocalDbError {
 export class GameDataNeedsReloadError extends LocalDbError {
   constructor() {
     super(
-      "This game data is for another version of Voydex; reload the app first.",
+      "This game data is for another version of Voydex. Reload the app first.",
     );
     this.name = "GameDataNeedsReloadError";
   }
@@ -635,7 +635,7 @@ const installFilesOnce = async (
 
     if (!update) {
       throw new LocalDbError(
-        "The game data on this device is from another release; this waits for the update.",
+        "The game data on this device is from another release. This waits for the update.",
       );
     }
 
@@ -671,7 +671,7 @@ const installFilesOnce = async (
   }
 
   throw new LocalDbError(
-    "The game data on this device kept changing in another tab; try again.",
+    "The game data on this device kept changing in another tab. Try again.",
   );
 };
 

@@ -85,7 +85,7 @@ export const isStorageFullError = (error: unknown) => {
  */
 export const logGameDataUpdateFailure = (error: unknown) => {
   console.warn(
-    "The game data update failed; this device keeps the game data it has.",
+    "The game data update failed. This device keeps the game data it has.",
     error,
   );
 };

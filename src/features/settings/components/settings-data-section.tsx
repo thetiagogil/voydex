@@ -41,7 +41,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 const keptLine =
-  "It backs up by itself after each change; your account keeps the last 3.";
+  "It backs up by itself after each change, and your account keeps the last 3.";
 
 /*
  * Signed in: when this device last backed up to your account, a newer
