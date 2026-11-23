@@ -35,6 +35,7 @@ import {
 import { useLocalDb, useLocalRead } from "@/platform/local-db/local-db-context";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import { PendingData } from "@/shared/components/pending-data";
 import { SettingsRow } from "@/shared/components/settings-row";
 import { Button } from "@/shared/components/ui/button";
@@ -76,21 +77,25 @@ const AccountBackupRow = () => {
           Choose
         </Button>
       ) : (
-        <Button
-          type="button"
-          variant="secondary"
-          className={SETTINGS_ACTION_CLASS_NAME}
-          disabled={saving || status.status === "off"}
-          aria-busy={saving}
-          onClick={() => void backUpNow()}
-        >
-          {saving ? (
-            <Spinner data-icon="inline-start" />
-          ) : (
-            <AppIcon icon={appIcons.devices.account} inline="start" />
+        <NeedsInternet>
+          {(offline) => (
+            <Button
+              type="button"
+              variant="secondary"
+              className={SETTINGS_ACTION_CLASS_NAME}
+              disabled={saving || offline || status.status === "off"}
+              aria-busy={saving}
+              onClick={() => void backUpNow()}
+            >
+              {saving ? (
+                <Spinner data-icon="inline-start" />
+              ) : (
+                <AppIcon icon={appIcons.devices.account} inline="start" />
+              )}
+              {saving ? "Backing up..." : "Back up now"}
+            </Button>
           )}
-          {saving ? "Backing up..." : "Back up now"}
-        </Button>
+        </NeedsInternet>
       )}
     </SettingsRow>
   );
@@ -105,15 +110,21 @@ const AccountRestoreRow = () => {
       title="Restore from account"
       description="Puts one of your account's last 3 backups in place of what's on this device"
     >
-      <Button
-        type="button"
-        variant="secondary"
-        className={SETTINGS_ACTION_CLASS_NAME}
-        onClick={() => setOpen(true)}
-      >
-        <AppIcon icon={appIcons.actions.restore} inline="start" />
-        Restore
-      </Button>
+      {/* Reading the account's backups needs the internet too. */}
+      <NeedsInternet>
+        {(offline) => (
+          <Button
+            type="button"
+            variant="secondary"
+            className={SETTINGS_ACTION_CLASS_NAME}
+            disabled={offline}
+            onClick={() => setOpen(true)}
+          >
+            <AppIcon icon={appIcons.actions.restore} inline="start" />
+            Restore
+          </Button>
+        )}
+      </NeedsInternet>
       <SettingsAccountRestoreDialog
         open={open}
         onClose={() => setOpen(false)}

@@ -1,7 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { newTestEmail } from "../support/accounts";
 import { forTheAnswer } from "../support/actions";
+import { logInToNewAccount } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
@@ -132,5 +134,44 @@ test.describe("Offline states", () => {
       details.getByRole("combobox", { name: /^Move 1/ }),
     ).toBeVisible({ timeout: 30_000 });
     await expect(details.getByText(/This game's moves/)).toHaveCount(0);
+  });
+
+  test("the account's buttons wait for the connection, and Export and Import don't @phone", async ({
+    context,
+    page,
+  }) => {
+    await logInToNewAccount(page, newTestEmail("offline-account"));
+    await page.goto("/app/settings", { waitUntil: "networkidle" });
+
+    const yourData = page.getByRole("region", { name: "Your data" });
+    const account = page.getByRole("region", { name: "Account" });
+    const accountButtons = [
+      yourData.getByRole("button", { name: "Back up now", exact: true }),
+      yourData.getByRole("button", { name: "Restore", exact: true }),
+      account.getByRole("button", { name: "Change email", exact: true }),
+      account.getByRole("button", { name: "Change password", exact: true }),
+    ];
+
+    for (const button of accountButtons) await expect(button).toBeEnabled();
+
+    await context.setOffline(true);
+
+    for (const button of accountButtons) await expect(button).toBeDisabled();
+    /* A file on this device needs no connection. */
+    await expect(
+      yourData.getByRole("button", { name: "Export", exact: true }),
+    ).toBeEnabled();
+    await expect(
+      yourData.getByRole("button", { name: "Import", exact: true }),
+    ).toBeEnabled();
+
+    await yourData.locator("[data-needs-internet]").first().click();
+    await expect(tip(page, reason)).toBeVisible();
+    await expectAccessible(page);
+    await page.keyboard.press("Escape");
+
+    await context.setOffline(false);
+
+    for (const button of accountButtons) await expect(button).toBeEnabled();
   });
 });

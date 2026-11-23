@@ -10,6 +10,7 @@ import {
 } from "@/platform/local-db/account-runner";
 import { LocalDbError } from "@/platform/local-db/local-db";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
+import { NeedsInternet } from "@/shared/components/needs-internet";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
@@ -63,27 +64,40 @@ export const AccountNewerDialog = () => {
       description={`Saved on ${device} ${describeBackupTime(status.device.savedAt)}. This device has changes too.`}
       footer={
         <div className="flex gap-2 max-sm:w-full max-sm:flex-col-reverse sm:justify-end">
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={pending !== null}
-            aria-busy={pending === "use"}
-            onClick={() => void choose("use")}
-          >
-            {pending === "use" ? <Spinner data-icon="inline-start" /> : null}
-            {status.device.name
-              ? `Use ${status.device.name}'s`
-              : "Use the newer Plays"}
-          </Button>
-          <Button
-            type="button"
-            disabled={pending !== null}
-            aria-busy={pending === "keep"}
-            onClick={() => void choose("keep")}
-          >
-            {pending === "keep" ? <Spinner data-icon="inline-start" /> : null}
-            Keep this device&apos;s
-          </Button>
+          {/* Either way the account answers: both wait for the connection. */}
+          <NeedsInternet className="max-sm:*:w-full">
+            {(offline) => (
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={pending !== null || offline}
+                aria-busy={pending === "use"}
+                onClick={() => void choose("use")}
+              >
+                {pending === "use" ? (
+                  <Spinner data-icon="inline-start" />
+                ) : null}
+                {status.device.name
+                  ? `Use ${status.device.name}'s`
+                  : "Use the newer Plays"}
+              </Button>
+            )}
+          </NeedsInternet>
+          <NeedsInternet className="max-sm:*:w-full">
+            {(offline) => (
+              <Button
+                type="button"
+                disabled={pending !== null || offline}
+                aria-busy={pending === "keep"}
+                onClick={() => void choose("keep")}
+              >
+                {pending === "keep" ? (
+                  <Spinner data-icon="inline-start" />
+                ) : null}
+                Keep this device&apos;s
+              </Button>
+            )}
+          </NeedsInternet>
         </div>
       }
     >
