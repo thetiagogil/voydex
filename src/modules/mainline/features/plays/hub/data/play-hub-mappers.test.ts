@@ -225,7 +225,7 @@ describe("buildMainlinePlayAddPokemonData", () => {
   const member = (play_pokemon_id: string, roster_state_slug: string) =>
     ({ play_pokemon_id, roster_state_slug }) as MainlinePlayTeamMemberRow;
   const play = {
-    game_id: null,
+    game_id: 1,
     generation_id: 1,
     version_group_id: 1,
   } as Parameters<typeof buildMainlinePlayAddPokemonData>[0]["play"];
