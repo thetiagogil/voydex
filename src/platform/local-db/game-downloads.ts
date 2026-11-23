@@ -41,9 +41,11 @@ import {
   downloadImages,
   readImageList,
   readImageProgress,
+  type ImageList,
 } from "@/platform/offline/offline-images";
 import {
   isEverythingKept,
+  type Count,
   readOfflineProgress,
   setOfflineProgress,
 } from "@/platform/offline/offline-progress";
@@ -399,34 +401,43 @@ let downloadAnyway = false;
 /* Mobile data or data saver, unless Download now said otherwise. */
 const isHoldingBack = () => !downloadAnyway && (isMetered() || savesData());
 
-/* How many games and learnsets of `versions` the device has. */
-const readGameProgress = async (db: LocalDb, versions: GameDataVersions) => {
+/*
+ * How many games and learnsets of `versions` the device has, and how many
+ * bytes of their files that is.
+ */
+const countGameFiles = async (db: LocalDb, versions: GameDataVersions) => {
   const installed = await readInstalledGameData(db);
-  const count = (file: "data" | "learnsets") => ({
-    done: versions.games.filter(
-      (game) => installed.get(game[file].name) === game[file].hash,
-    ).length,
-    total: versions.games.length,
-  });
+  const count = (file: "data" | "learnsets"): Count => {
+    const entries = versions.games.map((game) => game[file]);
+    const kept = entries.filter(
+      (entry) => installed.get(entry.name) === entry.hash,
+    );
 
-  setOfflineProgress({ games: count("data"), learnsets: count("learnsets") });
+    return {
+      bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0),
+      done: kept.length,
+      doneBytes: kept.reduce((sum, entry) => sum + entry.bytes, 0),
+      total: entries.length,
+    };
+  };
+
+  return { games: count("data"), learnsets: count("learnsets") };
+};
+
+const readGameProgress = async (db: LocalDb, versions: GameDataVersions) => {
+  setOfflineProgress(await countGameFiles(db, versions));
 };
 
 /*
  * The pictures the images site lists, downloaded after the game data, on
  * Wi-Fi only (`offline-images.ts`).
  */
-const runImages = async () => {
-  const list = await readImageList({ online: isOnline() });
-
-  /* No list (offline before the first, or a site without one): none to keep. */
-  setOfflineProgress({
-    images: (await readImageProgress(list)) ?? { bytes: 0, done: 0, total: 0 },
-  });
-
+const runImages = async (list: ImageList | null) => {
   if (!list || !isOnline() || isHoldingBack() || deviceFull) return;
 
-  const progress = readOfflineProgress().images;
+  const progress = await readImageProgress(list);
+
+  setOfflineProgress({ images: progress });
 
   if (progress && progress.done >= progress.total) return;
 
@@ -443,27 +454,42 @@ const runImages = async () => {
   }
 };
 
+/* None to keep: offline before the first list, or a site without one. */
+const noImages: Count = { bytes: 0, done: 0, doneBytes: 0, total: 0 };
+
+/*
+ * Where the device stands by what it already knows (the visit's version
+ * list, the last picture list), with no download: for the bar to show at
+ * once.
+ */
+const countKeptNow = async (db: LocalDb, known: GameDataVersions | null) => ({
+  ...(known ? await countGameFiles(db, known) : {}),
+  images: await readImageProgress(await readImageList({ online: false })).catch(
+    () => null,
+  ),
+});
+
 /*
  * Asks for the version list only when something is missing by the one this
  * visit knows, so a run after each save costs a few device reads. The list
  * stays this run's own: a newer release waits for the update on opening or
- * a game download, never one the background brings forward. The pictures
- * follow the game data.
+ * a game download, never one the background brings forward. The picture
+ * list comes first, so the figure weighs the pictures from the start, and
+ * the pictures follow the game data.
  */
 const runBackground = async () => {
   const { db, versions: known } = await openLocalDb();
 
   if (known) await readGameProgress(db, known);
 
-  /* The pictures' count from the last list, before anything downloads. */
+  const list = await readImageList({ online: isOnline() }).catch(() => null);
+
   setOfflineProgress({
-    images: await readImageProgress(
-      await readImageList({ online: false }),
-    ).catch(() => null),
+    images: (await readImageProgress(list).catch(() => null)) ?? noImages,
   });
 
   await runGameData(db, known);
-  await runImages().catch(() => undefined);
+  await runImages(list).catch(() => undefined);
 
   setOfflineProgress({
     waitingForWifi:
@@ -590,6 +616,21 @@ export const downloadEverythingNow = () => {
   startBackgroundRun();
 };
 
+/*
+ * The bar's figure as soon as the app opens, not after the first run's
+ * wait. A run already going keeps its own, newer counts.
+ */
+const showProgressNow = async () => {
+  if (backgroundRun) return;
+
+  const { db, versions } = await openLocalDb();
+  const { images, ...games } = await countKeptNow(db, versions);
+
+  if (backgroundRun) return;
+
+  setOfflineProgress(images ? { ...games, images } : games);
+};
+
 /* Back online, what failed is worth another try. */
 const onOnline = () => {
   failedThisVisit.clear();
@@ -603,6 +644,7 @@ const onOnline = () => {
  */
 export const watchBackgroundDownloads = () => {
   watchers += 1;
+  void showProgressNow().catch(() => undefined);
   scheduleBackgroundDownloads();
 
   const stopSaves = subscribeLocalSaves(scheduleBackgroundDownloads);

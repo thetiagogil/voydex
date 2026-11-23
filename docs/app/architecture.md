@@ -595,7 +595,11 @@ in the built app only, never under `next dev`.
   device, how much room it takes, what still needs the internet and, on
   mobile data, Download now (`downloadEverythingNow`). `offline-progress.ts`
   holds the counts the background downloads fill in, and `useOfflineData`
-  reads them for both.
+  reads them for both. The figure is the share of bytes on the device of
+  everything to download (the pictures are most of it), and it says 100
+  only once all of it is in. The device keeps the last counts in
+  `localStorage` and the bar reads the device as soon as it opens, so after a
+  reload the pill shows with the bar, not after the first background run.
 
 ## Reads, Writes, And File Responsibilities
 

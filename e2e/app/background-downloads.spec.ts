@@ -135,6 +135,84 @@ test.describe("Background game downloads", () => {
     expect(refused).toBe(0);
   });
 
+  test("show the bar's status with the bar after a reload, the pictures weighing most of the figure", async ({
+    page,
+  }) => {
+    /*
+     * A picture list as heavy as the real one (about 40 MB) whose pictures
+     * never come, so the games and moves are in and the pictures wait.
+     */
+    await page.route("**/offline-images.json*", (route) =>
+      route.fulfill({
+        contentType: "application/json",
+        headers: { "Access-Control-Allow-Origin": "*" },
+        json: {
+          bytes: 40_000_000,
+          files: [
+            ["pokemon/home/md/bulbasaur.webp", "000000000001"],
+            ["pokemon/home/md/pikachu.webp", "000000000002"],
+            ["pokemon/home/sm/pikachu.webp", "000000000003"],
+          ],
+        },
+      }),
+    );
+    await page.route("**/pokemon/home/**", (route) => route.abort());
+    /* When the bar and its status first show, from the page's own start. */
+    await page.addInitScript(() => {
+      const seen: { bar?: number; status?: number } = {};
+
+      (window as unknown as { barSeen: typeof seen }).barSeen = seen;
+      new MutationObserver(() => {
+        if (
+          seen.bar === undefined &&
+          document.querySelector('[aria-label="You"]')
+        ) {
+          seen.bar = performance.now();
+        }
+        if (
+          seen.status === undefined &&
+          document.querySelector("[data-offline-status]")
+        ) {
+          seen.status = performance.now();
+        }
+      }).observe(document, { childList: true, subtree: true });
+    });
+
+    await page.goto("/app");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await waitForDownloadsWritten(page);
+
+    const status = page.locator("[data-offline-status]");
+    const figure = async () =>
+      Number(
+        /(\d+)%$/.exec((await status.getAttribute("aria-label")) ?? "")?.[1],
+      );
+
+    /*
+     * Every game and its moves are a few megabytes of the forty-odd: the
+     * figure is low, not two parts of three.
+     */
+    await expect(status).toHaveAttribute(
+      "aria-label",
+      /^Offline data: downloading, \d+%$/,
+    );
+    await expect.poll(figure).toBeGreaterThan(0);
+    expect(await figure()).toBeLessThan(30);
+
+    await page.reload();
+    await expect(status).toBeVisible();
+
+    const seen = await page.evaluate(
+      () =>
+        (window as unknown as { barSeen: { bar?: number; status?: number } })
+          .barSeen,
+    );
+
+    /* With the bar, where it stood: not after the background's first run. */
+    expect((seen.status ?? Infinity) - (seen.bar ?? 0)).toBeLessThan(1000);
+    expect(await figure()).toBeLessThan(30);
+  });
+
   test("pick up a game's learnsets that didn't download, then leave it be", async ({
     page,
   }) => {

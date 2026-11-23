@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import type { Count } from "@/platform/offline/offline-progress";
 import { imagesCacheName } from "@/platform/offline/offline-rules";
 import { getAssetUrl } from "@/shared/utils/asset-url";
 
@@ -25,17 +26,26 @@ const listPath = "offline-images.json";
 /* Which hash of each picture the device has: `{ "pokemon/…webp": "a1b2…" }`. */
 const keptPath = "__voydex/kept-images.json";
 
-export type ImageProgress = { bytes: number; done: number; total: number };
+export type ImageProgress = Count;
 
-/* How far the device is with a list. */
+/*
+ * How far the device is with a list. The list gives only the size of all
+ * its pictures, so the bytes on the device are that share of it.
+ */
 export const countKeptImages = (
   list: ImageList,
   kept: Record<string, string>,
-): ImageProgress => ({
-  bytes: list.bytes,
-  done: list.files.filter(([path, hash]) => kept[path] === hash).length,
-  total: list.files.length,
-});
+): ImageProgress => {
+  const done = list.files.filter(([path, hash]) => kept[path] === hash).length;
+  const total = list.files.length;
+
+  return {
+    bytes: list.bytes,
+    done,
+    doneBytes: total ? Math.round((list.bytes * done) / total) : 0,
+    total,
+  };
+};
 
 /* The pictures still to download: missing, or kept with another hash. */
 export const findMissingImages = (

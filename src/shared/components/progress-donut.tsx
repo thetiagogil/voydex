@@ -46,10 +46,14 @@ export const ProgressDonut = ({
         className,
       )}
     >
+      {/*
+       * Sized to the ring's box, so a button's own icon size (a small
+       * button's 14px) never shrinks it into a corner.
+       */}
       <svg
         viewBox="0 0 100 100"
         aria-hidden
-        className="absolute inset-0 -rotate-90"
+        className="absolute inset-0 size-full -rotate-90"
       >
         <circle
           cx="50"
