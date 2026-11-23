@@ -86,7 +86,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "eslint-plugin-better-tailwindcss": "^4.11.0",
-    "knip": "^6.45.1",
+    "knip": "^6.46.1",
     "prettier": "^3.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "supabase": "2.121.0",
@@ -94,7 +94,7 @@
     "tsx": "4.23.15",
     "typescript": "^5",
     "vitest": "4.1.12",
-    "wrangler": "4.162.0"
+    "wrangler": "4.165.0"
   },
   "allowScripts": {
     "sharp@0.34.5": true,
