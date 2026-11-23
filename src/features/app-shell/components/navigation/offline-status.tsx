@@ -56,15 +56,7 @@ const labels: Record<OfflineState, string> = {
   ready: "Offline data: ready",
 };
 
-const PartRow = ({
-  count,
-  label,
-  note,
-}: {
-  count: Count | null;
-  label: string;
-  note?: string;
-}) => (
+const PartRow = ({ count, label }: { count: Count | null; label: string }) => (
   <div className="tile flex flex-col gap-2">
     <div className="flex items-baseline justify-between gap-3">
       <p className="copy-strong">{label}</p>
@@ -72,7 +64,6 @@ const PartRow = ({
         {count?.total
           ? `${count.done.toLocaleString()} of ${count.total.toLocaleString()}`
           : "—"}
-        {note ? ` · ${note}` : null}
       </p>
     </div>
     <Progress
@@ -165,15 +156,7 @@ export const OfflineStatus = () => {
       <div className="flex flex-col gap-2">
         <PartRow count={progress.games} label="Games" />
         <PartRow count={progress.learnsets} label="Moves" />
-        <PartRow
-          count={progress.images}
-          label="Pokémon pictures"
-          note={
-            progress.images?.total
-              ? megabytes(progress.images.bytes)
-              : undefined
-          }
-        />
+        <PartRow count={progress.images} label="Pokémon pictures" />
         {progress.waitingForWifi && online ? (
           <p className="copy-note text-ink-2">
             On mobile data, the rest waits for Wi-Fi.
