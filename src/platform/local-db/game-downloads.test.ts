@@ -130,6 +130,42 @@ describe("watchBackgroundDownloads", () => {
     expect(refreshVersions).not.toHaveBeenCalled();
   });
 
+  it("counts what the device has at once, without waiting for the first run", async () => {
+    const { run, watchBackgroundDownloads } = await load();
+    const { readOfflineProgress } =
+      await import("@/platform/offline/offline-progress");
+    const { runQuery } = await import("@/platform/local-db/local-db");
+
+    state.versions = {
+      games: [
+        {
+          data: { bytes: 100, hash: "a", name: "sv" },
+          learnsets: { bytes: 300, hash: "b", name: "sv-learnsets" },
+        },
+        {
+          data: { bytes: 50, hash: "c", name: "swsh" },
+          learnsets: { bytes: 200, hash: "d", name: "swsh-learnsets" },
+        },
+      ],
+      schemaHash: "known",
+    };
+    /* Both games are in, one game's moves, and swsh's from an older release. */
+    vi.mocked(runQuery).mockResolvedValueOnce([
+      { hash: "a", name: "sv" },
+      { hash: "c", name: "swsh" },
+      { hash: "b", name: "sv-learnsets" },
+      { hash: "old", name: "swsh-learnsets" },
+    ]);
+    stop = watchBackgroundDownloads();
+    await settle(0);
+
+    expect(run).not.toHaveBeenCalled();
+    expect(readOfflineProgress()).toMatchObject({
+      games: { bytes: 150, done: 2, doneBytes: 150, total: 2 },
+      learnsets: { bytes: 500, done: 1, doneBytes: 300, total: 2 },
+    });
+  });
+
   it("waits for saves in a row to stop, then runs once", async () => {
     const { run, watchBackgroundDownloads } = await load();
 
@@ -263,8 +299,8 @@ describe("watchBackgroundDownloads", () => {
     state.versions = {
       games: [
         {
-          data: { hash: "a", name: "sv" },
-          learnsets: { hash: "b", name: "sv-learnsets" },
+          data: { bytes: 10, hash: "a", name: "sv" },
+          learnsets: { bytes: 20, hash: "b", name: "sv-learnsets" },
           slug: "sv",
           versionGroupIds: [25],
         },

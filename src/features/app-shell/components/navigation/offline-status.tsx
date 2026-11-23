@@ -29,6 +29,13 @@ const labels: Record<OfflineDataState, string> = {
   ready: "Offline data: ready",
 };
 
+/*
+ * As tall as your avatar beside it with its white band, so the two read
+ * as one row.
+ */
+const barHeight =
+  "h-[calc(--spacing(9)+var(--band)*2)] min-w-[calc(--spacing(9)+var(--band)*2)]";
+
 const StatusMark = ({
   percent,
   state,
@@ -81,6 +88,7 @@ export const OfflineStatus = () => {
         <Button
           variant="secondary"
           size={busy ? "sm" : "icon-sm"}
+          className={barHeight}
           aria-label={
             busy ? `${labels.downloading}, ${percent}%` : labels[state]
           }

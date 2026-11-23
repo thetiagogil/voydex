@@ -90,7 +90,7 @@ const download = (imageList: ImageList, shouldStop = () => false) =>
   downloadImages(imageList, { onProgress: () => undefined, shouldStop });
 
 describe("countKeptImages and findMissingImages", () => {
-  it("count a picture kept with another hash as missing", () => {
+  it("count a picture kept with another hash as missing, and its share of the bytes", () => {
     const kept = {
       "games/covers/red.webp": "old",
       "pokemon/home/md/pikachu.webp": "aaa",
@@ -99,12 +99,24 @@ describe("countKeptImages and findMissingImages", () => {
     expect(countKeptImages(pictures, kept)).toEqual({
       bytes: 100,
       done: 1,
+      doneBytes: 33,
       total: 3,
     });
     expect(findMissingImages(pictures, kept).map(([path]) => path)).toEqual([
       "pokemon/home/md/eevee.webp",
       "games/covers/red.webp",
     ]);
+  });
+});
+
+describe("countKeptImages with an empty list", () => {
+  it("counts no bytes", () => {
+    expect(countKeptImages({ bytes: 0, files: [] }, {})).toEqual({
+      bytes: 0,
+      done: 0,
+      doneBytes: 0,
+      total: 0,
+    });
   });
 });
 
@@ -121,6 +133,7 @@ describe("downloadImages", () => {
     await expect(readImageProgress(pictures)).resolves.toEqual({
       bytes: 100,
       done: 3,
+      doneBytes: 100,
       total: 3,
     });
 
