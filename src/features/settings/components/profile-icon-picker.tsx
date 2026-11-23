@@ -10,16 +10,17 @@ type ProfileIconPickerProps = {
   /* What names the group to a screen reader, such as "Your icon". */
   ariaLabel: string;
   choices: readonly ProfileIconChoice[];
-  /* The form field the pick travels in; empty means no icon. */
+  /* The form field the pick travels in; empty while nothing is picked. */
   name: string;
-  onChange: (formId: number | null) => void;
+  onChange: (formId: number) => void;
   value: number | null;
 };
 
 /*
  * The Pokémon you can pick as your icon, as round discs on a pale wash of
- * their type: the picked one takes the action border, and tapping it again
- * puts it back to your initial. Settings' trainer card uses it.
+ * their type: the picked one takes the blue border. Every trainer has an
+ * icon, so tapping the picked one keeps it. Settings' trainer card and the
+ * trainer step use it.
  */
 export const ProfileIconPicker = ({
   ariaLabel,
@@ -42,7 +43,7 @@ export const ProfileIconPicker = ({
               type="button"
               aria-label={choice.name}
               aria-pressed={isPicked}
-              onClick={() => onChange(isPicked ? null : choice.formId)}
+              onClick={() => onChange(choice.formId)}
               style={getProfileIconTintStyle(choice.typeSlug)}
               className={cn(
                 "type-tint focus-ring grid size-12 place-items-center overflow-hidden rounded-full border-2 hover:brightness-95",

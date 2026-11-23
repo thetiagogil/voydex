@@ -3,6 +3,7 @@
 import { useId, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
 import { EditedMark } from "@/shared/components/edited-mark";
 import { DatePicker } from "@/shared/components/date-picker";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
@@ -126,7 +127,7 @@ export const PlaySettingsGeneralSection = ({
             </SettingsFieldLabel>
             <Input
               id={`${id}-trainer`}
-              maxLength={120}
+              maxLength={TRAINER_NAME_MAX_LENGTH}
               value={values.trainerName}
               placeholder="Not recorded"
               onChange={(event) => change("trainerName", event.target.value)}

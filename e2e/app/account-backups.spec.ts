@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page, passTrainerStep } from "../support/test";
 
 import { newTestEmail, signedOut } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
@@ -73,6 +73,8 @@ test.describe("Account backups: your Plays on every device, never merged", () =>
     const other = await browser.newContext({ storageState: signedOut });
     const second = await other.newPage();
 
+    await passTrainerStep(second);
+
     try {
       await logIn(second, email);
       await second.waitForURL("**/app**");
@@ -114,7 +116,10 @@ test.describe("Account backups: your Plays on every device, never merged", () =>
       .getByRole("link", { name: "Log in" })
       .click();
 
-    /* Without the account, the device is as new: no Play, no name. */
+    /*
+     * Without the account, the device is as new: no Play, and its own
+     * trainer again (the trainer step gave it Ash).
+     */
     await page
       .getByRole("link", { name: "Continue without an account" })
       .click();
@@ -125,7 +130,7 @@ test.describe("Account backups: your Plays on every device, never merged", () =>
     await page.goto("/app/settings", { waitUntil: "networkidle" });
     await expect(
       page.getByRole("textbox", { name: "Display name" }),
-    ).toHaveValue("");
+    ).toHaveValue("Ash");
 
     /* Logging in again brings everything back. */
     await logIn(page, email);
@@ -256,6 +261,8 @@ test.describe("Account backups: your Plays on every device, never merged", () =>
 
     const other = await browser.newContext({ storageState: signedOut });
     const laptop = await other.newPage();
+
+    await passTrainerStep(laptop);
 
     try {
       await logIn(laptop, email);

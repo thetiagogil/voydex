@@ -1,32 +1,39 @@
 import { z } from "zod";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
 import { safeParseInput } from "@/shared/utils/input-schemas";
 
-/* The profile's limit (`profiles_display_name_length_check`). */
-export const DISPLAY_NAME_MAX_LENGTH = 100;
-
-/* The profile's limit for the default trainer name (`profiles_default_trainer_name_length_check`). */
-export const TRAINER_NAME_MAX_LENGTH = 120;
+/*
+ * The longest display name: what fits the trainer card and the bar on a
+ * phone. The app holds it, so the database's own limit stays looser.
+ */
+export const DISPLAY_NAME_MAX_LENGTH = 24;
 
 export type DisplayNameResult =
-  { ok: true; value: string | null } | { message: string; ok: false };
+  { ok: true; value: string } | { message: string; ok: false };
 
 /*
- * A name as you typed it, trimmed. Empty clears it (null). Longer than the
- * profile allows is refused.
+ * A name as you typed it, trimmed. Every trainer has both names, so an
+ * empty one is refused, and so is one longer than the profile allows.
  */
-const nameSchema = (maxLength: number) =>
+const nameSchema = (maxLength: number, emptyMessage: string) =>
   z
-    .string({ error: "Type a name to save." })
+    .string({ error: emptyMessage })
     .nullable()
     .transform((value) => (value ?? "").trim().replace(/\s+/g, " "))
+    .refine((name) => name.length > 0, { error: emptyMessage })
     .refine((name) => name.length <= maxLength, {
       error: `Keep it to ${maxLength} characters.`,
-    })
-    .transform((name) => name || null);
+    });
 
-const displayNameSchema = nameSchema(DISPLAY_NAME_MAX_LENGTH);
-const trainerNameSchema = nameSchema(TRAINER_NAME_MAX_LENGTH);
+const displayNameSchema = nameSchema(
+  DISPLAY_NAME_MAX_LENGTH,
+  "Type a display name.",
+);
+const trainerNameSchema = nameSchema(
+  TRAINER_NAME_MAX_LENGTH,
+  "Type a trainer name.",
+);
 
 const parseName = (
   schema: typeof displayNameSchema,
@@ -37,10 +44,10 @@ const parseName = (
   return result.ok ? { ok: true, value: result.data } : result;
 };
 
-/* Your display name: clearing it makes the bars show your email. */
+/* Your display name, which the bars and your trainer card show. */
 export const parseDisplayName = (value: unknown): DisplayNameResult =>
   parseName(displayNameSchema, value);
 
-/* The default trainer name of a new Play: clearing it falls back to your display name. */
+/* The trainer name a new Play starts with. */
 export const parseTrainerName = (value: unknown): DisplayNameResult =>
   parseName(trainerNameSchema, value);

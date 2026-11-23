@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
 import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
 import { getGameDataPercent } from "@/platform/local-db/game-data";
 import {
@@ -383,7 +384,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               <Input
                 id="new-play-trainer"
                 value={trainerName}
-                maxLength={120}
+                maxLength={TRAINER_NAME_MAX_LENGTH}
                 autoComplete="nickname"
                 onChange={(event) => setTrainerName(event.currentTarget.value)}
                 placeholder="Trainer name"

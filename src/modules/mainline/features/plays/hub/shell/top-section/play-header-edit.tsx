@@ -3,6 +3,7 @@
 import { useId, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
 import { PlayPlaytimeFields } from "@/modules/mainline/features/plays/hub/components/play-playtime-fields";
 import type {
   MainlinePlayShellData,
@@ -280,7 +281,7 @@ export const PlayHeaderTrainerEdit = ({
           <Input
             id={inputId}
             autoComplete="off"
-            maxLength={120}
+            maxLength={TRAINER_NAME_MAX_LENGTH}
             placeholder="Not recorded"
             value={edit.value}
             onChange={(event) => edit.setValue(event.target.value)}

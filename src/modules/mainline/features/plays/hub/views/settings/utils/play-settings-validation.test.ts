@@ -56,6 +56,16 @@ describe("parsePlayGeneralSettings", () => {
     ).toThrow("Minutes");
     expect(() => parsePlayGeneralSettings(input, [1, 3])).toThrow("status");
   });
+
+  it("holds a trainer name to the games' 12 characters", () => {
+    expect(
+      parsePlayGeneralSettings({ ...input, trainerName: "a".repeat(12) }, [2])
+        .trainer_name,
+    ).toBe("a".repeat(12));
+    expect(() =>
+      parsePlayGeneralSettings({ ...input, trainerName: "a".repeat(13) }, [2]),
+    ).toThrow("A trainer name can be 12 characters at most.");
+  });
 });
 
 describe("diffIdSets", () => {

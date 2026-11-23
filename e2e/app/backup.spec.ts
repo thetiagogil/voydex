@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 
-import { expect, test } from "@playwright/test";
+import { expect, test, passTrainerStep } from "../support/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
@@ -45,6 +45,8 @@ test.describe("Export and Import: your data as a file", () => {
       storageState: { cookies: [], origins: [] },
     });
     const fresh = await other.newPage();
+
+    await passTrainerStep(fresh);
 
     try {
       await fresh.goto("/app/settings#your-data", { waitUntil: "networkidle" });
@@ -107,6 +109,8 @@ test.describe("Export and Import: your data as a file", () => {
       storageState: { cookies: [], origins: [] },
     });
     const second = await other.newPage();
+
+    await passTrainerStep(second);
 
     try {
       await startPlay(second, {

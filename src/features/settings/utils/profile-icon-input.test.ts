@@ -7,9 +7,19 @@ describe("profile icon input", () => {
     expect(parseProfileIconInput("2500")).toEqual({ formId: 2500, ok: true });
   });
 
-  it("reads an empty field as no icon", () => {
-    expect(parseProfileIconInput("")).toEqual({ formId: null, ok: true });
-    expect(parseProfileIconInput(null)).toEqual({ formId: null, ok: true });
+  it("refuses an empty field: every trainer has an icon", () => {
+    expect(parseProfileIconInput("")).toEqual({
+      message: "Pick an icon.",
+      ok: false,
+    });
+    expect(parseProfileIconInput(null)).toEqual({
+      message: "Pick an icon.",
+      ok: false,
+    });
+    expect(parseProfileIconInput("  ")).toEqual({
+      message: "Pick an icon.",
+      ok: false,
+    });
   });
 
   it("refuses anything that isn't a form id", () => {

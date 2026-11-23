@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "../support/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
@@ -33,7 +33,7 @@ test.describe("Play header edits", () => {
   test("changes status, trainer and playtime from the header", async ({
     page,
   }) => {
-    const trainer = `Gary ${Date.now()}`;
+    const trainer = `Gary ${Date.now() % 100_000}`;
     const { head, playId } = await startBluePlay(page, "Header run");
 
     /* Status: every option is listed, and a change joins History. */
@@ -52,8 +52,8 @@ test.describe("Play header edits", () => {
       forTheAnswer,
     );
 
-    /* Trainer: typed in. */
-    await head.getByRole("button", { name: "Add trainer" }).click();
+    /* Trainer: a new Play starts with yours (Ash), then typed in. */
+    await head.getByRole("button", { name: "Trainer Ash" }).click();
     const trainerDialog = page.getByRole("dialog", { name: "Trainer name" });
 
     await trainerDialog
@@ -112,10 +112,10 @@ test.describe("Play header edits", () => {
   test("offers trainer names from other Plays and nothing else", async ({
     page,
   }) => {
-    const trainer = `Ash ${Date.now()}`;
+    const trainer = `Ash ${Date.now() % 100_000}`;
     const first = await startBluePlay(page, "Trainer source");
 
-    await first.head.getByRole("button", { name: "Add trainer" }).click();
+    await first.head.getByRole("button", { name: "Trainer Ash" }).click();
     await page
       .getByRole("dialog", { name: "Trainer name" })
       .getByRole("textbox", { name: "Trainer name" })
@@ -124,7 +124,7 @@ test.describe("Play header edits", () => {
 
     const second = await startBluePlay(page, "Trainer pick");
 
-    await second.head.getByRole("button", { name: "Add trainer" }).click();
+    await second.head.getByRole("button", { name: "Trainer Ash" }).click();
     const dialog = page.getByRole("dialog", { name: "Trainer name" });
     const pick = dialog.getByRole("button", { name: trainer });
 

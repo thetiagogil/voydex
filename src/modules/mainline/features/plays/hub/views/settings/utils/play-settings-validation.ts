@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
 import { isCalendarDay } from "@/shared/utils/calendar-day";
 import { parseInput } from "@/shared/utils/input-schemas";
 
@@ -53,6 +54,8 @@ const wholeNumberSchema = (label: string, maximum: number) => {
     );
 };
 
+const trainerNameTooLong = `A trainer name can be ${TRAINER_NAME_MAX_LENGTH} characters at most.`;
+
 const playGeneralSettingsSchema = (allowedStatusIds: readonly number[]) =>
   z.object({
     name: z
@@ -61,9 +64,9 @@ const playGeneralSettingsSchema = (allowedStatusIds: readonly number[]) =>
       .min(1, { error: "Give the Play a name." })
       .max(200, { error: "A Play's name can be 200 characters at most." }),
     trainerName: z
-      .string({ error: "A trainer name can be 120 characters at most." })
+      .string({ error: trainerNameTooLong })
       .trim()
-      .max(120, { error: "A trainer name can be 120 characters at most." }),
+      .max(TRAINER_NAME_MAX_LENGTH, { error: trainerNameTooLong }),
     startedOn: z
       .string({ error: "Pick the day the Play started." })
       .trim()
@@ -81,7 +84,7 @@ const playGeneralSettingsSchema = (allowedStatusIds: readonly number[]) =>
 
 /*
  * The General section as the database takes it: a name of 1 to 200
- * characters, an optional trainer name of up to 120, an optional calendar
+ * characters, an optional trainer name of up to 12 (as in the games), an optional calendar
  * day, playtime as hours and minutes (both empty means not recorded) and one
  * of the given statuses.
  */
