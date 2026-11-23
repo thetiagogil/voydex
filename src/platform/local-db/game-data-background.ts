@@ -8,18 +8,28 @@ import {
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
+import { movePageReadRevision } from "@/platform/local-db/page-reads";
 import { isStorageFullError } from "@/platform/local-db/prepare-device";
 
 /*
  * The games this device should have before anyone waits for them, downloaded
- * one at a time in the background: the games of your Plays and Plans, and
- * the learnsets of every game already on the device. Each file goes in on
- * its own, so a run cut short keeps what it finished and the next run picks
- * up the rest. It never swaps the device's game data for a newer release;
- * that waits for the update when the app opens or a game is downloaded.
+ * one at a time in the background: the games of your Plays and Plans with
+ * their learnsets, then every other game, so New Play and the Team Planner
+ * work offline for any game. Those spare games come without learnsets:
+ * learnsets are most of what a game weighs on the device (about 150 MB for
+ * all of them), so a game's follow it once it is in use. Each file goes in
+ * on its own, so a run cut short keeps what it finished and the next run
+ * picks up the rest. It never swaps the device's game data for a newer
+ * release; that waits for the update when the app opens or a game is
+ * downloaded.
  */
 
-export type BackgroundDownload = { file: "game" | "learnsets"; slug: string };
+export type BackgroundDownload = {
+  file: "game" | "learnsets";
+  slug: string;
+  /* A game no Play or Plan uses; no screen reads it yet. */
+  spare?: true;
+};
 
 export type BackgroundDownloadResult = {
   done: BackgroundDownload[];
@@ -54,38 +64,56 @@ export const readWantedVersionGroups = async (db: LocalDb) =>
     await runQuery<{ version_group_id: number }>(db, wantedVersionGroupsSql)
   ).map((row) => row.version_group_id);
 
+export type BackgroundPlanOptions = {
+  /* Every other game too, without its learnsets (false on a metered connection). */
+  everyGame?: boolean;
+  /* Version groups wanted besides Plays and Plans: games opened this visit. */
+  alsoWanted?: number[];
+};
+
 /*
- * What to download, in order: the missing learnsets of games already on the
- * device (they are in use), then each wanted game the device doesn't have,
- * followed by its learnsets. A version group the list doesn't have is left
- * out; New Play says so when it is picked.
+ * What to download, in order: the missing learnsets of wanted games already
+ * on the device, then each wanted game the device doesn't have, followed by
+ * its learnsets, then (`everyGame`) each other game, without learnsets. A
+ * version group the list doesn't have is left out; New Play says so when it
+ * is picked.
  */
 export const planBackgroundDownloads = (
   versions: GameDataVersions,
   installed: Map<string, string>,
   wantedVersionGroupIds: number[],
+  { everyGame = false }: Pick<BackgroundPlanOptions, "everyGame"> = {},
 ): BackgroundDownload[] => {
+  const wanted = [
+    ...new Set(
+      wantedVersionGroupIds.flatMap(
+        (versionGroupId) => findGameData(versions, versionGroupId) ?? [],
+      ),
+    ),
+  ];
   const downloads: BackgroundDownload[] = [];
-  const planned = new Set<string>();
 
-  for (const game of versions.games) {
+  for (const game of wanted) {
     if (installed.has(game.data.name) && !installed.has(game.learnsets.name)) {
       downloads.push({ file: "learnsets", slug: game.slug });
     }
   }
 
-  for (const versionGroupId of wantedVersionGroupIds) {
-    const game = findGameData(versions, versionGroupId);
+  for (const game of wanted) {
+    if (installed.has(game.data.name)) continue;
 
-    if (!game || planned.has(game.slug) || installed.has(game.data.name)) {
-      continue;
-    }
-
-    planned.add(game.slug);
     downloads.push(
       { file: "game", slug: game.slug },
       { file: "learnsets", slug: game.slug },
     );
+  }
+
+  if (everyGame) {
+    for (const game of versions.games) {
+      if (wanted.includes(game) || installed.has(game.data.name)) continue;
+
+      downloads.push({ file: "game", slug: game.slug, spare: true });
+    }
   }
 
   return downloads;
@@ -95,18 +123,20 @@ export const planBackgroundDownloads = (
 export const readBackgroundDownloads = async (
   db: LocalDb,
   versions: GameDataVersions,
+  { alsoWanted = [], everyGame }: BackgroundPlanOptions = {},
 ) =>
   planBackgroundDownloads(
     versions,
     await readInstalledGameData(db),
-    await readWantedVersionGroups(db),
+    [...(await readWantedVersionGroups(db)), ...alsoWanted],
+    { everyGame },
   );
 
 /* One download's key, to remember it failed. */
 export const backgroundDownloadKey = ({ file, slug }: BackgroundDownload) =>
   `${slug}:${file}`;
 
-export type BackgroundDownloadOptions = {
+export type BackgroundDownloadOptions = BackgroundPlanOptions & {
   /* Runs before each download, to give way to one someone waits for. */
   beforeEach?: () => Promise<void>;
   download?: DownloadGameDataFile;
@@ -119,24 +149,39 @@ export type BackgroundDownloadOptions = {
 
 export const runBackgroundDownloads = async (
   db: LocalDb,
-  {
-    beforeEach,
-    download,
-    shouldStop = () => false,
-    skip = () => false,
-    versions,
-  }: BackgroundDownloadOptions,
+  options: BackgroundDownloadOptions,
 ): Promise<BackgroundDownloadResult> => {
   const result: BackgroundDownloadResult = {
     done: [],
     failed: [],
     status: "done",
   };
+
+  try {
+    return await runDownloads(db, result, options);
+  } finally {
+    /* Spare games go in quietly; the screens hear of them once. */
+    if (result.done.some((item) => item.spare)) movePageReadRevision();
+  }
+};
+
+const runDownloads = async (
+  db: LocalDb,
+  result: BackgroundDownloadResult,
+  {
+    beforeEach,
+    download,
+    shouldStop = () => false,
+    skip = () => false,
+    versions,
+    ...plan
+  }: BackgroundDownloadOptions,
+): Promise<BackgroundDownloadResult> => {
   if (isGameDataOutdated(await readInstalledGameData(db), versions)) {
     return { ...result, status: "waiting-for-update" };
   }
 
-  const downloads = (await readBackgroundDownloads(db, versions)).filter(
+  const downloads = (await readBackgroundDownloads(db, versions, plan)).filter(
     (item) => !skip(item),
   );
   const failedGames = new Set<string>();
@@ -154,7 +199,7 @@ export const runBackgroundDownloads = async (
           db,
           item.slug,
           { download, versions },
-          { update: false },
+          { quiet: item.spare, update: false },
         );
       } else {
         await installGameLearnsets(db, item.slug, { download, versions });

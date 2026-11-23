@@ -195,23 +195,37 @@ follow (see [Release Checks](#release-checks)).
 anyone waits for them; `watchBackgroundDownloads` (in `game-downloads.ts`)
 starts it from the device gate.
 
-- What: the missing learnsets of games already on the device, then the
-  games of your Plays (open ones first), Plans and archived Plays, each with
-  its learnsets. That covers a Play or Plan whose game isn't on the device
-  (restored or synced while offline) and learnsets that didn't finish.
+- What: the missing learnsets of the games in use, then the games of your
+  Plays (open ones first), Plans and archived Plays, each with its
+  learnsets, then every other game, without learnsets. That covers a Play
+  or Plan whose game isn't on the device (restored or synced while
+  offline), learnsets that didn't finish, and New Play or the Planner on a
+  game never opened, offline. "In use" also counts a game a screen opened
+  this visit (New Play, the Planner).
+- Why no learnsets for the rest: every game's file together adds about
+  28 MB to the device database, but every game's learnsets add about
+  150 MB (two thirds of it indexes), and the device database lives in
+  memory while the app is open. A game's learnsets come once it is in use.
 - When: 3 seconds after the app opens, 3 seconds after the last of a run of
   saves, and when the connection comes back. A run only asks for the version
   list when the device is missing something by the one it knows.
 - How: one file at a time, each in its own transaction, so a run cut short
   keeps what it finished and the next run picks up the rest. Before each
   file it waits for any download someone is waiting for (New Play, the
-  Planner), and stops when the browser goes offline. A file that fails (or
+  Planner) and for a quiet moment on the page, asks the browser for a low
+  priority, and stops when the browser goes offline or data saver comes
+  on. The other games go in without telling the screens one by one: no
+  screen reads them yet, so the run says once, at its end, that the data
+  changed. A file that fails (or
   takes over two minutes) is left out, with its game's learnsets, until the
   connection comes back or the app opens anew; a full device stops the
   background for the visit. It brings its own version list, so a release
   that came out during the visit still waits for its update.
 - Learnsets a game download starts right after the game count as waited
   for too, so the background never fetches the same file beside them.
+- Only the games in use on mobile data or a 2G connection, where the
+  browser says so (Chrome); Safari doesn't, so an iPhone on mobile data
+  brings every game (about 1.7 MB).
 - Never: offline, on data saver, in two tabs at once (tabs take turns with a
   Web Lock), or on a device from another release than the list's: the swap
   stays with the update on opening or a game download.
