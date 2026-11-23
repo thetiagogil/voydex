@@ -149,7 +149,6 @@ describe("play browse model", () => {
       buildPlay({ status_name: "Not started", status_slug: "not_started" }),
       buildPlay({ status_name: "Completed", status_slug: "completed" }),
       buildPlay({ status_name: "Playing", status_slug: "playing" }),
-      buildPlay({ status_name: null, status_slug: null }),
     ]).statuses.map((option) => option.value);
 
     expect(statuses).toEqual([

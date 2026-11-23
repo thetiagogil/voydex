@@ -42,7 +42,7 @@ describe("settleCodexExtra", () => {
 });
 
 describe("toCodexPlays", () => {
-  it("labels each Play by its game's short name and drops rows with no id", () => {
+  it("labels each Play by its game's short name", () => {
     expect(
       toCodexPlays([
         {
@@ -53,15 +53,6 @@ describe("toCodexPlays", () => {
           status_name: "Playing",
           status_slug: "playing",
           version_group_slug: "sword-shield",
-        },
-        {
-          game_name: null,
-          game_slug: null,
-          play_id: null,
-          play_name: null,
-          status_name: null,
-          status_slug: null,
-          version_group_slug: null,
         },
       ]),
     ).toEqual([

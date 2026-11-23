@@ -1709,7 +1709,7 @@ describe("buildPlayStoryMatchups", () => {
     expect(
       buildPlayStoryMatchups({
         generation: null,
-        play: { game_id: 1, generation_id: null, version_group_id: 1 },
+        play: { game_id: 1, generation_id: 1, version_group_id: 1 },
         storyRows: {} as StoryMatchupsRows,
         teamRows: { members: [], types } as never,
       }),

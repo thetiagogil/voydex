@@ -56,9 +56,9 @@ describe("play browse display", () => {
     expect(
       getPlayCardEyebrow({ game_name: "Pokémon Violet", regionName: "Paldea" }),
     ).toBe("Pokémon Violet · Paldea");
-    expect(getPlayCardEyebrow({ game_name: null, regionName: null })).toBe(
-      "Unknown game",
-    );
+    expect(
+      getPlayCardEyebrow({ game_name: "Pokémon Violet", regionName: null }),
+    ).toBe("Pokémon Violet");
   });
 
   it("reads the story position as the card shows it", () => {

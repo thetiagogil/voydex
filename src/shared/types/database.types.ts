@@ -5539,7 +5539,7 @@ export type Database = {
           total_play_count: number | null;
           used_form_count: number | null;
           used_species_count: number | null;
-          user_id: string | null;
+          user_id: string;
         };
         ComputedFields: never;
         Insert: {
@@ -5569,27 +5569,27 @@ export type Database = {
       mainline_play_collectible_detail: {
         Row: {
           collected_at: string | null;
-          collectible_entry_id: number | null;
-          collectible_entry_name: string | null;
-          collectible_entry_slug: string | null;
-          collectible_entry_sort_order: number | null;
-          collectible_id: number | null;
-          collectible_name: string | null;
-          collectible_slug: string | null;
-          collectible_type_id: number | null;
-          collectible_type_name: string | null;
-          collectible_type_slug: string | null;
+          collectible_entry_id: number;
+          collectible_entry_name: string;
+          collectible_entry_slug: string;
+          collectible_entry_sort_order: number;
+          collectible_id: number;
+          collectible_name: string;
+          collectible_slug: string;
+          collectible_type_id: number;
+          collectible_type_name: string;
+          collectible_type_slug: string;
           collectibles_tracking_enabled: boolean | null;
           description: string | null;
           game_id: number | null;
           is_collected: boolean | null;
           is_included_in_completion: boolean | null;
-          is_required_for_completion: boolean | null;
+          is_required_for_completion: boolean;
           location_label: string | null;
-          play_id: string | null;
+          play_id: string;
           sub_location_label: string | null;
-          user_id: string | null;
-          version_group_id: number | null;
+          user_id: string;
+          version_group_id: number;
         };
         ComputedFields: never;
         Relationships: [
@@ -5618,14 +5618,14 @@ export type Database = {
           completed_required_milestone_count: number | null;
           milestone_completion_percent: number | null;
           overall_completion_percent: number | null;
-          play_id: string | null;
+          play_id: string;
           pokedex_completion_percent: number | null;
           required_collectible_entry_count: number | null;
           required_milestone_count: number | null;
           required_pokedex_species_count: number | null;
           seen_required_pokedex_species_count: number | null;
           total_completion_unit_count: number | null;
-          user_id: string | null;
+          user_id: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -5648,11 +5648,11 @@ export type Database = {
       mainline_play_milestone_category_summary: {
         Row: {
           all_milestone_completion_percent: number | null;
-          category_id: number | null;
-          category_kind: string | null;
-          category_name: string | null;
-          category_slug: string | null;
-          category_sort_order: number | null;
+          category_id: number;
+          category_kind: string;
+          category_name: string;
+          category_slug: string;
+          category_sort_order: number;
           chapter_kind: string | null;
           completed_milestone_count: number | null;
           completed_optional_milestone_count: number | null;
@@ -5660,19 +5660,19 @@ export type Database = {
           completion_scope: string | null;
           content_scope_sort_order: number | null;
           game_id: number | null;
-          game_name: string | null;
-          game_slug: string | null;
-          is_open_world: boolean | null;
+          game_name: string;
+          game_slug: string;
+          is_open_world: boolean;
           milestone_count: number | null;
           optional_milestone_count: number | null;
           play_id: string | null;
-          plays_in_any_order: boolean | null;
+          plays_in_any_order: boolean;
           required_milestone_completion_percent: number | null;
           required_milestone_count: number | null;
           user_id: string | null;
           version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [];
@@ -5680,11 +5680,11 @@ export type Database = {
       mainline_play_milestone_detail: {
         Row: {
           badge_refs: Json | null;
-          category_id: number | null;
-          category_kind: string | null;
-          category_name: string | null;
-          category_slug: string | null;
-          category_sort_order: number | null;
+          category_id: number;
+          category_kind: string;
+          category_name: string;
+          category_slug: string;
+          category_sort_order: number;
           collectible_refs: Json | null;
           completed_at: string | null;
           completion_event_happened_at: string | null;
@@ -5696,34 +5696,34 @@ export type Database = {
           game_id: number | null;
           is_completed: boolean | null;
           is_included_in_completion: boolean | null;
-          is_required_for_completion: boolean | null;
+          is_required_for_completion: boolean;
           location_id: number | null;
           location_name: string | null;
           milestone_game_name: string | null;
           milestone_game_slug: string | null;
-          milestone_id: number | null;
-          milestone_name: string | null;
-          milestone_slug: string | null;
-          milestone_type_id: number | null;
-          milestone_type_name: string | null;
-          milestone_type_slug: string | null;
+          milestone_id: number;
+          milestone_name: string;
+          milestone_slug: string;
+          milestone_type_id: number;
+          milestone_type_name: string;
+          milestone_type_slug: string;
           opponent_refs: Json | null;
           parent_milestone_id: number | null;
-          play_id: string | null;
+          play_id: string;
           pokemon_refs: Json | null;
           prerequisites: Json | null;
           progress_notes: string | null;
           selected_decision_option_id: number | null;
           selected_decision_option_label: string | null;
           selected_decision_option_slug: string | null;
-          snapshot_policy_id: number | null;
-          snapshot_policy_name: string | null;
-          snapshot_policy_slug: string | null;
-          sort_order: number | null;
-          user_id: string | null;
-          version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          snapshot_policy_id: number;
+          snapshot_policy_name: string;
+          snapshot_policy_slug: string;
+          sort_order: number;
+          user_id: string;
+          version_group_id: number;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -5763,13 +5763,13 @@ export type Database = {
           completed_milestone_count: number | null;
           completed_on: string | null;
           completed_required_milestone_count: number | null;
-          created_at: string | null;
-          game_id: number | null;
-          game_name: string | null;
-          game_slug: string | null;
-          generation_id: number | null;
-          generation_name: string | null;
-          generation_slug: string | null;
+          created_at: string;
+          game_id: number;
+          game_name: string;
+          game_slug: string;
+          generation_id: number;
+          generation_name: string;
+          generation_slug: string;
           historical_pokemon_count: number | null;
           include_collectibles_in_completion: boolean | null;
           include_optional_pokedex_entries_in_completion: boolean | null;
@@ -5779,8 +5779,8 @@ export type Database = {
           milestone_completion_percent: number | null;
           optional_content_scopes: Json | null;
           overall_completion_percent: number | null;
-          play_id: string | null;
-          play_name: string | null;
+          play_id: string;
+          play_name: string;
           playtime_minutes: number | null;
           pokedex_caught_count: number | null;
           pokedex_completion_percent: number | null;
@@ -5793,18 +5793,18 @@ export type Database = {
           reserve_team_count: number | null;
           seen_required_pokedex_species_count: number | null;
           started_on: string | null;
-          status_id: number | null;
-          status_name: string | null;
-          status_slug: string | null;
+          status_id: number;
+          status_name: string;
+          status_slug: string;
           story_tracking_enabled: boolean | null;
           timeline_event_count: number | null;
           total_completion_unit_count: number | null;
           trainer_name: string | null;
-          updated_at: string | null;
-          user_id: string | null;
-          version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          updated_at: string;
+          user_id: string;
+          version_group_id: number;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -5831,24 +5831,24 @@ export type Database = {
           display_form_name: string | null;
           display_form_slug: string | null;
           is_caught: boolean | null;
-          is_completion_relevant: boolean | null;
+          is_completion_relevant: boolean;
           is_included_in_completion: boolean | null;
-          is_mythical: boolean | null;
+          is_mythical: boolean;
           is_optional_pokedex_scope: boolean | null;
           is_seen: boolean | null;
-          is_source_required_for_completion: boolean | null;
-          national_number: number | null;
-          play_id: string | null;
-          pokedex_id: number | null;
-          pokedex_kind: string | null;
-          pokedex_name: string | null;
-          pokedex_number: number | null;
-          pokedex_slug: string | null;
+          is_source_required_for_completion: boolean;
+          national_number: number;
+          play_id: string;
+          pokedex_id: number;
+          pokedex_kind: string;
+          pokedex_name: string;
+          pokedex_number: number;
+          pokedex_slug: string;
           seen_at: string | null;
-          species_id: number | null;
-          species_name: string | null;
-          species_slug: string | null;
-          user_id: string | null;
+          species_id: number;
+          species_name: string;
+          species_slug: string;
+          user_id: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -5875,32 +5875,32 @@ export type Database = {
           collected_entry_count: number | null;
           completed_milestone_count: number | null;
           completed_on: string | null;
-          created_at: string | null;
-          game_id: number | null;
-          game_name: string | null;
-          game_slug: string | null;
-          generation_id: number | null;
-          generation_name: string | null;
-          generation_slug: string | null;
+          created_at: string;
+          game_id: number;
+          game_name: string;
+          game_slug: string;
+          generation_id: number;
+          generation_name: string;
+          generation_slug: string;
           historical_pokemon_count: number | null;
           last_opened_at: string | null;
-          play_id: string | null;
-          play_name: string | null;
+          play_id: string;
+          play_name: string;
           playtime_minutes: number | null;
           pokedex_caught_count: number | null;
           pokedex_seen_count: number | null;
           reserve_team_count: number | null;
           started_on: string | null;
-          status_id: number | null;
-          status_name: string | null;
-          status_slug: string | null;
+          status_id: number;
+          status_name: string;
+          status_slug: string;
           timeline_event_count: number | null;
           trainer_name: string | null;
-          updated_at: string | null;
-          user_id: string | null;
-          version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          updated_at: string;
+          user_id: string;
+          version_group_id: number;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -5926,44 +5926,44 @@ export type Database = {
           ability_name: string | null;
           ball_item_id: number | null;
           ball_item_name: string | null;
-          created_at: string | null;
-          evolution_family_id: number | null;
+          created_at: string;
+          evolution_family_id: number;
           final_status: string | null;
           fixed_tera_type_id: number | null;
           fixed_tera_type_name: string | null;
           fixed_tera_type_slug: string | null;
-          form_id: number | null;
-          form_name: string | null;
-          form_slug: string | null;
-          gender: string | null;
-          has_gigantamax_factor: boolean | null;
+          form_id: number;
+          form_name: string;
+          form_slug: string;
+          gender: string;
+          has_gigantamax_factor: boolean;
           held_item_id: number | null;
           held_item_name: string | null;
-          is_default_form: boolean | null;
-          is_mvp: boolean | null;
-          is_shiny: boolean | null;
+          is_default_form: boolean;
+          is_mvp: boolean;
+          is_shiny: boolean;
           level: number | null;
           met_level: number | null;
           met_location_label: string | null;
           moves: Json | null;
-          national_number: number | null;
+          national_number: number;
           nature_id: number | null;
           nature_name: string | null;
           nickname: string | null;
           personal_notes: string | null;
-          play_id: string | null;
-          play_pokemon_id: string | null;
-          roster_state_id: number | null;
-          roster_state_name: string | null;
-          roster_state_slug: string | null;
+          play_id: string;
+          play_pokemon_id: string;
+          roster_state_id: number;
+          roster_state_name: string;
+          roster_state_slug: string;
           slot: number | null;
-          species_id: number | null;
-          species_name: string | null;
-          species_slug: string | null;
+          species_id: number;
+          species_name: string;
+          species_slug: string;
           tera_type_id: number | null;
           tera_type_name: string | null;
           tera_type_slug: string | null;
-          updated_at: string | null;
+          updated_at: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -6013,14 +6013,14 @@ export type Database = {
       };
       mainline_play_team_plan_detail: {
         Row: {
-          created_from_plan: boolean | null;
-          game_id: number | null;
-          game_name: string | null;
-          game_slug: string | null;
-          generation_id: number | null;
-          generation_name: string | null;
-          generation_slug: string | null;
-          linked_plan_at: string | null;
+          created_from_plan: boolean;
+          game_id: number;
+          game_name: string;
+          game_slug: string;
+          generation_id: number;
+          generation_name: string;
+          generation_slug: string;
+          linked_plan_at: string;
           linked_play_count: number | null;
           planned_ability_id: number | null;
           planned_ability_name: string | null;
@@ -6030,8 +6030,8 @@ export type Database = {
           planned_moves: Json | null;
           planned_nature_id: number | null;
           planned_nature_name: string | null;
-          play_id: string | null;
-          play_plan_link_id: string | null;
+          play_id: string;
+          play_plan_link_id: string;
           slot: number | null;
           target_evolution_family_id: number | null;
           target_form_id: number | null;
@@ -6041,19 +6041,19 @@ export type Database = {
           target_species_id: number | null;
           target_species_name: string | null;
           target_species_slug: string | null;
-          team_plan_id: string | null;
+          team_plan_id: string;
           team_plan_member_id: string | null;
           team_plan_member_notes: string | null;
-          team_plan_name: string | null;
+          team_plan_name: string;
           team_plan_notes: string | null;
-          team_plan_status_id: number | null;
-          team_plan_status_name: string | null;
-          team_plan_status_slug: string | null;
-          team_plan_updated_at: string | null;
-          user_id: string | null;
-          version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          team_plan_status_id: number;
+          team_plan_status_name: string;
+          team_plan_status_slug: string;
+          team_plan_updated_at: string;
+          user_id: string;
+          version_group_id: number;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -6093,26 +6093,26 @@ export type Database = {
       mainline_play_timeline_detail: {
         Row: {
           body: string | null;
-          created_at: string | null;
-          event_id: string | null;
-          event_origin_id: number | null;
-          event_origin_name: string | null;
-          event_origin_slug: string | null;
-          event_type_id: number | null;
-          event_type_name: string | null;
-          event_type_slug: string | null;
+          created_at: string;
+          event_id: string;
+          event_origin_id: number;
+          event_origin_name: string;
+          event_origin_slug: string;
+          event_type_id: number;
+          event_type_name: string;
+          event_type_slug: string;
           happened_at: string | null;
-          is_pinned: boolean | null;
+          is_pinned: boolean;
           milestone_description: string | null;
           milestone_id: number | null;
           milestone_name: string | null;
           milestone_slug: string | null;
-          play_id: string | null;
+          play_id: string;
           pokemon_refs: Json | null;
           team_snapshots: Json | null;
-          timeline_order: number | null;
-          title: string | null;
-          updated_at: string | null;
+          timeline_order: number;
+          title: string;
+          updated_at: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -6178,7 +6178,7 @@ export type Database = {
           total_team_plan_count: number | null;
           used_form_count: number | null;
           used_species_count: number | null;
-          user_id: string | null;
+          user_id: string;
         };
         ComputedFields: never;
         Insert: {
@@ -6211,7 +6211,7 @@ export type Database = {
         Row: {
           ability_id: number | null;
           ability_name: string | null;
-          created_at: string | null;
+          created_at: string;
           gender: string | null;
           held_item_id: number | null;
           held_item_name: string | null;
@@ -6219,19 +6219,19 @@ export type Database = {
           nature_id: number | null;
           nature_name: string | null;
           notes: string | null;
-          slot: number | null;
-          target_evolution_family_id: number | null;
-          target_form_id: number | null;
-          target_form_name: string | null;
-          target_form_slug: string | null;
-          target_national_number: number | null;
-          target_species_id: number | null;
-          target_species_name: string | null;
-          target_species_slug: string | null;
-          team_plan_id: string | null;
-          team_plan_member_id: string | null;
-          updated_at: string | null;
-          user_id: string | null;
+          slot: number;
+          target_evolution_family_id: number;
+          target_form_id: number;
+          target_form_name: string;
+          target_form_slug: string;
+          target_national_number: number;
+          target_species_id: number;
+          target_species_name: string;
+          target_species_slug: string;
+          team_plan_id: string;
+          team_plan_member_id: string;
+          updated_at: string;
+          user_id: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -6260,28 +6260,28 @@ export type Database = {
       };
       mainline_team_plan_summary: {
         Row: {
-          created_at: string | null;
-          game_id: number | null;
-          game_name: string | null;
-          game_slug: string | null;
-          generation_id: number | null;
-          generation_name: string | null;
-          generation_slug: string | null;
-          is_either_version: boolean | null;
+          created_at: string;
+          game_id: number;
+          game_name: string;
+          game_slug: string;
+          generation_id: number;
+          generation_name: string;
+          generation_slug: string;
+          is_either_version: boolean;
           linked_play_count: number | null;
           member_count: number | null;
           notes: string | null;
           optional_content_scope_count: number | null;
-          status_id: number | null;
-          status_name: string | null;
-          status_slug: string | null;
-          team_plan_id: string | null;
-          team_plan_name: string | null;
-          updated_at: string | null;
-          user_id: string | null;
-          version_group_id: number | null;
-          version_group_name: string | null;
-          version_group_slug: string | null;
+          status_id: number;
+          status_name: string;
+          status_slug: string;
+          team_plan_id: string;
+          team_plan_name: string;
+          updated_at: string;
+          user_id: string;
+          version_group_id: number;
+          version_group_name: string;
+          version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [
@@ -6305,10 +6305,10 @@ export type Database = {
         Row: {
           depth: number | null;
           included_version_group_id: number | null;
-          included_version_group_slug: string | null;
+          included_version_group_slug: string;
           resolution_order: number | null;
           target_version_group_id: number | null;
-          target_version_group_slug: string | null;
+          target_version_group_slug: string;
         };
         ComputedFields: never;
         Relationships: [];
@@ -6316,12 +6316,12 @@ export type Database = {
       reference_resolved_item_availability: {
         Row: {
           availability_method_id: number | null;
-          created_at: string | null;
+          created_at: string;
           game_id: number | null;
-          id: number | null;
-          item_id: number | null;
+          id: number;
+          item_id: number;
           notes: string | null;
-          source_version_group_id: number | null;
+          source_version_group_id: number;
           target_version_group_id: number | null;
         };
         ComputedFields: never;
@@ -6329,11 +6329,11 @@ export type Database = {
       };
       reference_resolved_move_availability: {
         Row: {
-          created_at: string | null;
+          created_at: string;
           game_id: number | null;
-          id: number | null;
-          move_id: number | null;
-          source_version_group_id: number | null;
+          id: number;
+          move_id: number;
+          source_version_group_id: number;
           target_version_group_id: number | null;
         };
         ComputedFields: never;
@@ -6341,14 +6341,14 @@ export type Database = {
       };
       reference_resolved_move_machines: {
         Row: {
-          created_at: string | null;
+          created_at: string;
           game_id: number | null;
-          id: number | null;
-          learn_method_id: number | null;
-          machine_label: string | null;
-          move_id: number | null;
-          sort_order: number | null;
-          source_version_group_id: number | null;
+          id: number;
+          learn_method_id: number;
+          machine_label: string;
+          move_id: number;
+          sort_order: number;
+          source_version_group_id: number;
           target_version_group_id: number | null;
         };
         ComputedFields: never;
@@ -6356,14 +6356,14 @@ export type Database = {
       };
       reference_resolved_pokemon_availability: {
         Row: {
-          availability_method_id: number | null;
-          created_at: string | null;
-          form_id: number | null;
+          availability_method_id: number;
+          created_at: string;
+          form_id: number;
           game_id: number | null;
-          id: number | null;
+          id: number;
           notes: string | null;
-          source_version_group_id: number | null;
-          species_id: number | null;
+          source_version_group_id: number;
+          species_id: number;
           target_version_group_id: number | null;
         };
         ComputedFields: never;
@@ -6372,19 +6372,19 @@ export type Database = {
       reference_resolved_pokemon_learnsets: {
         Row: {
           condition_summary: string | null;
-          created_at: string | null;
-          form_id: number | null;
+          created_at: string;
+          form_id: number;
           game_id: number | null;
-          id: number | null;
-          learn_method_id: number | null;
+          id: number;
+          learn_method_id: number;
           level_learned_at: number | null;
           machine_label: string | null;
-          move_id: number | null;
+          move_id: number;
           move_machine_id: number | null;
-          sort_order: number | null;
+          sort_order: number;
           source_item_id: number | null;
-          source_version_group_id: number | null;
-          species_id: number | null;
+          source_version_group_id: number;
+          species_id: number;
           target_version_group_id: number | null;
         };
         ComputedFields: never;
@@ -6422,12 +6422,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals;
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -6449,13 +6449,12 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -6474,13 +6473,12 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -6499,13 +6497,12 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -6518,11 +6515,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }

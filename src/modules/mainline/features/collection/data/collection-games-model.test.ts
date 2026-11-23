@@ -77,7 +77,6 @@ describe("buildCollectionGames", () => {
       play("c", "gold", { archived_at: "2026-01-01" }),
       play("d", null),
       play("e", "unknown-game"),
-      play("f", "red", { play_id: null }),
     ]);
 
     expect(listPlays(result)).toEqual([
