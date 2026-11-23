@@ -99,24 +99,39 @@ describe("saveProfileAction", () => {
     });
   });
 
-  it("clears what was emptied", async () => {
-    await saveProfileAction(
-      idle,
-      form({ defaultTrainerName: " ", displayName: "", iconFormId: "" }),
-    );
+  it.each([
+    [
+      "display name",
+      { defaultTrainerName: "Red", displayName: " ", iconFormId: "700" },
+      "Type a display name.",
+    ],
+    [
+      "trainer name",
+      { defaultTrainerName: "", displayName: "Ash", iconFormId: "700" },
+      "Type a trainer name.",
+    ],
+    [
+      "icon",
+      { defaultTrainerName: "Red", displayName: "Ash", iconFormId: "" },
+      "Pick an icon.",
+    ],
+  ])(
+    "never empties the %s, without saving",
+    async (_field, fields, message) => {
+      const result = await saveProfileAction(idle, form(fields));
 
-    expect(updates).toEqual([
-      { default_trainer_name: null, display_name: null, icon_form_id: null },
-    ]);
-  });
+      expect(result).toEqual({ message, status: "error" });
+      expect(updates).toEqual([]);
+    },
+  );
 
   it("refuses a name that is too long, without saving", async () => {
     const result = await saveProfileAction(
       idle,
       form({
-        defaultTrainerName: "a".repeat(121),
+        defaultTrainerName: "a".repeat(13),
         displayName: "Ash",
-        iconFormId: "",
+        iconFormId: "700",
       }),
     );
 
@@ -129,7 +144,11 @@ describe("saveProfileAction", () => {
 
     const result = await saveProfileAction(
       idle,
-      form({ defaultTrainerName: "", displayName: "", iconFormId: "600" }),
+      form({
+        defaultTrainerName: "Red",
+        displayName: "Ash",
+        iconFormId: "600",
+      }),
     );
 
     expect(result).toEqual({
@@ -144,7 +163,11 @@ describe("saveProfileAction", () => {
 
     const result = await saveProfileAction(
       idle,
-      form({ defaultTrainerName: "", displayName: "", iconFormId: "700" }),
+      form({
+        defaultTrainerName: "Red",
+        displayName: "Ash",
+        iconFormId: "700",
+      }),
     );
 
     expect(result).toEqual({
@@ -159,7 +182,11 @@ describe("saveProfileAction", () => {
 
     const result = await saveProfileAction(
       idle,
-      form({ defaultTrainerName: "", displayName: "Ash", iconFormId: "" }),
+      form({
+        defaultTrainerName: "Red",
+        displayName: "Ash",
+        iconFormId: "700",
+      }),
     );
 
     expect(result.status).toBe("error");
@@ -171,7 +198,11 @@ describe("saveProfileAction", () => {
 
     const result = await saveProfileAction(
       idle,
-      form({ defaultTrainerName: "", displayName: "Ash", iconFormId: "" }),
+      form({
+        defaultTrainerName: "Red",
+        displayName: "Ash",
+        iconFormId: "700",
+      }),
     );
 
     expect(result.status).toBe("error");

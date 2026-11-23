@@ -15,9 +15,25 @@ password and Choose a new password are their own routes
 ([Navigation And Routes](../navigation-and-routes.md)). **There is no Sign
 up for now** (2026-11-18): Voydex makes no new accounts, so the app has no
 Sign up screen, no Check your email and no confirmation email, and Settings'
-Account row and the Privacy policy say so. Logging in lands on Home with no
-step in between: your name and icon are on the trainer card in Settings, and
-New Play asks for the trainer name.
+Account row and the Privacy policy say so. Logging in lands on Home, or on
+the trainer step first when the account has no trainer yet.
+
+**The trainer step** (2026-11-23): every trainer has a display name, a
+default trainer name and a Pokémon icon, on the device and in an account
+alike. Before the app opens (after the start screen and, right after Log in,
+the account step), a profile missing any of them shows "Your trainer" alone
+on the wall, with no bars: the trainer card as a form, filled in with what
+you already have and, for what's missing, Ash for both names and a starter
+picked at random, so Continue alone is enough. The trainer name follows the
+display name as you type until you change it. A display name takes up to 24
+characters (what fits the card and the bar on a phone) and a trainer name up
+to 12, as in the games from X and Y on (`src/config/trainer-name.ts`), the
+same for every Play's own trainer name. The app waits until it is
+saved (`TrainerGate`, set up in `src/app/(app)/app-trainer-gate.tsx`), and it shows again
+whenever the device's data brings a profile without them (a new account, an
+older backup or file). Only the app is held: the Codex opens without it. The
+profile columns stay nullable: the app keeps them filled, so there is no
+device update.
 
 Login is a focused global transition with visible Log in, Recover
 account, or Choose a new password identity. Direct Login
@@ -108,11 +124,12 @@ Play. Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
 Your icon is one of the starters that have a Legends: Z-A icon (`profileIconSlugs`
 in `src/config/profile-icons.ts`; the pictures are `pokemon/icons/<slug>.webp` on
 the assets site): the Gen 1, Gen 3 and Gen 6 trios, Chikorita, Totodile, Tepig,
-Pikachu and Eevee. Each sits on a pale wash of its type and fills its disc. Tapping the picked icon again puts back your initial. It shows
+Pikachu and Eevee. Each sits on a pale wash of its type and fills its disc. Tapping the picked icon again keeps it: there is always one. It shows
 on the trainer card, the account menu and the tab bar, and replaces the initial
 everywhere. The default trainer name is what New Play and the Play started from
-Home's offer fill in; left empty they use your display name. Both are only a
-start: each Play keeps its own trainer name.
+Home's offer fill in. Settings saves neither name empty and no profile
+without an icon. Both names are only a start: each Play keeps its own
+trainer name.
 
 Play-specific completion choices, optional content, Pokédex and Collectible
 scope, Rules, Tags, lifecycle, and metadata remain inside the owning Play or

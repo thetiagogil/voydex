@@ -29,6 +29,15 @@ describe("parseNewPlayInput", () => {
     });
   });
 
+  it("holds the trainer name to the games' 12 characters", () => {
+    expect(
+      parseNewPlayInput({ ...valid, trainerName: "a".repeat(12) }).trainerName,
+    ).toBe("a".repeat(12));
+    expect(() =>
+      parseNewPlayInput({ ...valid, trainerName: "a".repeat(13) }),
+    ).toThrow("The trainer name can be at most 12 characters.");
+  });
+
   it("falls back to the default name and allows deciding the partner later", () => {
     const input = parseNewPlayInput({
       ...valid,

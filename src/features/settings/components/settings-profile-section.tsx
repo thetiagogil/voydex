@@ -1,22 +1,17 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useActionState, useState } from "react";
 import { toast } from "sonner";
 
-import { ProfileIconPicker } from "@/features/settings/components/profile-icon-picker";
 import { TrainerCard } from "@/features/settings/components/trainer-card";
+import { TrainerProfileFields } from "@/features/settings/components/trainer-profile-fields";
 import type { ProfileIconChoice } from "@/features/settings/types";
 import {
   type ProfileFormState,
   saveProfileAction,
 } from "@/features/settings/client/profile-actions";
-import {
-  DISPLAY_NAME_MAX_LENGTH,
-  TRAINER_NAME_MAX_LENGTH,
-} from "@/features/settings/utils/display-name";
+import type { TrainerDraft } from "@/features/settings/utils/trainer-profile";
 import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
-import { Field, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
 
 type SettingsProfileSectionProps = {
   /* The Pokémon you can pick as your icon. */
@@ -29,11 +24,7 @@ type SettingsProfileSectionProps = {
   trainerSince: string | null;
 };
 
-type ProfileValues = {
-  defaultTrainerName: string;
-  displayName: string;
-  iconFormId: number | null;
-};
+type ProfileValues = TrainerDraft;
 
 const sameProfile = (left: ProfileValues, right: ProfileValues) =>
   left.defaultTrainerName === right.defaultTrainerName &&
@@ -41,8 +32,6 @@ const sameProfile = (left: ProfileValues, right: ProfileValues) =>
   left.iconFormId === right.iconFormId;
 
 const initialState: ProfileFormState = { message: null, status: "idle" };
-
-const fieldLabelClassName = "copy-label text-ink-2";
 
 /*
  * Settings' profile (v3 `.set-me`): the trainer card is the form. Pick an icon
@@ -57,9 +46,6 @@ export const SettingsProfileSection = ({
   iconFormId,
   trainerSince,
 }: SettingsProfileSectionProps) => {
-  const nameId = useId();
-  const trainerNameId = useId();
-  const trainerNameHintId = useId();
   const incoming = {
     defaultTrainerName: defaultTrainerName ?? "",
     displayName: displayName ?? "",
@@ -132,66 +118,13 @@ export const SettingsProfileSection = ({
           trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
         }
       >
-        <div className="flex flex-col gap-4 pt-4.5">
-          <div className="flex flex-col gap-2">
-            <p className={fieldLabelClassName}>Your icon</p>
-            <ProfileIconPicker
-              ariaLabel="Your icon"
-              choices={choices}
-              name="iconFormId"
-              onChange={(formId) =>
-                setDraft((current) => ({ ...current, iconFormId: formId }))
-              }
-              value={draft.iconFormId}
-            />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field>
-              <FieldLabel htmlFor={nameId} className={fieldLabelClassName}>
-                Display name
-              </FieldLabel>
-              <Input
-                id={nameId}
-                name="displayName"
-                autoComplete="nickname"
-                placeholder="Your name"
-                maxLength={DISPLAY_NAME_MAX_LENGTH}
-                value={draft.displayName}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    displayName: event.target.value,
-                  }))
-                }
-              />
-            </Field>
-            <Field>
-              <FieldLabel
-                htmlFor={trainerNameId}
-                className={fieldLabelClassName}
-              >
-                Default trainer name
-              </FieldLabel>
-              <Input
-                id={trainerNameId}
-                name="defaultTrainerName"
-                aria-describedby={trainerNameHintId}
-                placeholder={previewName ?? "Your name"}
-                maxLength={TRAINER_NAME_MAX_LENGTH}
-                value={draft.defaultTrainerName}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    defaultTrainerName: event.target.value,
-                  }))
-                }
-              />
-              <p id={trainerNameHintId} className="copy-meta text-ink-2">
-                New Plays start with it. Left empty, they use your display name.
-              </p>
-            </Field>
-          </div>
-        </div>
+        <TrainerProfileFields
+          choices={choices}
+          draft={draft}
+          onChange={(change) =>
+            setDraft((current) => ({ ...current, ...change }))
+          }
+        />
         {isDirty ? (
           <UnsavedChangesFooter
             isSaving={isSaving}

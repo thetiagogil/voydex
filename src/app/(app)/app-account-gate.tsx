@@ -8,20 +8,8 @@ import { appRoutes } from "@/config/routes";
 import { logOutWithoutBackup } from "@/features/app-shell/client/sign-out";
 import { AccountGate } from "@/features/settings/components/account-gate";
 import { useAuthSession } from "@/platform/local-db/account-session";
-import { openLocalDb } from "@/platform/local-db/open-local-db";
 
-/*
- * Mainline's tabs, read again once the account's data is on the device, so
- * the step gives way to a finished Home (the code loads only when needed).
- */
-const prepareMainlineTabs = async () => {
-  const [{ db }, { prepareMainlineTabs: prepare }] = await Promise.all([
-    openLocalDb(),
-    import("@/modules/mainline/public-page-reads"),
-  ]);
-
-  await prepare(db);
-};
+import { prepareMainlineTabs } from "./prepare-mainline-tabs";
 
 /*
  * The app's account step (the wait after logging in), with what only the

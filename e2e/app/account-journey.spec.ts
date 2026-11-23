@@ -1,10 +1,16 @@
 import { readFile } from "node:fs/promises";
 
-import { expect, test, type Browser, type Page } from "@playwright/test";
+import {
+  expect,
+  test,
+  type Browser,
+  type Page,
+  passTrainerStep,
+} from "../support/test";
 
 import { newTestEmail, newDevice } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
-import { createAccount, logIn } from "../support/auth";
+import { createAccount, logIn, waitForFirstBackup } from "../support/auth";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /*
@@ -24,7 +30,11 @@ const accountRequests = /127\.0\.0\.1:54621\/(rest|storage)\//;
 const newDeviceFor = async (browser: Browser) => {
   const context = await browser.newContext({ storageState: newDevice });
 
-  return { context, page: await context.newPage() };
+  const page = await context.newPage();
+
+  await passTrainerStep(page);
+
+  return { context, page };
 };
 
 const appReady = (page: Page) =>
@@ -186,6 +196,7 @@ test("a device's life with an account and without one, in order", async ({
     await logIn(other.page, email);
     await other.page.waitForURL("**/app");
     await appReady(other.page);
+    await waitForFirstBackup(other.page);
     await startPlay(other.page, {
       game: "Pokémon Red, 1996",
       name: accountPlay,

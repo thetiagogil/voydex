@@ -1,4 +1,4 @@
-import { expect, test, type Page, type Route } from "@playwright/test";
+import { expect, test, type Page, type Route } from "../support/test";
 
 import { signedOut } from "../support/accounts";
 import { startPlay, uniquePlayName } from "../support/plays";

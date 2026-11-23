@@ -121,9 +121,11 @@ Some derived values may be cached later for performance, but caching should not 
 ## Authentication And Global Settings
 
 Supabase Auth owns account identity, email, password, confirmation, recovery,
-and authenticated session truth. `public.profiles` owns the optional Voydex
-Display name, the Pokémon icon (`icon_form_id`, a reference form), the default
-trainer name a new Play starts with. Its `welcome_completed_at` column is
+and authenticated session truth. `public.profiles` owns the Voydex display
+name, the Pokémon icon (`icon_form_id`, a reference form) and the default
+trainer name a new Play starts with. The columns are nullable, but the app
+never leaves them empty: the trainer step fills them before the app opens
+and Settings refuses to clear them. Its `welcome_completed_at` column is
 left from the Welcome step, which the entry flow removed (#265): nothing
 reads or writes it, and it goes with the next device update to `profiles`.
 `public.user_preferences` is the home for global defaults that

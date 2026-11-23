@@ -3,6 +3,7 @@ import { AppShell } from "@/features/app-shell/components/app-shell";
 
 import { AppAccountGate } from "./app-account-gate";
 import { AppDeviceGate } from "./app-device-gate";
+import { AppTrainerGate } from "./app-trainer-gate";
 
 /*
  * The app: open to everyone, your data on this device. Signing in is only
@@ -10,7 +11,9 @@ import { AppDeviceGate } from "./app-device-gate";
  * start screen stands alone until the device is ready and every tab with
  * it, so the bars appear with a working app and changing tabs never waits.
  * Right after logging in, the account step stands there instead until the
- * account's newest backup is on the device (it asks nothing).
+ * account's newest backup is on the device (it asks nothing). A trainer
+ * with no name or icon yet picks them on the trainer step before the app
+ * opens.
  */
 export default function AppLayout({
   children,
@@ -20,7 +23,9 @@ export default function AppLayout({
   return (
     <AppDeviceGate>
       <AppAccountGate>
-        <AppShell frame="app">{children}</AppShell>
+        <AppTrainerGate>
+          <AppShell frame="app">{children}</AppShell>
+        </AppTrainerGate>
       </AppAccountGate>
       <FrontDoorMark />
     </AppDeviceGate>

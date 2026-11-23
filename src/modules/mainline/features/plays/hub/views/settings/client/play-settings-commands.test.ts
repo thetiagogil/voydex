@@ -181,14 +181,14 @@ describe("updatePlayHeaderField", () => {
     ).rejects.toThrow("Minutes must be a whole number from 0 to 59.");
   });
 
-  it("refuses a trainer name over 120 characters", async () => {
+  it("refuses a trainer name over the games' 12 characters", async () => {
     const { client } = createFakeClient({ data: [], error: null });
 
     await expect(
       updatePlayHeaderField(client, {
-        change: { field: "trainer", trainerName: "a".repeat(121) },
+        change: { field: "trainer", trainerName: "a".repeat(13) },
         play,
       }),
-    ).rejects.toThrow("A trainer name can be 120 characters at most.");
+    ).rejects.toThrow("A trainer name can be 12 characters at most.");
   });
 });

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { TRAINER_NAME_MAX_LENGTH } from "@/config/trainer-name";
+
 import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
 import type { PlayRuleSelection } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { playRuleSelectionSchema } from "@/modules/mainline/shared/utils/play-rule-input";
@@ -94,7 +96,10 @@ const newPlayInputSchema = z.object(
     playName: optionalTextSchema("The Play name", 200).transform(
       (name) => name ?? defaultPlayName,
     ),
-    trainerName: optionalTextSchema("The trainer name", 120),
+    trainerName: optionalTextSchema(
+      "The trainer name",
+      TRAINER_NAME_MAX_LENGTH,
+    ),
     tracking: playTrackingSchema
       .nullish()
       .transform((tracking) => tracking ?? null),

@@ -83,9 +83,10 @@ const updateOwnProfile = async (
 };
 
 /*
- * Saves Settings' trainer card: your display name, the default trainer name
- * of a new Play and your Pokémon icon. Clearing a name is allowed: the bars
- * then show your email and New Play falls back to your display name.
+ * Saves your trainer profile (Settings' trainer card and the first-open
+ * trainer step): your display name, the default trainer name of a new Play
+ * and your Pokémon icon. All three are needed: an empty one is refused, so
+ * a profile once set is never left without them.
  */
 export const saveProfileAction = async (
   _previousState: ProfileFormState,

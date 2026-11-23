@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "../support/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { signedOut } from "../support/accounts";
