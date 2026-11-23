@@ -12,7 +12,7 @@ export const dynamic = "force-static";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    background_color: "#ffffff",
+    background_color: "#eef3fb",
     description: "A Pokémon companion for tracking and planning playthroughs.",
     display: "standalone",
     icons: [
@@ -27,6 +27,6 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     short_name: "Voydex",
     start_url: appRoutes.mainline,
-    theme_color: "#ffffff",
+    theme_color: "#cf342b",
   };
 }
