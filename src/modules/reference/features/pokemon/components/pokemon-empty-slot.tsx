@@ -20,6 +20,7 @@ export const PokemonEmptySlot = ({
   href,
   label,
   ring = false,
+  showTypes = true,
   size = "lg",
   target = false,
   text = "Open slot",
@@ -29,6 +30,8 @@ export const PokemonEmptySlot = ({
   /* The slot's name when it is a picture, not a link. */
   label: string;
   ring?: boolean;
+  /* Off beside cards that show no types (`showTypes={false}`). */
+  showTypes?: boolean;
   /* The size of the cards it sits among. */
   size?: PokemonCollectorCardSize;
   /* Marked as where a dragged Pokémon would land: the accent ring. */
@@ -50,7 +53,7 @@ export const PokemonEmptySlot = ({
     <>
       {/*
        * The card's own parts, unseen: its face, window, name and types. A
-       * card with a top line stands that line taller.
+       * top line adds no height: it sits over the window.
        */}
       <span aria-hidden className="invisible block p-2">
         <span className={cn("block", sizeClassName.window)} />
@@ -62,7 +65,9 @@ export const PokemonEmptySlot = ({
         >
           {"\u00a0"}
         </span>
-        <span className={cn("mt-1.5 block", sizeClassName.typesLine)} />
+        {showTypes ? (
+          <span className={cn("mt-1.5 block", sizeClassName.typesLine)} />
+        ) : null}
       </span>
       <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-2 text-center">
         {ring ? (

@@ -18,8 +18,7 @@
 /*
  * A caught or picked Pokémon's tile: all in its type's colour, a 3px white
  * band, and the small solid edge of what you can open. Set --t (neutral
- * when it isn't set). Swap the edge with --sticker-shadow, or add
- * `sticker-picked` to mark it as the target.
+ * when it isn't set). Swap the edge with --sticker-shadow.
  */
 @utility sticker {
   background-color: color-mix(
@@ -51,13 +50,15 @@
 }
 
 /*
- * A picked card's frame: its type's colour, a step deeper so a pale type
- * (Electric, Steel, Normal) still stands apart from the frames beside it,
- * on the same edge as every frame so the card keeps its place.
+ * A picked card's frame: its type's colour 60% over the ink, so every
+ * type, the pale ones (Electric, Ice, Steel) included, stands 3:1 apart
+ * from the frames beside it and from the white wall
+ * (card-frame-picked.test.ts holds it), on the same edge as every frame
+ * so the card keeps its place.
  */
 @utility card-frame-picked {
-  background-color: color-mix(in oklab, var(--t, var(--mute)) 82%, var(--ink));
-  box-shadow: 0 3px 0 color-mix(in oklab, var(--t, var(--mute)) 55%, var(--ink));
+  background-color: color-mix(in oklab, var(--t, var(--mute)) 60%, var(--ink));
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--t, var(--mute)) 40%, var(--ink));
 }
 
 @utility card-face {
@@ -110,14 +111,6 @@
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);
-}
-
-/*
- * A sticker marked as the target, such as a slot under a drag: it keeps its
- * own border, and a thin ring in the accent wraps it.
- */
-@utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--calm);
 }
 
 /*

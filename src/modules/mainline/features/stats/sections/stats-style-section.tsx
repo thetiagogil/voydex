@@ -353,7 +353,12 @@ export const StatsStyleSection = ({
             {/* The places still open: a friend comes back, a slot fills. */}
             {Array.from({ length: openFriendSlots }, (_, index) => (
               <li key={`open-${index}`} aria-hidden className="min-w-0">
-                <PokemonEmptySlot size="sm" label="Open place" text="" />
+                <PokemonEmptySlot
+                  size="sm"
+                  label="Open place"
+                  text=""
+                  showTypes={false}
+                />
               </li>
             ))}
           </ul>

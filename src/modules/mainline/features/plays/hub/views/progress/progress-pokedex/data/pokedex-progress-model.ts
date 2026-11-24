@@ -1,3 +1,4 @@
+import { formatPokedexNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   MainlinePlayPokedexEntry,
   MainlinePlayPokedexScope,
@@ -16,9 +17,6 @@ export type PokedexProgressEntrySection = {
   startNumber: number;
 };
 
-const formatSectionNumber = (value: number, digitCount: number) =>
-  String(value).padStart(digitCount, "0");
-
 export const groupPokedexEntriesByNumberRange = ({
   entries,
   maxPokedexNumber,
@@ -32,7 +30,6 @@ export const groupPokedexEntriesByNumberRange = ({
     return [];
   }
 
-  const digitCount = Math.max(3, String(maxPokedexNumber).length);
   const sections = new Map<number, MainlinePlayPokedexEntry[]>();
 
   for (const entry of entries) {
@@ -56,7 +53,8 @@ export const groupPokedexEntriesByNumberRange = ({
         endNumber,
         entries: sectionEntries,
         id: `${startNumber}-${endNumber}`,
-        label: `${formatSectionNumber(startNumber, digitCount)} – ${formatSectionNumber(endNumber, digitCount)}`,
+        /* The cards' own numbers' width: "001 – 060", "1021 – 1025". */
+        label: `${formatPokedexNumberDigits(startNumber)} – ${formatPokedexNumberDigits(endNumber)}`,
         startNumber,
       };
     });

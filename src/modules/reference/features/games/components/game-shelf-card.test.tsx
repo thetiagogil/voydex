@@ -4,8 +4,9 @@ import { describe, expect, it } from "vitest";
 import type { GameShelfCardGame } from "@/modules/reference/types";
 
 import { getGameCardColour } from "@/modules/reference/features/games/utils/game-color-styles";
+import { collectorCardGridClassName } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 
-import { GameShelfCard } from "./game-shelf-card";
+import { GameShelfCard, GameShelfGrid } from "./game-shelf-card";
 
 const game: GameShelfCardGame = {
   coverImageUrl: null,
@@ -54,5 +55,18 @@ describe("GameShelfCard", () => {
     /* Its frame wears the game's card colour, never a tilted cover. */
     expect(markup).toContain(`--t:${getGameCardColour("sword")}`);
     expect(markup).not.toContain("rotate");
+  });
+
+  it("lays played games out on the Collection's grid with `collection`", () => {
+    const grid = (layout?: "collection" | "shelf") =>
+      renderToStaticMarkup(
+        <GameShelfGrid layout={layout}>
+          <span />
+        </GameShelfGrid>,
+      );
+
+    expect(grid("collection")).toContain(collectorCardGridClassName);
+    expect(grid()).not.toContain(collectorCardGridClassName);
+    expect(grid()).toContain("minmax(150px,1fr)");
   });
 });

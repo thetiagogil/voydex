@@ -14,6 +14,7 @@ import type {
   PlanType,
 } from "@/modules/mainline/features/plans/types";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { getPoolTileReadout } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -359,12 +360,10 @@ export const PlannerPoolSection = ({
                           ></PokemonCard>
                           {/* What the tile no longer shows, for a screen reader. */}
                           <span className="sr-only">
-                            {[
-                              `, #${formatNationalNumber(pokemon.nationalNumber)}`,
-                              pokemon.types
-                                .map((type) => type.name)
-                                .join(" and "),
-                            ].join(", ")}
+                            {getPoolTileReadout(
+                              pokemon.nationalNumber,
+                              pokemon.types.map((type) => type.name),
+                            )}
                           </span>
                           {slot || notes.length ? (
                             <span className="sr-only">

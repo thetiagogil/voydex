@@ -27,16 +27,13 @@ type PokemonCollectorCardProps = {
   detail?: string;
   imageUrl: string | null;
   /*
-   * One short fact at the end of the top line, such as "4 Plays" or "Your
-   * partner".
+   * One short fact at the right end of the top line, such as "4 Plays" or
+   * "Your partner". No caller passes it with a `level`.
    */
   count?: string;
   /* With `href`, the card is a link; with `onClick`, a button you can pick. */
   href?: string;
-  /*
-   * On a team: its level, at the right end of the top line over the
-   * window's corner (beside the name instead when the card has a count).
-   */
+  /* On a team: its level, at the right end of the top line. */
   level?: number | null;
   name: string;
   /* Its Pokédex number, at the start of the top line. */
@@ -80,11 +77,9 @@ type PokemonCollectorCardProps = {
  * (`PokemonEmptySlot`), so both keep one height. The window follows the
  * card's width up to a height of its own, so a card in a wide column never
  * grows past its size. From 9.5rem up a card has room for its full form:
- * the name in the display face and the types in words.
- */
-/*
- * A card in a set (the Collection) and a card on a team share one build, so
- * the two read as the same card.
+ * the name in the display face and the types in words. A card in a set
+ * (`md`, the Collection) and one on a team (`lg`) share one build, so the
+ * two read as the same card.
  */
 const fullCardClassNames = {
   name: "copy-strong @min-[9.5rem]/collector:font-display @min-[9.5rem]/collector:text-17 @min-[9.5rem]/collector:font-semibold",
@@ -159,19 +154,15 @@ export const PokemonCollectorCard = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const sizeClassName = collectorCardSizeClassNames[size];
-  const levelLabel = level ? `Lv. ${level}` : null;
-  /*
-   * The top line's right end: the count, else the level (a team card). A
-   * card with both keeps its level beside the name.
-   */
-  const topRight = count ?? levelLabel;
-  const levelByName = count ? levelLabel : null;
+  /* The top line's right end: the count, else the level (a team card). */
+  const topRight = count || (level ? `Lv. ${level}` : null);
   const hasTopLine = Boolean(number || topRight);
   /*
-   * A number or a count stands the art below the line; a level alone sits
-   * over the window's corner, so a team card's Pokémon keeps its full size.
+   * A number (the Collection) stands the art below the line; a right end
+   * alone (a level, "Your partner", "Replace") sits over the window's
+   * corner, so the Pokémon keeps its full size.
    */
-  const artBelowLine = Boolean(number || count);
+  const artBelowLine = Boolean(number);
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
@@ -186,10 +177,9 @@ export const PokemonCollectorCard = ({
   );
   /*
    * Read in this order: the name, the top line (the level on a team), the
-   * types, then
-   * the window's marks. The window is placed over the name with the top
-   * line inside its top edge and the marks in its bottom corners, the types
-   * under the name.
+   * types, then the window's marks. The window is placed over the name with
+   * the top line inside its top edge and the marks in its bottom corners,
+   * the types under the name.
    */
   const content = (
     <>
@@ -208,11 +198,6 @@ export const PokemonCollectorCard = ({
           >
             {name}
           </span>
-          {levelByName ? (
-            <span className="text-ink-tint copy-mark shrink-0 tabular-nums">
-              {levelByName}
-            </span>
-          ) : null}
         </span>
         {hasTopLine ? (
           /*

@@ -58,8 +58,9 @@ const getCornerClassName = (
 
   /*
    * Inside a card, clear of its edge so a list that clips never cuts it.
-   * Marks that share a corner stack with `flex-col` (the shiny mark under
-   * the slot number).
+   * Marks that share a corner stack with `flex-col` (a pool tile's shiny
+   * mark under its slot number). A collector card puts its marks in its
+   * window's bottom corners, since the window's top holds its top line.
    */
   switch (corner) {
     case "inside-top-left":
@@ -106,20 +107,21 @@ export const CornerBubble = ({
 
 /*
  * The marks a Pokémon card carries in its corners, all drawn the same way:
- * a 24px round disc in the `bubble` white band. The corner rule: the slot
- * number top-right, a warning top-left, the Pokédex number (plain text, where
- * it is shown) top-left. `npm run design:check` fails a card that draws its
- * own.
+ * a 24px round disc in the `bubble` white band. On a pool tile or a Pokédex
+ * card: the slot number top-right, a warning top-left, the shiny mark under
+ * the slot number. On a collector card: a warning bottom-left and the shiny
+ * mark bottom-right of its window. `npm run design:check` fails a card that
+ * draws its own.
  */
 
-/*
- * A slot's number on a corner: the action red in a white band. Decorative:
- * the card says its slot in words.
- */
 /* The number disc the slot and count marks share; each has its colour. */
 const numberMarkClassName =
   "copy-label bubble grid size-6 place-items-center rounded-full text-white tabular-nums";
 
+/*
+ * A slot's number on a corner: the ink disc in a white band. Decorative:
+ * the card says its slot in words.
+ */
 export const SlotMark = ({ children }: { children: ReactNode }) => (
   <span aria-hidden className={cn(numberMarkClassName, "bg-ink")}>
     {children}

@@ -158,8 +158,9 @@ Voydex is quiet where you work and loud where you remember. The
   `border-line`, `bg-action`). One palette for the whole app, a Play
   included: a game's own colour (`getGameColourStyle`) only marks
   which game is which (picker dots, cover placeholders, charts).
-- Baloo 2 for headings 20px and up, the Play and trainer names and owned
-  Pokémon names; Nunito for everything you operate. Nothing under 16px is
+- Baloo 2 for headings 20px and up, the Play and trainer names, owned
+  Pokémon names and a played game's name on its Collection card; Nunito for
+  everything you operate. Nothing under 16px is
   Baloo 2. A section title is plain letters on the wall over its
   card: never a filled pill, never a mark before it, never inside the card.
 - Loud only for identity and reward; chrome stays quiet. Colour follows

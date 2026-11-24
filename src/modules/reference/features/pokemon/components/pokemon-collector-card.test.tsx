@@ -51,21 +51,18 @@ describe("PokemonCollectorCard", () => {
     expect(picks).toContain('aria-pressed="false"');
   });
 
-  it("reads its name first, then its level, its top line, its types and what it adds", () => {
+  it("reads its name first, then its top line, its types and what it adds", () => {
     const read = readOf(
       render({
         count: "2 Plays",
         detail: "Active slot 2",
-        level: 55,
         number: "#149",
         onClick: () => undefined,
         size: "sm",
       }),
     );
 
-    expect(read).toBe(
-      "Dragonite Lv. 55 #149 2 Plays Dragon Flying , Active slot 2",
-    );
+    expect(read).toBe("Dragonite #149 2 Plays Dragon Flying , Active slot 2");
   });
 
   it("puts a team card's level top right over the window, the art at full size", () => {
@@ -83,14 +80,17 @@ describe("PokemonCollectorCard", () => {
     );
   });
 
-  it("keeps the level by the name when the card also has a count", () => {
-    const html = render({ count: "Your partner", level: 48 });
-    const nameLine = /order-3[^"]*"[^>]*>(.*?)<\/span><\/span>/.exec(html)?.[1];
+  it("falls back to the level for an empty count", () => {
+    expect(readOf(render({ count: "", level: 48, size: "sm" }))).toBe(
+      "Dragonite Lv. 48 Dragon Flying",
+    );
+  });
 
-    expect(nameLine).toContain("Lv. 48");
-    expect(
-      readOf(render({ count: "Your partner", level: 48, size: "sm" })),
-    ).toBe("Dragonite Lv. 48 Your partner Dragon Flying");
+  it("keeps the art full size under a right end alone, below the line with a number", () => {
+    /* The Planner's "Replace" or "Your partner": no number on the left. */
+    expect(render({ count: "Replace" })).not.toContain("mt-6");
+    expect(render({ count: "Replace" })).toContain("my-auto h-[90%]");
+    expect(render({ count: "2 Plays", number: "#149" })).toContain("mt-6");
   });
 
   it("shows no level without one", () => {

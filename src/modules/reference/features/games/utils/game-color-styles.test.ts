@@ -75,9 +75,14 @@ describe("game card colours", () => {
 
       expect(card.lightness).toBeGreaterThanOrEqual(0.49);
       expect(card.lightness).toBeLessThanOrEqual(0.61);
-      expect(card.saturation).toBeGreaterThanOrEqual(
-        Math.min(mark.saturation, 0.75) - 0.02,
-      );
+      /* A colourful game gains colour, up to the cap; a grey one stays grey. */
+      if (mark.saturation < 0.15) {
+        expect(card.saturation).toBeLessThan(0.16);
+      } else {
+        expect(card.saturation).toBeGreaterThanOrEqual(
+          Math.min(0.75, mark.saturation + 0.05) - 0.02,
+        );
+      }
     }
   });
 

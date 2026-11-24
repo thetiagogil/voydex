@@ -1,3 +1,4 @@
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import type {
   PlannerCatalogueRows,
@@ -359,3 +360,13 @@ export const buildPlannerContext = ({
     },
   };
 };
+
+/*
+ * What a pool tile no longer shows, read after its name: its Pokédex number
+ * (the formatter brings its own "#") and its types, as ", #025, Electric".
+ */
+export const getPoolTileReadout = (
+  nationalNumber: number | null,
+  typeNames: string[],
+) =>
+  `, ${[formatNationalNumber(nationalNumber), typeNames.join(" and ")].join(", ")}`;
