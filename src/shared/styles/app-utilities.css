@@ -50,15 +50,14 @@
 }
 
 /*
- * A picked card's frame: its type's colour 60% over the ink, so every
- * type, the pale ones (Electric, Ice, Steel) included, stands 3:1 apart
- * from the frames beside it and from the white wall
- * (card-frame-picked.test.ts holds it), on the same edge as every frame
- * so the card keeps its place.
+ * A picked card's frame: its type's colour, a step deeper so a pale type
+ * (Electric, Steel, Normal) still reads as picked beside the frames next to
+ * it (card-frame-picked.test.ts holds that every type is deeper), on the
+ * same edge as every frame so the card keeps its place.
  */
 @utility card-frame-picked {
-  background-color: color-mix(in oklab, var(--t, var(--mute)) 60%, var(--ink));
-  box-shadow: 0 3px 0 color-mix(in oklab, var(--t, var(--mute)) 40%, var(--ink));
+  background-color: color-mix(in oklab, var(--t, var(--mute)) 82%, var(--ink));
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--t, var(--mute)) 55%, var(--ink));
 }
 
 @utility card-face {
