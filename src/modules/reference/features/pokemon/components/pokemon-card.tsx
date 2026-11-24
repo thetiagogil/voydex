@@ -93,7 +93,7 @@ const stateClassNames: Record<PokemonCardState, string> = {
 
 /*
  * Padding per size and state. Each state draws a different border (1px clear card edge,
- * 4px sticker, 2.5px dashed slot), so the padding makes up the difference:
+ * 3px sticker, 2.5px dashed slot), so the padding makes up the difference:
  * a card keeps one height whatever its state, and marking one never moves
  * its row.
  */
@@ -102,13 +102,13 @@ const paddingClassNames: Record<
   Record<PokemonCardState, string>
 > = {
   md: {
-    caught: "px-1.25 pt-1.25 pb-2.25",
+    caught: "px-1.5 pt-1.5 pb-2.5",
     missing: "px-[6.5px] pt-[6.5px] pb-[10.5px]",
     plain: "px-2 pt-2 pb-3",
     seen: "px-2 pt-2 pb-3",
   },
   sm: {
-    caught: "px-px pt-0.75 pb-1.75",
+    caught: "px-0.5 pt-1 pb-2",
     missing: "px-[2.5px] pt-[4.5px] pb-[8.5px]",
     plain: "px-1 pt-1.5 pb-2.5",
     seen: "px-1 pt-1.5 pb-2.5",
@@ -159,7 +159,8 @@ const PokemonCardMark = ({
 };
 
 /*
- * The one Pokémon card: number, the art on a soft type-tint circle, the name
+ * The one Pokémon card: number, the art (on white with nothing behind it,
+ * on a pale circle once caught or picked), the name
  * (wrapping to a second line rather than cutting off "Galarian Farfetch'd")
  * and type dots. A Play layers its state on it: caught is a sticker with a
  * Poké Ball, seen a plain card with an eye, missing a dashed outline and a
@@ -194,7 +195,7 @@ export const PokemonCard = ({
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
         picked ? "sticker sticker-type-band" : stateClassNames[state],
-        /* A picked card wears the 4px band, so it takes the sticker's padding. */
+        /* A picked card wears the sticker's band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
           picked ? "caught" : state
         ],
@@ -206,7 +207,7 @@ export const PokemonCard = ({
       <span
         aria-hidden={number ? undefined : true}
         className={cn(
-          "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
+          "copy-number flex w-full items-center justify-between px-1 tabular-nums",
           /* On a tint (caught, or a Planner pick), the number takes the tint's ink. */
           state === "caught" || picked ? "text-ink-tint" : "text-ink-3",
         )}
@@ -228,10 +229,8 @@ export const PokemonCard = ({
         className={cn(
           "relative mt-0.5 mb-1.5 grid place-items-center rounded-full",
           sizes.circle,
+          /* A sticker's art stands on a pale circle; a white card's on nothing. */
           (state === "caught" || picked) && "bg-white/55",
-          !picked &&
-            (state === "plain" || state === "seen") &&
-            "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
         )}
       >
         <FallbackImage

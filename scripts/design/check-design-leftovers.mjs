@@ -241,7 +241,7 @@ const sourceRules = [
    */
   {
     label:
-      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta or -mark)",
+      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta, -mark or -number)",
     pattern:
       /"(?![^"]*(?:font-display|(?:sm|md|lg):text-))[^"]*(?:(?<![-\w:])text-1[2-6](?![-\w])[^"]*(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])|(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])[^"]*(?<![-\w:])text-1[2-6](?![-\w]))[^"]*"/,
     only: [path.join("src", "modules"), path.join("src", "features")],

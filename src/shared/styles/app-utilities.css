@@ -507,6 +507,7 @@
  *   copy-label   a field's or a fact's label, a small heading
  *   copy-meta    small facts: a date, a count, a game and region
  *   copy-mark    the words on a small mark or count
+ *   copy-number  a Pokédex number on a card, quieter than a mark
  */
 @utility copy-strong {
   font-size: var(--text-15);
@@ -536,6 +537,11 @@
 @utility copy-mark {
   font-size: var(--text-12);
   font-weight: 800;
+}
+
+@utility copy-number {
+  font-size: var(--text-12);
+  font-weight: 600;
 }
 
 /*

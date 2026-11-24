@@ -36,34 +36,25 @@ const stageClassName =
   "grid h-30 place-items-center overflow-hidden rounded-sm sm:h-37";
 
 /*
- * The cover in its fixed-height stage, picked up on hover on a reference
- * card (`lifts`). On a collector card the whole card turns instead.
+ * The cover in its fixed-height stage. It never moves by itself: the card
+ * moves as one (it rises in the Codex, turns in the Collection).
  */
 const GameShelfCover = ({
   eager,
   game,
-  lifts,
 }: {
   eager: boolean;
   game: GameShelfCardGame;
-  lifts: boolean;
 }) => (
   <span className={stageClassName}>
-    <span
-      className={cn(
-        lifts &&
-          "ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5",
-      )}
-    >
-      <GameCover
-        alt=""
-        coverImageUrl={game.coverImageUrl}
-        eager={eager}
-        gameName={game.name}
-        gameSlug={game.slug}
-        size="shelf"
-      />
-    </span>
+    <GameCover
+      alt=""
+      coverImageUrl={game.coverImageUrl}
+      eager={eager}
+      gameName={game.name}
+      gameSlug={game.slug}
+      size="shelf"
+    />
   </span>
 );
 
@@ -95,8 +86,8 @@ const GameShelfName = ({
  * the card's face with no window behind it, the name centred under it, and
  * the Pokémon card's glint. In the Codex the name and the year and region
  * are centred, as a Codex Pokémon card's name is. In the Codex hover lifts
- * the card and its cover (never tilting the cover); a played game's card
- * turns toward the pointer as a Pokémon one does. A link opens a page; with
+ * the card as one, the cover still in it; a played game's card turns toward
+ * the pointer as a Pokémon one does. A link opens a page; with
  * `onClick` it is a button.
  */
 export const GameShelfCard = ({
@@ -140,14 +131,14 @@ export const GameShelfCard = ({
           <span className="truncate">{count}</span>
         </span>
         <span className="order-2">
-          <GameShelfCover eager={eager} game={game} lifts={false} />
+          <GameShelfCover eager={eager} game={game} />
         </span>
       </span>
       <CollectorCardGlint />
     </>
   ) : (
     <>
-      <GameShelfCover eager={eager} game={game} lifts />
+      <GameShelfCover eager={eager} game={game} />
       <span className="flex min-w-0 flex-col items-center gap-0.5 px-2 text-center">
         <GameShelfName className="copy-strong max-w-full" game={game} />
         {facts}
