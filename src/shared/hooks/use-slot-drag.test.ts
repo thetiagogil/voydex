@@ -9,7 +9,15 @@ import { startSlotDrag } from "./use-slot-drag";
 
 describe("startSlotDrag", () => {
   it("flattens a turned card before the drag picture is taken, and carries the item", () => {
-    const slot = { querySelector: () => null };
+    const calls: string[] = [];
+
+    flattenCardTilt.mockImplementation(() => calls.push("flatten"));
+    const slot = {
+      querySelector: () => {
+        calls.push("drag picture");
+        return null;
+      },
+    };
     const dataTransfer = {
       effectAllowed: "none",
       setData: vi.fn(),
@@ -25,6 +33,7 @@ describe("startSlotDrag", () => {
     );
 
     expect(flattenCardTilt).toHaveBeenCalledWith(slot);
+    expect(calls).toEqual(["flatten", "drag picture"]);
     expect(dataTransfer.effectAllowed).toBe("move");
     expect(dataTransfer.setData).toHaveBeenCalledWith("text/plain", "3");
   });

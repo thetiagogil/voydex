@@ -178,7 +178,12 @@ export const PokemonCollectorCard = ({
    * alone (a level, "Your partner", "Replace") sits over the art's
    * corner, so the Pokémon keeps its full size.
    */
-  const artBelowLine = Boolean(number);
+  /*
+   * A card with marks but no top line (a Team Plan's off-plan Pokémon) also
+   * stands its art below the line, so a mark in the corner stays off it.
+   */
+  const artBelowLine =
+    Boolean(number) || (!hasTopLine && (shiny || Boolean(warning)));
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
@@ -228,8 +233,16 @@ export const PokemonCollectorCard = ({
             <span
               className={cn(
                 "text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums",
-                /* Room for the shiny mark at the line's right end. */
-                shiny && "pr-9",
+                /*
+                 * Room for the marks at the line's ends: the shiny mark on
+                 * the right, a warning on the left. On a narrow card (a
+                 * 320px phone) the room and the gap tighten so a number and
+                 * a count still fit whole beside the mark.
+                 */
+                shiny &&
+                  "pr-9 @max-[9.5rem]/collector:gap-1 @max-[9.5rem]/collector:pr-7.5",
+                shiny && !warning && "@max-[9.5rem]/collector:pl-1",
+                warning && "pl-9 @max-[9.5rem]/collector:pl-7.5",
               )}
             >
               {number ? <span className="shrink-0">{number}</span> : null}

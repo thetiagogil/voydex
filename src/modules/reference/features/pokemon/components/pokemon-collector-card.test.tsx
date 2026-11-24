@@ -148,7 +148,7 @@ describe("PokemonCollectorCard", () => {
     expect(render({ target: true })).toContain("ring-calm");
   });
 
-  it("puts a warning top-left and the shiny mark top-right of the panel, along the top line, off the art", () => {
+  it("puts a warning top-left and the shiny mark top-right of the panel, along the top line", () => {
     const html = render({
       level: 48,
       shiny: true,
@@ -157,7 +157,10 @@ describe("PokemonCollectorCard", () => {
 
     expect(cornerOf(html, "Breaks a rule")).toBe("inside-top-left");
     expect(cornerOf(html, ", Shiny")).toBe("inside-top-right");
-    /* Neither sits in the art's box, so neither covers the Pokémon. */
+    /*
+     * In the panel's corners, not inside the art's box (they may overlap the
+     * box's corner, where the picture leaves room).
+     */
     const art = html.slice(
       html.indexOf('data-slot="collector-art"'),
       html.indexOf("</span>", html.indexOf('data-slot="collector-art"')),
@@ -165,12 +168,20 @@ describe("PokemonCollectorCard", () => {
     expect(art).not.toContain("data-corner");
   });
 
-  it("makes room for the shiny mark at the top line's right end", () => {
+  it("makes room on the top line for the shiny mark on its right and a warning on its left", () => {
     const lineOf = (html: string) =>
       /class="([^"]*-mb-6[^"]*)"/.exec(html)?.[1] ?? "";
 
-    expect(lineOf(render({ level: 48, shiny: true }))).toContain("pr-9");
-    expect(lineOf(render({ level: 48 }))).not.toContain("pr-9");
+    expect(lineOf(render({ level: 48, shiny: true }))).toMatch(
+      /(?:^|\s)pr-9(?:\s|$)/,
+    );
+    expect(lineOf(render({ level: 48 }))).not.toMatch(/(?:^|\s)pr-9(?:\s|$)/);
+    expect(
+      lineOf(render({ number: "#149", warning: "Breaks a rule" })),
+    ).toMatch(/(?:^|\s)pl-9(?:\s|$)/);
+    expect(lineOf(render({ number: "#149" }))).not.toMatch(
+      /(?:^|\s)pl-9(?:\s|$)/,
+    );
   });
 
   it("reads its marks last, after its types", () => {
@@ -278,5 +289,12 @@ describe("PokemonCollectorCard", () => {
     expect(render({ onClick: () => {}, tip: "Alolan Raichu" })).toContain(
       'data-slot="tooltip-trigger"',
     );
+  });
+
+  it("stands its art below the line when it has a mark but no top line, so the mark stays off it", () => {
+    expect(render({ shiny: true })).toContain("mt-6");
+    expect(render({ warning: "Breaks a rule" })).toContain("mt-6");
+    /* A team card keeps its big picture beside its level. */
+    expect(render({ level: 48, shiny: true })).not.toContain("mt-6");
   });
 });

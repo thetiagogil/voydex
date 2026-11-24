@@ -1,9 +1,9 @@
 "use client";
 
+import { PoolTileMarks } from "@/modules/mainline/features/plans/planner/components/pool-tile-marks";
 import { useState } from "react";
 
 import { ChoiceChip } from "@/shared/components/choice-chip";
-import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -38,15 +38,8 @@ import {
   FoldToggle,
   useFold,
 } from "@/shared/components/fold";
-import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
-import {
-  TipHead,
-  TipRow,
-  TipRows,
-  TipStack,
-} from "@/shared/components/tip-parts";
 
 /* About the rows a phone or a wide window shows at once, then a page more. */
 const INITIAL_VISIBLE_POKEMON = 48;
@@ -292,10 +285,10 @@ export const PlannerPoolSection = ({
                   includedExpansionIds,
                   versionGame,
                 });
-                /* The tile shows the species' name; a form's own shows on hover. */
                 /*
-                 * The tile's tip names a form; what adding it would mean is
-                 * the "!" tip's alone, so nothing shows twice.
+                 * The tile shows the species' name and its tip a form's own
+                 * ("Alolan Raichu"); what adding it would mean is the "!"
+                 * tip's alone, so nothing shows twice.
                  */
                 const formTip = getPlannerFormTip(pokemon);
 
@@ -345,45 +338,11 @@ export const PlannerPoolSection = ({
                         </button>
                       }
                     />
-                    {/*
-                     * The tile's marks inside it so they lift with it (the
-                     * list's sections clip anything outside), on the right
-                     * of its number line: the "!" of Your team's slots, and
-                     * on a tile in the team, its slot number at the end.
-                     */}
-                    {notes.length || slot !== undefined ? (
-                      <CornerBubble corner="inside-top-right">
-                        {notes.length ? (
-                          <ExplanatoryTip
-                            triggerVariant="raised"
-                            triggerTone="warn"
-                            triggerLabel={`${pokemon.name}: ${notes[0]}`}
-                            contentClassName="w-64"
-                            content={
-                              <TipStack>
-                                <TipHead>
-                                  {notes.length === 1
-                                    ? "One thing to check"
-                                    : `${notes.length} things to check`}
-                                </TipHead>
-                                <TipRows>
-                                  {notes.map((note) => (
-                                    <TipRow
-                                      key={note}
-                                      name={note}
-                                      tone="warn"
-                                    />
-                                  ))}
-                                </TipRows>
-                              </TipStack>
-                            }
-                          />
-                        ) : null}
-                        {slot !== undefined ? (
-                          <SlotMark>{slot}</SlotMark>
-                        ) : null}
-                      </CornerBubble>
-                    ) : null}
+                    <PoolTileMarks
+                      name={pokemon.name}
+                      notes={notes}
+                      slot={slot}
+                    />
                   </li>
                 );
               })}

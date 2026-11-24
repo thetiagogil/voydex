@@ -433,7 +433,7 @@ for (const file of files) {
     ts.ScriptKind.TSX,
   );
   const visit = (node) => {
-    /* An SVG's own <title> is a native hover too. */
+    /* A <title> element (an SVG's hover label) is a native hover too. */
     if (
       (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) &&
       node.tagName.getText(source) === "title"
@@ -441,7 +441,7 @@ for (const file of files) {
       const { line } = source.getLineAndCharacterOfPosition(node.getStart());
 
       findings.push(
-        `${file}:${line + 1}  a native title hover in an <svg> (use Tooltip or IconTip)`,
+        `${file}:${line + 1}  a native title element, a hover in an svg (use Tooltip or IconTip)`,
       );
     }
 

@@ -89,4 +89,21 @@ describe("GameShelfCard", () => {
       ),
     ).toMatch(/\bcard-tilt\b/);
   });
+
+  it("never moves its cover by itself: the card moves as one", () => {
+    for (const markup of [
+      renderToStaticMarkup(
+        <GameShelfCard game={game} href="/app/codex/games/swsh" />,
+      ),
+      renderToStaticMarkup(
+        <GameShelfCard count="2 Plays" game={game} onClick={() => {}} />,
+      ),
+    ]) {
+      /* Only the card itself, the first element, may carry a hover move. */
+      const inside = markup.slice(markup.indexOf(">") + 1);
+
+      expect(inside).not.toMatch(/hover[^"\s]*:[^"\s]*translate-y/);
+      expect(inside).not.toMatch(/(?:^|[\s"])-?translate-y-/);
+    }
+  });
 });

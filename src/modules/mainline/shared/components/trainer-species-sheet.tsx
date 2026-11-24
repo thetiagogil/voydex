@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { Link } from "@/shared/components/link";
 import { useState } from "react";
 
@@ -110,8 +111,6 @@ export const TrainerSpeciesSheet = ({
     species,
   });
   const nowPlayCount = new Set(now.map((member) => member.play.id)).size;
-  const countPlays = (count: number) =>
-    `${count} ${count === 1 ? "Play" : "Plays"}`;
   const relatives = showsFamily ? species : family;
 
   return (
@@ -199,7 +198,7 @@ export const TrainerSpeciesSheet = ({
       <SheetSection
         className="gap-3"
         title="With you now"
-        aside={nowPlayCount ? countPlays(nowPlayCount) : undefined}
+        aside={nowPlayCount ? formatPlayCount(nowPlayCount) : undefined}
       >
         {now.length ? (
           <ul
@@ -252,7 +251,7 @@ export const TrainerSpeciesSheet = ({
         <SheetSection
           className="gap-3"
           title="Before"
-          aside={countPlays(before.length)}
+          aside={formatPlayCount(before.length)}
         >
           <ul
             className="grid gap-2"

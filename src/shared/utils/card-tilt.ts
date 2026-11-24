@@ -103,7 +103,7 @@ const follow = (event: PointerEvent<HTMLElement>) => {
    * the card, with no leave: that pointer is off the card, so it settles.
    */
   if (
-    !element.classList.contains("card-tilt") ||
+    !element.classList.contains(cardTiltClassName) ||
     !element.contains(event.target as Node)
   ) {
     settleElement(element);

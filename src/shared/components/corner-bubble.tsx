@@ -7,11 +7,12 @@ export type CornerBubbleCorner =
   "bottom" | "inside-top-left" | "inside-top-right" | "top-left" | "top-right";
 
 /*
- * A mark sits 12px in from its card's outer edge, whatever border the card
- * draws: `none` when the bubble is a sibling of the card (a list item
- * around it), `line` inside a card with a 1px border, `sticker` inside a
- * sticker's 4px band. The position is measured from inside the border, so the
- * band is taken off.
+ * A mark sits about 12px in from its card's outer edge, whatever border the
+ * card draws: `none` (12px) when the bubble is a sibling of the card (a list
+ * item around it), `line` (11px) inside a card with a 1px border, `sticker`
+ * (8px) inside a sticker's 3px band. The position is measured from inside
+ * the border, so the band is taken off. A collector card uses `sticker` for
+ * 8px in from its borderless light panel, level with the panel's top line.
  */
 export type CornerBubbleBorder = "line" | "none" | "sticker";
 

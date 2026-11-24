@@ -278,22 +278,22 @@ glass.
   `CornerBubble`. A Team Planner pool tile is the Codex's card without its
   number, and puts its marks side by side top-right (chosen 2026-11-24): the
   warning (the raised `ExplanatoryTip`, which alone holds what adding it would
-  mean) and, on a tile in the team, its slot number (`SlotMark`) at the end.
-  The tile's own tip only names a form ("Alolan Raichu"), so no note shows
-  twice. A
-  Pokédex card puts a warning (`WarningMark`) top-left, where the Pokédex
-  number (plain text) would be, and the shiny mark (`ShinyMark`) right below
-  the slot number, or alone top-right without one (chosen 2026-10-21). A
-  collector card's panel keeps its top edge for the Pokédex number and the
-  count (or a team card's level), and its marks sit along that line, off
-  the Pokémon: a warning top-left (a card with one has no number there) and
-  the shiny mark top-right, the count or level just before it (chosen
-  2026-11-24). It says its
-  count in words ("4 Plays"), not in a mark, and shows no slot number: only
-  a pool tile says which slot it took. A Pokédex card has no slot, so its Play state mark (a
-  Poké Ball or an eye) takes the top-right, sized to its card. Every mark is a
-  disc in the one `bubble` white band (24px; the Pokédex number is plain
-  text), inside the card (`inside-top-*`, 12px in from the card's outer edge whatever its border, set with `CornerBubble`'s `border`; on a collector card 12px in from its window's edge, and a mark that opens a tip, placed beside the card, 12px in from the card's) so a list
+  mean) in the corner and, on a tile in the team, its slot number
+  (`SlotMark`) to its left, so a pick never moves the warning. The tile's own
+  tip only names a form ("Alolan Raichu"), so no note shows twice. A Pokédex
+  card has no slot, so its Play state mark (a Poké Ball or an eye) takes the
+  top-right, sized to its card. A collector card's panel keeps its top edge
+  for the Pokédex number and the count (or a team card's level), and its
+  marks sit in the panel's top corners, along that line: a warning top-left
+  and the shiny mark top-right, the line's words making room for each
+  (chosen 2026-11-24). It says its count in words ("4 Plays"), not in a
+  mark, and shows no slot number: only a pool tile says which slot it took.
+  Every mark is a disc in the one `bubble` white band (24px; the Pokédex
+  number is plain text), inside the card (`inside-top-*`, 12px in from the
+  card's outer edge whatever its border, set with `CornerBubble`'s `border`;
+  on a collector card 8px in from its borderless panel's edge, with
+  `sticker`, and a mark that opens a tip, placed beside the card, 12px in
+  from the card's) so a list
   that clips its edges never cuts it and the card lifts with it. Never place
   a mark by hand: `npm run design:check` fails a Pokémon card file that does.
 - **Focus rings are never cut off**: the one `focus-ring` lifts the focused

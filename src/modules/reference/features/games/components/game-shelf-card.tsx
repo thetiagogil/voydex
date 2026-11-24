@@ -104,7 +104,7 @@ export const GameShelfCard = ({
     </span>
   );
   const className = cn(
-    "group/game relative flex min-w-0 flex-col rounded-lg text-left",
+    "relative flex min-w-0 flex-col rounded-lg text-left",
     count
       ? cn(
           "group/collector @container/collector card-frame overflow-hidden p-1.5",

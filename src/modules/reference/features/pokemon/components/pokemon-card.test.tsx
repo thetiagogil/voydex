@@ -110,18 +110,32 @@ describe("PokemonCard's states", () => {
     },
   );
 
-  it("draws nothing behind the art of a white card", () => {
-    const html = renderToStaticMarkup(
-      <PokemonCard
-        state="plain"
-        imageAlt=""
-        imageUrl={null}
-        name="Pikachu"
-        types={[{ name: "Electric", slug: "electric" }]}
-      />,
-    );
+  /* The art's own box: the element round the picture, by its round shape. */
+  const artBoxClassOf = (state: keyof typeof borderByState, picked = false) =>
+    /<span class="([^"]*\brounded-full\b[^"]*)"><span[^>]*>P|<span class="([^"]*\brounded-full\b[^"]*)">/
+      .exec(
+        renderToStaticMarkup(
+          <PokemonCard
+            state={state}
+            picked={picked}
+            imageAlt=""
+            imageUrl={null}
+            name="Pikachu"
+            types={[{ name: "Electric", slug: "electric" }]}
+          />,
+        ),
+      )
+      ?.slice(1)
+      .find(Boolean) ?? "";
 
-    expect(html).not.toContain("rounded-full bg-");
-    expect(html).not.toContain("var(--t)_10%");
+  it("draws nothing behind the art of a white card, a pale circle once caught or picked", () => {
+    for (const state of ["plain", "seen"] as const) {
+      const box = artBoxClassOf(state);
+
+      expect(box).toContain("rounded-full");
+      expect(box).not.toMatch(/(?:^|\s)bg-/);
+    }
+    expect(artBoxClassOf("caught")).toContain("bg-white/55");
+    expect(artBoxClassOf("plain", true)).toContain("bg-white/55");
   });
 });
