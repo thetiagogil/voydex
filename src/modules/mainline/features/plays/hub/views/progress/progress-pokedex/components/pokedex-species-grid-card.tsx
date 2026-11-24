@@ -3,16 +3,18 @@
 import { useState } from "react";
 
 import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { cn } from "@/shared/utils/cn";
 
 import { type PokedexSpeciesPresentationProps } from "./pokedex-species-item-shared";
 
-const cardStateByProgress = {
-  caught: "caught",
-  missing: "missing",
-  seen: "seen",
-} as const;
-
+/*
+ * One Pokédex entry as a card of the collector card's shape: caught is the
+ * card of yours with the Poké Ball, seen the same shape in white with the
+ * eye, missing a dashed outline round the silhouette, so a row stands level
+ * whatever its states. The whole card is the button that marks it. No tilt:
+ * a Pokédex is a long list you mark, not a set you show.
+ */
 export const PokedexSpeciesGridCard = ({
   entry,
   isPending,
@@ -25,17 +27,22 @@ export const PokedexSpeciesGridCard = ({
   const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
 
   return (
-    <div aria-busy={isPending} className="group/dex relative min-w-0">
-      <PokemonCard
-        className="group-hover/dex:-translate-y-0.75"
-        state={cardStateByProgress[state]}
-        imageAlt={entry.imageAlt}
+    <div
+      aria-busy={isPending}
+      onAnimationEnd={() => setMotion(null)}
+      className={cn(
+        "group/dex relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75",
+        motion === "pop" && "animate-pop",
+        motion === "settle" && "animate-settle",
+      )}
+    >
+      <PokemonCollectorCard
+        size="sm"
+        tilt={false}
+        dexState={state}
         imageUrl={entry.imageUrl}
         name={entry.speciesName}
         number={formatPokedexNumber(entry.pokedexNumber)}
-        motion={motion}
-        onAnimationEnd={() => setMotion(null)}
-        subtitle={entry.displayFormName}
         types={[entry.primaryType, entry.secondaryType].filter(
           (type) => type !== null,
         )}
@@ -45,7 +52,7 @@ export const PokedexSpeciesGridCard = ({
         aria-label={toggleLabel}
         aria-pressed={isPressed}
         disabled={isPending}
-        className="absolute inset-0 rounded-lg disabled:cursor-default"
+        className="focus-ring absolute inset-0 rounded-lg disabled:cursor-default"
         onClick={() => {
           setMotion(isPressed ? "settle" : "pop");
           onToggle();

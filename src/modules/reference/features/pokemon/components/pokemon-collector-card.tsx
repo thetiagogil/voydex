@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 
+import { PokemonCardMark } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonShownName } from "@/modules/reference/features/pokemon/components/pokemon-shown-name";
 import { IconTip } from "@/shared/components/icon-tip";
 import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/drop-target-ring";
@@ -25,6 +26,13 @@ export type PokemonCollectorCardSize = "lg" | "md" | "sm";
 
 type PokemonCollectorCardProps = {
   className?: string;
+  /*
+   * In a Play's Pokédex: caught is the card of yours with the Poké Ball,
+   * seen the same shape in white with the eye and nothing behind the art,
+   * missing a dashed outline round the silhouette. Its Play state mark takes
+   * the top-right.
+   */
+  dexState?: "caught" | "missing" | "seen";
   /*
    * What a card you can press adds after what it shows, read but not seen,
    * such as "See its Plays" or "Active slot 2".
@@ -148,6 +156,7 @@ export const PokemonCollectorCard = ({
   className,
   count,
   detail,
+  dexState,
   href,
   imageUrl,
   level,
@@ -184,11 +193,19 @@ export const PokemonCollectorCard = ({
    */
   const artBelowLine =
     Boolean(number) || (!hasTopLine && (shiny || Boolean(warning)));
+  /* A Pokédex card that isn't caught keeps the shape without the colour. */
+  const plain = dexState === "seen" || dexState === "missing";
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
     tilt && cardTiltClassName,
-    selected ? "card-frame-picked" : "card-frame",
+    dexState === "seen"
+      ? "plain-card p-1.25"
+      : dexState === "missing"
+        ? "empty-slot p-[3.5px]"
+        : selected
+          ? "card-frame-picked"
+          : "card-frame",
     target && dropTargetRingClassName,
     className,
   );
@@ -207,18 +224,31 @@ export const PokemonCollectorCard = ({
        * own edge add up to the face's old padding, so the card keeps its
        * height and the open slot still matches it.
        */}
-      <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-1.5">
-        <span className="card-panel relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-sm p-0.5">
+      <span
+        className={cn(
+          "flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-1.5",
+          !plain && "card-face",
+        )}
+      >
+        <span
+          className={cn(
+            "relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-sm p-0.5",
+            !plain && "card-panel",
+          )}
+        >
           {/* The panel's one flourish: a pale arc behind the art, from its top corner. */}
-          <span
-            aria-hidden
-            className="absolute inset-0 mx-auto mb-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw] border-(--t)/10"
-          />
+          {plain ? null : (
+            <span
+              aria-hidden
+              className="absolute inset-0 mx-auto mb-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw] border-(--t)/10"
+            />
+          )}
           <span className="relative order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
             <span
               className={cn(
                 "descender-room truncate leading-tight",
                 sizeClassName.name,
+                dexState === "missing" && "text-ink-3",
               )}
             >
               <PokemonShownName name={name} readAs={nameReadAs} />
@@ -290,6 +320,7 @@ export const PokemonCollectorCard = ({
                */
               className={cn(
                 "absolute inset-0 mx-auto aspect-square",
+                dexState === "missing" && "opacity-10 brightness-0",
                 artBelowLine
                   ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
                   : "my-auto h-[90%]",
@@ -314,6 +345,14 @@ export const PokemonCollectorCard = ({
           ) : null}
         </span>
       </span>
+      {dexState === "caught" || dexState === "seen" ? (
+        <PokemonCardMark
+          border="none"
+          state={dexState}
+          className="size-5.5"
+          iconClassName="size-3.5"
+        />
+      ) : null}
       <CollectorCardGlint />
       {detail && (href || onClick) ? (
         <span className="sr-only">, {detail}</span>

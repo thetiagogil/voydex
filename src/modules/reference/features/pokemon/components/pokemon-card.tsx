@@ -2,7 +2,10 @@ import { PokemonShownName } from "@/modules/reference/features/pokemon/component
 import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { CornerBubble } from "@/shared/components/corner-bubble";
+import {
+  CornerBubble,
+  type CornerBubbleBorder,
+} from "@/shared/components/corner-bubble";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -120,13 +123,13 @@ const paddingClassNames: Record<
  * Poké Ball on white when caught, an eye when seen. A Pokédex has no slots,
  * so this takes the corner a pool tile's slot number would.
  */
-const PokemonCardMark = ({
+export const PokemonCardMark = ({
   border,
   className,
   iconClassName,
   state,
 }: {
-  border: "line" | "sticker";
+  border: CornerBubbleBorder;
   className: string;
   iconClassName: string;
   state: "caught" | "seen";
