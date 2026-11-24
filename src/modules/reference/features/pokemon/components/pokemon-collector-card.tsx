@@ -138,7 +138,7 @@ export const CollectorCardGlint = () => (
  * card, all in its type's colour: a frame, then the paler face as a band
  * round one light panel holding its art (one box per size), its number and
  * a count where it has them or its level on a team along the panel's top,
- * a warning and the shiny mark in the art's bottom corners, its name
+ * a warning and the shiny mark in the panel's top corners, its name
  * centred under the art, then its types centred on one line, so every card
  * in a grid stands as tall as the next. A favourite on no team yet is the same card
  * ("0 Plays"), so one grid never mixes two looks. A Pokémon you only look up
@@ -190,7 +190,7 @@ export const PokemonCollectorCard = ({
   /*
    * Read in this order: the name, the top line (the level on a team), the
    * types, then the art's marks. The art is placed over the name with the
-   * top line along its top and the marks in its bottom corners, the types
+   * top line along its top and the marks in the panel's top corners, the types
    * under the name.
    */
   const tiltHandlers = tilt ? cardTiltHandlers : undefined;
@@ -225,7 +225,13 @@ export const PokemonCollectorCard = ({
              * so a card with a top line and one without (a team) keep one
              * art box: the art stands below it.
              */
-            <span className="text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums">
+            <span
+              className={cn(
+                "text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums",
+                /* Room for the shiny mark at the line's right end. */
+                shiny && "pr-9",
+              )}
+            >
               {number ? <span className="shrink-0">{number}</span> : null}
               {topRight ? (
                 <span className="ml-auto truncate">{topRight}</span>
@@ -276,17 +282,23 @@ export const PokemonCollectorCard = ({
                   : "my-auto h-[90%]",
               )}
             />
-            {warning ? (
-              <CornerBubble corner="inside-bottom-left">
-                <WarningMark label={warning} />
-              </CornerBubble>
-            ) : null}
-            {shiny ? (
-              <CornerBubble corner="inside-bottom-right">
-                <ShinyMark />
-              </CornerBubble>
-            ) : null}
           </span>
+          {/*
+           * The marks in the panel's top corners, along the top line: a
+           * warning on its left (a card with one has no number there), the
+           * shiny mark on its right with the count or level just before it.
+           * Read last, after the types.
+           */}
+          {warning ? (
+            <CornerBubble border="sticker" corner="inside-top-left">
+              <WarningMark label={warning} />
+            </CornerBubble>
+          ) : null}
+          {shiny ? (
+            <CornerBubble border="sticker" corner="inside-top-right">
+              <ShinyMark />
+            </CornerBubble>
+          ) : null}
         </span>
       </span>
       <CollectorCardGlint />

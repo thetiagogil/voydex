@@ -148,16 +148,29 @@ describe("PokemonCollectorCard", () => {
     expect(render({ target: true })).toContain("ring-calm");
   });
 
-  it("puts a warning bottom-left and the shiny mark bottom-right of the window, clear of the top line", () => {
+  it("puts a warning top-left and the shiny mark top-right of the panel, along the top line, off the art", () => {
     const html = render({
-      count: "2 Plays",
-      number: "#149",
+      level: 48,
       shiny: true,
       warning: "Breaks a rule",
     });
 
-    expect(cornerOf(html, "Breaks a rule")).toBe("inside-bottom-left");
-    expect(cornerOf(html, ", Shiny")).toBe("inside-bottom-right");
+    expect(cornerOf(html, "Breaks a rule")).toBe("inside-top-left");
+    expect(cornerOf(html, ", Shiny")).toBe("inside-top-right");
+    /* Neither sits in the art's box, so neither covers the Pokémon. */
+    const art = html.slice(
+      html.indexOf('data-slot="collector-art"'),
+      html.indexOf("</span>", html.indexOf('data-slot="collector-art"')),
+    );
+    expect(art).not.toContain("data-corner");
+  });
+
+  it("makes room for the shiny mark at the top line's right end", () => {
+    const lineOf = (html: string) =>
+      /class="([^"]*-mb-6[^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(lineOf(render({ level: 48, shiny: true }))).toContain("pr-9");
+    expect(lineOf(render({ level: 48 }))).not.toContain("pr-9");
   });
 
   it("reads its marks last, after its types", () => {
