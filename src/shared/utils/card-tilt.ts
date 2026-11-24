@@ -10,9 +10,12 @@ import { isMotionReduced } from "@/shared/utils/motion";
  * a Collection of hundreds of cards stays smooth), and `card-tilt` turns it
  * by them, while its glint crosses it as before. Only for a
  * real pointer that hovers: never on touch, the keyboard (focus keeps its
- * ring alone), Motion None or a device that asks for reduced motion.
+ * ring alone), Motion None or a device that asks for reduced motion. The
+ * handlers turn only an element wearing the class, so a screen can drop the
+ * class for a while (the Planner's replace mode) and keep the handlers, and
+ * a turn left from before still settles when the pointer leaves.
  */
-export const cardTiltClassName = "card-tilt group/tilt";
+export const cardTiltClassName = "card-tilt";
 
 /* The most a card turns on each axis, in degrees. */
 export const cardTiltMax = 9;
@@ -73,8 +76,39 @@ const clear = (element: HTMLElement) => {
   }
 };
 
+/* Ease back flat, then drop the turn altogether. */
+const settleElement = (element: HTMLElement) => {
+  if (!element.dataset.tilt) return;
+
+  const frame = frames.get(element);
+
+  if (frame !== undefined) cancelAnimationFrame(frame);
+  frames.delete(element);
+  element.dataset.tilt = "settle";
+  write(element, { rotateX: 0, rotateY: 0 });
+  window.clearTimeout(settles.get(element));
+  settles.set(
+    element,
+    window.setTimeout(() => {
+      if (element.dataset.tilt === "settle") clear(element);
+    }, settleMs),
+  );
+};
+
 const follow = (event: PointerEvent<HTMLElement>) => {
   const element = event.currentTarget;
+
+  /*
+   * React passes a move inside a popover (a tip opened from the card) up to
+   * the card, with no leave: that pointer is off the card, so it settles.
+   */
+  if (
+    !element.classList.contains("card-tilt") ||
+    !element.contains(event.target as Node)
+  ) {
+    settleElement(element);
+    return;
+  }
 
   if (!canCardTilt(event.pointerType)) return;
 
@@ -99,26 +133,9 @@ const follow = (event: PointerEvent<HTMLElement>) => {
   );
 };
 
-/* The pointer left: ease back flat, then drop the turn altogether. */
-const settle = (event: PointerEvent<HTMLElement>) => {
-  const element = event.currentTarget;
-
-  if (!element.dataset.tilt) return;
-
-  const frame = frames.get(element);
-
-  if (frame !== undefined) cancelAnimationFrame(frame);
-  frames.delete(element);
-  element.dataset.tilt = "settle";
-  write(element, { rotateX: 0, rotateY: 0 });
-  window.clearTimeout(settles.get(element));
-  settles.set(
-    element,
-    window.setTimeout(() => {
-      if (element.dataset.tilt === "settle") clear(element);
-    }, settleMs),
-  );
-};
+/* The pointer left (or a drag took it): settle. */
+const settle = (event: PointerEvent<HTMLElement>) =>
+  settleElement(event.currentTarget);
 
 export const cardTiltHandlers = {
   onPointerCancel: settle,

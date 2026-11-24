@@ -348,7 +348,6 @@ export const PlannerPoolSection = ({
                           {/* What the tile no longer shows, for a screen reader. */}
                           <span className="sr-only">
                             {getPoolTileReadout(
-                              pokemon.nationalNumber,
                               pokemon.types.map((type) => type.name),
                             )}
                           </span>

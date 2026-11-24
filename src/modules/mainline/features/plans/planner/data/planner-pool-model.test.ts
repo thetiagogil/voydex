@@ -11,11 +11,9 @@ import {
 } from "./planner-pool-model";
 
 describe("getPoolTileReadout", () => {
-  it("reads the number with one mark, then the types", () => {
-    expect(getPoolTileReadout(25, ["Electric"])).toBe(", #025, Electric");
-    expect(getPoolTileReadout(131, ["Water", "Ice"])).toBe(
-      ", #131, Water and Ice",
-    );
+  it("reads the types alone, the number being read before the name", () => {
+    expect(getPoolTileReadout(["Electric"])).toBe(", Electric");
+    expect(getPoolTileReadout(["Water", "Ice"])).toBe(", Water and Ice");
   });
 });
 

@@ -261,7 +261,8 @@ glass.
   touch, by keyboard (focus takes its ring alone), on Motion None or under
   reduced motion, and a card about to be dragged flies flat. Where a card
   carries marks on its corners (a Planner slot's ×, Old friends' family
-  tip), its place turns instead and the card passes `tilt={false}`.
+  tip), its place turns instead and the card passes `tilt={false}`; a
+  card settles flat when the pointer moves into a popover opened from it.
 - **The lift (the main action)**: the page's main button (`default`, and
   `inverse` on the red) is solid red on a soft shadow that shrinks when
   pressed (`shadow-button`, `shadow-button-pressed`); it is the one thing

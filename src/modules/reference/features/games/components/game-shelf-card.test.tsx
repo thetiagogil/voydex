@@ -69,4 +69,24 @@ describe("GameShelfCard", () => {
     expect(grid()).not.toContain(collectorCardGridClassName);
     expect(grid()).toContain("minmax(150px,1fr)");
   });
+
+  it("turns toward the pointer only as a played game's card", () => {
+    const rootClass = (html: string) =>
+      /^<[a-z]+ [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(
+      rootClass(
+        renderToStaticMarkup(
+          <GameShelfCard game={game} href="/app/codex/games/swsh" />,
+        ),
+      ),
+    ).not.toMatch(/\bcard-tilt\b/);
+    expect(
+      rootClass(
+        renderToStaticMarkup(
+          <GameShelfCard count="2 Plays" game={game} onClick={() => {}} />,
+        ),
+      ),
+    ).toMatch(/\bcard-tilt\b/);
+  });
 });

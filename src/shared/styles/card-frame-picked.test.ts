@@ -29,19 +29,25 @@ const tokenOf = (css: string, name: string) => {
   return value;
 };
 
-/* The percentage of `--t` in a utility's background mix. */
-const typeShareOf = (utility: string) => {
+/*
+ * A utility's background mix: the share of `--t` and the colour token it is
+ * mixed with, as `color-mix(in oklab, var(--t, …) 82%, var(--ink))`.
+ */
+const backgroundMixOf = (utility: string) => {
   const body = new RegExp(`@utility ${utility} \\{([^}]*)\\}`).exec(
     utilities,
   )?.[1];
-  const share =
-    /background-color:\s*color-mix\([^)]*var\(--t[^)]*\)\)\s*(\d+)%/.exec(
+  const found =
+    /background-color:\s*color-mix\(\s*in oklab,\s*var\(--t[^)]*\)\)\s*(\d+)%,\s*var\(--([a-z0-9-]+)\)\s*\)/.exec(
       body ?? "",
-    )?.[1];
+    );
 
-  if (!share) throw new Error(`${utility} has no type share`);
+  if (!found) throw new Error(`${utility} has no type mix`);
 
-  return Number(share) / 100;
+  return {
+    partner: tokenOf(tokens, found[2]!),
+    share: Number(found[1]) / 100,
+  };
 };
 
 const channels = (hex: string) =>
@@ -108,8 +114,6 @@ const contrast = (first: number[], second: number[]) => {
 };
 
 describe("a picked collector card's frame", () => {
-  const ink = tokenOf(tokens, "ink");
-  const surface = tokenOf(tokens, "surface");
   const colours = {
     ...Object.fromEntries(
       [...typeTokens.matchAll(/--type-([a-z]+):\s*(#[0-9a-fA-F]{6})/g)].map(
@@ -118,8 +122,8 @@ describe("a picked collector card's frame", () => {
     ),
     none: tokenOf(tokens, "mute"),
   };
-  const pickedShare = typeShareOf("card-frame-picked");
-  const frameShare = typeShareOf("card-frame");
+  const pickedMix = backgroundMixOf("card-frame-picked");
+  const frameMix = backgroundMixOf("card-frame");
 
   it("reads every type colour", () => {
     expect(Object.keys(colours)).toHaveLength(19);
@@ -128,8 +132,8 @@ describe("a picked collector card's frame", () => {
   it.each(Object.entries(colours))(
     "reads deeper than its unpicked frame (%s)",
     (_type, hex) => {
-      const picked = mix(hex, pickedShare, ink);
-      const unpicked = mix(hex, frameShare, surface);
+      const picked = mix(hex, pickedMix.share, pickedMix.partner);
+      const unpicked = mix(hex, frameMix.share, frameMix.partner);
 
       expect(luminance(picked)).toBeLessThan(luminance(unpicked));
       expect(contrast(picked, unpicked)).toBeGreaterThanOrEqual(FLOOR);

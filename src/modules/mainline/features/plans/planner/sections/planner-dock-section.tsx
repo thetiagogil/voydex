@@ -266,7 +266,11 @@ export const PlannerDockSection = ({
               key={`${member.formId}-${index}`}
               {...drag.sourceProps(index, { disabled: Boolean(replacing) })}
               {...dropProps}
-              {...(replacing ? {} : cardTiltHandlers)}
+              /*
+               * Always on, so a slot turned before replace mode began still
+               * settles when the pointer leaves; it turns only with the class.
+               */
+              {...cardTiltHandlers}
               className={cn(
                 /*
                  * The slot turns toward the pointer as one, with its × and

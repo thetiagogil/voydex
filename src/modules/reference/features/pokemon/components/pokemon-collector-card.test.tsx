@@ -224,4 +224,44 @@ describe("PokemonCollectorCard", () => {
   it("stays neutral without a type it knows", () => {
     expect(render({ types: [] })).not.toContain("--type-");
   });
+
+  it("turns toward the pointer, unless its place turns instead", () => {
+    const rootClass = (html: string) =>
+      /^<[a-z]+ [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(rootClass(render())).toMatch(/\bcard-tilt\b/);
+    expect(rootClass(render())).not.toContain("hover:-translate-y");
+    expect(rootClass(render({ tilt: false }))).not.toMatch(/\bcard-tilt\b/);
+  });
+
+  it("shows the species' name and reads the form's full one", () => {
+    const html = render({
+      name: "Raichu",
+      nameReadAs: "Alolan Raichu",
+      onClick: () => {},
+    });
+
+    expect(html).toContain('<span aria-hidden="true">Raichu</span>');
+    expect(html).toContain('<span class="sr-only">Alolan Raichu</span>');
+    expect(
+      readOf(html.replace(/<span aria-hidden="true">[^<]*<\/span>/g, "")),
+    ).toMatch(/^Alolan Raichu\b/);
+  });
+
+  it("reads a base form's name once, as it shows", () => {
+    const html = render({ name: "Raichu", nameReadAs: "Raichu" });
+
+    expect(html).not.toContain('sr-only">Raichu');
+    expect(html).not.toContain('aria-hidden="true">Raichu');
+  });
+
+  it("carries a hover note only when it has one", () => {
+    expect(render({ onClick: () => {} })).not.toContain("tooltip-trigger");
+    expect(render({ onClick: () => {}, tip: null })).not.toContain(
+      "tooltip-trigger",
+    );
+    expect(render({ onClick: () => {}, tip: "Alolan Raichu" })).toContain(
+      'data-slot="tooltip-trigger"',
+    );
+  });
 });
