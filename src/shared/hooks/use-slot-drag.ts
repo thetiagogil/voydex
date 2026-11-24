@@ -2,6 +2,8 @@
 
 import { useState, type DragEvent } from "react";
 
+import { flattenCardTilt } from "@/shared/utils/card-tilt";
+
 /*
  * On a dragged slot: its pictures don't start a drag of their own, so the
  * slot is what moves (an image's drag would also end if it redraws).
@@ -37,6 +39,8 @@ export const useSlotDrag = <TItem extends number | string, TSlot>({
     draggable: !disabled,
     onDragEnd: end,
     onDragStart: (event: DragEvent<HTMLElement>) => {
+      /* A card turned toward the pointer flies flat. */
+      flattenCardTilt(event.currentTarget);
       const image =
         event.currentTarget.querySelector<HTMLElement>("[data-drag-image]");
 

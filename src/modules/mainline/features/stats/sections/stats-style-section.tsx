@@ -28,6 +28,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { SectionMoreLink } from "@/shared/components/section-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 import { IconTip } from "@/shared/components/icon-tip";
@@ -317,12 +318,13 @@ export const StatsStyleSection = ({
             {friends.map((friend) => (
               <li
                 key={friend.speciesSlug}
-                className="relative flex min-w-0 transition-transform duration-150 hover:-translate-y-0.75"
+                /* The card's place turns, carrying the family tip. */
+                className={cn("relative flex min-w-0", cardTiltClassName)}
+                {...cardTiltHandlers}
               >
                 <PokemonCollectorCard
                   size="sm"
-                  /* The card lifts instead, carrying the family tip. */
-                  className="hover:translate-y-0"
+                  tilt={false}
                   detail="Open"
                   onClick={() => onOpenFriend(friend)}
                   imageUrl={friend.imageUrl}

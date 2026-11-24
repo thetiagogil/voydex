@@ -30,6 +30,7 @@ import {
   slotDragSourceClassName,
   useSlotDrag,
 } from "@/shared/hooks/use-slot-drag";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { TipHead, TipStack } from "@/shared/components/tip-parts";
 
@@ -264,16 +265,17 @@ export const PlannerDockSection = ({
               key={`${member.formId}-${index}`}
               {...drag.sourceProps(index, { disabled: Boolean(replacing) })}
               {...dropProps}
+              {...(replacing ? {} : cardTiltHandlers)}
               className={cn(
                 /*
-                 * The slot lifts as one, with its × and "!"; a drag carries
-                 * the card alone (`data-drag-image`).
+                 * The slot turns toward the pointer as one, with its × and
+                 * "!"; a drag carries the card alone (`data-drag-image`).
                  */
-                "group/removable relative min-w-0 rounded-lg transition-transform duration-150",
+                "group/removable relative min-w-0 rounded-lg",
                 slotDragSourceClassName,
                 replacing
                   ? "motion-safe:animate-wiggle hover:animate-none"
-                  : "hover:-translate-y-0.75",
+                  : cardTiltClassName,
                 drag.dragging === index && "opacity-60",
               )}
             >
@@ -287,8 +289,8 @@ export const PlannerDockSection = ({
                   types={pokemon.types}
                   /* Under a drag, or any card while one waits to replace it. */
                   target={drag.isOver(index) || Boolean(replacing)}
-                  /* The slot lifts instead. */
-                  className="hover:translate-y-0"
+                  /* The slot turns instead. */
+                  tilt={false}
                   detail={`slot ${index + 1}. ${replacing ? `Replace with ${replacing.name}` : "Edit"}`}
                   onClick={() =>
                     replacing ? onPlace(index) : onOpenSlot(index)

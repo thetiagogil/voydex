@@ -177,7 +177,8 @@ Voydex is quiet where you work and loud where you remember. The
 - One shape language: everything is round and soft. Depth has three levels,
   each with one meaning: a section is flat (white, a thin line, no blur); a
   small solid edge means "you can open this" (a Play row, a Pokémon card, a
-  Collection card), and those rise a little under the pointer; only the
+  Collection card), and those rise a little under the pointer (a card
+  that is yours tilts toward it instead, as a card in the hand); only the
   page's main action lifts on a soft shadow. Blur is otherwise for what
   floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
   is: one you look up is a `PokemonCard`, white with a thin line (the

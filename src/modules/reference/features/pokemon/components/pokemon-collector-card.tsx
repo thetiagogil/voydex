@@ -12,6 +12,7 @@ import {
 } from "@/shared/components/corner-bubble";
 import { Link } from "@/shared/components/link";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 
 type CollectorCardType = { name: string; slug: string };
@@ -64,6 +65,11 @@ type PokemonCollectorCardProps = {
   size?: PokemonCollectorCardSize;
   /* Where a dragged Pokémon would land: the accent ring round its frame. */
   target?: boolean;
+  /*
+   * Off where the card's place turns instead, carrying what sits on its
+   * corners (a team slot's ×, Old friends' family tip).
+   */
+  tilt?: boolean;
   types: CollectorCardType[];
   /*
    * An amber warning mark in the window's corner, such as a Play's rule it
@@ -108,14 +114,16 @@ export const collectorCardGridClassName =
   "grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4";
 
 /*
- * A glint that crosses a collector card under the pointer, as light across
- * a real one: the Pokémon card and the played game card share it. The card
- * is `group/collector`, `relative` and clips its overflow.
+ * A glint on a collector card, as light on a real one: the Pokémon card and
+ * the played game card share it. While the card turns toward the pointer
+ * (`cardTiltClassName`) it stands where the pointer is; elsewhere it crosses
+ * the card under the pointer. The card is `group/collector`, `relative` and
+ * clips its overflow.
  */
 export const CollectorCardGlint = () => (
   <span
     aria-hidden
-    className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] motion-reduce:hidden"
+    className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] group-data-[tilt=on]/tilt:translate-x-[calc(var(--glint-x)*4%-50%)] group-data-[tilt=on]/tilt:duration-150 motion-reduce:hidden"
   />
 );
 
@@ -146,6 +154,7 @@ export const PokemonCollectorCard = ({
   showTypes = true,
   size = "md",
   target = false,
+  tilt = true,
   types,
   warning,
 }: PokemonCollectorCardProps) => {
@@ -165,7 +174,8 @@ export const PokemonCollectorCard = ({
   const artBelowLine = Boolean(number);
 
   const cardClassName = cn(
-    "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
+    "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
+    tilt && cardTiltClassName,
     /* The plain card's line is part of its frame. */
     !owned
       ? "plain-card p-1.25"
@@ -181,6 +191,7 @@ export const PokemonCollectorCard = ({
    * the top line inside its top edge and the marks in its bottom corners,
    * the types under the name.
    */
+  const tiltHandlers = tilt ? cardTiltHandlers : undefined;
   const content = (
     <>
       <span
@@ -288,7 +299,12 @@ export const PokemonCollectorCard = ({
 
   if (href) {
     return (
-      <Link href={href} style={style} className={cardClassName}>
+      <Link
+        href={href}
+        style={style}
+        className={cardClassName}
+        {...tiltHandlers}
+      >
         {content}
       </Link>
     );
@@ -302,6 +318,7 @@ export const PokemonCollectorCard = ({
         onClick={onClick}
         style={style}
         className={cardClassName}
+        {...tiltHandlers}
       >
         {content}
       </button>
@@ -309,7 +326,7 @@ export const PokemonCollectorCard = ({
   }
 
   return (
-    <article style={style} className={cardClassName}>
+    <article style={style} className={cardClassName} {...tiltHandlers}>
       {content}
     </article>
   );

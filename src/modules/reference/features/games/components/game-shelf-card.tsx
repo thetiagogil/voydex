@@ -10,6 +10,7 @@ import {
   collectorCardGridClassName,
   collectorCardSizeClassNames,
 } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 
 type GameShelfCardProps = {
@@ -34,16 +35,26 @@ type GameShelfCardProps = {
 const stageClassName =
   "grid h-30 place-items-center overflow-hidden rounded-sm sm:h-37";
 
-/* The cover in its fixed-height stage, picked up on hover. */
+/*
+ * The cover in its fixed-height stage, picked up on hover on a reference
+ * card (`lifts`). On a collector card the whole card turns instead.
+ */
 const GameShelfCover = ({
   eager,
   game,
+  lifts,
 }: {
   eager: boolean;
   game: GameShelfCardGame;
+  lifts: boolean;
 }) => (
   <span className={stageClassName}>
-    <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5">
+    <span
+      className={cn(
+        lifts &&
+          "ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5",
+      )}
+    >
       <GameCover
         alt=""
         coverImageUrl={game.coverImageUrl}
@@ -83,8 +94,10 @@ const GameShelfName = ({
  * card colour, its year and count on the top line, the cover standing on
  * the card's face with no window behind it, the name centred under it, and
  * the Pokémon card's glint. In the Codex the name and the year and region
- * are centred, as a Codex Pokémon card's name is. Hover lifts the cover
- * (never tilts it). A link opens a page; with `onClick` it is a button.
+ * are centred, as a Codex Pokémon card's name is. In the Codex hover lifts
+ * the card and its cover (never tilting the cover); a played game's card
+ * turns toward the pointer as a Pokémon one does. A link opens a page; with
+ * `onClick` it is a button.
  */
 export const GameShelfCard = ({
   count,
@@ -100,10 +113,13 @@ export const GameShelfCard = ({
     </span>
   );
   const className = cn(
-    "group/game relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
+    "group/game relative flex min-w-0 flex-col rounded-lg text-left",
     count
-      ? "group/collector @container/collector card-frame overflow-hidden p-1.5"
-      : "plain-card gap-3 p-2 pb-3.5",
+      ? cn(
+          "group/collector @container/collector card-frame overflow-hidden p-1.5",
+          cardTiltClassName,
+        )
+      : "plain-card gap-3 p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
   );
   /*
    * A played game reads as the Collection's Pokémon card does: the top line
@@ -124,14 +140,14 @@ export const GameShelfCard = ({
           <span className="truncate">{count}</span>
         </span>
         <span className="order-2">
-          <GameShelfCover eager={eager} game={game} />
+          <GameShelfCover eager={eager} game={game} lifts={false} />
         </span>
       </span>
       <CollectorCardGlint />
     </>
   ) : (
     <>
-      <GameShelfCover eager={eager} game={game} />
+      <GameShelfCover eager={eager} game={game} lifts />
       <span className="flex min-w-0 flex-col items-center gap-0.5 px-2 text-center">
         <GameShelfName className="copy-strong max-w-full" game={game} />
         {facts}
@@ -145,6 +161,7 @@ export const GameShelfCard = ({
   const style = count
     ? ({ "--t": getGameCardColour(game.slug) } as CSSProperties)
     : undefined;
+  const tiltHandlers = count ? cardTiltHandlers : undefined;
 
   return onClick ? (
     <button
@@ -152,11 +169,12 @@ export const GameShelfCard = ({
       onClick={onClick}
       style={style}
       className={cn(className, "w-full")}
+      {...tiltHandlers}
     >
       {content}
     </button>
   ) : (
-    <Link href={href} style={style} className={className}>
+    <Link href={href} style={style} className={className} {...tiltHandlers}>
       {content}
     </Link>
   );
