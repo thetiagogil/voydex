@@ -409,8 +409,8 @@ for (const file of files) {
  * Hover labels are the shared `Tooltip` (`IconTip`), never the browser's
  * `title` attribute: it opens late, never on touch, ignores Soft Clay and can
  * make a screen reader say a name twice. A `title` prop on our own components
- * (a heading, a dialog name) is fine; on a DOM element or a wrapper of one it
- * is not.
+ * (a heading, a dialog name) is fine; on a DOM element, a wrapper of one or
+ * as an SVG's <title> it is not.
  */
 const domTitleHosts = new Set([
   "Badge",
@@ -433,6 +433,18 @@ for (const file of files) {
     ts.ScriptKind.TSX,
   );
   const visit = (node) => {
+    /* An SVG's own <title> is a native hover too. */
+    if (
+      (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) &&
+      node.tagName.getText(source) === "title"
+    ) {
+      const { line } = source.getLineAndCharacterOfPosition(node.getStart());
+
+      findings.push(
+        `${file}:${line + 1}  a native title hover in an <svg> (use Tooltip or IconTip)`,
+      );
+    }
+
     if (ts.isJsxAttribute(node) && node.name.getText(source) === "title") {
       const tag = node.parent.parent.tagName.getText(source);
 
