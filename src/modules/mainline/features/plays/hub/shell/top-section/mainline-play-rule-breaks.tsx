@@ -10,10 +10,10 @@ import type {
 } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { PlayHeaderBadgeButton } from "@/modules/mainline/features/plays/hub/shell/top-section/play-header-badge-button";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
-import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { RuleWarningText } from "@/modules/mainline/features/plays/shared/components/rule-warning-text";
 import { Card } from "@/shared/components/ui/card";
@@ -115,21 +115,14 @@ export const MainlinePlayRuleBreaks = ({
 
   return (
     <>
-      <Badge
-        variant="warn"
-        size="md"
-        className="bg-surface shadow-open cursor-pointer"
-        render={
-          <button
-            type="button"
-            aria-haspopup="dialog"
-            onClick={() => setIsOpen(true)}
-          />
-        }
+      <PlayHeaderBadgeButton
+        tone="warn"
+        dot={false}
+        onClick={() => setIsOpen(true)}
       >
         <AppIcon icon={appIcons.status.warning} />
         {label}
-      </Badge>
+      </PlayHeaderBadgeButton>
       <OverlaySheet
         open={isOpen}
         onOpenChange={setIsOpen}

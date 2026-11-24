@@ -129,7 +129,6 @@ export const SettingsProfileSection = ({
           <UnsavedChangesFooter
             isSaving={isSaving}
             onCancel={() => setDraft(saved)}
-            className="-mx-4.5 mt-5 -mb-5 rounded-b-[28px] sm:-mx-6.5 sm:-mb-6"
           />
         ) : null}
       </TrainerCard>

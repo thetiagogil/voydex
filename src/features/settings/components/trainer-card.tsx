@@ -4,6 +4,7 @@ import { getProfileIconTintStyle } from "@/config/profile-icons";
 import type { PublicTypeSlug } from "@/config/public-art";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 type TrainerCardProps = {
@@ -48,11 +49,12 @@ export const TrainerCard = ({
   const Name = size === "lg" ? "h1" : "p";
 
   return (
-    <section
+    <Card
+      role="region"
       aria-label="Your trainer card"
       className={cn(
         /* White always: with no name yet only the disc and the name say so. */
-        "shadow-card bg-surface flex flex-wrap items-center gap-x-4 gap-y-4 rounded-2xl px-5.5 pt-5 pb-6 sm:gap-x-6 sm:px-7.5 sm:pt-6.5 sm:pb-7",
+        "flex-row flex-wrap items-center gap-4 sm:gap-x-6",
         className,
       )}
     >
@@ -105,6 +107,6 @@ export const TrainerCard = ({
       </div>
       {aside ? <div className="w-full min-w-0 lg:w-auto">{aside}</div> : null}
       {children ? <div className="w-full min-w-0">{children}</div> : null}
-    </section>
+    </Card>
   );
 };

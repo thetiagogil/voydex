@@ -8,6 +8,7 @@ import {
 } from "@/features/site/data/sample-play";
 import { getTypeColourStyle } from "@/features/site/utils/type-colour";
 import { StatusBadge } from "@/shared/components/status-badge";
+import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
 
 /* The badges' resting tilts, as the stamp card draws them. */
@@ -29,11 +30,11 @@ export const ExamplePlay = ({
   art: PublicArt;
   playArt: PublicPlayArt;
 }) => (
-  <div
+  <Card
     role="img"
     aria-label={`An example Play: ${samplePlay.name}, ${samplePlay.status.toLowerCase()}, Trainer ${samplePlay.trainer}, ${playtime}. ${samplePlayProgress.map((bar) => `${bar.label} ${bar.percent}%`).join(", ")}. Team: ${samplePlayTeam.map((pokemon) => pokemon.name).join(", ")}. All eight gym badges.`}
     inert
-    className="bg-surface text-ink shadow-card w-full rounded-2xl p-4 text-left sm:p-5.5"
+    className="text-ink w-full gap-0 text-left"
   >
     <div className="flex gap-4">
       {art.gameCover({ className: "h-28 sm:h-33", game: samplePlay.game })}
@@ -86,5 +87,5 @@ export const ExamplePlay = ({
         </span>
       ))}
     </div>
-  </div>
+  </Card>
 );

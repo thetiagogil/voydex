@@ -89,8 +89,8 @@ const retired = [
 /*
  * Rules for the app's own source only (src/), where the components live:
  * each names what replaced the retired look. `allow` lists the files a rule
- * permits on purpose, `only` limits it to some folders and `fileContains`
- * to files whose text matches.
+ * permits on purpose, `only` limits it to some folders, `fileContains`
+ * to files whose text matches, and `skipTests` leaves unit tests out.
  */
 const sourceRules = [
   {
@@ -127,6 +127,46 @@ const sourceRules = [
     label:
       "a hand-sized text, tracking or line height (use a title step, the type scale or a named leading)",
     pattern: /\btext-\[\d[\d.]*(?:px|rem)\]|\btracking-\[|\bleading-\[/,
+  },
+  {
+    label:
+      "a card's line or edge drawn by hand (use Card, Card interactive for what opens, or plain-card)",
+    pattern:
+      /(?<![-\w])shadow-(?:card|open)(?![-\w])|(?:var)?\(--shadow-(?:card|open)\)/,
+    /* A test may name the class it expects a card to wear. */
+    skipTests: true,
+    /*
+     * The card itself, the toolbar's pill, the gallery's token specimens and
+     * the front page's picture of a History row.
+     */
+    allow: [
+      path.join(
+        "src",
+        "features",
+        "site",
+        "components",
+        "intro",
+        "intro-stages.tsx",
+      ),
+      path.join("src", "shared", "components", "ui", "card.tsx"),
+      path.join("src", "shared", "components", "toolbar.tsx"),
+      path.join(
+        "src",
+        "features",
+        "system",
+        "components",
+        "gallery",
+        "gallery-foundations.tsx",
+      ),
+      path.join(
+        "src",
+        "features",
+        "system",
+        "components",
+        "gallery",
+        "gallery-parts.tsx",
+      ),
+    ],
   },
   {
     label: "a focus ring by hand (use focus-ring or focus-ring-inset)",
@@ -279,7 +319,7 @@ const sourceRules = [
     ],
   },
   /*
-   * Four corner sizes (Design System, Depth): 6, 12, 20 and 28px, and the
+   * Four corner sizes (Design System, Depth): 6, 14, 24 and 32px, and the
    * pill. The two steps between them were retired on 2026-11-19, so nested
    * corners stop drifting apart.
    */
@@ -349,6 +389,7 @@ for (const file of files) {
         ...sourceRules.filter(
           (rule) =>
             !rule.allow?.includes(file) &&
+            !(rule.skipTests && /\.test\.tsx?$/.test(file)) &&
             (!rule.only || rule.only.some((scope) => file.startsWith(scope))) &&
             (!rule.fileContains || rule.fileContains.test(text)),
         ),

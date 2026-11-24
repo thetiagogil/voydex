@@ -10,14 +10,11 @@ import type {
   PlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/types";
 import { updatePlayHeaderFieldAction } from "@/modules/mainline/features/plays/hub/views/settings/client/play-settings-actions";
+import { PlayHeaderBadgeButton } from "@/modules/mainline/features/plays/hub/shell/top-section/play-header-badge-button";
 import type { PlayHeaderChange } from "@/modules/mainline/features/plays/hub/views/settings/utils/play-settings-validation";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { ChoiceChip } from "@/shared/components/choice-chip";
-import {
-  StatusBadge,
-  type StatusBadgeTone,
-} from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import {
   Field,
@@ -37,30 +34,6 @@ type PlayHeaderEditProps = {
   /* The Play's id, which the view leaves nullable. */
   playId: string;
 };
-
-/*
- * The head's badge that opens its dialog: a StatusBadge on the band, as a
- * button.
- */
-const StatusEditBadge = ({
-  children,
-  onClick,
-  tone,
-}: {
-  children: ReactNode;
-  onClick: () => void;
-  tone?: StatusBadgeTone;
-}) => (
-  <StatusBadge
-    ground="band"
-    size="md"
-    tone={tone}
-    className="cursor-pointer hover:brightness-95"
-    render={<button type="button" aria-haspopup="dialog" onClick={onClick} />}
-  >
-    {children}
-  </StatusBadge>
-);
 
 /*
  * One dialog for the three edits (a bottom sheet on phones): a title, the
@@ -210,12 +183,12 @@ export const PlayHeaderStatusEdit = ({
 
   return (
     <>
-      <StatusEditBadge
+      <PlayHeaderBadgeButton
         tone={getPlayStatusTone(data.play.status_slug)}
         onClick={edit.openDialog}
       >
         {name}
-      </StatusEditBadge>
+      </PlayHeaderBadgeButton>
       <HeaderEditDialog
         title="Status"
         open={edit.open}
