@@ -5,7 +5,7 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * The one round tile an icon (or a letter) sits on beside words: a section's
- * icon, a row in You, a fact in Statistics, the add mark on an empty sticker.
+ * icon, a row in You, a fact in Statistics, the add mark on an open slot.
  * `quiet` is the inset grey, for cards and rows; `band` is white with the
  * calm blue, for a tile on the page's band. Sizes follow the row it sits in.
  */

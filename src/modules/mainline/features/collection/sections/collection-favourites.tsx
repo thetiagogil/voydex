@@ -47,14 +47,12 @@ const sortOrder: FavouriteSort[] = ["recent", "dex", "used"];
 const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
 
-const countGames = (count: number) =>
-  `${count} ${count === 1 ? "game" : "games"}`;
-
 /*
  * Collection's Favourites: every Pokémon you hearted in the Codex, newest
  * first, under the same toolbar as the Pokémon view. One that has joined
- * your teams is yours, so it wears the sticker with its Play count and opens
- * its sheet; one that hasn't yet is a plain card opening its Codex entry.
+ * your teams is yours, so it wears its type's colour with its Play count
+ * and opens its sheet; one that hasn't yet is the same card in plain white,
+ * opening its Codex entry.
  */
 export const CollectionFavourites = ({
   entries,
@@ -126,12 +124,10 @@ export const CollectionFavourites = ({
                 <li key={favourite.formId} className="min-w-0">
                   {owned ? (
                     <PokemonCollectorCard
-                      className="w-full"
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
                       count={countPlays(owned.playIds.length)}
-                      note={countGames(owned.gameNames.length)}
                       types={favourite.types}
                       selected={open?.formId === favourite.formId}
                       detail="See its Plays"
@@ -144,13 +140,13 @@ export const CollectionFavourites = ({
                     />
                   ) : (
                     <PokemonCollectorCard
-                      className="w-full"
                       detail="open in the Codex"
                       href={favourite.codexHref}
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      note="Not on a team yet"
+                      count="Not on a team"
+                      owned={false}
                       types={favourite.types}
                     />
                   )}

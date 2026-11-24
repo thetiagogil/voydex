@@ -21,7 +21,7 @@ export type FavouritePokemon = {
   nationalNumber: number | null;
   /*
    * The species in your Collection once it has joined one of your teams, in
-   * any form: then it is yours and wears a sticker. Null until then.
+   * any form: then it is yours and wears its type's colour. Null until then.
    */
   owned: TrainerPokemonEntry | null;
   speciesId: number;

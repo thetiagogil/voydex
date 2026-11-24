@@ -46,13 +46,10 @@ const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
 
-const countGames = (count: number) =>
-  `${count} ${count === 1 ? "game" : "games"}`;
-
 /*
  * The Collection's Pokémon: the views switch, a toolbar (search, what to
- * show, the generation, the order), the type dots, and every species as a
- * sticker with its Play count on a corner, opening its sheet.
+ * show, the generation, the order), the type dots, and every species as
+ * its card with its number and its Play count on top, opening its sheet.
  */
 export const CollectionBrowser = ({
   entries,
@@ -119,12 +116,10 @@ export const CollectionBrowser = ({
             {shown.map((entry) => (
               <li key={entry.speciesId} className="min-w-0">
                 <PokemonCollectorCard
-                  className="w-full"
                   imageUrl={entry.imageUrl}
                   name={entry.name}
                   number={formatNationalNumber(entry.nationalNumber)}
                   count={countPlays(entry.playIds.length)}
-                  note={countGames(entry.gameNames.length)}
                   shiny={entry.shiny}
                   types={entry.types}
                   selected={openSpeciesId === entry.speciesId}

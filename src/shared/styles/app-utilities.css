@@ -1,4 +1,4 @@
-/* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
+/* A Pokémon's type colour as a pale tint, for tiles and art circles. Set --t. */
 @utility type-tint {
   background-color: color-mix(in oklab, var(--t) 16%, var(--surface));
 }
@@ -16,7 +16,7 @@
 }
 
 /*
- * An owned Pokémon's card: the whole card in its type's colour, a 3px white
+ * A caught or picked Pokémon's tile: all in its type's colour, a 3px white
  * band, and the small solid edge of what you can open. Set --t (neutral
  * when it isn't set). Swap the edge with --sticker-shadow, or add
  * `sticker-picked` to mark it as the target.
@@ -34,19 +34,11 @@
 }
 
 /*
- * The Pokémon on its card: a little larger than the pale circle behind it,
- * standing out of its top, with a soft shadow of its own.
- */
-@utility sticker-art {
-  transform: translateY(-9%) scale(1.14);
-  filter: drop-shadow(0 10px 5px rgb(var(--shade) / 0.32));
-}
-
-/*
- * A collector card: an owned Pokémon's card where you look at it as part of
- * a set. `card-frame` is the frame in its type's colour round the white
- * card, on the small edge of what you can open; `card-window` is the soft
- * tinted block its art stands in. Set --t (neutral when it isn't set).
+ * A collector card: the card of what is yours (a Pokémon, a game you
+ * played), all in its own colour. `card-frame` is the frame, on the small
+ * edge of what you can open; `card-face` the paler face inside it;
+ * `card-window` the light block its art stands in. Set --t (neutral when
+ * it isn't set).
  */
 @utility card-frame {
   background-color: color-mix(
@@ -58,10 +50,18 @@
     color-mix(in oklab, var(--t, var(--mute)) 34%, var(--line));
 }
 
+@utility card-face {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 16%,
+    var(--surface)
+  );
+}
+
 @utility card-window {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 22%,
+    var(--t, var(--mute)) 6%,
     var(--surface)
   );
 

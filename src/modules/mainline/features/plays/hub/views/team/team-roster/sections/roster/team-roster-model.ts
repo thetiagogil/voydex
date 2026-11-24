@@ -17,7 +17,6 @@ import {
 export type TeamRosterGroup = "active" | "reserve";
 
 export type TeamRosterSlot = {
-  label: string;
   member: MainlinePlayTeamMember | null;
   position: number;
 };
@@ -30,7 +29,7 @@ export type TeamRosterSummary = {
 
 /*
  * A group's six slots, as the Plays card and Overview place a team. The
- * reserve's stored slots run 7 to 12 and read R1 to R6.
+ * reserve's stored slots run 7 to 12 and stand at 1 to 6.
  */
 export const getTeamRosterSlots = (
   roster: MainlinePlayTeamMember[],
@@ -40,7 +39,6 @@ export const getTeamRosterSlots = (
     roster.filter((member) => member.roster_state_slug === group),
     { slotOffset: group === "active" ? 0 : playTeamSize },
   ).map(({ member, position }) => ({
-    label: group === "active" ? `${position}` : `R${position}`,
     member,
     position,
   }));

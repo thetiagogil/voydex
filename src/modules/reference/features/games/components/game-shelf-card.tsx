@@ -90,7 +90,7 @@ export const GameShelfCard = ({
     count ? "card-frame p-1.5" : "plain-card gap-3 p-2 pb-3.5",
   );
   const content = count ? (
-    <span className="bg-surface flex min-w-0 flex-1 flex-col gap-2 rounded-lg p-2.5">
+    <span className="card-face flex min-w-0 flex-1 flex-col gap-2 rounded-lg p-2.5">
       <span className="flex min-w-0 items-baseline justify-between gap-2">
         <GameShelfName game={game} />
         <span className="text-ink-2 copy-mark shrink-0 tabular-nums">

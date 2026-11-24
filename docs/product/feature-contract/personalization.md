@@ -63,7 +63,7 @@ team and the reserve) and warns, but never blocks
 (`src/modules/mainline/features/plays/shared/data/rule-checks.ts`):
 an amber "N rules broken" chip in the Play's head opens a sheet listing
 each broken rule and the Pokémon that break it; on the Team page each such
-Pokémon's sticker carries a warning mark and its profile a note naming the
+Pokémon's card carries a warning mark and its profile a note naming the
 rules; in Add Pokémon the Pokémon that would break a rule are faded (you can
 still pick them) and the details step lists what the pick breaks.
 

@@ -5,10 +5,8 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
-import {
-  PokemonEmptySlot,
-  PokemonSticker,
-} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import { SectionHead } from "@/shared/components/section-head";
 
 type TeamSectionProps = {
@@ -28,7 +26,7 @@ const countLabel = (count: number | null, label: string) =>
   count === null ? null : `${count} ${label}`;
 
 /*
- * A grid of cards keeps its heading on the page: your team, as stickers,
+ * A grid of cards keeps its heading on the page: your team, as its cards,
  * each under its nickname (or its species when it has none). Each opens the
  * Roster with that Pokémon selected.
  */
@@ -92,8 +90,9 @@ export const TeamSection = ({
           const name = getPlayTeamMemberName(member);
 
           return (
-            <PokemonSticker
+            <PokemonCollectorCard
               key={position}
+              size="lg"
               href={
                 member.play_pokemon_id
                   ? appRoutes.mainlinePlayTeamPokemon(

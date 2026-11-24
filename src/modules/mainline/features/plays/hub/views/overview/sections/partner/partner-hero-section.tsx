@@ -26,7 +26,7 @@ import {
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { appIcons } from "@/shared/components/app-icon";
@@ -48,7 +48,7 @@ const getOptionTypeSlug = (option: OverviewPartnerOption) =>
  * A brand-new Play's hero (v3 `.fresh-hero`): which partner you chose. The
  * options are plain cards; tapping one picks it (its type and a ring), and
  * "Choose {name}" in the footer records it, as on Home and Start a Play.
- * The recorded partner becomes your sticker and pops once, the others step
+ * The recorded partner becomes your card and pops once, the others step
  * back, and the toast offers Undo.
  * Once chosen, the next milestone waits under the rule with Record.
  */
@@ -197,16 +197,15 @@ export const PartnerHeroSection = ({
           return (
             <li key={option.decisionOptionId} className="min-w-0">
               {isChosen ? (
-                <PokemonSticker
-                  variant="compact"
+                <PokemonCollectorCard
+                  size="sm"
                   className={cn(
-                    "size-full",
                     poppingOptionId === option.decisionOptionId &&
                       "animate-pop",
                   )}
                   imageUrl={option.imageUrl}
                   name={option.name}
-                  subtitle="Your partner"
+                  count="Your partner"
                   types={getOptionTypes(option)}
                 />
               ) : chosen ? (

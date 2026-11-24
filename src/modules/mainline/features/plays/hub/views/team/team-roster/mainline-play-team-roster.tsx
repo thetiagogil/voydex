@@ -48,14 +48,14 @@ type MainlinePlayTeamRosterProps = {
    */
   addRequest?: { preset: AddPokemonPreset | null } | null;
   data: MainlinePlayTeamRosterData;
-  /* The Pokémon a link asked to open on, such as an Overview sticker. */
+  /* The Pokémon a link asked to open on, such as an Overview card. */
   initialPokemonId?: string | null;
   playId: string;
 };
 
 /*
  * The Roster, as v3 draws it: the page head with Add Pokémon, the Active
- * team and the Reserve as stickers, and the selected Pokémon's profile
+ * team and the Reserve as cards, and the selected Pokémon's profile
  * beside them (a bottom sheet on phones and tablets). Edit opens the
  * editor; Add Pokémon and Replace share one species picker. A Pokémon moves
  * by dragging it onto another slot (at once) or from the editor's Slot (on

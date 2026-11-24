@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/drop-target-ring";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -51,19 +51,14 @@ type PokemonCardProps = {
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
   /*
-   * On a team, as a roster sticker: the sticker's white band on a soft
-   * shadow, with no Play state mark. `picked` turns the band its type's colour.
-   */
-  sticker?: boolean;
-  /*
    * `md` is the grid card. `sm` fits three cards in a narrow card; `fluid` is
    * `sm` on phones and `md` from `sm` up.
    */
   size?: PokemonCardSize;
   subtitle?: string | null;
   /*
-   * Where a dragged Pokémon would land: the accent ring, as on a sticker or
-   * an open slot.
+   * Where a dragged Pokémon would land: the accent ring, as on a collector
+   * card or an open slot.
    */
   target?: boolean;
   types: PokemonCardType[];
@@ -133,7 +128,7 @@ const paddingClassNames: Record<
 /*
  * The Play state mark in the top-right corner, in the one corner-mark band: a
  * Poké Ball on white when caught, an eye when seen. A Pokédex has no slots,
- * so this is the number a team's card would carry there.
+ * so this takes the corner a pool tile's slot number would.
  */
 const PokemonCardMark = ({
   border,
@@ -194,7 +189,6 @@ export const PokemonCard = ({
   motion = null,
   picked = false,
   size = "md",
-  sticker = false,
   state,
   subtitle,
   target = false,
@@ -202,7 +196,6 @@ export const PokemonCard = ({
 }: PokemonCardProps & { state: PokemonCardState }) => {
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
   const sizes = sizeClassNames[size];
-  const isSticker = picked || sticker;
 
   return (
     <div
@@ -212,18 +205,17 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
-        isSticker
+        picked
           ? cn(
-              "sticker",
-              picked && "sticker-type-band",
+              "sticker sticker-type-band",
               /* A target's ring takes the edge's place. */
               target && "sticker-picked",
             )
           : stateClassNames[state],
-        target && !isSticker && dropTargetRingClassName,
-        /* A sticker wears the 4px band, so it takes the sticker's padding. */
+        target && !picked && dropTargetRingClassName,
+        /* A picked card wears the 4px band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
-          isSticker ? "caught" : state
+          picked ? "caught" : state
         ],
         motion === "pop" && "animate-pop",
         motion === "settle" && "animate-settle",
@@ -246,7 +238,7 @@ export const PokemonCard = ({
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark
-          border={state === "caught" || isSticker ? "sticker" : "line"}
+          border={state === "caught" || picked ? "sticker" : "line"}
           state={state}
           className={sizes.mark}
           iconClassName={sizes.markIcon}
@@ -256,8 +248,8 @@ export const PokemonCard = ({
         className={cn(
           "relative mt-0.5 mb-1.5 grid place-items-center rounded-full",
           sizes.circle,
-          (state === "caught" || isSticker) && "bg-white/55",
-          !isSticker &&
+          (state === "caught" || picked) && "bg-white/55",
+          !picked &&
             (state === "plain" || state === "seen") &&
             "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
         )}

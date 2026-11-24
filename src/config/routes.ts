@@ -147,7 +147,7 @@ export const appRoutes = {
       add: speciesSlug ?? "",
       ...(formSlug ? { form: formSlug } : {}),
     }),
-  /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
+  /* The Roster with one Pokémon selected, as an Overview team card opens it. */
   mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
     playHref("/team", playId, { pokemon: playPokemonId }),
   mainlinePlayTeamAnalysis: (playId: string) =>

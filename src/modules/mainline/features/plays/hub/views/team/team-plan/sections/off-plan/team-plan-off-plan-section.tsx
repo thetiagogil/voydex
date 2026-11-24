@@ -3,10 +3,8 @@ import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import {
-  PokemonEmptySlot,
-  PokemonSticker,
-} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
@@ -15,15 +13,9 @@ const columns = [
   { icon: appIcons.product.reserve, key: "reserve", title: "In reserve" },
 ] as const;
 
-/* Where an off-plan Pokémon is: its slot on the team, or the reserve. */
-const getPlaceLabel = (member: MainlinePlayTeamMember) =>
-  member.roster_state_slug === "active" && member.slot
-    ? `Slot ${member.slot}`
-    : "Reserve";
-
 /*
  * v3 "Outside the Plan": what this Play recorded that isn't one of the
- * Plan's targets, as the small stickers of Pokémon you own, in two columns:
+ * Plan's targets, as the small cards of Pokémon you own, in two columns:
  * on the team and in reserve.
  */
 export const TeamPlanOffPlanSection = ({
@@ -60,13 +52,11 @@ export const TeamPlanOffPlanSection = ({
 
                     return (
                       <li key={member.play_pokemon_id} className="min-w-0">
-                        <PokemonSticker
-                          variant="compact"
-                          className="size-full"
+                        <PokemonCollectorCard
+                          size="sm"
                           imageUrl={getPlayTeamMemberImageUrl(member)}
                           name={name}
                           shiny={member.is_shiny === true}
-                          subtitle={getPlaceLabel(member)}
                           types={[
                             member.primaryType,
                             member.secondaryType,
@@ -77,14 +67,14 @@ export const TeamPlanOffPlanSection = ({
                   })}
                 </ul>
               ) : (
-                /* One empty tile, the size of the stickers it stands in for. */
+                /* One empty tile, the size of the cards it stands in for. */
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   <li className="min-w-0">
                     <PokemonEmptySlot
-                      variant="compact"
+                      size="sm"
                       label={`Nothing ${column.title.toLowerCase()} outside the Plan`}
                       text="All part of the Plan"
-                      className="text-13 h-full px-3 text-center"
+                      className="text-13"
                     />
                   </li>
                 </ul>

@@ -178,11 +178,12 @@ Voydex is quiet where you work and loud where you remember. The
   small solid edge means "you can open this" (a Play row, a Pokémon card, a
   Collection card), and those rise a little under the pointer; only the
   page's main action lifts on a soft shadow. Blur is otherwise for what
-  floats (menus, sheets, dialogs, toasts). One Pokémon card everywhere
-  (`PokemonCard`, and `PokemonSticker` on a team): white with a thin line
-  when it isn't yours; in its type's colour inside a white band, the
-  Pokémon standing a little out of a pale circle, when it is. Only the Collection frames what you
-  own as collector cards (`PokemonCollectorCard`, `GameShelfCard` with
+  floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
+  is: one you look up is a `PokemonCard`, white with a thin line (the
+  Codex, the Planner's list, a Pokédex); one that is yours is a
+  `PokemonCollectorCard`, all in its type's colour (number and count on
+  top, picture, name, types), the same in the Collection, on a Play's team
+  and in a Plan's team. A game you played is one too (`GameShelfCard` with
   `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
   status, never controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px

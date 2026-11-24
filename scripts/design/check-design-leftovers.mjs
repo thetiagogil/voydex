@@ -338,14 +338,14 @@ const sourceRules = [
       "a corner mark placed by hand on a Pokémon card (use CornerBubble with SlotMark, WarningMark or ShinyMark)",
     pattern:
       /(?<![-\w])absolute\b[^"'`]*(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)|(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)[^"'`]*(?<![-\w])absolute\b/,
-    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+    fileContains: /\bPokemon(?:Card|CollectorCard)\b/,
   },
   {
     label:
       "a corner mark's band or shadow drawn by hand on a Pokémon card (use the shared mark, drawn with bubble)",
     pattern:
       /(?<![-\w])bubble\b[^"'`]*(?<![-\w])absolute\b|(?<![-\w])absolute\b[^"'`]*(?<![-\w])bubble\b/,
-    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+    fileContains: /\bPokemon(?:Card|CollectorCard)\b/,
   },
 ];
 
