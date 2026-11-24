@@ -174,8 +174,13 @@ export const downloadImages = async (
     if (!url) return;
 
     const response = await fetch(url, {
-      /* An older copy: past the browser's own cache too. */
-      cache: kept[path] ? "reload" : "default",
+      /*
+       * Always past the browser's own cache: a picture a page showed
+       * before the images site allowed CORS sits there without the header
+       * a CORS request needs, so the request fails on that copy. An older
+       * copy is asked for afresh this way too.
+       */
+      cache: "reload",
       credentials: "omit",
       mode: "cors",
       signal: AbortSignal.timeout(pictureTimeoutMs),
