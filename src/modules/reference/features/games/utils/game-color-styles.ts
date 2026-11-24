@@ -121,3 +121,63 @@ export const getGameColourStyle = (
     "--game-strong": getGameStrongColour(hex),
   };
 };
+
+/* Hue, saturation and lightness (each 0 to 1) of a colour's channels. */
+const toHsl = ([red, green, blue]: number[]) => {
+  const max = Math.max(red, green, blue);
+  const min = Math.min(red, green, blue);
+  const lightness = (max + min) / 2;
+  const delta = max - min;
+
+  if (!delta) return [0, 0, lightness];
+
+  const saturation = delta / (1 - Math.abs(2 * lightness - 1));
+  const hue =
+    max === red
+      ? ((green - blue) / delta + 6) % 6
+      : max === green
+        ? (blue - red) / delta + 2
+        : (red - green) / delta + 4;
+
+  return [hue / 6, saturation, lightness];
+};
+
+const fromHsl = ([hue, saturation, lightness]: number[]) => {
+  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+  const section = hue * 6;
+  const second = chroma * (1 - Math.abs((section % 2) - 1));
+  const [red, green, blue] =
+    section < 1
+      ? [chroma, second, 0]
+      : section < 2
+        ? [second, chroma, 0]
+        : section < 3
+          ? [0, chroma, second]
+          : section < 4
+            ? [0, second, chroma]
+            : section < 5
+              ? [second, 0, chroma]
+              : [chroma, 0, second];
+  const lift = lightness - chroma / 2;
+
+  return [red + lift, green + lift, blue + lift];
+};
+
+/*
+ * A game's colour for a whole card (a played game in the Collection): the
+ * dusted mark colour made as lively as a Pokémon type's, so a game card and
+ * a Pokémon card sit side by side at one brightness. A grey game (Black,
+ * Platinum) stays grey. Text never sits on it, only on the pale face mixed
+ * from it.
+ */
+export const getGameCardColour = (game: PokemonGameSlug | string | null) => {
+  const [hue, saturation, lightness] = toHsl(parseHex(getGameColour(game)));
+
+  return toHex(
+    fromHsl([
+      hue,
+      saturation < 0.15 ? saturation : Math.min(0.75, saturation * 1.3 + 0.05),
+      Math.min(0.6, Math.max(0.5, lightness + 0.1)),
+    ]),
+  );
+};

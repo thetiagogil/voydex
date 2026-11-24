@@ -4,8 +4,9 @@ import type { CSSProperties, ReactNode } from "react";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import type { GameShelfCardGame } from "@/modules/reference/types";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import { getGameCardColour } from "@/modules/reference/features/games/utils/game-color-styles";
 import {
+  CollectorCardGlint,
   collectorCardGridClassName,
   collectorCardSizeClassNames,
 } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
@@ -42,7 +43,7 @@ const GameShelfCover = ({
   game: GameShelfCardGame;
 }) => (
   <span className={stageClassName}>
-    <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5 motion-safe:group-hover/game:-rotate-3">
+    <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5">
       <GameCover
         alt=""
         coverImageUrl={game.coverImageUrl}
@@ -79,10 +80,11 @@ const GameShelfName = ({
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection shows a played
  * game as a collector card laid out as a Pokémon one: a frame in the game's
- * colour, its year and count on the top line, the cover standing on the
- * card's face with no window behind it, the name and region centred under
- * it. Hover picks the cover up. A link opens a
- * page; with `onClick` it is a button.
+ * card colour, its year and count on the top line, the cover standing on
+ * the card's face with no window behind it, the name centred under it, and
+ * the Pokémon card's glint. In the Codex the name and the year and region
+ * are centred, as a Codex Pokémon card's name is. Hover lifts the cover
+ * (never tilts it). A link opens a page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
   count,
@@ -92,58 +94,56 @@ export const GameShelfCard = ({
   onClick,
 }: GameShelfCardProps) => {
   const facts = (
-    <span className="copy-meta text-ink-2 truncate">
+    <span className="copy-meta text-ink-2 max-w-full truncate">
       <span className="tabular-nums">{game.releaseYear}</span>
       {game.regionName ? ` · ${game.regionName}` : null}
     </span>
   );
   const className = cn(
-    "group/game @container/collector relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
-    count ? "card-frame p-1.5" : "plain-card gap-3 p-2 pb-3.5",
+    "group/game relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
+    count
+      ? "group/collector @container/collector card-frame overflow-hidden p-1.5"
+      : "plain-card gap-3 p-2 pb-3.5",
   );
   /*
    * A played game reads as the Collection's Pokémon card does: the top line
-   * (its year, its count), the cover, the name centred, then its region
-   * centred where a Pokémon's types go. Read name first, as that card is.
+   * (its year, its count), the cover, then the name centred, and the same
+   * glint under the pointer. Read name first, as that card is.
    */
   const content = count ? (
-    <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2">
-      <span className="order-3 mt-2 flex min-w-0 justify-center">
-        <GameShelfName
-          className={collectorCardSizeClassNames.md.name}
-          game={game}
-        />
+    <>
+      <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2 pb-3">
+        <span className="order-3 mt-2 flex min-w-0 justify-center">
+          <GameShelfName
+            className={collectorCardSizeClassNames.md.name}
+            game={game}
+          />
+        </span>
+        <span className="text-ink-tint copy-mark order-1 mb-1.5 flex min-w-0 items-baseline justify-between gap-2 tabular-nums">
+          <span className="shrink-0">{game.releaseYear}</span>
+          <span className="truncate">{count}</span>
+        </span>
+        <span className="order-2">
+          <GameShelfCover eager={eager} game={game} />
+        </span>
       </span>
-      <span className="text-ink-tint copy-mark order-1 mb-1.5 flex min-w-0 items-baseline justify-between gap-2 tabular-nums">
-        <span className="shrink-0">{game.releaseYear}</span>
-        <span className="truncate">{count}</span>
-      </span>
-      <span
-        className={cn(
-          "text-ink-2 copy-meta order-4 mt-auto box-content flex items-end justify-center pt-1.5",
-          collectorCardSizeClassNames.md.typesLine,
-        )}
-      >
-        <span className="truncate">{game.regionName}</span>
-      </span>
-      <span className="order-2">
-        <GameShelfCover eager={eager} game={game} />
-      </span>
-    </span>
+      <CollectorCardGlint />
+    </>
   ) : (
     <>
       <GameShelfCover eager={eager} game={game} />
-      <span className="flex min-w-0 flex-col gap-0.5 px-2">
-        <GameShelfName game={game} />
+      <span className="flex min-w-0 flex-col items-center gap-0.5 px-2 text-center">
+        <GameShelfName className="copy-strong max-w-full" game={game} />
         {facts}
       </span>
     </>
   );
-  /* The frame takes the game's own colour through `--t`, as a type does. */
+  /*
+   * The frame takes the game's card colour through `--t`, as a type does:
+   * as lively as a type's, so a game card sits beside a Pokémon one.
+   */
   const style = count
-    ? ({
-        "--t": getGameColourStyle(game.slug)["--game"],
-      } as CSSProperties)
+    ? ({ "--t": getGameCardColour(game.slug) } as CSSProperties)
     : undefined;
 
   return onClick ? (

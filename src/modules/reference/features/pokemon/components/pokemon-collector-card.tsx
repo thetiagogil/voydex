@@ -110,6 +110,18 @@ export const collectorCardGridClassName =
   "grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4";
 
 /*
+ * A glint that crosses a collector card under the pointer, as light across
+ * a real one: the Pokémon card and the played game card share it. The card
+ * is `group/collector`, `relative` and clips its overflow.
+ */
+export const CollectorCardGlint = () => (
+  <span
+    aria-hidden
+    className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] motion-reduce:hidden"
+  />
+);
+
+/*
  * The card of a Pokémon that is yours, everywhere it is one: in the
  * Collection, on a team, in a Plan, as your partner. It reads as a real
  * card, all in its type's colour: a frame round a paler face, its art in a
@@ -265,11 +277,7 @@ export const PokemonCollectorCard = ({
           ) : null}
         </span>
       </span>
-      {/* A glint crosses the card under the pointer, as light across a real one. */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] motion-reduce:hidden"
-      />
+      <CollectorCardGlint />
       {detail && (href || onClick) ? (
         <span className="sr-only">, {detail}</span>
       ) : null}

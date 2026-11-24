@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 
 import type { GameShelfCardGame } from "@/modules/reference/types";
 
+import { getGameCardColour } from "@/modules/reference/features/games/utils/game-color-styles";
+
 import { GameShelfCard } from "./game-shelf-card";
 
 const game: GameShelfCardGame = {
@@ -28,6 +30,9 @@ describe("GameShelfCard", () => {
     expect(markup).toContain("plain-card");
     expect(markup).not.toContain("sticker");
     expect(markup).not.toContain("empty-slot");
+    /* Centred, as a Codex Pokémon card's name is. */
+    expect(markup).toContain("items-center");
+    expect(markup).toContain("text-center");
   });
 
   it("is a framed collector card, laid out as a Pokémon one, for a game you've played", () => {
@@ -39,8 +44,15 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("<a ");
     expect(markup).toContain("card-frame");
     expect(markup).not.toContain("plain-card");
-    /* Read name first, then the top line (year, Plays), then the region. */
-    expect(getWords(markup)).toContain("Pokémon Sword20192 PlaysGalar");
+    /* Read name first, then the top line (year, Plays); no region. */
+    expect(getWords(markup)).toContain("Pokémon Sword20192 Plays");
+    expect(getWords(markup)).not.toContain("Galar");
     expect(markup).toContain("@container/collector");
+    /* The Pokémon card's glint, from the one shared piece. */
+    expect(markup).toContain("group/collector");
+    expect(markup).toContain("group-hover/collector:translate-x-[500%]");
+    /* Its frame wears the game's card colour, never a tilted cover. */
+    expect(markup).toContain(`--t:${getGameCardColour("sword")}`);
+    expect(markup).not.toContain("rotate");
   });
 });
