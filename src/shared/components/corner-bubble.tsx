@@ -4,7 +4,13 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 export type CornerBubbleCorner =
-  "bottom" | "inside-top-left" | "inside-top-right" | "top-left" | "top-right";
+  | "bottom"
+  | "inside-bottom-left"
+  | "inside-bottom-right"
+  | "inside-top-left"
+  | "inside-top-right"
+  | "top-left"
+  | "top-right";
 
 /*
  * A mark sits 12px in from its card's outer edge, whatever border the card
@@ -17,11 +23,21 @@ export type CornerBubbleBorder = "line" | "none" | "sticker";
 
 const insetClassNames: Record<
   CornerBubbleBorder,
-  { left: string; right: string; top: string }
+  { bottom: string; left: string; right: string; top: string }
 > = {
-  line: { left: "left-2.75", right: "right-2.75", top: "top-2.75" },
-  none: { left: "left-3", right: "right-3", top: "top-3" },
-  sticker: { left: "left-2", right: "right-2", top: "top-2" },
+  line: {
+    bottom: "bottom-2.75",
+    left: "left-2.75",
+    right: "right-2.75",
+    top: "top-2.75",
+  },
+  none: { bottom: "bottom-3", left: "left-3", right: "right-3", top: "top-3" },
+  sticker: {
+    bottom: "bottom-2",
+    left: "left-2",
+    right: "right-2",
+    top: "top-2",
+  },
 };
 
 const cornerClassNames: Record<
@@ -50,6 +66,10 @@ const getCornerClassName = (
       return `${inset.top} ${inset.left}`;
     case "inside-top-right":
       return `${inset.top} ${inset.right}`;
+    case "inside-bottom-left":
+      return `${inset.bottom} ${inset.left}`;
+    case "inside-bottom-right":
+      return `${inset.bottom} ${inset.right}`;
     default:
       return cornerClassNames[corner];
   }

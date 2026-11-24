@@ -74,9 +74,20 @@ describe("PokemonCollectorCard", () => {
   });
 
   it("draws no top line without a number or a count", () => {
-    expect(render()).not.toContain("order-1");
-    expect(render({ count: "Your partner" })).toContain("order-1");
-    expect(render({ number: "#149" })).toContain("order-1");
+    expect(render()).not.toContain("-mb-6");
+    expect(render({ count: "Your partner" })).toContain("-mb-6");
+    expect(render({ number: "#149" })).toContain("-mb-6");
+  });
+
+  it("keeps one window with or without a top line, the art below the line", () => {
+    const windowOf = (html: string) =>
+      /class="([^"]*card-window[^"]*)"/.exec(html)?.[1];
+
+    expect(windowOf(render({ number: "#149", count: "2 Plays" }))).toBe(
+      windowOf(render()),
+    );
+    expect(render({ number: "#149" })).toContain("mt-6");
+    expect(render()).not.toContain("mt-6");
   });
 
   it("wears its first type's colour, frame and face", () => {
@@ -110,11 +121,16 @@ describe("PokemonCollectorCard", () => {
     expect(render({ target: true })).toContain("ring-calm");
   });
 
-  it("puts a warning top-left and the shiny mark top-right of the window", () => {
-    const html = render({ shiny: true, warning: "Breaks a rule" });
+  it("puts a warning bottom-left and the shiny mark bottom-right of the window, clear of the top line", () => {
+    const html = render({
+      count: "2 Plays",
+      number: "#149",
+      shiny: true,
+      warning: "Breaks a rule",
+    });
 
-    expect(cornerOf(html, "Breaks a rule")).toBe("inside-top-left");
-    expect(cornerOf(html, ", Shiny")).toBe("inside-top-right");
+    expect(cornerOf(html, "Breaks a rule")).toBe("inside-bottom-left");
+    expect(cornerOf(html, ", Shiny")).toBe("inside-bottom-right");
   });
 
   it("reads its marks last, after its types", () => {

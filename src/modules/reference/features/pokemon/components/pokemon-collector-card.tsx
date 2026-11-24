@@ -57,8 +57,8 @@ type PokemonCollectorCardProps = {
    */
   showTypes?: boolean;
   /*
-   * `md` in a set (the Collection), `lg` on a team, where the picture is
-   * the point, `sm` for a few in passing. `md` and `lg` step down to `sm`
+   * `md` in a set (the Collection) and `lg` on a team, one build so the
+   * two match, `sm` for a few in passing. `md` and `lg` step down to `sm`
    * by themselves where the card is narrow (three across on a phone).
    */
   size?: PokemonCollectorCardSize;
@@ -79,20 +79,22 @@ type PokemonCollectorCardProps = {
  * grows past its size. From 9.5rem up a card has room for its full form:
  * the name in the display face and the types in words.
  */
+/*
+ * A card in a set (the Collection) and a card on a team share one build, so
+ * the two read as the same card.
+ */
+const fullCardClassNames = {
+  name: "copy-strong @min-[9.5rem]/collector:font-display @min-[9.5rem]/collector:text-17 @min-[9.5rem]/collector:font-semibold",
+  typesLine: "h-4.5 @min-[9.5rem]/collector:h-6",
+  window: "aspect-square max-h-44",
+};
+
 export const collectorCardSizeClassNames: Record<
   PokemonCollectorCardSize,
   { name: string; typesLine: string; window: string }
 > = {
-  lg: {
-    name: "copy-strong @min-[9.5rem]/collector:font-display @min-[9.5rem]/collector:text-17 @min-[9.5rem]/collector:font-semibold",
-    typesLine: "h-4.5 @min-[9.5rem]/collector:h-6",
-    window: "aspect-square max-h-44",
-  },
-  md: {
-    name: "copy-strong @min-[9.5rem]/collector:font-display @min-[9.5rem]/collector:text-17 @min-[9.5rem]/collector:font-semibold",
-    typesLine: "h-4.5 @min-[9.5rem]/collector:h-6",
-    window: "aspect-square max-h-36 @min-[9.5rem]/collector:aspect-4/3",
-  },
+  lg: fullCardClassNames,
+  md: fullCardClassNames,
   sm: {
     name: "copy-strong",
     typesLine: "h-4.5",
@@ -110,9 +112,10 @@ export const collectorCardGridClassName =
 /*
  * The card of a Pokémon that is yours, everywhere it is one: in the
  * Collection, on a team, in a Plan, as your partner. It reads as a real
- * card, all in its type's colour: a frame round a paler face, a top line
- * with its number and a count where it has them, its art in a light
- * window, its name (and its level beside it on a team) centred under the
+ * card, all in its type's colour: a frame round a paler face, its art in a
+ * light window of one shape per size (its number and a count, where it has
+ * them, along the window's top; a warning and the shiny mark in its bottom
+ * corners), its name (and its level beside it on a team) centred under the
  * window, then its types centred on one line, so every card in a grid
  * stands as tall as the next. `owned={false}` is
  * the same card in plain white for one that isn't yours yet, so one grid
@@ -142,6 +145,7 @@ export const PokemonCollectorCard = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const sizeClassName = collectorCardSizeClassNames[size];
+  const hasTopLine = Boolean(number || count);
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
@@ -156,14 +160,15 @@ export const PokemonCollectorCard = ({
   );
   /*
    * Read in this order: the name (and level), the top line, the types, then
-   * the window's marks. The top line and the window are placed over the
-   * name, the types under it.
+   * the window's marks. The window is placed over the name with the top
+   * line inside its top edge and the marks in its bottom corners, the types
+   * under the name.
    */
   const content = (
     <>
       <span
         className={cn(
-          "flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2",
+          "relative flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2",
           owned && "card-face",
         )}
       >
@@ -182,8 +187,13 @@ export const PokemonCollectorCard = ({
             </span>
           ) : null}
         </span>
-        {number || count ? (
-          <span className="text-ink-tint copy-mark order-1 mb-1.5 flex min-w-0 items-baseline justify-between gap-2 tabular-nums">
+        {hasTopLine ? (
+          /*
+           * Drawn over the top of the window (it takes back its own height),
+           * so a card with a top line and one without (a team) keep one
+           * window: the art stands below it.
+           */
+          <span className="text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums">
             {number ? <span className="shrink-0">{number}</span> : null}
             {count ? <span className="ml-auto truncate">{count}</span> : null}
           </span>
@@ -232,16 +242,24 @@ export const PokemonCollectorCard = ({
           <FallbackImage
             src={imageUrl}
             name={name}
-            /* Placed by the window itself, so a capped window still holds it. */
-            className="absolute inset-0 m-auto aspect-square h-[90%]"
+            /*
+             * Placed by the window itself, so a capped window still holds
+             * it; under a top line it stands below the line's words.
+             */
+            className={cn(
+              "absolute inset-0 mx-auto aspect-square",
+              hasTopLine
+                ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
+                : "my-auto h-[90%]",
+            )}
           />
           {warning ? (
-            <CornerBubble corner="inside-top-left">
+            <CornerBubble corner="inside-bottom-left">
               <WarningMark label={warning} />
             </CornerBubble>
           ) : null}
           {shiny ? (
-            <CornerBubble corner="inside-top-right">
+            <CornerBubble corner="inside-bottom-right">
               <ShinyMark />
             </CornerBubble>
           ) : null}
