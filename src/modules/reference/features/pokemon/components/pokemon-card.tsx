@@ -22,6 +22,8 @@ type PokemonCardProps = {
   /*
    * Just the art and the name, for a long list to pick from (the Team
    * Planner): no number row and no type marks, so many more fit on a line.
+   * Its content stands in the middle, so a row where one name wraps to two
+   * lines keeps the others balanced.
    */
   compact?: boolean;
   /*
@@ -205,6 +207,7 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
+        compact && "justify-center",
         picked ? "sticker sticker-type-band" : stateClassNames[state],
         /* A picked card wears the 4px band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
@@ -265,8 +268,6 @@ export const PokemonCard = ({
         className={cn(
           "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           sizes.name,
-          /* Room for two lines always, so a row of tiles stands level. */
-          compact && "min-h-[2lh]",
           state === "missing" && "text-ink-3",
         )}
       >
