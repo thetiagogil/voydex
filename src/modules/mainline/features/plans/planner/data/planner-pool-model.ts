@@ -381,15 +381,6 @@ export const getPlannerFormTip = (
   pokemon: Pick<PlannerPokemon, "name" | "speciesName">,
 ) => (pokemon.name === pokemon.speciesName ? null : pokemon.name);
 
-/*
- * A pool tile's hover note: a form's own name, then what adding it would
- * mean ("Alolan Raichu. Shield only: trade for it."), or null for neither.
- */
-export const getPoolTileTip = (formTip: string | null, notes: string[]) =>
-  [formTip && notes.length ? `${formTip}.` : formTip, ...notes]
-    .filter(Boolean)
-    .join(" ") || null;
-
 export type PlannerPoolFilters = {
   /* One Pokédex's key (the base game or an expansion), or "" for all. */
   dex: string;

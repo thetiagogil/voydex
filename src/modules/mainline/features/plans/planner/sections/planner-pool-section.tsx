@@ -13,10 +13,8 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import {
   getPlannerFormTip,
-  getPoolTileTip,
   matchesPoolFilters,
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
@@ -284,8 +282,8 @@ export const PlannerPoolSection = ({
               count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
             />
             {/*
-             * The Codex's card (number, art, name, types): four across on
-             * a phone, as many 104px tiles as fit from 640px.
+             * The Codex's card without its number (art, name, types): four
+             * across on a phone, as many 104px tiles as fit from 640px.
              */}
             <ul className="mt-3.5 grid grid-cols-4 gap-2 min-[480px]:grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]">
               {section.pokemon.map((pokemon) => {
@@ -295,6 +293,10 @@ export const PlannerPoolSection = ({
                   versionGame,
                 });
                 /* The tile shows the species' name; a form's own shows on hover. */
+                /*
+                 * The tile's tip names a form; what adding it would mean is
+                 * the "!" tip's alone, so nothing shows twice.
+                 */
                 const formTip = getPlannerFormTip(pokemon);
 
                 return (
@@ -303,7 +305,7 @@ export const PlannerPoolSection = ({
                     className="relative h-full min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                   >
                     <IconTip
-                      label={getPoolTileTip(formTip, notes)}
+                      label={formTip}
                       trigger={
                         <button
                           type="button"
@@ -324,9 +326,6 @@ export const PlannerPoolSection = ({
                             imageUrl={pokemon.imageUrl}
                             name={pokemon.speciesName}
                             nameReadAs={pokemon.name}
-                            number={formatNationalNumber(
-                              pokemon.nationalNumber,
-                            )}
                             types={pokemon.types}
                             picked={slot !== undefined}
                             className={cn(

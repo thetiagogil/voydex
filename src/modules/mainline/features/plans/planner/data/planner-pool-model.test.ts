@@ -5,7 +5,6 @@ import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
 import {
   getPlannerFormTip,
   getPlannerPokemonNames,
-  getPoolTileTip,
   matchesPoolFilters,
 } from "./planner-pool-model";
 
@@ -39,19 +38,6 @@ describe("the Planner's names", () => {
   it("shows a regional form's species and keeps its own name for the hover", () => {
     expect(raichu).toEqual({ name: "Alolan Raichu", speciesName: "Raichu" });
     expect(getPlannerFormTip(raichu)).toBe("Alolan Raichu");
-  });
-});
-
-describe("getPoolTileTip", () => {
-  it("names the form alone, or before what adding it would mean", () => {
-    expect(getPoolTileTip("Alolan Raichu", [])).toBe("Alolan Raichu");
-    expect(getPoolTileTip("Alolan Raichu", ["Moon only: trade for it."])).toBe(
-      "Alolan Raichu. Moon only: trade for it.",
-    );
-    expect(getPoolTileTip(null, ["Evolves only by trade."])).toBe(
-      "Evolves only by trade.",
-    );
-    expect(getPoolTileTip(null, [])).toBeNull();
   });
 });
 

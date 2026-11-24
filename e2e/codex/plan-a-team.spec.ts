@@ -54,7 +54,7 @@ test.describe("Codex: Plan a team", () => {
     for (const member of ["Charizard", "Pikachu"]) {
       await picker.getByRole("searchbox").fill(member);
       await picker
-        .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+        .getByRole("button", { name: new RegExp(`^${member}\\b(?!:)`) })
         .click();
     }
     await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
@@ -98,7 +98,7 @@ test.describe("Codex: Plan a team", () => {
 
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Pikachu");
-    await picker.getByRole("button", { name: /^#\d+ Pikachu\b/ }).click();
+    await picker.getByRole("button", { name: /^Pikachu\b(?!:)/ }).click();
 
     await planner.getByRole("combobox", { name: /^Game:/ }).click();
     await page.getByRole("option", { name: /^Sun \/ Moon/ }).click();
@@ -125,7 +125,7 @@ test.describe("Codex: Plan a team", () => {
     const standalone = page.getByRole("region", { name: "Pick your Pokémon" });
 
     await standalone.getByRole("searchbox").fill("Pikachu");
-    await standalone.getByRole("button", { name: /^#\d+ Pikachu\b/ }).click();
+    await standalone.getByRole("button", { name: /^Pikachu\b(?!:)/ }).click();
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
     ).toBeVisible();
