@@ -33,7 +33,10 @@ type PokemonCollectorCardProps = {
   count?: string;
   /* With `href`, the card is a link; with `onClick`, a button you can pick. */
   href?: string;
-  /* On a team: its level, at the end of the name's line. */
+  /*
+   * On a team: its level, at the right end of the top line over the
+   * window's corner (beside the name instead when the card has a count).
+   */
   level?: number | null;
   name: string;
   /* Its Pokédex number, at the start of the top line. */
@@ -126,9 +129,8 @@ export const CollectorCardGlint = () => (
  * Collection, on a team, in a Plan, as your partner. It reads as a real
  * card, all in its type's colour: a frame round a paler face, its art in a
  * light window of one shape per size (its number and a count, where it has
- * them, along the window's top; a warning and the shiny mark in its bottom
- * corners), its name (and its level beside it on a team) centred under the
- * window, then its types centred on one line, so every card in a grid
+ * them, or its level on a team, along the window's top; a warning and the
+ * shiny mark in its bottom corners), its name centred under the window, then its types centred on one line, so every card in a grid
  * stands as tall as the next. `owned={false}` is
  * the same card in plain white for one that isn't yours yet, so one grid
  * never mixes two layouts. A Pokémon you only look up is a `PokemonCard`.
@@ -157,7 +159,19 @@ export const PokemonCollectorCard = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const sizeClassName = collectorCardSizeClassNames[size];
-  const hasTopLine = Boolean(number || count);
+  const levelLabel = level ? `Lv. ${level}` : null;
+  /*
+   * The top line's right end: the count, else the level (a team card). A
+   * card with both keeps its level beside the name.
+   */
+  const topRight = count ?? levelLabel;
+  const levelByName = count ? levelLabel : null;
+  const hasTopLine = Boolean(number || topRight);
+  /*
+   * A number or a count stands the art below the line; a level alone sits
+   * over the window's corner, so a team card's Pokémon keeps its full size.
+   */
+  const artBelowLine = Boolean(number || count);
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
@@ -171,7 +185,8 @@ export const PokemonCollectorCard = ({
     className,
   );
   /*
-   * Read in this order: the name (and level), the top line, the types, then
+   * Read in this order: the name, the top line (the level on a team), the
+   * types, then
    * the window's marks. The window is placed over the name with the top
    * line inside its top edge and the marks in its bottom corners, the types
    * under the name.
@@ -193,9 +208,9 @@ export const PokemonCollectorCard = ({
           >
             {name}
           </span>
-          {level ? (
+          {levelByName ? (
             <span className="text-ink-tint copy-mark shrink-0 tabular-nums">
-              Lv. {level}
+              {levelByName}
             </span>
           ) : null}
         </span>
@@ -207,7 +222,9 @@ export const PokemonCollectorCard = ({
            */
           <span className="text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums">
             {number ? <span className="shrink-0">{number}</span> : null}
-            {count ? <span className="ml-auto truncate">{count}</span> : null}
+            {topRight ? (
+              <span className="ml-auto truncate">{topRight}</span>
+            ) : null}
           </span>
         ) : null}
         {showTypes ? (
@@ -260,7 +277,7 @@ export const PokemonCollectorCard = ({
              */
             className={cn(
               "absolute inset-0 mx-auto aspect-square",
-              hasTopLine
+              artBelowLine
                 ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
                 : "my-auto h-[90%]",
             )}

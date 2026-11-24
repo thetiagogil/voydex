@@ -68,6 +68,31 @@ describe("PokemonCollectorCard", () => {
     );
   });
 
+  it("puts a team card's level top right over the window, the art at full size", () => {
+    const html = render({ level: 48 });
+    /* The top line's text: the level alone, at its right end. */
+    const topLine = /-mb-6[^"]*"[^>]*>(.*?)<\/span><\/span>/.exec(html)?.[1];
+
+    expect(topLine).toContain("Lv. 48");
+    expect(topLine).toContain("ml-auto");
+    /* No number or count: the art is not pushed below the line. */
+    expect(html).not.toContain("mt-6");
+    expect(html).toContain("my-auto h-[90%]");
+    expect(readOf(render({ level: 48, size: "sm" }))).toBe(
+      "Dragonite Lv. 48 Dragon Flying",
+    );
+  });
+
+  it("keeps the level by the name when the card also has a count", () => {
+    const html = render({ count: "Your partner", level: 48 });
+    const nameLine = /order-3[^"]*"[^>]*>(.*?)<\/span><\/span>/.exec(html)?.[1];
+
+    expect(nameLine).toContain("Lv. 48");
+    expect(
+      readOf(render({ count: "Your partner", level: 48, size: "sm" })),
+    ).toBe("Dragonite Lv. 48 Your partner Dragon Flying");
+  });
+
   it("shows no level without one", () => {
     expect(render({ level: null })).not.toContain("Lv.");
     expect(render({ level: 0 })).not.toContain("Lv.");
