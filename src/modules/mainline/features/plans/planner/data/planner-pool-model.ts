@@ -374,13 +374,6 @@ export const buildPlannerContext = ({
 };
 
 /*
- * What a pool tile no longer shows, read after its name: its types, as
- * ", Electric and Psychic". Its number is read before the name.
- */
-export const getPoolTileReadout = (typeNames: string[]) =>
-  `, ${typeNames.join(" and ")}`;
-
-/*
  * A card shows the species' name alone; a variant's own name ("Alolan
  * Raichu") shows on hover, and null for a Pokémon named as its species.
  */

@@ -3,31 +3,28 @@ import { describe, expect, it } from "vitest";
 
 import { PokemonCard } from "./pokemon-card";
 
-const render = (compact: boolean) =>
-  renderToStaticMarkup(
-    <PokemonCard
-      compact={compact}
-      state="plain"
-      size="sm"
-      imageAlt=""
-      imageUrl={null}
-      name="Pikachu"
-      types={[{ name: "Electric", slug: "electric" }]}
-    />,
-  );
+describe("PokemonCard", () => {
+  it("reads its number, its name, then its types, as the Codex and the Planner's list draw it", () => {
+    const html = renderToStaticMarkup(
+      <PokemonCard
+        state="plain"
+        size="sm"
+        imageAlt=""
+        imageUrl={null}
+        name="Raichu"
+        nameReadAs="Alolan Raichu"
+        number="#026"
+        types={[
+          { name: "Electric", slug: "electric" },
+          { name: "Psychic", slug: "psychic" },
+        ]}
+      />,
+    );
 
-const rootClassOf = (html: string) =>
-  /^<div [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
-
-describe("PokemonCard compact", () => {
-  it("stands its art and name in the middle, with no line kept for a second name line", () => {
-    const html = render(true);
-
-    expect(rootClassOf(html)).toContain("justify-center");
-    expect(html).not.toContain("min-h-[2lh]");
-  });
-
-  it("leaves the full card's layout alone", () => {
-    expect(rootClassOf(render(false))).not.toContain("justify-center");
+    expect(html.indexOf("#026")).toBeLessThan(html.indexOf("Alolan Raichu"));
+    expect(html.indexOf("Alolan Raichu")).toBeLessThan(
+      html.indexOf("Electric"),
+    );
+    expect(html).toContain("Psychic");
   });
 });

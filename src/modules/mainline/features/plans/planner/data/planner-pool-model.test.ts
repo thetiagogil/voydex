@@ -5,17 +5,9 @@ import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
 import {
   getPlannerFormTip,
   getPlannerPokemonNames,
-  getPoolTileReadout,
   getPoolTileTip,
   matchesPoolFilters,
 } from "./planner-pool-model";
-
-describe("getPoolTileReadout", () => {
-  it("reads the types alone, the number being read before the name", () => {
-    expect(getPoolTileReadout(["Electric"])).toBe(", Electric");
-    expect(getPoolTileReadout(["Water", "Ice"])).toBe(", Water and Ice");
-  });
-});
 
 describe("the Planner's names", () => {
   const pikachu = getPlannerPokemonNames(

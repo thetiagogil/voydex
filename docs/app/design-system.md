@@ -275,9 +275,11 @@ glass.
   button turns neutral grey.
 - **Card corners (two rules)**: every Pokémon card carries its marks
   drawn by the shared marks in `corner-bubble.tsx` and placed by
-  `CornerBubble`. A pool tile and a Pokédex card put the slot number
-  (`SlotMark`) top-right, a warning (`WarningMark`, or the raised
-  `ExplanatoryTip` where the mark opens a tip) top-left, where the Pokédex
+  `CornerBubble`. A Team Planner pool tile is the Codex's card, its Pokédex
+  number top-left, and puts its marks side by side top-right (chosen
+  2026-11-24): the warning (the raised `ExplanatoryTip`, which opens a tip)
+  and, on a tile in the team, its slot number (`SlotMark`) at the end. A
+  Pokédex card puts a warning (`WarningMark`) top-left, where the Pokédex
   number (plain text) would be, and the shiny mark (`ShinyMark`) right below
   the slot number, or alone top-right without one (chosen 2026-10-21). A
   collector card's panel keeps its top edge for the Pokédex number and the

@@ -20,13 +20,6 @@ type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
   /*
-   * Just the art and the name, for a long list to pick from (the Team
-   * Planner): no number row and no type marks, so many more fit on a line.
-   * Its content stands in the middle, so a row where one name wraps to two
-   * lines keeps the others balanced.
-   */
-  compact?: boolean;
-  /*
    * Small marks at the end of the number line, level with it (an opponent's
    * Tera Type, the item it holds), so the card keeps its height.
    */
@@ -49,11 +42,6 @@ type PokemonCardProps = {
    * team); left out where it says nothing (the Planner's team), keeping the line.
    */
   number?: string;
-  /*
-   * Takes the number off the screen but keeps it in the card's words, for a
-   * corner mark (a warning) that stands where it would.
-   */
-  numberHidden?: boolean;
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
@@ -180,14 +168,12 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
-  compact = false,
   marks,
   imageAlt,
   imageUrl,
   name,
   nameReadAs,
   number,
-  numberHidden = false,
   onAnimationEnd,
   motion = null,
   picked = false,
@@ -207,7 +193,6 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
-        compact && "justify-center",
         picked ? "sticker sticker-type-band" : stateClassNames[state],
         /* A picked card wears the 4px band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
@@ -222,9 +207,8 @@ export const PokemonCard = ({
         aria-hidden={number ? undefined : true}
         className={cn(
           "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
-          compact && "hidden",
-          state === "caught" ? "text-ink-tint" : "text-ink-3",
-          numberHidden && "opacity-0",
+          /* On a tint (caught, or a Planner pick), the number takes the tint's ink. */
+          state === "caught" || picked ? "text-ink-tint" : "text-ink-3",
         )}
       >
         {number ?? "\u00a0"}
@@ -283,14 +267,12 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
-      {compact ? null : (
-        <PokemonTypeList
-          types={types}
-          badgeDisplay="icon"
-          badgeSize="sm"
-          className="mt-auto items-center gap-1 pt-1"
-        />
-      )}
+      <PokemonTypeList
+        types={types}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="mt-auto items-center gap-1 pt-1"
+      />
       {children}
     </div>
   );

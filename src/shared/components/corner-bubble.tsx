@@ -58,8 +58,8 @@ const getCornerClassName = (
 
   /*
    * Inside a card, clear of its edge so a list that clips never cuts it.
-   * Marks that share a corner stack with `flex-col` (a pool tile's shiny
-   * mark under its slot number). A collector card puts its marks in its
+   * Marks that share a corner sit side by side (a pool tile's "!" before
+   * its slot number), or stack with `flex-col`. A collector card puts its marks in its
    * window's bottom corners, since the window's top holds its top line.
    */
   switch (corner) {
@@ -107,9 +107,9 @@ export const CornerBubble = ({
 
 /*
  * The marks a Pokémon card carries in its corners, all drawn the same way:
- * a 24px round disc in the `bubble` white band. On a pool tile or a Pokédex
- * card: the slot number top-right, a warning top-left, the shiny mark under
- * the slot number. On a collector card: a warning bottom-left and the shiny
+ * a 24px round disc in the `bubble` white band. On a pool tile: its "!" and
+ * its slot number side by side top-right. On a Pokédex card: a warning
+ * top-left, the shiny mark top-right. On a collector card: a warning bottom-left and the shiny
  * mark bottom-right of its window. `npm run design:check` fails a card that
  * draws its own.
  */

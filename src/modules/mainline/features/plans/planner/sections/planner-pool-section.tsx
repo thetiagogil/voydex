@@ -16,7 +16,6 @@ import type {
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import {
   getPlannerFormTip,
-  getPoolTileReadout,
   getPoolTileTip,
   matchesPoolFilters,
   type PlannerPoolFilters,
@@ -285,9 +284,8 @@ export const PlannerPoolSection = ({
               count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
             />
             {/*
-             * Just the art and the name, so a whole Pokédex reads at a
-             * glance: four across on a phone, as many 104px tiles as fit
-             * from 640px. The number and types are in the tile's name.
+             * The Codex's card (number, art, name, types): four across on
+             * a phone, as many 104px tiles as fit from 640px.
              */}
             <ul className="mt-3.5 grid grid-cols-4 gap-2 min-[480px]:grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]">
               {section.pokemon.map((pokemon) => {
@@ -319,12 +317,7 @@ export const PlannerPoolSection = ({
                           )}
                           className="focus-ring block h-full w-full rounded-lg"
                         >
-                          {/* The number the tile no longer shows, read first as before. */}
-                          <span className="sr-only">
-                            {formatNationalNumber(pokemon.nationalNumber)}{" "}
-                          </span>
                           <PokemonCard
-                            compact
                             state="plain"
                             size="sm"
                             imageAlt=""
@@ -334,8 +327,6 @@ export const PlannerPoolSection = ({
                             number={formatNationalNumber(
                               pokemon.nationalNumber,
                             )}
-                            /* The "!" takes the number's place; its words stay. */
-                            numberHidden={notes.length > 0}
                             types={pokemon.types}
                             picked={slot !== undefined}
                             className={cn(
@@ -345,12 +336,6 @@ export const PlannerPoolSection = ({
                                 "outline-action outline-3 outline-offset-2 outline-solid",
                             )}
                           ></PokemonCard>
-                          {/* What the tile no longer shows, for a screen reader. */}
-                          <span className="sr-only">
-                            {getPoolTileReadout(
-                              pokemon.types.map((type) => type.name),
-                            )}
-                          </span>
                           {slot || notes.length ? (
                             <span className="sr-only">
                               {[slot ? `, in slot ${slot}` : null, ...notes]
@@ -363,37 +348,41 @@ export const PlannerPoolSection = ({
                     />
                     {/*
                      * The tile's marks inside it so they lift with it (the
-                     * list's sections clip anything outside): the "!" of
-                     * Your team's slots top-left, where the number would
-                     * be, the slot number top-right.
+                     * list's sections clip anything outside), on the right
+                     * of its number line: the "!" of Your team's slots, and
+                     * on a tile in the team, its slot number at the end.
                      */}
-                    {notes.length ? (
-                      <CornerBubble corner="inside-top-left">
-                        <ExplanatoryTip
-                          triggerVariant="raised"
-                          triggerTone="warn"
-                          triggerLabel={`${pokemon.name}: ${notes[0]}`}
-                          contentClassName="w-64"
-                          content={
-                            <TipStack>
-                              <TipHead>
-                                {notes.length === 1
-                                  ? "One thing to check"
-                                  : `${notes.length} things to check`}
-                              </TipHead>
-                              <TipRows>
-                                {notes.map((note) => (
-                                  <TipRow key={note} name={note} tone="warn" />
-                                ))}
-                              </TipRows>
-                            </TipStack>
-                          }
-                        />
-                      </CornerBubble>
-                    ) : null}
-                    {slot !== undefined ? (
+                    {notes.length || slot !== undefined ? (
                       <CornerBubble corner="inside-top-right">
-                        <SlotMark>{slot}</SlotMark>
+                        {notes.length ? (
+                          <ExplanatoryTip
+                            triggerVariant="raised"
+                            triggerTone="warn"
+                            triggerLabel={`${pokemon.name}: ${notes[0]}`}
+                            contentClassName="w-64"
+                            content={
+                              <TipStack>
+                                <TipHead>
+                                  {notes.length === 1
+                                    ? "One thing to check"
+                                    : `${notes.length} things to check`}
+                                </TipHead>
+                                <TipRows>
+                                  {notes.map((note) => (
+                                    <TipRow
+                                      key={note}
+                                      name={note}
+                                      tone="warn"
+                                    />
+                                  ))}
+                                </TipRows>
+                              </TipStack>
+                            }
+                          />
+                        ) : null}
+                        {slot !== undefined ? (
+                          <SlotMark>{slot}</SlotMark>
+                        ) : null}
                       </CornerBubble>
                     ) : null}
                   </li>
