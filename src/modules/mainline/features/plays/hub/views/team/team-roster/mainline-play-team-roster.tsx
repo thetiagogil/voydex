@@ -213,7 +213,12 @@ export const MainlinePlayTeamRoster = ({
         summary={formatTeamRosterSummary(summary)}
       />
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      {/*
+       * The team takes half the column less half the gap, so its three
+       * cards across stand exactly as wide as Overview's six across (a gap
+       * of 1rem): the team looks the same on both pages.
+       */}
+      <div className="grid items-start gap-6 lg:grid-cols-[calc(50%-0.5rem)_minmax(0,1fr)]">
         <TeamRosterSection
           brokenRulesById={brokenRulesById}
           isMoving={isMoving}

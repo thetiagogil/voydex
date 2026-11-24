@@ -112,7 +112,8 @@ const TeamRosterGroupList = ({
         aside={`${filledCount} / ${playTeamSize}`}
         className="mb-4"
       />
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
+      {/* Overview's team grid's gaps, so a card is the same size on both. */}
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {slots.map((slot) => {
           const storedSlot =
             slot.position + (group === "active" ? 0 : playTeamSize);
