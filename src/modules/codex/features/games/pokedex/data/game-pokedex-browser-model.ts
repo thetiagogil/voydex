@@ -2,7 +2,7 @@ import type {
   GamePokedexData,
   GamePokedexPokemon,
 } from "@/modules/reference/types";
-import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type GamePokedexFilters = {
   query: string;
@@ -102,15 +102,11 @@ export const getGamePokedexTableMinWidthClassName = (
   return hasAbilities ? "xl:min-w-260" : "xl:min-w-208";
 };
 
-export const formatLocalPokedexNumber = (pokedexNumber: number) => {
-  return pokedexNumber.toString().padStart(3, "0");
-};
-
 const getPokemonSearchText = (pokemon: GamePokedexPokemon) => {
-  const localPokedexNumber = formatLocalPokedexNumber(
+  const localPokedexNumber = formatPokedexNumberDigits(
     pokemon.entry.pokedex_number,
   );
-  const nationalNumber = formatPokemonNationalNumberDigits(
+  const nationalNumber = formatPokedexNumberDigits(
     pokemon.species.national_number,
   );
   const abilityNames = pokemon.abilities.map(({ ability }) => ability.name);

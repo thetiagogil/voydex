@@ -69,7 +69,8 @@ const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection shows a played
  * game as a collector card: a frame in the game's colour, its name and count
- * in words, the cover in a window. Hover picks the cover up. A link opens a
+ * in words, the cover standing on the card's face with no window behind it.
+ * Hover picks the cover up. A link opens a
  * page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
@@ -97,9 +98,7 @@ export const GameShelfCard = ({
           {count}
         </span>
       </span>
-      <span className="card-window rounded-sm">
-        <GameShelfCover eager={eager} game={game} />
-      </span>
+      <GameShelfCover eager={eager} game={game} />
       {facts}
     </span>
   ) : (

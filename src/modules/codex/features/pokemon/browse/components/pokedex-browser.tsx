@@ -27,7 +27,7 @@ import {
   PokemonCardGrid,
 } from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   PokedexPageData,
   PokedexPageFilters,
@@ -368,9 +368,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                       )}
                       imageUrl={pokemon.imageUrl}
                       name={pokemon.name}
-                      number={formatPokemonNationalNumber(
-                        pokemon.nationalNumber,
-                      )}
+                      number={formatPokedexNumber(pokemon.nationalNumber)}
                       types={[pokemon.primaryType, pokemon.secondaryType]}
                     />
                   ))}

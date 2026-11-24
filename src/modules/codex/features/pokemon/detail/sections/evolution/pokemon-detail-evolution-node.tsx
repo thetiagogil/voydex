@@ -4,7 +4,7 @@ import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/deta
 import type { PokemonDetailEvolutionTreeNode } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-tree";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonDetailEvolutionLinkScope = {
   activeFormId: number | null;
@@ -70,7 +70,7 @@ export const PokemonDetailEvolutionNode = ({
         imageAlt=""
         imageUrl={getPokemonFormImageUrl(displayForm)}
         name={name}
-        number={formatPokemonNationalNumber(pokemon.species.national_number)}
+        number={formatPokedexNumber(pokemon.species.national_number)}
         size="fluid"
         types={getNodeTypes(node)}
       />

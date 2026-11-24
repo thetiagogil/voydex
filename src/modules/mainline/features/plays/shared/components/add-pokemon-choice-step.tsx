@@ -8,7 +8,10 @@ import {
 } from "@/shared/components/ui/alert";
 import { cn } from "@/shared/utils/cn";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
-import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import {
+  formatPokedexNumber,
+  formatShortFormName,
+} from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { EmptyState } from "@/shared/components/empty-state";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PendingData } from "@/shared/components/pending-data";
@@ -17,7 +20,6 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import { Switch } from "@/shared/components/ui/switch";
 
 import {
-  formatPokemonChoiceNumber,
   getPokemonChoiceTypes,
   type PokemonChoice,
 } from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
@@ -59,7 +61,7 @@ const ChoiceButton = ({
           aria-label={[
             choice.speciesName,
             choice.formName,
-            formatPokemonChoiceNumber(choice.number),
+            formatPokedexNumber(choice.number),
             brokenRules.length
               ? `breaks this Play's rules: ${brokenRules.join(", ")}`
               : null,
@@ -78,7 +80,7 @@ const ChoiceButton = ({
             imageAlt=""
             imageUrl={choice.imageUrl}
             name={choice.speciesName}
-            number={formatPokemonChoiceNumber(choice.number)}
+            number={formatPokedexNumber(choice.number)}
             subtitle={
               choice.formName
                 ? formatShortFormName(choice.formName, choice.speciesName)

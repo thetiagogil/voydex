@@ -8,7 +8,7 @@ import { PokemonPortrait } from "@/modules/reference/features/pokemon/components
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
 import { menuGroupLabelClassName } from "@/shared/components/ui/menu-surface";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 /* The picker's rows: the soft selected tint on the Pokémon you're reading. */
 export const pokemonDetailSpeciesSelectorActiveClassName =
@@ -66,7 +66,7 @@ export const PokemonDetailSpeciesSelectorOptionContent = ({
       title={pokemonItem.name}
       description={
         <span className="tabular-nums">
-          {formatPokemonNationalNumber(displayNumber)}
+          {formatPokedexNumber(displayNumber)}
         </span>
       }
       trailing={

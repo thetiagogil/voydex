@@ -64,7 +64,7 @@ describe("Pokémon detail hero model", () => {
     });
 
     expect(eyebrow.map((part) => part.text)).toEqual([
-      "#0059",
+      "#059",
       "Legendary Pokémon",
       "since Generation I",
     ]);
@@ -77,7 +77,7 @@ describe("Pokémon detail hero model", () => {
     });
 
     expect(eyebrow.map((part) => part.text)).toEqual([
-      "#0058",
+      "#058",
       "Scout Pokémon",
       "since Generation I",
     ]);

@@ -19,6 +19,7 @@ import {
   type RuleCheckPokemon,
 } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import {
   gameMechanics,
   supportsGameMechanic,
@@ -41,7 +42,6 @@ import {
 } from "@/modules/mainline/features/plays/shared/client/team-member-remove-actions";
 import {
   filterPokemonChoices,
-  formatPokemonChoiceNumber,
   getPokemonChoiceTypes,
   type PokemonChoice,
 } from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
@@ -489,7 +489,7 @@ export const AddPokemonSheet = ({
         picked ? (
           <div className="grid gap-2">
             <p className="text-ink-2 copy-note tabular-nums">
-              {[formatPokemonChoiceNumber(picked.number), picked.formName]
+              {[formatPokedexNumber(picked.number), picked.formName]
                 .filter(Boolean)
                 .join(" · ")}
             </p>

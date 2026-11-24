@@ -6,7 +6,6 @@ import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/compone
 import { appRoutes } from "@/config/routes";
 import {
   defaultGamePokedexFilters,
-  formatLocalPokedexNumber,
   filterGamePokedexPokemon,
   getSearchableGamePokedexPokemon,
   hasActiveGamePokedexFilters,
@@ -27,7 +26,7 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
   formatPokedexName,
-  formatPokemonNationalNumber,
+  formatPokedexNumber,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -258,8 +257,8 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                     )}
                     imageUrl={entry.imageUrl}
                     name={entry.species.name}
-                    number={`#${formatLocalPokedexNumber(entry.entry.pokedex_number)}`}
-                    tip={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
+                    number={formatPokedexNumber(entry.entry.pokedex_number)}
+                    tip={`National ${formatPokedexNumber(entry.species.national_number)}`}
                     types={[
                       entry.typePair.primaryType,
                       entry.typePair.secondaryType,

@@ -88,12 +88,12 @@ describe("PokemonCollectorCard", () => {
     expect(html).toContain("card-window");
   });
 
-  it("takes the type's full colour once picked, and says so", () => {
+  it("takes its picked frame once picked, on the same edge, and says so", () => {
     const html = render({ onClick: () => undefined, selected: true });
 
     expect(html).toContain('aria-pressed="true"');
-    expect(html).toContain("bg-(--t)");
-    expect(html).not.toContain("card-frame");
+    expect(html).toContain("card-frame-picked");
+    expect(html).not.toMatch(/card-frame(?!-picked)/);
   });
 
   it("is plain white for one that isn't yours", () => {

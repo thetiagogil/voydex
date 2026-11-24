@@ -249,7 +249,3 @@ export const filterPokemonChoices = (
 
 export const getPokemonChoiceTypes = (choice: PokemonChoice) =>
   [choice.primaryType, choice.secondaryType].filter((type) => type !== null);
-
-/* Its Pokédex number as the sheet shows it: #001. */
-export const formatPokemonChoiceNumber = (number: number) =>
-  `#${String(number).padStart(3, "0")}`;

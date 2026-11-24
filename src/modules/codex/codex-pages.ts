@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import {
   listPrebuiltFiles,
   readPrebuiltFile,
@@ -44,13 +45,12 @@ export const getCodexPokemonPageMetadata = (speciesSlug: string): Metadata => {
 
   if (!pokemon) return {};
 
-  const number = String(pokemon.nationalNumber).padStart(4, "0");
   const types = [pokemon.primaryType, pokemon.secondaryType]
     .flatMap((type) => (type ? [type.name] : []))
     .join("/");
 
   return {
-    description: `${pokemon.name}, #${number}, ${types} type: where to find it, how it evolves, its moves and forms, in every Pokémon game.`,
+    description: `${pokemon.name}, ${formatPokedexNumber(pokemon.nationalNumber)}, ${types} type: where to find it, how it evolves, its moves and forms, in every Pokémon game.`,
     title: `${pokemon.name} · Codex · Voydex`,
   };
 };

@@ -2,7 +2,7 @@ import type { PokemonDetailGenerationPokedexEntry } from "@/modules/codex/featur
 import type { PokemonPokedexSummary } from "@/modules/reference/types";
 import {
   formatPokedexName,
-  formatPokemonNationalNumber,
+  formatPokedexNumber,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonDetailPokedexNumber = {
@@ -20,10 +20,6 @@ export type PokemonDetailPokedexNumber = {
 
 const NATIONAL_POKEDEX_KIND = "national";
 
-const formatPokemonPokedexNumber = (number: number) => {
-  return `#${number.toString().padStart(3, "0")}`;
-};
-
 const getPokemonDetailPokedexNumberId = ({
   entry,
   isNational,
@@ -40,18 +36,6 @@ const getPokemonDetailPokedexNumberId = ({
   return [pokedexId, entry.pokedex_number, entry.display_form_id ?? 0].join(
     ":",
   );
-};
-
-const formatPokemonDetailPokedexNumber = ({
-  isNational,
-  number,
-}: {
-  isNational: boolean;
-  number: number;
-}) => {
-  return isNational
-    ? formatPokemonNationalNumber(number)
-    : formatPokemonPokedexNumber(number);
 };
 
 const comparePokemonDetailPokedexNumbers = (
@@ -106,10 +90,7 @@ const collectPokemonDetailPokedexNumbers = ({
       isNational,
       isCompletionRelevant: pokedex.is_completion_relevant,
       number: entry.pokedex_number,
-      numberLabel: formatPokemonDetailPokedexNumber({
-        isNational,
-        number: entry.pokedex_number,
-      }),
+      numberLabel: formatPokedexNumber(entry.pokedex_number),
       pokedexName: formatPokedexName(pokedex.name),
       pokedexSlug: pokedex.slug,
       sortOrder: pokedex.sort_order,

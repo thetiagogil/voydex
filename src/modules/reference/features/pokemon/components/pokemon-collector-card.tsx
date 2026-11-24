@@ -138,7 +138,11 @@ export const PokemonCollectorCard = ({
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-[translate,background-color] duration-150 hover:-translate-y-0.75",
     /* The plain card's line is part of its frame. */
-    !owned ? "plain-card p-1.25" : selected ? "bg-(--t)" : "card-frame",
+    !owned
+      ? "plain-card p-1.25"
+      : selected
+        ? "card-frame-picked"
+        : "card-frame",
     target && dropTargetRingClassName,
     className,
   );

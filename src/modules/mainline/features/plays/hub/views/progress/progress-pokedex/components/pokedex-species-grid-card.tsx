@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 
-import {
-  formatPokedexNumber,
-  type PokedexSpeciesPresentationProps,
-} from "./pokedex-species-item-shared";
+import { type PokedexSpeciesPresentationProps } from "./pokedex-species-item-shared";
 
 const cardStateByProgress = {
   caught: "caught",

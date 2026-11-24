@@ -8,6 +8,3 @@ export type PokedexSpeciesPresentationProps = {
   state: PokedexProgressState;
   toggleLabel: string;
 };
-
-export const formatPokedexNumber = (number: number) =>
-  `#${String(number).padStart(3, "0")}`;

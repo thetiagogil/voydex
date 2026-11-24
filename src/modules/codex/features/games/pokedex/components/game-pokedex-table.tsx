@@ -10,7 +10,6 @@ import {
   gamePokedexStatColumnClassName,
 } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table-cells";
 import {
-  formatLocalPokedexNumber,
   getGamePokedexStatColumns,
   getGamePokedexTableMinWidthClassName,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
@@ -21,7 +20,7 @@ import {
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import {
   formatPokedexName,
-  formatPokemonNationalNumber,
+  formatPokedexNumber,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   GamePokedexData,
@@ -123,7 +122,7 @@ export const GamePokedexTable = ({
                   "copy-mark text-ink-3 col-start-1 row-span-2 row-start-1 block p-0 tabular-nums xl:table-cell xl:py-2.5 xl:pr-2.5 xl:pl-5",
                 )}
               >
-                #{formatLocalPokedexNumber(entry.entry.pokedex_number)}
+                {formatPokedexNumber(entry.entry.pokedex_number)}
               </TableCell>
 
               <TableCell className="col-start-2 row-span-2 row-start-1 block p-0 whitespace-normal xl:table-cell xl:px-2.5 xl:py-2">
@@ -142,7 +141,7 @@ export const GamePokedexTable = ({
                   {entry.species.name}
                 </Link>
                 <div className="copy-meta text-ink-3 tabular-nums">
-                  {formatPokemonNationalNumber(entry.species.national_number)}
+                  {formatPokedexNumber(entry.species.national_number)}
                 </div>
                 <AppIcon
                   icon={appIcons.actions.continue}

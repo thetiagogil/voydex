@@ -2,14 +2,14 @@ import type {
   PokedexPageFilters,
   PokedexPokemonBrowseCard,
 } from "@/modules/reference/types";
-import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type SearchablePokedexPokemon = PokedexPokemonBrowseCard & {
   searchText: string;
 };
 
 export const getPokemonSearchText = (pokemon: PokedexPokemonBrowseCard) => {
-  const paddedNationalNumber = formatPokemonNationalNumberDigits(
+  const paddedNationalNumber = formatPokedexNumberDigits(
     pokemon.nationalNumber,
   );
 
