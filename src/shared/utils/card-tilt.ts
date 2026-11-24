@@ -8,14 +8,14 @@ import { isMotionReduced } from "@/shared/utils/motion";
  * `cardTiltClassName` and spreads `cardTiltHandlers`: the pointer's place is
  * written into CSS variables on the element once a frame (no React state, so
  * a Collection of hundreds of cards stays smooth), and `card-tilt` turns it
- * by them. The glint inside follows the same place (`--glint-x`). Only for a
+ * by them, while its glint crosses it as before. Only for a
  * real pointer that hovers: never on touch, the keyboard (focus keeps its
  * ring alone), Motion None or a device that asks for reduced motion.
  */
 export const cardTiltClassName = "card-tilt group/tilt";
 
 /* The most a card turns on each axis, in degrees. */
-export const cardTiltMax = 6;
+export const cardTiltMax = 9;
 
 /* How long a card takes to settle flat once the pointer leaves (card-tilt). */
 const settleMs = 400;
@@ -27,7 +27,8 @@ const clamp = (value: number) => Math.min(1, Math.max(-1, value));
 /*
  * The turn for a pointer at (x, y) over a card's box: the corner under the
  * pointer comes toward you, flat at the centre, `cardTiltMax` at an edge.
- * `glintX` is the pointer's place across the card, 0 to 100.
+ * The edge under the pointer grows, so the pointer never slips off it and
+ * the card never flickers flat at its edge.
  */
 export const getCardTilt = (x: number, y: number, box: Box) => {
   const across = box.width ? clamp(((x - box.left) / box.width) * 2 - 1) : 0;
@@ -35,7 +36,6 @@ export const getCardTilt = (x: number, y: number, box: Box) => {
   const round = (value: number) => Math.round(value * 100) / 100 || 0;
 
   return {
-    glintX: round((across + 1) * 50),
     rotateX: round(down * cardTiltMax),
     rotateY: round(-across * cardTiltMax),
   };
@@ -54,11 +54,10 @@ const settles = new WeakMap<HTMLElement, number>();
 
 const write = (
   element: HTMLElement,
-  { glintX, rotateX, rotateY }: ReturnType<typeof getCardTilt>,
+  { rotateX, rotateY }: ReturnType<typeof getCardTilt>,
 ) => {
   element.style.setProperty("--tilt-x", `${rotateX}deg`);
   element.style.setProperty("--tilt-y", `${rotateY}deg`);
-  element.style.setProperty("--glint-x", String(glintX));
 };
 
 const clear = (element: HTMLElement) => {
@@ -69,7 +68,7 @@ const clear = (element: HTMLElement) => {
   window.clearTimeout(settles.get(element));
   settles.delete(element);
   delete element.dataset.tilt;
-  for (const name of ["--tilt-x", "--tilt-y", "--glint-x"]) {
+  for (const name of ["--tilt-x", "--tilt-y"]) {
     element.style.removeProperty(name);
   }
 };
@@ -111,7 +110,7 @@ const settle = (event: PointerEvent<HTMLElement>) => {
   if (frame !== undefined) cancelAnimationFrame(frame);
   frames.delete(element);
   element.dataset.tilt = "settle";
-  write(element, { glintX: 50, rotateX: 0, rotateY: 0 });
+  write(element, { rotateX: 0, rotateY: 0 });
   window.clearTimeout(settles.get(element));
   settles.set(
     element,

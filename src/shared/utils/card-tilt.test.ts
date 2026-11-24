@@ -12,9 +12,8 @@ import {
 const box = { height: 200, left: 100, top: 50, width: 160 };
 
 describe("getCardTilt", () => {
-  it("is flat at the centre, with the glint in the middle", () => {
+  it("is flat at the centre", () => {
     expect(getCardTilt(180, 150, box)).toEqual({
-      glintX: 50,
       rotateX: 0,
       rotateY: 0,
     });
@@ -22,12 +21,10 @@ describe("getCardTilt", () => {
 
   it("brings the corner under the pointer toward you, at most cardTiltMax", () => {
     expect(getCardTilt(100, 50, box)).toEqual({
-      glintX: 0,
       rotateX: -cardTiltMax,
       rotateY: cardTiltMax,
     });
     expect(getCardTilt(260, 250, box)).toEqual({
-      glintX: 100,
       rotateX: cardTiltMax,
       rotateY: -cardTiltMax,
     });
@@ -35,7 +32,6 @@ describe("getCardTilt", () => {
 
   it("never turns past cardTiltMax outside the box", () => {
     expect(getCardTilt(-500, 900, box)).toEqual({
-      glintX: 0,
       rotateX: cardTiltMax,
       rotateY: cardTiltMax,
     });
@@ -44,7 +40,7 @@ describe("getCardTilt", () => {
   it("stays flat on a card with no size", () => {
     expect(
       getCardTilt(10, 10, { height: 0, left: 0, top: 0, width: 0 }),
-    ).toEqual({ glintX: 50, rotateX: 0, rotateY: 0 });
+    ).toEqual({ rotateX: 0, rotateY: 0 });
   });
 });
 
@@ -144,7 +140,6 @@ describe("cardTiltHandlers", () => {
     expect(card.dataset.tilt).toBe("on");
     expect(card.properties.get("--tilt-x")).toBe(`-${cardTiltMax}deg`);
     expect(card.properties.get("--tilt-y")).toBe(`${cardTiltMax}deg`);
-    expect(card.properties.get("--glint-x")).toBe("0");
 
     cardTiltHandlers.onPointerLeave(pointer(card, 0, 0));
     expect(card.dataset.tilt).toBe("settle");

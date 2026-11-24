@@ -114,16 +114,15 @@ export const collectorCardGridClassName =
   "grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4";
 
 /*
- * A glint on a collector card, as light on a real one: the Pokémon card and
- * the played game card share it. While the card turns toward the pointer
- * (`cardTiltClassName`) it stands where the pointer is; elsewhere it crosses
- * the card under the pointer. The card is `group/collector`, `relative` and
- * clips its overflow.
+ * A glint that crosses a collector card under the pointer, as light across
+ * a real one, while the card turns toward the pointer: the Pokémon card and
+ * the played game card share it. The card is `group/collector`, `relative`
+ * and clips its overflow.
  */
 export const CollectorCardGlint = () => (
   <span
     aria-hidden
-    className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] group-data-[tilt=on]/tilt:translate-x-[calc(var(--glint-x)*4%-50%)] group-data-[tilt=on]/tilt:duration-150 motion-reduce:hidden"
+    className="pointer-events-none absolute inset-y-0 w-1/4 translate-x-[-150%] -skew-x-12 bg-white/50 blur-md transition-transform duration-500 group-hover/collector:translate-x-[500%] motion-reduce:hidden"
   />
 );
 
