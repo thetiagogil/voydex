@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { CollectionFilterBand } from "@/modules/mainline/features/collection/components/collection-filter-band";
@@ -23,7 +24,10 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import {
+  collectorCardGridClassName,
+  PokemonCollectorCard,
+} from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { EmptyState } from "@/shared/components/empty-state";
 import { ResetListButton } from "@/shared/components/reset-list-button";
@@ -44,17 +48,11 @@ type CollectionFavouritesProps = {
 const kindOrder: FavouriteKind[] = ["all", "owned", "waiting"];
 const sortOrder: FavouriteSort[] = ["recent", "dex", "used"];
 
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
-
-const countGames = (count: number) =>
-  `${count} ${count === 1 ? "game" : "games"}`;
-
 /*
  * Collection's Favourites: every Pokémon you hearted in the Codex, newest
  * first, under the same toolbar as the Pokémon view. One that has joined
- * your teams is yours, so it wears the sticker with its Play count and opens
- * its sheet; one that hasn't yet is a plain card opening its Codex entry.
+ * your teams opens its sheet; one that hasn't yet is the same card in its
+ * type's colour at "0 Plays", opening its Codex entry.
  */
 export const CollectionFavourites = ({
   entries,
@@ -117,7 +115,7 @@ export const CollectionFavourites = ({
 
       <section aria-label="Your favourites" className="flex flex-col gap-4">
         {shown.length ? (
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4">
+          <ul className={collectorCardGridClassName}>
             {shown.map((favourite) => {
               const number = formatNationalNumber(favourite.nationalNumber);
               const { owned } = favourite;
@@ -126,12 +124,10 @@ export const CollectionFavourites = ({
                 <li key={favourite.formId} className="min-w-0">
                   {owned ? (
                     <PokemonCollectorCard
-                      className="w-full"
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      count={countPlays(owned.playIds.length)}
-                      note={countGames(owned.gameNames.length)}
+                      count={formatPlayCount(owned.playIds.length)}
                       types={favourite.types}
                       selected={open?.formId === favourite.formId}
                       detail="See its Plays"
@@ -143,14 +139,14 @@ export const CollectionFavourites = ({
                       }
                     />
                   ) : (
+                    /* On no team yet: the same card, at no Plays. */
                     <PokemonCollectorCard
-                      className="w-full"
                       detail="open in the Codex"
                       href={favourite.codexHref}
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      note="Not on a team yet"
+                      count={formatPlayCount(0)}
                       types={favourite.types}
                     />
                   )}

@@ -34,11 +34,11 @@ files in your brief; when asked for an audit, do not edit.
   game is the subject; accent elsewhere; never the background of a card, row,
   section or input. The Codex has no game-colour surfaces.
 - **Type**: Baloo 2 (`font-display`) for headings 20px and up, the Play name,
-  trainer name, owned-sticker names and figures 24px and up. Nunito for
+  trainer name, owned Pokémon names and figures 24px and up. Nunito for
   everything you operate: every button including the main one, tabs, pills,
   chips, labels, table headers. Nothing under 16px is Baloo 2.
 - **Loudness budget**: loud only for identity and reward (Play header,
-  stickers on owned Pokémon, badge stamps, medallions, the meadow). One loud
+  the cards of owned Pokémon, badge stamps, medallions, the meadow). One loud
   kind per section plus the page's main button. Chrome is never loud.
 - **Edges**: a coloured lip only on the main button, owned things and the
   Play's identity. Section cards keep the 3px neutral clay edge
@@ -62,7 +62,7 @@ files in your brief; when asked for an audit, do not edit.
   for composition rules and when adding a new primitive, but Soft Clay wins
   where they disagree; never overwrite a restyled primitive with the CLI, and
   point a new primitive's `cn` import at `@/shared/utils/cn`.
-- Voydex components (PokemonCard, PokemonSticker, PokemonTypeBadge, Medallion,
+- Voydex components (PokemonCard, PokemonCollectorCard, PokemonTypeBadge, Medallion,
   RecordRow, BadgeStamp, SegmentedControl, StatusBadge, EmptyState,
   PageHeader, DetailSectionCard) are listed with their paths in the design
   system. Reuse before you add.

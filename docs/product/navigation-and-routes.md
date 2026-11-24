@@ -361,7 +361,7 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   Plan and Analysis are route-backed child views selected from the attached
   Team menu while the shared Play shell remains visible. The Roster takes
   `?pokemon=[playPokemonId]` (`appRoutes.mainlinePlayTeamPokemon`) to open with
-  that Pokémon selected, as an Overview sticker links; on phones and tablets
+  that Pokémon selected, as an Overview team card links; on phones and tablets
   its detail sheet opens straight away. `?add=` opens Add Pokémon, on one
   species (and `?form=`) when given (`appRoutes.mainlinePlayTeamAdd`).
 - Team Analysis reads the team as a whole; how it fares in each Story battle

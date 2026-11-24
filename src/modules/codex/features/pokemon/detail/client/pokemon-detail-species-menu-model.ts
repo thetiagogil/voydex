@@ -1,7 +1,7 @@
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { formatPokedexNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type PokemonMenuLoadState = "idle" | "loading" | "loaded" | "error";
 
@@ -88,9 +88,9 @@ export const getPokemonHref = (
 };
 
 export const getPokemonSearchValue = (pokemon: PokemonDetailMenuPokemon) => {
-  const formattedNumber = formatPokemonNationalNumber(pokemon.nationalNumber);
+  const formattedNumber = formatPokedexNumber(pokemon.nationalNumber);
   const formattedPokedexNumber = pokemon.pokedexNumber
-    ? formatPokemonNationalNumber(pokemon.pokedexNumber)
+    ? formatPokedexNumber(pokemon.pokedexNumber)
     : "";
 
   return [

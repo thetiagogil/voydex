@@ -24,7 +24,7 @@ const badgeVariants = cva(
         gold: "bg-gold text-ink",
         tint: "type-tint text-ink-tint",
         select: "bg-select-soft text-select-ink",
-        // A label on a tinted picture or band (a sticker's level, the Shiny mark).
+        // A label on a tinted picture or band (a level, the Shiny mark).
         paper: "bg-white text-ink-2",
       },
       size: {

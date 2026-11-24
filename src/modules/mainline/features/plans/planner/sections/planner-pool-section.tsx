@@ -1,9 +1,9 @@
 "use client";
 
+import { PoolTileMarks } from "@/modules/mainline/features/plans/planner/components/pool-tile-marks";
 import { useState } from "react";
 
 import { ChoiceChip } from "@/shared/components/choice-chip";
-import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -13,7 +13,11 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import {
+  getPlannerFormTip,
+  matchesPoolFilters,
+  type PlannerPoolFilters,
+} from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -34,27 +38,12 @@ import {
   FoldToggle,
   useFold,
 } from "@/shared/components/fold";
-import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
-import {
-  TipHead,
-  TipRow,
-  TipRows,
-  TipStack,
-} from "@/shared/components/tip-parts";
 
 /* About the rows a phone or a wide window shows at once, then a page more. */
 const INITIAL_VISIBLE_POKEMON = 48;
 const VISIBLE_POKEMON_INCREMENT = 48;
-
-export type PlannerPoolFilters = {
-  /* One Pokédex's key (the base game or an expansion), or "" for all. */
-  dex: string;
-  fullyEvolved: boolean;
-  query: string;
-  type: string;
-};
 
 type PlannerPoolSectionProps = {
   byId: Map<number, PlannerPokemon>;
@@ -73,20 +62,6 @@ type PlannerPoolSectionProps = {
   /* The version the Plan is for; null when it is for either. */
   versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
-};
-
-export const matchesPoolFilters = (
-  pokemon: PlannerPokemon,
-  filters: PlannerPoolFilters,
-) => {
-  const query = filters.query.trim().toLocaleLowerCase("en");
-
-  return (
-    (!filters.fullyEvolved || pokemon.isFullyEvolved) &&
-    (!filters.type ||
-      pokemon.types.some((type) => type.slug === filters.type)) &&
-    (!query || pokemon.name.toLocaleLowerCase("en").includes(query))
-  );
 };
 
 /*
@@ -300,9 +275,8 @@ export const PlannerPoolSection = ({
               count={`${listedSections[index].pokemon.length} Pokémon${section.note ? ` · ${section.note}` : ""}`}
             />
             {/*
-             * Just the art and the name, so a whole Pokédex reads at a
-             * glance: four across on a phone, as many 104px tiles as fit
-             * from 640px. The number and types are in the tile's name.
+             * The Codex's card without its number (art, name, types): four
+             * across on a phone, as many 104px tiles as fit from 640px.
              */}
             <ul className="mt-3.5 grid grid-cols-4 gap-2 min-[480px]:grid-cols-5 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]">
               {section.pokemon.map((pokemon) => {
@@ -311,6 +285,12 @@ export const PlannerPoolSection = ({
                   includedExpansionIds,
                   versionGame,
                 });
+                /*
+                 * The tile shows the species' name and its tip a form's own
+                 * ("Alolan Raichu"); what adding it would mean is the "!"
+                 * tip's alone, so nothing shows twice.
+                 */
+                const formTip = getPlannerFormTip(pokemon);
 
                 return (
                   <li
@@ -318,7 +298,7 @@ export const PlannerPoolSection = ({
                     className="relative h-full min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                   >
                     <IconTip
-                      label={notes.join(" ") || undefined}
+                      label={formTip}
                       trigger={
                         <button
                           type="button"
@@ -332,22 +312,13 @@ export const PlannerPoolSection = ({
                           )}
                           className="focus-ring block h-full w-full rounded-lg"
                         >
-                          {/* The number the tile no longer shows, read first as before. */}
-                          <span className="sr-only">
-                            {formatNationalNumber(pokemon.nationalNumber)}{" "}
-                          </span>
                           <PokemonCard
-                            compact
                             state="plain"
                             size="sm"
                             imageAlt=""
                             imageUrl={pokemon.imageUrl}
-                            name={pokemon.name}
-                            number={formatNationalNumber(
-                              pokemon.nationalNumber,
-                            )}
-                            /* The "!" takes the number's place; its words stay. */
-                            numberHidden={notes.length > 0}
+                            name={pokemon.speciesName}
+                            nameReadAs={pokemon.name}
                             types={pokemon.types}
                             picked={slot !== undefined}
                             className={cn(
@@ -357,15 +328,6 @@ export const PlannerPoolSection = ({
                                 "outline-action outline-3 outline-offset-2 outline-solid",
                             )}
                           ></PokemonCard>
-                          {/* What the tile no longer shows, for a screen reader. */}
-                          <span className="sr-only">
-                            {[
-                              `, #${formatNationalNumber(pokemon.nationalNumber)}`,
-                              pokemon.types
-                                .map((type) => type.name)
-                                .join(" and "),
-                            ].join(", ")}
-                          </span>
                           {slot || notes.length ? (
                             <span className="sr-only">
                               {[slot ? `, in slot ${slot}` : null, ...notes]
@@ -376,41 +338,11 @@ export const PlannerPoolSection = ({
                         </button>
                       }
                     />
-                    {/*
-                     * The tile's marks inside it so they lift with it (the
-                     * list's sections clip anything outside): the "!" of
-                     * Your team's slots top-left, where the number would
-                     * be, the slot number top-right.
-                     */}
-                    {notes.length ? (
-                      <CornerBubble corner="inside-top-left">
-                        <ExplanatoryTip
-                          triggerVariant="raised"
-                          triggerTone="warn"
-                          triggerLabel={`${pokemon.name}: ${notes[0]}`}
-                          contentClassName="w-64"
-                          content={
-                            <TipStack>
-                              <TipHead>
-                                {notes.length === 1
-                                  ? "One thing to check"
-                                  : `${notes.length} things to check`}
-                              </TipHead>
-                              <TipRows>
-                                {notes.map((note) => (
-                                  <TipRow key={note} name={note} tone="warn" />
-                                ))}
-                              </TipRows>
-                            </TipStack>
-                          }
-                        />
-                      </CornerBubble>
-                    ) : null}
-                    {slot !== undefined ? (
-                      <CornerBubble corner="inside-top-right">
-                        <SlotMark>{slot}</SlotMark>
-                      </CornerBubble>
-                    ) : null}
+                    <PoolTileMarks
+                      name={pokemon.name}
+                      notes={notes}
+                      slot={slot}
+                    />
                   </li>
                 );
               })}

@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 
 import type { GameShelfCardGame } from "@/modules/reference/types";
 
-import { GameShelfCard } from "./game-shelf-card";
+import { getGameCardColour } from "@/modules/reference/features/games/utils/game-color-styles";
+import { collectorCardGridClassName } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+
+import { GameShelfCard, GameShelfGrid } from "./game-shelf-card";
 
 const game: GameShelfCardGame = {
   coverImageUrl: null,
@@ -28,9 +31,12 @@ describe("GameShelfCard", () => {
     expect(markup).toContain("plain-card");
     expect(markup).not.toContain("sticker");
     expect(markup).not.toContain("empty-slot");
+    /* Centred, as a Codex Pokémon card's name is. */
+    expect(markup).toContain("items-center");
+    expect(markup).toContain("text-center");
   });
 
-  it("is a framed collector card saying its Plays for a game you've played", () => {
+  it("is a framed collector card, laid out as a Pokémon one, for a game you've played", () => {
     const markup = renderToStaticMarkup(
       <GameShelfCard game={game} onClick={() => {}} count="2 Plays" />,
     );
@@ -39,6 +45,65 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("<a ");
     expect(markup).toContain("card-frame");
     expect(markup).not.toContain("plain-card");
-    expect(getWords(markup)).toContain("Pokémon Sword2 Plays2019 · Galar");
+    /* Read name first, then the top line (year, Plays); no region. */
+    expect(getWords(markup)).toContain("Pokémon Sword20192 Plays");
+    expect(getWords(markup)).not.toContain("Galar");
+    expect(markup).toContain("@container/collector");
+    /* The Pokémon card's glint, from the one shared piece. */
+    expect(markup).toContain("group/collector");
+    expect(markup).toContain("group-hover/collector:translate-x-[500%]");
+    /* Its frame wears the game's card colour, never a tilted cover. */
+    expect(markup).toContain(`--t:${getGameCardColour("sword")}`);
+    expect(markup).not.toContain("rotate");
+  });
+
+  it("lays played games out on the Collection's grid with `collection`", () => {
+    const grid = (layout?: "collection" | "shelf") =>
+      renderToStaticMarkup(
+        <GameShelfGrid layout={layout}>
+          <span />
+        </GameShelfGrid>,
+      );
+
+    expect(grid("collection")).toContain(collectorCardGridClassName);
+    expect(grid()).not.toContain(collectorCardGridClassName);
+    expect(grid()).toContain("minmax(150px,1fr)");
+  });
+
+  it("turns toward the pointer only as a played game's card", () => {
+    const rootClass = (html: string) =>
+      /^<[a-z]+ [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(
+      rootClass(
+        renderToStaticMarkup(
+          <GameShelfCard game={game} href="/app/codex/games/swsh" />,
+        ),
+      ),
+    ).not.toMatch(/\bcard-tilt\b/);
+    expect(
+      rootClass(
+        renderToStaticMarkup(
+          <GameShelfCard count="2 Plays" game={game} onClick={() => {}} />,
+        ),
+      ),
+    ).toMatch(/\bcard-tilt\b/);
+  });
+
+  it("never moves its cover by itself: the card moves as one", () => {
+    for (const markup of [
+      renderToStaticMarkup(
+        <GameShelfCard game={game} href="/app/codex/games/swsh" />,
+      ),
+      renderToStaticMarkup(
+        <GameShelfCard count="2 Plays" game={game} onClick={() => {}} />,
+      ),
+    ]) {
+      /* Only the card itself, the first element, may carry a hover move. */
+      const inside = markup.slice(markup.indexOf(">") + 1);
+
+      expect(inside).not.toMatch(/hover[^"\s]*:[^"\s]*translate-y/);
+      expect(inside).not.toMatch(/(?:^|[\s"])-?translate-y-/);
+    }
   });
 });

@@ -1,3 +1,4 @@
+import { formatPokedexNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { byId } from "@/modules/reference/reference-data";
 import type {
   Pokedex,
@@ -38,9 +39,13 @@ export const matchesPokemonMenuQuery = (
 
   const normalizedQuery = query.replace(/^#+/, "");
   const normalizedNumber = String(pokemonSpecies.national_number);
-  const paddedNumber = normalizedNumber.padStart(4, "0");
+  const paddedNumber = formatPokedexNumberDigits(
+    pokemonSpecies.national_number,
+  );
   const normalizedPokedexNumber = pokedexNumber ? String(pokedexNumber) : null;
-  const paddedPokedexNumber = normalizedPokedexNumber?.padStart(4, "0");
+  const paddedPokedexNumber = pokedexNumber
+    ? formatPokedexNumberDigits(pokedexNumber)
+    : null;
 
   return (
     pokemonSpecies.name.toLowerCase().includes(query) ||

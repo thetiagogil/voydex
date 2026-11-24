@@ -1,3 +1,4 @@
+import { getPlannerPokemonNames } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import {
   getOfferedFormIdsBySpecies,
   listPlannerPokedexes,
@@ -291,9 +292,10 @@ export const readPlanMemberCheckRows = async (
     nameByFormId: new Map(
       speciesForms.map((form) => [
         form.id,
-        form.is_default
-          ? (speciesNameById.get(form.species_id) ?? form.name)
-          : form.name,
+        getPlannerPokemonNames(
+          { name: speciesNameById.get(form.species_id) ?? form.name },
+          form,
+        ).name,
       ]),
     ),
     natureIds: new Set((natures?.data ?? []).map((nature) => nature.id)),

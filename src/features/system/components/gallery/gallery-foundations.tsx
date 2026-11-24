@@ -94,6 +94,11 @@ const bodies = [
     use: "Small facts: a date, a count",
   },
   { className: "copy-mark", name: "copy-mark", use: "The words on a mark" },
+  {
+    className: "copy-number",
+    name: "copy-number",
+    use: "A Pokédex number on a card",
+  },
 ];
 
 const stickerTypes = ["grass", "fire", "water", "electric"];

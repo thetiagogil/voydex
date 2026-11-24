@@ -14,8 +14,10 @@ type UnsavedChangesFooterProps = {
 
 /*
  * v3's settings footer (`.set-foot`): shown only while its section has
- * unsaved changes, it sits flush along the card's bottom edge. Render it as
- * the last child of a `DetailSectionCard`'s content.
+ * unsaved changes, it sits flush along the card's bottom edge as the card's
+ * own bottom row, white like the card under one thin line, so the card keeps
+ * its whole rounded shape on the wall. Render it as the last child of a
+ * `DetailSectionCard`'s content.
  */
 export const UnsavedChangesFooter = ({
   className,
@@ -27,7 +29,7 @@ export const UnsavedChangesFooter = ({
   <div
     data-slot="unsaved-changes-footer"
     className={cn(
-      "bg-surface-2 -mx-5 mt-5 -mb-5 flex flex-wrap items-center gap-2 px-5 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-3.5",
+      "border-line -mx-5 mt-5 -mb-5 flex flex-wrap items-center gap-2 border-t px-5 py-3 sm:-mx-6 sm:-mb-6 sm:px-6 sm:py-3.5",
       className,
     )}
   >

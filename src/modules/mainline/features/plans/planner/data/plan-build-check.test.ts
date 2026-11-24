@@ -86,6 +86,7 @@ const pokemon = (
   name,
   nationalNumber: speciesId,
   speciesId,
+  speciesName: name,
   speciesSlug: name.toLowerCase(),
   types: types.map((slug) => ({ name: slug, slug })),
 });

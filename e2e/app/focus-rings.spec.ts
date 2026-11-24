@@ -93,11 +93,11 @@ test.describe("Focus rings and corner marks", () => {
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("6 of 6"),
     ).toBeVisible();
-    /* Six slot numbers, top-right, so the checks below have something to read. */
+    /* Six cards, each with its remove mark, so the checks below have something to read. */
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .locator('[data-corner="inside-top-right"]'),
+        .getByRole("button", { name: /slot \d\. Edit$/ }),
     ).toHaveCount(6);
     /* Before the sweep: focusing every control opens their tips. */
     await expectAccessible(page);
@@ -142,7 +142,8 @@ test.describe("Focus rings and corner marks", () => {
       /* Progress and the Team pages open on a sub-view. */
       await page.waitForLoadState("load");
       await expect(page.locator("main").first()).toBeVisible();
-      if (view === "/team" || view === "/progress/pokedex") {
+      /* A team card has no mark of its own until it is shiny or breaks a rule. */
+      if (view === "/progress/pokedex") {
         await expectCornerMarksShown(page);
       }
       if (view === "/team") {

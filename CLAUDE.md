@@ -158,8 +158,9 @@ Voydex is quiet where you work and loud where you remember. The
   `border-line`, `bg-action`). One palette for the whole app, a Play
   included: a game's own colour (`getGameColourStyle`) only marks
   which game is which (picker dots, cover placeholders, charts).
-- Baloo 2 for headings 20px and up, the Play and trainer names and owned
-  Pokémon names; Nunito for everything you operate. Nothing under 16px is
+- Baloo 2 for headings 20px and up, the Play and trainer names, owned
+  Pokémon names and a played game's name on its Collection card; Nunito for
+  everything you operate. Nothing under 16px is
   Baloo 2. A section title is plain letters on the wall over its
   card: never a filled pill, never a mark before it, never inside the card.
 - Loud only for identity and reward; chrome stays quiet. Colour follows
@@ -176,13 +177,15 @@ Voydex is quiet where you work and loud where you remember. The
 - One shape language: everything is round and soft. Depth has three levels,
   each with one meaning: a section is flat (white, a thin line, no blur); a
   small solid edge means "you can open this" (a Play row, a Pokémon card, a
-  Collection card), and those rise a little under the pointer; only the
+  Collection card), and those rise a little under the pointer (a card
+  that is yours tilts toward it instead, as a card in the hand); only the
   page's main action lifts on a soft shadow. Blur is otherwise for what
-  floats (menus, sheets, dialogs, toasts). One Pokémon card everywhere
-  (`PokemonCard`, and `PokemonSticker` on a team): white with a thin line
-  when it isn't yours; in its type's colour inside a white band, the
-  Pokémon standing a little out of a pale circle, when it is. Only the Collection frames what you
-  own as collector cards (`PokemonCollectorCard`, `GameShelfCard` with
+  floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
+  is: one you look up is a `PokemonCard`, white with a thin line (the
+  Codex, the Planner's list, a Pokédex); one that is yours is a
+  `PokemonCollectorCard`, all in its type's colour (a frame and a band
+  round one light panel: number and count on top, picture, name, types), the same in the Collection, on a Play's team
+  and in a Plan's team. A game you played is one too (`GameShelfCard` with
   `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
   status, never controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
@@ -200,7 +203,7 @@ Voydex is quiet where you work and loud where you remember. The
   bottom; every overlay, confirms included, has the corner close button and
   closes on Escape or a tap outside.
 - One place for each style: screens never type a style by hand. Text takes
-  a `copy-*` text style (strong, body, note, label, meta, mark), a block
+  a `copy-*` text style (strong, body, note, label, meta, mark, number), a block
   inside a card is a `tile`, an openable row inside a card a `tile-link`;
   `design:check` fails on a hand-set text size and weight or a hand-drawn
   tile, so a restyle always reaches the whole app. Reading text has four

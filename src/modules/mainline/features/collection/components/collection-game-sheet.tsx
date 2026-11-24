@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { Link } from "@/shared/components/link";
 import { useState } from "react";
 
@@ -21,9 +22,6 @@ type CollectionGameSheetProps = {
   entry: CollectionGame | null;
   onOpenChange: (open: boolean) => void;
 };
-
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 const PlayRows = ({ plays }: { plays: CollectionGamePlay[] }) => (
   <ul className="grid gap-2">
@@ -78,7 +76,7 @@ export const CollectionGameSheet = ({
             game.generation.name,
             game.regionName,
             String(game.releaseYear),
-            countPlays(entry.plays.length),
+            formatPlayCount(entry.plays.length),
           ]
             .filter(Boolean)
             .join(" · ")}
@@ -122,7 +120,7 @@ export const CollectionGameSheet = ({
       <SheetSection
         className="gap-3"
         title="Your Plays"
-        aside={current.length ? countPlays(current.length) : undefined}
+        aside={current.length ? formatPlayCount(current.length) : undefined}
       >
         {current.length ? (
           <PlayRows plays={current} />
@@ -135,7 +133,7 @@ export const CollectionGameSheet = ({
         <SheetSection
           className="gap-3"
           title="Archived"
-          aside={countPlays(archived.length)}
+          aside={formatPlayCount(archived.length)}
         >
           <PlayRows plays={archived} />
         </SheetSection>

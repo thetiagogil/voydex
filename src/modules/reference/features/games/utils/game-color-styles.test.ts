@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   gameColours,
+  getGameCardColour,
   getGameColourStyle,
   getGameStrongColour,
 } from "./game-color-styles";
@@ -33,5 +34,63 @@ describe("game colours", () => {
     expect(getGameColourStyle("unknown")).toMatchObject({
       "--game": "#8C867D",
     });
+  });
+});
+
+describe("game card colours", () => {
+  const channels = (hex: string) =>
+    [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+  /* Saturation and lightness, each 0 to 1, as HSL reads them. */
+  const hsl = (hex: string) => {
+    const [red, green, blue] = channels(hex).map((channel) => channel / 255);
+    const max = Math.max(red, green, blue);
+    const min = Math.min(red, green, blue);
+    const lightness = (max + min) / 2;
+    const saturation =
+      max === min ? 0 : (max - min) / (1 - Math.abs(2 * lightness - 1));
+
+    return { lightness, saturation };
+  };
+  /* The card's face: its colour mixed 16% into white, as `card-face` does. */
+  const face = (hex: string) =>
+    `#${channels(hex)
+      .map((channel) =>
+        Math.round(channel * 0.16 + 255 * 0.84)
+          .toString(16)
+          .padStart(2, "0"),
+      )
+      .join("")}`;
+  const contrast = (first: string, second: string) => {
+    const [light, dark] = [luminance(first), luminance(second)].sort(
+      (a, b) => b - a,
+    );
+
+    return (light + 0.05) / (dark + 0.05);
+  };
+
+  it("sets every game's card at one brightness, livelier and never greyer than its mark", () => {
+    for (const [slug, hex] of Object.entries(gameColours)) {
+      const mark = hsl(hex);
+      const card = hsl(getGameCardColour(slug));
+
+      expect(card.lightness).toBeGreaterThanOrEqual(0.49);
+      expect(card.lightness).toBeLessThanOrEqual(0.61);
+      /* A colourful game gains colour, up to the cap; a grey one stays grey. */
+      if (mark.saturation < 0.15) {
+        expect(card.saturation).toBeLessThan(0.16);
+      } else {
+        expect(card.saturation).toBeGreaterThanOrEqual(
+          Math.min(0.75, mark.saturation + 0.05) - 0.02,
+        );
+      }
+    }
+  });
+
+  it("keeps the ink 4.5:1 on every game card's face", () => {
+    for (const slug of Object.keys(gameColours)) {
+      expect(
+        contrast(face(getGameCardColour(slug)), "#1f2c49"),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });

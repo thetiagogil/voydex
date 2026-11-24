@@ -7,11 +7,12 @@ export type CornerBubbleCorner =
   "bottom" | "inside-top-left" | "inside-top-right" | "top-left" | "top-right";
 
 /*
- * A mark sits 12px in from its card's outer edge, whatever border the card
- * draws: `none` when the bubble is a sibling of the card (a list item
- * around it), `line` inside a card with a 1px border, `sticker` inside a
- * sticker's 4px band. The position is measured from inside the border, so the
- * band is taken off.
+ * A mark sits about 12px in from its card's outer edge, whatever border the
+ * card draws: `none` (12px) when the bubble is a sibling of the card (a list
+ * item around it), `line` (11px) inside a card with a 1px border, `sticker`
+ * (8px) inside a sticker's 3px band. The position is measured from inside
+ * the border, so the band is taken off. A collector card uses `sticker` for
+ * 8px in from its borderless light panel, level with the panel's top line.
  */
 export type CornerBubbleBorder = "line" | "none" | "sticker";
 
@@ -19,9 +20,17 @@ const insetClassNames: Record<
   CornerBubbleBorder,
   { left: string; right: string; top: string }
 > = {
-  line: { left: "left-2.75", right: "right-2.75", top: "top-2.75" },
+  line: {
+    left: "left-2.75",
+    right: "right-2.75",
+    top: "top-2.75",
+  },
   none: { left: "left-3", right: "right-3", top: "top-3" },
-  sticker: { left: "left-2", right: "right-2", top: "top-2" },
+  sticker: {
+    left: "left-2",
+    right: "right-2",
+    top: "top-2",
+  },
 };
 
 const cornerClassNames: Record<
@@ -42,8 +51,10 @@ const getCornerClassName = (
 
   /*
    * Inside a card, clear of its edge so a list that clips never cuts it.
-   * Marks that share a corner stack with `flex-col` (the shiny mark under
-   * the slot number).
+   * Marks that share a corner sit side by side (a pool tile's "!" before
+   * its slot number), or stack with `flex-col`. A collector card puts its
+   * marks in its panel's top corners, along its top line (`sticker`, 8px in,
+   * level with the line's words).
    */
   switch (corner) {
     case "inside-top-left":
@@ -86,20 +97,21 @@ export const CornerBubble = ({
 
 /*
  * The marks a Pokémon card carries in its corners, all drawn the same way:
- * a 24px round disc in the `bubble` white band. The corner rule: the slot
- * number top-right, a warning top-left, the Pokédex number (plain text, where
- * it is shown) top-left. `npm run design:check` fails a card that draws its
- * own.
+ * a 24px round disc in the `bubble` white band. On a pool tile: its "!" and
+ * its slot number side by side top-right. On a Pokédex card: a warning
+ * top-left, the shiny mark top-right. On a collector card: a warning top-left
+ * and the shiny mark top-right of its panel, along its top line. `npm run design:check` fails a card that
+ * draws its own.
  */
 
-/*
- * A slot's number on a corner: the action red in a white band. Decorative:
- * the card says its slot in words.
- */
 /* The number disc the slot and count marks share; each has its colour. */
 const numberMarkClassName =
   "copy-label bubble grid size-6 place-items-center rounded-full text-white tabular-nums";
 
+/*
+ * A slot's number on a corner: the ink disc in a white band. Decorative:
+ * the card says its slot in words.
+ */
 export const SlotMark = ({ children }: { children: ReactNode }) => (
   <span aria-hidden className={cn(numberMarkClassName, "bg-ink")}>
     {children}

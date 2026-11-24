@@ -6,10 +6,8 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
-import {
-  PokemonEmptySlot,
-  PokemonSticker,
-} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import {
   slotDragSourceClassName,
   useSlotDrag,
@@ -38,13 +36,12 @@ const groupTitles: Record<TeamRosterGroup, string> = {
   reserve: "Reserve",
 };
 
-type TeamRosterStickerProps = {
+type TeamRosterCardProps = {
   brokenRules: string[];
   dropTarget: boolean;
   member: MainlinePlayTeamMember;
   onSelect: (member: MainlinePlayTeamMember) => void;
   selected: boolean;
-  slotLabel: string;
   slotName: string;
 };
 
@@ -52,25 +49,23 @@ type TeamRosterStickerProps = {
 type RosterDrag = ReturnType<typeof useSlotDrag<string, number>>;
 
 /*
- * A roster Pokémon as a compact sticker that opens its detail: one name (the
- * nickname, or the species without one), its level as a chip, and a warning
+ * A roster Pokémon as its card, which opens its detail: one name (the
+ * nickname, or the species without one), its level beside it, and a warning
  * mark when it breaks the Play's rules.
  */
-const TeamRosterSticker = ({
+const TeamRosterCard = ({
   brokenRules,
   dropTarget,
   member,
   onSelect,
   selected,
-  slotLabel,
   slotName,
-}: TeamRosterStickerProps) => {
+}: TeamRosterCardProps) => {
   const name = getPlayTeamMemberName(member);
 
   return (
-    <PokemonSticker
-      variant="compact"
-      className="size-full"
+    <PokemonCollectorCard
+      size="lg"
       target={dropTarget}
       imageUrl={getPlayTeamMemberImageUrl(member)}
       name={name}
@@ -79,7 +74,6 @@ const TeamRosterSticker = ({
         (type) => type !== null,
       )}
       shiny={member.is_shiny === true}
-      slot={slotLabel}
       selected={selected}
       onClick={() => onSelect(member)}
       detail={slotName}
@@ -118,7 +112,8 @@ const TeamRosterGroupList = ({
         aside={`${filledCount} / ${playTeamSize}`}
         className="mb-4"
       />
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
+      {/* Overview's team grid's gaps, so a card is the same size on both. */}
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {slots.map((slot) => {
           const storedSlot =
             slot.position + (group === "active" ? 0 : playTeamSize);
@@ -139,7 +134,7 @@ const TeamRosterGroupList = ({
               )}
             >
               {slot.member ? (
-                <TeamRosterSticker
+                <TeamRosterCard
                   brokenRules={
                     brokenRulesById[slot.member.play_pokemon_id ?? ""] ?? []
                   }
@@ -147,14 +142,12 @@ const TeamRosterGroupList = ({
                   member={slot.member}
                   onSelect={onSelect}
                   selected={slot.member.play_pokemon_id === selectedMemberId}
-                  slotLabel={slot.label}
                   slotName={`${groupName} slot ${slot.position}`}
                 />
               ) : (
                 <PokemonEmptySlot
                   label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
-                  variant="compact"
-                  className="text-13 h-full"
+                  className="text-13"
                   target={drag.isOver(storedSlot)}
                 />
               )}
@@ -167,7 +160,7 @@ const TeamRosterGroupList = ({
 };
 
 /*
- * Your team and reserve as stickers: the loud part of the page. The reserve
+ * Your team and reserve as cards: the loud part of the page. The reserve
  * always shows its six slots, as v3 does. Drag a Pokémon onto another slot,
  * in either group, to move it there or swap with the one there; the editor's
  * Where does the same without dragging.

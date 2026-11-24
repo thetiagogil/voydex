@@ -48,14 +48,14 @@ type MainlinePlayTeamRosterProps = {
    */
   addRequest?: { preset: AddPokemonPreset | null } | null;
   data: MainlinePlayTeamRosterData;
-  /* The Pokémon a link asked to open on, such as an Overview sticker. */
+  /* The Pokémon a link asked to open on, such as an Overview card. */
   initialPokemonId?: string | null;
   playId: string;
 };
 
 /*
  * The Roster, as v3 draws it: the page head with Add Pokémon, the Active
- * team and the Reserve as stickers, and the selected Pokémon's profile
+ * team and the Reserve as cards, and the selected Pokémon's profile
  * beside them (a bottom sheet on phones and tablets). Edit opens the
  * editor; Add Pokémon and Replace share one species picker. A Pokémon moves
  * by dragging it onto another slot (at once) or from the editor's Slot (on
@@ -213,7 +213,12 @@ export const MainlinePlayTeamRoster = ({
         summary={formatTeamRosterSummary(summary)}
       />
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      {/*
+       * The team takes half the column less half the gap, so its three
+       * cards across stand exactly as wide as Overview's six across (a gap
+       * of 1rem): the team looks the same on both pages.
+       */}
+      <div className="grid items-start gap-6 lg:grid-cols-[calc(50%-0.5rem)_minmax(0,1fr)]">
         <TeamRosterSection
           brokenRulesById={brokenRulesById}
           isMoving={isMoving}

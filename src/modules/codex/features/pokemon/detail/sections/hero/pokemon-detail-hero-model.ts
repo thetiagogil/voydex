@@ -5,7 +5,7 @@ import type {
 } from "@/modules/reference/types";
 import {
   formatPokemonHeight,
-  formatPokemonNationalNumber,
+  formatPokedexNumber,
   formatPokemonWeight,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
@@ -38,7 +38,7 @@ const listStatNames = (stats: PokemonDetailStat[]) => {
 };
 
 /*
- * v3's line over the name: "#0059 · Legendary Pokémon · since Generation I",
+ * v3's line over the name: "#059 · Legendary Pokémon · since Generation I",
  * with the Pokédex's own category for the form shown (Arcanine is the
  * Legendary Pokémon, Hisuian Growlithe the Scout Pokémon).
  */
@@ -53,7 +53,7 @@ export const getPokemonDetailHeroEyebrow = ({
   const pokedexCategory = form?.form.category ?? species.category;
 
   return [
-    plain(formatPokemonNationalNumber(species.national_number)),
+    plain(formatPokedexNumber(species.national_number)),
     plain(`${pokedexCategory} Pokémon`),
     ...(introducedGeneration ? [plain(`since ${introducedGeneration}`)] : []),
   ];

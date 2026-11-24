@@ -16,7 +16,7 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   for (const member of members) {
     await search.fill(member);
     await picker
-      .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+      .getByRole("button", { name: new RegExp(`^${member}\\b(?!:)`) })
       .click();
   }
   await search.clear();
@@ -94,7 +94,7 @@ test.describe("Team Planner", () => {
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Eternatus");
     await expect(
-      picker.getByRole("button", { name: /^#890 Eternatus\b/ }),
+      picker.getByRole("button", { name: /^Eternatus\b(?!:)/ }),
     ).toBeVisible();
   });
 
@@ -112,7 +112,7 @@ test.describe("Team Planner", () => {
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Sirfetch");
     const sirfetchd = picker.getByRole("button", {
-      name: /^#865 Sirfetch'd\b/,
+      name: /^Sirfetch'd\b(?!:)/,
     });
 
     /* Either reads both versions; Shield trades for Sword's; Sword needs nothing. */
@@ -165,10 +165,10 @@ test.describe("Team Planner", () => {
 
     /* Both forms are their own tile, and the Galarian one can be planned. */
     await expect(
-      picker.getByRole("button", { name: /^#144 Articuno\b/ }),
+      picker.getByRole("button", { name: /^Articuno\b(?!:)/ }),
     ).toBeVisible();
     await picker
-      .getByRole("button", { name: /^#144 Galarian Articuno\b/ })
+      .getByRole("button", { name: /^Galarian Articuno\b(?!:)/ })
       .click();
     await expect(
       page
@@ -192,13 +192,13 @@ test.describe("Team Planner", () => {
     await expect(extras).toBeVisible();
     /* The treats bring the Kantonian bird; the Galarian one only by transfer. */
     await expect(
-      extras.getByRole("button", { name: /^#144 Articuno\b/ }),
+      extras.getByRole("button", { name: /^Articuno\b(?!:)/ }),
     ).toBeVisible();
     await expect(
-      extras.getByRole("button", { name: /^#144 Galarian Articuno\b/ }),
+      extras.getByRole("button", { name: /^Galarian Articuno\b(?!:)/ }),
     ).toBeVisible();
     await picker.getByRole("searchbox").fill("Raikou");
-    await extras.getByRole("button", { name: /^#243 Raikou\b/ }).click();
+    await extras.getByRole("button", { name: /^Raikou\b(?!:)/ }).click();
     await expect(
       page
         .getByRole("region", { name: "Your team" })
@@ -214,7 +214,7 @@ test.describe("Team Planner", () => {
     await openSearchBar(page);
     const search = picker.getByRole("searchbox");
     await search.fill("Venusaur");
-    await picker.getByRole("button", { name: /^#\d+ Venusaur\b/ }).click();
+    await picker.getByRole("button", { name: /^Venusaur\b(?!:)/ }).click();
     await search.clear();
 
     /* At the top the band shows the team, so the bar stays away. */
@@ -243,7 +243,7 @@ test.describe("Team Planner", () => {
     for (const member of ["Venusaur", "Charizard"]) {
       await search.fill(member);
       await picker
-        .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+        .getByRole("button", { name: new RegExp(`^${member}\\b(?!:)`) })
         .click();
     }
 
@@ -311,7 +311,7 @@ test.describe("Team Planner", () => {
       page.getByRole("region", { name: "Pick your Pokémon" }),
     ).toBeHidden();
     /* A Pokémon's sheet reads while locked. */
-    await team.getByRole("button", { name: /^Charizard\b/ }).click();
+    await team.getByRole("button", { name: /^Charizard\b(?!:)/ }).click();
     const locked = page.getByRole("dialog", { name: /Charizard/ });
     await expect(locked.getByRole("textbox", { name: "Note" })).toBeDisabled();
     await expect(
@@ -446,7 +446,7 @@ test.describe("Team Planner", () => {
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Charizard");
-    await picker.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
+    await picker.getByRole("button", { name: /^Charizard\b(?!:)/ }).click();
 
     await page
       .getByRole("region", { name: "Your team" })

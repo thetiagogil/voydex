@@ -241,7 +241,7 @@ const sourceRules = [
    */
   {
     label:
-      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta or -mark)",
+      "a text size and weight set by hand (use copy-strong, -body, -note, -label, -meta, -mark or -number)",
     pattern:
       /"(?![^"]*(?:font-display|(?:sm|md|lg):text-))[^"]*(?:(?<![-\w:])text-1[2-6](?![-\w])[^"]*(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])|(?<![-\w:])font-(?:semibold|bold|extrabold)(?![-\w])[^"]*(?<![-\w:])text-1[2-6](?![-\w]))[^"]*"/,
     only: [path.join("src", "modules"), path.join("src", "features")],
@@ -338,14 +338,14 @@ const sourceRules = [
       "a corner mark placed by hand on a Pokémon card (use CornerBubble with SlotMark, WarningMark or ShinyMark)",
     pattern:
       /(?<![-\w])absolute\b[^"'`]*(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)|(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)[^"'`]*(?<![-\w])absolute\b/,
-    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+    fileContains: /\bPokemon(?:Card|CollectorCard)\b/,
   },
   {
     label:
       "a corner mark's band or shadow drawn by hand on a Pokémon card (use the shared mark, drawn with bubble)",
     pattern:
       /(?<![-\w])bubble\b[^"'`]*(?<![-\w])absolute\b|(?<![-\w])absolute\b[^"'`]*(?<![-\w])bubble\b/,
-    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+    fileContains: /\bPokemon(?:Card|CollectorCard)\b/,
   },
 ];
 
@@ -409,8 +409,8 @@ for (const file of files) {
  * Hover labels are the shared `Tooltip` (`IconTip`), never the browser's
  * `title` attribute: it opens late, never on touch, ignores Soft Clay and can
  * make a screen reader say a name twice. A `title` prop on our own components
- * (a heading, a dialog name) is fine; on a DOM element or a wrapper of one it
- * is not.
+ * (a heading, a dialog name) is fine; on a DOM element, a wrapper of one or
+ * as an SVG's <title> it is not.
  */
 const domTitleHosts = new Set([
   "Badge",
@@ -433,6 +433,18 @@ for (const file of files) {
     ts.ScriptKind.TSX,
   );
   const visit = (node) => {
+    /* A <title> element (an SVG's hover label) is a native hover too. */
+    if (
+      (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) &&
+      node.tagName.getText(source) === "title"
+    ) {
+      const { line } = source.getLineAndCharacterOfPosition(node.getStart());
+
+      findings.push(
+        `${file}:${line + 1}  a native title element, a hover in an svg (use Tooltip or IconTip)`,
+      );
+    }
+
     if (ts.isJsxAttribute(node) && node.name.getText(source) === "title") {
       const tag = node.parent.parent.tagName.getText(source);
 

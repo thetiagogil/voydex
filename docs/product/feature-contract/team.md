@@ -44,7 +44,7 @@ read leaves them out, not the Roster. Home's "Continue with {name}" opens here t
 and the selected detail; Plan and Analysis are its sibling views in the Team
 menu. A link may name the member to open on
 (`/app/plays/play/team?id=[playId]&pokemon=[playPokemonId]`, as an Overview
-sticker does). On narrow screens, member selection opens a focused Team detail
+team card does). On narrow screens, member selection opens a focused Team detail
 sheet with a clear return to the roster.
 
 When a roster or slot workflow exposes a detailed position, all twelve possible
@@ -173,7 +173,7 @@ the incoming Pokémon in the Add sheet), Retire and Delete record act from its
 head. Slot shows the twelve slots as squares; picking one previews the team
 after the move (the picked slot in red, the place it leaves in blue, a taken
 slot swapping), and Save applies it after the other changes. Dragging a
-roster sticker onto another slot moves it at once, and the roster redraws
+roster card onto another slot moves it at once, and the roster redraws
 while the move saves.
 
 Team Analysis is the Team-owned review view. It makes no claim it can't

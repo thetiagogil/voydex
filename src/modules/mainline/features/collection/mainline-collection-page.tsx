@@ -60,7 +60,7 @@ const getDescription = (data: CollectionPageData) => {
 /*
  * Collection (v3 `collection`), in three views. Pokémon: every species that
  * has joined one of your teams, with the Plays it was part of. Each one is
- * yours, so it wears a sticker; the toolbar and filters stay quiet.
+ * yours, so it wears its collector card; the toolbar and filters stay quiet.
  * Favourites: every Pokémon you hearted in the Codex, used or not yet.
  * Games: only the ones you've played, most Plays first, each with its Plays.
  * The title names the view, since on desktop only the bar's menu switches.

@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { Link } from "@/shared/components/link";
 import { useState } from "react";
 
@@ -13,7 +14,7 @@ import {
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { PlayRow } from "@/modules/mainline/shared/components/play-row";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -110,8 +111,6 @@ export const TrainerSpeciesSheet = ({
     species,
   });
   const nowPlayCount = new Set(now.map((member) => member.play.id)).size;
-  const countPlays = (count: number) =>
-    `${count} ${count === 1 ? "Play" : "Plays"}`;
   const relatives = showsFamily ? species : family;
 
   return (
@@ -199,7 +198,7 @@ export const TrainerSpeciesSheet = ({
       <SheetSection
         className="gap-3"
         title="With you now"
-        aside={nowPlayCount ? countPlays(nowPlayCount) : undefined}
+        aside={nowPlayCount ? formatPlayCount(nowPlayCount) : undefined}
       >
         {now.length ? (
           <ul
@@ -252,7 +251,7 @@ export const TrainerSpeciesSheet = ({
         <SheetSection
           className="gap-3"
           title="Before"
-          aside={countPlays(before.length)}
+          aside={formatPlayCount(before.length)}
         >
           <ul
             className="grid gap-2"
@@ -304,12 +303,11 @@ export const TrainerSpeciesSheet = ({
           <ul className="grid grid-cols-3 gap-2">
             {relatives.map((relative) => (
               <li key={relative.speciesId} className="min-w-0">
-                <PokemonSticker
-                  variant="compact"
-                  className="w-full"
+                <PokemonCollectorCard
+                  size="sm"
                   imageUrl={relative.imageUrl}
                   name={relative.name}
-                  subtitle={getNowBeforeLine(relative)}
+                  count={getNowBeforeLine(relative)}
                   types={relative.types}
                   detail={`in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
                   onClick={

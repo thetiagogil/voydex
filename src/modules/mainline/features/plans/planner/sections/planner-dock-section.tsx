@@ -1,7 +1,8 @@
 "use client";
 
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
-import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
 
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -12,7 +13,6 @@ import {
 import type { PlanRandomMode } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import type { PlanTeamTip } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
-import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
@@ -30,10 +30,12 @@ import {
   slotDragSourceClassName,
   useSlotDrag,
 } from "@/shared/hooks/use-slot-drag";
+import { getPlannerFormTip } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { TipHead, TipStack } from "@/shared/components/tip-parts";
 
-/* The tip's mark on the band: its tint in a white band, as a sticker. */
+/* The tip's mark on the band: its tint in a white band, as a corner mark. */
 const TipMark = ({ tone }: { tone: PlanTeamTip["tone"] }) => (
   <span
     aria-hidden
@@ -99,7 +101,7 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
 
 /*
  * v3 `.dock`, on the Planner's band: the six slots of the Plan's team, as
- * the Play roster's stickers (the art large, its name, a flag
+ * the Play roster's cards (the art large, its name, a flag
  * when it needs something; an open slot just says Empty). Each
  * opens its slot sheet, can be dragged onto another slot to swap and removed
  * with Undo. Over it: the dice (Random team, Fill empty slots or Random from filters) and Clear (not on a locked Plan); under it the
@@ -244,7 +246,6 @@ export const PlannerDockSection = ({
                     <PokemonEmptySlot
                       label={`Put ${replacing.name} in slot ${index + 1}`}
                       text="Put here"
-                      variant="card"
                       className="text-13 hover:bg-white/50"
                     />
                   </button>
@@ -252,8 +253,7 @@ export const PlannerDockSection = ({
                   <PokemonEmptySlot
                     label={`Empty slot ${index + 1}`}
                     text="Empty"
-                    variant="card"
-                    className="text-13 h-full"
+                    className="text-13"
                     target={drag.isOver(index)}
                   />
                 )}
@@ -266,54 +266,47 @@ export const PlannerDockSection = ({
               key={`${member.formId}-${index}`}
               {...drag.sourceProps(index, { disabled: Boolean(replacing) })}
               {...dropProps}
+              /*
+               * Always on, so a slot turned before replace mode began still
+               * settles when the pointer leaves; it turns only with the class.
+               */
+              {...cardTiltHandlers}
               className={cn(
                 /*
-                 * The slot lifts as one, with its × and "!"; a drag carries
-                 * the card alone (`data-drag-image`).
+                 * The slot turns toward the pointer as one, with its × and
+                 * "!"; a drag carries the card alone (`data-drag-image`).
                  */
-                "group/removable relative min-w-0 rounded-lg transition-transform duration-150",
+                "group/removable relative min-w-0 rounded-lg",
                 slotDragSourceClassName,
                 replacing
                   ? "motion-safe:animate-wiggle hover:animate-none"
-                  : "hover:-translate-y-0.75",
+                  : cardTiltClassName,
                 drag.dragging === index && "opacity-60",
               )}
             >
-              {/*
-               * A team member as the Play roster draws one: the sticker's
-               * white band, its slot in the corner dot. The pool below keeps
-               * the type-colour band for what is on the team.
-               */}
-              <button
-                type="button"
-                data-drag-image
-                onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
-                className="focus-ring block h-full w-full rounded-lg"
-              >
-                <PokemonCard
-                  state="plain"
-                  size="fluid"
-                  sticker
-                  imageAlt=""
+              {/* A team member as the Play roster draws one: its card. */}
+              <div data-drag-image className="h-full rounded-lg">
+                <PokemonCollectorCard
+                  size="lg"
                   imageUrl={pokemon.imageUrl}
-                  name={pokemon.name}
-                  subtitle={replacing ? "Replace" : undefined}
+                  /* The species' name; a form's own is read and shows on hover. */
+                  name={pokemon.speciesName}
+                  nameReadAs={pokemon.name}
+                  tip={getPlannerFormTip(pokemon)}
+                  count={replacing ? "Replace" : undefined}
                   types={pokemon.types}
                   /* Under a drag, or any card while one waits to replace it. */
                   target={drag.isOver(index) || Boolean(replacing)}
-                  /* The slot lifts instead. */
-                  className="hover:translate-y-0"
+                  /* The slot turns instead. */
+                  tilt={false}
+                  detail={`slot ${index + 1}. ${replacing ? `Replace with ${replacing.name}` : "Edit"}`}
+                  onClick={() =>
+                    replacing ? onPlace(index) : onOpenSlot(index)
+                  }
                 />
-                <span className="sr-only">
-                  , slot {index + 1}.{" "}
-                  {replacing ? `Replace with ${replacing.name}` : "Edit"}
-                </span>
-              </button>
-              <CornerBubble corner="inside-top-right">
-                <SlotMark>{index + 1}</SlotMark>
-              </CornerBubble>
+              </div>
               {worst && !replacing ? (
-                /* Where the number would be: the one thing worth a look. */
+                /* On the card's corner: the one thing worth a look. */
                 <CornerBubble corner="inside-top-left">
                   <ExplanatoryTip
                     triggerVariant="raised"

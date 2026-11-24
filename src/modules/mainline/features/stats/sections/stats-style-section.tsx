@@ -12,7 +12,8 @@ import {
   type StatsTypeTally,
 } from "@/modules/mainline/shared/data/stats-model";
 import { formatMonthYear } from "@/modules/mainline/shared/utils/stats-format";
-import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -27,6 +28,7 @@ import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { SectionMoreLink } from "@/shared/components/section-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 import { IconTip } from "@/shared/components/icon-tip";
@@ -312,21 +314,22 @@ export const StatsStyleSection = ({
           className="md:col-span-full xl:col-span-1"
           contentClassName="flex flex-col gap-4"
         >
-          <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3">
+          <ul className="grid flex-1 grid-cols-2 content-start gap-2 min-[480px]:grid-cols-3 md:max-xl:grid-cols-6">
             {friends.map((friend) => (
               <li
                 key={friend.speciesSlug}
-                className="relative flex min-w-0 transition-transform duration-150 hover:-translate-y-0.75"
+                /* The card's place turns, carrying the family tip. */
+                className={cn("relative flex min-w-0", cardTiltClassName)}
+                {...cardTiltHandlers}
               >
-                <PokemonSticker
-                  variant="mini"
-                  /* The card lifts instead, carrying the family tip. */
-                  className="w-full justify-center hover:translate-y-0"
+                <PokemonCollectorCard
+                  size="sm"
+                  tilt={false}
                   detail="Open"
                   onClick={() => onOpenFriend(friend)}
                   imageUrl={friend.imageUrl}
                   name={friend.entry.name}
-                  subtitle={`${friend.playCount} Plays`}
+                  count={`${friend.playCount} Plays`}
                   types={friend.types}
                   showTypes={false}
                 />
@@ -351,11 +354,14 @@ export const StatsStyleSection = ({
             ))}
             {/* The places still open: a friend comes back, a slot fills. */}
             {Array.from({ length: openFriendSlots }, (_, index) => (
-              <li
-                key={`open-${index}`}
-                aria-hidden
-                className="empty-slot min-h-32 rounded-lg"
-              />
+              <li key={`open-${index}`} aria-hidden className="min-w-0">
+                <PokemonEmptySlot
+                  size="sm"
+                  label="Open place"
+                  text=""
+                  showTypes={false}
+                />
+              </li>
             ))}
           </ul>
           {friends.length < oldFriendsRow ? (

@@ -48,8 +48,9 @@ area before judging it. Rules come from `CLAUDE.md`,
 
 - Soft Clay breaks: raw colours, game colour as a theme or on controls,
   Baloo 2 under 16px or on controls, coloured lips on chrome, a second
-  selected style, motion on load or looping, tilt outside stamps, any retired
-  design reference.
+  selected style, motion on load or looping, tilt outside stamps and the
+  cards that are yours turning toward the pointer, a cover tilting by
+  itself, any retired design reference.
 - Icons not from `appIcons`; duplicated components where an existing
   primitive or variant fits.
 - Missing accessible names, colour-only status, nested interactive controls,

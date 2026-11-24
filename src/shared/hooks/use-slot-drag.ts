@@ -2,11 +2,57 @@
 
 import { useState, type DragEvent } from "react";
 
+import { flattenCardTilt } from "@/shared/utils/card-tilt";
+
 /*
  * On a dragged slot: its pictures don't start a drag of their own, so the
  * slot is what moves (an image's drag would also end if it redraws).
  */
 export const slotDragSourceClassName = "[&_img]:pointer-events-none";
+
+/*
+ * A slot's drag starting: the card flies flat, the picture is the slot's
+ * `data-drag-image` and the drag carries the item.
+ */
+export const startSlotDrag = (
+  event: DragEvent<HTMLElement>,
+  item: number | string,
+) => {
+  /* A card turned toward the pointer flies flat. */
+  flattenCardTilt(event.currentTarget);
+  const image =
+    event.currentTarget.querySelector<HTMLElement>("[data-drag-image]");
+
+  if (image) {
+    /*
+     * A copy off the page: the browser draws a drag picture from the
+     * screen, so the real one would take along whatever sits over it,
+     * such as the corner ×.
+     */
+    const box = image.getBoundingClientRect();
+    const copy = image.cloneNode(true) as HTMLElement;
+
+    Object.assign(copy.style, {
+      height: `${box.height}px`,
+      left: "-10000px",
+      pointerEvents: "none",
+      position: "fixed",
+      top: "0",
+      width: `${box.width}px`,
+    });
+    document.body.append(copy);
+    event.dataTransfer.setDragImage(
+      copy,
+      event.clientX - box.left,
+      event.clientY - box.top,
+    );
+    window.setTimeout(() => copy.remove());
+  }
+
+  event.dataTransfer.effectAllowed = "move";
+  /* Some browsers start a drag only once it carries data. */
+  event.dataTransfer.setData("text/plain", String(item));
+};
 
 /*
  * Drag and drop between the slots of a grid, such as the Play roster or the
@@ -37,38 +83,7 @@ export const useSlotDrag = <TItem extends number | string, TSlot>({
     draggable: !disabled,
     onDragEnd: end,
     onDragStart: (event: DragEvent<HTMLElement>) => {
-      const image =
-        event.currentTarget.querySelector<HTMLElement>("[data-drag-image]");
-
-      if (image) {
-        /*
-         * A copy off the page: the browser draws a drag picture from the
-         * screen, so the real one would take along whatever sits over it,
-         * such as the corner ×.
-         */
-        const box = image.getBoundingClientRect();
-        const copy = image.cloneNode(true) as HTMLElement;
-
-        Object.assign(copy.style, {
-          height: `${box.height}px`,
-          left: "-10000px",
-          pointerEvents: "none",
-          position: "fixed",
-          top: "0",
-          width: `${box.width}px`,
-        });
-        document.body.append(copy);
-        event.dataTransfer.setDragImage(
-          copy,
-          event.clientX - box.left,
-          event.clientY - box.top,
-        );
-        window.setTimeout(() => copy.remove());
-      }
-
-      event.dataTransfer.effectAllowed = "move";
-      /* Some browsers start a drag only once it carries data. */
-      event.dataTransfer.setData("text/plain", String(item));
+      startSlotDrag(event, item);
       setDragging(item);
     },
   });

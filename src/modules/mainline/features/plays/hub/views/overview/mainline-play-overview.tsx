@@ -22,9 +22,9 @@ type MainlinePlayOverviewProps = {
 };
 
 /*
- * Overview: the team as stickers first, then the journey card (the next
+ * Overview: the team as its cards first, then the journey card (the next
  * objective with the game's stamp card beside it), then recent moments
- * beside the Pokédex. The stickers and stamps are the loud parts; everything around
+ * beside the Pokédex. The cards and stamps are the loud parts; everything around
  * them stays quiet. A brand-new Play opens instead on its partner choice and
  * first steps (v3 `fresh`).
  */

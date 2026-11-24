@@ -112,6 +112,20 @@ describe("Pokédex progress action model", () => {
     ]);
   });
 
+  it("reads its sections at the cards' own width in a Pokédex over 999", () => {
+    const first = {
+      ...buildEntry({ speciesId: 1, state: "missing" }),
+      pokedexNumber: 1,
+    };
+
+    expect(
+      groupPokedexEntriesByNumberRange({
+        entries: [first],
+        maxPokedexNumber: 1025,
+      })[0]?.label,
+    ).toBe("001 – 060");
+  });
+
   it("uses four digits for Pokédexes larger than 999 entries", () => {
     const entry = {
       ...buildEntry({ speciesId: 1025, state: "missing" }),

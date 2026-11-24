@@ -394,7 +394,7 @@ export const GameShelfPicker = ({
                     "group/cover ease-hop relative shrink-0 cursor-pointer rounded-sm transition-transform duration-250",
                     isPicked
                       ? "-translate-y-5"
-                      : "motion-safe:hover:-translate-y-3 motion-safe:hover:-rotate-3",
+                      : "motion-safe:hover:-translate-y-3",
                   )}
                 >
                   <GameCover

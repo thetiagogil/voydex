@@ -68,7 +68,7 @@ describe("fetchPokemonMenuPage", () => {
     expect(await search("  MR. ")).toEqual(["Mr. Mime", "Mr. Rime"]);
     expect(await search("mr-r")).toEqual(["Mr. Rime"]);
     /* The national number, padded or not, and the regional one. */
-    expect(await search("#0025")).toEqual(["Pikachu"]);
+    expect(await search("#025")).toEqual(["Pikachu"]);
     expect(await search("194")).toEqual(["Pikachu"]);
     expect(await search("zzz")).toEqual([]);
   });

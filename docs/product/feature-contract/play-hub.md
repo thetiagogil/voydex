@@ -105,7 +105,7 @@ Current Overview direction:
 - Overview previews should summarize real workflows and mature tabs. Do not add
   placeholder cards just to fill space.
 
-As built (#63): Overview opens on the team, as the Play's stickers. Under
+As built (#63): Overview opens on the team, as the Play's cards. Under
 it, the journey card: where the objective stands, its title, where it
 happens, then Record and Add a note, and in the same card (beside the words
 from 1024px, under them below that) the game's stamp card with its count, as
@@ -131,6 +131,6 @@ with it where the milestone keeps snapshots, the stamp slaps once and the
 toast offers Undo, which marks it incomplete again (the database refuses if
 something recorded since depends on it). A choice milestone opens Story's
 form instead. `Add a note` keeps a note in History. A brand-new Play
-opens on its partner choice (the pick becomes your sticker, with Undo) and
+opens on its partner choice (the pick becomes your card, with Undo) and
 three first steps: choose your partner, add the Pokémon you catch, mark your
 Pokédex.

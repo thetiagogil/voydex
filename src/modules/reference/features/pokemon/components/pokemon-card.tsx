@@ -1,9 +1,9 @@
+import { PokemonShownName } from "@/modules/reference/features/pokemon/components/pokemon-shown-name";
 import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -20,11 +20,6 @@ type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
   /*
-   * Just the art and the name, for a long list to pick from (the Team
-   * Planner): no number row and no type marks, so many more fit on a line.
-   */
-  compact?: boolean;
-  /*
    * Small marks at the end of the number line, level with it (an opponent's
    * Tera Type, the item it holds), so the card keeps its height.
    */
@@ -38,34 +33,24 @@ type PokemonCardProps = {
   motion?: "pop" | "settle" | null;
   name: string;
   /*
+   * The form's full name where `name` shows the species' alone (the Team
+   * Planner's "Raichu" for "Alolan Raichu"): read in its place.
+   */
+  nameReadAs?: string | null;
+  /*
    * Its national number, or its level where that matters more (an opponent's
    * team); left out where it says nothing (the Planner's team), keeping the line.
    */
   number?: string;
-  /*
-   * Takes the number off the screen but keeps it in the card's words, for a
-   * corner mark (a warning) that stands where it would.
-   */
-  numberHidden?: boolean;
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
-  /*
-   * On a team, as a roster sticker: the sticker's white band on a soft
-   * shadow, with no Play state mark. `picked` turns the band its type's colour.
-   */
-  sticker?: boolean;
   /*
    * `md` is the grid card. `sm` fits three cards in a narrow card; `fluid` is
    * `sm` on phones and `md` from `sm` up.
    */
   size?: PokemonCardSize;
   subtitle?: string | null;
-  /*
-   * Where a dragged Pokémon would land: the accent ring, as on a sticker or
-   * an open slot.
-   */
-  target?: boolean;
   types: PokemonCardType[];
 };
 
@@ -108,7 +93,7 @@ const stateClassNames: Record<PokemonCardState, string> = {
 
 /*
  * Padding per size and state. Each state draws a different border (1px clear card edge,
- * 4px sticker, 2.5px dashed slot), so the padding makes up the difference:
+ * 3px sticker, 2.5px dashed slot), so the padding makes up the difference:
  * a card keeps one height whatever its state, and marking one never moves
  * its row.
  */
@@ -117,13 +102,13 @@ const paddingClassNames: Record<
   Record<PokemonCardState, string>
 > = {
   md: {
-    caught: "px-1.25 pt-1.25 pb-2.25",
+    caught: "px-1.5 pt-1.5 pb-2.5",
     missing: "px-[6.5px] pt-[6.5px] pb-[10.5px]",
     plain: "px-2 pt-2 pb-3",
     seen: "px-2 pt-2 pb-3",
   },
   sm: {
-    caught: "px-px pt-0.75 pb-1.75",
+    caught: "px-0.5 pt-1 pb-2",
     missing: "px-[2.5px] pt-[4.5px] pb-[8.5px]",
     plain: "px-1 pt-1.5 pb-2.5",
     seen: "px-1 pt-1.5 pb-2.5",
@@ -133,7 +118,7 @@ const paddingClassNames: Record<
 /*
  * The Play state mark in the top-right corner, in the one corner-mark band: a
  * Poké Ball on white when caught, an eye when seen. A Pokédex has no slots,
- * so this is the number a team's card would carry there.
+ * so this takes the corner a pool tile's slot number would.
  */
 const PokemonCardMark = ({
   border,
@@ -174,7 +159,8 @@ const PokemonCardMark = ({
 };
 
 /*
- * The one Pokémon card: number, the art on a soft type-tint circle, the name
+ * The one Pokémon card: number, the art (on white with nothing behind it,
+ * on a pale circle once caught or picked), the name
  * (wrapping to a second line rather than cutting off "Galarian Farfetch'd")
  * and type dots. A Play layers its state on it: caught is a sticker with a
  * Poké Ball, seen a plain card with an eye, missing a dashed outline and a
@@ -183,26 +169,22 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
-  compact = false,
   marks,
   imageAlt,
   imageUrl,
   name,
+  nameReadAs,
   number,
-  numberHidden = false,
   onAnimationEnd,
   motion = null,
   picked = false,
   size = "md",
-  sticker = false,
   state,
   subtitle,
-  target = false,
   types,
 }: PokemonCardProps & { state: PokemonCardState }) => {
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
   const sizes = sizeClassNames[size];
-  const isSticker = picked || sticker;
 
   return (
     <div
@@ -212,18 +194,10 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
-        isSticker
-          ? cn(
-              "sticker",
-              picked && "sticker-type-band",
-              /* A target's ring takes the edge's place. */
-              target && "sticker-picked",
-            )
-          : stateClassNames[state],
-        target && !isSticker && dropTargetRingClassName,
-        /* A sticker wears the 4px band, so it takes the sticker's padding. */
+        picked ? "sticker sticker-type-band" : stateClassNames[state],
+        /* A picked card wears the sticker's band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
-          isSticker ? "caught" : state
+          picked ? "caught" : state
         ],
         motion === "pop" && "animate-pop",
         motion === "settle" && "animate-settle",
@@ -233,10 +207,9 @@ export const PokemonCard = ({
       <span
         aria-hidden={number ? undefined : true}
         className={cn(
-          "copy-mark flex w-full items-center justify-between px-1 tabular-nums",
-          compact && "hidden",
-          state === "caught" ? "text-ink-tint" : "text-ink-3",
-          numberHidden && "opacity-0",
+          "copy-number flex w-full items-center justify-between px-1 tabular-nums",
+          /* On a tint (caught, or a Planner pick), the number takes the tint's ink. */
+          state === "caught" || picked ? "text-ink-tint" : "text-ink-3",
         )}
       >
         {number ?? "\u00a0"}
@@ -246,7 +219,7 @@ export const PokemonCard = ({
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark
-          border={state === "caught" || isSticker ? "sticker" : "line"}
+          border={state === "caught" || picked ? "sticker" : "line"}
           state={state}
           className={sizes.mark}
           iconClassName={sizes.markIcon}
@@ -256,10 +229,8 @@ export const PokemonCard = ({
         className={cn(
           "relative mt-0.5 mb-1.5 grid place-items-center rounded-full",
           sizes.circle,
-          (state === "caught" || isSticker) && "bg-white/55",
-          !isSticker &&
-            (state === "plain" || state === "seen") &&
-            "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
+          /* A sticker's art stands on a pale circle; a white card's on nothing. */
+          (state === "caught" || picked) && "bg-white/55",
         )}
       >
         <FallbackImage
@@ -280,12 +251,10 @@ export const PokemonCard = ({
         className={cn(
           "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           sizes.name,
-          /* Room for two lines always, so a row of tiles stands level. */
-          compact && "min-h-[2lh]",
           state === "missing" && "text-ink-3",
         )}
       >
-        {name}
+        <PokemonShownName name={name} readAs={nameReadAs} />
       </b>
       {subtitle ? (
         <span
@@ -297,14 +266,12 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
-      {compact ? null : (
-        <PokemonTypeList
-          types={types}
-          badgeDisplay="icon"
-          badgeSize="sm"
-          className="mt-auto items-center gap-1 pt-1"
-        />
-      )}
+      <PokemonTypeList
+        types={types}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="mt-auto items-center gap-1 pt-1"
+      />
       {children}
     </div>
   );

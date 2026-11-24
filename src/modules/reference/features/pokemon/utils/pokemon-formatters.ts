@@ -1,10 +1,13 @@
-export const formatPokemonNationalNumberDigits = (number: number) => {
-  return number.toString().padStart(4, "0");
-};
+/*
+ * A Pokédex number, the national one or a game's own, the one way every
+ * page prints it: at least three digits, "025", "1025".
+ */
+export const formatPokedexNumberDigits = (number: number) =>
+  String(number).padStart(3, "0");
 
-export const formatPokemonNationalNumber = (number: number) => {
-  return `#${formatPokemonNationalNumberDigits(number)}`;
-};
+/* With its mark: "#025", "#1025". */
+export const formatPokedexNumber = (number: number) =>
+  `#${formatPokedexNumberDigits(number)}`;
 
 export const formatPokedexName = (name: string) => {
   return name.replace(/\bPokedex\b/g, "Pokédex");

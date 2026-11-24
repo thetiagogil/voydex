@@ -42,11 +42,11 @@ import {
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
 import { PlannerDockedBar } from "@/modules/mainline/features/plans/planner/sections/planner-docked-bar";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
+import { PlannerPoolSection } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
 import {
   matchesPoolFilters,
-  PlannerPoolSection,
   type PlannerPoolFilters,
-} from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
+} from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
 import { renamePlanAction } from "@/modules/mainline/features/plans/client/plan-rename-action";
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";

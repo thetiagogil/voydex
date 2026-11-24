@@ -1,4 +1,4 @@
-/* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
+/* A Pokémon's type colour as a pale tint, for tiles and art circles. Set --t. */
 @utility type-tint {
   background-color: color-mix(in oklab, var(--t) 16%, var(--surface));
 }
@@ -16,10 +16,9 @@
 }
 
 /*
- * An owned Pokémon's card: the whole card in its type's colour, a 3px white
+ * A caught or picked Pokémon's tile: all in its type's colour, a 3px white
  * band, and the small solid edge of what you can open. Set --t (neutral
- * when it isn't set). Swap the edge with --sticker-shadow, or add
- * `sticker-picked` to mark it as the target.
+ * when it isn't set). Swap the edge with --sticker-shadow.
  */
 @utility sticker {
   background-color: color-mix(
@@ -34,19 +33,11 @@
 }
 
 /*
- * The Pokémon on its card: a little larger than the pale circle behind it,
- * standing out of its top, with a soft shadow of its own.
- */
-@utility sticker-art {
-  transform: translateY(-9%) scale(1.14);
-  filter: drop-shadow(0 10px 5px rgb(var(--shade) / 0.32));
-}
-
-/*
- * A collector card: an owned Pokémon's card where you look at it as part of
- * a set. `card-frame` is the frame in its type's colour round the white
- * card, on the small edge of what you can open; `card-window` is the soft
- * tinted block its art stands in. Set --t (neutral when it isn't set).
+ * A collector card: the card of what is yours (a Pokémon, a game you
+ * played), all in its own colour. `card-frame` is the frame, on the small
+ * edge of what you can open; `card-face` the paler face inside it, a
+ * band round a Pokémon card's `card-panel`, the light panel its art, name
+ * and types stand on. Set --t (neutral when it isn't set).
  */
 @utility card-frame {
   background-color: color-mix(
@@ -58,14 +49,55 @@
     color-mix(in oklab, var(--t, var(--mute)) 34%, var(--line));
 }
 
-@utility card-window {
+/*
+ * A picked card's frame: its type's colour, a step deeper so a pale type
+ * (Electric, Steel, Normal) still reads as picked beside the frames next to
+ * it (card-frame-picked.test.ts holds that every type is deeper), on the
+ * same edge as every frame so the card keeps its place.
+ */
+@utility card-frame-picked {
+  background-color: color-mix(in oklab, var(--t, var(--mute)) 82%, var(--ink));
+  box-shadow: 0 3px 0 color-mix(in oklab, var(--t, var(--mute)) 55%, var(--ink));
+}
+
+/*
+ * A card that is yours turning toward the pointer (src/shared/utils/
+ * card-tilt.ts writes --tilt-x and --tilt-y). Only while it is turned
+ * (`data-tilt`), so a card at rest has no transform and its text stays
+ * sharp: quick while it follows the pointer, slower as it settles flat.
+ */
+@utility card-tilt {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    &[data-tilt] {
+      transform: perspective(40rem) rotateX(var(--tilt-x, 0deg))
+        rotateY(var(--tilt-y, 0deg));
+      transition-duration: 400ms, 150ms;
+      transition-property: transform, background-color;
+      transition-timing-function: ease-out;
+    }
+
+    &[data-tilt="on"] {
+      transition-duration: 120ms, 150ms;
+    }
+  }
+}
+
+@utility card-face {
   background-color: color-mix(
     in oklab,
-    var(--t, var(--mute)) 22%,
+    var(--t, var(--mute)) 16%,
+    var(--surface)
+  );
+}
+
+@utility card-panel {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 6%,
     var(--surface)
   );
 
-  & > img {
+  & [data-slot="collector-art"] > img {
     filter: drop-shadow(0 8px 4px rgb(var(--shade) / 0.3));
   }
 }
@@ -100,14 +132,6 @@
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);
-}
-
-/*
- * A sticker marked as the target, such as a slot under a drag: it keeps its
- * own border, and a thin ring in the accent wraps it.
- */
-@utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--calm);
 }
 
 /*
@@ -483,6 +507,7 @@
  *   copy-label   a field's or a fact's label, a small heading
  *   copy-meta    small facts: a date, a count, a game and region
  *   copy-mark    the words on a small mark or count
+ *   copy-number  a Pokédex number on a card, quieter than a mark
  */
 @utility copy-strong {
   font-size: var(--text-15);
@@ -512,6 +537,11 @@
 @utility copy-mark {
   font-size: var(--text-12);
   font-weight: 800;
+}
+
+@utility copy-number {
+  font-size: var(--text-12);
+  font-weight: 600;
 }
 
 /*
