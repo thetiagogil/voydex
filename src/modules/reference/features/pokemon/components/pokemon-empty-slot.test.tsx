@@ -43,9 +43,9 @@ describe("PokemonEmptySlot", () => {
 
   it("leaves out the types line beside cards that show none", () => {
     const html = render({ showTypes: false, size: "sm" });
-    const { typesLine, window } = collectorCardSizeClassNames.sm;
+    const { art, typesLine } = collectorCardSizeClassNames.sm;
 
-    expect(html).toContain(window);
+    expect(html).toContain(art);
     expect(html).not.toContain(`mt-1.5 block ${typesLine}`);
     expect(render({ size: "sm" })).toContain(`mt-1.5 block ${typesLine}`);
   });

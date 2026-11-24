@@ -113,15 +113,16 @@ const contrast = (first: number[], second: number[]) => {
   return (light! + 0.05) / (dark! + 0.05);
 };
 
-describe("a picked collector card's frame", () => {
-  const colours = {
-    ...Object.fromEntries(
-      [...typeTokens.matchAll(/--type-([a-z]+):\s*(#[0-9a-fA-F]{6})/g)].map(
-        ([, type, hex]) => [type, hex],
-      ),
+const colours = {
+  ...Object.fromEntries(
+    [...typeTokens.matchAll(/--type-([a-z]+):\s*(#[0-9a-fA-F]{6})/g)].map(
+      ([, type, hex]) => [type, hex],
     ),
-    none: tokenOf(tokens, "mute"),
-  };
+  ),
+  none: tokenOf(tokens, "mute"),
+};
+
+describe("a picked collector card's frame", () => {
   const pickedMix = backgroundMixOf("card-frame-picked");
   const frameMix = backgroundMixOf("card-frame");
 
@@ -137,6 +138,27 @@ describe("a picked collector card's frame", () => {
 
       expect(luminance(picked)).toBeLessThan(luminance(unpicked));
       expect(contrast(picked, unpicked)).toBeGreaterThanOrEqual(FLOOR);
+    },
+  );
+});
+
+/*
+ * A collector card's name and top line stand on its light panel
+ * (`card-panel`): each holds 4.5:1 on it for every type colour.
+ */
+describe("a collector card's panel", () => {
+  const panelMix = backgroundMixOf("card-panel");
+  const ink = tokenOf(tokens, "ink");
+  /* --ink-tint: the top line's ink, ink-2 with 45% of the ink. */
+  const inkTint = mix(tokenOf(tokens, "ink"), 0.45, tokenOf(tokens, "ink-2"));
+
+  it.each(Object.entries(colours))(
+    "keeps the name and the top line readable (%s)",
+    (_type, hex) => {
+      const panel = mix(hex, panelMix.share, panelMix.partner);
+
+      expect(contrast(channels(ink), panel)).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(inkTint, panel)).toBeGreaterThanOrEqual(4.5);
     },
   );
 });

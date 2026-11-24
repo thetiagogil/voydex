@@ -52,11 +52,12 @@ export const PokemonEmptySlot = ({
   const body = (
     <>
       {/*
-       * The card's own parts, unseen: its face, window, name and types. A
-       * top line adds no height: it sits over the window.
+       * The card's own parts, unseen: its face and panel (their padding
+       * adds up to this one's), art, name and types. A top line adds no
+       * height: it sits over the art.
        */}
       <span aria-hidden className="invisible block p-2">
-        <span className={cn("block", sizeClassName.window)} />
+        <span className={cn("block", sizeClassName.art)} />
         <span
           className={cn(
             "descender-room mt-2 block leading-tight",

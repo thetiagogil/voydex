@@ -35,9 +35,9 @@
 /*
  * A collector card: the card of what is yours (a Pokémon, a game you
  * played), all in its own colour. `card-frame` is the frame, on the small
- * edge of what you can open; `card-face` the paler face inside it;
- * `card-window` the light block its art stands in. Set --t (neutral when
- * it isn't set).
+ * edge of what you can open; `card-face` the paler face inside it, a
+ * band round a Pokémon card's `card-panel`, the light panel its art, name
+ * and types stand on. Set --t (neutral when it isn't set).
  */
 @utility card-frame {
   background-color: color-mix(
@@ -90,14 +90,14 @@
   );
 }
 
-@utility card-window {
+@utility card-panel {
   background-color: color-mix(
     in oklab,
     var(--t, var(--mute)) 6%,
     var(--surface)
   );
 
-  & > img {
+  & [data-slot="collector-art"] > img {
     filter: drop-shadow(0 8px 4px rgb(var(--shade) / 0.3));
   }
 }

@@ -78,7 +78,7 @@ type PokemonCollectorCardProps = {
   tilt?: boolean;
   types: CollectorCardType[];
   /*
-   * An amber warning mark in the window's corner, such as a Play's rule it
+   * An amber warning mark in the art's corner, such as a Play's rule it
    * breaks; the words are read, not seen.
    */
   warning?: string;
@@ -86,7 +86,7 @@ type PokemonCollectorCardProps = {
 
 /*
  * A card's parts by size, shared with the open slot that stands beside it
- * (`PokemonEmptySlot`), so both keep one height. The window follows the
+ * (`PokemonEmptySlot`), so both keep one height. The art's box follows the
  * card's width up to a height of its own, so a card in a wide column never
  * grows past its size. From 9.5rem up a card has room for its full form:
  * the name in the display face and the types in words. A card in a set
@@ -96,19 +96,19 @@ type PokemonCollectorCardProps = {
 const fullCardClassNames = {
   name: "copy-strong @min-[9.5rem]/collector:font-display @min-[9.5rem]/collector:text-17 @min-[9.5rem]/collector:font-semibold",
   typesLine: "h-4.5 @min-[9.5rem]/collector:h-6",
-  window: "aspect-square max-h-44",
+  art: "aspect-square max-h-44",
 };
 
 export const collectorCardSizeClassNames: Record<
   PokemonCollectorCardSize,
-  { name: string; typesLine: string; window: string }
+  { art: string; name: string; typesLine: string }
 > = {
   lg: fullCardClassNames,
   md: fullCardClassNames,
   sm: {
     name: "copy-strong",
     typesLine: "h-4.5",
-    window: "aspect-square max-h-24",
+    art: "aspect-square max-h-24",
   },
 };
 
@@ -135,11 +135,12 @@ export const CollectorCardGlint = () => (
 /*
  * The card of a Pokémon that is yours, everywhere it is one: in the
  * Collection, on a team, in a Plan, as your partner. It reads as a real
- * card, all in its type's colour: a frame round a paler face, its art in a
- * light window of one shape per size (its number and a count, where it has
- * them, or its level on a team, along the window's top; a warning and the
- * shiny mark in its bottom corners), its name centred under the window, then its types centred on one line, so every card in a grid
- * stands as tall as the next. A favourite on no team yet is the same card
+ * card, all in its type's colour: a frame, then the paler face as a band
+ * round one light panel holding its art (one box per size), its number and
+ * a count where it has them or its level on a team along the panel's top,
+ * a warning and the shiny mark in the art's bottom corners, its name
+ * centred under the art, then its types centred on one line, so every card
+ * in a grid stands as tall as the next. A favourite on no team yet is the same card
  * ("0 Plays"), so one grid never mixes two looks. A Pokémon you only look up
  * is a `PokemonCard`.
  */
@@ -174,7 +175,7 @@ export const PokemonCollectorCard = ({
   const hasTopLine = Boolean(number || topRight);
   /*
    * A number (the Collection) stands the art below the line; a right end
-   * alone (a level, "Your partner", "Replace") sits over the window's
+   * alone (a level, "Your partner", "Replace") sits over the art's
    * corner, so the Pokémon keeps its full size.
    */
   const artBelowLine = Boolean(number);
@@ -188,107 +189,104 @@ export const PokemonCollectorCard = ({
   );
   /*
    * Read in this order: the name, the top line (the level on a team), the
-   * types, then the window's marks. The window is placed over the name with
-   * the top line inside its top edge and the marks in its bottom corners,
-   * the types under the name.
+   * types, then the art's marks. The art is placed over the name with the
+   * top line along its top and the marks in its bottom corners, the types
+   * under the name.
    */
   const tiltHandlers = tilt ? cardTiltHandlers : undefined;
   const content = (
     <>
-      <span
-        className={cn(
-          "relative flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2",
-          "card-face",
-        )}
-      >
-        <span className="order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
-          <span
-            className={cn(
-              "descender-room truncate leading-tight",
-              sizeClassName.name,
-            )}
-          >
-            <PokemonShownName name={name} readAs={nameReadAs} />
-          </span>
-        </span>
-        {hasTopLine ? (
-          /*
-           * Drawn over the top of the window (it takes back its own height),
-           * so a card with a top line and one without (a team) keep one
-           * window: the art stands below it.
-           */
-          <span className="text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums">
-            {number ? <span className="shrink-0">{number}</span> : null}
-            {topRight ? (
-              <span className="ml-auto truncate">{topRight}</span>
-            ) : null}
-          </span>
-        ) : null}
-        {showTypes ? (
-          <span
-            className={cn(
-              "order-4 mt-auto box-content flex items-end justify-center pt-1.5",
-              sizeClassName.typesLine,
-            )}
-          >
-            <PokemonTypeList
-              types={types}
-              badgeDisplay="icon"
-              badgeSize="sm"
-              className={cn(
-                "gap-1",
-                size !== "sm" && "@min-[9.5rem]/collector:hidden",
-              )}
-            />
-            {size === "sm" ? null : (
-              <PokemonTypeList
-                types={types}
-                badgeDisplay="label"
-                badgeSize="sm"
-                className="hidden gap-1 @min-[9.5rem]/collector:flex"
-              />
-            )}
-          </span>
-        ) : null}
-        <span
-          className={cn(
-            "relative order-2 overflow-hidden rounded-sm",
-            sizeClassName.window,
-            "card-window",
-          )}
-        >
-          {/* The window's one flourish: a pale arc behind the art. */}
+      {/*
+       * The face is a band in the type's colour round one light panel that
+       * holds the art, the name and the types. The band and the panel's
+       * own edge add up to the face's old padding, so the card keeps its
+       * height and the open slot still matches it.
+       */}
+      <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-1.5">
+        <span className="card-panel relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-sm p-0.5">
+          {/* The panel's one flourish: a pale arc behind the art, from its top corner. */}
           <span
             aria-hidden
-            className={cn(
-              "absolute inset-0 m-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw]",
-              "border-(--t)/10",
-            )}
+            className="absolute inset-0 mx-auto mb-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw] border-(--t)/10"
           />
-          <FallbackImage
-            src={imageUrl}
-            name={name}
+          <span className="relative order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
+            <span
+              className={cn(
+                "descender-room truncate leading-tight",
+                sizeClassName.name,
+              )}
+            >
+              <PokemonShownName name={name} readAs={nameReadAs} />
+            </span>
+          </span>
+          {hasTopLine ? (
             /*
-             * Placed by the window itself, so a capped window still holds
-             * it; under a top line it stands below the line's words.
+             * Drawn over the top of the art (it takes back its own height),
+             * so a card with a top line and one without (a team) keep one
+             * art box: the art stands below it.
              */
-            className={cn(
-              "absolute inset-0 mx-auto aspect-square",
-              artBelowLine
-                ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
-                : "my-auto h-[90%]",
-            )}
-          />
-          {warning ? (
-            <CornerBubble corner="inside-bottom-left">
-              <WarningMark label={warning} />
-            </CornerBubble>
+            <span className="text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums">
+              {number ? <span className="shrink-0">{number}</span> : null}
+              {topRight ? (
+                <span className="ml-auto truncate">{topRight}</span>
+              ) : null}
+            </span>
           ) : null}
-          {shiny ? (
-            <CornerBubble corner="inside-bottom-right">
-              <ShinyMark />
-            </CornerBubble>
+          {showTypes ? (
+            <span
+              className={cn(
+                "relative order-4 mt-auto box-content flex items-end justify-center pt-1.5",
+                sizeClassName.typesLine,
+              )}
+            >
+              <PokemonTypeList
+                types={types}
+                badgeDisplay="icon"
+                badgeSize="sm"
+                className={cn(
+                  "gap-1",
+                  size !== "sm" && "@min-[9.5rem]/collector:hidden",
+                )}
+              />
+              {size === "sm" ? null : (
+                <PokemonTypeList
+                  types={types}
+                  badgeDisplay="label"
+                  badgeSize="sm"
+                  className="hidden gap-1 @min-[9.5rem]/collector:flex"
+                />
+              )}
+            </span>
           ) : null}
+          <span
+            data-slot="collector-art"
+            className={cn("relative order-2", sizeClassName.art)}
+          >
+            <FallbackImage
+              src={imageUrl}
+              name={name}
+              /*
+               * Placed by its box, so a capped box still holds it; under a
+               * top line it stands below the line's words.
+               */
+              className={cn(
+                "absolute inset-0 mx-auto aspect-square",
+                artBelowLine
+                  ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
+                  : "my-auto h-[90%]",
+              )}
+            />
+            {warning ? (
+              <CornerBubble corner="inside-bottom-left">
+                <WarningMark label={warning} />
+              </CornerBubble>
+            ) : null}
+            {shiny ? (
+              <CornerBubble corner="inside-bottom-right">
+                <ShinyMark />
+              </CornerBubble>
+            ) : null}
+          </span>
         </span>
       </span>
       <CollectorCardGlint />

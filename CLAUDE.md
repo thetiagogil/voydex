@@ -183,8 +183,8 @@ Voydex is quiet where you work and loud where you remember. The
   floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
   is: one you look up is a `PokemonCard`, white with a thin line (the
   Codex, the Planner's list, a Pokédex); one that is yours is a
-  `PokemonCollectorCard`, all in its type's colour (number and count on
-  top, picture, name, types), the same in the Collection, on a Play's team
+  `PokemonCollectorCard`, all in its type's colour (a frame and a band
+  round one light panel: number and count on top, picture, name, types), the same in the Collection, on a Play's team
   and in a Plan's team. A game you played is one too (`GameShelfCard` with
   `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
   status, never controls. Bars are flat; a row of them is thick with its figure inside.

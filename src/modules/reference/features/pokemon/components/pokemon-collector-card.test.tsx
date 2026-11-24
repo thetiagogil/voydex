@@ -104,13 +104,14 @@ describe("PokemonCollectorCard", () => {
     expect(render({ number: "#149" })).toContain("-mb-6");
   });
 
-  it("keeps one window with or without a top line, the art below the line", () => {
-    const windowOf = (html: string) =>
-      /class="([^"]*card-window[^"]*)"/.exec(html)?.[1];
+  it("keeps one art box with or without a top line, the art below the line", () => {
+    const artBoxOf = (html: string) =>
+      /data-slot="collector-art" class="([^"]*)"/.exec(html)?.[1];
 
-    expect(windowOf(render({ number: "#149", count: "2 Plays" }))).toBe(
-      windowOf(render()),
+    expect(artBoxOf(render({ number: "#149", count: "2 Plays" }))).toBe(
+      artBoxOf(render()),
     );
+    expect(artBoxOf(render())).toBeDefined();
     expect(render({ number: "#149" })).toContain("mt-6");
     expect(render()).not.toContain("mt-6");
   });
@@ -121,7 +122,17 @@ describe("PokemonCollectorCard", () => {
     expect(html).toContain("--t:var(--type-dragon)");
     expect(html).toContain("card-frame");
     expect(html).toContain("card-face");
-    expect(html).toContain("card-window");
+    expect(html).toContain("card-panel");
+  });
+
+  it("holds the art, the name and the types on one light panel inside the face's band", () => {
+    const html = render({ number: "#149" });
+    const panel = html.slice(html.indexOf("card-panel"));
+
+    for (const part of ['data-slot="collector-art"', "Dragonite", "Dragon"]) {
+      expect(panel).toContain(part);
+    }
+    expect(html.indexOf("card-face")).toBeLessThan(html.indexOf("card-panel"));
   });
 
   it("takes its picked frame once picked, on the same edge, and says so", () => {
