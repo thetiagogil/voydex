@@ -23,7 +23,10 @@ import {
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
+import {
+  collectorCardGridClassName,
+  PokemonCollectorCard,
+} from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { EmptyState } from "@/shared/components/empty-state";
 import { ResetListButton } from "@/shared/components/reset-list-button";
@@ -115,7 +118,7 @@ export const CollectionFavourites = ({
 
       <section aria-label="Your favourites" className="flex flex-col gap-4">
         {shown.length ? (
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4">
+          <ul className={collectorCardGridClassName}>
             {shown.map((favourite) => {
               const number = formatNationalNumber(favourite.nationalNumber);
               const { owned } = favourite;

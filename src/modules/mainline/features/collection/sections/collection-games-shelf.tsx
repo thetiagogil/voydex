@@ -102,7 +102,7 @@ export const CollectionGamesShelf = ({
 
       <section aria-label="Your games">
         {shown.length ? (
-          <GameShelfGrid>
+          <GameShelfGrid layout="collection">
             {shown.map(({ game, plays }, index) => (
               <GameShelfCard
                 key={game.id}

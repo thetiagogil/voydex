@@ -5,6 +5,10 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import type { GameShelfCardGame } from "@/modules/reference/types";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
+import {
+  collectorCardGridClassName,
+  collectorCardSizeClassNames,
+} from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import { cn } from "@/shared/utils/cn";
 
 type GameShelfCardProps = {
@@ -52,8 +56,14 @@ const GameShelfCover = ({
 );
 
 /* The game's short name, read in full ("Pokémon Sword") by assistive tech. */
-const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
-  <b className="copy-strong truncate leading-tight">
+const GameShelfName = ({
+  className = "copy-strong",
+  game,
+}: {
+  className?: string;
+  game: GameShelfCardGame;
+}) => (
+  <b className={cn("truncate leading-tight", className)}>
     {game.name.startsWith("Pokémon ") ? (
       <span className="sr-only">Pokémon </span>
     ) : null}
@@ -68,9 +78,10 @@ const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
  * name, and when and where it is set. In the Codex it is a reference card
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection shows a played
- * game as a collector card: a frame in the game's colour, its name and count
- * in words, the cover standing on the card's face with no window behind it.
- * Hover picks the cover up. A link opens a
+ * game as a collector card laid out as a Pokémon one: a frame in the game's
+ * colour, its year and count on the top line, the cover standing on the
+ * card's face with no window behind it, the name and region centred under
+ * it. Hover picks the cover up. A link opens a
  * page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
@@ -87,19 +98,37 @@ export const GameShelfCard = ({
     </span>
   );
   const className = cn(
-    "group/game relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
+    "group/game @container/collector relative flex min-w-0 flex-col rounded-lg text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
     count ? "card-frame p-1.5" : "plain-card gap-3 p-2 pb-3.5",
   );
+  /*
+   * A played game reads as the Collection's Pokémon card does: the top line
+   * (its year, its count), the cover, the name centred, then its region
+   * centred where a Pokémon's types go. Read name first, as that card is.
+   */
   const content = count ? (
-    <span className="card-face flex min-w-0 flex-1 flex-col gap-2 rounded-lg p-2.5">
-      <span className="flex min-w-0 items-baseline justify-between gap-2">
-        <GameShelfName game={game} />
-        <span className="text-ink-2 copy-mark shrink-0 tabular-nums">
-          {count}
-        </span>
+    <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2">
+      <span className="order-3 mt-2 flex min-w-0 justify-center">
+        <GameShelfName
+          className={collectorCardSizeClassNames.md.name}
+          game={game}
+        />
       </span>
-      <GameShelfCover eager={eager} game={game} />
-      {facts}
+      <span className="text-ink-tint copy-mark order-1 mb-1.5 flex min-w-0 items-baseline justify-between gap-2 tabular-nums">
+        <span className="shrink-0">{game.releaseYear}</span>
+        <span className="truncate">{count}</span>
+      </span>
+      <span
+        className={cn(
+          "text-ink-2 copy-meta order-4 mt-auto box-content flex items-end justify-center pt-1.5",
+          collectorCardSizeClassNames.md.typesLine,
+        )}
+      >
+        <span className="truncate">{game.regionName}</span>
+      </span>
+      <span className="order-2">
+        <GameShelfCover eager={eager} game={game} />
+      </span>
     </span>
   ) : (
     <>
@@ -133,18 +162,26 @@ export const GameShelfCard = ({
   );
 };
 
-/* Two covers across on phones; on wider screens as many 150px columns as fit. */
+/*
+ * Two covers across on phones; on wider screens as many 150px columns as
+ * fit. `collection` lays played games out as the Collection's Pokémon are
+ * (`collectorCardGridClassName`), so the two views keep one grid.
+ */
 export const GameShelfGrid = ({
   children,
   className,
+  layout = "shelf",
 }: {
   children: ReactNode;
   className?: string;
+  layout?: "collection" | "shelf";
 }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-4",
+        layout === "collection"
+          ? collectorCardGridClassName
+          : "grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-4",
         className,
       )}
     >

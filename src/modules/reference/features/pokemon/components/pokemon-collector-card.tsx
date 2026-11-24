@@ -101,12 +101,20 @@ export const collectorCardSizeClassNames: Record<
 };
 
 /*
+ * The Collection's grid of collector cards (its Pokémon, its favourites, its
+ * games): two across on phones, then as many 172px columns as fit.
+ */
+export const collectorCardGridClassName =
+  "grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-[repeat(auto-fill,minmax(172px,1fr))] sm:gap-x-4";
+
+/*
  * The card of a Pokémon that is yours, everywhere it is one: in the
  * Collection, on a team, in a Plan, as your partner. It reads as a real
  * card, all in its type's colour: a frame round a paler face, a top line
  * with its number and a count where it has them, its art in a light
- * window, its name (and its level on a team), then its types on one line,
- * so every card in a grid stands as tall as the next. `owned={false}` is
+ * window, its name (and its level beside it on a team) centred under the
+ * window, then its types centred on one line, so every card in a grid
+ * stands as tall as the next. `owned={false}` is
  * the same card in plain white for one that isn't yours yet, so one grid
  * never mixes two layouts. A Pokémon you only look up is a `PokemonCard`.
  */
@@ -159,7 +167,7 @@ export const PokemonCollectorCard = ({
           owned && "card-face",
         )}
       >
-        <span className="order-3 mt-2 flex min-w-0 items-baseline justify-between gap-2">
+        <span className="order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
           <span
             className={cn(
               "descender-room truncate leading-tight",
@@ -183,7 +191,7 @@ export const PokemonCollectorCard = ({
         {showTypes ? (
           <span
             className={cn(
-              "order-4 mt-auto box-content flex items-end pt-1.5",
+              "order-4 mt-auto box-content flex items-end justify-center pt-1.5",
               sizeClassName.typesLine,
             )}
           >

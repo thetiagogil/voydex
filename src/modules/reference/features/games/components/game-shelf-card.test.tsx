@@ -30,7 +30,7 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("empty-slot");
   });
 
-  it("is a framed collector card saying its Plays for a game you've played", () => {
+  it("is a framed collector card, laid out as a Pokémon one, for a game you've played", () => {
     const markup = renderToStaticMarkup(
       <GameShelfCard game={game} onClick={() => {}} count="2 Plays" />,
     );
@@ -39,6 +39,8 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("<a ");
     expect(markup).toContain("card-frame");
     expect(markup).not.toContain("plain-card");
-    expect(getWords(markup)).toContain("Pokémon Sword2 Plays2019 · Galar");
+    /* Read name first, then the top line (year, Plays), then the region. */
+    expect(getWords(markup)).toContain("Pokémon Sword20192 PlaysGalar");
+    expect(markup).toContain("@container/collector");
   });
 });
