@@ -166,6 +166,38 @@ describe("downloadImages", () => {
     ).resolves.toBe("new red cover");
   });
 
+  it("keeps a picture the browser already holds from a page, without CORS", async () => {
+    /*
+     * The browser's own cache answers a CORS request with the copy a
+     * page fetched before the images site allowed CORS, and the request
+     * fails. Only a request past that cache gets the picture.
+     */
+    const heldWithoutCors = new Set([
+      "/pokemon/home/md/pikachu.webp",
+      "/pokemon/home/md/eevee.webp",
+      "/games/covers/red.webp",
+    ]);
+    const answer = vi.mocked(fetch).getMockImplementation();
+
+    vi.mocked(fetch).mockImplementation(async (url, init) => {
+      if (
+        heldWithoutCors.has(new URL(String(url)).pathname) &&
+        init?.cache !== "reload" &&
+        init?.cache !== "no-store"
+      ) {
+        asked.push({ cache: init?.cache, mode: init?.mode, url: String(url) });
+        throw new TypeError("Failed to fetch");
+      }
+
+      return answer!(url, init);
+    });
+
+    await expect(download(pictures)).resolves.toBe("done");
+    await expect(readImageProgress(pictures)).resolves.toMatchObject({
+      done: 3,
+    });
+  });
+
   it("stops when asked and keeps what it finished", async () => {
     let calls = 0;
 
