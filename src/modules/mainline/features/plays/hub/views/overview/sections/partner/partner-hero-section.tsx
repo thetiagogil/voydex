@@ -210,7 +210,6 @@ export const PartnerHeroSection = ({
                 />
               ) : chosen ? (
                 <PokemonCard
-                  state="plain"
                   size="fluid"
                   /* The ones not picked step back: their art fades, their names stay readable. */
                   className="step-back hover:translate-y-0"
@@ -233,7 +232,6 @@ export const PartnerHeroSection = ({
                   className="focus-ring relative block w-full rounded-lg outline-offset-2 disabled:cursor-wait"
                 >
                   <PokemonCard
-                    state="plain"
                     size="fluid"
                     imageAlt=""
                     imageUrl={option.imageUrl}

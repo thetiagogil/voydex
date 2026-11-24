@@ -130,6 +130,28 @@ export const WarningMark = ({ label }: { label: string }) => (
   </span>
 );
 
+/*
+ * A Pokédex entry's Play state: a Poké Ball on white when caught, an eye
+ * when seen. It names itself to assistive tech.
+ */
+export const PlayStateMark = ({ state }: { state: "caught" | "seen" }) => (
+  <span
+    role="img"
+    aria-label={state === "caught" ? "Caught" : "Seen"}
+    className={cn(
+      "bubble grid size-6 place-items-center rounded-full",
+      state === "caught" ? "text-ball bg-white" : "bg-surface-2 text-ink-2",
+    )}
+  >
+    <AppIcon
+      icon={
+        state === "caught" ? appIcons.product.caught : appIcons.product.seen
+      }
+      size="sm"
+    />
+  </span>
+);
+
 /* A shiny Pokémon's mark, in its type's colour; the word is read, not seen. */
 export const ShinyMark = () => (
   <span className="bg-surface bubble grid size-6 place-items-center rounded-full">

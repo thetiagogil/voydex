@@ -39,23 +39,11 @@ export type PublicGame = {
   slug: string;
 };
 
-export type PublicPokemonCardProps = {
-  className?: string;
-  number: string;
-  pokemon: PublicPokemonForm;
-  /* `sm` fits three cards in a narrow card; `fluid` grows from `sm` up. */
-  size?: "fluid" | "sm";
-  state: "caught" | "missing" | "plain" | "seen";
-  types: readonly PublicTypeSlug[];
-};
-
 export type PublicArt = {
   /* A game's cover, decorative: the words beside it name the game. */
   gameCover: (props: { className?: string; game: PublicGame }) => ReactNode;
   /* A Pokémon's render URL, or null when there is none. */
   pokemon: (form: PublicPokemonForm) => string | null;
-  /* The one Pokémon card, decorative. */
-  pokemonCard: (props: PublicPokemonCardProps) => ReactNode;
 };
 
 /* A Pokémon the public pages show: its name, render and type colour. */

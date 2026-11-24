@@ -15,6 +15,20 @@ import { type PokedexSpeciesPresentationProps } from "./pokedex-species-item-sha
  * whatever its states. The whole card is the button that marks it. No tilt:
  * a Pokédex is a long list you mark, not a set you show.
  */
+type MarkMotion = "pop" | "settle" | null;
+
+/* Marking it pops the card; unmarking it settles the card back. */
+export const getMarkMotion = (isPressed: boolean): MarkMotion =>
+  isPressed ? "settle" : "pop";
+
+/* The motion's class, none once it has ended. */
+export const getMarkMotionClassName = (motion: MarkMotion) =>
+  motion === "pop"
+    ? "animate-pop"
+    : motion === "settle"
+      ? "animate-settle"
+      : undefined;
+
 export const PokedexSpeciesGridCard = ({
   entry,
   isPending,
@@ -23,8 +37,7 @@ export const PokedexSpeciesGridCard = ({
   state,
   toggleLabel,
 }: PokedexSpeciesPresentationProps) => {
-  /* Marking it pops the card; unmarking it settles the card back. */
-  const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
+  const [motion, setMotion] = useState<MarkMotion>(null);
 
   return (
     <div
@@ -32,14 +45,15 @@ export const PokedexSpeciesGridCard = ({
       onAnimationEnd={() => setMotion(null)}
       className={cn(
         "group/dex relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75",
-        motion === "pop" && "animate-pop",
-        motion === "settle" && "animate-settle",
+        getMarkMotionClassName(motion),
       )}
     >
       <PokemonCollectorCard
-        size="sm"
+        /* The Collection's size, so the art takes the card's room. */
+        size="md"
         tilt={false}
         dexState={state}
+        formLine={entry.displayFormName}
         imageUrl={entry.imageUrl}
         name={entry.speciesName}
         number={formatPokedexNumber(entry.pokedexNumber)}
@@ -54,7 +68,7 @@ export const PokedexSpeciesGridCard = ({
         disabled={isPending}
         className="focus-ring absolute inset-0 rounded-lg disabled:cursor-default"
         onClick={() => {
-          setMotion(isPressed ? "settle" : "pop");
+          setMotion(getMarkMotion(isPressed));
           onToggle();
         }}
       />

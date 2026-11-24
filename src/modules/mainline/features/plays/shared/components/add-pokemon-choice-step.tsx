@@ -75,7 +75,6 @@ const ChoiceButton = ({
           )}
         >
           <PokemonCard
-            state="plain"
             size="sm"
             imageAlt=""
             imageUrl={choice.imageUrl}

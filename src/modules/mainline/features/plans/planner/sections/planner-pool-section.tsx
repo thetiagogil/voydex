@@ -313,7 +313,6 @@ export const PlannerPoolSection = ({
                           className="focus-ring block h-full w-full rounded-lg"
                         >
                           <PokemonCard
-                            state="plain"
                             size="sm"
                             imageAlt=""
                             imageUrl={pokemon.imageUrl}

@@ -10,7 +10,6 @@ describe("PokemonCard", () => {
   it("reads its number, its name, then its types, as the Codex and the Planner's list draw it", () => {
     const html = renderToStaticMarkup(
       <PokemonCard
-        state="plain"
         size="sm"
         imageAlt=""
         imageUrl={null}
@@ -62,24 +61,15 @@ const spacingOf = (classes: string, prefix: "pb" | "pt" | "px") => {
   return Number(value) * 4;
 };
 
-describe("PokemonCard's states", () => {
-  const borderByState = {
-    caught: borderOf("sticker"),
-    missing: borderOf("empty-slot"),
-    plain: borderOf("plain-card"),
-    seen: borderOf("plain-card"),
-  } as const;
+describe("PokemonCard picked or not", () => {
+  const borderOf2 = (picked: boolean) =>
+    borderOf(picked ? "sticker" : "plain-card");
 
-  const edgesOf = (
-    size: "md" | "sm",
-    state: keyof typeof borderByState,
-    picked = false,
-  ) => {
+  const edgesOf = (size: "md" | "sm", picked: boolean) => {
     const classes =
       /^<div [^>]*class="([^"]*)"/.exec(
         renderToStaticMarkup(
           <PokemonCard
-            state={state}
             size={size}
             picked={picked}
             imageAlt=""
@@ -90,52 +80,38 @@ describe("PokemonCard's states", () => {
           />,
         ),
       )?.[1] ?? "";
-    const border = borderByState[picked ? "caught" : state];
 
     return ["pt", "px", "pb"].map(
-      (prefix) => border + spacingOf(classes, prefix as "pb" | "pt" | "px"),
+      (prefix) =>
+        borderOf2(picked) + spacingOf(classes, prefix as "pb" | "pt" | "px"),
     );
   };
 
   it.each(["md", "sm"] as const)(
-    "keeps the number, art and name in one place whatever the state (%s)",
+    "keeps the number, art and name in one place when picked (%s)",
     (size) => {
-      const plain = edgesOf(size, "plain");
-
-      for (const state of ["caught", "missing", "seen"] as const) {
-        expect(edgesOf(size, state)).toEqual(plain);
-      }
       /* A Planner pick wears the sticker's band. */
-      expect(edgesOf(size, "plain", true)).toEqual(plain);
+      expect(edgesOf(size, true)).toEqual(edgesOf(size, false));
     },
   );
 
   /* The art's own box: the element round the picture, by its round shape. */
-  const artBoxClassOf = (state: keyof typeof borderByState, picked = false) =>
-    /<span class="([^"]*\brounded-full\b[^"]*)"><span[^>]*>P|<span class="([^"]*\brounded-full\b[^"]*)">/
-      .exec(
-        renderToStaticMarkup(
-          <PokemonCard
-            state={state}
-            picked={picked}
-            imageAlt=""
-            imageUrl={null}
-            name="Pikachu"
-            types={[{ name: "Electric", slug: "electric" }]}
-          />,
-        ),
-      )
-      ?.slice(1)
-      .find(Boolean) ?? "";
+  const artBoxClassOf = (picked: boolean) =>
+    /<span class="([^"]*\brounded-full\b[^"]*)">/.exec(
+      renderToStaticMarkup(
+        <PokemonCard
+          picked={picked}
+          imageAlt=""
+          imageUrl={null}
+          name="Pikachu"
+          types={[{ name: "Electric", slug: "electric" }]}
+        />,
+      ),
+    )?.[1] ?? "";
 
-  it("draws nothing behind the art of a white card, a pale circle once caught or picked", () => {
-    for (const state of ["plain", "seen"] as const) {
-      const box = artBoxClassOf(state);
-
-      expect(box).toContain("rounded-full");
-      expect(box).not.toMatch(/(?:^|\s)bg-/);
-    }
-    expect(artBoxClassOf("caught")).toContain("bg-white/55");
-    expect(artBoxClassOf("plain", true)).toContain("bg-white/55");
+  it("draws nothing behind the art of a white card, a pale circle once picked", () => {
+    expect(artBoxClassOf(false)).toContain("rounded-full");
+    expect(artBoxClassOf(false)).not.toMatch(/(?:^|\s)bg-/);
+    expect(artBoxClassOf(true)).toContain("bg-white/55");
   });
 });

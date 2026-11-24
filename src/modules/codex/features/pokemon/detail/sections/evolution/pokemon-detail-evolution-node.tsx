@@ -65,7 +65,6 @@ export const PokemonDetailEvolutionNode = ({
       className="focus-ring block w-28 shrink-0 rounded-lg sm:w-32"
     >
       <PokemonCard
-        state="plain"
         picked={isActive}
         imageAlt=""
         imageUrl={getPokemonFormImageUrl(displayForm)}

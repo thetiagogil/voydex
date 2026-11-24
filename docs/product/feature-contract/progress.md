@@ -194,6 +194,14 @@ as a prominent orientation element. Do not merge overlapping Pokédexes into one
 raw count. Because state is stored per Play and species, changing one species
 updates every applicable Pokédex view containing it.
 
+Each entry is a card in the collector card's shape, so a row stands level
+whatever its states: caught in its type's colour with the Poké Ball, seen in
+white with the eye and nothing behind the picture, missing as a dashed
+outline round the silhouette. Its number sits on the top line and a form
+("Alolan Rattata") on a line under the name. The whole card is the button
+that marks it, named by its form where it has one; it pops when marked and
+settles back when unmarked, and it never tilts.
+
 Use one purpose-built scope overview band for orientation. When multiple named
 completion-relevant Pokédexes apply, use the shared Navigation Menu at content
 width, preserve selection in the route, close it after selection, and show each

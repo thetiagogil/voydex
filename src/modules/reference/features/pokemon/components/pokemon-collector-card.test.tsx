@@ -297,4 +297,41 @@ describe("PokemonCollectorCard", () => {
     /* A team card keeps its big picture beside its level. */
     expect(render({ level: 48, shiny: true })).not.toContain("mt-6");
   });
+
+  it("draws a Pokédex entry by its Play state, in one shape", () => {
+    const rootClass = (html: string) =>
+      /<article [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+    const caught = render({ dexState: "caught", number: "#015" });
+    const seen = render({ dexState: "seen", number: "#015" });
+    const missing = render({
+      dexState: "missing",
+      imageUrl: "https://assets.test/dragonite.png",
+      number: "#015",
+    });
+
+    /* Caught: the card of yours, with the Poké Ball. */
+    expect(rootClass(caught)).toContain("card-frame");
+    expect(caught).toContain("card-panel");
+    expect(caught).toContain('aria-label="Caught"');
+    /* Seen: white, no band or panel colour, the eye. */
+    expect(rootClass(seen)).toContain("plain-card");
+    expect(seen).not.toContain("card-face");
+    expect(seen).not.toContain("card-panel");
+    expect(seen).toContain('aria-label="Seen"');
+    /* Missing: the dashed outline round the silhouette, no mark. */
+    expect(rootClass(missing)).toContain("empty-slot");
+    expect(missing).toContain("opacity-10 brightness-0");
+    expect(missing).not.toContain('aria-label="Caught"');
+    expect(missing).not.toContain('aria-label="Seen"');
+  });
+
+  it("puts a form under the name, keeping the line's room empty when it has none", () => {
+    expect(render({ formLine: "Alolan Form" })).toContain("Alolan Form");
+    const empty = render({ formLine: null });
+
+    expect(empty).toMatch(
+      /<span aria-hidden="true" class="copy-meta[^"]*">\u00a0<\/span>|<span aria-hidden="true" class="copy-meta[^"]*">&nbsp;<\/span>|<span aria-hidden="true" class="copy-meta[^"]*"> <\/span>/,
+    );
+    expect(render()).not.toContain("copy-meta");
+  });
 });
