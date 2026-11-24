@@ -47,10 +47,7 @@ test.describe("Team", () => {
 
     const activeTeam = page.getByRole("region", { name: /^Active team/ });
     /* The sheet closes once it's saved; the team redraws after. */
-    await expect(activeTeam.getByRole("heading")).toContainText(
-      "2 / 6",
-      forTheAnswer,
-    );
+    await expect(activeTeam).toContainText("2 / 6", forTheAnswer);
     const sparky = activeTeam.getByRole("button", {
       name: /^Sparky Lv\. 12.*, Active slot 2$/,
     });
@@ -155,7 +152,7 @@ test.describe("Team", () => {
     await expect(details).toBeHidden();
 
     await expect(
-      page.getByRole("region", { name: /^Active team/ }).getByRole("heading"),
+      page.getByRole("region", { name: /^Active team/ }),
     ).toContainText("2 / 6", forTheAnswer);
     await openEditor(page, "Pidgey");
     await expect(
@@ -193,7 +190,7 @@ test.describe("Team", () => {
     await retired;
     await expect(page.getByText("Wartortle retired")).toBeVisible(forTheAnswer);
     await expect(
-      page.getByRole("region", { name: /^Active team/ }).getByRole("heading"),
+      page.getByRole("region", { name: /^Active team/ }),
     ).toContainText("0 / 6");
   });
   test("moves Pokémon between slots from the editor @phone", async ({

@@ -14,6 +14,7 @@ import {
   slotDragSourceClassName,
   useSlotDrag,
 } from "@/shared/hooks/use-slot-drag";
+import { SectionHead } from "@/shared/components/section-head";
 import { cn } from "@/shared/utils/cn";
 
 import { getRosterMove } from "@/modules/mainline/features/plays/shared/utils/roster-moves";
@@ -110,15 +111,13 @@ const TeamRosterGroupList = ({
 
   return (
     <section aria-labelledby={headingId}>
-      <h3
-        id={headingId}
-        className="text-ink-3 copy-label mb-2.5 flex items-baseline gap-2 font-sans tracking-normal"
-      >
-        {groupTitles[group]}
-        <span className="tabular-nums">
-          {filledCount} / {playTeamSize}
-        </span>
-      </h3>
+      <SectionHead
+        headingLevel={3}
+        titleId={headingId}
+        title={groupTitles[group]}
+        aside={`${filledCount} / ${playTeamSize}`}
+        className="mb-4"
+      />
       <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
         {slots.map((slot) => {
           const storedSlot =

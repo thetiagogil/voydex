@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
 type EmptyStateProps =
@@ -48,33 +49,32 @@ export const EmptyState = (props: EmptyStateProps) => {
   const { art, description, headingLevel: Heading = "h3" } = props;
 
   return (
-    <div
-      data-slot="card"
-      className={cn(
-        "bg-surface shadow-card flex flex-col items-center rounded-2xl px-6 py-10 text-center",
-        "in-data-[slot=card]:bg-transparent in-data-[slot=card]:shadow-none",
-        className,
-      )}
-    >
-      {art ? (
-        <span
-          aria-hidden
-          className="relative mb-5 grid h-20 w-36 place-items-end justify-center"
-        >
-          <span className="bg-hill absolute inset-x-0 bottom-0 h-7 rounded-[50%]" />
-          <FallbackImage
-            src={art.url}
-            name={art.name}
-            fallback="badge"
-            className="relative -mb-1 size-20"
-          />
-        </span>
-      ) : null}
-      <Heading className="text-20">{title}</Heading>
-      <p className="text-ink-2 copy-body mt-1.5 max-w-md">{description}</p>
-      {action ? (
-        <div className="mt-5 flex flex-wrap justify-center gap-3">{action}</div>
-      ) : null}
-    </div>
+    /* A section card; inside another card it is only its words. */
+    <Card className={cn("gap-0 in-data-[slot=card]:bg-transparent", className)}>
+      {/* The room an empty state keeps round it, over the card's own. */}
+      <div className="flex flex-col items-center py-4 text-center">
+        {art ? (
+          <span
+            aria-hidden
+            className="relative mb-5 grid h-20 w-36 place-items-end justify-center"
+          >
+            <span className="bg-hill absolute inset-x-0 bottom-0 h-7 rounded-[50%]" />
+            <FallbackImage
+              src={art.url}
+              name={art.name}
+              fallback="badge"
+              className="relative -mb-1 size-20"
+            />
+          </span>
+        ) : null}
+        <Heading className="text-20">{title}</Heading>
+        <p className="text-ink-2 copy-body mt-1.5 max-w-md">{description}</p>
+        {action ? (
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            {action}
+          </div>
+        ) : null}
+      </div>
+    </Card>
   );
 };

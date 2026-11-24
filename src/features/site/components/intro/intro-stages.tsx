@@ -127,6 +127,7 @@ export const LookBackStage = ({ playArt }: { playArt: PublicPlayArt }) => (
     className="gap-2"
   >
     {samplePlayHistory.map((record) => (
+      /* A picture of a History row: white with its line, on the stage's tile. */
       <div
         key={record.kicker}
         className="bg-surface shadow-card rounded-lg px-3.5"
