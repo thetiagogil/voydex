@@ -56,6 +56,19 @@ const getAttributesInGeneration = (
     )[0] ?? null;
 
 /*
+ * A Pokémon's names in the Planner, both from the reference data: `name`
+ * is the form's own for a variant ("Alolan Raichu", "Floette (Eternal
+ * Flower)"), else the species'; `speciesName` is the species' alone.
+ */
+export const getPlannerPokemonNames = (
+  species: Pick<PokemonSpecies, "name">,
+  form: Pick<PokemonForm, "is_default" | "name">,
+) => ({
+  name: form.is_default ? species.name : form.name,
+  speciesName: species.name,
+});
+
+/*
  * The Planner's pool for one version group: one section per Pokédex of the
  * group and its expansions (each species in the first that lists it), every
  * form the group offers of each species (its Pokédex form, then the other
@@ -312,7 +325,7 @@ export const buildPlannerContext = ({
         formSlug: form.slug,
         imageUrl: getPokemonFormImageUrl(form, "sm"),
         isFullyEvolved: !edges.some((edge) => edge.from_form_id === form.id),
-        name: form.is_default ? species.name : form.name,
+        ...getPlannerPokemonNames(species, form),
         nationalNumber: species.national_number,
         speciesId: species.id,
         speciesSlug: species.slug,
@@ -370,3 +383,46 @@ export const getPoolTileReadout = (
   typeNames: string[],
 ) =>
   `, ${[formatNationalNumber(nationalNumber), typeNames.join(" and ")].join(", ")}`;
+
+/*
+ * A card shows the species' name alone; a variant's own name ("Alolan
+ * Raichu") shows on hover, and null for a Pokémon named as its species.
+ */
+export const getPlannerFormTip = (
+  pokemon: Pick<PlannerPokemon, "name" | "speciesName">,
+) => (pokemon.name === pokemon.speciesName ? null : pokemon.name);
+
+/*
+ * A pool tile's hover note: a form's own name, then what adding it would
+ * mean ("Alolan Raichu. Shield only: trade for it."), or null for neither.
+ */
+export const getPoolTileTip = (formTip: string | null, notes: string[]) =>
+  [formTip && notes.length ? `${formTip}.` : formTip, ...notes]
+    .filter(Boolean)
+    .join(" ") || null;
+
+export type PlannerPoolFilters = {
+  /* One Pokédex's key (the base game or an expansion), or "" for all. */
+  dex: string;
+  fullyEvolved: boolean;
+  query: string;
+  type: string;
+};
+
+/*
+ * Whether a Pokémon passes the pool's search and filters. Search reads the
+ * form's own name, so "Alolan", "Eternal" or "Female" finds that form.
+ */
+export const matchesPoolFilters = (
+  pokemon: PlannerPokemon,
+  filters: PlannerPoolFilters,
+) => {
+  const query = filters.query.trim().toLocaleLowerCase("en");
+
+  return (
+    (!filters.fullyEvolved || pokemon.isFullyEvolved) &&
+    (!filters.type ||
+      pokemon.types.some((type) => type.slug === filters.type)) &&
+    (!query || pokemon.name.toLocaleLowerCase("en").includes(query))
+  );
+};

@@ -1,3 +1,7 @@
+import type { ReactElement } from "react";
+
+import { PokemonShownName } from "@/modules/reference/features/pokemon/components/pokemon-shown-name";
+import { IconTip } from "@/shared/components/icon-tip";
 import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/drop-target-ring";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
@@ -37,6 +41,11 @@ type PokemonCollectorCardProps = {
   /* On a team: its level, at the right end of the top line. */
   level?: number | null;
   name: string;
+  /*
+   * The form's full name where `name` shows the species' alone (the Team
+   * Planner's "Raichu" for "Alolan Raichu"): read in its place.
+   */
+  nameReadAs?: string | null;
   /* Its Pokédex number, at the start of the top line. */
   number?: string;
   onClick?: () => void;
@@ -65,6 +74,8 @@ type PokemonCollectorCardProps = {
   size?: PokemonCollectorCardSize;
   /* Where a dragged Pokémon would land: the accent ring round its frame. */
   target?: boolean;
+  /* A hover and focus note on the card, such as a form's full name. */
+  tip?: string | null;
   /*
    * Off where the card's place turns instead, carrying what sits on its
    * corners (a team slot's ×, Old friends' family tip).
@@ -145,6 +156,7 @@ export const PokemonCollectorCard = ({
   imageUrl,
   level,
   name,
+  nameReadAs,
   number,
   onClick,
   owned = true,
@@ -154,6 +166,7 @@ export const PokemonCollectorCard = ({
   size = "md",
   target = false,
   tilt = true,
+  tip,
   types,
   warning,
 }: PokemonCollectorCardProps) => {
@@ -206,7 +219,7 @@ export const PokemonCollectorCard = ({
               sizeClassName.name,
             )}
           >
-            {name}
+            <PokemonShownName name={name} readAs={nameReadAs} />
           </span>
         </span>
         {hasTopLine ? (
@@ -296,8 +309,10 @@ export const PokemonCollectorCard = ({
     </>
   );
 
+  let card: ReactElement;
+
   if (href) {
-    return (
+    card = (
       <Link
         href={href}
         style={style}
@@ -307,10 +322,8 @@ export const PokemonCollectorCard = ({
         {content}
       </Link>
     );
-  }
-
-  if (onClick) {
-    return (
+  } else if (onClick) {
+    card = (
       <button
         type="button"
         aria-pressed={selected}
@@ -322,11 +335,13 @@ export const PokemonCollectorCard = ({
         {content}
       </button>
     );
+  } else {
+    card = (
+      <article style={style} className={cardClassName} {...tiltHandlers}>
+        {content}
+      </article>
+    );
   }
 
-  return (
-    <article style={style} className={cardClassName} {...tiltHandlers}>
-      {content}
-    </article>
-  );
+  return <IconTip label={tip} trigger={card} />;
 };

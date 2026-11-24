@@ -388,7 +388,12 @@ so they never fight the chrome:
   Collection, on a Play's team and in a Plan's team: a real card, all in
   its type's colour: the picture in a light window with its number and a
   count along the window's top (on a team, the level alone at the top
-  right), then the name and the types centred under it.
+  right), then the name and the types centred under it. The Team
+  Planner's cards, its list and its team, show the species' name alone
+  ("Raichu"): a form's own name ("Alolan Raichu") is read in its place
+  (`nameReadAs`), shows on hover and keyboard focus (`IconTip`, the
+  collector card's `tip`) and in its details, and the Planner's search
+  still finds it.
 - **Games you played are collector cards too.** In the Collection a game
   (`GameShelfCard` with `count`) wears a livelier version of its own colour
   the same way: frame and paler face, its year and Plays on the top line,

@@ -62,10 +62,16 @@ export type PlannerPokemon = {
   formSlug: string;
   imageUrl: string | null;
   isFullyEvolved: boolean;
-  /* The form's own name for a variant ("Galarian Articuno"), else the species'. */
+  /*
+   * The form's own name for a variant ("Galarian Articuno", "Floette
+   * (Eternal Flower)"), else the species'. What a Pokémon is called, read
+   * and searched.
+   */
   name: string;
   nationalNumber: number;
   speciesId: number;
+  /* The species' name alone ("Articuno"): what the Planner's cards show. */
+  speciesName: string;
   speciesSlug: string;
   types: PlanType[];
 };

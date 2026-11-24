@@ -14,7 +14,13 @@ import type {
   PlanType,
 } from "@/modules/mainline/features/plans/types";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { getPoolTileReadout } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
+import {
+  getPlannerFormTip,
+  getPoolTileReadout,
+  getPoolTileTip,
+  matchesPoolFilters,
+  type PlannerPoolFilters,
+} from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -49,14 +55,6 @@ import {
 const INITIAL_VISIBLE_POKEMON = 48;
 const VISIBLE_POKEMON_INCREMENT = 48;
 
-export type PlannerPoolFilters = {
-  /* One Pokédex's key (the base game or an expansion), or "" for all. */
-  dex: string;
-  fullyEvolved: boolean;
-  query: string;
-  type: string;
-};
-
 type PlannerPoolSectionProps = {
   byId: Map<number, PlannerPokemon>;
   filters: PlannerPoolFilters;
@@ -74,20 +72,6 @@ type PlannerPoolSectionProps = {
   /* The version the Plan is for; null when it is for either. */
   versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
-};
-
-export const matchesPoolFilters = (
-  pokemon: PlannerPokemon,
-  filters: PlannerPoolFilters,
-) => {
-  const query = filters.query.trim().toLocaleLowerCase("en");
-
-  return (
-    (!filters.fullyEvolved || pokemon.isFullyEvolved) &&
-    (!filters.type ||
-      pokemon.types.some((type) => type.slug === filters.type)) &&
-    (!query || pokemon.name.toLocaleLowerCase("en").includes(query))
-  );
 };
 
 /*
@@ -312,6 +296,8 @@ export const PlannerPoolSection = ({
                   includedExpansionIds,
                   versionGame,
                 });
+                /* The tile shows the species' name; a form's own shows on hover. */
+                const formTip = getPlannerFormTip(pokemon);
 
                 return (
                   <li
@@ -319,7 +305,7 @@ export const PlannerPoolSection = ({
                     className="relative h-full min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                   >
                     <IconTip
-                      label={notes.join(" ") || undefined}
+                      label={getPoolTileTip(formTip, notes)}
                       trigger={
                         <button
                           type="button"
@@ -343,7 +329,8 @@ export const PlannerPoolSection = ({
                             size="sm"
                             imageAlt=""
                             imageUrl={pokemon.imageUrl}
-                            name={pokemon.name}
+                            name={pokemon.speciesName}
+                            nameReadAs={pokemon.name}
                             number={formatNationalNumber(
                               pokemon.nationalNumber,
                             )}

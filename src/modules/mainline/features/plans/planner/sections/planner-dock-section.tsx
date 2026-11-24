@@ -30,6 +30,7 @@ import {
   slotDragSourceClassName,
   useSlotDrag,
 } from "@/shared/hooks/use-slot-drag";
+import { getPlannerFormTip } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { TipHead, TipStack } from "@/shared/components/tip-parts";
@@ -284,7 +285,10 @@ export const PlannerDockSection = ({
                 <PokemonCollectorCard
                   size="lg"
                   imageUrl={pokemon.imageUrl}
-                  name={pokemon.name}
+                  /* The species' name; a form's own is read and shows on hover. */
+                  name={pokemon.speciesName}
+                  nameReadAs={pokemon.name}
+                  tip={getPlannerFormTip(pokemon)}
                   count={replacing ? "Replace" : undefined}
                   types={pokemon.types}
                   /* Under a drag, or any card while one waits to replace it. */

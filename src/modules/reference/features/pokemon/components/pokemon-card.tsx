@@ -1,3 +1,4 @@
+import { PokemonShownName } from "@/modules/reference/features/pokemon/components/pokemon-shown-name";
 import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -36,6 +37,11 @@ type PokemonCardProps = {
    */
   motion?: "pop" | "settle" | null;
   name: string;
+  /*
+   * The form's full name where `name` shows the species' alone (the Team
+   * Planner's "Raichu" for "Alolan Raichu"): read in its place.
+   */
+  nameReadAs?: string | null;
   /*
    * Its national number, or its level where that matters more (an opponent's
    * team); left out where it says nothing (the Planner's team), keeping the line.
@@ -177,6 +183,7 @@ export const PokemonCard = ({
   imageAlt,
   imageUrl,
   name,
+  nameReadAs,
   number,
   numberHidden = false,
   onAnimationEnd,
@@ -263,7 +270,7 @@ export const PokemonCard = ({
           state === "missing" && "text-ink-3",
         )}
       >
-        {name}
+        <PokemonShownName name={name} readAs={nameReadAs} />
       </b>
       {subtitle ? (
         <span
