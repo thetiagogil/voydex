@@ -107,7 +107,7 @@ test.describe("Codex: favourites", () => {
     const card = page
       .getByRole("region", { name: "Your favourites" })
       .getByRole("link", {
-        name: new RegExp(`^${subject.name} ${subject.number} Not on a team`),
+        name: new RegExp(`^${subject.name} ${subject.number} 0 Plays`),
       });
 
     await expect(card).toHaveAttribute("href", subject.codexHref);

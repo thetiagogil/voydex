@@ -50,11 +50,6 @@ type PokemonCollectorCardProps = {
   number?: string;
   onClick?: () => void;
   /*
-   * False for a Pokémon that isn't yours yet in a set of yours (a favourite
-   * not on a team): the same card in plain white.
-   */
-  owned?: boolean;
-  /*
    * On a card you can pick: whether it is the one whose sheet or panel is
    * open. Picked, its frame takes the type's full colour. Leave it out on
    * a button that only opens something.
@@ -144,9 +139,9 @@ export const CollectorCardGlint = () => (
  * light window of one shape per size (its number and a count, where it has
  * them, or its level on a team, along the window's top; a warning and the
  * shiny mark in its bottom corners), its name centred under the window, then its types centred on one line, so every card in a grid
- * stands as tall as the next. `owned={false}` is
- * the same card in plain white for one that isn't yours yet, so one grid
- * never mixes two layouts. A Pokémon you only look up is a `PokemonCard`.
+ * stands as tall as the next. A favourite on no team yet is the same card
+ * ("0 Plays"), so one grid never mixes two looks. A Pokémon you only look up
+ * is a `PokemonCard`.
  */
 export const PokemonCollectorCard = ({
   className,
@@ -159,7 +154,6 @@ export const PokemonCollectorCard = ({
   nameReadAs,
   number,
   onClick,
-  owned = true,
   selected,
   shiny = false,
   showTypes = true,
@@ -188,12 +182,7 @@ export const PokemonCollectorCard = ({
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
     tilt && cardTiltClassName,
-    /* The plain card's line is part of its frame. */
-    !owned
-      ? "plain-card p-1.25"
-      : selected
-        ? "card-frame-picked"
-        : "card-frame",
+    selected ? "card-frame-picked" : "card-frame",
     target && dropTargetRingClassName,
     className,
   );
@@ -209,7 +198,7 @@ export const PokemonCollectorCard = ({
       <span
         className={cn(
           "relative flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-2",
-          owned && "card-face",
+          "card-face",
         )}
       >
         <span className="order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
@@ -265,7 +254,7 @@ export const PokemonCollectorCard = ({
           className={cn(
             "relative order-2 overflow-hidden rounded-sm",
             sizeClassName.window,
-            owned ? "card-window" : "bg-surface-2",
+            "card-window",
           )}
         >
           {/* The window's one flourish: a pale arc behind the art. */}
@@ -273,7 +262,7 @@ export const PokemonCollectorCard = ({
             aria-hidden
             className={cn(
               "absolute inset-0 m-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw]",
-              owned ? "border-(--t)/10" : "border-white/45",
+              "border-(--t)/10",
             )}
           />
           <FallbackImage

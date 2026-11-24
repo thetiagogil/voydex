@@ -27,8 +27,8 @@ Collection has a second view, Favourites (`?view=favourites`): every Pokémon yo
 on its Codex entry, newest heart first, one per form (Arcanine and Hisuian
 Arcanine are separate favourites). One whose species has joined your teams is
 yours, so it is a collector card with its Play count and opens its sheet; one
-that hasn't yet is the same card in plain white ("Not on a team") opening
-its Codex entry. The heart saves straight away with Undo in the toast; signed out, it
+that hasn't yet is the same collector card in its type's colour at "0 Plays",
+opening its Codex entry. The heart saves straight away with Undo in the toast; signed out, it
 asks you to sign in and comes back to the entry. Before any heart the view is
 the empty state with Browse the Codex. Favourites are only what you picked:
 Statistics keeps Most used apart from them.

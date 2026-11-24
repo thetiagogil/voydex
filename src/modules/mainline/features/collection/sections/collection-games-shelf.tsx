@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { CollectionFilterBand } from "@/modules/mainline/features/collection/components/collection-filter-band";
@@ -38,9 +39,6 @@ type CollectionGamesShelfProps = {
 const EAGER_COVER_COUNT = 6;
 const kindOrder: CollectionGameKind[] = ["all", "playing", "completed"];
 const sortOrder: CollectionGameSort[] = ["played", "release", "name"];
-
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 /*
  * Collection's Games: one grid of the games you've played, most Plays
@@ -109,7 +107,7 @@ export const CollectionGamesShelf = ({
                 game={game}
                 eager={index < EAGER_COVER_COUNT}
                 onClick={() => setOpenGameId(game.id)}
-                count={countPlays(plays.length)}
+                count={formatPlayCount(plays.length)}
               />
             ))}
           </GameShelfGrid>

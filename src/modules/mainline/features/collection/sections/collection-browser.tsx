@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { CollectionFilterBand } from "@/modules/mainline/features/collection/components/collection-filter-band";
@@ -45,9 +46,6 @@ type CollectionBrowserProps = {
 
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
 const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
-
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 /*
  * The Collection's Pokémon: the views switch, a toolbar (search, what to
@@ -122,7 +120,7 @@ export const CollectionBrowser = ({
                   imageUrl={entry.imageUrl}
                   name={entry.name}
                   number={formatNationalNumber(entry.nationalNumber)}
-                  count={countPlays(entry.playIds.length)}
+                  count={formatPlayCount(entry.playIds.length)}
                   shiny={entry.shiny}
                   types={entry.types}
                   selected={openSpeciesId === entry.speciesId}

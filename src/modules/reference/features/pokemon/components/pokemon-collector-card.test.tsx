@@ -132,15 +132,6 @@ describe("PokemonCollectorCard", () => {
     expect(html).not.toMatch(/card-frame(?!-picked)/);
   });
 
-  it("is plain white for one that isn't yours", () => {
-    const html = render({ owned: false });
-
-    expect(html).toContain("plain-card");
-    expect(html).not.toContain("card-frame");
-    expect(html).not.toContain("card-face");
-    expect(html).not.toContain("card-window");
-  });
-
   it("rings the card a dragged Pokémon would land on", () => {
     expect(render()).not.toContain("ring-calm");
     expect(render({ target: true })).toContain("ring-calm");

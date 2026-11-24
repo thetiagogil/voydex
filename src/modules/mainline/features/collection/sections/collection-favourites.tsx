@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPlayCount } from "@/modules/mainline/features/plays/shared/utils/play-browse-display";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { CollectionFilterBand } from "@/modules/mainline/features/collection/components/collection-filter-band";
@@ -47,15 +48,11 @@ type CollectionFavouritesProps = {
 const kindOrder: FavouriteKind[] = ["all", "owned", "waiting"];
 const sortOrder: FavouriteSort[] = ["recent", "dex", "used"];
 
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
-
 /*
  * Collection's Favourites: every Pokémon you hearted in the Codex, newest
  * first, under the same toolbar as the Pokémon view. One that has joined
- * your teams is yours, so it wears its type's colour with its Play count
- * and opens its sheet; one that hasn't yet is the same card in plain white,
- * opening its Codex entry.
+ * your teams opens its sheet; one that hasn't yet is the same card in its
+ * type's colour at "0 Plays", opening its Codex entry.
  */
 export const CollectionFavourites = ({
   entries,
@@ -130,7 +127,7 @@ export const CollectionFavourites = ({
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      count={countPlays(owned.playIds.length)}
+                      count={formatPlayCount(owned.playIds.length)}
                       types={favourite.types}
                       selected={open?.formId === favourite.formId}
                       detail="See its Plays"
@@ -142,14 +139,14 @@ export const CollectionFavourites = ({
                       }
                     />
                   ) : (
+                    /* On no team yet: the same card, at no Plays. */
                     <PokemonCollectorCard
                       detail="open in the Codex"
                       href={favourite.codexHref}
                       imageUrl={favourite.imageUrl}
                       name={favourite.name}
                       number={number}
-                      count="Not on a team"
-                      owned={false}
+                      count={formatPlayCount(0)}
                       types={favourite.types}
                     />
                   )}
