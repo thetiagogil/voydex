@@ -22,7 +22,10 @@ import {
 } from "@/platform/local-db/game-data";
 import { buildFile } from "@/platform/local-db/game-data-test-support";
 import { LocalDbError } from "@/platform/local-db/local-db";
-import { createTestDb } from "@/platform/local-db/local-db-test-support";
+import {
+  createTestDb,
+  readKnownRowCount,
+} from "@/platform/local-db/local-db-test-support";
 import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import { readUserData } from "@/platform/local-db/user-data";
 import {
@@ -274,6 +277,29 @@ describe("installGame", () => {
     await installGame(db, "swsh", { download: createDownload(), versions });
 
     expect(currentPageReadRevision()).toBe(after);
+  });
+
+  it("looks at the tables again once a game is on the device", async () => {
+    const db = await createDevice();
+
+    await installGame(db, "swsh", { download: createDownload(), versions });
+
+    await expect(readKnownRowCount(db, "reference.types")).resolves.toBe(2);
+  });
+
+  it("doesn't look at the tables when nothing went in", async () => {
+    const db = await createDevice();
+    const exec = vi.spyOn(db, "exec");
+
+    await expect(
+      installGame(db, "swsh", {
+        download: vi.fn().mockRejectedValue(new Error("offline")),
+        versions,
+      }),
+    ).rejects.toThrow();
+    expect(
+      exec.mock.calls.some(([sql]) => String(sql).startsWith("ANALYZE")),
+    ).toBe(false);
   });
 
   it("downloads only the new game's file for a second game", async () => {

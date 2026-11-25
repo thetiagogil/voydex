@@ -43,9 +43,10 @@ const StartFrame = ({ children }: { children: ReactNode }) => (
  * and a device still on older game data (an update that didn't go in) says
  * so, with a way to try again (`OldGameDataNotice`).
  *
- * `prepare` names the pages to get ready while the start screen shows (the
- * app's tabs), so changing tabs never waits on the device. They are read
- * once when the database opens and again whenever the device's data
+ * `prepare` gets the pages ready (the app's tabs): the start screen waits
+ * until it settles (Mainline settles once Home is ready and reads the
+ * other tabs behind it), so changing tabs rarely waits on the device. It
+ * runs once when the database opens and again whenever the device's data
  * changes (a save, an account backup coming in, a game added), in the background.
  */
 export const DeviceGate = ({

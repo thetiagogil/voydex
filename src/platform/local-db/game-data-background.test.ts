@@ -13,7 +13,10 @@ import {
   runBackgroundDownloads,
 } from "@/platform/local-db/game-data-background";
 import { buildFile } from "@/platform/local-db/game-data-test-support";
-import { createTestDevice } from "@/platform/local-db/local-db-test-support";
+import {
+  createTestDevice,
+  readKnownRowCount,
+} from "@/platform/local-db/local-db-test-support";
 import { currentPageReadRevision } from "@/platform/local-db/page-reads";
 import {
   hashDeviceSchemaSql,
@@ -356,6 +359,21 @@ describe("runBackgroundDownloads", () => {
       runBackgroundDownloads(db, { download, everyGame: true, versions }),
     ).resolves.toMatchObject({ done: [], status: "done" });
     expect(download).not.toHaveBeenCalled();
+  });
+
+  it("looks at the tables again once spare games are in", async () => {
+    const db = await createDevice();
+
+    await expect(
+      runBackgroundDownloads(db, {
+        download: createDownload(),
+        everyGame: true,
+        versions,
+      }),
+    ).resolves.toMatchObject({ failed: [], status: "done" });
+    await expect(readKnownRowCount(db, "reference.egg_groups")).resolves.toBe(
+      5,
+    );
   });
 
   it("tells the screens of the spare games it got before a run stops", async () => {

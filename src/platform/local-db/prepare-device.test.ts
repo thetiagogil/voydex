@@ -13,7 +13,10 @@ import {
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
 import { LocalDbError, toLocalDbError } from "@/platform/local-db/local-db";
-import { createTestDb } from "@/platform/local-db/local-db-test-support";
+import {
+  createTestDb,
+  readKnownRowCount,
+} from "@/platform/local-db/local-db-test-support";
 import {
   describeGameDataUpdateFailure,
   DeviceProblemError,
@@ -248,6 +251,38 @@ describe("prepareDevice", () => {
         }),
       ),
     ).resolves.toBeNull();
+  });
+
+  it("looks at every table before the screens open", async () => {
+    const db = await setUpDevice();
+    const { rows } = await db.query(
+      `SELECT n.nspname || '.' || c.relname AS name FROM pg_class c
+       JOIN pg_namespace n ON n.oid = c.relnamespace
+       WHERE c.relkind = 'r' AND c.reltuples < 0
+         AND n.nspname IN ('device', 'gameplay', 'planning', 'public', 'reference', 'tracking')`,
+    );
+
+    expect(rows).toEqual([]);
+    await expect(readKnownRowCount(db, "reference.generations")).resolves.toBe(
+      1,
+    );
+  });
+
+  it("looks at a table it never did, offline too", async () => {
+    const db = await setUpDevice();
+
+    await db.exec("CREATE TABLE gameplay.added_later (id int)");
+    await prepareDevice(
+      db,
+      sources({
+        fetchSchemaHash: () => Promise.resolve(null),
+        fetchVersions: () => Promise.resolve(null),
+      }),
+    );
+
+    await expect(readKnownRowCount(db, "gameplay.added_later")).resolves.toBe(
+      0,
+    );
   });
 
   it("says a new device needs the internet once", async () => {

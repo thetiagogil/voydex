@@ -16,6 +16,7 @@ import {
   addTestGameData as addGameData,
   addTestIdChange,
   createTestDevice,
+  readKnownRowCount,
 } from "@/platform/local-db/local-db-test-support";
 import {
   readUserData,
@@ -116,6 +117,24 @@ describe("backups on the device", () => {
     await restoreBackup(db, backup, { ensureGame: async () => undefined });
 
     expect(currentPageReadRevision()).toBeGreaterThan(before);
+  });
+
+  it("looks at the tables again once the backup is in", async () => {
+    await addUserData(db);
+
+    const { backup } = await makeBackupFile(db);
+    const other = await createTestDevice();
+
+    try {
+      await addGameData(other);
+      await restoreBackup(other, backup, { ensureGame: async () => undefined });
+
+      await expect(
+        readKnownRowCount(other, "gameplay.mainline_plays"),
+      ).resolves.toBe(1);
+    } finally {
+      await other.close();
+    }
   });
 
   it("restores an older backup, filling a column it didn't have", async () => {

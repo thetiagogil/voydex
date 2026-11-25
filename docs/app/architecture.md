@@ -525,8 +525,8 @@ src/platform/local-db/
 The app's layout wraps the app's frame and every app page in the device gate
 (`src/features/system/components/device-gate.tsx`): one short start screen,
 alone on the page with no bars,
-while the database opens and the tabs get ready (`AppDeviceGate` passes
-Mainline's tab reads; the app shows once they are read, with a 30-second guard, the rest carry on in the
+while the database opens and Home gets ready (`AppDeviceGate` passes
+Mainline's tab reads; the app shows once Home is read, with a 30-second guard, and the other tabs get ready in the
 background), then the page; or a screen for offline on a new
 device, a full device, a failed update, or a fresh start. A game data
 update that doesn't go in (a dropped download, a refused release) doesn't
@@ -623,9 +623,10 @@ tab, or a game added) lets every kept read go. A change no page on screen
 shows but another page does (opening a Play reorders Home) calls
 `forgetKeptPageReads`. The app's tabs are read before they open: each tab
 names its read once (a `PageReadPlan`, such as `statsPageRead`), Mainline
-lists them in `public-page-reads.ts`, and the device gate reads them behind
-the start screen and again in the background whenever kept reads go
-(`preparePageReads`), so changing tabs never waits on the device. A Play
+lists them in `public-page-reads.ts`, and the device gate reads Home behind
+the start screen, the other tabs right after it, and all of them again in
+the background whenever kept reads go (`preparePageReads`), so changing tabs
+rarely waits on the device. A Play
 does the same for its sections (`playSectionReads`, kept ready by
 `useKeepPageReadsReady` while the Play is open). A page that does wait shows
 its loading state for at least 300 ms (React holds a fallback that long), so
