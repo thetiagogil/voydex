@@ -71,14 +71,14 @@ const InputGroupAddon = ({
   );
 };
 
-/* A button inside a field (clear, show), on Button's own sizes: `icon-xs`, `icon-sm` or `sm`. */
+/* A button inside a field (clear, show), on Button's own sizes: `icon-xs`, `icon` or `default`. */
 const InputGroupButton = ({
   type = "button",
   variant = "ghost",
   size = "icon-xs",
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "size" | "type"> & {
-  size?: "icon-sm" | "icon-xs" | "sm";
+  size?: "default" | "icon" | "icon-xs";
   type?: "button" | "submit" | "reset";
 }) => {
   return (

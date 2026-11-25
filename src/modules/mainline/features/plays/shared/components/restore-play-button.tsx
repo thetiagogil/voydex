@@ -31,7 +31,6 @@ export const RestorePlayButton = ({
     <Button
       type="button"
       variant="secondary"
-      size="sm"
       disabled={isRestoring}
       aria-busy={isRestoring}
       aria-label={`Restore ${playName}`}

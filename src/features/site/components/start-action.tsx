@@ -23,7 +23,7 @@ export const StartAction = () => {
   return (
     <Link
       href={appRoutes.mainline}
-      className={buttonVariants({ className: "max-sm:w-full" })}
+      className={buttonVariants({ className: "max-sm:w-full", size: "lg" })}
     >
       {hasPlays ? (
         <>

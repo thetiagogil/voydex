@@ -202,8 +202,7 @@ export const PlannerSlotSheet = ({
             {readOnly ? null : (
               <Button
                 type="button"
-                variant="tint"
-                size="sm"
+                variant="secondary"
                 onClick={() => onSwap(slotIndex)}
               >
                 <AppIcon icon={appIcons.actions.search} inline="start" />
@@ -215,7 +214,7 @@ export const PlannerSlotSheet = ({
                 versionGroup.slug,
                 pokemon.speciesSlug,
               )}
-              className={buttonVariants({ size: "sm", variant: "tint" })}
+              className={buttonVariants({ variant: "secondary" })}
             >
               <AppIcon icon={appIcons.modules.codex} inline="start" />
               Open in Codex
@@ -225,12 +224,7 @@ export const PlannerSlotSheet = ({
       })}
       footer={
         readOnly ? (
-          <Button
-            type="button"
-            size="sm"
-            className="ml-auto"
-            onClick={onUnlock}
-          >
+          <Button type="button" className="ml-auto" onClick={onUnlock}>
             <AppIcon icon={appIcons.actions.unlock} inline="start" />
             Unlock to edit
           </Button>
@@ -239,7 +233,6 @@ export const PlannerSlotSheet = ({
             <Button
               type="button"
               variant="destructive"
-              size="sm"
               className="mr-auto"
               onClick={() => {
                 onRemove(slotIndex);
@@ -248,7 +241,7 @@ export const PlannerSlotSheet = ({
             >
               Remove from Plan
             </Button>
-            <Button type="button" size="sm" disabled={!isDirty} onClick={save}>
+            <Button type="button" disabled={!isDirty} onClick={save}>
               Save
             </Button>
           </>

@@ -59,8 +59,7 @@ export const StoryPlaceDetail = ({
           compact && glance.length ? (
             <Button
               type="button"
-              variant="ghost"
-              size="sm"
+              variant="quiet"
               onClick={() => setDetailsOpen(true)}
             >
               See details

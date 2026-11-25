@@ -29,7 +29,7 @@ export const CollectionViewSwitch = ({
     ariaLabel="Collection views"
     className="mt-5 lg:hidden"
     phoneScroll
-    selectedTone="strong"
+    variant="tabs"
     value={value}
     options={[
       {

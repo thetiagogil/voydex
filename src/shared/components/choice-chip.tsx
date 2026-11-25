@@ -8,7 +8,7 @@ type ChoiceChipProps = Omit<
   "aria-pressed" | "children" | "type"
 > & {
   children: ReactNode;
-  /* Picked: the selected tint in a white band, with a check. */
+  /* Picked: the selected tint, with a check. */
   pressed?: boolean;
   /* `lg` (48px) where it sits in a toolbar or a form row beside fields. */
   size?: "lg" | "md";
@@ -18,11 +18,11 @@ type ChoiceChipProps = Omit<
 
 /*
  * One choice in a set you can pick several of (expansions, challenge rules,
- * a Plan slot's role, a toolbar's one on/off filter): a 40px pill on its
- * own, 48px (`lg`) beside fields. Picked, it takes
- * the selected tint, a white band and a check, so the state never rests on
- * colour alone; its weight never changes, so picking one doesn't shift the
- * row. `add` opens a way to add another.
+ * a Plan slot's role, a toolbar's one on/off filter): a 36px pill on its
+ * own, 48px (`lg`) beside fields, white with a thin outline. Picked, it
+ * takes the selected tint and a check, so the state never rests on colour
+ * alone; its weight never changes, so picking one doesn't shift the row.
+ * `add` opens a way to add another.
  */
 export const ChoiceChip = ({
   children,

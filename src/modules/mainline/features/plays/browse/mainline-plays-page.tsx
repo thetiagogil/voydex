@@ -110,8 +110,7 @@ const PlaysPageContent = ({
           href={appRoutes.mainlinePlaysArchived}
           className={buttonVariants({
             className: "self-start",
-            size: "sm",
-            variant: "ghost",
+            variant: "quiet",
           })}
         >
           <AppIcon icon={appIcons.product.archived} inline="start" />

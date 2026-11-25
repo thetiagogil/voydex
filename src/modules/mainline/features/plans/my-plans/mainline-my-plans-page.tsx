@@ -144,8 +144,7 @@ export const MainlineMyPlansPage = ({
           href={appRoutes.mainlinePlansArchived}
           className={buttonVariants({
             className: "self-start",
-            size: "sm",
-            variant: "ghost",
+            variant: "quiet",
           })}
         >
           <AppIcon icon={appIcons.product.archived} inline="start" />

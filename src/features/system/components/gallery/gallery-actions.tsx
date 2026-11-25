@@ -33,47 +33,60 @@ export const GalleryActions = () => {
               Cancel
             </Button>
           </Specimen>
-          <Specimen label="destructive" note="Removes something">
+          <Specimen
+            label="destructive"
+            note="Removes something: the quiet button, its words in wine"
+          >
             <Button variant="destructive">Delete Play</Button>
             <Button variant="destructive" disabled>
               Delete Play
             </Button>
           </Specimen>
-          <Specimen label="tint" note="On a tinted band" ground="band">
-            <Button variant="tint">Edit</Button>
-            <Button variant="tint" disabled>
+          <Specimen
+            label="secondary, on a band"
+            note="The same button on every ground"
+            ground="band"
+          >
+            <Button variant="secondary">Edit</Button>
+            <Button variant="secondary" disabled>
               Edit
+            </Button>
+          </Specimen>
+          <Specimen
+            label="quiet"
+            note="A small tool beside a section's title: the outline alone"
+            ground="band"
+          >
+            <Button variant="quiet">Mark all caught</Button>
+            <Button variant="quiet" disabled>
+              Unmark all
             </Button>
           </Specimen>
           <Specimen label="inverse" note="On the action red" ground="action">
             <Button variant="inverse">Open Voydex</Button>
-            <Button variant="inverse" size="sm">
-              Log in
-            </Button>
+            <Button variant="inverse">Log in</Button>
           </Specimen>
           <Specimen
-            label="soft and ghost"
-            note="Flat: inside a field, in a row of choices"
+            label="ghost"
+            note="Bare words, only inside a field, a calendar, a menu or a card's corner"
           >
-            <Button variant="soft" size="sm">
-              Show
-            </Button>
-            <Button variant="ghost" size="sm">
-              More details
+            <Button variant="ghost">Show</Button>
+            <Button variant="ghost" size="icon" aria-label="Clear">
+              <AppIcon icon={appIcons.actions.close} />
             </Button>
           </Specimen>
         </GalleryGroup>
 
         <GalleryGroup title="Sizes">
-          <Specimen label="default and sm" note="48 and 36px">
+          <Specimen
+            label="default and lg"
+            note="36px everywhere. 48px only with fields in a form"
+          >
             <Button>Save</Button>
-            <Button size="sm">Add</Button>
+            <Button size="lg">Log in</Button>
           </Specimen>
-          <Specimen label="icon sizes" note="48, 36 and 28px">
+          <Specimen label="icon sizes" note="36 and 28px">
             <Button size="icon" variant="secondary" aria-label="Search">
-              <AppIcon icon={appIcons.actions.search} />
-            </Button>
-            <Button size="icon-sm" variant="secondary" aria-label="Search">
               <AppIcon icon={appIcons.actions.search} />
             </Button>
             <Button size="icon-xs" variant="secondary" aria-label="Search">

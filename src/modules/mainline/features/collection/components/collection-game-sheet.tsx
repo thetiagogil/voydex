@@ -108,7 +108,7 @@ export const CollectionGameSheet = ({
                 game.versionGroupSlug,
                 game.slug,
               )}
-              className={buttonVariants({ size: "sm", variant: "secondary" })}
+              className={buttonVariants({ variant: "secondary" })}
             >
               <AppIcon icon={appIcons.modules.codex} inline="start" />
               Open in Codex

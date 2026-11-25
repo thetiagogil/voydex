@@ -70,12 +70,28 @@ export const GalleryChoices = () => {
       <GallerySection
         id="switches"
         title="Switches and tabs"
-        description="One SegmentedControl, in two shapes: separate pills, or one track."
+        description="One SegmentedControl, in three shapes: a page's tabs, separate pills, or one track."
       >
+        <GalleryGroup title="Tabs">
+          <Specimen
+            label="tabs"
+            note="Under a page's title: switches what the whole page shows, as a Play's tabs"
+            ground="band"
+          >
+            <SegmentedControl
+              ariaLabel="Library sections"
+              variant="tabs"
+              value={view}
+              onValueChange={setView}
+              options={viewOptions}
+            />
+          </Specimen>
+        </GalleryGroup>
+
         <GalleryGroup title="Pills">
           <Specimen
             label="pills, strong"
-            note="Picks a scope: which view, which Pokédex"
+            note="Picks a scope: which Pokédex, which journey"
             ground="band"
           >
             <SegmentedControl

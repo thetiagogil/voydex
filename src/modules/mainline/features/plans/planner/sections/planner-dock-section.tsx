@@ -144,12 +144,7 @@ export const PlannerDockSection = ({
             <b className="font-extrabold">Team is full.</b> Tap the Pokémon{" "}
             {replacing.name} should replace.
           </p>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={onCancelReplace}
-          >
+          <Button type="button" variant="secondary" onClick={onCancelReplace}>
             Cancel
           </Button>
         </div>
@@ -169,7 +164,7 @@ export const PlannerDockSection = ({
                     <Button
                       type="button"
                       variant="secondary"
-                      size="icon-sm"
+                      size="icon"
                       aria-label="Random team"
                     />
                   }
@@ -211,7 +206,7 @@ export const PlannerDockSection = ({
                   <Button
                     type="button"
                     variant="secondary"
-                    size="icon-sm"
+                    size="icon"
                     aria-label="Clear the team"
                     disabled={!filled}
                     onClick={onClear}

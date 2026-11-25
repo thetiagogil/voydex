@@ -76,11 +76,8 @@ const CalendarNavButton = ({
 }: React.ComponentProps<"button">) => (
   <Button
     {...(props as React.ComponentProps<typeof Button>)}
-    className={cn(
-      "aria-disabled:pointer-events-none aria-disabled:opacity-40",
-      className,
-    )}
-    size="icon-sm"
+    className={cn("aria-disabled:opacity-40", className)}
+    size="icon"
     variant="ghost"
   />
 );

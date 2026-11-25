@@ -788,7 +788,6 @@ export const StoryBattleReport = ({
           hasMoves ? (
             <Button
               variant="secondary"
-              size="sm"
               aria-pressed={showMoves}
               onClick={() => setMovesShownFor(showMoves ? null : battle.id)}
             >

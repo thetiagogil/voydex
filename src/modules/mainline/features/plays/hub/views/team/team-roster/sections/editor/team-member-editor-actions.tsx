@@ -54,7 +54,7 @@ const FormActionSelect = ({
 }) => (
   <SelectControl
     ariaLabel={label}
-    className={buttonVariants({ size: "sm", variant: "tint" })}
+    className={buttonVariants({ variant: "secondary" })}
     disabled={disabled}
     onValueChange={(value) => {
       const target = targets.find((item) => String(item.formId) === value);
@@ -172,8 +172,7 @@ export const TeamMemberEditorActions = ({
         ) : (
           <Button
             type="button"
-            variant="tint"
-            size="sm"
+            variant="secondary"
             disabled={isPending || evolutions.length === 0}
             onClick={() => evolutions[0] && evolve(evolutions[0])}
           >
@@ -194,8 +193,7 @@ export const TeamMemberEditorActions = ({
         ) : null}
         <Button
           type="button"
-          variant="tint"
-          size="sm"
+          variant="secondary"
           disabled={isPending}
           onClick={onReplace}
         >
@@ -204,8 +202,7 @@ export const TeamMemberEditorActions = ({
         </Button>
         <Button
           type="button"
-          variant="tint"
-          size="sm"
+          variant="secondary"
           disabled={isPending}
           onClick={() => setConfirm("retire")}
         >
@@ -218,7 +215,7 @@ export const TeamMemberEditorActions = ({
             <Button
               type="button"
               variant="destructive"
-              size="icon-sm"
+              size="icon"
               className="ml-auto"
               aria-label="Delete record"
               disabled={isPending}

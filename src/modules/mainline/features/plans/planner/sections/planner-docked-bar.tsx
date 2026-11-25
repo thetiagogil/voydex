@@ -127,7 +127,6 @@ export const PlannerDockedBar = ({
               {(offline) => (
                 <Button
                   type="button"
-                  size="sm"
                   disabled={!canSave || isSaving || offline}
                   onClick={onSave}
                 >

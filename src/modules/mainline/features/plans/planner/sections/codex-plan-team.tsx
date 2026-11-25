@@ -73,7 +73,6 @@ export const CodexPlanTeam = ({ versionGroupSlug }: CodexPlanTeamProps) => {
     <>
       <Button
         type="button"
-        size="sm"
         variant="secondary"
         aria-haspopup="dialog"
         aria-busy={isOpening}

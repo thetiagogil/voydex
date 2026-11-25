@@ -167,8 +167,7 @@ export const StoryDetail = ({
   const back = reportInPlace ? (
     <Button
       type="button"
-      variant="ghost"
-      size="sm"
+      variant="secondary"
       className="justify-self-start"
       onClick={showTarget}
     >

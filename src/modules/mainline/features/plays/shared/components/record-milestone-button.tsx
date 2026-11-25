@@ -16,7 +16,6 @@ type RecordMilestoneButtonProps = Omit<
   label: string;
   /* While it saves: a spinner in place of the check. */
   pending?: boolean;
-  size?: "default" | "sm";
 };
 
 /*
@@ -29,12 +28,10 @@ export const RecordMilestoneButton = ({
   href,
   label,
   pending = false,
-  size = "default",
   ...props
 }: RecordMilestoneButtonProps) => {
   const classNames = cn(
-    size === "default" &&
-      "h-auto min-h-12 py-2.5 text-left whitespace-normal sm:whitespace-nowrap",
+    "h-auto min-h-9 py-1.5 text-left whitespace-normal sm:whitespace-nowrap",
     className,
   );
   const content = (
@@ -50,7 +47,7 @@ export const RecordMilestoneButton = ({
 
   if (href) {
     return (
-      <Link href={href} className={cn(buttonVariants({ size }), classNames)}>
+      <Link href={href} className={cn(buttonVariants(), classNames)}>
         {content}
       </Link>
     );
@@ -59,7 +56,6 @@ export const RecordMilestoneButton = ({
   return (
     <Button
       type="button"
-      size={size}
       aria-busy={pending || undefined}
       className={classNames}
       {...props}

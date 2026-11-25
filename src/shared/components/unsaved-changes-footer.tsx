@@ -42,7 +42,6 @@ export const UnsavedChangesFooter = ({
     </span>
     <Button
       type="button"
-      size="sm"
       variant="secondary"
       disabled={isSaving}
       onClick={onCancel}
@@ -51,7 +50,6 @@ export const UnsavedChangesFooter = ({
     </Button>
     <Button
       type={onSave ? "button" : "submit"}
-      size="sm"
       disabled={isSaving}
       onClick={onSave}
     >

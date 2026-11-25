@@ -103,7 +103,6 @@ export const PlaySettingsDangerSection = ({
           <Button
             type="button"
             variant="secondary"
-            size="sm"
             disabled={isArchiving}
             aria-busy={isArchiving}
             onClick={archive}
@@ -120,7 +119,6 @@ export const PlaySettingsDangerSection = ({
         <Button
           type="button"
           variant="destructive"
-          size="sm"
           onClick={() => {
             setDeleteError(null);
             setIsConfirmOpen(true);

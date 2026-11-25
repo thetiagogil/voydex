@@ -46,7 +46,7 @@ export const TeamMemberActions = ({
           trigger={
             <Button
               type="button"
-              variant="tint"
+              variant="secondary"
               size="icon"
               aria-label={editLabel}
               onClick={onEdit}
@@ -63,7 +63,7 @@ export const TeamMemberActions = ({
             <Button
               render={<Link href={codexHref} />}
               nativeButton={false}
-              variant="tint"
+              variant="secondary"
               size="icon"
               aria-label={codexLabel}
             >
@@ -72,7 +72,7 @@ export const TeamMemberActions = ({
           ) : (
             <Button
               type="button"
-              variant="tint"
+              variant="secondary"
               size="icon"
               disabled
               aria-label={codexLabel}

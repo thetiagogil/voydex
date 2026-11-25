@@ -94,6 +94,7 @@ export const FilterToolbar = ({
                   <Button
                     type="button"
                     variant="secondary"
+                    size="lg"
                     className={"xl:hidden"}
                   >
                     <AppIcon icon={appIcons.actions.filter} inline="start" />

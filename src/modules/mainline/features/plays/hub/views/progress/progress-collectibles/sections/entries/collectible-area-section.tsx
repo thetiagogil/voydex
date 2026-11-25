@@ -100,8 +100,7 @@ export const CollectibleAreaSection = ({
           <>
             <Button
               type="button"
-              size="sm"
-              variant="ghost"
+              variant="quiet"
               ref={markButtonRef}
               disabled={!canMarkShown}
               focusableWhenDisabled
@@ -112,8 +111,7 @@ export const CollectibleAreaSection = ({
             </Button>
             <Button
               type="button"
-              size="sm"
-              variant="ghost"
+              variant="quiet"
               ref={unmarkButtonRef}
               disabled={!canUnmarkShown}
               focusableWhenDisabled

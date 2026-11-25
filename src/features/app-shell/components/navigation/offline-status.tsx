@@ -87,7 +87,7 @@ export const OfflineStatus = () => {
          */
         <Button
           variant="secondary"
-          size={busy ? "sm" : "icon-sm"}
+          size={busy ? "default" : "icon"}
           className={barHeight}
           aria-label={
             busy ? `${labels.downloading}, ${percent}%` : labels[state]

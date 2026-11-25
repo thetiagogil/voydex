@@ -66,8 +66,7 @@ export const StoryChapterCard = ({
         </span>
         <Button
           type="button"
-          variant="ghost"
-          size="sm"
+          variant="quiet"
           aria-controls={bodyId}
           aria-expanded={open}
           aria-label={`${open ? "Collapse" : "Expand"} ${name}`}

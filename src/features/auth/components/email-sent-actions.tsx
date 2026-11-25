@@ -32,7 +32,7 @@ export const EmailSentActions = ({
         <form action={resend}>
           {hiddenFields}
           <AuthSubmitButton
-            size="sm"
+            size="default"
             variant="secondary"
             label="Send it again"
             pendingLabel="Sending..."

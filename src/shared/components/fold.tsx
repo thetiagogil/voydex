@@ -116,7 +116,7 @@ export const FoldToggle = ({
         render={
           <Button
             type="button"
-            variant={open ? "secondary" : "tint"}
+            variant="secondary"
             size="icon"
             aria-expanded={open}
             aria-controls={controls}

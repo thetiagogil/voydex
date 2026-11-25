@@ -69,7 +69,7 @@ export const FilterResultsLine = ({
         )}
       </p>
       {(hasActiveFilters || isReordered) && shownCount ? (
-        <ResetListButton variant="ghost" onClick={onReset} />
+        <ResetListButton onClick={onReset} />
       ) : null}
     </div>
   );

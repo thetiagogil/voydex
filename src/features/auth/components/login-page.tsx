@@ -56,6 +56,7 @@ export const LoginPage = () => {
             href={landing}
             className={buttonVariants({
               className: "w-full",
+              size: "lg",
               variant: "secondary",
             })}
           >

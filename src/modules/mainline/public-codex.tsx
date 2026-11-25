@@ -291,9 +291,7 @@ export const CodexInYourPlays = onDevice(
         speciesSlug={speciesSlug}
       />
     ) : (
-      <NewPlayTrigger
-        className={buttonVariants({ size: "sm", variant: "secondary" })}
-      >
+      <NewPlayTrigger className={buttonVariants({ variant: "secondary" })}>
         Start a Play
       </NewPlayTrigger>
     );
@@ -392,10 +390,7 @@ export const CodexGameYourPlays = onDevice(
           }
           action={
             <div className="flex flex-wrap gap-2">
-              <NewPlayTrigger
-                gameSlug={gameSlug}
-                className={buttonVariants({ size: "sm" })}
-              >
+              <NewPlayTrigger gameSlug={gameSlug} className={buttonVariants()}>
                 <AppIcon icon={appIcons.actions.create} inline="start" />
                 Start a {gameShortName} Play
               </NewPlayTrigger>

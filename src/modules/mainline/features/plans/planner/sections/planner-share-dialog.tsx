@@ -84,6 +84,7 @@ export const PlannerShareDialog = ({
             />
             <Button
               type="button"
+              size="lg"
               variant="secondary"
               onClick={copy}
               className={actionWidth}
@@ -112,6 +113,7 @@ export const PlannerShareDialog = ({
             />
             <Button
               type="submit"
+              size="lg"
               variant="secondary"
               disabled={!pasted.trim()}
               className={actionWidth}

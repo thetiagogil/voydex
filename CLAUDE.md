@@ -188,12 +188,14 @@ Voydex is quiet where you work and loud where you remember. The
   and in a Plan's team. A game you played is one too (`GameShelfCard` with
   `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
   status, never controls. Bars are flat; a row of them is thick with its figure inside.
-- Buttons have two heights, 48 and 36px, and tabs, pills and chips are 36px
-  too, the same on phones. Controls have two looks: the main action
-  (`default`) is solid red on a soft shadow; every other button, field,
-  select, tab and chip is white with a thin outline, the same on the wall
-  and inside a card, and a pick is filled. Controls wear no white band. A
-  dropdown in a breadcrumb reads as the link beside it with a chevron.
+- Buttons are 36px, as tabs, pills and chips are, the same on phones; only
+  a button that sits with fields is 48px (`lg`), and the front page's Start. Controls have two
+  looks: the main action (`default`) is solid red on a soft shadow; every
+  other button, field, select, tab and chip is white with a thin outline,
+  the same on the wall and inside a card, and a pick is filled. A small tool
+  beside a section's title (`quiet`) keeps the outline alone, so it never
+  draws the eye. A tab's words are never bold. Controls wear no white band.
+  A dropdown in a breadcrumb reads as the link beside it with a chevron.
 - No presses that move, and no edge or band drawn by hand: the edge comes
   from `Card` `interactive`, `sticker`, `plain-card` or `card-frame`. The
   one picked never changes weight. The bar sits on the red strip, which

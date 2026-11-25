@@ -36,8 +36,7 @@ export const TeamMemberEditorReview = ({
               <b className="copy-strong">{item.label}</b>
               <Button
                 type="button"
-                variant="ghost"
-                size="sm"
+                variant="secondary"
                 onClick={() => onRevert(item.field)}
               >
                 <AppIcon icon={appIcons.actions.retry} inline="start" />

@@ -54,8 +54,7 @@ export const AuthFrame = ({
         href={back.href}
         className={buttonVariants({
           className: "w-fit shrink-0",
-          size: "sm",
-          variant: "tint",
+          variant: "secondary",
         })}
       >
         <AppIcon icon={appIcons.actions.back} inline="start" />
