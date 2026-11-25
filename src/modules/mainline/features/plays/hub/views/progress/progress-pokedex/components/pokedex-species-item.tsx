@@ -7,7 +7,7 @@ import type {
 import { PokedexSpeciesGridCard } from "./pokedex-species-grid-card";
 
 /* Named by its form where it has one ("Alolan Raichu"), so a screen reader tells forms apart. */
-export const getToggleLabel = ({
+const getToggleLabel = ({
   mode,
   speciesName,
   state,

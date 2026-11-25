@@ -1,9 +1,6 @@
 import type { PokedexMode } from "@/config/play-tracking";
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
-import {
-  getPokemonFormImageAlt,
-  getPokemonFormImageUrl,
-} from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   Generation,
@@ -145,7 +142,6 @@ export const buildMainlinePlayPokedexData = ({
     const typePair = resolveTypePair(attribute, typeById);
     const entry: MainlinePlayPokedexEntry = {
       displayFormName: form && !form.is_default ? form.name : null,
-      imageAlt: getPokemonFormImageAlt(form),
       imageUrl: getPokemonFormImageUrl(form, "sm"),
       isIncludedInCompletion: row.is_included_in_completion === true,
       isSourceRequiredForCompletion:

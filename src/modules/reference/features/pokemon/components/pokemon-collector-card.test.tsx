@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -325,15 +328,76 @@ describe("PokemonCollectorCard", () => {
     expect(missing).not.toContain('aria-label="Seen"');
   });
 
-  it("puts a form under the name, and no line at all without one", () => {
-    expect(render({ formLine: "Alolan Rattata" })).toContain("Alolan Rattata");
-    expect(render()).not.toContain("copy-meta");
-  });
-
   it("lets a Pokédex entry's picture fill its box, a little room kept under the number", () => {
     const html = render({ dexState: "seen", number: "#015" });
 
     expect(html).toContain("mt-3 mb-auto h-[calc(100%-0.75rem)]");
     expect(html).not.toContain("mt-6");
+  });
+
+  it("keeps one size whatever a Pokédex entry's state: its border and padding add up the same", () => {
+    const css = fs.readFileSync(
+      path.join(process.cwd(), "src/shared/styles/app-utilities.css"),
+      "utf8",
+    );
+    const borderOf = (utility: string) =>
+      Number(
+        /border:\s*([\d.]+)px/.exec(
+          new RegExp(`@utility ${utility} \\{([^}]*)\\}`).exec(css)?.[1] ?? "",
+        )?.[1] ?? 0,
+      );
+    const paddingOf = (classes: string) => {
+      const value = /(?:^|\s)p-(\[[\d.]+px\]|[\d.]+)(?:\s|$)/.exec(
+        classes,
+      )?.[1];
+
+      if (!value) throw new Error(`no padding in ${classes}`);
+
+      return value.startsWith("[")
+        ? Number(value.slice(1, -3))
+        : Number(value) * 4;
+    };
+    const edgeOf = (dexState: "caught" | "missing" | "seen") => {
+      const classes =
+        /<article [^>]*class="([^"]*)"/.exec(
+          render({ dexState, number: "#015" }),
+        )?.[1] ?? "";
+      const look = ["card-frame", "plain-card", "empty-slot"].find((name) =>
+        classes.split(/\s+/).includes(name),
+      )!;
+
+      /* The frame draws its edge as a shadow, so it has no border. */
+      return borderOf(look) + paddingOf(classes);
+    };
+
+    expect(edgeOf("seen")).toBe(edgeOf("caught"));
+    expect(edgeOf("missing")).toBe(edgeOf("caught"));
+  });
+
+  it("wraps a Pokédex entry's name to a second line rather than cut it, loads its picture lazily and has no glint", () => {
+    const dex = render({
+      dexState: "missing",
+      imageUrl: "https://assets.test/charmander.png",
+      name: "Charmander",
+      number: "#004",
+    });
+    const nameClass = (html: string) =>
+      /class="(descender-room[^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(nameClass(dex)).toContain("line-clamp-2");
+    expect(nameClass(dex)).not.toContain("truncate");
+    expect(nameClass(render())).toContain("truncate");
+    expect(dex).toContain('loading="lazy"');
+    expect(dex).not.toContain("blur-md");
+    expect(render()).toContain("blur-md");
+  });
+
+  it("makes room on the top line for a Pokédex entry's Play state mark", () => {
+    const lineOf = (html: string) =>
+      /class="([^"]*-mb-6[^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(lineOf(render({ dexState: "seen", number: "#015" }))).toMatch(
+      /(?:^|\s)pr-9(?:\s|$)/,
+    );
   });
 });

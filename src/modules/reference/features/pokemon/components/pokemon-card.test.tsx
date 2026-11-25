@@ -62,7 +62,7 @@ const spacingOf = (classes: string, prefix: "pb" | "pt" | "px") => {
 };
 
 describe("PokemonCard picked or not", () => {
-  const borderOf2 = (picked: boolean) =>
+  const edgeBorderOf = (picked: boolean) =>
     borderOf(picked ? "sticker" : "plain-card");
 
   const edgesOf = (size: "md" | "sm", picked: boolean) => {
@@ -83,7 +83,7 @@ describe("PokemonCard picked or not", () => {
 
     return ["pt", "px", "pb"].map(
       (prefix) =>
-        borderOf2(picked) + spacingOf(classes, prefix as "pb" | "pt" | "px"),
+        edgeBorderOf(picked) + spacingOf(classes, prefix as "pb" | "pt" | "px"),
     );
   };
 

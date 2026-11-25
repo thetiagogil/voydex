@@ -7,24 +7,17 @@ export type CornerBubbleCorner =
   "bottom" | "inside-top-left" | "inside-top-right" | "top-left" | "top-right";
 
 /*
- * A mark sits about 12px in from its card's outer edge, whatever border the
- * card draws: `none` (12px) when the bubble is a sibling of the card (a list
- * item around it), `line` (11px) inside a card with a 1px border, `sticker`
- * (8px) inside a sticker's 3px band. The position is measured from inside
- * the border, so the band is taken off. A collector card uses `sticker` for
- * 8px in from its borderless light panel, level with the panel's top line.
+ * How far in a mark sits: `none` (12px) when the bubble is a sibling of the
+ * card (a list item around it), `sticker` (8px) inside a collector card's
+ * borderless light panel, level with the panel's top line. The position is
+ * measured from inside the border.
  */
-export type CornerBubbleBorder = "line" | "none" | "sticker";
+export type CornerBubbleBorder = "none" | "sticker";
 
 const insetClassNames: Record<
   CornerBubbleBorder,
   { left: string; right: string; top: string }
 > = {
-  line: {
-    left: "left-2.75",
-    right: "right-2.75",
-    top: "top-2.75",
-  },
   none: { left: "left-3", right: "right-3", top: "top-3" },
   sticker: {
     left: "left-2",
@@ -97,11 +90,11 @@ export const CornerBubble = ({
 
 /*
  * The marks a Pokémon card carries in its corners, all drawn the same way:
- * a 24px round disc in the `bubble` white band. On a pool tile: its "!" and
- * its slot number side by side top-right. On a Pokédex card: a warning
- * top-left, the shiny mark top-right. On a collector card: a warning top-left
- * and the shiny mark top-right of its panel, along its top line. `npm run design:check` fails a card that
- * draws its own.
+ * a 24px round disc in the `bubble` white band: `SlotMark`, `WarningMark`,
+ * `ShinyMark` and `PlayStateMark`. On a pool tile: its "!" and its slot
+ * number side by side top-right. On a collector card, along its panel's top
+ * line: a warning top-left, the shiny mark or a Pokédex entry's Play state
+ * top-right. `npm run design:check` fails a card that draws its own.
  */
 
 /* The number disc the slot and count marks share; each has its colour. */
@@ -132,14 +125,16 @@ export const WarningMark = ({ label }: { label: string }) => (
 
 /*
  * A Pokédex entry's Play state: a Poké Ball on white when caught, an eye
- * when seen. It names itself to assistive tech.
+ * when seen. It names itself to assistive tech. On the narrowest collector
+ * card (under 6rem, a 320px phone) it steps down to 20px, so a four-digit
+ * number still fits beside it.
  */
 export const PlayStateMark = ({ state }: { state: "caught" | "seen" }) => (
   <span
     role="img"
     aria-label={state === "caught" ? "Caught" : "Seen"}
     className={cn(
-      "bubble grid size-6 place-items-center rounded-full",
+      "bubble grid size-6 place-items-center rounded-full @max-[6rem]/collector:size-5",
       state === "caught" ? "text-ball bg-white" : "bg-surface-2 text-ink-2",
     )}
   >

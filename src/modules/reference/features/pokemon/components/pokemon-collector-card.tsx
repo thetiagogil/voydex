@@ -34,12 +34,6 @@ type PokemonCollectorCardProps = {
    */
   dexState?: "caught" | "missing" | "seen";
   /*
-   * A line under the name (a Pokédex entry's form, "Alolan Rattata"). A row
-   * of cards stands level anyway: the grid stretches every card to the
-   * row's tallest and the types sit at the bottom.
-   */
-  formLine?: string;
-  /*
    * What a card you can press adds after what it shows, read but not seen,
    * such as "See its Plays" or "Active slot 2".
    */
@@ -163,7 +157,6 @@ export const PokemonCollectorCard = ({
   count,
   detail,
   dexState,
-  formLine,
   href,
   imageUrl,
   level,
@@ -256,7 +249,15 @@ export const PokemonCollectorCard = ({
           <span className="relative order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
             <span
               className={cn(
-                "descender-room truncate leading-tight",
+                "descender-room leading-tight",
+                /*
+                 * A Pokédex entry's name wraps to a second line rather than
+                 * cut, as a missing one is only a silhouette; the grid's
+                 * row keeps the cards beside it level.
+                 */
+                dexState
+                  ? "line-clamp-2 text-center text-balance wrap-break-word"
+                  : "truncate",
                 sizeClassName.name,
                 dexState === "missing" && "text-ink-3",
               )}
@@ -264,12 +265,6 @@ export const PokemonCollectorCard = ({
               <PokemonShownName name={name} readAs={nameReadAs} />
             </span>
           </span>
-          {formLine ? (
-            /* Its form under the name. */
-            <span className="copy-meta text-ink-3 relative order-3 truncate text-center">
-              {formLine}
-            </span>
-          ) : null}
           {hasTopLine ? (
             /*
              * Drawn over the top of the art (it takes back its own height),
@@ -280,14 +275,19 @@ export const PokemonCollectorCard = ({
               className={cn(
                 "text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums",
                 /*
-                 * Room for the marks at the line's ends: the shiny mark on
-                 * the right, a warning on the left. On a narrow card (a
-                 * 320px phone) the room and the gap tighten so a number and
-                 * a count still fit whole beside the mark.
+                 * Room for the marks at the line's ends: the shiny mark or
+                 * a Pokédex entry's Play state on the right, a warning on
+                 * the left. On a narrow card (a 320px phone) the room and
+                 * the gap tighten so a number and a count still fit whole
+                 * beside the mark, and on the narrowest Pokédex card the
+                 * Play state mark steps down to 20px for a four-digit
+                 * number.
                  */
-                shiny &&
+                rightMark &&
                   "pr-9 @max-[9.5rem]/collector:gap-1 @max-[9.5rem]/collector:pr-7.5",
                 rightMark && !warning && "@max-[9.5rem]/collector:pl-1",
+                dexState &&
+                  "@max-[6rem]/collector:pr-6.5 @max-[6rem]/collector:pl-0",
                 warning && "pl-9 @max-[9.5rem]/collector:pl-7.5",
               )}
             >
@@ -330,6 +330,8 @@ export const PokemonCollectorCard = ({
             <FallbackImage
               src={imageUrl}
               name={name}
+              /* A Pokédex draws its entries in long batches: load as they come near. */
+              loading={dexState ? "lazy" : undefined}
               /*
                * Placed by its box, so a capped box still holds it; under a
                * top line it stands below the line's words.
@@ -379,7 +381,8 @@ export const PokemonCollectorCard = ({
           ) : null}
         </span>
       </span>
-      <CollectorCardGlint />
+      {/* A Pokédex card's button covers it, so its glint could never play. */}
+      {dexState ? null : <CollectorCardGlint />}
       {detail && (href || onClick) ? (
         <span className="sr-only">, {detail}</span>
       ) : null}
