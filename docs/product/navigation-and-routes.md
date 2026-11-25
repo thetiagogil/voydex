@@ -119,8 +119,8 @@ log-in pages beside it. Everything else is the app.
 - **The start screen:** the app's pages (`/app`, `/app/settings`, `/app/you`
   and everything under them) open on this device's data behind one short
   start screen, alone on the page with no bars, while its database opens
-  and every tab gets ready, so the bars appear with a working app and
-  changing tabs afterwards never waits. It is the app's one loading
+  and Home gets ready, so the bars appear with a working app. The other
+  tabs get ready right after, behind Home, so changing tabs rarely waits. It is the app's one loading
   screen: a progress bar with a part for every step, from opening the
   device to the pages being ready, and right after Log in the account's
   steps in between (reading your account, downloading game data with

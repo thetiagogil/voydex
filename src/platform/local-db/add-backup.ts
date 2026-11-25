@@ -10,6 +10,7 @@ import {
   type LocalDb,
 } from "@/platform/local-db/local-db";
 import { movePageReadRevision } from "@/platform/local-db/page-reads";
+import { refreshTableStats } from "@/platform/local-db/table-stats";
 import {
   readSchemaShape,
   rowKeyOf,
@@ -249,6 +250,7 @@ export const addBackup = async (
         plays: added["gameplay.mainline_plays"]?.length ?? 0,
       };
     });
+    await refreshTableStats(db, "yours");
     movePageReadRevision();
   } catch (error) {
     if (error instanceof LocalDbError) throw error;

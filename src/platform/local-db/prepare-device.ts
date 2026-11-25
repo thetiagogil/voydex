@@ -18,6 +18,7 @@ import {
   type GameDataVersions,
 } from "@/platform/local-db/game-data";
 import { LocalDbError, type LocalDb } from "@/platform/local-db/local-db";
+import { ensureTableStats } from "@/platform/local-db/table-stats";
 
 /*
  * Gets a started device database ready for the screens: the app's schema
@@ -175,16 +176,14 @@ const prepareSchema = async (
 };
 
 /*
- * Returns the game data version list (null offline), for New Play to
- * download games with.
+ * The schema, then the game data: returns the game data version list (null
+ * offline).
  */
-export const prepareDevice = async (
+const prepareSchemaAndGameData = async (
   db: LocalDb,
   sources: PrepareDeviceSources,
-  onStep: (step: PrepareStep) => void = () => undefined,
+  onStep: (step: PrepareStep) => void,
 ): Promise<GameDataVersions | null> => {
-  onStep({ step: "checking" });
-
   try {
     await prepareSchema(db, sources, onStep);
 
@@ -239,4 +238,24 @@ export const prepareDevice = async (
 
     throw error;
   }
+};
+
+/*
+ * Returns the game data version list (null offline), for New Play to
+ * download games with. A table the device never looked at (a device from
+ * before it did, a device update that added one) is looked at before the
+ * pages read, so they don't take the slow way (`table-stats`).
+ */
+export const prepareDevice = async (
+  db: LocalDb,
+  sources: PrepareDeviceSources,
+  onStep: (step: PrepareStep) => void = () => undefined,
+): Promise<GameDataVersions | null> => {
+  onStep({ step: "checking" });
+
+  const versions = await prepareSchemaAndGameData(db, sources, onStep);
+
+  await ensureTableStats(db);
+
+  return versions;
 };

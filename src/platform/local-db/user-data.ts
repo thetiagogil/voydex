@@ -5,6 +5,7 @@ import {
   type LocalDb,
 } from "@/platform/local-db/local-db";
 import { movePageReadRevision } from "@/platform/local-db/page-reads";
+import { refreshTableStats } from "@/platform/local-db/table-stats";
 
 /*
  * Your own rows on this device, table by table: what a backup holds and
@@ -226,7 +227,11 @@ export const replaceUserData = async (
       await writeUserData(tx, data);
       await after?.(tx);
     });
-    /* A restore or an account backup taken: pages read before it read again. */
+    /*
+     * A restore or an account backup taken: the device looks at its tables
+     * again, and pages read before it read again.
+     */
+    await refreshTableStats(db, "yours");
     movePageReadRevision();
   } catch (error) {
     if (error instanceof LocalDbError) throw error;

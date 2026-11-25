@@ -65,3 +65,19 @@ export const addTestIdChange = async (db: PGlite) => {
     followIdChanges(tx, [{ becomes: "2", id: "1", table: "reference.games" }]),
   );
 };
+
+/*
+ * How many rows Postgres last learnt `table` has (`table-stats`): -1 for a
+ * table it never looked at.
+ */
+export const readKnownRowCount = async (
+  db: Pick<PGlite, "query">,
+  table: string,
+) => {
+  const { rows } = await db.query<{ known: number }>(
+    "SELECT reltuples::int AS known FROM pg_class WHERE oid = $1::regclass",
+    [table],
+  );
+
+  return rows[0]?.known;
+};

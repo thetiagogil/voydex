@@ -44,8 +44,9 @@ export type PreparePages = (db: LocalDb) => Promise<void>;
 
 /*
  * The longest the start screen waits for the pages getting ready. It is
- * the last step of the loading bar, and the app shows only once they are
- * read, so this is only a guard for a read that never ends.
+ * the last step of the loading bar, and the app shows only once `prepare`
+ * settles (Mainline's once Home is read), so this is only a guard for a
+ * read that never ends.
  */
 export const preparePagesLimitMs = 30_000;
 
@@ -110,8 +111,8 @@ const readOpenNow = (
 
 /*
  * Opens the device database (once per visit) for the screens under a gate,
- * with the step it is on for the start screen, then gets the pages
- * `prepare` names ready before it says the database is open. A start
+ * with the step it is on for the start screen, then waits for `prepare`
+ * to get the pages ready before it says the database is open. A start
  * screen that shows stays at least `startScreenMinMs`; a gate that mounts
  * again in the same visit shows no start screen at all. `retry` tries
  * again; `startFresh` deletes the device's data first (the caller confirms).

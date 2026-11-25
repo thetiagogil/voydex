@@ -16,6 +16,7 @@ import {
   type LocalDb,
 } from "@/platform/local-db/local-db";
 import { movePageReadRevision } from "@/platform/local-db/page-reads";
+import { refreshTableStats } from "@/platform/local-db/table-stats";
 import type { Transaction } from "@/platform/local-db/user-data";
 
 /*
@@ -624,6 +625,9 @@ const installFiles = async (
     const result = await installFilesOnce(db, entries, options, { update });
 
     changed = result.status !== "already-installed";
+
+    /* The tables grew: the device looks at them again (`table-stats`). */
+    if (changed && !quiet) await refreshTableStats(db, "game");
 
     return result;
   } finally {

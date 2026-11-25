@@ -9,6 +9,7 @@ import {
 } from "@/platform/local-db/game-data";
 import { runQuery, type LocalDb } from "@/platform/local-db/local-db";
 import { movePageReadRevision } from "@/platform/local-db/page-reads";
+import { refreshTableStats } from "@/platform/local-db/table-stats";
 import { isStorageFullError } from "@/platform/local-db/prepare-device";
 
 /*
@@ -167,8 +168,14 @@ export const runBackgroundDownloads = async (
   try {
     return await runDownloads(db, result, options);
   } finally {
-    /* Spare games and learnsets go in quietly; the screens hear of them once. */
-    if (result.done.some((item) => item.spare)) movePageReadRevision();
+    /*
+     * Spare games and learnsets go in quietly; the device looks at its
+     * tables again and the screens hear of them once.
+     */
+    if (result.done.some((item) => item.spare)) {
+      await refreshTableStats(db, "game");
+      movePageReadRevision();
+    }
   }
 };
 

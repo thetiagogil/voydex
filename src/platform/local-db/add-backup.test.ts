@@ -7,6 +7,7 @@ import { hasUnsavedChanges } from "@/platform/local-db/device-account";
 import {
   addTestGameData,
   createTestDevice,
+  readKnownRowCount,
 } from "@/platform/local-db/local-db-test-support";
 import { readSchemaShape } from "@/platform/local-db/user-snapshot";
 
@@ -158,6 +159,16 @@ describe("Import, added as new Plays", () => {
     ).resolves.toMatchObject({ rows: [{ display_name: "Sam" }] });
     /* They are yours now: they back up like any change. */
     await expect(hasUnsavedChanges(laptop)).resolves.toBe(true);
+  });
+
+  it("looks at the tables again once the file's rows are in", async () => {
+    const { backup } = await makeBackupFile(phone);
+
+    await addBackup(laptop, backup, { ensureGame });
+
+    await expect(
+      readKnownRowCount(laptop, "gameplay.mainline_plays"),
+    ).resolves.toBe(2);
   });
 
   it("never merges: the same file added twice is there twice", async () => {

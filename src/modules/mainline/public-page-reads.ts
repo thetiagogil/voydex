@@ -10,13 +10,16 @@ import {
   preparePageReads,
   type PageReadPlan,
 } from "@/platform/local-db/local-db-context";
-import { preparePageRead } from "@/platform/local-db/page-reads";
+import {
+  currentPageReadRevision,
+  preparePageRead,
+} from "@/platform/local-db/page-reads";
 
 /*
  * Mainline's public entry for getting its pages ready (the device gate is a
  * global feature that can't import a module; its route passes this in).
  * The pages the bar leads to, in the order they are most likely opened:
- * each is read ahead and kept, so switching tabs never waits on the device.
+ * each is read ahead and kept, so switching tabs rarely waits on the device.
  */
 const homeRead = homePageRead(null);
 
@@ -29,18 +32,33 @@ const otherTabReads: readonly PageReadPlan<unknown>[] = [
 ];
 
 /*
- * Gets Home and the other tabs ready, then, without holding up the start
- * screen, the Play Home's Continue row opens (its head and Overview), so
- * opening it doesn't wait either.
+ * The other tabs, then the Play Home's Continue row opens (its head and
+ * Overview), so opening any of them rarely waits.
  */
-export const prepareMainlineTabs = async (db: LocalDb) => {
-  const home = await preparePageRead(db, homeRead.key, homeRead.read);
-
+const prepareBehindHome = async (
+  db: LocalDb,
+  journeyPlayId: string | null,
+  homeRevision: number,
+) => {
   await preparePageReads(db, otherTabReads);
 
-  if (!home?.data.journey) return;
+  /* The data changed since Home read: the next round reads its Play anew. */
+  if (!journeyPlayId || currentPageReadRevision() !== homeRevision) return;
 
-  const reads = playPageReads(home.data.journey.play_id ?? "");
+  const reads = playPageReads(journeyPlayId);
 
-  void preparePageReads(db, [reads.shell, reads.overview]);
+  await preparePageReads(db, [reads.shell, reads.overview]);
+};
+
+/*
+ * Gets Home ready, the page the app opens on, and settles then, so the
+ * start screen gives way to it: the other tabs get ready behind it. A tab
+ * opened before its turn reads its own page then, ahead of the ones still
+ * to come.
+ */
+export const prepareMainlineTabs = async (db: LocalDb) => {
+  const at = currentPageReadRevision();
+  const home = await preparePageRead(db, homeRead.key, homeRead.read);
+
+  void prepareBehindHome(db, home?.data.journey?.play_id ?? null, at);
 };

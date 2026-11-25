@@ -88,6 +88,13 @@ three places:
   `installGameLearnsets` adds the game's learnsets after, for the background.
   A game already on the device downloads nothing. Files go in with triggers
   and foreign key checks off, one transaction per file.
+- PGlite runs no background work, so the device never learns on its own how
+  big its tables are, and without that Postgres reads the Play views the slow
+  way (12 s to open the app with 44 Plays, about 1.5 s with it, #362).
+  `table-stats.ts` runs `ANALYZE`: on the game data's tables once game data
+  goes in, on yours once a backup or a file goes in, and on every table as
+  the device opens when one was never looked at, or was empty then and has
+  rows now. Everyday saves don't need it.
 - The database runs in a worker (`local-db-worker.ts`) stored in IndexedDB as
   `/pglite/voydex`; one tab leads and the others send their queries to it.
 - PGlite's file system bundle (`pglite.data`, 6 MB, which the host sends
