@@ -325,13 +325,15 @@ describe("PokemonCollectorCard", () => {
     expect(missing).not.toContain('aria-label="Seen"');
   });
 
-  it("puts a form under the name, keeping the line's room empty when it has none", () => {
-    expect(render({ formLine: "Alolan Form" })).toContain("Alolan Form");
-    const empty = render({ formLine: null });
-
-    expect(empty).toMatch(
-      /<span aria-hidden="true" class="copy-meta[^"]*">\u00a0<\/span>|<span aria-hidden="true" class="copy-meta[^"]*">&nbsp;<\/span>|<span aria-hidden="true" class="copy-meta[^"]*"> <\/span>/,
-    );
+  it("puts a form under the name, and no line at all without one", () => {
+    expect(render({ formLine: "Alolan Rattata" })).toContain("Alolan Rattata");
     expect(render()).not.toContain("copy-meta");
+  });
+
+  it("lets a Pokédex entry's picture fill its box, a little room kept under the number", () => {
+    const html = render({ dexState: "seen", number: "#015" });
+
+    expect(html).toContain("mt-3 mb-auto h-[calc(100%-0.75rem)]");
+    expect(html).not.toContain("mt-6");
   });
 });

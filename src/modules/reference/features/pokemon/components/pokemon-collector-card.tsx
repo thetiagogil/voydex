@@ -34,11 +34,11 @@ type PokemonCollectorCardProps = {
    */
   dexState?: "caught" | "missing" | "seen";
   /*
-   * A line under the name (a Pokédex entry's form, "Alolan Form"). `null`
-   * keeps the line's room empty, so a row of cards with and without one
-   * stands level; leave it out where no card has one.
+   * A line under the name (a Pokédex entry's form, "Alolan Rattata"). A row
+   * of cards stands level anyway: the grid stretches every card to the
+   * row's tallest and the types sit at the bottom.
    */
-  formLine?: string | null;
+  formLine?: string;
   /*
    * What a card you can press adds after what it shows, read but not seen,
    * such as "See its Plays" or "Active slot 2".
@@ -191,15 +191,16 @@ export const PokemonCollectorCard = ({
   const hasTopLine = Boolean(number || topRight);
   /*
    * A number (the Collection) stands the art below the line; a right end
-   * alone (a level, "Your partner", "Replace") sits over the art's
-   * corner, so the Pokémon keeps its full size.
-   */
-  /*
-   * A card with marks but no top line (a Team Plan's off-plan Pokémon) also
-   * stands its art below the line, so a mark in the corner stays off it.
+   * alone (a level, "Your partner", "Replace") sits over the art's corner,
+   * so the Pokémon keeps its full size. A card with marks but no top line (a
+   * Team Plan's off-plan Pokémon) also stands its art below the line, so a
+   * mark in the corner stays off it. A Pokédex entry's picture fills its box
+   * but for a little room at the top, so its number and Play state stay
+   * readable over it.
    */
   const artBelowLine =
-    Boolean(number) || (!hasTopLine && (shiny || Boolean(warning)));
+    !dexState &&
+    (Boolean(number) || (!hasTopLine && (shiny || Boolean(warning))));
   /* A Pokédex card that isn't caught keeps the shape without the colour. */
   const plain = dexState === "seen" || dexState === "missing";
   /* A mark at the top line's right end: the shiny mark or the Play state. */
@@ -263,16 +264,10 @@ export const PokemonCollectorCard = ({
               <PokemonShownName name={name} readAs={nameReadAs} />
             </span>
           </span>
-          {formLine !== undefined ? (
-            /*
-             * Its form under the name, or the line's room kept empty, so a
-             * card with a form and one without stand level in a row.
-             */
-            <span
-              aria-hidden={formLine ? undefined : true}
-              className="copy-meta text-ink-3 relative order-3 truncate text-center"
-            >
-              {formLine || "\u00a0"}
+          {formLine ? (
+            /* Its form under the name. */
+            <span className="copy-meta text-ink-3 relative order-3 truncate text-center">
+              {formLine}
             </span>
           ) : null}
           {hasTopLine ? (
@@ -344,7 +339,10 @@ export const PokemonCollectorCard = ({
                 dexState === "missing" && "opacity-10 brightness-0",
                 artBelowLine
                   ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
-                  : "my-auto h-[90%]",
+                  : dexState
+                    ? /* A Pokédex entry: the whole box, a little room under its number. */
+                      "mt-3 mb-auto h-[calc(100%-0.75rem)]"
+                    : "my-auto h-[90%]",
               )}
               /* A missing Pokémon's art is a silhouette; its stand-in letter stays readable. */
               fallbackClassName={

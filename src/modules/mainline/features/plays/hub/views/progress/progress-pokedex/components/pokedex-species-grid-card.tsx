@@ -49,11 +49,15 @@ export const PokedexSpeciesGridCard = ({
       )}
     >
       <PokemonCollectorCard
-        /* The Collection's size, so the art takes the card's room. */
-        size="md"
+        /*
+         * The small card: its picture fills a box of up to 96px, so a
+         * Pokédex card stays about as tall as the Collection's for its
+         * width.
+         */
+        size="sm"
         tilt={false}
         dexState={state}
-        formLine={entry.displayFormName}
+        formLine={entry.displayFormName ?? undefined}
         imageUrl={entry.imageUrl}
         name={entry.speciesName}
         number={formatPokedexNumber(entry.pokedexNumber)}
