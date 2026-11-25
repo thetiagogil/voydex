@@ -182,7 +182,7 @@ Voydex is quiet where you work and loud where you remember. The
   page's main action lifts on a soft shadow. Blur is otherwise for what
   floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
   is: one you look up is a `PokemonCard`, white with a thin line (the
-  Codex, the Planner's list, a Pokédex); one that is yours is a
+  Codex, the Planner's list); one that is yours is a
   `PokemonCollectorCard`, all in its type's colour (a frame and a band
   round one light panel: number and count on top, picture, name, types), the same in the Collection, on a Play's team
   and in a Plan's team. A game you played is one too (`GameShelfCard` with

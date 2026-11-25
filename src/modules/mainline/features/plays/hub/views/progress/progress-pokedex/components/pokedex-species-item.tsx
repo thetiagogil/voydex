@@ -6,6 +6,7 @@ import type {
 } from "../types";
 import { PokedexSpeciesGridCard } from "./pokedex-species-grid-card";
 
+/* Named by its form where it has one ("Alolan Raichu"), so a screen reader tells forms apart. */
 const getToggleLabel = ({
   mode,
   speciesName,
@@ -47,7 +48,7 @@ export const PokedexSpeciesItem = ({
       state={state}
       toggleLabel={getToggleLabel({
         mode,
-        speciesName: entry.speciesName,
+        speciesName: entry.displayFormName ?? entry.speciesName,
         state,
       })}
     />

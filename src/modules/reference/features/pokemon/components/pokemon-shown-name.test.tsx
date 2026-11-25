@@ -29,7 +29,6 @@ describe("PokemonShownName", () => {
   it("gives the look-up card the same reading (`nameReadAs`)", () => {
     const html = renderToStaticMarkup(
       <PokemonCard
-        state="plain"
         imageAlt=""
         imageUrl={null}
         name="Meowstic"

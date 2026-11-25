@@ -11,6 +11,7 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   CornerBubble,
+  PlayStateMark,
   ShinyMark,
   WarningMark,
 } from "@/shared/components/corner-bubble";
@@ -25,6 +26,13 @@ export type PokemonCollectorCardSize = "lg" | "md" | "sm";
 
 type PokemonCollectorCardProps = {
   className?: string;
+  /*
+   * In a Play's Pokédex: caught is the card of yours with the Poké Ball,
+   * seen the same shape in white with the eye and nothing behind the art,
+   * missing a dashed outline round the silhouette. Its Play state mark takes
+   * the top-right.
+   */
+  dexState?: "caught" | "missing" | "seen";
   /*
    * What a card you can press adds after what it shows, read but not seen,
    * such as "See its Plays" or "Active slot 2".
@@ -148,6 +156,7 @@ export const PokemonCollectorCard = ({
   className,
   count,
   detail,
+  dexState,
   href,
   imageUrl,
   level,
@@ -175,20 +184,31 @@ export const PokemonCollectorCard = ({
   const hasTopLine = Boolean(number || topRight);
   /*
    * A number (the Collection) stands the art below the line; a right end
-   * alone (a level, "Your partner", "Replace") sits over the art's
-   * corner, so the Pokémon keeps its full size.
-   */
-  /*
-   * A card with marks but no top line (a Team Plan's off-plan Pokémon) also
-   * stands its art below the line, so a mark in the corner stays off it.
+   * alone (a level, "Your partner", "Replace") sits over the art's corner,
+   * so the Pokémon keeps its full size. A card with marks but no top line (a
+   * Team Plan's off-plan Pokémon) also stands its art below the line, so a
+   * mark in the corner stays off it. A Pokédex entry's picture fills its box
+   * but for a little room at the top, so its number and Play state stay
+   * readable over it.
    */
   const artBelowLine =
-    Boolean(number) || (!hasTopLine && (shiny || Boolean(warning)));
+    !dexState &&
+    (Boolean(number) || (!hasTopLine && (shiny || Boolean(warning))));
+  /* A Pokédex card that isn't caught keeps the shape without the colour. */
+  const plain = dexState === "seen" || dexState === "missing";
+  /* A mark at the top line's right end: the shiny mark or the Play state. */
+  const rightMark = shiny || dexState === "caught" || dexState === "seen";
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
     tilt && cardTiltClassName,
-    selected ? "card-frame-picked" : "card-frame",
+    dexState === "seen"
+      ? "plain-card p-1.25"
+      : dexState === "missing"
+        ? "empty-slot p-[3.5px]"
+        : selected
+          ? "card-frame-picked"
+          : "card-frame",
     target && dropTargetRingClassName,
     className,
   );
@@ -207,18 +227,39 @@ export const PokemonCollectorCard = ({
        * own edge add up to the face's old padding, so the card keeps its
        * height and the open slot still matches it.
        */}
-      <span className="card-face flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-1.5">
-        <span className="card-panel relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-sm p-0.5">
+      <span
+        className={cn(
+          "flex min-w-0 flex-1 flex-col rounded-[1.125rem] p-1.5",
+          !plain && "card-face",
+        )}
+      >
+        <span
+          className={cn(
+            "relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-sm p-0.5",
+            !plain && "card-panel",
+          )}
+        >
           {/* The panel's one flourish: a pale arc behind the art, from its top corner. */}
-          <span
-            aria-hidden
-            className="absolute inset-0 mx-auto mb-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw] border-(--t)/10"
-          />
+          {plain ? null : (
+            <span
+              aria-hidden
+              className="absolute inset-0 mx-auto mb-auto aspect-square w-[112%] translate-x-2/5 -translate-y-2/5 rounded-full border-[10cqw] border-(--t)/10"
+            />
+          )}
           <span className="relative order-3 mt-2 flex min-w-0 items-baseline justify-center gap-2">
             <span
               className={cn(
-                "descender-room truncate leading-tight",
+                "descender-room leading-tight",
+                /*
+                 * A Pokédex entry's name wraps to a second line rather than
+                 * cut, as a missing one is only a silhouette; the grid's
+                 * row keeps the cards beside it level.
+                 */
+                dexState
+                  ? "line-clamp-2 text-center text-balance wrap-break-word"
+                  : "truncate",
                 sizeClassName.name,
+                dexState === "missing" && "text-ink-3",
               )}
             >
               <PokemonShownName name={name} readAs={nameReadAs} />
@@ -234,14 +275,19 @@ export const PokemonCollectorCard = ({
               className={cn(
                 "text-ink-tint copy-mark relative z-10 order-1 -mb-6 flex h-6 min-w-0 items-baseline justify-between gap-2 px-2 pt-1.5 tabular-nums",
                 /*
-                 * Room for the marks at the line's ends: the shiny mark on
-                 * the right, a warning on the left. On a narrow card (a
-                 * 320px phone) the room and the gap tighten so a number and
-                 * a count still fit whole beside the mark.
+                 * Room for the marks at the line's ends: the shiny mark or
+                 * a Pokédex entry's Play state on the right, a warning on
+                 * the left. On a narrow card (a 320px phone) the room and
+                 * the gap tighten so a number and a count still fit whole
+                 * beside the mark, and on the narrowest Pokédex card the
+                 * Play state mark steps down to 20px for a four-digit
+                 * number.
                  */
-                shiny &&
+                rightMark &&
                   "pr-9 @max-[9.5rem]/collector:gap-1 @max-[9.5rem]/collector:pr-7.5",
-                shiny && !warning && "@max-[9.5rem]/collector:pl-1",
+                rightMark && !warning && "@max-[9.5rem]/collector:pl-1",
+                dexState &&
+                  "@max-[6rem]/collector:pr-6.5 @max-[6rem]/collector:pl-0",
                 warning && "pl-9 @max-[9.5rem]/collector:pl-7.5",
               )}
             >
@@ -284,16 +330,28 @@ export const PokemonCollectorCard = ({
             <FallbackImage
               src={imageUrl}
               name={name}
+              /* A Pokédex draws its entries in long batches: load as they come near. */
+              loading={dexState ? "lazy" : undefined}
               /*
                * Placed by its box, so a capped box still holds it; under a
                * top line it stands below the line's words.
                */
               className={cn(
                 "absolute inset-0 mx-auto aspect-square",
+                dexState === "missing" && "opacity-10 brightness-0",
                 artBelowLine
                   ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
-                  : "my-auto h-[90%]",
+                  : dexState
+                    ? /* A Pokédex entry: the whole box, a little room under its number. */
+                      "mt-3 mb-auto h-[calc(100%-0.75rem)]"
+                    : "my-auto h-[90%]",
               )}
+              /* A missing Pokémon's art is a silhouette; its stand-in letter stays readable. */
+              fallbackClassName={
+                dexState === "missing"
+                  ? "opacity-100 brightness-100"
+                  : undefined
+              }
             />
           </span>
           {/*
@@ -307,6 +365,15 @@ export const PokemonCollectorCard = ({
               <WarningMark label={warning} />
             </CornerBubble>
           ) : null}
+          {dexState === "caught" || dexState === "seen" ? (
+            <CornerBubble
+              border="sticker"
+              corner="inside-top-right"
+              className="pointer-events-none"
+            >
+              <PlayStateMark state={dexState} />
+            </CornerBubble>
+          ) : null}
           {shiny ? (
             <CornerBubble border="sticker" corner="inside-top-right">
               <ShinyMark />
@@ -314,7 +381,8 @@ export const PokemonCollectorCard = ({
           ) : null}
         </span>
       </span>
-      <CollectorCardGlint />
+      {/* A Pokédex card's button covers it, so its glint could never play. */}
+      {dexState ? null : <CollectorCardGlint />}
       {detail && (href || onClick) ? (
         <span className="sr-only">, {detail}</span>
       ) : null}

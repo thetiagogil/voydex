@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -296,5 +299,105 @@ describe("PokemonCollectorCard", () => {
     expect(render({ warning: "Breaks a rule" })).toContain("mt-6");
     /* A team card keeps its big picture beside its level. */
     expect(render({ level: 48, shiny: true })).not.toContain("mt-6");
+  });
+
+  it("draws a Pokédex entry by its Play state, in one shape", () => {
+    const rootClass = (html: string) =>
+      /<article [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+    const caught = render({ dexState: "caught", number: "#015" });
+    const seen = render({ dexState: "seen", number: "#015" });
+    const missing = render({
+      dexState: "missing",
+      imageUrl: "https://assets.test/dragonite.png",
+      number: "#015",
+    });
+
+    /* Caught: the card of yours, with the Poké Ball. */
+    expect(rootClass(caught)).toContain("card-frame");
+    expect(caught).toContain("card-panel");
+    expect(caught).toContain('aria-label="Caught"');
+    /* Seen: white, no band or panel colour, the eye. */
+    expect(rootClass(seen)).toContain("plain-card");
+    expect(seen).not.toContain("card-face");
+    expect(seen).not.toContain("card-panel");
+    expect(seen).toContain('aria-label="Seen"');
+    /* Missing: the dashed outline round the silhouette, no mark. */
+    expect(rootClass(missing)).toContain("empty-slot");
+    expect(missing).toContain("opacity-10 brightness-0");
+    expect(missing).not.toContain('aria-label="Caught"');
+    expect(missing).not.toContain('aria-label="Seen"');
+  });
+
+  it("lets a Pokédex entry's picture fill its box, a little room kept under the number", () => {
+    const html = render({ dexState: "seen", number: "#015" });
+
+    expect(html).toContain("mt-3 mb-auto h-[calc(100%-0.75rem)]");
+    expect(html).not.toContain("mt-6");
+  });
+
+  it("keeps one size whatever a Pokédex entry's state: its border and padding add up the same", () => {
+    const css = fs.readFileSync(
+      path.join(process.cwd(), "src/shared/styles/app-utilities.css"),
+      "utf8",
+    );
+    const borderOf = (utility: string) =>
+      Number(
+        /border:\s*([\d.]+)px/.exec(
+          new RegExp(`@utility ${utility} \\{([^}]*)\\}`).exec(css)?.[1] ?? "",
+        )?.[1] ?? 0,
+      );
+    const paddingOf = (classes: string) => {
+      const value = /(?:^|\s)p-(\[[\d.]+px\]|[\d.]+)(?:\s|$)/.exec(
+        classes,
+      )?.[1];
+
+      if (!value) throw new Error(`no padding in ${classes}`);
+
+      return value.startsWith("[")
+        ? Number(value.slice(1, -3))
+        : Number(value) * 4;
+    };
+    const edgeOf = (dexState: "caught" | "missing" | "seen") => {
+      const classes =
+        /<article [^>]*class="([^"]*)"/.exec(
+          render({ dexState, number: "#015" }),
+        )?.[1] ?? "";
+      const look = ["card-frame", "plain-card", "empty-slot"].find((name) =>
+        classes.split(/\s+/).includes(name),
+      )!;
+
+      /* The frame draws its edge as a shadow, so it has no border. */
+      return borderOf(look) + paddingOf(classes);
+    };
+
+    expect(edgeOf("seen")).toBe(edgeOf("caught"));
+    expect(edgeOf("missing")).toBe(edgeOf("caught"));
+  });
+
+  it("wraps a Pokédex entry's name to a second line rather than cut it, loads its picture lazily and has no glint", () => {
+    const dex = render({
+      dexState: "missing",
+      imageUrl: "https://assets.test/charmander.png",
+      name: "Charmander",
+      number: "#004",
+    });
+    const nameClass = (html: string) =>
+      /class="(descender-room[^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(nameClass(dex)).toContain("line-clamp-2");
+    expect(nameClass(dex)).not.toContain("truncate");
+    expect(nameClass(render())).toContain("truncate");
+    expect(dex).toContain('loading="lazy"');
+    expect(dex).not.toContain("blur-md");
+    expect(render()).toContain("blur-md");
+  });
+
+  it("makes room on the top line for a Pokédex entry's Play state mark", () => {
+    const lineOf = (html: string) =>
+      /class="([^"]*-mb-6[^"]*)"/.exec(html)?.[1] ?? "";
+
+    expect(lineOf(render({ dexState: "seen", number: "#015" }))).toMatch(
+      /(?:^|\s)pr-9(?:\s|$)/,
+    );
   });
 });

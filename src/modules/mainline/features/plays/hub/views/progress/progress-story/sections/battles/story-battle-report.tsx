@@ -476,7 +476,6 @@ const BattleTeam = ({
                 className="min-w-0 transform-[rotateY(0deg)] [grid-area:1/1] backface-hidden"
               >
                 <PokemonCard
-                  state="plain"
                   size="sm"
                   imageAlt=""
                   imageUrl={pokemon.imageUrl}

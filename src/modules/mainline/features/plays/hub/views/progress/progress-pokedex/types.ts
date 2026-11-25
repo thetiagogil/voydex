@@ -14,7 +14,6 @@ export type PokedexProgressType = Pick<Type, "id" | "name" | "slug">;
 
 export type MainlinePlayPokedexEntry = {
   displayFormName: string | null;
-  imageAlt: string;
   imageUrl: string | null;
   isIncludedInCompletion: boolean;
   isSourceRequiredForCompletion: boolean;

@@ -52,7 +52,6 @@ export const PokemonCardLink = memo(
         trigger={
           <Link href={href} className="block h-full min-w-0 rounded-lg">
             <PokemonCard
-              state="plain"
               className={cn(
                 "[content-visibility:auto]",
                 size === "sm"
