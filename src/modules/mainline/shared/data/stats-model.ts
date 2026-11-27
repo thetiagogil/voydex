@@ -36,7 +36,17 @@ export type StatsRegion = {
   gameSlug: string | null;
   name: string;
   playLabels: string[];
+  /* Your Plays there, newest first, each with its game's cover. */
+  plays: StatsRegionPlay[];
   slug: string;
+};
+
+export type StatsRegionPlay = {
+  coverImageUrl: string | null;
+  gameName: string;
+  gameSlug: string | null;
+  id: string;
+  name: string;
 };
 
 export type StatsFriend = {
@@ -437,6 +447,18 @@ export const buildStatsModel = (
       gameSlug: latestGame?.slug ?? null,
       name: region.name,
       playLabels: regionPlays.map(getTrainerPlayLabel),
+      plays: regionPlays.map((play) => {
+        const game =
+          play.game_id === null ? undefined : gameById.get(play.game_id);
+
+        return {
+          coverImageUrl: game ? getGameCoverImageUrl(game) : null,
+          gameName: game?.name ?? play.game_name ?? "Unknown game",
+          gameSlug: game?.slug ?? null,
+          id: play.play_id ?? "",
+          name: play.play_name,
+        };
+      }),
       slug: region.slug,
     };
   });

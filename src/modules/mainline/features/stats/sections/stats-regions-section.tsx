@@ -1,12 +1,70 @@
-import type { StatsModel } from "@/modules/mainline/shared/data/stats-model";
+import type {
+  StatsModel,
+  StatsRegion,
+} from "@/modules/mainline/shared/data/stats-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
-import { IconTip } from "@/shared/components/icon-tip";
+import {
+  TipBody,
+  TipCard,
+  TipHead,
+  TipNote,
+  TipRow,
+  TipRows,
+} from "@/shared/components/tip-parts";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 type StatsRegionsSectionProps = {
   stats: StatsModel;
+};
+
+/* How many of a region's Plays its tip lists before "and N more". */
+const regionTipPlays = 4;
+
+/* A visited region's Plays, each with its game's cover. */
+const RegionTip = ({ region }: { region: StatsRegion }) => {
+  const count = region.plays.length;
+  const games = new Set(region.plays.map((play) => play.gameName)).size;
+
+  return (
+    <TipCard>
+      <TipHead
+        name={region.name}
+        sub={`${count} ${count === 1 ? "Play" : "Plays"} in ${games} ${games === 1 ? "game" : "games"}`}
+      />
+      <TipBody>
+        <TipRows>
+          {region.plays.slice(0, regionTipPlays).map((play) => (
+            <TipRow
+              key={play.id}
+              detail={play.gameName}
+              leading={
+                <span className="grid w-8 shrink-0 place-items-center">
+                  <GameCover
+                    alt=""
+                    coverImageUrl={play.coverImageUrl}
+                    gameName={play.gameName}
+                    gameSlug={play.gameSlug ?? undefined}
+                    className="text-12 h-8 w-auto max-w-8 rounded-xs"
+                  />
+                </span>
+              }
+              name={play.name}
+            />
+          ))}
+        </TipRows>
+        {count > regionTipPlays ? (
+          <TipNote>and {count - regionTipPlays} more</TipNote>
+        ) : null}
+      </TipBody>
+    </TipCard>
+  );
 };
 
 /*
@@ -29,44 +87,46 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
             const count = region.playLabels.length;
 
             return (
-              <IconTip
-                key={region.slug}
-                label={
-                  count
-                    ? `${region.name} · ${region.playLabels.join(", ")}`
-                    : `${region.name} · not visited yet`
-                }
-                trigger={
-                  <li
-                    className={cn(
-                      "flex min-w-0 flex-col items-center gap-1.5 rounded-lg px-2 pt-3 pb-2.5 text-center",
-                      count ? "bg-surface-2" : "empty-slot",
-                    )}
-                  >
-                    <span className="grid h-16 place-items-center">
-                      {count && region.gameName ? (
-                        <GameCover
-                          alt=""
-                          coverImageUrl={region.coverImageUrl}
-                          gameName={region.gameName}
-                          gameSlug={region.gameSlug ?? undefined}
-                          className="text-15 h-16 w-auto max-w-14 rounded-xs"
-                        />
-                      ) : (
-                        <span className="empty-slot size-11 rounded-full" />
+              <Tooltip key={region.slug}>
+                <TooltipTrigger
+                  render={
+                    <li
+                      className={cn(
+                        "flex min-w-0 flex-col items-center gap-1.5 rounded-lg px-2 pt-3 pb-2.5 text-center",
+                        count ? "bg-surface-2" : "empty-slot",
                       )}
-                    </span>
-                    <b className="text-ink copy-strong w-full truncate">
-                      {region.name}
-                    </b>
-                    <span className="text-ink-2 copy-mark">
-                      {count
-                        ? `${count} ${count === 1 ? "Play" : "Plays"}`
-                        : "Not yet"}
-                    </span>
-                  </li>
-                }
-              />
+                    />
+                  }
+                >
+                  <span className="grid h-16 place-items-center">
+                    {count && region.gameName ? (
+                      <GameCover
+                        alt=""
+                        coverImageUrl={region.coverImageUrl}
+                        gameName={region.gameName}
+                        gameSlug={region.gameSlug ?? undefined}
+                        className="text-15 h-16 w-auto max-w-14 rounded-xs"
+                      />
+                    ) : (
+                      <span className="empty-slot size-11 rounded-full" />
+                    )}
+                  </span>
+                  <b className="text-ink copy-strong w-full truncate">
+                    {region.name}
+                  </b>
+                  <span className="text-ink-2 copy-mark">
+                    {count
+                      ? `${count} ${count === 1 ? "Play" : "Plays"}`
+                      : "Not yet"}
+                  </span>
+                </TooltipTrigger>
+                {/* An open slot already says "Not yet": only a visited region has more to show. */}
+                {count ? (
+                  <TooltipContent variant="card">
+                    <RegionTip region={region} />
+                  </TooltipContent>
+                ) : null}
+              </Tooltip>
             );
           })}
         </ul>

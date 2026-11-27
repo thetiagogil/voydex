@@ -1,6 +1,9 @@
 import type { CSSProperties } from "react";
 
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 /* A Pokémon's type colour as `--t`, the variable every type-tinted surface reads. */
 export type PokemonTypeCssVariables = CSSProperties & {
@@ -12,6 +15,12 @@ export const getPokemonTypeCssVariables = (
 ): PokemonTypeCssVariables => {
   return { "--t": type ? `var(--type-${type})` : "var(--mute)" };
 };
+
+/* A type's colour as a CSS value, for a tip's frame (`TipCard` `tint`); null when the type isn't known. */
+export const getPokemonTypeColour = (
+  type: string | null | undefined,
+): string | null =>
+  type && isPokemonTypeSlug(type) ? `var(--type-${type})` : null;
 
 export const pokemonTypeSoftBackgroundClassName = "type-tint";
 

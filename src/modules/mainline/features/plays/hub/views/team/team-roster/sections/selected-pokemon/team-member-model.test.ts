@@ -296,7 +296,12 @@ describe("getTeamMoves", () => {
           type: electricType,
         } as MainlinePlayTeamMove,
         {
-          attributes: { damage_class: "special" },
+          attributes: {
+            accuracy: 100,
+            damage_class: "special",
+            power: 95,
+            pp: 15,
+          },
           name: "Thunderbolt",
           slot: 1,
           type: electricType,
@@ -304,17 +309,24 @@ describe("getTeamMoves", () => {
       ]),
     ).toEqual([
       {
+        accuracy: 100,
         category: "special",
         effect: null,
         name: "Thunderbolt",
         position: 1,
+        power: 95,
+        pp: 15,
         type: electricType,
       },
+      /* A move whose figures aren't known carries none, for its tip to leave out. */
       {
+        accuracy: null,
         category: "status",
         effect: null,
         name: "Thunder Wave",
         position: 3,
+        power: null,
+        pp: null,
         type: electricType,
       },
     ]);

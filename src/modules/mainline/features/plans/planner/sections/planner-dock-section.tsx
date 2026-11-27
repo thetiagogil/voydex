@@ -33,7 +33,7 @@ import {
 import { getPlannerFormTip } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
-import { TipHead, TipStack } from "@/shared/components/tip-parts";
+import { TipBody, TipCard, TipHead } from "@/shared/components/tip-parts";
 
 /* The tip's mark on the band: its tint in a white band, as a corner mark. */
 const TipMark = ({ tone }: { tone: PlanTeamTip["tone"] }) => (
@@ -311,27 +311,23 @@ export const PlannerDockSection = ({
                         : "warn"
                     }
                     triggerLabel={`${pokemon.name}: ${worst.title}`}
-                    contentClassName="w-64"
                     content={
-                      <TipStack>
-                        <TipHead
-                          tone={
-                            worst.severity === "block" ||
-                            worst.severity === "hard"
-                              ? "danger"
-                              : "warn"
-                          }
-                        >
-                          {worst.title}
-                        </TipHead>
-                        <TextLink
-                          tone="onInk"
-                          onClick={onOpenCheck}
-                          className="text-13 mt-1"
-                        >
-                          Open Team check
-                        </TextLink>
-                      </TipStack>
+                      <TipCard
+                        tone={
+                          worst.severity === "block" ||
+                          worst.severity === "hard"
+                            ? "danger"
+                            : "warn"
+                        }
+                        width="sm"
+                      >
+                        <TipHead name={pokemon.name} sub={worst.title} />
+                        <TipBody>
+                          <TextLink onClick={onOpenCheck} className="text-13">
+                            Open Team check
+                          </TextLink>
+                        </TipBody>
+                      </TipCard>
                     }
                   />
                 </CornerBubble>

@@ -180,7 +180,11 @@ Voydex is quiet where you work and loud where you remember. The
   Collection card), and those rise a little under the pointer (a card
   that is yours tilts toward it instead, as a card in the hand); only the
   page's main action lifts on a soft shadow. Blur is otherwise for what
-  floats (menus, sheets, dialogs, toasts). Two Pokémon cards, by whose it
+  floats (menus, sheets, dialogs, toasts, tips). A tip is for what the
+  screen doesn't already show: a bare name is a white tag (`IconTip`),
+  anything with more to say a small card in the colour of what it is about
+  (`TipCard`: a type, a verdict's soft tone, else the pale blue) that shows
+  things, not sentences. Two Pokémon cards, by whose it
   is: one you look up is a `PokemonCard`, white with a thin line (the
   Codex, the Planner's list); one that is yours is a
   `PokemonCollectorCard`, all in its type's colour (a frame and a band

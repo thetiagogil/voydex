@@ -7,15 +7,18 @@ import type {
 import { TypeCoverageChip } from "@/modules/mainline/shared/components/type-coverage-chip";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeColour } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
+  TipBody,
+  TipCard,
+  TipChip,
   TipHead,
   TipNote,
   TipRow,
   TipRows,
-  TipStack,
 } from "@/shared/components/tip-parts";
 import { useHoverFocus } from "@/shared/hooks/use-hover-focus";
 import {
@@ -35,54 +38,77 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
             iconClassName="size-2.5"
           />
         ) : null}
-        <span className="text-on-ink">{move.name}</span>
-        {move.stab ? (
-          <span className="text-on-ink/75 copy-mark">STAB</span>
-        ) : null}
+        <span>{move.name}</span>
+        {move.stab ? <TipChip>STAB</TipChip> : null}
       </span>
     ))}
   </span>
 );
 
 /* Who hits this type and with what, or that nothing does. */
-const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
-  <TipStack className="gap-2">
-    <TipHead tone={row.moveCount ? "ok" : "warn"}>
-      {row.moveCount
-        ? `${row.moveCount} ${row.moveCount === 1 ? "move hits" : "moves hit"} ${row.defendingType.name} super effectively`
-        : `Nothing hits ${row.defendingType.name} super effectively`}
-    </TipHead>
-    {row.hits.length ? (
-      <TipRows>
-        {row.hits.map((hit) => (
-          <TipRow
-            key={hit.memberId}
-            detail={<HitMoves hit={hit} />}
-            leading={
-              <PokemonAvatar
-                decorative
+const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
+  const typeSlug = isPokemonTypeSlug(row.defendingType.slug)
+    ? row.defendingType.slug
+    : null;
+
+  return (
+    <TipCard tint={getPokemonTypeColour(typeSlug)}>
+      <TipHead
+        leading={
+          typeSlug ? (
+            <PokemonTypeMark
+              type={typeSlug}
+              className="size-9 shrink-0"
+              iconClassName="size-4.5"
+            />
+          ) : undefined
+        }
+        name={row.defendingType.name}
+        sub={
+          row.moveCount
+            ? `${row.moveCount} ${row.moveCount === 1 ? "move hits" : "moves hit"} it super effectively`
+            : "Nothing hits it super effectively"
+        }
+        trailing={
+          <TipChip tone={row.moveCount ? "ok" : "warn"}>
+            {row.moveCount ? "Covered" : "Open"}
+          </TipChip>
+        }
+      />
+      <TipBody>
+        {row.hits.length ? (
+          <TipRows>
+            {row.hits.map((hit) => (
+              <TipRow
+                key={hit.memberId}
+                detail={<HitMoves hit={hit} />}
+                leading={
+                  <PokemonAvatar
+                    decorative
+                    name={hit.memberName}
+                    className="size-8 shrink-0"
+                    imageUrl={hit.imageUrl}
+                    typeSlug={null}
+                  />
+                }
                 name={hit.memberName}
-                className="size-8 shrink-0"
-                imageUrl={hit.imageUrl}
-                typeSlug={null}
               />
-            }
-            name={hit.memberName}
-          />
-        ))}
-      </TipRows>
-    ) : (
-      <TipNote>
-        None of your recorded damaging moves is strong against it.
-      </TipNote>
-    )}
-    {row.hits.length ? (
-      <TipNote>
-        STAB: the move shares a type with its user, so it hits harder.
-      </TipNote>
-    ) : null}
-  </TipStack>
-);
+            ))}
+          </TipRows>
+        ) : (
+          <TipNote>
+            None of your recorded damaging moves is strong against it.
+          </TipNote>
+        )}
+        {row.hits.some((hit) => hit.moves.some((move) => move.stab)) ? (
+          <TipNote>
+            STAB: the move shares a type with its user, so it hits harder.
+          </TipNote>
+        ) : null}
+      </TipBody>
+    </TipCard>
+  );
+};
 
 /*
  * The types your team's recorded damaging moves hit super effectively. Each
@@ -125,7 +151,6 @@ export const TeamAnalysisMoveCoverageSection = ({
           >
             <ExplanatoryTip
               side="top"
-              contentClassName="w-72"
               trigger={
                 <button
                   type="button"

@@ -13,6 +13,7 @@ export type MainlinePlayBadgeCaseMilestone = Pick<
   OverviewMilestone,
   | "badge_refs"
   | "completed_at"
+  | "description"
   | "is_completed"
   | "milestone_id"
   | "milestone_name"
@@ -106,6 +107,7 @@ export const buildMainlinePlayBadgeCase = (
     return {
       badge: badgeByMilestoneId.get(milestoneId) ?? null,
       completedAt: milestone.completed_at,
+      description: milestone.description,
       kind,
       label: getPlayStampLabel(kind, name),
       milestoneId,

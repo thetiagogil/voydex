@@ -1,10 +1,11 @@
 import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
+  TipBody,
+  TipCard,
   TipHead,
   TipRow,
   TipRows,
-  TipStack,
 } from "@/shared/components/tip-parts";
 
 /*
@@ -31,20 +32,24 @@ export const PoolTileMarks = ({
           triggerVariant="raised"
           triggerTone="warn"
           triggerLabel={`${name}: ${notes[0]}`}
-          contentClassName="w-64"
           content={
-            <TipStack>
-              <TipHead>
-                {notes.length === 1
-                  ? "One thing to check"
-                  : `${notes.length} things to check`}
-              </TipHead>
-              <TipRows>
-                {notes.map((note) => (
-                  <TipRow key={note} name={note} tone="warn" />
-                ))}
-              </TipRows>
-            </TipStack>
+            <TipCard tone="warn" width="sm">
+              <TipHead
+                name={name}
+                sub={
+                  notes.length === 1
+                    ? "One thing to check"
+                    : `${notes.length} things to check`
+                }
+              />
+              <TipBody>
+                <TipRows>
+                  {notes.map((note) => (
+                    <TipRow key={note} name={note} tone="warn" />
+                  ))}
+                </TipRows>
+              </TipBody>
+            </TipCard>
           }
         />
       ) : null}

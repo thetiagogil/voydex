@@ -16,6 +16,10 @@ import type {
 import { getTeamMemberIdentity } from "../../utils/team-member-display";
 
 export type TeamMove = {
+  /* Its figures as the Play's game plays them, for its tip. */
+  accuracy?: number | null;
+  power?: number | null;
+  pp?: number | null;
   /* Physical, Special or Status, at the end of the row. */
   category: string | null;
   /* Takes the category's place, such as "From Flamethrower" for a Z-Move. */
@@ -256,10 +260,13 @@ export const getTeamMoves = (moves: MainlinePlayTeamMove[]): TeamMove[] => {
     .filter((move) => move.name)
     .toSorted((left, right) => left.slot - right.slot)
     .map((move) => ({
+      accuracy: move.attributes?.accuracy ?? null,
       category: move.attributes?.damage_class ?? null,
       effect: move.attributes?.effect_summary ?? null,
       name: move.name,
       position: move.slot,
+      power: move.attributes?.power ?? null,
+      pp: move.attributes?.pp ?? null,
       type: move.type,
     }));
 };

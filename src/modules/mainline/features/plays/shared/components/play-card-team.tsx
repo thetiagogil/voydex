@@ -1,5 +1,6 @@
 import type { PlayBrowseTeam } from "@/modules/mainline/features/plays/shared/types";
 import {
+  getPlayTeamMemberDetail,
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
@@ -46,6 +47,7 @@ export const PlayCardTeam = ({
         <li key={member?.play_pokemon_id ?? `open-${position}`}>
           {member ? (
             <PokemonAvatar
+              detail={getPlayTeamMemberDetail(member)}
               imageUrl={getPlayTeamMemberImageUrl(member)}
               name={getPlayTeamMemberName(member)}
               typeSlug={

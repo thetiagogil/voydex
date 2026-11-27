@@ -14,7 +14,10 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import {
+  PokemonTypeBadge,
+  PokemonTypeMark,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
@@ -25,15 +28,18 @@ import { Card } from "@/shared/components/ui/card";
 
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
+import { getTeamHealthTipParts } from "../../data/team-health-tip-parts";
 import {
+  TipBody,
+  TipCard,
+  TipChip,
   TipHead,
+  TipMarks,
   TipNote,
+  TipRating,
   TipRow,
   TipRows,
-  TipRating,
-  TipText,
   TipTitle,
-  TipStack,
   type TipTone,
 } from "@/shared/components/tip-parts";
 
@@ -105,15 +111,6 @@ const TeamHealthTipRow = ({
     );
   }
 
-  /* Words alone are a note, not a thing in your team. */
-  if (!row.chip && !row.detail) {
-    return (
-      <li className="py-1.5 first:pt-0 last:pb-0">
-        <TipNote>{subject.text}</TipNote>
-      </li>
-    );
-  }
-
   return (
     <TipRow
       chip={row.chip}
@@ -124,38 +121,91 @@ const TeamHealthTipRow = ({
   );
 };
 
-/* What was found in your team, then how the card is rated: two parts. */
+/*
+ * The verdict on the frame, what was found in your team inside, then how
+ * the card is rated.
+ */
 const TeamHealthTip = ({
   members,
   status,
   statusLabel,
   tip,
+  title,
 }: {
   members: MainlinePlayTeamMember[];
   status: TeamAnalysisHealthStatus;
   statusLabel: string;
   tip: TeamAnalysisHealthTip;
-}) => (
-  <TipStack className="gap-2">
-    <div className="grid gap-1">
-      <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
-      <TipText>{tip.summary}</TipText>
-    </div>
-    {tip.rows.length ? (
-      <div className="grid gap-1.5">
-        <TipTitle>In your team</TipTitle>
-        <TipRows>
-          {tip.rows.map((row, index) => (
-            <TeamHealthTipRow key={index} members={members} row={row} />
-          ))}
-        </TipRows>
-      </div>
-    ) : null}
-    {tip.rule || tip.scale.length ? (
-      <TipRating rule={tip.rule} scale={tip.scale} />
-    ) : null}
-  </TipStack>
-);
+  title: string;
+}) => {
+  const parts = getTeamHealthTipParts(tip.rows);
+  const hasRating = Boolean(tip.rule || tip.scale.length);
+
+  return (
+    <TipCard tone={statusTipTones[status]} width="lg">
+      <TipHead
+        name={title}
+        sub={tip.summary}
+        trailing={
+          <TipChip tone={statusTipTones[status]}>{statusLabel}</TipChip>
+        }
+      />
+      {parts.length || hasRating ? (
+        <TipBody>
+          {parts.map((part, index) =>
+            part.kind === "note" ? (
+              <TipNote key={index}>{part.text}</TipNote>
+            ) : part.kind === "types" ? (
+              <Fragment key={index}>
+                <TipTitle>{part.title}</TipTitle>
+                <TipMarks>
+                  {part.types.map((type) =>
+                    isPokemonTypeSlug(type.slug) ? (
+                      <PokemonTypeBadge
+                        key={type.id}
+                        type={type.slug}
+                        label={type.name}
+                        size="sm"
+                      />
+                    ) : (
+                      <TipChip key={type.id}>{type.name}</TipChip>
+                    ),
+                  )}
+                  {part.more ? (
+                    <TipChip>
+                      +{part.more}
+                      <span className="sr-only"> more</span>
+                    </TipChip>
+                  ) : null}
+                </TipMarks>
+              </Fragment>
+            ) : (
+              <Fragment key={index}>
+                <TipTitle>In your team</TipTitle>
+                <TipRows>
+                  {part.rows.map((row, rowIndex) => (
+                    <TeamHealthTipRow
+                      key={rowIndex}
+                      members={members}
+                      row={row}
+                    />
+                  ))}
+                </TipRows>
+              </Fragment>
+            ),
+          )}
+          {hasRating ? (
+            <TipRating
+              current={statusLabel}
+              rule={tip.rule}
+              scale={tip.scale}
+            />
+          ) : null}
+        </TipBody>
+      ) : null}
+    </TipCard>
+  );
+};
 
 /* A line of words with a type shown as its dot and name. */
 const HealthLine = ({ parts }: { parts: TeamAnalysisHealthLinePart[] }) =>
@@ -188,7 +238,6 @@ const TeamAnalysisHealthCard = ({
         <ExplanatoryTip
           align="end"
           side="bottom"
-          contentClassName="w-80"
           triggerLabel={`Why ${metric.title} reads ${statusLabel}`}
           content={
             <TeamHealthTip
@@ -196,6 +245,7 @@ const TeamAnalysisHealthCard = ({
               tip={metric.tip}
               status={metric.status}
               statusLabel={statusLabel}
+              title={metric.title}
             />
           }
         />

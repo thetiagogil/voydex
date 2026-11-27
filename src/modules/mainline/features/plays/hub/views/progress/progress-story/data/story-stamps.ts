@@ -62,6 +62,7 @@ export const buildStoryStamps = (
     return {
       badge: milestone.badge,
       completedAt: milestone.completedAt,
+      description: milestone.description,
       kind,
       label: getPlayStampLabel(kind, milestone.name),
       milestoneId: milestone.id,
