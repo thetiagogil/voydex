@@ -129,6 +129,36 @@
   }
 }
 
+/*
+ * A row you can open for something you earned (a recorded milestone on
+ * Story's route): the row in a soft tint of its colour with a thin line a
+ * step deeper, flat. Its ends are round on the medallion's own centre: a
+ * 56px marker inside 8px of padding makes a 72px row, and the corner is
+ * half of that, so the medallion's circle and the row's end run side by
+ * side. Set --t (neutral when it isn't set).
+ */
+@utility tile-link-earned {
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 14%,
+    var(--surface)
+  );
+  box-shadow: inset 0 0 0 1.5px
+    color-mix(in oklab, var(--t, var(--mute)) 34%, var(--line));
+  border-radius: 2.25rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  min-height: 4.5rem;
+  transition: background-color 120ms ease-out;
+
+  &:hover {
+    background-color: color-mix(
+      in oklab,
+      var(--t, var(--mute)) 20%,
+      var(--surface)
+    );
+  }
+}
+
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);

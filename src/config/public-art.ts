@@ -44,6 +44,16 @@ export type PublicArt = {
   gameCover: (props: { className?: string; game: PublicGame }) => ReactNode;
   /* A Pokémon's render URL, or null when there is none. */
   pokemon: (form: PublicPokemonForm) => string | null;
+  /*
+   * A Pokémon as the small round portrait a team at a glance is (a Play's
+   * card, a Plan's strip), decorative: the words around it name it.
+   */
+  pokemonAvatar: (props: {
+    className?: string;
+    pokemon: PublicPokemon;
+  }) => ReactNode;
+  /* The open slot beside those portraits, decorative. */
+  pokemonAvatarSlot: (props: { className?: string }) => ReactNode;
 };
 
 /* A Pokémon the public pages show: its name, render and type colour. */

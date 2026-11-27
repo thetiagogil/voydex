@@ -1,12 +1,12 @@
+import { Fragment } from "react";
+
 import type { PublicArt, PublicPlayArt } from "@/config/public-art";
-import { PokemonRender } from "@/features/site/components/pokemon-render";
 import {
   samplePlay,
   samplePlayBadges,
   samplePlayProgress,
   samplePlayTeam,
 } from "@/features/site/data/sample-play";
-import { getTypeColourStyle } from "@/features/site/utils/type-colour";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { Card } from "@/shared/components/ui/card";
 import { Progress } from "@/shared/components/ui/progress";
@@ -18,8 +18,8 @@ const playtime = `${Math.floor(samplePlay.playtimeMinutes / 60)}h ${samplePlay.p
 
 /*
  * The example Play in the front page's band: one of Voydex's own cards,
- * drawn with the app's own pieces (the cover, team stickers, badge stamps,
- * the progress bars). It is a picture, so it is one image to a screen
+ * drawn with the app's own pieces (the cover, the team as a Play's card
+ * shows it, badge stamps, the progress bars). It is a picture, so it is one image to a screen
  * reader, described by its label, and inert: nothing inside it can be
  * focused.
  */
@@ -61,18 +61,7 @@ export const ExamplePlay = ({
     </div>
     <div className="mt-4.5 grid grid-cols-6 gap-1.5 sm:gap-2">
       {samplePlayTeam.map((pokemon) => (
-        <span
-          key={pokemon.slug}
-          style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-sm"
-        >
-          <PokemonRender
-            art={art}
-            pokemon={pokemon}
-            fallback="letter"
-            className="size-[88%]"
-          />
-        </span>
+        <Fragment key={pokemon.slug}>{art.pokemonAvatar({ pokemon })}</Fragment>
       ))}
     </div>
     {/* The eight badges share the card's width, with room between them. */}

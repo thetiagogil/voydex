@@ -23,8 +23,10 @@ const selectedRing =
  * the detail wears a ring round its marker and its name in the selected ink.
  * Stops still ahead sink back (a grey ring on a grey fill, a quieter name),
  * so how far you've come reads at a glance; their numbers keep 4.5:1. A
- * recorded one is a sticker (loud where you remember): tinted in its badge's
- * type, with what you got there under it (`memento`).
+ * recorded one is a row of its own (loud where you remember): flat, in a
+ * soft tint of its badge's type, its ends round on the medallion's own
+ * centre (`tile-link-earned`), with what you got there on its right
+ * (`memento`).
  */
 export const StoryRouteStop = ({
   id,
@@ -39,7 +41,7 @@ export const StoryRouteStop = ({
   selected,
   state,
   status,
-  sticker,
+  tint,
 }: {
   id: string;
   marker: ReactNode;
@@ -58,8 +60,8 @@ export const StoryRouteStop = ({
   state: PlayMilestoneState;
   /* Where it stands; null when it's simply not recorded yet. */
   status: ReactNode;
-  /* Recorded: a sticker in this tint (`--t`, from its badge's type). */
-  sticker?: CSSProperties | null;
+  /* Recorded on the way: a row of its own in this tint (`--t`, its badge's type). */
+  tint?: CSSProperties | null;
 }) => (
   <button
     id={id}
@@ -68,15 +70,15 @@ export const StoryRouteStop = ({
     aria-current={selected ? "true" : undefined}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
-    style={sticker ?? undefined}
+    style={tint ?? undefined}
     className={cn(
       "focus-ring flex w-full flex-wrap items-center gap-x-3 text-left",
       /*
-       * Even padding all round; pulled left so its marker stays on the line
-       * with the stops around it.
+       * Pulled left by what its padding adds, so its marker stays on the
+       * line with the stops around it.
        */
-      sticker
-        ? "sticker ease-hop my-1 -ml-1.5 w-[calc(100%+0.375rem)] rounded-[2.25rem] p-2 pr-4 transition-transform duration-200 hover:-translate-y-0.5"
+      tint
+        ? "tile-link-earned my-1 -ml-0.5 w-[calc(100%+0.125rem)]"
         : "group rounded-lg py-1.5 pr-2 pl-1.5",
     )}
   >
@@ -85,7 +87,7 @@ export const StoryRouteStop = ({
         className={cn(
           "grid place-items-center rounded-full transition-[box-shadow,scale] duration-150",
           /* Not yet recorded: the place's light hover, its marker grows a little. */
-          !sticker && "group-hover:scale-105",
+          !tint && "group-hover:scale-105",
           selected && selectedRing,
         )}
       >
@@ -111,6 +113,8 @@ export const StoryRouteStop = ({
         <span
           className={cn(
             "text-13 flex flex-wrap items-center gap-x-1.5",
+            /* A recorded row's three lines stay inside its marker's height. */
+            tint && "leading-tight",
             state === "next"
               ? "text-select-ink font-extrabold"
               : "text-ink-3 font-semibold",
@@ -122,7 +126,7 @@ export const StoryRouteStop = ({
         </span>
       ) : null}
       {recordedOn ? (
-        <span className="text-ink-3 copy-meta">{recordedOn}</span>
+        <span className="text-ink-3 copy-meta leading-tight">{recordedOn}</span>
       ) : null}
       {status || recordedOn ? null : (
         <span className="sr-only">

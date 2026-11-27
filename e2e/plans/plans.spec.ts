@@ -292,11 +292,13 @@ test.describe("Team Planner", () => {
     const planned = page.getByRole("region", { name: "Planned team" });
     await expect(
       planned.getByRole("button", {
-        name: /^Target 1 Charizard\b.*Charmander · Team, slot 1 In progress/,
+        name: /^Charizard\b.*target 1\. Charmander, Team, slot 1\. In progress/,
       }),
     ).toBeVisible();
     await expect(
-      planned.getByRole("button", { name: /^Target 2 Rapidash\b.*Not found/ }),
+      planned.getByRole("button", {
+        name: /^Rapidash\b.*target 2\. Not caught yet\. Not found/,
+      }),
     ).toBeVisible();
     await expectAccessible(page);
 

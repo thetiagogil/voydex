@@ -15,7 +15,6 @@ import { formatMonthYear } from "@/modules/mainline/shared/utils/stats-format";
 import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
@@ -27,7 +26,6 @@ import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { SectionMoreLink } from "@/shared/components/section-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
-import { FallbackImage } from "@/shared/components/fallback-image";
 import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
@@ -130,8 +128,8 @@ const PickedFact = ({
 );
 
 /*
- * The Pokémon in the most Plays: its art, name and types (opening its own
- * sheet), then a few facts only it can tell.
+ * The Pokémon in the most Plays: its card (opening its own sheet), then a
+ * few facts only it can tell.
  */
 const MostPickedCard = ({
   mostPicked,
@@ -141,7 +139,6 @@ const MostPickedCard = ({
   onOpenPokemon: (mostPicked: StatsMostPicked) => void;
 }) => {
   const { entry } = mostPicked;
-  const slug = entry.types[0]?.slug;
   const playCount = entry.playIds.length;
   const gameCount = entry.gameNames.length;
   const onTeamNow = new Set(
@@ -160,32 +157,21 @@ const MostPickedCard = ({
       title="Most picked"
       contentClassName="flex flex-col gap-4"
     >
-      <button
-        type="button"
+      {/*
+       * Its card, the one every Pokémon of yours has, at the size of Old
+       * friends' beside it: with its facts it stands as tall as their two
+       * rows, so the three sections fill one height.
+       */}
+      <PokemonCollectorCard
+        size="sm"
+        className="mx-auto h-auto max-w-32"
+        detail="Open"
         onClick={() => onOpenPokemon(mostPicked)}
-        style={getPokemonTypeCssVariables(
-          slug && isPokemonTypeSlug(slug) ? slug : null,
-        )}
-        className="group/picked focus-ring flex flex-col items-center gap-2 rounded-lg text-center"
-      >
-        <span className="sticker grid size-28 shrink-0 place-items-center rounded-lg transition-transform group-hover/picked:-translate-y-0.75">
-          <FallbackImage
-            src={entry.imageUrl}
-            name={entry.name}
-            className="size-24 object-contain"
-          />
-        </span>
-        <span className="font-display text-24 descender-room max-w-full truncate leading-tight font-semibold">
-          {entry.name}
-        </span>
-        <PokemonTypeList
-          types={entry.types}
-          badgeDisplay="icon-label"
-          badgeSize="sm"
-          className="flex flex-wrap justify-center gap-1.5"
-        />
-        <span className="sr-only">, in {playCount} of your Plays. Open</span>
-      </button>
+        imageUrl={entry.imageUrl}
+        name={entry.name}
+        count={`${playCount} Plays`}
+        types={entry.types}
+      />
       <ul className="flex flex-col gap-2">
         <PickedFact icon={appIcons.product.game}>
           In <b className="text-ink">{playCount} Plays</b>
@@ -229,12 +215,10 @@ const MostPickedEmpty = () => (
     title="Most picked"
     contentClassName="flex flex-col items-center justify-center gap-3 text-center"
   >
-    <span
-      aria-hidden
-      className="empty-slot text-ink-3 grid size-28 shrink-0 place-items-center rounded-lg"
-    >
-      <AppIcon icon={appIcons.product.caught} size="xl" />
-    </span>
+    {/* The place its card takes, kept open. */}
+    <div aria-hidden className="w-full max-w-32">
+      <PokemonEmptySlot size="sm" label="Open place" text="" />
+    </div>
     <p className="text-ink copy-strong">No favourite yet</p>
     <p className="text-ink-2 copy-note max-w-xs">
       Use the same Pokémon in two Plays and it stands here, with what only it
