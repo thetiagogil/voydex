@@ -4,14 +4,13 @@ import { SectionHead } from "@/shared/components/section-head";
 import { cn } from "@/shared/utils/cn";
 
 /* What a specimen sits on, so each look is judged on the surface it meets. */
-type GalleryGround = "action" | "band" | "card" | "ground" | "ink";
+type GalleryGround = "action" | "band" | "card" | "ground";
 
 const groundClassNames: Record<GalleryGround, string> = {
   action: "bg-action text-white",
   band: "bg-band",
   card: "bg-surface shadow-card",
   ground: "bg-bg border-line border",
-  ink: "bg-ink text-on-ink",
 };
 
 /* One family of components, under its own heading and address. */

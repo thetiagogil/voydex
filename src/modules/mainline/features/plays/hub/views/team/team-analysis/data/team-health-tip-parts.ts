@@ -12,9 +12,6 @@ export type TeamHealthTipPart =
       types: Type[];
     };
 
-/* The row that closes a cut list of types: "and 2 more". */
-const moreTypesPattern = /^and (\d+) more$/;
-
 /*
  * The rows as parts: types that all say the same thing ("Harder to beat
  * than the rest") become one line of type badges under those words (with
@@ -41,10 +38,8 @@ export const getTeamHealthTipParts = (
         });
       }
     } else if ("text" in row.subject && !row.chip && !row.detail) {
-      const more = moreTypesPattern.exec(row.subject.text);
-
-      if (last?.kind === "types" && more) {
-        last.more = Number(more[1]);
+      if (last?.kind === "types" && row.more) {
+        last.more = row.more;
       } else {
         /* Words alone are a note, not a thing in your team. */
         parts.push({ kind: "note", text: row.subject.text });

@@ -23,7 +23,14 @@ describe("getPlayTeamMemberDetail", () => {
     ).toBe("Lv. 49");
   });
 
-  it("keeps a recorded level of 0 out of nothing, and says nothing with neither", () => {
+  it("keeps a recorded level of 0, and says nothing with neither", () => {
+    expect(
+      getPlayTeamMemberDetail({
+        level: 0,
+        nickname: null,
+        species_name: "Ampharos",
+      }),
+    ).toBe("Lv. 0");
     expect(
       getPlayTeamMemberDetail({
         level: null,

@@ -110,7 +110,12 @@ const firstTypes = (
 ): TeamAnalysisTipRow[] => [
   ...readings.slice(0, TIP_TYPES).map(toRow),
   ...(readings.length > TIP_TYPES
-    ? [{ subject: { text: `and ${readings.length - TIP_TYPES} more` } }]
+    ? [
+        {
+          more: readings.length - TIP_TYPES,
+          subject: { text: `and ${readings.length - TIP_TYPES} more` },
+        },
+      ]
     : []),
 ];
 

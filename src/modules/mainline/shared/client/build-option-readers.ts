@@ -364,10 +364,12 @@ type MoveFactsRow = {
  */
 export const pickMoveFacts = (
   rows: readonly MoveFactsRow[],
-  overrides: readonly Pick<
+  overrides: readonly (Pick<
     MoveFactsRow,
     "accuracy" | "damage_class" | "move_id" | "power" | "pp" | "type_id"
-  >[],
+  > & { version_group_id: number })[],
+  /* The game's version group; null reads the generation's figures alone. */
+  versionGroupId: number | null,
 ) => {
   const factsByMoveId = new Map<number, MoveFactsRow>();
 
@@ -380,7 +382,8 @@ export const pickMoveFacts = (
   for (const override of overrides) {
     const facts = factsByMoveId.get(override.move_id);
 
-    if (facts) {
+    /* Another version group's override says nothing about this game. */
+    if (facts && override.version_group_id === versionGroupId) {
       factsByMoveId.set(override.move_id, {
         ...facts,
         accuracy: override.accuracy,
@@ -405,11 +408,14 @@ export const readMoveOptions = async (
     generationId,
     learnedBy,
     moveIds,
+    versionGroupId,
   }: {
     generationId: number;
     /* The form and game(s) whose learnset says how each move is learned. */
     learnedBy?: { formId: number; gameIds: number[]; versionGroupId: number };
     moveIds: number[];
+    /* The game's version group, whose own move figures win; null for none. */
+    versionGroupId: number | null;
   },
 ): Promise<BuildMoveOption[]> => {
   if (!moveIds.length) {
@@ -432,10 +438,7 @@ export const readMoveOptions = async (
         .in("move_id", moveIds)
         .lte("generation_start_id", generationId),
       learnedBy ? readMoveLearnMethods(supabase, learnedBy) : null,
-      readMoveVersionGroupOverrides(supabase, {
-        moveIds,
-        versionGroupId: learnedBy?.versionGroupId ?? null,
-      }),
+      readMoveVersionGroupOverrides(supabase, { moveIds, versionGroupId }),
     ]);
 
   if (movesResult.error || attributesResult.error) {
@@ -445,6 +448,7 @@ export const readMoveOptions = async (
   const attributeByMoveId = pickMoveFacts(
     attributesResult.data ?? [],
     overrides,
+    versionGroupId,
   );
 
   const typeIds = [

@@ -74,6 +74,13 @@ export const toMoveSlotOptions = (
     value: String(move.id),
   }));
 
+/* Whether a move has anything for a tip: what it does, or a figure. */
+const hasMoveTip = (option: MoveSlotOption) =>
+  Boolean(option.info) ||
+  [option.power, option.accuracy, option.pp].some(
+    (figure) => figure !== null && figure !== undefined,
+  );
+
 /* A move option as its tip shows it. */
 const toMoveTipMove = (option: MoveSlotOption): MoveTipMove => ({
   accuracy: option.accuracy,
@@ -243,9 +250,11 @@ export const MoveSlotSelect = ({
                           {option.label}
                         </span>
                         <MoveCategoryIcon damageClass={option.category} />
-                        {option.info ? (
+                        {hasMoveTip(option) ? (
                           <>
-                            <span className="sr-only">, {option.info}</span>
+                            {option.info ? (
+                              <span className="sr-only">, {option.info}</span>
+                            ) : null}
                             <ExplanatoryTip
                               inert
                               content={<MoveTip move={toMoveTipMove(option)} />}
@@ -268,7 +277,11 @@ export const MoveSlotSelect = ({
   /* A picked move shows what it does on hover, as the ability field does. */
   return (
     <HoverInfo
-      card={selected ? <MoveTip move={toMoveTipMove(selected)} /> : undefined}
+      card={
+        selected && hasMoveTip(selected) ? (
+          <MoveTip move={toMoveTipMove(selected)} />
+        ) : undefined
+      }
     >
       {field}
     </HoverInfo>

@@ -6,7 +6,6 @@ import {
   type TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
-import { joinStatsList } from "@/modules/mainline/shared/utils/stats-format";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 export type StatsTypeTally = {
@@ -61,8 +60,6 @@ export type StatsFriend = {
    */
   family: TrainerPokemonEntry[];
   imageUrl: string | null;
-  /* The members you used, in Pokédex order: "Kirlia, Gardevoir and Gallade". */
-  memberNames: string;
   /* "Kirlia family", or the species' own name when it's the only one. */
   name: string;
   playCount: number;
@@ -383,10 +380,6 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
           entry: lead,
           family,
           imageUrl: lead.imageUrl,
-          memberNames: joinStatsList(
-            family.map((member) => member.name),
-            "and",
-          ),
           name: family.length > 1 ? `${lead.name} family` : lead.name,
           playCount: playIds.size,
           speciesSlug: lead.speciesSlug,

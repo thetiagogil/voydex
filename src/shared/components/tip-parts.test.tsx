@@ -143,4 +143,31 @@ describe("tip parts", () => {
     );
     expect(markup.indexOf("tip-head")).toBeLessThan(markup.indexOf("tip-body"));
   });
+
+  it("keeps words that come in pieces as one sentence", () => {
+    const count = 2;
+    const markup = renderToStaticMarkup(
+      <TipNamed name="Plans are shared">
+        Changes reach every Play that follows it ({count} do now).
+      </TipNamed>,
+    );
+
+    expect(markup).toMatch(
+      /<p class="[^"]*copy-note[^"]*">Changes reach every Play/,
+    );
+    expect(markup.match(/<p /g)).toHaveLength(1);
+  });
+
+  it("leaves parts of the caller's own as they are", () => {
+    const markup = renderToStaticMarkup(
+      <TipNamed name="Kanto">
+        <TipRows>
+          <TipRow name="Yellow" />
+        </TipRows>
+      </TipNamed>,
+    );
+
+    expect(markup).not.toContain("copy-note");
+    expect(markup).toContain("<ul");
+  });
 });

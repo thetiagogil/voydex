@@ -28,7 +28,7 @@ type StatsRegionsSectionProps = {
 const regionTipPlays = 4;
 
 /* A visited region's Plays, each with its game's cover. */
-const RegionTip = ({ region }: { region: StatsRegion }) => {
+export const RegionTip = ({ region }: { region: StatsRegion }) => {
   const count = region.plays.length;
   const games = new Set(region.plays.map((play) => play.gameName)).size;
 
@@ -40,9 +40,9 @@ const RegionTip = ({ region }: { region: StatsRegion }) => {
       />
       <TipBody>
         <TipRows>
-          {region.plays.slice(0, regionTipPlays).map((play) => (
+          {region.plays.slice(0, regionTipPlays).map((play, index) => (
             <TipRow
-              key={play.id}
+              key={`${play.id}-${index}`}
               detail={play.gameName}
               leading={
                 <span className="grid w-8 shrink-0 place-items-center">
@@ -87,7 +87,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
             const count = region.playLabels.length;
 
             return (
-              <Tooltip key={region.slug}>
+              <Tooltip key={region.slug} disabled={!count}>
                 <TooltipTrigger
                   render={
                     <li

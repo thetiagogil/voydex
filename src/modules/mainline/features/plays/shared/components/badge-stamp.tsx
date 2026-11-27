@@ -66,7 +66,7 @@ const stampStateChips = {
 } as const;
 
 /* The stamp's card: its picture and name on its type's frame, then the facts. */
-const BadgeStampTip = ({
+export const BadgeStampTip = ({
   facts,
   state,
 }: {
@@ -93,7 +93,8 @@ const BadgeStampTip = ({
         trailing={
           badge ? (
             <PokemonTypeBadge type={badge.type} display="icon" size="md" />
-          ) : (
+          ) : facts.state === "earned" ? undefined : (
+            /* An earned stamp says so inside, beside its day. */
             <TipChip tone={chip.tone}>{chip.text}</TipChip>
           )
         }

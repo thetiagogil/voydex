@@ -65,7 +65,11 @@ describe("buildStatsModel old friends", () => {
     ]).friends;
 
     expect(friend?.name).toBe("Kirlia family");
-    expect(friend?.memberNames).toBe("Kirlia, Gardevoir and Gallade");
+    expect(friend?.family.map((member) => member.name)).toEqual([
+      "Kirlia",
+      "Gardevoir",
+      "Gallade",
+    ]);
     expect(friend?.entry).toBe(kirlia);
     expect(friend?.family).toEqual([kirlia, gardevoir, gallade]);
     expect(friend?.playCount).toBe(4);

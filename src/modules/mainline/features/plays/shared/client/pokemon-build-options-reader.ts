@@ -165,6 +165,7 @@ export const readPokemonBuildOptions = async (
           generationId,
           learnedBy: { formId, gameIds: [gameId], versionGroupId },
           moveIds: getLearnableMoveIds(learnsets, [gameId]),
+          versionGroupId,
         })
       : [],
   ]);

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import { Children, type CSSProperties, type ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
@@ -308,7 +308,14 @@ export const TipNamed = ({
   <TipCard tint={tint} tone={tone} width={width}>
     <TipHead leading={leading} name={name} sub={sub} trailing={trailing} />
     <TipBody>
-      {typeof children === "string" ? <TipText>{children}</TipText> : children}
+      {/* Words alone, however many pieces they come in, are one sentence. */}
+      {Children.toArray(children).every(
+        (child) => typeof child === "string" || typeof child === "number",
+      ) ? (
+        <TipText>{children}</TipText>
+      ) : (
+        children
+      )}
     </TipBody>
   </TipCard>
 );

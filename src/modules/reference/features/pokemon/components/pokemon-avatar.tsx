@@ -32,6 +32,7 @@ export const PokemonAvatar = ({
   imageUrl,
   letters,
   name,
+  tipTypeSlug,
   typeSlug,
 }: {
   art?: "pokemon" | "portrait";
@@ -43,9 +44,18 @@ export const PokemonAvatar = ({
   /* What its stand-in shows instead of the first letter (a trainer's initials). */
   letters?: string;
   name: string;
+  /*
+   * Its own type for the tip, where the disc's tint is someone else's (a
+   * trainer's ace on the trainer's colour): null says none there. Left out,
+   * the tip takes `typeSlug`.
+   */
+  tipTypeSlug?: string | null;
   typeSlug: string | null;
 }) => {
   const type = typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null;
+  const ownTypeSlug = tipTypeSlug === undefined ? typeSlug : tipTypeSlug;
+  const tipType =
+    ownTypeSlug && isPokemonTypeSlug(ownTypeSlug) ? ownTypeSlug : null;
   const picture = (ground: "tint" | "white", pictureClassName?: string) => (
     <span
       style={getPokemonTypeCssVariables(type)}
@@ -79,13 +89,15 @@ export const PokemonAvatar = ({
     <Tooltip>
       <TooltipTrigger render={picture("tint", className)} />
       <TooltipContent variant="card">
-        <TipCard tint={getPokemonTypeColour(type)} width="fit">
+        <TipCard tint={getPokemonTypeColour(tipType)} width="fit">
           <TipHead
             leading={picture("white", "size-12 shrink-0")}
             name={name}
             sub={detail}
             trailing={
-              type ? <PokemonTypeBadge type={type} size="sm" /> : undefined
+              tipType ? (
+                <PokemonTypeBadge type={tipType} size="sm" />
+              ) : undefined
             }
           />
         </TipCard>

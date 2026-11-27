@@ -43,7 +43,7 @@ describe("getTeamHealthTipParts", () => {
   it("turns the row that closes a cut list into a count on that list", () => {
     const parts = getTeamHealthTipParts([
       typeRow(1, "Normal", "Harder to beat than the rest"),
-      { subject: { text: "and 2 more" } },
+      { more: 2, subject: { text: "and 2 more" } },
     ]);
 
     expect(parts).toHaveLength(1);
@@ -52,7 +52,7 @@ describe("getTeamHealthTipParts", () => {
 
   it("keeps other words alone as a note, a count with no list too", () => {
     const parts = getTeamHealthTipParts([
-      { subject: { text: "and 2 more" } },
+      { more: 2, subject: { text: "and 2 more" } },
       { subject: { text: "A rough read: 1 of yours has no damaging move." } },
     ]);
 
@@ -74,6 +74,15 @@ describe("getTeamHealthTipParts", () => {
     ];
 
     expect(getTeamHealthTipParts(rows)).toEqual([{ kind: "rows", rows }]);
+  });
+
+  it("reads the count from the row, never from its words", () => {
+    const parts = getTeamHealthTipParts([
+      typeRow(1, "Normal", "Harder to beat than the rest"),
+      { subject: { text: "and 2 more" } },
+    ]);
+
+    expect(parts.map((part) => part.kind)).toEqual(["types", "note"]);
   });
 
   it("keeps the order the parts were found in", () => {
