@@ -45,8 +45,12 @@ const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
   </span>
 );
 
-/* Who hits this type and with what, or that nothing does. */
-const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
+/*
+ * Who hits this type and with what, or that nothing does. A move of its
+ * user's own type wears the STAB chip, with no line spelling STAB out: the
+ * tip shows the moves, and a player reading move coverage knows the word.
+ */
+export const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
   const typeSlug = isPokemonTypeSlug(row.defendingType.slug)
     ? row.defendingType.slug
     : null;
@@ -100,11 +104,6 @@ const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => {
             None of your recorded damaging moves is strong against it.
           </TipNote>
         )}
-        {row.hits.some((hit) => hit.moves.some((move) => move.stab)) ? (
-          <TipNote>
-            STAB: the move shares a type with its user, so it hits harder.
-          </TipNote>
-        ) : null}
       </TipBody>
     </TipCard>
   );

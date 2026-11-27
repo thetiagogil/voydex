@@ -18,10 +18,11 @@ const toneDotClassNames: Record<TipTone, string> = {
   warn: "bg-warn",
 };
 
-const toneRingClassNames: Record<TipTone, string> = {
-  danger: "inset-ring-danger-deep",
-  ok: "inset-ring-ok-deep",
-  warn: "inset-ring-warn",
+/* A grade's part of a rating's bar: its colour when it is the card's, its pale tone when not. */
+const toneZoneClassNames: Record<TipTone, { off: string; on: string }> = {
+  danger: { off: "bg-danger-soft", on: "bg-danger" },
+  ok: { off: "bg-ok-soft", on: "bg-ok" },
+  warn: { off: "bg-warn-soft", on: "bg-warn" },
 };
 
 /* `fit` hugs a head with no inside (a Pokémon, a type); the rest are fixed. */
@@ -234,8 +235,10 @@ export const TipFigures = ({
 
 /*
  * How a card is rated, closing its tip: a title, the rule in one quiet
- * line, then the grades side by side, each with its chip, the one this
- * card got ringed in its tone.
+ * line, then the grades as the parts of one bar, weakest first as a bar
+ * fills, each with its name and where it starts. The part this card got is
+ * in its full colour, the others in their pale tone, so the tip draws the
+ * same bar the card does.
  */
 export const TipRating = ({
   current,
@@ -246,6 +249,7 @@ export const TipRating = ({
   /* The grade this card got, by its label. */
   current?: string;
   rule?: ReactNode;
+  /* Weakest first. `chip` says where the grade starts ("9+", "all"). */
   scale: { chip: string; label: string; tone: TipTone }[];
   title?: string;
 }) => (
@@ -255,26 +259,40 @@ export const TipRating = ({
     {rule ? <TipNote>{rule}</TipNote> : null}
     {scale.length ? (
       <ul
-        className="grid gap-1.5"
+        className="grid gap-1"
         style={{
           gridTemplateColumns: `repeat(${scale.length}, minmax(0, 1fr))`,
         }}
       >
-        {scale.map((grade) => (
-          <li
-            key={grade.label}
-            aria-current={grade.label === current ? "true" : undefined}
-            className={cn(
-              "grid justify-items-center gap-1 rounded-sm px-1 py-1.5",
-              grade.label === current
-                ? cn("bg-surface inset-ring-2", toneRingClassNames[grade.tone])
-                : "bg-surface-2",
-            )}
-          >
-            <span className="copy-mark text-ink">{grade.label}</span>
-            <TipChip tone={grade.tone}>{grade.chip}</TipChip>
-          </li>
-        ))}
+        {scale.map((grade) => {
+          const isCurrent = grade.label === current;
+          const zone = toneZoneClassNames[grade.tone];
+
+          return (
+            <li
+              key={grade.label}
+              aria-current={isCurrent ? "true" : undefined}
+              className="grid justify-items-center gap-1 text-center"
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "h-3.5 w-full rounded-full",
+                  !current || isCurrent ? zone.on : zone.off,
+                )}
+              />
+              <span
+                className={cn(
+                  "copy-mark",
+                  isCurrent ? "text-ink" : "text-ink-2",
+                )}
+              >
+                {grade.label}
+              </span>
+              <span className="copy-number text-ink-2">{grade.chip}</span>
+            </li>
+          );
+        })}
       </ul>
     ) : null}
   </div>

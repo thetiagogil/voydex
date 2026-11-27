@@ -20,11 +20,9 @@ import {
 } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
-import {
-  StatusBadge,
-  type StatusBadgeTone,
-} from "@/shared/components/status-badge";
 import { Card } from "@/shared/components/ui/card";
+import { Meter } from "@/shared/components/ui/meter";
+import { cn } from "@/shared/utils/cn";
 
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
@@ -43,12 +41,19 @@ import {
   type TipTone,
 } from "@/shared/components/tip-parts";
 
-const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
-  "limited-data": "neutral",
-  moderate: "warn",
-  strong: "ok",
-  weak: "danger",
+/* A verdict's word in its ink and its bar in its colour, as an HP bar's. */
+const statusLooks: Record<
+  TeamAnalysisHealthStatus,
+  { bar: string; word: string }
+> = {
+  "limited-data": { bar: "var(--mute)", word: "text-ink-2" },
+  moderate: { bar: "var(--warn)", word: "text-warn-ink" },
+  strong: { bar: "var(--ok)", word: "text-ok-deep" },
+  weak: { bar: "var(--danger)", word: "text-danger" },
 };
+
+/* The least a bar shows once the team is read, so its colour is never lost. */
+const LEAST_FILL = 4;
 
 const statusTipTones: Record<TeamAnalysisHealthStatus, TipTone | undefined> = {
   "limited-data": undefined,
@@ -228,6 +233,7 @@ const TeamAnalysisHealthCard = ({
   metric: TeamAnalysisHealthMetric;
 }) => {
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
+  const look = statusLooks[metric.status];
 
   return (
     <Card size="sm" className="gap-0">
@@ -251,15 +257,33 @@ const TeamAnalysisHealthCard = ({
         />
       </div>
 
-      <StatusBadge
-        size="md"
-        tone={statusTones[metric.status]}
-        className="mt-2.5 mb-2"
+      {/*
+       * The verdict as a word, then a bar in its colour: how full says how
+       * much holds (the card's own count where it has one), the colour says
+       * the verdict. The word and the line under it already say it all, so
+       * the bar is only drawn.
+       */}
+      <p
+        className={cn(
+          "font-display text-20 mt-3 leading-none font-semibold",
+          look.word,
+        )}
       >
         {statusLabel}
-      </StatusBadge>
+      </p>
+      <div aria-hidden className="mt-2">
+        <Meter
+          aria-label={metric.title}
+          fill={look.bar}
+          value={
+            metric.fill === null
+              ? 0
+              : Math.max(LEAST_FILL, Math.round(metric.fill * 100))
+          }
+        />
+      </div>
 
-      <p className="text-13 text-ink-2 leading-normal font-medium">
+      <p className="text-13 text-ink-2 mt-3 leading-normal font-medium">
         <HealthLine parts={metric.line} />
       </p>
     </Card>
@@ -268,7 +292,8 @@ const TeamAnalysisHealthCard = ({
 
 /*
  * How the team holds up: first one plain sentence and the one thing to do
- * first, then four cards, a verdict each, backed by a line only this team
+ * first, then four cards, each a verdict as a word over a bar in its colour
+ * (green, amber or wine, as an HP bar), backed by a line only this team
  * could have; why it reads that way is in the card's tooltip. A note under
  * them says when what the team leaves out makes it a rough read.
  */

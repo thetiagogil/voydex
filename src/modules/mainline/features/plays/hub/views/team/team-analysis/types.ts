@@ -53,8 +53,8 @@ export type TeamAnalysisTipRow = {
 
 /*
  * Why a card reads the way it does: a line saying it, what in your team
- * leads to it, then how the card is rated (its rule and where Strong,
- * Moderate and Weak start).
+ * leads to it, then how the card is rated (its rule and where Weak,
+ * Moderate and Strong start, weakest first as the card's bar fills).
  */
 export type TeamAnalysisHealthTip = {
   rows: TeamAnalysisTipRow[];
@@ -74,6 +74,13 @@ export type TeamAnalysisVerdict = {
 };
 
 export type TeamAnalysisHealthMetric = {
+  /*
+   * How full the card's bar is, from 0 to 1: what the card counts (the types
+   * answered, the types that fall in two hits, the shared weaknesses with
+   * an answer), and for Team health what the yardstick leaves standing.
+   * Null while the team can't be read.
+   */
+  fill: number | null;
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
   line: TeamAnalysisHealthLinePart[];
   status: TeamAnalysisHealthStatus;

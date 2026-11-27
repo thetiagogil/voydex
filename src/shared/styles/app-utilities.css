@@ -109,8 +109,12 @@
  * (`tip-frame`) in the colour of what it is about (--t for a type, a
  * verdict's soft tone, the app's pale blue without either) round a white
  * inside (`tip-panel`, whose corner shares the frame's centre: 20 less the
- * 5 of frame). Both float, so they take a soft shadow and never an edge.
- * How strong a type's frame is lives here alone (--tip-strength).
+ * 5 of frame). Both float, so they take a soft shadow and never an edge,
+ * and a thin line says where each one ends over a white card or the wall:
+ * the tag's is the line of every quiet control, the card's is its own
+ * colour a step deeper (--tip-line), drawn outside it so no tip changes
+ * size. How strong a type's frame and its line are lives here alone
+ * (--tip-strength, --tip-line-strength).
  */
 @utility tip-tag {
   background-color: var(--surface);
@@ -124,13 +128,16 @@
 
 @utility tip-frame {
   --tip-strength: 22%;
+  --tip-line-strength: 60%;
   --tip-fill: var(--calm-soft);
+  --tip-line: color-mix(in oklab, var(--calm) 36%, var(--surface));
 
   background-color: var(--tip-fill);
   color: var(--ink);
   border-radius: 1.25rem;
   padding: 0.3125rem;
   box-shadow:
+    0 0 0 1px var(--tip-line),
     0 14px 28px -14px rgb(var(--shade) / 0.38),
     0 2px 5px rgb(var(--shade) / 0.07);
 
@@ -140,18 +147,26 @@
       var(--t) var(--tip-strength),
       var(--surface)
     );
+    --tip-line: color-mix(
+      in oklab,
+      var(--t) var(--tip-line-strength),
+      var(--surface)
+    );
   }
 
   &[data-tone="danger"] {
     --tip-fill: var(--danger-soft-2);
+    --tip-line: var(--danger-line);
   }
 
   &[data-tone="ok"] {
     --tip-fill: var(--ok-soft-2);
+    --tip-line: var(--ok-line);
   }
 
   &[data-tone="warn"] {
     --tip-fill: var(--warn-soft);
+    --tip-line: color-mix(in oklab, var(--warn) 55%, var(--surface));
   }
 }
 

@@ -117,20 +117,42 @@ describe("tip parts", () => {
     expect(markup).toContain("–");
   });
 
-  it("rings the grade a card got in its rating, and no other", () => {
+  it("draws a rating as the parts of one bar, the card's own in full colour", () => {
     const markup = renderToStaticMarkup(
       <TipRating
         current="Weak"
         scale={[
-          { chip: "easily", label: "Strong", tone: "ok" },
           { chip: "struggles", label: "Weak", tone: "danger" },
+          { chip: "with effort", label: "Moderate", tone: "warn" },
+          { chip: "easily", label: "Strong", tone: "ok" },
         ]}
       />,
     );
 
     expect(markup.match(/aria-current="true"/g)).toHaveLength(1);
-    expect(markup).toContain("inset-ring-danger-deep");
-    expect(markup).not.toContain("inset-ring-ok-deep");
+    /* The card's grade in its colour, the others in their pale tone. */
+    expect(markup).toMatch(/aria-current="true"[^>]*><span[^>]*bg-danger"/);
+    expect(markup).toContain("bg-warn-soft");
+    expect(markup).toContain("bg-ok-soft");
+    expect(markup).not.toMatch(/bg-(?:warn|ok)"/);
+    /* Weakest first, as a bar fills, each with where it starts. */
+    expect(markup.indexOf("Weak")).toBeLessThan(markup.indexOf("Moderate"));
+    expect(markup.indexOf("Moderate")).toBeLessThan(markup.indexOf("Strong"));
+    expect(markup).toContain("with effort");
+  });
+
+  it("shows every grade in its colour when no card is being rated", () => {
+    const markup = renderToStaticMarkup(
+      <TipRating
+        scale={[
+          { chip: "struggles", label: "Weak", tone: "danger" },
+          { chip: "easily", label: "Strong", tone: "ok" },
+        ]}
+      />,
+    );
+
+    expect(markup).not.toContain("aria-current");
+    expect(markup).not.toContain("-soft");
   });
 
   it("names a thing on the frame over what it does inside", () => {
