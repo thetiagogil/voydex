@@ -114,8 +114,16 @@ test.describe("Page changes", () => {
     await page.goto(`/app/plays/play/team/plan?id=${playId}`, {
       waitUntil: "networkidle",
     });
+    /*
+     * The start screen gives way once Home is ready and the other tabs
+     * read behind it, with no download, so the network can go quiet
+     * before the page shows: watch from the page, not the start screen.
+     */
+    const planTeam = page.getByRole("button", { name: "Plan a team" });
+
+    await expect(planTeam).toBeVisible();
     await watchFrames(page);
-    await page.getByRole("button", { name: "Plan a team" }).click();
+    await planTeam.click();
     await expect(page).toHaveURL("/app/planner?vg=rb");
     await expect(
       page.getByRole("main").locator("[aria-busy='true']"),
@@ -130,8 +138,11 @@ test.describe("Page changes", () => {
      * download to wait on.
      */
     await page.goto("/app/plans", { waitUntil: "networkidle" });
+    const newPlan = page.getByRole("link", { name: "New Plan" }).first();
+
+    await expect(newPlan).toBeVisible();
     await watchFrames(page);
-    await page.getByRole("link", { name: "New Plan" }).first().click();
+    await newPlan.click();
     await expect(pool).toBeVisible();
     await expect(page.getByText(/^Downloading /)).toHaveCount(0);
     expect(await emptyFrames(page)).toEqual([]);
