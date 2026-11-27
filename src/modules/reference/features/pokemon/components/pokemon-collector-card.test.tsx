@@ -68,16 +68,16 @@ describe("PokemonCollectorCard", () => {
     expect(read).toBe("Dragonite #149 2 Plays Dragon Flying , Active slot 2");
   });
 
-  it("puts a team card's level top right over the window, the art at full size", () => {
+  it("puts a team card's level top right, the art below it in all the room left", () => {
     const html = render({ level: 48 });
     /* The top line's text: the level alone, at its right end. */
     const topLine = /-mb-6[^"]*"[^>]*>(.*?)<\/span><\/span>/.exec(html)?.[1];
 
     expect(topLine).toContain("Lv. 48");
     expect(topLine).toContain("ml-auto");
-    /* No number or count: the art is not pushed below the line. */
-    expect(html).not.toContain("mt-6");
-    expect(html).toContain("my-auto h-[90%]");
+    /* The art starts under the line, so no Pokémon reaches under the level. */
+    expect(html).toContain("mt-6 h-[calc(100%-1.5rem)]");
+    expect(html).not.toContain("my-auto h-[90%]");
     expect(readOf(render({ level: 48, size: "sm" }))).toBe(
       "Dragonite Lv. 48 Dragon Flying",
     );
@@ -89,11 +89,29 @@ describe("PokemonCollectorCard", () => {
     );
   });
 
-  it("keeps the art full size under a right end alone, below the line with a number", () => {
-    /* The Planner's "Replace" or "Your partner": no number on the left. */
-    expect(render({ count: "Replace" })).not.toContain("mt-6");
-    expect(render({ count: "Replace" })).toContain("my-auto h-[90%]");
-    expect(render({ count: "2 Plays", number: "#149" })).toContain("mt-6");
+  it("never draws the top line's words over the art: the art stands below them", () => {
+    /*
+     * "4 Plays" in Old friends, "Your partner", the Planner's "Replace", a
+     * level: with no number on the left the art takes all the room below.
+     */
+    for (const props of [
+      { count: "4 Plays", size: "sm" as const },
+      { count: "Your partner", size: "sm" as const },
+      { count: "Replace" },
+      { level: 48 },
+    ]) {
+      const html = render(props);
+
+      expect(html).toContain("mt-6 h-[calc(100%-1.5rem)]");
+      expect(html).not.toContain("my-auto h-[90%]");
+    }
+
+    /* Beside a number (the Collection) the art keeps its margin. */
+    expect(render({ count: "2 Plays", number: "#149" })).toContain(
+      "mt-6 mb-auto h-[calc(90%-1.5rem)]",
+    );
+    /* With no top line there is nothing to clear: the art is centred. */
+    expect(render()).toContain("my-auto h-[90%]");
   });
 
   it("shows no level without one", () => {
@@ -297,8 +315,10 @@ describe("PokemonCollectorCard", () => {
   it("stands its art below the line when it has a mark but no top line, so the mark stays off it", () => {
     expect(render({ shiny: true })).toContain("mt-6");
     expect(render({ warning: "Breaks a rule" })).toContain("mt-6");
-    /* A team card keeps its big picture beside its level. */
-    expect(render({ level: 48, shiny: true })).not.toContain("mt-6");
+    /* A team card's art stands below its level, with a mark or without. */
+    expect(render({ level: 48, shiny: true })).toContain(
+      "mt-6 h-[calc(100%-1.5rem)]",
+    );
   });
 
   it("draws a Pokédex entry by its Play state, in one shape", () => {

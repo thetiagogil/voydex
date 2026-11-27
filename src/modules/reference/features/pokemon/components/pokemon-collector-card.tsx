@@ -191,17 +191,20 @@ export const PokemonCollectorCard = ({
   const topRight = count || (level ? `Lv. ${level}` : null);
   const hasTopLine = Boolean(number || topRight);
   /*
-   * A number (the Collection) stands the art below the line; a right end
-   * alone (a level, "Your partner", "Replace") sits over the art's corner,
-   * so the Pokémon keeps its full size. A card with marks but no top line (a
-   * Team Plan's off-plan Pokémon) also stands its art below the line, so a
-   * mark in the corner stays off it. A Pokédex entry's picture fills its box
-   * but for a little room at the top, so its number and Play state stay
-   * readable over it.
+   * The top line is the card's own: the art always stands below its words,
+   * so no Pokémon reaches under its level or its count. A card with marks
+   * but no top line (a Team Plan's off-plan Pokémon) stands its art below
+   * too, so a mark in the corner stays off it. A Pokédex entry's picture
+   * fills its box but for a little room at the top, so its number and Play
+   * state stay readable over it.
    */
-  const artBelowLine =
-    !dexState &&
-    (Boolean(number) || (!hasTopLine && (shiny || Boolean(warning))));
+  const artBelowLine = !dexState && (hasTopLine || shiny || Boolean(warning));
+  /*
+   * Under a right end alone (a level, "4 Plays", "Your partner") the art
+   * takes all the room the line leaves, so the Pokémon stays as large as
+   * the card allows; beside a number (the Collection) it keeps its margin.
+   */
+  const artFillsBelowLine = artBelowLine && hasTopLine && !number;
   /* Not caught, or not yours now: a dashed outline round the silhouette. */
   const missing = dexState === "missing" || absent === "missing";
   /* Seen, or yours before: the card in white. */
@@ -279,9 +282,9 @@ export const PokemonCollectorCard = ({
           </span>
           {hasTopLine ? (
             /*
-             * Drawn over the top of the art (it takes back its own height),
-             * so a card with a top line and one without (a team) keep one
-             * art box: the art stands below it.
+             * Drawn over the top of the art's box (it takes back its own
+             * height), so a card with a top line and one without keep one
+             * art box and one height: the art stands below it.
              */
             <span
               className={cn(
@@ -351,12 +354,14 @@ export const PokemonCollectorCard = ({
               className={cn(
                 "absolute inset-0 mx-auto aspect-square",
                 missing && "opacity-10 brightness-0",
-                artBelowLine
-                  ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
-                  : dexState
-                    ? /* A Pokédex entry: the whole box, a little room under its number. */
-                      "mt-3 mb-auto h-[calc(100%-0.75rem)]"
-                    : "my-auto h-[90%]",
+                artFillsBelowLine
+                  ? "mt-6 h-[calc(100%-1.5rem)]"
+                  : artBelowLine
+                    ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
+                    : dexState
+                      ? /* A Pokédex entry: the whole box, a little room under its number. */
+                        "mt-3 mb-auto h-[calc(100%-0.75rem)]"
+                      : "my-auto h-[90%]",
               )}
               /* A missing Pokémon's art is a silhouette; its stand-in letter stays readable. */
               fallbackClassName={
