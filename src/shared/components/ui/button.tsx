@@ -49,7 +49,8 @@ const buttonStyles = cva(
          * in a row is level and no button outweighs what it sits beside. A
          * page's one call to action is told by its red, not by its size.
          * `lg` (48px) is only for a button that sits with fields, which are
-         * 48px: a sign-in screen's button, a button in a field's row. The
+         * 48px: a sign-in screen's button, the trainer step's Continue, a
+         * button in a field's row. The
          * front page's Start is `lg` too, alone on its page.
          */
         default:
@@ -59,6 +60,18 @@ const buttonStyles = cva(
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",
       },
     },
+    compoundVariants: [
+      /*
+       * The page's main action keeps the one height and takes the words of
+       * a tab (15px, with the 16px icon that goes with them), so the red
+       * button never reads smaller than the tabs it sits near.
+       */
+      {
+        variant: "default",
+        size: "default",
+        className: "text-15 [&_svg:not([class*='size-'])]:size-4",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",

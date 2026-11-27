@@ -78,6 +78,28 @@ describe("buttonVariants", () => {
     expect(classes({ size: "icon" })).toContain("size-9");
   });
 
+  it("gives the main action a tab's 15px words at the same 36px, and no other button", () => {
+    const main = classes({ variant: "default" });
+
+    expect(main).toContain("h-9");
+    expect(main).toContain("text-15");
+    expect(main).not.toContain("text-13");
+    /* The 16px icon that goes with 15px words. */
+    expect(main).toContain("[&_svg:not([class*='size-'])]:size-4");
+    expect(main).not.toContain("[&_svg:not([class*='size-'])]:size-3.5");
+
+    for (const variant of [
+      "secondary",
+      "destructive",
+      "quiet",
+      "inverse",
+      "ghost",
+    ] as const) {
+      expect(classes({ variant })).toContain("text-13");
+      expect(classes({ variant })).not.toContain("text-15");
+    }
+  });
+
   it("lets a variant's outline win over the base border", () => {
     expect(classes({ variant: "secondary" })).not.toContain(
       "border-transparent",

@@ -437,8 +437,9 @@ menu's row, a breadcrumb's picker, the more-actions dots in a card's corner) and
 wherever it sits (a page's head, a card, a row, a sheet, a dialog), as tabs,
 pills and chips are on every screen, so everything in a row is level and no
 button outweighs what it sits beside; the page's main action is told by its
-red, not its size. `lg` (48px) is only for a button that sits with fields: a
-sign-in screen's button, the Filters button beside a search field, a
+red, not its size, and its words are a tab's 15px where every other button's
+are 13px. `lg` (48px) is only for a button that sits with fields: a
+sign-in screen's button, the trainer step's Continue, the Filters button beside a search field, a
 button in a field's row (the Plan share dialog's Copy link and Import). The
 front page's Start button is `lg` too, the one call to action of a page
 with nothing else to press. `icon` (36px) and `icon-xs` (28px) are round. A switched-off button

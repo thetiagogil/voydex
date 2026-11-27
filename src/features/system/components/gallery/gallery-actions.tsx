@@ -23,7 +23,10 @@ export const GalleryActions = () => {
         description="One Button. Its variant says what kind of action it is, its size says where it sits."
       >
         <GalleryGroup title="Variants" columns={3}>
-          <Specimen label="default" note="The page's main action">
+          <Specimen
+            label="default"
+            note="The page's main action, with a tab's 15px words"
+          >
             <Button>Start a Play</Button>
             <Button disabled>Start a Play</Button>
           </Specimen>

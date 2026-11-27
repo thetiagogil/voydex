@@ -189,7 +189,8 @@ Voydex is quiet where you work and loud where you remember. The
   `count`). A Play's tags and rules are tags (`TagLabel`): labels like a
   status, never controls. Bars are flat; a row of them is thick with its figure inside.
 - Buttons are 36px, as tabs, pills and chips are, the same on phones; only
-  a button that sits with fields is 48px (`lg`), and the front page's Start. Controls have two
+  a button that sits with fields is 48px (`lg`), and the front page's Start.
+  The main action's words are 15px, as a tab's. Controls have two
   looks: the main action (`default`) is solid red on a soft shadow; every
   other button, field, select, tab and chip is white with a thin outline,
   the same on the wall and inside a card, and a pick is filled. A small tool
