@@ -4,6 +4,7 @@ import {
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from "@/shared/components/ui/navigation-menu";
+import { getTabPillClassName } from "@/shared/components/tab-pill";
 import { cn } from "@/shared/utils/cn";
 
 type NavigationMenuControlTriggerProps = Omit<
@@ -23,9 +24,10 @@ type NavigationMenuControlLinkProps = Omit<
 };
 
 /*
- * A Play's tabs: white on the Play's band, and the active tab, a small
- * sticker, is filled in the accent. The weight never changes, so moving tab
- * doesn't shift the row.
+ * A Play's tabs, drawn as every page's tabs (`getTabPillClassName`): white
+ * with a thin outline on the Play's band, the active one filled with the
+ * blue. The active tab keeps its fill under the pointer and while its menu
+ * is open, where the menu trigger would otherwise take its hover tint.
  */
 export const getNavigationMenuControlClassName = ({
   active = false,
@@ -35,10 +37,10 @@ export const getNavigationMenuControlClassName = ({
   className?: string;
 }) => {
   return cn(
-    "h-9 rounded-full border-[1.5px] px-0 copy-strong text-ink-2 hover:text-ink",
-    active
-      ? "border-transparent bg-calm text-white hover:bg-calm hover:text-white focus:bg-calm data-popup-open:bg-calm data-popup-open:hover:bg-calm"
-      : "border-lip bg-surface hover:bg-hover",
+    getTabPillClassName(active),
+    "px-0",
+    active &&
+      "hover:bg-calm focus:bg-calm data-popup-open:bg-calm data-popup-open:hover:bg-calm hover:text-white",
     className,
   );
 };

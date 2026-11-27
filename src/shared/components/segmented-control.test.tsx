@@ -6,6 +6,7 @@ import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "./segmented-control";
+import { getTabPillClassName } from "./tab-pill";
 
 type Section = "games" | "moves" | "pokemon";
 
@@ -182,6 +183,91 @@ describe("SegmentedControl selected tone", () => {
 
     expect(markup).toContain("bg-select-soft");
     expect(markup).not.toContain("bg-action");
+  });
+
+  it("draws a page's tabs as a Play's tabs, the pick in the solid blue", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl
+        ariaLabel="Library sections"
+        variant="tabs"
+        selectedTone="soft"
+        options={options}
+        value="pokemon"
+        onValueChange={() => {}}
+      />,
+    );
+    const [picked, other] = markup.match(/<button[^>]*>/g) ?? [];
+
+    /* One look for every tab: the shared tab pill, at its 15px size. */
+    for (const name of getTabPillClassName(true).split(" ")) {
+      expect(picked).toContain(name);
+    }
+    for (const name of getTabPillClassName(false).split(" ")) {
+      expect(other).toContain(name);
+    }
+    expect(markup).toContain("text-15");
+    expect(markup).not.toContain("text-13");
+    /* Tabs have one tone: a soft pick would read as a filter. */
+    expect(markup).not.toContain("bg-select-soft");
+    expect(markup).not.toContain("bg-action");
+    expect(picked).toContain('aria-pressed="true"');
+  });
+
+  it("gives page tabs one size and keeps a dot's ring on the blue", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl
+        ariaLabel="Library sections"
+        variant="tabs"
+        size="sm"
+        options={[option({ dot: { color: "red" } })]}
+        value="pokemon"
+        onValueChange={() => {}}
+      />,
+    );
+
+    expect(markup).toContain("px-4");
+    expect(markup).not.toContain("min-w-9");
+    expect(markup).toContain("ring-white");
+  });
+
+  it("draws link tabs the same, naming the page you are on", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl<Section>
+        ariaLabel="Library sections"
+        variant="tabs"
+        value="pokemon"
+        options={[
+          { href: "/app/library", label: "Rules", value: "pokemon" },
+          { href: "/app/library?tab=tags", label: "Tags", value: "moves" },
+        ]}
+      />,
+    );
+    const [picked, other] = markup.match(/<a [^>]*>/g) ?? [];
+
+    expect(picked).toContain('aria-current="page"');
+    expect(picked).toContain("bg-calm");
+    expect(other).toContain("border-lip");
+    expect(other).toContain("font-semibold");
+    expect(other).not.toContain("font-bold");
+  });
+
+  it("leaves a switched-off tab still under the pointer", () => {
+    const markup = renderToStaticMarkup(
+      <SegmentedControl<Section>
+        ariaLabel="Library sections"
+        variant="tabs"
+        value="pokemon"
+        onValueChange={() => {}}
+        options={[option(), option({ disabled: true, value: "moves" })]}
+      />,
+    );
+    const [, off] = markup.match(/<button[^>]*>/g) ?? [];
+
+    expect(off).toContain('disabled=""');
+    expect(off).toContain("opacity-45");
+    expect(off).toContain("hover:bg-surface");
+    expect(off).toContain("hover:text-ink-2");
+    expect(off).not.toContain("hover:bg-hover");
   });
 
   it("keeps an icon-only option's label for screen readers", () => {

@@ -78,6 +78,7 @@ export const DevAccountPicker = ({
             <Button
               type="button"
               variant="secondary"
+              size="lg"
               className="w-full justify-between"
             />
           }

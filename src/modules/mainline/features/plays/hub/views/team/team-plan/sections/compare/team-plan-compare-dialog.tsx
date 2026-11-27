@@ -222,7 +222,7 @@ export const TeamPlanCompareDialog = ({
           <span className="copy-meta text-ink-2 mr-auto">
             Plans are read only inside a Play
           </span>
-          <DialogClose render={<Button variant="secondary" size="sm" />}>
+          <DialogClose render={<Button variant="secondary" />}>
             Close
           </DialogClose>
         </>

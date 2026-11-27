@@ -51,7 +51,7 @@ export const ResetPasswordPage = () => {
       >
         <Link
           href={getForgotPasswordHref({ next })}
-          className={buttonVariants({ className: "w-full" })}
+          className={buttonVariants({ className: "w-full", size: "lg" })}
         >
           Send a new link
         </Link>

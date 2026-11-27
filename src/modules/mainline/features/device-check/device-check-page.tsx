@@ -184,7 +184,6 @@ export const DeviceCheckPage = ({ durability }: { durability: Durability }) => {
         action={
           storage?.persisted ? null : (
             <Button
-              size="sm"
               variant="secondary"
               disabled={check.busy}
               onClick={() => void check.keepData()}

@@ -115,7 +115,12 @@ export const TrainerSetup = ({
                 {state.message}
               </p>
             ) : null}
-            <Button type="submit" disabled={isSaving} aria-busy={isSaving}>
+            <Button
+              type="submit"
+              size="lg"
+              disabled={isSaving}
+              aria-busy={isSaving}
+            >
               {isSaving ? <Spinner data-icon="inline-start" /> : null}
               Continue
               {isSaving ? null : (

@@ -170,8 +170,8 @@ export const LibraryPresetBoard = ({
               actions={
                 <Button
                   type="button"
-                  variant="ghost"
-                  size="icon-sm"
+                  variant="secondary"
+                  size="icon"
                   aria-label={`Take ${rule.name} out`}
                   onClick={() => onChange(takePresetRule(ruleIds, rule.id))}
                 >
@@ -198,8 +198,8 @@ export const LibraryPresetBoard = ({
               actions={
                 <Button
                   type="button"
-                  variant="ghost"
-                  size="icon-sm"
+                  variant="secondary"
+                  size="icon"
                   aria-label={`Add ${rule.name}`}
                   onClick={() => onChange(putPresetRule(ruleIds, rule.id))}
                 >

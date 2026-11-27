@@ -63,7 +63,7 @@ const DialogContent = ({
       render={
         <Button
           variant="secondary"
-          size="icon-sm"
+          size="icon"
           className={cn(
             "absolute top-4 right-4",
             fullScreenOnPhone &&

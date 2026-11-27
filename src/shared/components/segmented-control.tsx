@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { getTabPillClassName } from "@/shared/components/tab-pill";
 import { cn } from "@/shared/utils/cn";
 
 export type SegmentedControlOption<TValue extends string> = {
@@ -66,28 +67,32 @@ type SegmentedControlProps<TValue extends string> = {
   evenWidth?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
-   * Both sizes are 36px tall from `sm` up and 40px on phones, so pills line
-   * up with small buttons; `sm` has the smaller 13px label, for a tight row.
+   * Pills are 36px tall on every screen, so they line up with small buttons;
+   * `sm` has the tighter padding, for a short row. A `segment` track is 48px
+   * with its options, or 36px as `sm`. `tabs` have one size.
    */
   size?: "md" | "sm";
   /*
-   * `strong` (the context colour's strong shade with a white label) is v3's
-   * `.mode-seg` pick, the default for a `segment` switch; `soft` is the
-   * selected tint, the default for `pills`. Pills that pick a scope (which
-   * Pokédex, Story journey, collectible set or version) take `strong`, as
-   * v3's `.pill.is-on`; filters stay soft. A pill set on a surface already
-   * wearing the soft tint (the game shelf's generation marks on the meadow)
-   * takes `strong` too, where the soft tint would disappear.
+   * `strong` (the solid blue with a white label) is the default for a
+   * `segment` switch; `soft` is the selected tint, the default for `pills`.
+   * Pills that pick a scope (which Pokédex, Story journey, collectible set
+   * or version) take `strong`; filters stay soft. A pill set on a surface
+   * already wearing the soft tint (the game shelf's generation marks) takes
+   * `strong` too, where the soft tint would disappear. `tabs` are always
+   * the solid blue.
    */
   selectedTone?: "soft" | "strong";
   /* `null` when no option is the exact page or value. */
   value: TValue | null;
   /*
-   * `pills`: separate cream pills, for filters. `segment`: one inset track,
-   * for a switch between modes; it scrolls sideways rather than overflow.
-   * See `selectedTone` for how each marks its pick.
+   * `pills`: separate white pills, for filters and scope pickers. `segment`:
+   * one track, for a switch between modes; it scrolls sideways rather than
+   * overflow. `tabs`: the tabs under a page's title that switch what the
+   * whole page shows (the Library's, the Collection's), drawn as a Play's
+   * tabs are (`getTabPillClassName`). See `selectedTone` for how the first
+   * two mark their pick.
    */
-  variant?: "pills" | "segment";
+  variant?: "pills" | "segment" | "tabs";
 };
 
 type SegmentedOptionState = {
@@ -129,7 +134,9 @@ export const SegmentedControl = <TValue extends string>({
   variant = "pills",
 }: SegmentedControlProps<TValue>) => {
   const selectedTone =
-    selectedToneProp ?? (variant === "segment" ? "strong" : "soft");
+    variant === "tabs"
+      ? "strong"
+      : (selectedToneProp ?? (variant === "segment" ? "strong" : "soft"));
   const isNavigation = options.some((option) => option.href !== undefined);
   const Container = isNavigation ? "nav" : "div";
 
@@ -142,11 +149,13 @@ export const SegmentedControl = <TValue extends string>({
         fullWidth ? "flex w-full" : "inline-flex",
         variant === "pills"
           ? "flex-wrap gap-1.5"
-          : /*
-             * The track is a light ink wash, not a surface colour, so it shows
-             * the same on the page ground, a band and a white card.
-             */
-            "bg-ink/6 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
+          : variant === "tabs"
+            ? "flex-wrap gap-2"
+            : /*
+               * The track is a light ink wash, not a surface colour, so it shows
+               * the same on the page ground, a band and a white card.
+               */
+              "bg-ink/6 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
         phoneScroll &&
           "no-scrollbar -mx-(--page-gutter) w-[calc(100%+2*var(--page-gutter))] max-w-none flex-nowrap overflow-x-auto px-(--page-gutter) py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0",
         className,
@@ -158,9 +167,13 @@ export const SegmentedControl = <TValue extends string>({
         const optionClassName = cn(
           // The pick moves at once, never fades.
           "inline-flex items-center gap-2 rounded-full whitespace-nowrap [&_svg]:size-4",
-          size === "sm"
+          size === "sm" && variant !== "tabs"
             ? "text-13 h-9 min-w-9 justify-center px-3 font-bold"
             : "text-13 h-9 px-4 font-bold",
+          variant === "tabs" && getTabPillClassName(isActive),
+          variant === "tabs" &&
+            isDisabled &&
+            "hover:bg-surface hover:text-ink-2",
           variant === "pills" &&
             (isActive
               ? "border-[1.5px] border-transparent"
@@ -178,12 +191,16 @@ export const SegmentedControl = <TValue extends string>({
            * The pick is filled, with no band. The weight never changes, so
            * picking one doesn't shift its row.
            */
-          isActive
-            ? selectedTone === "strong"
-              ? "bg-calm text-white"
-              : "bg-select-soft text-select-ink"
-            : "text-ink-2",
-          !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
+          variant !== "tabs" &&
+            (isActive
+              ? selectedTone === "strong"
+                ? "bg-calm text-white"
+                : "bg-select-soft text-select-ink"
+              : "text-ink-2"),
+          variant !== "tabs" &&
+            !isActive &&
+            !isDisabled &&
+            "hover:text-ink hover:bg-hover",
           /*
            * Inside a scrolling track the ring is drawn within the option, so
            * the track's edge never cuts it.

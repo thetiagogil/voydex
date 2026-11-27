@@ -51,11 +51,7 @@ export const GalleryCards = () => {
               icon={appIcons.actions.settings}
               title="Team check"
               aside="Read at level 50"
-              action={
-                <Button variant="secondary" size="sm">
-                  Edit
-                </Button>
-              }
+              action={<Button variant="secondary">Edit</Button>}
             />
           </Specimen>
         </GalleryGroup>
@@ -182,9 +178,7 @@ export const GalleryCards = () => {
                   title="Delete this Play"
                   description="This can't be undone."
                 >
-                  <Button variant="destructive" size="sm">
-                    Delete
-                  </Button>
+                  <Button variant="destructive">Delete</Button>
                 </SettingsRow>
               </CardContent>
             </Card>

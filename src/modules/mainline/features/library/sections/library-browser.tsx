@@ -109,7 +109,7 @@ export const LibraryBrowser = ({
         <SegmentedControl
           ariaLabel="Library sections"
           className="mt-5"
-          selectedTone="strong"
+          variant="tabs"
           value={tab}
           options={[
             {

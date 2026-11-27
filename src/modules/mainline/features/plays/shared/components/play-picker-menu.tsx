@@ -62,7 +62,6 @@ const NewPlayRow = ({
   const opener = useNewPlayDialog();
   const className = buttonVariants({
     className: "mt-1.5 w-full",
-    size: "sm",
     variant: "secondary",
   });
   const content = (

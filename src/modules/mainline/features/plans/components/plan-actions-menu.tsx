@@ -123,7 +123,7 @@ export const PlanActionsMenu = ({
             <Button
               type="button"
               variant={placement === "card" ? "ghost" : "secondary"}
-              size={placement === "card" ? "icon-sm" : "icon"}
+              size="icon"
               aria-label={`${plan.name}: more actions`}
               disabled={isWorking}
               className={className}

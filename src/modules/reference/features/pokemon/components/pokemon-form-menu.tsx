@@ -61,7 +61,7 @@ export const toPokemonFormOption = ({
 });
 
 /*
- * The form menu: a white pill ("Form Mega X"), as tall as the round buttons
+ * The form menu: a white pill ("Form Mega X"), 36px like the round buttons
  * beside it. A Play member's battle forms (on its art, or in its sheet's top
  * bar) and a Codex entry's forms (beside the entry's actions) pick through
  * it. Each form's art shows only in the list, never again on the pill.
@@ -86,6 +86,7 @@ export const PokemonFormMenu = ({
     options={options}
     placeholder="Form"
     prefix="Form"
+    size="sm"
     value={value ?? undefined}
     variant="paper"
   />

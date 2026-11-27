@@ -161,7 +161,6 @@ export const PlannerTeamCheck = ({
                           <div className="mt-2">
                             <Button
                               type="button"
-                              size="sm"
                               variant="secondary"
                               onClick={() =>
                                 onIncludeExpansion(

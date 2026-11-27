@@ -139,21 +139,18 @@ export const GalleryOverlays = () => {
         <Specimen label="Toasts" note="Saved, failed, and one with two actions">
           <Button
             variant="secondary"
-            size="sm"
             onClick={() => toast.success("Play saved.")}
           >
             Saved
           </Button>
           <Button
             variant="secondary"
-            size="sm"
             onClick={() => toast.error("That didn't save. Try again.")}
           >
             Failed
           </Button>
           <Button
             variant="secondary"
-            size="sm"
             onClick={() =>
               toast("Your game data is out of date.", {
                 ...twoActionToast,

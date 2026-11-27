@@ -180,8 +180,7 @@ export const AddPokemonDetailsStep = ({
       {moreDetails ? (
         <Button
           type="button"
-          variant="ghost"
-          size="sm"
+          variant="secondary"
           className="mt-3 justify-self-center"
           onClick={moreDetails.onOpen}
         >

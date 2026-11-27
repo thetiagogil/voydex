@@ -25,7 +25,7 @@ export const SiteAccountAction = () => {
   return (
     <Link
       href={signedIn ? appRoutes.mainline : appRoutes.login}
-      className={buttonVariants({ size: "sm", variant: "inverse" })}
+      className={buttonVariants({ variant: "inverse" })}
     >
       {signedIn ? "Open the app" : "Log in"}
     </Link>

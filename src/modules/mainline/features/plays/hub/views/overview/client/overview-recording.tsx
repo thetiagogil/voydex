@@ -76,7 +76,6 @@ export const OverviewRecordButton = ({
   label,
   milestoneId,
   milestoneName,
-  size = "default",
   toastMessage,
 }: {
   className?: string;
@@ -85,7 +84,6 @@ export const OverviewRecordButton = ({
   label?: string;
   milestoneId: number;
   milestoneName: string;
-  size?: "default" | "sm";
   toastMessage?: string;
   /*
    * Records at once (the next objective): its stamp slaps and the toast
@@ -99,7 +97,6 @@ export const OverviewRecordButton = ({
 
   return (
     <RecordMilestoneButton
-      size={size}
       disabled={record.isPending}
       pending={isSaving}
       className={className}

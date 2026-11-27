@@ -96,7 +96,7 @@ export const ObjectiveCard = ({
       <Button
         type="button"
         variant="secondary"
-        size="icon-sm"
+        size="icon"
         aria-label={closeLabel ?? "Close"}
         onClick={onClose}
         className="absolute top-4 right-4"

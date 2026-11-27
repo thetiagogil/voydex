@@ -74,6 +74,7 @@ export const GameDetailHeaderSection = ({
             {versions.length > 1 ? (
               <SegmentedControl
                 ariaLabel="Version"
+                size="sm"
                 variant="segment"
                 value={version.game.slug}
                 options={versions.map(({ game }) => ({

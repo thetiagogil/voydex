@@ -335,11 +335,9 @@ export const TeamMemberEditorSheet = ({
         <>
           <Button
             type="button"
-            variant="ghost"
-            size="sm"
+            variant="secondary"
             className="mr-auto"
             disabled={!changes.length}
-            aria-pressed={isReviewing}
             onClick={() => setIsReviewing((current) => !current)}
           >
             {changes.length
@@ -349,7 +347,6 @@ export const TeamMemberEditorSheet = ({
           <Button
             type="button"
             variant="secondary"
-            size="sm"
             disabled={isSaving}
             onClick={() => close(false)}
           >
@@ -357,7 +354,6 @@ export const TeamMemberEditorSheet = ({
           </Button>
           <Button
             type="submit"
-            size="sm"
             form={`${id}-form`}
             disabled={isSaving || !changes.length}
             aria-busy={isSaving}

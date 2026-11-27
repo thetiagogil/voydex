@@ -327,7 +327,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <NewPlaySteps step={step} onStepChange={setStep} />
         <Button
           type="button"
-          size="icon-sm"
+          size="icon"
           variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
@@ -515,7 +515,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <NewPlaySteps step={1} onStepChange={() => undefined} />
         <Button
           type="button"
-          size="icon-sm"
+          size="icon"
           variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
@@ -535,7 +535,6 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
           <p>Voydex couldn&apos;t load the games right now.</p>
           <Button
             type="button"
-            size="sm"
             variant="secondary"
             onClick={() => router.refresh()}
           >

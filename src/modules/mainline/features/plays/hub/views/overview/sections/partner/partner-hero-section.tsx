@@ -141,7 +141,6 @@ export const PartnerHeroSection = ({
                 label="Record"
                 milestoneId={nextMilestone.milestone_id}
                 milestoneName={nextMilestone.milestone_name ?? "Milestone"}
-                size="sm"
               />
             </>
           ) : (
@@ -156,7 +155,6 @@ export const PartnerHeroSection = ({
             {picked ? (
               <Button
                 type="button"
-                size="sm"
                 className="ml-auto shrink-0"
                 disabled={isPending}
                 aria-busy={isPending}

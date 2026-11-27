@@ -75,7 +75,7 @@ const AlertDialogContent = ({
             render={
               <Button
                 variant="secondary"
-                size="icon-sm"
+                size="icon"
                 className="absolute top-4 right-4"
               />
             }

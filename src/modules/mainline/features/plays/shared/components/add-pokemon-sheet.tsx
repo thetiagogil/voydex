@@ -521,7 +521,6 @@ export const AddPokemonSheet = ({
             <Button
               type="button"
               variant="secondary"
-              size="sm"
               onClick={() => changeOpen(false)}
             >
               Cancel
@@ -532,7 +531,6 @@ export const AddPokemonSheet = ({
             <Button
               type="button"
               variant="secondary"
-              size="sm"
               disabled={isSaving}
               onClick={() => {
                 if (step === 3) {
@@ -549,7 +547,6 @@ export const AddPokemonSheet = ({
 
             <Button
               type="submit"
-              size="sm"
               form={`${id}-form`}
               disabled={isSaving || rosterIsFull}
               aria-busy={isSaving}

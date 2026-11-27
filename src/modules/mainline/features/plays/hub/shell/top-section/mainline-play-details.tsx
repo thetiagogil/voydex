@@ -172,7 +172,6 @@ const PlaySettingsLink = ({
   <div className="mt-1 pt-3">
     <Button
       variant="secondary"
-      size="sm"
       nativeButton={false}
       render={
         <Link
@@ -209,8 +208,7 @@ export const MainlinePlayDetails = ({
   const trigger = (
     <Button
       type="button"
-      variant="tint"
-      size="sm"
+      variant="secondary"
       aria-label="Play details"
       className="max-sm:size-12 max-sm:rounded-full max-sm:p-0"
     >
