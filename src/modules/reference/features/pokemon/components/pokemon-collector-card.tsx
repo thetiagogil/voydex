@@ -25,6 +25,13 @@ type CollectorCardType = { name: string; slug: string };
 export type PokemonCollectorCardSize = "lg" | "md" | "sm";
 
 type PokemonCollectorCardProps = {
+  /*
+   * A card standing for a Pokémon that isn't yours right now, such as a
+   * Plan's target in a Play: `missing` (not caught yet) is the Pokédex's
+   * dashed outline round its silhouette, `past` (it was yours here, then
+   * retired or was replaced) the same card in white.
+   */
+  absent?: "missing" | "past";
   className?: string;
   /*
    * In a Play's Pokédex: caught is the card of yours with the Poké Ball,
@@ -153,6 +160,7 @@ export const CollectorCardGlint = () => (
  * is a `PokemonCard`.
  */
 export const PokemonCollectorCard = ({
+  absent,
   className,
   count,
   detail,
@@ -194,17 +202,21 @@ export const PokemonCollectorCard = ({
   const artBelowLine =
     !dexState &&
     (Boolean(number) || (!hasTopLine && (shiny || Boolean(warning))));
-  /* A Pokédex card that isn't caught keeps the shape without the colour. */
-  const plain = dexState === "seen" || dexState === "missing";
+  /* Not caught, or not yours now: a dashed outline round the silhouette. */
+  const missing = dexState === "missing" || absent === "missing";
+  /* Seen, or yours before: the card in white. */
+  const white = dexState === "seen" || absent === "past";
+  /* Either keeps the shape without the colour. */
+  const plain = missing || white;
   /* A mark at the top line's right end: the shiny mark or the Play state. */
   const rightMark = shiny || dexState === "caught" || dexState === "seen";
 
   const cardClassName = cn(
     "group/collector focus-ring @container/collector relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-lg p-1.5 text-left transition-colors duration-150",
     tilt && cardTiltClassName,
-    dexState === "seen"
+    white
       ? "plain-card p-1.25"
-      : dexState === "missing"
+      : missing
         ? "empty-slot p-[3.5px]"
         : selected
           ? "card-frame-picked"
@@ -259,7 +271,7 @@ export const PokemonCollectorCard = ({
                   ? "line-clamp-2 text-center text-balance wrap-break-word"
                   : "truncate",
                 sizeClassName.name,
-                dexState === "missing" && "text-ink-3",
+                missing && "text-ink-3",
               )}
             >
               <PokemonShownName name={name} readAs={nameReadAs} />
@@ -338,7 +350,7 @@ export const PokemonCollectorCard = ({
                */
               className={cn(
                 "absolute inset-0 mx-auto aspect-square",
-                dexState === "missing" && "opacity-10 brightness-0",
+                missing && "opacity-10 brightness-0",
                 artBelowLine
                   ? "mt-6 mb-auto h-[calc(90%-1.5rem)]"
                   : dexState
@@ -348,9 +360,7 @@ export const PokemonCollectorCard = ({
               )}
               /* A missing Pokémon's art is a silhouette; its stand-in letter stays readable. */
               fallbackClassName={
-                dexState === "missing"
-                  ? "opacity-100 brightness-100"
-                  : undefined
+                missing ? "opacity-100 brightness-100" : undefined
               }
             />
           </span>

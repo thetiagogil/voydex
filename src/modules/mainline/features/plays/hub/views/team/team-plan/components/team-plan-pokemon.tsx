@@ -73,11 +73,9 @@ const placementIcons: Record<TeamPlanMemberPlacement, AppIconComponent> = {
 export const TeamPlanMatchLine = ({
   className,
   member,
-  onTint = false,
 }: {
   className?: string;
   member: MainlinePlayTeamMember | null;
-  onTint?: boolean;
 }) => {
   if (!member) {
     return (
@@ -98,8 +96,7 @@ export const TeamPlanMatchLine = ({
   return (
     <span
       className={cn(
-        "copy-meta flex max-w-full min-w-0 items-center justify-center gap-1.5",
-        onTint ? "text-ink-tint" : "text-ink-2",
+        "text-ink-2 copy-meta flex max-w-full min-w-0 items-center justify-center gap-1.5",
         className,
       )}
     >

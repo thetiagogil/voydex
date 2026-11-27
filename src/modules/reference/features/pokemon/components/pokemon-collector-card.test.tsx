@@ -328,6 +328,30 @@ describe("PokemonCollectorCard", () => {
     expect(missing).not.toContain('aria-label="Seen"');
   });
 
+  it("stands for a Pokémon that isn't yours now: a silhouette not caught yet, white once it left", () => {
+    const rootClass = (html: string) =>
+      /<button [^>]*class="([^"]*)"/.exec(html)?.[1] ?? "";
+    const onClick = () => {};
+    const missing = render({
+      absent: "missing",
+      imageUrl: "https://assets.test/dragonite.png",
+      onClick,
+    });
+    const past = render({ absent: "past", onClick });
+
+    /* Not caught yet: the Pokédex's dashed outline round the silhouette. */
+    expect(rootClass(missing)).toContain("empty-slot");
+    expect(missing).toContain("opacity-10 brightness-0");
+    expect(missing).not.toContain("card-panel");
+    /* It was yours, then left: the card in white, with no Play state mark. */
+    expect(rootClass(past)).toContain("plain-card");
+    expect(past).not.toContain("card-face");
+    expect(past).not.toContain('aria-label="Seen"');
+    /* Neither is a Pokédex entry: the name stays on one line. */
+    expect(past).toContain("truncate");
+    expect(past).not.toContain("line-clamp-2");
+  });
+
   it("lets a Pokédex entry's picture fill its box, a little room kept under the number", () => {
     const html = render({ dexState: "seen", number: "#015" });
 

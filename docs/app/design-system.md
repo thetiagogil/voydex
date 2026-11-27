@@ -166,7 +166,14 @@ and calm meanings (settled 2026-10-19).
   Collection, a team, a Plan's team). A Play's Pokédex draws every entry in
   the collector card's shape (`dexState`): caught in its type's colour with
   the Poké Ball, seen in white with the eye and nothing behind the picture,
-  missing as a dashed outline round the silhouette. Anything smaller is
+  missing as a dashed outline round the silhouette. A Plan's target in a
+  Play (Team › Plan) is the Plan's card too, six across as a team, with what
+  the Play has for it under the card (its status, the Pokémon that matched
+  and where it is, a count of differences): in its type's colour while its
+  match is on the team or in reserve, in white once that one retired or
+  was replaced, and the Pokédex's dashed silhouette while nothing is
+  caught for it (`absent` `past` and `missing`). Statistics' Most picked
+  is its card as well, with its Plays as the count. Anything smaller is
   the round portrait (`PokemonAvatar`), owned or planned alike. A moment's
   Pokémon is its `Medallion`, as every moment is.
 - **Buttons are one family (2026-10-17)**: every size is the same pill, a link
