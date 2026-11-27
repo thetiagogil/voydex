@@ -157,10 +157,14 @@ const MostPickedCard = ({
       title="Most picked"
       contentClassName="flex flex-col gap-4"
     >
-      {/* Its card, the one every Pokémon of yours has, as Old friends beside it. */}
+      {/*
+       * Its card, the one every Pokémon of yours has, at the size of Old
+       * friends' beside it: with its facts it stands as tall as their two
+       * rows, so the three sections fill one height.
+       */}
       <PokemonCollectorCard
-        size="md"
-        className="mx-auto h-auto max-w-44"
+        size="sm"
+        className="mx-auto h-auto max-w-32"
         detail="Open"
         onClick={() => onOpenPokemon(mostPicked)}
         imageUrl={entry.imageUrl}
@@ -212,8 +216,8 @@ const MostPickedEmpty = () => (
     contentClassName="flex flex-col items-center justify-center gap-3 text-center"
   >
     {/* The place its card takes, kept open. */}
-    <div aria-hidden className="w-full max-w-44">
-      <PokemonEmptySlot size="md" label="Open place" text="" />
+    <div aria-hidden className="w-full max-w-32">
+      <PokemonEmptySlot size="sm" label="Open place" text="" />
     </div>
     <p className="text-ink copy-strong">No favourite yet</p>
     <p className="text-ink-2 copy-note max-w-xs">
