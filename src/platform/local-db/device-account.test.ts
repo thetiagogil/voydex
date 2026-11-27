@@ -11,6 +11,7 @@ import {
   readDeviceAccount,
   takeAccountBackup,
   type AccountBackups,
+  type UploadNote,
 } from "@/platform/local-db/device-account";
 import type { VersionedSnapshot } from "@/platform/local-db/id-changes";
 import {
@@ -115,8 +116,20 @@ const logIn = async (db: PGlite, account: AccountBackups) => {
   });
 };
 
+/* Each device's note of the upload it started last, as the browser keeps it. */
+const uploadNotes = new WeakMap<PGlite, UploadNote>();
+
 const backUp = (db: PGlite, account: AccountBackups, keep = false) =>
-  backUpDevice(db, { account, accountId, ensureGame, keep });
+  backUpDevice(db, {
+    account,
+    accountId,
+    ensureGame,
+    keep,
+    uploads: {
+      read: () => uploadNotes.get(db) ?? null,
+      write: (note) => uploadNotes.set(db, note),
+    },
+  });
 
 describe("a device and its account, never merged", () => {
   const { account, backups, from } = createAccount();
@@ -384,6 +397,64 @@ describe("what a device knows of its own backups", () => {
     });
     await expect(hasUnsavedChanges(laptop)).resolves.toBe(false);
     expect(backups).toHaveLength(2);
+  });
+
+  it("finds its own backup when the page went away during the upload, after a later save", async () => {
+    await renamePlay(laptop, "Laptop name");
+
+    /*
+     * The upload lands, you save again meanwhile, and the page goes away
+     * (a reload) before the device notes either.
+     */
+    const goingAway: AccountBackups = {
+      ...account,
+      upload: async (snapshot, parentId) => {
+        await account.upload(snapshot, parentId);
+        await renamePlay(laptop, "Renamed meanwhile");
+
+        throw new Error("The page went away.");
+      },
+    };
+
+    await expect(backUp(laptop, goingAway)).rejects.toThrow("went away");
+
+    /* Nothing else saved a backup: no question, the later save goes up. */
+    await expect(backUp(laptop, account)).resolves.toMatchObject({
+      status: "saved",
+    });
+    expect(backups).toHaveLength(3);
+    expect(backups.at(-1)?.snapshot.tables["gameplay.mainline_plays"]).toEqual([
+      expect.objectContaining({ name: "Renamed meanwhile" }),
+    ]);
+    await expect(readDeviceAccount(laptop)).resolves.toMatchObject({
+      backupId: backups.at(-1)?.id,
+    });
+    await expect(hasUnsavedChanges(laptop)).resolves.toBe(false);
+  });
+
+  it("still asks when another device's backup lands after one of its own went up unnoted", async () => {
+    await renamePlay(laptop, "Laptop name");
+
+    const before = (await readDeviceAccount(laptop)).backupId;
+
+    await backUp(laptop, account);
+    await laptop.query(
+      `UPDATE device.changes SET base_changed_at = NULL
+       WHERE table_name = 'gameplay.mainline_plays'`,
+    );
+    await laptop.query("UPDATE device.sync SET backup_id = $1", [before]);
+    await renamePlay(laptop, "Laptop again");
+
+    /* The phone takes the laptop's backup and saves on top of it. */
+    await backUp(phone, account);
+    await renamePlay(phone, "Phone name");
+    from("iPhone");
+    await backUp(phone, account);
+
+    await expect(backUp(laptop, account)).resolves.toEqual({
+      device: expect.objectContaining({ name: "iPhone" }),
+      status: "newer",
+    });
   });
 
   it("never takes a newer backup over a save that lands while it looks", async () => {

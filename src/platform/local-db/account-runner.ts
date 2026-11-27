@@ -13,6 +13,8 @@ import {
   hasUnsavedChanges,
   readDeviceAccount,
   takeAccountBackup,
+  type UploadNote,
+  type UploadNotes,
 } from "@/platform/local-db/device-account";
 import { ensureVersionGroupData } from "@/platform/local-db/game-downloads";
 import { LocalDbError, runQuery } from "@/platform/local-db/local-db";
@@ -367,6 +369,32 @@ const accountBackups = (userId: string) =>
   createAccountBackups(getBrowserSupabaseClient(), { userId });
 
 /*
+ * The note of this device's last upload, in the browser's own storage: it
+ * is kept at once, so a reload during an upload can't lose it the way it
+ * can lose the device database's last writes.
+ */
+const uploadNoteKey = "voydex-backup-upload";
+
+const uploadNotes: UploadNotes = {
+  read: () => {
+    try {
+      const note = window.localStorage.getItem(uploadNoteKey);
+
+      return note ? (JSON.parse(note) as UploadNote) : null;
+    } catch {
+      return null;
+    }
+  },
+  write: (note) => {
+    try {
+      window.localStorage.setItem(uploadNoteKey, JSON.stringify(note));
+    } catch {
+      /* Storage refused: a reload mid-upload may ask which backup to keep. */
+    }
+  },
+};
+
+/*
  * How one look at the account ended: everything of this device's is in
  * the account (`done`), look again at once (`again`: another device saved
  * first, or you saved meanwhile), a newer backup waits for your choice
@@ -436,6 +464,7 @@ const run = async ({
       accountId: userId,
       ensureGame: ensureVersionGroupData,
       keep,
+      uploads: uploadNotes,
     });
 
     if (outcome.status === "newer") {

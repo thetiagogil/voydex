@@ -51,6 +51,25 @@ export type AccountBackups = {
 };
 
 /*
+ * This device's note of the upload it started last: the account, the
+ * backup it went on top of, and a fingerprint of what it sent. The browser
+ * keeps it apart from the device database, written before the upload
+ * starts, so a reload that loses the database's note of a finished upload
+ * still finds it. Then the account's newest backup is known as this
+ * device's own, not as a newer one from elsewhere.
+ */
+export type UploadNote = {
+  accountId: string;
+  fingerprint: string;
+  parentId: string | null;
+};
+
+export type UploadNotes = {
+  read: () => UploadNote | null;
+  write: (note: UploadNote) => void;
+};
+
+/*
  * How far taking a backup has got, for a screen that waits on it: reading
  * the account's backup, getting the games its Plays need (how many of how
  * many), then putting the data in place.
@@ -293,6 +312,7 @@ export const backUpDevice = async (
     ensureGame,
     keep = false,
     onProgress,
+    uploads,
   }: {
     account: AccountBackups;
     accountId: string;
@@ -300,6 +320,7 @@ export const backUpDevice = async (
     /* "Keep this device's": it goes up over a newer backup from elsewhere. */
     keep?: boolean;
     onProgress?: (progress: AccountProgress) => void;
+    uploads: UploadNotes;
   },
 ): Promise<BackupOutcome> => {
   /* Read first: a save after it means this device has something new. */
@@ -310,7 +331,12 @@ export const backUpDevice = async (
   const elsewhere = newest !== null && newest.id !== state.backupId;
 
   if (state.replaced || keep || (unsaved && !elsewhere)) {
-    return upload(db, { account, accountId, parentId: newest?.id ?? null });
+    return upload(db, {
+      account,
+      accountId,
+      parentId: newest?.id ?? null,
+      uploads,
+    });
   }
 
   if (!elsewhere) return { status: "unchanged" };
@@ -320,7 +346,9 @@ export const backUpDevice = async (
      * The newest may be this device's own, saved just before the page went
      * away and the browser could keep that it was: then nothing waits.
      */
-    if (await holdsSameData(db, account, newest.id)) {
+    const { snapshot } = await account.read(newest.id);
+
+    if (await holdsSnapshot(db, snapshot)) {
       await db.transaction(async (tx) => {
         await markBackedUp(tx, seq);
         await recordAccountBackup(tx, newest.savedAt);
@@ -328,6 +356,17 @@ export const backUpDevice = async (
       });
 
       return { status: "unchanged" };
+    }
+
+    /* Or it is, and you saved again since: that goes up on top of it. */
+    const note = uploads.read();
+
+    if (
+      note?.accountId === accountId &&
+      note.parentId === state.backupId &&
+      note.fingerprint === (await fingerprint(snapshot))
+    ) {
+      return upload(db, { account, accountId, parentId: newest.id, uploads });
     }
 
     return { device: newest, status: "newer" };
@@ -355,9 +394,22 @@ const upload = async (
     account,
     accountId,
     parentId,
-  }: { account: AccountBackups; accountId: string; parentId: string | null },
+    uploads,
+  }: {
+    account: AccountBackups;
+    accountId: string;
+    parentId: string | null;
+    uploads: UploadNotes;
+  },
 ): Promise<BackupOutcome> => {
   const snapshot = await readUserSnapshot(db);
+
+  uploads.write({
+    accountId,
+    fingerprint: await fingerprint(snapshot),
+    parentId,
+  });
+
   const backupId = await account.upload(snapshot, parentId);
 
   if (!backupId) return { status: "raced" };
@@ -379,23 +431,30 @@ const comparable = (row: UserRow) =>
       .sort(([left], [right]) => left.localeCompare(right)),
   );
 
+/* Your data as text to compare: each table's rows in order, quiet columns aside. */
+const comparableData = (data: UserData) =>
+  JSON.stringify(
+    userTables.map(({ name }) => (data[name] ?? []).map(comparable).sort()),
+  );
+
 /* Whether two copies of your data hold the same rows, quiet columns aside. */
 export const sameUserData = (left: UserData, right: UserData) =>
-  userTables.every(({ name }) => {
-    const sides = [left[name] ?? [], right[name] ?? []].map((rows) =>
-      rows.map(comparable).sort(),
-    );
+  comparableData(left) === comparableData(right);
 
-    return JSON.stringify(sides[0]) === JSON.stringify(sides[1]);
-  });
+/* A short mark of a copy of your data: two copies share it when they hold the same. */
+const fingerprint = async ({ idChanges, tables }: VersionedSnapshot) => {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(`${idChanges}:${comparableData(tables)}`),
+  );
 
-/* Whether the account's backup `backupId` is what this device holds now. */
-const holdsSameData = async (
-  db: LocalDb,
-  account: AccountBackups,
-  backupId: string,
-) => {
-  const { snapshot } = await account.read(backupId);
+  return Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+};
+
+/* Whether an account backup's data is what this device holds now. */
+const holdsSnapshot = async (db: LocalDb, snapshot: VersionedSnapshot) => {
   const [{ count }] = await runQuery<{ count: number }>(
     db,
     "SELECT count(*)::int AS count FROM device.id_changes",

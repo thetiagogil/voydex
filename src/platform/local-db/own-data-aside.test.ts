@@ -135,11 +135,13 @@ describe("a friend's device, and an account logged in on it for a while", () => 
 
   it("sets the friend's data aside, keeps it out of my account, and gives it back at log out", async () => {
     const { account, backups } = createAccount();
+    /* No reload here, so no upload goes unnoted. */
+    const uploads = { read: () => null, write: () => undefined };
     const { holds, store } = createStore();
 
     await logIn(mine, account, createStore().store);
     await addPlay(mine, myPlayId, "My run");
-    await backUpDevice(mine, { account, accountId, ensureGame });
+    await backUpDevice(mine, { account, accountId, ensureGame, uploads });
 
     /* I log in on the friend's device: nothing is asked. */
     await logIn(friend, account, store);
@@ -151,7 +153,7 @@ describe("a friend's device, and an account logged in on it for a while", () => 
     await friend.query(
       "UPDATE public.profiles SET display_name = 'Sam' WHERE id = auth.uid()",
     );
-    await backUpDevice(friend, { account, accountId, ensureGame });
+    await backUpDevice(friend, { account, accountId, ensureGame, uploads });
     expect(
       backups
         .at(-1)!
