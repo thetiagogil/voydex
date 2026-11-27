@@ -193,9 +193,9 @@ export const GalleryOverlays = () => {
               <TipRating
                 current="Weak"
                 scale={[
-                  { chip: "easily", label: "Strong", tone: "ok" },
-                  { chip: "with effort", label: "Moderate", tone: "warn" },
                   { chip: "struggles", label: "Weak", tone: "danger" },
+                  { chip: "with effort", label: "Moderate", tone: "warn" },
+                  { chip: "easily", label: "Strong", tone: "ok" },
                 ]}
               />
             </TipBody>

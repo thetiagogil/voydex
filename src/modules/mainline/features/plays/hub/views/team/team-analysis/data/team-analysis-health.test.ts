@@ -156,9 +156,9 @@ describe("buildTeamAnalysisHealth", () => {
     );
     expect(rows(metric)).toEqual(["Type 4 | Harder to beat than the rest"]);
     expect(scale(metric)).toEqual([
-      "Strong | easily",
-      "Moderate | with effort",
       "Weak | struggles",
+      "Moderate | with effort",
+      "Strong | easily",
     ]);
   });
 
@@ -323,10 +323,54 @@ describe("buildTeamAnalysisHealth", () => {
       "Type 3 | Super effective, but not strong enough for two hits",
     ]);
     expect(scale(metric)).toEqual([
-      "Strong | 8+",
-      "Moderate | 5+",
       "Weak | fewer",
+      "Moderate | 5+",
+      "Strong | 8+",
     ]);
+  });
+
+  it("fills each card's bar with what the card counts, from empty to full", () => {
+    const fills = (reading: TeamFieldReading, typed = 6) =>
+      Object.fromEntries(
+        Object.entries(build(reading, typed)).map(([id, metric]) => [
+          id,
+          metric.fill,
+        ]),
+      );
+
+    /* All ten types answered and knocked out in two hits, nothing shared. */
+    expect(fills(field({ share: 0.2 }))).toEqual({
+      "move-coverage": 1,
+      "team-health": 0.8,
+      "threat-response": 1,
+      "weakness-control": 1,
+    });
+
+    /* Four types unanswered, three slow, and of two shared weaknesses one open. */
+    const mixed = fills(
+      field({
+        share: 0.6,
+        types: typeReadings({
+          1: { answerCost: 1.1 },
+          2: { answerCost: 1.1, hitsToKnockOut: 3 },
+          3: { answerCost: 1.1, hitsToKnockOut: 4 },
+          4: { hitsToKnockOut: 3 },
+          5: { answerCost: 1.2, beats: ["Mismagius", "Luxray"] },
+          6: { beats: ["Luxray", "Staravia"] },
+        }),
+      }),
+    );
+
+    expect(mixed["threat-response"]).toBe(0.6);
+    expect(mixed["move-coverage"]).toBe(0.7);
+    expect(mixed["weakness-control"]).toBe(0.5);
+    expect(mixed["team-health"]).toBeCloseTo(0.4);
+
+    /* A fight that costs the whole team and more leaves the bar empty, never below. */
+    expect(fills(field({ share: 2.4 }))["team-health"]).toBe(0);
+
+    /* No bar while the team can't be read. */
+    expect(Object.values(fills(field(), 4))).toEqual([null, null, null, null]);
   });
 
   it("flags a shared weak spot only while nothing answers it", () => {

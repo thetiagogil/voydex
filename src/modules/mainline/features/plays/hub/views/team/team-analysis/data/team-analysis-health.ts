@@ -57,6 +57,9 @@ const getCountForRatio = (total: number, ratio: number) => {
   return total;
 };
 
+/* A card's bar, kept between empty and full. */
+const toFill = (value: number) => Math.min(1, Math.max(0, value));
+
 /* "A, B and C": the list style of the analysis sentences. */
 export const joinTeamAnalysisList = (
   items: string[],
@@ -234,6 +237,8 @@ export const buildTeamAnalysisHealth = ({
       : `your top level (Lv. ${field.level})`
   }. The types are shared across your whole team, so every Pokémon counts.`;
   const teamHealthMetric: TeamAnalysisHealthMetric = {
+    /* What beating the yardstick leaves of your team: the less it costs, the fuller. */
+    fill: canRead ? toFill(1 - field.share) : null,
     id: "team-health",
     line: !canRead
       ? missingLine
@@ -279,9 +284,9 @@ export const buildTeamAnalysisHealth = ({
             ]),
             rule: yardstick,
             scale: [
-              { chip: "easily", label: "Strong", tone: "ok" },
-              { chip: "with effort", label: "Moderate", tone: "warn" },
               { chip: "struggles", label: "Weak", tone: "danger" },
+              { chip: "with effort", label: "Moderate", tone: "warn" },
+              { chip: "easily", label: "Strong", tone: "ok" },
             ],
             summary: teamHealthSummaries[teamHealthStatus],
           },
@@ -298,6 +303,7 @@ export const buildTeamAnalysisHealth = ({
       })
     : "limited-data";
   const threatResponseMetric: TeamAnalysisHealthMetric = {
+    fill: canRead ? toFill(total ? answeredCount / total : 1) : null,
     id: "threat-response",
     line: canRead
       ? [text(`${answeredCount} of ${total} answered`)]
@@ -313,9 +319,9 @@ export const buildTeamAnalysisHealth = ({
           ),
           rule: "A type is answered when your best Pokémon against it beats one without fainting.",
           scale: [
-            { chip: "all", label: "Strong", tone: "ok" },
-            { chip: "3 in 4", label: "Moderate", tone: "warn" },
             { chip: "fewer", label: "Weak", tone: "danger" },
+            { chip: "3 in 4", label: "Moderate", tone: "warn" },
+            { chip: "all", label: "Strong", tone: "ok" },
           ],
           summary: openReadings.length
             ? `${answeredCount} of ${total} types answered.`
@@ -342,6 +348,7 @@ export const buildTeamAnalysisHealth = ({
       })
     : "limited-data";
   const moveCoverageMetric: TeamAnalysisHealthMetric = {
+    fill: canRead ? toFill(total ? coveredCount / total : 0) : null,
     id: "move-coverage",
     line: canRead
       ? [text(`${coveredCount} of ${total} types in two hits`)]
@@ -366,17 +373,17 @@ export const buildTeamAnalysisHealth = ({
           ]),
           rule: "A type counts when your hardest hit knocks one out in two hits or fewer.",
           scale: [
-            {
-              chip: `${getCountForRatio(total, thresholds.coverage.strongAt)}+`,
-              label: "Strong",
-              tone: "ok",
-            },
+            { chip: "fewer", label: "Weak", tone: "danger" },
             {
               chip: `${getCountForRatio(total, thresholds.coverage.moderateAt)}+`,
               label: "Moderate",
               tone: "warn",
             },
-            { chip: "fewer", label: "Weak", tone: "danger" },
+            {
+              chip: `${getCountForRatio(total, thresholds.coverage.strongAt)}+`,
+              label: "Strong",
+              tone: "ok",
+            },
           ],
           summary: slowTypes.length
             ? `${coveredCount} of ${total} types fall in two hits.`
@@ -398,6 +405,14 @@ export const buildTeamAnalysisHealth = ({
     (reading) => !isAnswered(reading),
   );
   const weaknessControlMetric: TeamAnalysisHealthMetric = {
+    /* The shared weaknesses with an answer; full when nothing is shared. */
+    fill: !canRead
+      ? null
+      : toFill(
+          pressureReadings.length
+            ? 1 - openPressure.length / pressureReadings.length
+            : 1,
+        ),
     id: "weakness-control",
     line: !canRead
       ? missingLine
@@ -423,9 +438,9 @@ export const buildTeamAnalysisHealth = ({
           ),
           rule: `A shared weakness is a type that hits ${sharedWords} super effectively and beats ${sharedPronoun} one on one.`,
           scale: [
-            { chip: "none open", label: "Strong", tone: "ok" },
-            { chip: "one", label: "Moderate", tone: "warn" },
             { chip: "more", label: "Weak", tone: "danger" },
+            { chip: "one", label: "Moderate", tone: "warn" },
+            { chip: "none open", label: "Strong", tone: "ok" },
           ],
           summary: pressureReadings.length
             ? `${pressureReadings.length} shared ${
