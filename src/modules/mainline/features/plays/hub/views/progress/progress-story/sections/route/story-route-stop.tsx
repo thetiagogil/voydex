@@ -24,8 +24,9 @@ const selectedRing =
  * Stops still ahead sink back (a grey ring on a grey fill, a quieter name),
  * so how far you've come reads at a glance; their numbers keep 4.5:1. A
  * recorded one is a row of its own (loud where you remember): flat, in a
- * soft tint of its badge's type (`tile-link-earned`), with what you got
- * there on its right (`memento`).
+ * soft tint of its badge's type, its ends round on the medallion's own
+ * centre (`tile-link-earned`), with what you got there on its right
+ * (`memento`).
  */
 export const StoryRouteStop = ({
   id,
@@ -112,6 +113,8 @@ export const StoryRouteStop = ({
         <span
           className={cn(
             "text-13 flex flex-wrap items-center gap-x-1.5",
+            /* A recorded row's three lines stay inside its marker's height. */
+            tint && "leading-tight",
             state === "next"
               ? "text-select-ink font-extrabold"
               : "text-ink-3 font-semibold",
@@ -123,7 +126,7 @@ export const StoryRouteStop = ({
         </span>
       ) : null}
       {recordedOn ? (
-        <span className="text-ink-3 copy-meta">{recordedOn}</span>
+        <span className="text-ink-3 copy-meta leading-tight">{recordedOn}</span>
       ) : null}
       {status || recordedOn ? null : (
         <span className="sr-only">

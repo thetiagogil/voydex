@@ -719,10 +719,12 @@ text-select-ink` (a mode switch or scope picker takes `bg-calm`); tips that expl
   medallions. A stop is its `MilestoneMarker`
   (`lg`) with its name and one quiet line beside it (its place, then where
   it stands); a recorded one is a row of its own, loud where you remember:
-  flat, in a soft tint of its badge's type with a thin line a step deeper
-  and the 32px corner that follows its round medallion (`tile-link-earned`,
-  chosen 2026-11-27: the colour stays, the white band, the edge and the
-  lift of the old sticker do not), with what you got there on its right
+  flat, in a soft tint of its badge's type with a thin line a step deeper,
+  its ends round on the medallion's own centre (`tile-link-earned`, chosen
+  2026-11-27: a 56px marker inside 8px of padding makes every recorded row
+  72px, and its corner is half of that, so the badge's circle and the
+  row's end run side by side; the colour stays, the white band, the edge
+  and the lift of the old sticker do not), with what you got there on its right
   (the Pokémon you chose, the team then); stops still ahead sink back (a grey
   ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
   wears a `ring-select-ink` ring. From 1024px the open stop or place shows
