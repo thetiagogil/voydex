@@ -13,7 +13,6 @@ import {
   samplePlayHistory,
   samplePlayTeam,
 } from "@/features/site/data/sample-play";
-import { getTypeColourStyle } from "@/features/site/utils/type-colour";
 import { PickedMark } from "@/shared/components/picked-mark";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { cn } from "@/shared/utils/cn";
@@ -77,7 +76,7 @@ export const StartAPlayStage = ({ art }: { art: PublicArt }) => (
   </IntroStage>
 );
 
-/* Along the way: the team as stickers and the gym badges as stamps. */
+/* Along the way: the team as a Play's card shows it and the gym badges as stamps. */
 export const RecordAsYouGoStage = ({
   art,
   playArt,
@@ -91,18 +90,7 @@ export const RecordAsYouGoStage = ({
     <StageLabel>Team</StageLabel>
     <div className="grid grid-cols-6 gap-1.5">
       {samplePlayTeam.map((pokemon) => (
-        <span
-          key={pokemon.slug}
-          style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-sm"
-        >
-          <PokemonRender
-            art={art}
-            pokemon={pokemon}
-            fallback="letter"
-            className="size-[88%]"
-          />
-        </span>
+        <Fragment key={pokemon.slug}>{art.pokemonAvatar({ pokemon })}</Fragment>
       ))}
     </div>
     <StageLabel>Gym badges</StageLabel>
@@ -149,9 +137,9 @@ export const LookBackStage = ({ playArt }: { playArt: PublicPlayArt }) => (
   </IntroStage>
 );
 
-const tileClassName = "grid size-13 place-items-center rounded-sm sm:size-14";
+const tileClassName = "size-13 sm:size-14";
 
-/* A Plan in the making: its picks, then the slots still open. */
+/* A Plan in the making, as My Plans shows one: its picks, then the slots still open. */
 export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
   <div
     role="img"
@@ -160,29 +148,22 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
     className="flex gap-1.5"
   >
     {introPlan.picks.map((pokemon) => (
-      <span
-        key={pokemon.slug}
-        style={getTypeColourStyle(pokemon.type)}
-        className={cn("type-tint", tileClassName)}
-      >
-        <PokemonRender
-          art={art}
-          pokemon={pokemon}
-          fallback="letter"
-          className="size-[88%]"
-        />
-      </span>
+      <Fragment key={pokemon.slug}>
+        {art.pokemonAvatar({ className: tileClassName, pokemon })}
+      </Fragment>
     ))}
     {Array.from(
       { length: introPlan.slots - introPlan.picks.length },
       (_, index) => (
-        <span key={index} className={cn("empty-slot", tileClassName)} />
+        <Fragment key={index}>
+          {art.pokemonAvatarSlot({ className: tileClassName })}
+        </Fragment>
       ),
     )}
   </div>
 );
 
-/* A few Codex entries, plain tiles as its list draws them. */
+/* A few Codex entries, on the white card its list draws them on. */
 export const CodexStage = ({ art }: { art: PublicArt }) => (
   <div
     role="img"
@@ -193,7 +174,10 @@ export const CodexStage = ({ art }: { art: PublicArt }) => (
     {introCodexEntries.map((entry) => (
       <span
         key={entry.slug}
-        className={cn("border-line bg-surface border-[1.5px]", tileClassName)}
+        className={cn(
+          "plain-card grid place-items-center rounded-sm",
+          tileClassName,
+        )}
       >
         <PokemonRender
           art={art}

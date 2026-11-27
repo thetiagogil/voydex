@@ -123,7 +123,8 @@ const NewPlaySteps = ({
               <span
                 className={cn(
                   "copy-label grid size-6 place-items-center rounded-full tabular-nums",
-                  isCurrent ? "bg-ink text-on-ink" : "bg-surface-2 text-ink-2",
+                  /* Where you are: the blue of every pick. */
+                  isCurrent ? "bg-calm text-white" : "bg-surface-2 text-ink-2",
                 )}
               >
                 {number}
