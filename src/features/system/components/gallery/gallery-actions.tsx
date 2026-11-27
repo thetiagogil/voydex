@@ -197,11 +197,6 @@ export const GalleryActions = () => {
               See all
             </TextLink>
           </Specimen>
-          <Specimen label="onInk" note="Inside a dark tip" ground="ink">
-            <TextLink href="#links" tone="onInk">
-              Open in Codex
-            </TextLink>
-          </Specimen>
         </GalleryGroup>
       </GallerySection>
     </>

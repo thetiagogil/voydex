@@ -13,7 +13,12 @@ import {
   type CollectibleAreaLevel,
   type CollectibleAreaSummary,
 } from "../../utils/collectibles-progress-model";
-import { TipNamed, TipText } from "@/shared/components/tip-parts";
+import {
+  TipBody,
+  TipCard,
+  TipNamed,
+  TipText,
+} from "@/shared/components/tip-parts";
 
 export const getCollectibleAreaHeadingId = (areaId: string) =>
   `${areaId}-heading`;
@@ -153,12 +158,17 @@ export const CollectibleAreaSection = ({
                   <ExplanatoryTip
                     triggerVariant="raised"
                     triggerLabel={`What #${entry.sortOrder} needs`}
-                    contentClassName="w-64"
                     content={
                       place ? (
-                        <TipNamed name={place}>{entry.description}</TipNamed>
+                        <TipNamed name={place} width="sm">
+                          {entry.description}
+                        </TipNamed>
                       ) : (
-                        <TipText>{entry.description}</TipText>
+                        <TipCard width="sm">
+                          <TipBody>
+                            <TipText>{entry.description}</TipText>
+                          </TipBody>
+                        </TipCard>
                       )
                     }
                   />

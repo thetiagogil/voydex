@@ -6,7 +6,6 @@ import {
   type TrainerPokemonType,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { TrainerPokemonRows } from "@/modules/mainline/shared/client/trainer-pokemon-reader";
-import { joinStatsList } from "@/modules/mainline/shared/utils/stats-format";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 export type StatsTypeTally = {
@@ -36,7 +35,17 @@ export type StatsRegion = {
   gameSlug: string | null;
   name: string;
   playLabels: string[];
+  /* Your Plays there, newest first, each with its game's cover. */
+  plays: StatsRegionPlay[];
   slug: string;
+};
+
+export type StatsRegionPlay = {
+  coverImageUrl: string | null;
+  gameName: string;
+  gameSlug: string | null;
+  id: string;
+  name: string;
 };
 
 export type StatsFriend = {
@@ -51,8 +60,6 @@ export type StatsFriend = {
    */
   family: TrainerPokemonEntry[];
   imageUrl: string | null;
-  /* The members you used, in Pokédex order: "Kirlia, Gardevoir and Gallade". */
-  memberNames: string;
   /* "Kirlia family", or the species' own name when it's the only one. */
   name: string;
   playCount: number;
@@ -373,10 +380,6 @@ const findOldFriends = (entries: TrainerPokemonEntry[]): StatsFriend[] => {
           entry: lead,
           family,
           imageUrl: lead.imageUrl,
-          memberNames: joinStatsList(
-            family.map((member) => member.name),
-            "and",
-          ),
           name: family.length > 1 ? `${lead.name} family` : lead.name,
           playCount: playIds.size,
           speciesSlug: lead.speciesSlug,
@@ -437,6 +440,18 @@ export const buildStatsModel = (
       gameSlug: latestGame?.slug ?? null,
       name: region.name,
       playLabels: regionPlays.map(getTrainerPlayLabel),
+      plays: regionPlays.map((play) => {
+        const game =
+          play.game_id === null ? undefined : gameById.get(play.game_id);
+
+        return {
+          coverImageUrl: game ? getGameCoverImageUrl(game) : null,
+          gameName: game?.name ?? play.game_name ?? "Unknown game",
+          gameSlug: game?.slug ?? null,
+          id: play.play_id ?? "",
+          name: play.play_name,
+        };
+      }),
       slug: region.slug,
     };
   });

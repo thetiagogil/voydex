@@ -41,6 +41,10 @@ export type BuildItemOption = BuildOption & {
 };
 
 export type BuildMoveOption = BuildOption & {
+  /* Its figures as this game plays them; null where it has none. */
+  accuracy: number | null;
+  power: number | null;
+  pp: number | null;
   damageClass: string | null;
   /* What the move does, as of the generation. */
   effect: string | null;

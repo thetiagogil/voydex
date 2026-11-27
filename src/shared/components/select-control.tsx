@@ -458,7 +458,7 @@ export const SelectControl = (props: SelectControlProps) => {
   const picked = props.options.find((option) => option.value === props.value);
 
   return (
-    <HoverInfo info={picked?.info}>
+    <HoverInfo info={picked?.info} name={picked?.label}>
       <SelectControlField
         {...props}
         className={cn("w-full", props.className)}

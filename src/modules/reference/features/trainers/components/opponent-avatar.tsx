@@ -50,6 +50,8 @@ export const OpponentAvatar = ({
           decorative={decorative}
           imageUrl={ace.imageUrl}
           name={ace.name}
+          /* The tint is the trainer's type, not the ace's own. */
+          tipTypeSlug={null}
           typeSlug={typeSlug}
         />
       ) : null}

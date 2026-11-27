@@ -11,6 +11,7 @@ const milestone = (
 ): MainlinePlayBadgeCaseMilestone => ({
   badge_refs: [],
   completed_at: null,
+  description: null,
   is_completed: false,
   milestone_id: 1,
   milestone_name: "Milestone",

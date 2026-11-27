@@ -3,6 +3,7 @@ import {
   getLearnMethodLabel,
 } from "@/modules/reference/features/pokemon/domain/learn-methods";
 import { readLearnsetFormId } from "@/modules/reference/features/pokemon/server/learnset-form-reader";
+import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
@@ -345,55 +346,110 @@ const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
     (left, right) => right.generation_start_id - left.generation_start_id,
   );
 
-/* The given moves with their type, category and effect as of this generation, by name. */
+type MoveFactsRow = {
+  accuracy: number | null;
+  damage_class: string;
+  effect_summary: string | null;
+  generation_start_id: number;
+  move_id: number;
+  power: number | null;
+  pp: number | null;
+  type_id: number;
+};
+
+/*
+ * Each move's facts as one game plays them: its newest row up to the
+ * generation, with that version group's override laid over it (Absorb is 40
+ * power in Let's Go). The effect text always comes from the generation row.
+ */
+export const pickMoveFacts = (
+  rows: readonly MoveFactsRow[],
+  overrides: readonly (Pick<
+    MoveFactsRow,
+    "accuracy" | "damage_class" | "move_id" | "power" | "pp" | "type_id"
+  > & { version_group_id: number })[],
+  /* The game's version group; null reads the generation's figures alone. */
+  versionGroupId: number | null,
+) => {
+  const factsByMoveId = new Map<number, MoveFactsRow>();
+
+  for (const row of newestFirst([...rows])) {
+    if (!factsByMoveId.has(row.move_id)) {
+      factsByMoveId.set(row.move_id, row);
+    }
+  }
+
+  for (const override of overrides) {
+    const facts = factsByMoveId.get(override.move_id);
+
+    /* Another version group's override says nothing about this game. */
+    if (facts && override.version_group_id === versionGroupId) {
+      factsByMoveId.set(override.move_id, {
+        ...facts,
+        accuracy: override.accuracy,
+        damage_class: override.damage_class,
+        power: override.power,
+        pp: override.pp,
+        type_id: override.type_id,
+      });
+    }
+  }
+
+  return factsByMoveId;
+};
+
+/*
+ * The given moves with their type, category, figures and effect as this
+ * game plays them, by name.
+ */
 export const readMoveOptions = async (
   supabase: ServerSupabaseClient,
   {
     generationId,
     learnedBy,
     moveIds,
+    versionGroupId,
   }: {
     generationId: number;
     /* The form and game(s) whose learnset says how each move is learned. */
     learnedBy?: { formId: number; gameIds: number[]; versionGroupId: number };
     moveIds: number[];
+    /* The game's version group, whose own move figures win; null for none. */
+    versionGroupId: number | null;
   },
 ): Promise<BuildMoveOption[]> => {
   if (!moveIds.length) {
     return [];
   }
 
-  const [movesResult, attributesResult, learnMethods] = await Promise.all([
-    supabase
-      .schema("reference")
-      .from("moves")
-      .select("id, name")
-      .in("id", moveIds),
-    supabase
-      .schema("reference")
-      .from("move_attributes")
-      .select(
-        "move_id, generation_start_id, type_id, damage_class, effect_summary",
-      )
-      .in("move_id", moveIds)
-      .lte("generation_start_id", generationId),
-    learnedBy ? readMoveLearnMethods(supabase, learnedBy) : null,
-  ]);
+  const [movesResult, attributesResult, learnMethods, overrides] =
+    await Promise.all([
+      supabase
+        .schema("reference")
+        .from("moves")
+        .select("id, name")
+        .in("id", moveIds),
+      supabase
+        .schema("reference")
+        .from("move_attributes")
+        .select(
+          "move_id, generation_start_id, type_id, damage_class, effect_summary, accuracy, power, pp",
+        )
+        .in("move_id", moveIds)
+        .lte("generation_start_id", generationId),
+      learnedBy ? readMoveLearnMethods(supabase, learnedBy) : null,
+      readMoveVersionGroupOverrides(supabase, { moveIds, versionGroupId }),
+    ]);
 
   if (movesResult.error || attributesResult.error) {
     throw new Error("Unable to load its moves.");
   }
 
-  const attributeByMoveId = new Map<
-    number,
-    { damage_class: string; effect_summary: string | null; type_id: number }
-  >();
-
-  for (const row of newestFirst(attributesResult.data ?? [])) {
-    if (!attributeByMoveId.has(row.move_id)) {
-      attributeByMoveId.set(row.move_id, row);
-    }
-  }
+  const attributeByMoveId = pickMoveFacts(
+    attributesResult.data ?? [],
+    overrides,
+    versionGroupId,
+  );
 
   const typeIds = [
     ...new Set([...attributeByMoveId.values()].map((row) => row.type_id)),
@@ -420,11 +476,14 @@ export const readMoveOptions = async (
       const type = attributes ? typeById.get(attributes.type_id) : undefined;
 
       return {
+        accuracy: attributes?.accuracy ?? null,
         damageClass: attributes?.damage_class ?? null,
         effect: attributes?.effect_summary ?? null,
         id: move.id,
         learn: learnMethods?.get(move.id) ?? null,
         name: move.name,
+        power: attributes?.power ?? null,
+        pp: attributes?.pp ?? null,
         typeName: type?.name ?? null,
         typeSlug: type?.slug ?? null,
       };

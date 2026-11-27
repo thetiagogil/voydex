@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   getAvailableItemIds,
   getLearnableMoveIds,
+  pickMoveFacts,
   pickMoveLearnMethods,
 } from "./build-option-readers";
 
@@ -109,5 +110,68 @@ describe("pickMoveLearnMethods", () => {
 
     expect(picked.get(30)).toMatchObject({ detail: "TM 31", order: 31 });
     expect(picked.has(40)).toBe(false);
+  });
+});
+
+describe("pickMoveFacts", () => {
+  const facts = (moveId: number, generation: number, power: number | null) => ({
+    accuracy: 100,
+    damage_class: "special",
+    effect_summary: `Effect as of generation ${generation}.`,
+    generation_start_id: generation,
+    move_id: moveId,
+    power,
+    pp: 25,
+    type_id: 12,
+  });
+  /* Absorb is 40 power in Let's Go (version group 19), 20 in the rest of its generation. */
+  const letsGoAbsorb = {
+    accuracy: 100,
+    damage_class: "special",
+    move_id: 71,
+    power: 40,
+    pp: 15,
+    type_id: 12,
+    version_group_id: 19,
+  };
+
+  it("takes each move's newest row up to the generation", () => {
+    const picked = pickMoveFacts([facts(71, 1, 20), facts(71, 4, 20)], [], 8);
+
+    expect(picked.get(71)?.generation_start_id).toBe(4);
+  });
+
+  it("lays the game's own override over the generation's figures", () => {
+    const picked = pickMoveFacts([facts(71, 7, 20)], [letsGoAbsorb], 19);
+
+    expect(picked.get(71)).toMatchObject({
+      effect_summary: "Effect as of generation 7.",
+      power: 40,
+      pp: 15,
+    });
+  });
+
+  it("leaves another game's override out", () => {
+    /* Ultra Sun (version group 18) shares the generation, not Let's Go's figures. */
+    const picked = pickMoveFacts([facts(71, 7, 20)], [letsGoAbsorb], 18);
+
+    expect(picked.get(71)).toMatchObject({ power: 20, pp: 25 });
+  });
+
+  it("reads the generation's figures alone without a version group", () => {
+    const picked = pickMoveFacts([facts(71, 7, 20)], [letsGoAbsorb], null);
+
+    expect(picked.get(71)?.power).toBe(20);
+  });
+
+  it("ignores an override for a move that wasn't asked for", () => {
+    const picked = pickMoveFacts(
+      [facts(71, 7, 20)],
+      [{ ...letsGoAbsorb, move_id: 99, power: null }],
+      19,
+    );
+
+    expect([...picked.keys()]).toEqual([71]);
+    expect(picked.get(71)?.power).toBe(20);
   });
 });

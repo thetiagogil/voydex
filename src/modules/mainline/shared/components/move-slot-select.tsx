@@ -4,9 +4,10 @@ import { useRef } from "react";
 
 import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
 import {
-  PokemonTypeBadge,
-  PokemonTypeMark,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+  MoveTip,
+  type MoveTipMove,
+} from "@/modules/reference/features/moves/components/move-tip";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -27,10 +28,13 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
-import { TipNamed } from "@/shared/components/tip-parts";
 import type { BuildMoveOption } from "@/modules/mainline/shared/types";
 
 export type MoveSlotOption = {
+  /* Its figures as this game plays them. */
+  accuracy?: number | null;
+  power?: number | null;
+  pp?: number | null;
   /* Physical, Special or Status. */
   category?: string | null;
   /* What the move does: a faint "i" in the list, and the field's hover. */
@@ -58,14 +62,36 @@ export const toMoveSlotOptions = (
   moves: readonly BuildMoveOption[],
 ): MoveSlotOption[] =>
   moves.map((move) => ({
+    accuracy: move.accuracy,
     category: move.damageClass,
     info: move.effect,
     learn: move.learn,
     label: move.name,
+    power: move.power,
+    pp: move.pp,
     typeName: move.typeName,
     typeSlug: move.typeSlug,
     value: String(move.id),
   }));
+
+/* Whether a move has anything for a tip: what it does, or a figure. */
+const hasMoveTip = (option: MoveSlotOption) =>
+  Boolean(option.info) ||
+  [option.power, option.accuracy, option.pp].some(
+    (figure) => figure !== null && figure !== undefined,
+  );
+
+/* A move option as its tip shows it. */
+const toMoveTipMove = (option: MoveSlotOption): MoveTipMove => ({
+  accuracy: option.accuracy,
+  category: option.category,
+  effect: option.info,
+  name: option.label,
+  power: option.power,
+  pp: option.pp,
+  typeName: option.typeName,
+  typeSlug: option.typeSlug,
+});
 
 /* Moves it knows that its learnset here doesn't list. */
 const otherGroup = "Others it knows";
@@ -103,19 +129,6 @@ export const groupMoveSlotOptions = (
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
-
-/* A move's type beside its name in the info tip. */
-const MoveTipMark = ({ slug }: { slug: string | null | undefined }) => {
-  const type = toTypeSlug(slug);
-
-  return type ? (
-    <PokemonTypeMark
-      type={type}
-      className="size-6 shrink-0"
-      iconClassName="size-3.5"
-    />
-  ) : null;
-};
 
 const MoveType = ({ option }: { option: MoveSlotOption }) => {
   const type = toTypeSlug(option.typeSlug);
@@ -237,21 +250,14 @@ export const MoveSlotSelect = ({
                           {option.label}
                         </span>
                         <MoveCategoryIcon damageClass={option.category} />
-                        {option.info ? (
+                        {hasMoveTip(option) ? (
                           <>
-                            <span className="sr-only">, {option.info}</span>
+                            {option.info ? (
+                              <span className="sr-only">, {option.info}</span>
+                            ) : null}
                             <ExplanatoryTip
                               inert
-                              content={
-                                <TipNamed
-                                  leading={
-                                    <MoveTipMark slug={option.typeSlug} />
-                                  }
-                                  name={option.label}
-                                >
-                                  {option.info}
-                                </TipNamed>
-                              }
+                              content={<MoveTip move={toMoveTipMove(option)} />}
                               triggerVariant="subtle"
                             />
                           </>
@@ -269,7 +275,17 @@ export const MoveSlotSelect = ({
   );
 
   /* A picked move shows what it does on hover, as the ability field does. */
-  return <HoverInfo info={selected?.info}>{field}</HoverInfo>;
+  return (
+    <HoverInfo
+      card={
+        selected && hasMoveTip(selected) ? (
+          <MoveTip move={toMoveTipMove(selected)} />
+        ) : undefined
+      }
+    >
+      {field}
+    </HoverInfo>
+  );
 };
 
 /*

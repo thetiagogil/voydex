@@ -15,7 +15,10 @@ import { formatMonthYear } from "@/modules/mainline/shared/utils/stats-format";
 import { PokemonCollectorCard } from "@/modules/reference/features/pokemon/components/pokemon-collector-card";
 import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-empty-slot";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import {
+  getPokemonTypeColour,
+  getPokemonTypeCssVariables,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import {
   AppIcon,
@@ -30,7 +33,14 @@ import { cardTiltClassName, cardTiltHandlers } from "@/shared/utils/card-tilt";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 import { IconTip } from "@/shared/components/icon-tip";
-import { TipNamed } from "@/shared/components/tip-parts";
+import {
+  TipBody,
+  TipCard,
+  TipHead,
+  TipRow,
+  TipRows,
+} from "@/shared/components/tip-parts";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 
 type StatsStyleSectionProps = {
   onOpenFriend: (friend: StatsFriend) => void;
@@ -322,12 +332,37 @@ export const StatsStyleSection = ({
                     <ExplanatoryTip
                       triggerVariant="raised"
                       triggerLabel={`${friend.entry.name}'s family`}
-                      contentClassName="w-60"
                       content={
-                        <TipNamed name={`${friend.entry.name}'s family`}>
-                          You used {friend.memberNames} across{" "}
-                          {friend.playCount} Plays.
-                        </TipNamed>
+                        <TipCard
+                          tint={getPokemonTypeColour(friend.types[0]?.slug)}
+                          width="sm"
+                        >
+                          <TipHead
+                            name={`${friend.entry.name}'s family`}
+                            sub={`${friend.playCount} Plays between them`}
+                          />
+                          <TipBody>
+                            <TipRows>
+                              {friend.family.map((member) => (
+                                <TipRow
+                                  key={member.speciesSlug}
+                                  chip={`${member.playIds.length} ${member.playIds.length === 1 ? "Play" : "Plays"}`}
+                                  leading={
+                                    <PokemonAvatar
+                                      decorative
+                                      name={member.name}
+                                      className="size-8 shrink-0"
+                                      imageUrl={member.imageUrl}
+                                      typeSlug={member.types[0]?.slug ?? null}
+                                    />
+                                  }
+                                  name={member.name}
+                                  tone="plain"
+                                />
+                              ))}
+                            </TipRows>
+                          </TipBody>
+                        </TipCard>
                       }
                     >
                       <AppIcon icon={appIcons.product.family} size="sm" />

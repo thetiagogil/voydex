@@ -22,9 +22,12 @@ const toMoveOptions = (
   ...member.moves
     .filter((move) => !options.moves.some((option) => option.id === move.id))
     .map((move) => ({
+      accuracy: move.attributes?.accuracy ?? null,
       category: move.attributes?.damage_class ?? null,
       info: move.attributes?.effect_summary ?? null,
       label: move.name,
+      power: move.attributes?.power ?? null,
+      pp: move.attributes?.pp ?? null,
       typeName: move.type?.name ?? null,
       typeSlug: move.type?.slug ?? null,
       value: String(move.id),

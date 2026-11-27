@@ -14,6 +14,23 @@ export const getPlayTeamMemberName = (member: PlayTeamMemberDisplay) => {
   return member.nickname ?? member.species_name ?? "Unknown Pokémon";
 };
 
+/*
+ * The quiet line under a member's name in its tip: its species when it goes
+ * by a nickname, then its level ("Typhlosion · Lv. 48"). Null with neither.
+ */
+export const getPlayTeamMemberDetail = (
+  member: Pick<
+    MainlinePlayTeamMemberRow,
+    "level" | "nickname" | "species_name"
+  >,
+) =>
+  [
+    member.nickname ? member.species_name : null,
+    member.level === null ? null : `Lv. ${member.level}`,
+  ]
+    .filter(Boolean)
+    .join(" · ") || null;
+
 export const getPlayTeamMemberImageUrl = (
   member: PlayTeamMemberDisplay,
   size?: PokemonImageSize,

@@ -145,6 +145,7 @@ export const loadPlanMemberOptionsAction = async (input: {
         generationId: group.generation_id,
         learnedBy: { formId, gameIds, versionGroupId: group.id },
         moveIds: getLearnableMoveIds(learnsets, gameIds),
+        versionGroupId: group.id,
       }),
     ]);
 

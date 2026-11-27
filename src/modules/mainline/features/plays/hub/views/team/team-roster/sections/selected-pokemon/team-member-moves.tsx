@@ -2,16 +2,13 @@ import { useId } from "react";
 
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
-import {
-  PokemonTypeBadge,
-  PokemonTypeMark,
-} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { MoveTip } from "@/modules/reference/features/moves/components/move-tip";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import type { TeamMove } from "./team-member-model";
 import { TeamMemberSectionLabel } from "./team-member-section-label";
-import { TipNamed } from "@/shared/components/tip-parts";
 
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
@@ -41,23 +38,22 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       ) : (
         <MoveCategoryIcon damageClass={move.category} />
       )}
-      {move.effect ? (
+      {move.effect || move.power || move.accuracy || move.pp ? (
         <ExplanatoryTip
           content={
-            <TipNamed
-              leading={
-                typeSlug ? (
-                  <PokemonTypeMark
-                    type={typeSlug}
-                    className="size-6 shrink-0"
-                    iconClassName="size-3.5"
-                  />
-                ) : undefined
-              }
-              name={move.name}
-            >
-              {move.effect}
-            </TipNamed>
+            <MoveTip
+              move={{
+                accuracy: move.accuracy,
+                /* A Z-Move or Max Move reads its own way: no category of its own. */
+                category: move.detail ? null : move.category,
+                effect: move.effect,
+                name: move.name,
+                power: move.power,
+                pp: move.pp,
+                typeName: move.type?.name,
+                typeSlug,
+              }}
+            />
           }
           triggerLabel={`About ${move.name}`}
           triggerVariant="subtle"

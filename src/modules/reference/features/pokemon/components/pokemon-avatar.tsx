@@ -1,11 +1,17 @@
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import {
-  isPokemonTypeSlug,
-  type PokemonTypeSlug,
-} from "@/modules/reference/features/pokemon/domain/type-slugs";
+  getPokemonTypeColour,
+  getPokemonTypeCssVariables,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
-import { IconTip } from "@/shared/components/icon-tip";
+import { TipCard, TipHead } from "@/shared/components/tip-parts";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 /*
  * The one small Pokémon: its art on a round pale tint of its type (neutral
@@ -15,42 +21,55 @@ import { IconTip } from "@/shared/components/icon-tip";
  * the name's first letter. `decorative` where the words beside it name it.
  * `art="portrait"` holds a trainer's head-and-shoulders portrait instead: it
  * fills the disc, cut at the bottom, where a Pokémon floats inside it.
+ * Under the pointer it says who it is on a small card in its type's colour:
+ * its picture larger, its name, `detail` under it and its type.
  */
 export const PokemonAvatar = ({
   art = "pokemon",
   className,
   decorative = false,
+  detail,
   imageUrl,
   letters,
   name,
+  tipTypeSlug,
   typeSlug,
 }: {
   art?: "pokemon" | "portrait";
   className?: string;
   decorative?: boolean;
+  /* The quiet line under its name in the tip: "Typhlosion · Lv. 48". */
+  detail?: string | null;
   imageUrl: string | null;
   /* What its stand-in shows instead of the first letter (a trainer's initials). */
   letters?: string;
   name: string;
+  /*
+   * Its own type for the tip, where the disc's tint is someone else's (a
+   * trainer's ace on the trainer's colour): null says none there. Left out,
+   * the tip takes `typeSlug`.
+   */
+  tipTypeSlug?: string | null;
   typeSlug: string | null;
 }) => {
-  const avatar = (
+  const type = typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null;
+  const ownTypeSlug = tipTypeSlug === undefined ? typeSlug : tipTypeSlug;
+  const tipType =
+    ownTypeSlug && isPokemonTypeSlug(ownTypeSlug) ? ownTypeSlug : null;
+  const picture = (ground: "tint" | "white", pictureClassName?: string) => (
     <span
-      style={getPokemonTypeCssVariables(
-        typeSlug && isPokemonTypeSlug(typeSlug)
-          ? (typeSlug as PokemonTypeSlug)
-          : null,
-      )}
+      style={getPokemonTypeCssVariables(type)}
       className={cn(
-        "type-tint grid aspect-square place-items-center overflow-hidden rounded-full",
-        className,
+        "grid aspect-square place-items-center overflow-hidden rounded-full",
+        ground === "tint" ? "type-tint" : "bg-surface",
+        pictureClassName,
       )}
     >
       <FallbackImage
         src={imageUrl}
         letters={letters}
         name={name}
-        alt={decorative ? "" : name}
+        alt={decorative || ground === "white" ? "" : name}
         loading="lazy"
         className={
           art === "portrait"
@@ -61,7 +80,30 @@ export const PokemonAvatar = ({
     </span>
   );
 
-  return decorative ? avatar : <IconTip label={name} trigger={avatar} />;
+  /* Nothing to say without a name, as where the words beside it give it. */
+  if (decorative || !name) {
+    return picture("tint", className);
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={picture("tint", className)} />
+      <TooltipContent variant="card">
+        <TipCard tint={getPokemonTypeColour(tipType)} width="fit">
+          <TipHead
+            leading={picture("white", "size-12 shrink-0")}
+            name={name}
+            sub={detail}
+            trailing={
+              tipType ? (
+                <PokemonTypeBadge type={tipType} size="sm" />
+              ) : undefined
+            }
+          />
+        </TipCard>
+      </TooltipContent>
+    </Tooltip>
+  );
 };
 
 /* An open slot beside avatars: a dashed ring of the same size. */

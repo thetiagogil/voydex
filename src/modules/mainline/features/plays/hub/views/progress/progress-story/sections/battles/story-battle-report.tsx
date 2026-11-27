@@ -31,10 +31,11 @@ import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
 import {
+  TipBody,
+  TipCard,
   TipHead,
   TipRow,
   TipRows,
-  TipStack,
 } from "@/shared/components/tip-parts";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -106,33 +107,35 @@ const HitLines = ({
   hits: StoryHitDetail[];
   tone: "danger" | "ok";
 }) => (
-  <TipStack>
-    <TipHead tone={tone}>{head}</TipHead>
-    <TipRows>
-      {hits.map((hit) => (
-        <TipRow
-          key={hit.pokemon.key}
-          chip={formatMultiplier(hit.multiplier)}
-          detail={
-            hit.byType
-              ? `${tone === "danger" ? "its " : ""}${formatTypeWords(hit.via)}`
-              : hit.via.join(", ")
-          }
-          leading={
-            <PokemonAvatar
-              decorative
-              name={hit.pokemon.name}
-              className="size-8 shrink-0"
-              imageUrl={hit.pokemon.imageUrl}
-              typeSlug={hit.pokemon.types[0]?.slug ?? null}
-            />
-          }
-          name={hit.pokemon.name}
-          tone={tone}
-        />
-      ))}
-    </TipRows>
-  </TipStack>
+  <TipCard tone={tone} width="sm">
+    <TipHead name={head} />
+    <TipBody>
+      <TipRows>
+        {hits.map((hit) => (
+          <TipRow
+            key={hit.pokemon.key}
+            chip={formatMultiplier(hit.multiplier)}
+            detail={
+              hit.byType
+                ? `${tone === "danger" ? "its " : ""}${formatTypeWords(hit.via)}`
+                : hit.via.join(", ")
+            }
+            leading={
+              <PokemonAvatar
+                decorative
+                name={hit.pokemon.name}
+                className="size-8 shrink-0"
+                imageUrl={hit.pokemon.imageUrl}
+                typeSlug={hit.pokemon.types[0]?.slug ?? null}
+              />
+            }
+            name={hit.pokemon.name}
+            tone={tone}
+          />
+        ))}
+      </TipRows>
+    </TipBody>
+  </TipCard>
 );
 
 /*
@@ -199,7 +202,7 @@ const BestHit = ({
           tone="ok"
         />
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent variant={lands.length > 1 ? "card" : "tag"}>
         {lands.length > 1 ? (
           <HitLines
             head={`Lands on ${lands.length} of theirs`}
@@ -255,7 +258,7 @@ const WeakTo = ({
           tone="danger"
         />
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent variant="card">
         <HitLines
           head={`Weak to ${takes.length === 1 ? "one" : takes.length} of theirs`}
           hits={takes}

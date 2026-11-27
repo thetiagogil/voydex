@@ -136,10 +136,8 @@ export const StampGrid = ({
           saved.milestoneId === earnedMilestoneId
             ? { ...saved, state: "earned" as const }
             : saved;
-        const label = describePlayStamp(
-          stamp,
-          formatPlayMoment(stamp.completedAt, clock)?.date,
-        );
+        const earnedOn = formatPlayMoment(stamp.completedAt, clock)?.date;
+        const label = describePlayStamp(stamp, earnedOn);
 
         return (
           <li key={stamp.milestoneId} className="flex flex-col items-center">
@@ -149,6 +147,12 @@ export const StampGrid = ({
               onSelect={() => onStampSelect(stamp.milestoneId)}
             >
               <BadgeStamp
+                facts={{
+                  description: stamp.description,
+                  earnedOn,
+                  name: stamp.name,
+                  state: stamp.state,
+                }}
                 label={label}
                 onSlapEnd={onSlapEnd}
                 slap={stamp.milestoneId === slapMilestoneId}

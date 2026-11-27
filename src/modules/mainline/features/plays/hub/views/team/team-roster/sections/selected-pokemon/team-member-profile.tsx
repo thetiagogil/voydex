@@ -199,7 +199,19 @@ export const TeamMemberProfile = ({
                   {fact.detail || fact.info ? (
                     <ExplanatoryTip
                       content={
-                        <TipNamed name={fact.value}>
+                        <TipNamed
+                          leading={
+                            fact.item ? (
+                              <ItemIcon
+                                kind={fact.item.kind}
+                                name={fact.value}
+                                src={getItemImageUrl(fact.item.slug)}
+                              />
+                            ) : undefined
+                          }
+                          name={fact.value}
+                          sub={fact.label}
+                        >
                           {fact.detail ?? fact.info}
                         </TipNamed>
                       }

@@ -5,6 +5,18 @@ import { toast } from "sonner";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
+import {
+  TipBody,
+  TipCard,
+  TipChip,
+  TipFigures,
+  TipHead,
+  TipNamed,
+  TipRating,
+  TipRow,
+  TipRows,
+  TipText,
+} from "@/shared/components/tip-parts";
 import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import {
@@ -126,7 +138,10 @@ export const GalleryOverlays = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </Specimen>
-        <Specimen label="IconTip" note="Hover or focus the button">
+        <Specimen
+          label="IconTip"
+          note="A bare name is a tag. Hover or focus the button"
+        >
           <IconTip
             label="Pick a random team"
             trigger={
@@ -135,6 +150,56 @@ export const GalleryOverlays = () => {
               </Button>
             }
           />
+        </Specimen>
+        <Specimen
+          label="TipCard"
+          note="Anything with more to say: pale blue, a type's colour, a verdict"
+        >
+          <TipNamed name="Plans are shared" width="sm">
+            A Plan is edited only in the Team Planner.
+          </TipNamed>
+          <TipCard tint="var(--type-fire)" width="sm">
+            <TipHead
+              name="Flamethrower"
+              sub="Fire · Special"
+              trailing={<TipChip>TM 35</TipChip>}
+            />
+            <TipBody>
+              <TipFigures
+                figures={[
+                  { label: "Power", value: 90 },
+                  { label: "Accuracy", value: 100 },
+                  { label: "PP", value: 15 },
+                ]}
+              />
+              <TipText>May burn the target.</TipText>
+            </TipBody>
+          </TipCard>
+          <TipCard tone="danger" width="sm">
+            <TipHead
+              name="Knockout power"
+              sub="Your team struggles against many types."
+              trailing={<TipChip tone="danger">Weak</TipChip>}
+            />
+            <TipBody>
+              <TipRows>
+                <TipRow
+                  chip="Lv. 48"
+                  detail="5 levels below your top"
+                  name="Comet"
+                  tone="warn"
+                />
+              </TipRows>
+              <TipRating
+                current="Weak"
+                scale={[
+                  { chip: "easily", label: "Strong", tone: "ok" },
+                  { chip: "with effort", label: "Moderate", tone: "warn" },
+                  { chip: "struggles", label: "Weak", tone: "danger" },
+                ]}
+              />
+            </TipBody>
+          </TipCard>
         </Specimen>
         <Specimen label="Toasts" note="Saved, failed, and one with two actions">
           <Button

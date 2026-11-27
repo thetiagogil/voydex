@@ -9,6 +9,7 @@ import {
 } from "@/shared/components/ui/popover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { tooltipDelay } from "@/shared/components/ui/tooltip";
+import { TipBody, TipCard, TipText } from "@/shared/components/tip-parts";
 import { cn } from "@/shared/utils/cn";
 
 const hoverCloseDelay = 100;
@@ -18,8 +19,11 @@ type ExplanatoryTipProps = Pick<
   "align" | "alignOffset" | "side" | "sideOffset"
 > & {
   children?: ReactNode;
+  /*
+   * A `TipCard` (tip-parts), which draws its own frame. Plain words become a
+   * card with only an inside.
+   */
   content: ReactNode;
-  contentClassName?: string;
   /*
    * Inside a list's row (a select's option): the dot opens on hover or its
    * own press but never takes focus or picks the row. Give the row the same
@@ -87,7 +91,6 @@ export const ExplanatoryTip = ({
   alignOffset,
   children,
   content,
-  contentClassName,
   inert = false,
   nativeButton,
   pinOnPress = true,
@@ -250,13 +253,18 @@ export const ExplanatoryTip = ({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
-        className={cn(
-          /* The tip is ink, so quiet ink text inside it turns light. */
-          "bg-ink text-on-ink shadow-float text-13 [&_.text-ink-2]:text-on-ink [&_.text-ink-3]:text-on-ink [&_.text-muted-foreground]:text-on-ink w-fit max-w-[min(18.75rem,calc(100vw-2rem))] gap-1.5 rounded-sm px-3.5 py-3 leading-normal font-medium [&_.text-ink:not([data-slot=tip-chip])]:text-white [&_b]:text-white [&_strong]:text-white",
-          contentClassName,
-        )}
+        /* The card inside draws the frame, so the popup itself is bare. */
+        className="w-fit max-w-[calc(100vw-2rem)] gap-0 rounded-none bg-transparent p-0 shadow-none"
       >
-        {content}
+        {typeof content === "string" ? (
+          <TipCard>
+            <TipBody>
+              <TipText>{content}</TipText>
+            </TipBody>
+          </TipCard>
+        ) : (
+          content
+        )}
       </PopoverContent>
     </Popover>
   );

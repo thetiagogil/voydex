@@ -52,6 +52,8 @@ export type PlayStamp = {
   /* A gym's badge or a trial's Z-Crystal; null for the League or an unknown badge. */
   badge: MilestoneBadge | null;
   completedAt: string | null;
+  /* What earns it, in a line, for its tip: who you beat and where. */
+  description?: string | null;
   kind: PlayStampKind;
   /*
    * What the stamp card prints under it: "Grass" for the Grass Badge, "Lana"

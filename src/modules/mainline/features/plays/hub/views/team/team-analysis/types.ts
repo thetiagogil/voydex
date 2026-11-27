@@ -45,6 +45,8 @@ export type TeamAnalysisTipTone = "danger" | "ok" | "warn";
 export type TeamAnalysisTipRow = {
   chip?: string;
   detail?: string;
+  /* On the row that closes a cut list ("and 2 more"): how many were left out. */
+  more?: number;
   subject: { pokemon: string } | { text: string } | { type: Type };
   tone?: TeamAnalysisTipTone;
 };

@@ -14,6 +14,9 @@ import type {
 export type EditorOption = { id: number; name: string };
 
 export type EditorMoveOption = EditorOption & {
+  accuracy: number | null;
+  power: number | null;
+  pp: number | null;
   damageClass: string | null;
   effect: string | null;
   learn: MoveLearnMethod | null;

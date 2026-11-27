@@ -65,7 +65,11 @@ describe("buildStatsModel old friends", () => {
     ]).friends;
 
     expect(friend?.name).toBe("Kirlia family");
-    expect(friend?.memberNames).toBe("Kirlia, Gardevoir and Gallade");
+    expect(friend?.family.map((member) => member.name)).toEqual([
+      "Kirlia",
+      "Gardevoir",
+      "Gallade",
+    ]);
     expect(friend?.entry).toBe(kirlia);
     expect(friend?.family).toEqual([kirlia, gardevoir, gallade]);
     expect(friend?.playCount).toBe(4);
@@ -136,6 +140,7 @@ describe("getTrainerTitle", () => {
     gameSlug: null,
     name: slug,
     playLabels: Array.from({ length: plays }, () => "Play"),
+    plays: [],
     slug,
   });
   const type = (slug: string, count: number, playCount = 2) => ({
@@ -315,5 +320,60 @@ describe("getTrainerTitle", () => {
     expect(read(getTrainerTitleReason(two))).toBe(
       "**3 Plays** and counting. Play in **1 more region** to become a Region Hopper.",
     );
+  });
+});
+
+describe("buildStatsModel regions", () => {
+  type Rows = TrainerPokemonRows;
+  const game = (id: number, name: string, regionId: number) =>
+    ({
+      id,
+      name,
+      region_id: regionId,
+      slug: name.toLowerCase(),
+    }) as Rows["games"][number];
+  const play = (id: string, name: string, gameId: number | null) =>
+    ({
+      game_id: gameId,
+      game_name: null,
+      play_id: id,
+      play_name: name,
+    }) as unknown as Rows["plays"][number];
+  const region = (id: number, name: string) =>
+    ({ id, name, slug: name.toLowerCase() }) as Rows["regions"][number];
+
+  it("lists a region's Plays with their own game, in the Plays' order", () => {
+    const stats = buildStatsModel(
+      {
+        ...rows,
+        games: [game(1, "Yellow", 10), game(2, "Red", 10), game(3, "Gold", 20)],
+        plays: [
+          play("a", "Midgame Journey", 1),
+          play("b", "Late Journey", 3),
+          play("c", "Early Journey", 2),
+        ],
+        regions: [region(10, "Kanto"), region(20, "Johto")],
+      },
+      [],
+    );
+    const [kanto, johto] = stats.regions;
+
+    expect(
+      kanto.plays.map(({ gameName, id, name }) => ({ gameName, id, name })),
+    ).toEqual([
+      { gameName: "Yellow", id: "a", name: "Midgame Journey" },
+      { gameName: "Red", id: "c", name: "Early Journey" },
+    ]);
+    expect(kanto.plays.map((item) => item.gameSlug)).toEqual(["yellow", "red"]);
+    expect(johto.plays.map((item) => item.name)).toEqual(["Late Journey"]);
+  });
+
+  it("leaves a region you haven't played in with no Plays", () => {
+    const stats = buildStatsModel(
+      { ...rows, regions: [region(10, "Kanto")] },
+      [],
+    );
+
+    expect(stats.regions[0].plays).toEqual([]);
   });
 });
