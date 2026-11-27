@@ -47,8 +47,8 @@ const ringSizeClassNames = {
  * Where a milestone stands, the same in Story and on Overview. A recorded one
  * wears its medallion: the badge in its type, a trophy in gold, anything
  * else in the calm blue. The next
- * one is a game-coloured ring around the objective flag, an accent and not a
- * fill; the rest show their number in a quiet ring (an optional one, which
+ * one is a ring in the blue of where you are around the objective flag, an
+ * accent and not a fill; the rest show their number in a quiet ring (an optional one, which
  * has no number, its type's icon), or with `ahead="art"` what they will
  * wear, greyed.
  */
@@ -87,7 +87,7 @@ export const MilestoneMarker = ({
         "grid shrink-0 place-items-center rounded-full font-extrabold tabular-nums",
         ringSizeClassNames[size],
         state === "next"
-          ? "bg-surface text-action-ink inset-ring-action inset-ring-2"
+          ? "bg-surface text-calm-ink inset-ring-calm inset-ring-2"
           : "bg-surface text-ink-3 inset-ring-line inset-ring",
         popIn && "animate-marker-in",
         className,

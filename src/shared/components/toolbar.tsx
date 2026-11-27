@@ -88,8 +88,9 @@ const getTrailingGroups = (trailing: ReactNode) => {
  * than 220px: the controls wrap first) and takes the whole first row on
  * phones. Each group carries its hairline on its left, and the
  * line sits a hairline's space to the left of the card's clip, so the
- * hairline of a group that starts a line is never seen. It counts as a card,
- * so fields and secondary buttons inside take the inset fill. Wrap a filter
+ * hairline of a group that starts a line is never seen. It counts as a card;
+ * fields and quiet buttons inside look as they do anywhere, white with
+ * the thin outline. Wrap a filter
  * form in it with `render={<form />}`.
  */
 export const Toolbar = ({
