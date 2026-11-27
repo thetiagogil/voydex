@@ -6,7 +6,6 @@ import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/compon
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import type { StampOrder } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 import {
@@ -128,8 +127,6 @@ export const StoryRoadmap = ({
   }
 
   const currentChapterKey = arrival.chapterKey;
-  /* The chapter holding your next objective right now, which says so. */
-  const liveChapterKey = getCurrentChapterKey(scope);
   const isChapterOpen = (signKey: string) =>
     chapterOpen.get(signKey) ?? signKey === currentChapterKey;
 
@@ -174,12 +171,6 @@ export const StoryRoadmap = ({
           ? "unrecorded"
           : null;
 
-    /* A recorded stop on the way is a sticker, tinted in its badge's type. */
-    const sticker =
-      state === "done" && !item.optional
-        ? getPokemonTypeCssVariables(milestone.badge?.type ?? null)
-        : null;
-
     return (
       <StoryRouteStop
         id={getStoryRouteStopId(milestone.id)}
@@ -188,7 +179,8 @@ export const StoryRoadmap = ({
             <StoryMilestoneMemento milestone={milestone} />
           ) : null
         }
-        sticker={sticker}
+        /* A recorded stop on the way is a row of its own. */
+        recorded={state === "done" && !item.optional}
         name={milestone.name}
         onSelect={() => onMilestoneSelect(milestone)}
         opensSheet={opensSheet}
@@ -261,7 +253,6 @@ export const StoryRoadmap = ({
       <StoryChapterCard
         key={chapter.key}
         count={chapter.sign.count}
-        current={chapter.key === liveChapterKey}
         milestones={stops}
         name={chapter.sign.name}
         nextMilestoneId={nextMilestoneId}

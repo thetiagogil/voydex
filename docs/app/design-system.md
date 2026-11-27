@@ -247,7 +247,10 @@ and calm meanings (settled 2026-10-19).
   colour, a Poké Mart blue (v3's `.pstate.info`) for a change that isn't a problem, such as an
   evolution or form.
 - **Gold** is for what you earned: League stamps, milestones that aren't
-  badges, collectibles found.
+  badges, collectibles found. A found collectible is a small card of yours
+  in gold (`card-frame` round its `card-face`, its mark and number on it),
+  as a caught Pokédex entry is one in its type's colour; one still missing
+  is the dashed open slot with its number.
 
 ## Depth
 
@@ -709,12 +712,14 @@ text-select-ink` (a mode switch or scope picker takes `bg-calm`); tips that expl
   (solid in the progress tint behind you, dashed ahead, dotted to an
   optional stop) and the places on the way between them as small quiet
   dots. Every chapter folds from its head (Expand / Collapse); only the one
-  you're in starts open, wearing a ring, and a folded one shows its
-  milestones as a strip of small medallions. A stop is its `MilestoneMarker`
+  you're in starts open, with no outline round it (an accent outline reads
+  as an error), and a folded one shows its milestones as a strip of small
+  medallions. A stop is its `MilestoneMarker`
   (`lg`) with its name and one quiet line beside it (its place, then where
-  it stands); a recorded one is a sticker in its badge's type with what you
-  got there on its right (the Pokémon you chose, the team then); only the
-  stickers lift on hover; stops still ahead sink back (a grey
+  it stands); a recorded one is a row of its own, as a moment is a card:
+  white with the thin outline of a row you can open (`tile-link`), its
+  medallion carrying the colour, with what you got there on its right (the
+  Pokémon you chose, the team then); stops still ahead sink back (a grey
   ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
   wears a `ring-select-ink` ring. From 1024px the open stop or place shows
   in a sticky panel beside the route (`useStickyPanel`, as Team's roster)

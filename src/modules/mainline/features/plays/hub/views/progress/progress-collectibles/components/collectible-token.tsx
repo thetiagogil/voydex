@@ -10,7 +10,9 @@ import { IconTip } from "@/shared/components/icon-tip";
 
 /*
  * One collectible as a token: missing is a dashed square with its number;
- * found is gold, with a white border, a gold lip and the number on a tab. It
+ * found is a small card of yours in gold, as a caught Pokédex entry is one
+ * in its type's colour (a frame round a paler face, its mark and its number
+ * on it). It
  * pops only at the moment it is marked found, and settles back softly when
  * it is unmarked. While it saves it stays
  * focusable, so a keyboard keeps its place in the list. Its place in the
@@ -56,29 +58,28 @@ export const CollectibleToken = ({
           onAnimationEnd={() => setMotion(null)}
           className={cn(
             "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
-            isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
+            isFound ? "card-frame p-1 [--t:var(--gold)]" : "empty-slot",
             motion === "pop" && "animate-pop",
             motion === "settle" && "animate-settle",
             className,
           )}
         >
           {isFound ? (
-            <AppIcon
-              icon={appIcons.product.collectible}
-              className="text-warn-ink -mt-1.5 size-[42%]"
-              aria-hidden
-            />
-          ) : null}
-          <span
-            className={cn(
-              "font-extrabold tabular-nums",
-              isFound
-                ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(var(--shade)/0.18)]"
-                : "text-13 text-ink-3",
-            )}
-          >
-            {entry.sortOrder}
-          </span>
+            <span className="card-face flex size-full flex-col items-center justify-center rounded-[1.125rem]">
+              <AppIcon
+                icon={appIcons.product.collectible}
+                className="text-warn-ink size-[40%]"
+                aria-hidden
+              />
+              <span className="text-ink-tint copy-mark tabular-nums">
+                {entry.sortOrder}
+              </span>
+            </span>
+          ) : (
+            <span className="text-ink-3 copy-label tabular-nums">
+              {entry.sortOrder}
+            </span>
+          )}
         </button>
       }
     />

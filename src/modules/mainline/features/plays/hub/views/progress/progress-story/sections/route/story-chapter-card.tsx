@@ -11,7 +11,7 @@ import { getStoryRouteStopId } from "./story-route-stop";
 
 /*
  * One chapter of the Story as its own card (#199): its name and how far
- * through it you are in its head, with Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
+ * through it you are in its head, with Expand / Collapse. Folded, it shows
  * its milestones as a strip of small medallions, each opening its milestone,
  * so the whole game reads at a glance; open, its route of milestones and
  * places.
@@ -19,7 +19,6 @@ import { getStoryRouteStopId } from "./story-route-stop";
 export const StoryChapterCard = ({
   children,
   count,
-  current,
   milestones,
   name,
   nextMilestoneId,
@@ -32,8 +31,6 @@ export const StoryChapterCard = ({
   /* Its route, shown while it's open. */
   children: ReactNode;
   count: string;
-  /* The chapter holding your next objective. */
-  current: boolean;
   /* Its milestones in route order, for the folded strip. */
   milestones: StoryMilestone[];
   name: string;
@@ -53,11 +50,8 @@ export const StoryChapterCard = ({
     <Card
       role="region"
       aria-label={name}
-      className={cn(
-        /* Visible overflow, so a sticker's lift and shadow are never cut. */
-        "gap-0 overflow-visible",
-        current && "ring-select-ink/25 ring-2",
-      )}
+      /* Visible overflow, so a recorded row's focus ring is never cut. */
+      className="gap-0 overflow-visible"
     >
       <div className="flex items-center gap-3 pb-1">
         <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
