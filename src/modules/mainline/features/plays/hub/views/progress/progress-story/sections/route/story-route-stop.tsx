@@ -1,4 +1,4 @@
-import type { AnimationEventHandler, ReactNode } from "react";
+import type { AnimationEventHandler, CSSProperties, ReactNode } from "react";
 
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -23,9 +23,9 @@ const selectedRing =
  * the detail wears a ring round its marker and its name in the selected ink.
  * Stops still ahead sink back (a grey ring on a grey fill, a quieter name),
  * so how far you've come reads at a glance; their numbers keep 4.5:1. A
- * recorded one is a row of its own, as a moment is a card: white with the
- * thin outline of a row you can open (`tile-link`), its medallion carrying
- * the colour, with what you got there on its right (`memento`).
+ * recorded one is a row of its own (loud where you remember): flat, in a
+ * soft tint of its badge's type (`tile-link-earned`), with what you got
+ * there on its right (`memento`).
  */
 export const StoryRouteStop = ({
   id,
@@ -36,11 +36,11 @@ export const StoryRouteStop = ({
   onAnimationEnd,
   onSelect,
   place,
-  recorded = false,
   recordedOn,
   selected,
   state,
   status,
+  tint,
 }: {
   id: string;
   marker: ReactNode;
@@ -53,14 +53,14 @@ export const StoryRouteStop = ({
   opensSheet: boolean;
   /* Where it happens, before its status. */
   place: string | null;
-  /* Recorded on the way: a row of its own, not a line of the route. */
-  recorded?: boolean;
   /* When it was recorded: small and quiet, under where it happens. */
   recordedOn?: ReactNode;
   selected: boolean;
   state: PlayMilestoneState;
   /* Where it stands; null when it's simply not recorded yet. */
   status: ReactNode;
+  /* Recorded on the way: a row of its own in this tint (`--t`, its badge's type). */
+  tint?: CSSProperties | null;
 }) => (
   <button
     id={id}
@@ -69,14 +69,15 @@ export const StoryRouteStop = ({
     aria-current={selected ? "true" : undefined}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
+    style={tint ?? undefined}
     className={cn(
       "focus-ring flex w-full flex-wrap items-center gap-x-3 text-left",
       /*
        * Pulled left by what its padding adds, so its marker stays on the
        * line with the stops around it.
        */
-      recorded
-        ? "tile-link my-1 -ml-1.5 w-[calc(100%+0.375rem)]"
+      tint
+        ? "tile-link-earned my-1 -ml-0.5 w-[calc(100%+0.125rem)]"
         : "group rounded-lg py-1.5 pr-2 pl-1.5",
     )}
   >
@@ -85,7 +86,7 @@ export const StoryRouteStop = ({
         className={cn(
           "grid place-items-center rounded-full transition-[box-shadow,scale] duration-150",
           /* Not yet recorded: the place's light hover, its marker grows a little. */
-          !recorded && "group-hover:scale-105",
+          !tint && "group-hover:scale-105",
           selected && selectedRing,
         )}
       >

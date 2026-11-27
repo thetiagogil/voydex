@@ -603,7 +603,8 @@ siblings; inset for segments, joined buttons and an index in a scrolling
 column), `moment-ring` and `moment-ring-small` (a
 medallion's or badge stamp's white band, its ring in `--mr` and the soft
 drop), `sticker-type-band` (a picked sticker's band in its type's colour),
-`plain-card` (a reference card you don't own: white,
+`tile-link-earned` (a row you can open for something you earned, in a soft
+tint of `--t`: Story's recorded milestones), `plain-card` (a reference card you don't own: white,
 a thin `line` and the small edge) and `empty-slot` (the one open slot: 2.5px dashed
 `dash`, no fill). Don't hand-roll any of them. `step-back` fades and greys
 the art of what belongs to another game than the one picked (the other
@@ -717,10 +718,12 @@ text-select-ink` (a mode switch or scope picker takes `bg-calm`); tips that expl
   as an error), and a folded one shows its milestones as a strip of small
   medallions. A stop is its `MilestoneMarker`
   (`lg`) with its name and one quiet line beside it (its place, then where
-  it stands); a recorded one is a row of its own, as a moment is a card:
-  white with the thin outline of a row you can open (`tile-link`), its
-  medallion carrying the colour, with what you got there on its right (the
-  Pokémon you chose, the team then); stops still ahead sink back (a grey
+  it stands); a recorded one is a row of its own, loud where you remember:
+  flat, in a soft tint of its badge's type with a thin line a step deeper
+  and the 32px corner that follows its round medallion (`tile-link-earned`,
+  chosen 2026-11-27: the colour stays, the white band, the edge and the
+  lift of the old sticker do not), with what you got there on its right
+  (the Pokémon you chose, the team then); stops still ahead sink back (a grey
   ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
   wears a `ring-select-ink` ring. From 1024px the open stop or place shows
   in a sticky panel beside the route (`useStickyPanel`, as Team's roster)
